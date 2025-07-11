@@ -1,0 +1,35 @@
+# Data Ethics
+
+Although "*ethics*" seems complicated, it is really about understanding what is right or wrong. There are different ways people think about ethics, especially when it comes to data world.
+
+-   ethical theories and perspectives
+
+-   the law and its relationship to ethics
+
+-   some core ethical issues
+
+### The challenge of data-driven innovation
+
+Ethical issues and challenges are all around us. Before talking about ethics, let us review some basic things about the kinds of data-driven systems. These systems are characterized by particular things which are
+
+-   they rely on huge amounts of data in order to function (The more and better the data, the more accurate the prediction or insight)
+
+-   they classified as intelligent. This means that they have
+
+    -   capacity to learn, to predict
+
+    -   and on the basis of that learning and those predictions, make decisions
+
+    -   and in some cases take specific action
+
+-   they also less and less predictable to most people
+
+How do ethical issues intersect with data science? The key takeaways?
+
+-   the benefits and values driven from data are not evenly distributed
+
+-   power is concentrated among a few
+
+-   and so, the risk of harm and inequality are significant
+
+This does not account for potential threats from malicious actors aiming to exploit or corrupt. As a result, there is growing debate on how to handle these challenges, while ensuring safety, fairness, and protecting human autonomy. These principles lie at the heart of ethics.

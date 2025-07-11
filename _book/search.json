@@ -2,21 +2,28 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "StatInfSysBook",
+    "title": "Statistics and Information Systems",
     "section": "",
-    "text": "Preface\nThis is a Quarto book.\nTo learn more about Quarto books visit https://quarto.org/docs/books.\n\n1 + 1\n\n[1] 2"
+    "text": "1 Prerequisites\nThis is a Quarto book.\nTo learn more about Quarto books visit https://quarto.org/docs/books.\n\n1 + 1\n\n[1] 2"
+  },
+  {
+    "objectID": "chapter1_data_ethics.html",
+    "href": "chapter1_data_ethics.html",
+    "title": "2  Data Ethics",
+    "section": "",
+    "text": "Although “ethics” seems complicated, it is really about understanding what is right or wrong. There are different ways people think about ethics, especially when it comes to data world.\n\nethical theories and perspectives\nthe law and its relationship to ethics\nsome core ethical issues\n\n\n2.0.1 The challenge of data-driven innovation\nEthical issues and challenges are all around us. Before talking about ethics, let us review some basic things about the kinds of data-driven systems. These systems are characterized by particular things which are\n\nthey rely on huge amounts of data in order to function (The more and better the data, the more accurate the prediction or insight)\nthey classified as intelligent. This means that they have\n\ncapacity to learn, to predict\nand on the basis of that learning and those predictions, make decisions\nand in some cases take specific action\n\nthey also less and less predictable to most people\n\nHow do ethical issues intersect with data science? The key takeaways?\n\nthe benefits and values driven from data are not evenly distributed\npower is concentrated among a few\nand so, the risk of harm and inequality are significant\n\nThis does not account for potential threats from malicious actors aiming to exploit or corrupt. As a result, there is growing debate on how to handle these challenges, while ensuring safety, fairness, and protecting human autonomy. These principles lie at the heart of ethics."
   },
   {
     "objectID": "intro.html",
     "href": "intro.html",
-    "title": "1  Introduction",
+    "title": "3  Introduction",
     "section": "",
     "text": "This is a book created from markdown and executable code.\nSee Knuth (1984) for additional discussion of literate programming.\n\n1 + 1\n\n[1] 2\n\n\n\n\n\n\nKnuth, Donald E. 1984. “Literate Programming.” Comput. J. 27 (2): 97–111. https://doi.org/10.1093/comjnl/27.2.97."
   },
   {
     "objectID": "summary.html",
     "href": "summary.html",
-    "title": "2  Summary",
+    "title": "4  Summary",
     "section": "",
     "text": "In summary, this book has no content whatsoever.\n\n1 + 1\n\n[1] 2"
   },
