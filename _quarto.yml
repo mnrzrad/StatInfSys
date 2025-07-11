@@ -2,8 +2,8 @@ project:
   type: book
 
 book:
-  title: "StatInfSysBook"
-  author: "Jane Doe"
+  title: "Statistics and Information Systems"
+  author: "Mina Norouzirad, Miguel Fonseca, Gracinda Guerreiro"
   date: "7/11/2025"
   chapters:
     - index.qmd
@@ -16,8 +16,6 @@ bibliography: references.bib
 format:
   html:
     theme: cosmo
-  pdf:
-    documentclass: scrreprt
 
 editor: visual
 
