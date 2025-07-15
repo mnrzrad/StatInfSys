@@ -17,6 +17,12 @@ bibliography: references.bib
 format:
   html:
     theme: cosmo
+    toc: true
+    toc-depth: 2
+    css: styles.css
+    code-fold: true
 
 editor: visual
+
+engine: knitr
 

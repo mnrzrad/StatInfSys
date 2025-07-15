@@ -63,7 +63,7 @@ All experts agree that certain fundamental principles must be implemented, even 
 ::: {.callout-warning appearance="simple"}
 Exercise 1: Identify the data ethics principle
 
-1.   Is it clear what data is being used for, how and where it is being stored, and is this information freely available to all? (Answer: Transparency)
+1.  Is it clear what data is being used for, how and where it is being stored, and is this information freely available to all? (Answer: Transparency)
 
 2.  Are you collecting only data that is necessary and relevant to your clearly defined goals? (Answer: Intention)
 
@@ -107,4 +107,16 @@ Before collecting any data, a team carefully evaluates whether the data they pla
 
 Before launching a new app feature based on user behavior data, a team conducts a risk assessment to explore how it might negatively affect vulnerable users.\
 **→ Related Principle:** *Outcomes*
+:::
+
+::: {.callout-note appearance="default" icon="lightbulb" title="Example"}
+Here's how to create a histogram in R.
+
+```{r}
+hist(cars$speed)
+```
+:::
+
+::: {.callout-warning appearance="default" icon="pencil" title="Exercise"}
+Create a boxplot using the `cars$dist` variable.
 :::
