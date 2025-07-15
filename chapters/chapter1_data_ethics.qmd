@@ -1,4 +1,9 @@
-# Data Ethics
+# Data Ethics 
+
+```{r}
+#| echo: false
+library(fontawesome)
+```
 
 The *ethics* of data science are very important, and all data analyst, data scientists, and everyone who works with data should know the principles of ethics.
 
@@ -20,7 +25,7 @@ Although "*ethics*" seems complicated, it is really about understanding what is 
 **Data Ethics** covers the moral and ethical obligations related to the collection, sharing, and use of data, focusing on ensuring its fair and beneficial applications. It is mainly focused on any negative impacts that data might have on individuals, groups or wider society.
 :::
 
-### 5 Principles of Data Ethics for Business Professionals
+### Principles of Data Ethics for Business Professionals
 
 In an era where data is considered the new oil, understanding the ethical issues related to its collection, analysis, and use is of most important. Below, we will introduce the five key ethical principles that every data professional should be aware of.
 
@@ -60,63 +65,54 @@ The importance of ethics in data science stems from the necessity of having a cl
 
 All experts agree that certain fundamental principles must be implemented, even if this field still contains gray areas and nothing is simple or uniform. These are just a few important topics and strategic ideas that have currently garnered the most attention. However, there is still much ground to cover in data ethics, and further progress and development are needed in this area.
 
-::: {.callout-warning appearance="simple"}
-Exercise 1: Identify the data ethics principle
+:::: {.callout-note icon="false"}
+### `r fa('hat-wizard')` Exercise 1
 
-1.  Is it clear what data is being used for, how and where it is being stored, and is this information freely available to all? (Answer: Transparency)
+Identify the data ethics principle related to each question:
 
-2.  Are you collecting only data that is necessary and relevant to your clearly defined goals? (Answer: Intention)
+a.  Is it clear what data is being used for, how and where it is being stored, and is this information freely available to all?
 
-3.  Have you anticipated any potential harmful, negative, or biased impacts that could result from your use of the data? (Answer: Outcomes)
+b.  Are you collecting only data that is necessary and relevant to your clearly defined goals?
 
-4.  Is any personal or identifiable data being securely stored and anonymized to prevent unauthorized access? (Answer: Privacy)
+c.  Have you anticipated any potential harmful, negative, or biased impacts that could result from your use of the data?
 
-5.  Have you obtained informed consent from individuals for how their data will be used in your project? (Answer: Ownership)
+d.  Is any personal or identifiable data being securely stored and anonymized to prevent unauthorized access?
+
+e.  Have you obtained informed consent from individuals for how their data will be used in your project?
+
+::: {.callout-tip icon="false" collapse="true"}
+#### `r fa('wand-magic-sparkles')` Answers
+
+a.  Transparency
+b.  Intention
+c.  Outcomes
+d.  Privacy
+e.  Ownership
 :::
+::::
 
-::: callout-warning
-#### Question 1
+:::: {.callout-note icon="false"}
+### `r fa('hat-wizard')` Exercise 2
 
-A company collects location data from users' mobile phones but does not disclose that this information will be shared with advertisers.\
-**→ Related Principle:** *Transparency*
+Identify the data ethics principle related to each question:
+
+a.  A company collects location data from users' mobile phones but does not disclose that this information will be shared with advertisers.
+
+b.  An analyst stores survey responses on an unsecured shared drive, and the file includes names and phone numbers of participants.
+
+c.  A data science team begins using a health dataset for a study unrelated to the one participants originally agreed to take part in.
+
+d.  Before collecting any data, a team carefully evaluates whether the data they plan to gather is essential to their project goals and excludes anything not directly needed.
+
+e.  Before launching a new app feature based on user behavior data, a team conducts a risk assessment to explore how it might negatively affect vulnerable users.
+
+::: {.callout-tip icon="false" collapse="true"}
+#### `r fa('wand-magic-sparkles')` Answers
+
+a.  Transparency
+b.  Privacy
+c.  Ownership
+d.  Intention
+e.  Outcomes
 :::
-
-::: callout-warning
-#### Question 2
-
-An analyst stores survey responses on an unsecured shared drive, and the file includes names and phone numbers of participants.\
-**→ Related Principle:** *Privacy*
-:::
-
-::: callout-warning
-#### Question 3
-
-A data science team begins using a health dataset for a study unrelated to the one participants originally agreed to take part in.\
-**→ Related Principle:** *Ownership*
-:::
-
-::: callout-warning
-#### Question 4
-
-Before collecting any data, a team carefully evaluates whether the data they plan to gather is essential to their project goals and excludes anything not directly needed.\
-**→ Related Principle:** *Intention*
-:::
-
-::: callout-warning
-#### Question 5
-
-Before launching a new app feature based on user behavior data, a team conducts a risk assessment to explore how it might negatively affect vulnerable users.\
-**→ Related Principle:** *Outcomes*
-:::
-
-::: {.callout-note appearance="default" icon="lightbulb" title="Example"}
-Here's how to create a histogram in R.
-
-```{r}
-hist(cars$speed)
-```
-:::
-
-::: {.callout-warning appearance="default" icon="pencil" title="Exercise"}
-Create a boxplot using the `cars$dist` variable.
-:::
+::::

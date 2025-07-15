@@ -1,94 +1,19 @@
 ---
 title: Introduction
-filters: 
- - webr
+engine: knitr
+format: live-html
+editor: visual
 ---
 
 {{< include ./_extensions/r-wasm/live/_knitr.qmd >}}
 
 
-This is a book created from markdown and executable code.
-
-See @knuth84 for additional discussion of literate programming.
-
-```{webr-r}
-plot(rnorm(10), rnorm(10))
-```
-
-<!--
-
-Filter the `starwars` dataset so that only the droid characters are included.
+### Exercise 1
+Calculate the average of all the integers in the vector defined as the variable `foo`.
 
 ```{webr}
+#| exercise: ex_1
 #| setup: true
-#| exercise: ex_3
-library(dplyr)
+foo <- sample.int(100, 10)
 ```
 
-```{webr}
-#| exercise: ex_3
-starwars |> ______
-```
-
-::: { .hint exercise="ex_3"}
-::: { .callout-note collapse="false"}
-## Hint 1
-
-Consider using the `filter()` function from `dplyr`.
-
-```r
-starwars |> filter(______)
-```
-:::
-:::
-
-::: { .hint exercise="ex_3"}
-::: { .callout-note collapse="false"}
-## Hint 2
-
-You should filter the dataset using the `species` column.
-
-```r
-starwars |> filter(species == ______)
-```
-:::
-:::
-
-::: { .solution exercise="ex_3" }
-::: { .callout-tip collapse="false"}
-## Fully worked solution:
-
-Use the `filter()` function from `dplyr`:
-
-```r
-starwars |>                                 #<1>
-    filter(species == "Droid")              #<2>
-```
-1. Take the `starwars` dataset, and then,
-2. Filter for the "Droid" species.
-
-:::
-:::
-```{webr}
-for (x in 1:5){
-  print(x ** 2)
-}
-```
-
-::: {#lst-ref}
-
-```{webr}
-mod <- lm(mpg ~ cyl, data = mtcars)
-summary(mod)
-```
-
-An interactive R code block, with an example of fitting a linear model.
-
-:::
-
-See @lst-ref for details.
-
-```{webr-r}
-1 + 1
-```
--->

@@ -7,22 +7,14 @@ book:
   date: "7/11/2025"
   chapters:
     - index.qmd
-    - chapter1_data_ethics.qmd
-    - intro.qmd
-    - summary.qmd
-    - references.qmd
-
-bibliography: references.bib
+    - part: "EDA"
+      chapters: 
+        - chapters/chapter1_data_ethics.qmd
 
 format:
   html:
-    theme: cosmo
-    toc: true
-    toc-depth: 2
-    css: styles.css
-    code-fold: true
-
-editor: visual
-
-engine: knitr
+    theme: 
+     - cosmo
+    css: libs/style.css
+    toc-depth: 4
 
