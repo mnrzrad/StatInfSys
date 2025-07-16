@@ -1,0 +1,125 @@
+---
+filters: 
+  - webr
+---
+
+# Data Visualization
+
+```{r}
+#| echo: false
+library(fontawesome)
+```
+
+The most famous package in R that is used for visualizing of data is **ggplot2** that is based on the grammar *of graphics*. It allows you to \`speak' a graph from composable elements, instead of being limited to a predefined set of charts.
+
+Before using *ggplot2*, a user must first install the package and then load it into their R session. Installation is done **only** using the command `install.packages('ggplot2')`. Alternatively, the following code can be used to install if only if the package is not already installed on the computer.
+
+```{r}
+if (!require('ggplot2')) {
+  install.packages('ggplot2')
+}
+```
+
+which downloads the package from CRAN (the Comprehensive R Archive Network). After installation, the package needs to be loaded each time R is restarted. This is done with the following command:
+
+```{webr-r}
+library(ggplot2)
+```
+
+A brief overview about using this package is available at this [website](https://ggplot2.tidyverse.org/articles/ggplot2.html) and more complete information about how to use ggplot2 can be found in @Wickham2019.
+
+The structure of the package includes 7 composable parts that come together as a set of instructions on how to draw a chart.
+
+![](/figs/ggplot2/overview_graphic-1.png)
+
+The package *ggplot2* requires a minimum of three main components to create a chart: **data**, **mapping**, and **a layer**. Other components – like **scales**, **facets**, **coordinates**, and **themes** – are optional because *ggplot2* gives them **automatic settings** that usually work well, so you do not need to adjust them too much.
+
+In the following, we briefly describe these components:
+
+## Data
+
+Every plot made with *ggplot2* starts with **data**. This data should be in a [tidy](https://tidyr.tidyverse.org/articles/tidy-data.html) format that means the data is in a **table** (called a rectangular *data frame*) where:
+
+-   Each **row** is one **observation**.
+
+-   Each **column** is one **variable**.
+
+The first step to create a plot with *ggplot2* is to pass this data to the `ggplot()` function, which stores the data to be used later by other parts of the plot.
+
+For example, if we want to make a plot using the `mpg` dataset, we begin like this:
+
+```{webr-r}
+#load package
+library(ggplot2)
+
+#load dataset 
+data(mpg)
+
+ggplot(data = mpg)
+```
+
+::: callout-note
+## You should see an empty plot. It is **correct**. Can you explain why the plot is empty?
+:::
+
+## Mapping
+
+In *ggplot2* package, *mapping* means telling the system how to connect parts of the data to **aesthetic** properties of the plot.
+
+**Aesthetic** (say: es-THE-ik) is a word that describes how something **looks** – its **style**, **color**, **shape**, and **beauty**. In *ggplot2*, an aesthetic is a visual feature of a plot like:
+
+- `r fa("expand-arrows-alt")` **Position (x and y)** – controls where data appears on the plot  
+- `r fa("palette")` **Color** – changes color based on data values  
+- `r fa("circle")` **Size** – adjusts the size of points  
+- `r fa("shapes")` **Shape** – uses different shapes for different categories
+
+These help us turn numbers into pictures. It is how we ''*dress up*" the data so it speaks to our eyes.
+
+::: callout-tip
+## Memory tip
+
+Just like fashion has aesthetic styles (like modern, classic, or colorful), plots also have *aesthetics* -- they decide how the data looks!
+:::
+
+A mapping can be made by using `aes()` function to make pairs of graphical attributes and parts of the data. Inside `aes()`, we match parts of the data (like column names) with visual elements (like $x$ and $y$ position).
+
+For the dataset `mpg`, if we want to show `cty` (city miles per gallon) on the $x$-axis and `hwy` (highway miles per gallon) on the $y$-axis, we write
+```{webr-r}
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy))
+```
+
+## Layers
+The *layer* is the **heart** of any plot in *ggplot2*. A layer takes the mapped data and turns it into something that a human can see and understand -- like points, lines, or bars.
+
+Each layer has three main parts: 
+1. **Geometry** -- decides *how* the data is shown (for example: points, lines, bars)
+2. **Statistical transformation** -- can create *new values* from the data (like averages or smooth curves).
+3. **Position adjustment** -- controls *where* each part of the plot appears, especially when things overlap.
+
+A layer can be constructed using functions that start with `geom_` (for geometry) and `stat_` (for statistics). These function help us choose how the data looks and what to display.  
+::: callout-note
+The `geom_*()` and `stat_*()` functions usually control **one** part of the layer -- like the geometry or the statistics -- but you can still **manullay** choose the other two parts if you want.
+:::
+
+The code below shows how to make a *scatter plot* with a *trend line* using two layers:
+```{webr-r}
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
+  geom_point() + # scatter plot: each point shows (cty, hwy)
+  geom_smooth(formula = y ~ x, method = 'lm') #adds a trend line
+```
+## Scales
+A *scale* translates what we see on the plot into something we can understand from the data -- like showing how far, how big, or what category a point represents.
+
+Each scale is connected to an aesthetic -- for example, the $x$-axis, $y$-axis, color, or size -- and it controls things like
+- The **limits** of the plot (minimum and maximum values)
+- The **breaks** (where ticks or labels appear)
+- The **format** of the labels (like numbers or percentages)
+- Any **transformation** (like logarithmic scale)
+
+*Scales* also create **guides** for the reader -- like **axes** or **legend** -- so we can better understand the meaning of the plot. 
+
+Scale functions in *ggplot2* usually follow this format
+```{r}
+#| echo: false
+scale_[aesthetic]_[type]()
+```
