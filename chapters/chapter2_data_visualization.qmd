@@ -68,10 +68,10 @@ In *ggplot2* package, *mapping* means telling the system how to connect parts of
 
 **Aesthetic** (say: es-THE-ik) is a word that describes how something **looks** – its **style**, **color**, **shape**, and **beauty**. In *ggplot2*, an aesthetic is a visual feature of a plot like:
 
-- `r fa("expand-arrows-alt")` **Position (x and y)** – controls where data appears on the plot  
-- `r fa("palette")` **Color** – changes color based on data values  
-- `r fa("circle")` **Size** – adjusts the size of points  
-- `r fa("shapes")` **Shape** – uses different shapes for different categories
+-   `r fa("expand-arrows-alt")` **Position (x and y)** – controls where data appears on the plot\
+-   `r fa("palette")` **Color** – changes color based on data values\
+-   `r fa("circle")` **Size** – adjusts the size of points\
+-   `r fa("shapes")` **Shape** – uses different shapes for different categories
 
 These help us turn numbers into pictures. It is how we ''*dress up*" the data so it speaks to our eyes.
 
@@ -84,42 +84,632 @@ Just like fashion has aesthetic styles (like modern, classic, or colorful), plot
 A mapping can be made by using `aes()` function to make pairs of graphical attributes and parts of the data. Inside `aes()`, we match parts of the data (like column names) with visual elements (like $x$ and $y$ position).
 
 For the dataset `mpg`, if we want to show `cty` (city miles per gallon) on the $x$-axis and `hwy` (highway miles per gallon) on the $y$-axis, we write
+
 ```{webr-r}
 ggplot(data = mpg, mapping = aes(x = cty, y = hwy))
 ```
 
 ## Layers
+
 The *layer* is the **heart** of any plot in *ggplot2*. A layer takes the mapped data and turns it into something that a human can see and understand -- like points, lines, or bars.
 
-Each layer has three main parts: 
-1. **Geometry** -- decides *how* the data is shown (for example: points, lines, bars)
-2. **Statistical transformation** -- can create *new values* from the data (like averages or smooth curves).
-3. **Position adjustment** -- controls *where* each part of the plot appears, especially when things overlap.
+Each layer has three main parts: 1. **Geometry** -- decides *how* the data is shown (for example: points, lines, bars) 2. **Statistical transformation** -- can create *new values* from the data (like averages or smooth curves). 3. **Position adjustment** -- controls *where* each part of the plot appears, especially when things overlap.
 
-A layer can be constructed using functions that start with `geom_` (for geometry) and `stat_` (for statistics). These function help us choose how the data looks and what to display.  
-::: callout-note
-The `geom_*()` and `stat_*()` functions usually control **one** part of the layer -- like the geometry or the statistics -- but you can still **manullay** choose the other two parts if you want.
-:::
+A layer can be constructed using functions that start with `geom_` (for geometry) and `stat_` (for statistics). These function help us choose how the data looks and what to display.\
+::: callout-note The `geom_*()` and `stat_*()` functions usually control **one** part of the layer -- like the geometry or the statistics -- but you can still **manullay** choose the other two parts if you want. :::
 
 The code below shows how to make a *scatter plot* with a *trend line* using two layers:
+
 ```{webr-r}
 ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
   geom_point() + # scatter plot: each point shows (cty, hwy)
   geom_smooth(formula = y ~ x, method = 'lm') #adds a trend line
 ```
+
 ## Scales
+
 A *scale* translates what we see on the plot into something we can understand from the data -- like showing how far, how big, or what category a point represents.
 
-Each scale is connected to an aesthetic -- for example, the $x$-axis, $y$-axis, color, or size -- and it controls things like
-- The **limits** of the plot (minimum and maximum values)
-- The **breaks** (where ticks or labels appear)
-- The **format** of the labels (like numbers or percentages)
-- Any **transformation** (like logarithmic scale)
+Each scale is connected to an aesthetic -- for example, the $x$-axis, $y$-axis, color, or size -- and it controls things like - The **limits** of the plot (minimum and maximum values) - The **breaks** (where ticks or labels appear) - The **format** of the labels (like numbers or percentages) - Any **transformation** (like logarithmic scale)
 
-*Scales* also create **guides** for the reader -- like **axes** or **legend** -- so we can better understand the meaning of the plot. 
+*Scales* also create **guides** for the reader -- like **axes** or **legend** -- so we can better understand the meaning of the plot.
 
-Scale functions in *ggplot2* usually follow this format
+Scale functions in *ggplot2* usually follow the format `scale_[aesthetic]_[type]()`, where `{aesthetic}` is one of the pairing made in the mapping part of a plot. For example, `scale_x_continuous()` -- for a numeric $x$-axis; `scale_colour_viridis_d()` -- for discrete color with the Viridis palette.
+
+Here is how to use a custom color scale for the `class` variable in the `mpg` dataset:
+
+```{webr-r}
+ggplot(data = mpg, mapping = aes(x = xty, y = hwy, colour = class)) +
+  goem_point() + 
+  scale_colour_viridis_d()
+```
+
+This tells *ggplot2* to use **Viridis colors** for the different car classes -- making the plot easier to read and more accessible.
+
+## Facets
+
+*Facets* are used to split a plot into **smaller subplots**, each showing a *subet of the data*. This is helpful when you want to compare groups -- for example, different years, categories, or types -- in separate panels.
+
+*Facets* are a powerful way to quickly see **patterns**, **trends**, or even **no patterns** in different parts of the data.
+
+*Facets* have their own mapping, written as a formula.
+
+The following code creates one scatter plot of two variables `cty` and `hwy` of the dataset `mpg` for each combination of `year` and `drv` (driver type) in different panels; so, you can compare them side by side.
+
+```{webr-r}
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
+  geom_point() +
+  facet_grid(year ~ drv)
+```
+
+In `facet_grid(year ~ drv)`, the *rows* are based on `year` and the *columns* are based on `drv`. As you see, this creates a grid of plots that makes it easy to explore how variables interact.
+
+## Coordinates
+
+The *coordinates* is the part if the plot that controls *how position aesthetics* (like $x$ and $y$) are shown. You can think of it as the **interpreter** that tells the plot where to place things.
+
+Most *ggplot2* plots use **Cartesian coordinates**, where data is shown on regular $x$-$y$ grid. But you can also use other systems, like: **Polar cooridinate** (for circular plots) and **Map projections** (for geographic data).
+
+You can also use coordinates to make sure that one unit on the $x$-axis is the same size as one unit on the $y$-axis. This is called a **fixed aspect ratio**. The function `coord_fixed()` does this ratio automatically.
+
+```{webr-r}
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
+  geom_point() + 
+  coord_fixed()
+```
+
+## Theme
+
+The *theme* controls parts of the plot that are **not related to the data**, such as background, text, grid, and legend position. It helps define the **overall look and feel** of the plot.
+
+For instance, you can use the *theme* to: - Move or hide the **legend** - Change **font size** or **colors** - Set a new **background style** - Adjust the **axes** or **grid lines**
+
+Some them settings are **hierarchical**, meaning that if you change the general axis style, it also changes both the $x$-axis and $y$-axis unless you set them separately.
+
+To change the appearance of a plot, you can use the built-in `theme_*()` functions (like `theme_minimal()`, `theme_classic()`, or `theme_light()`), or you can customize specific details using the `theme()` function. With `element_*()` functions (e.g. `element_line()`, `element_text()`) let you adjust the **visual style** of theme parts, such as lines, texts, or backgrounds.
+
+The following code creates a scatter plot and applies a minimal theme. It also moves the legend to the top, makes axis lines thicker, and colors the bottom $x$-axis blue.
+
+```{webr-r}
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy, colour = class)) +
+  geom_point() + 
+  theme_minimal() + # Apply a clean, minimal background
+  theme(
+    # Move the legend to the top
+    legend.position = "top", 
+    # Set the thickness of both axis lines
+    axis.line = element_line(linewidth = 0.75), 
+    # Make the bottom x-axis line blue
+    axis.line.x.bottom = element_line(colour = "blue")
+  )
+```
+
+## Mastering Plot Layers: Guided Examples and Student Activities
+
+As we mentioned before, a *ggplot2* is made by **layering different parts**. You can combine *data*, *mapping*, *geoms*, *scales*, *facets*, *coordinates*, and *themes* to build a fully customized plot.
+
+Below is an example that brings everything together:
+
+```{webr-r}
+# Start with data and main mapping
+ggplot(mpg, aes(cty, hwy)) + 
+  # Add points, colored by engine size
+  geom_point(mapping = aes(colour = displ)) +
+  # Add a linear trend line 
+  geom_smooth(formula = y ~ x, method = "lm") +
+  # Use a color scale for displ
+  scale_colour_viridis_c() + 
+  # Create small plots by year and drive type
+  facet_grid(year ~ drv) +
+  # Fix aspect ratio (1 unit = 1 unit)
+  coord_fixed() + 
+  # Apply a clean theme
+  theme_minimal() + 
+  # REmove minor grid line for clarity
+  theme(panel.grid.minor = element_blank())
+```
+
+::: callout-note
+There is no need to type argumants.
+:::
+
+### Scatter Plot – `geom_point()`
+
+A *scatter plot* shows the **relationship between two numeric variables**. each point on the plot represents one observation.
+
+::: callout-tip
+Scatter plots are useful for seeing patterns, trends, or outliers in data.
+:::
+
+An example for seeing the basic scatter plot is showing how *height* (in inches) changes with *age* (in years) for each person in the dataset *heightweight*.
+
+```{webr-r}
+# install.packages('gcookbook')
+
+library(gcookbook) # for loading the dataset heightweight
+
+ggplot(heightweight, aes(x = ageYear, y = heightIn)) + 
+  geom_point()
+```
+
+we can customize the size of points by adding `size = 1.5` to the function `geom_point()`.
+
+```{webr-r}
+ggplot(heightweight, aes(ageYear, heightIn)) + 
+  geom_point(size = 3)
+```
+
+Now, we can add two aesthetics: `shape` and `color`, based on the *sex* variable.
+
+```{webr-r}
+ggplot(heightweight, aes(x = ageYear, y = heightIn, shape = sex, colour = sex)) + 
+  geom_point()
+```
+
+```{webr-r}
+ggplot(heightweight, aes(x = ageYear, y = heightIn, shape = sex, colour = sex)) +
+  geom_point() +
+  scale_shape_manual(values = c(1,2)) +
+  scale_color_brewer(palette = 'Set1')
+```
+
+Now, we are mapping `colour` or `size` to a numeric variable (e.g. *weightLb*)
+
+```{webr-r}
+ggplot(heightweight, aes(x = ageYear, y = heightIn, size = weightLb)) + 
+  geom_point()
+```
+
+```{webr-r}
+ggplot(heightweight, aes(x = ageYear, y = heightIn, colour = weightLb)) + 
+  geom_point()
+```
+
+These plots show how weight varies with *age* and *height* using `color` or `size`.
+
+Now, we are mapping `colour` to the variable `sex` and `size` to a numeric variable *weightLb*
+
+```{webr-r}
+ggplot(heightweight, aes(x = ageYear, y = heightIn, colour = sex, size = weightLb)) + 
+  geom_point()
+```
+
+::::: panel-tabset
+## Exercise
+
+Using the *heightweight* dataset, make a scatter plot to explore the relationship between *heightIn* and *weightLb* variables. Your tasks are:
+
+-   Use **points** to represent the data.
+
+-   Show the variable *sex* using `color` so that we can see the difference between males and females.
+
+-   Make the points **larger than usual**, with a size of $2.5$.
+
+-   Finally, give your plot a **title** that describes what it shows, The title should be: "Height vs, Weight by Sex"
+
+```{webr}
+#| setup: true
+#| exercise: ex_1
+library(gcookbook)
+library(ggplot2)
+
+data("heightweight")
+
+______
+```
+
+## Hints
+
+::: {.hint exercise="ex_1"}
+You will need
+
+-   `aes(x = ______, y = ______, colour = ______)` -
+
+-   `geom_points(size = ______)`
+
+-   `ggtitle(______)`
+:::
+
+## Solution
+
+::: {.solution exercise="ex_1"}
+``` r
+ggplot(heightweight, aes(x = weightLb, y = heightIn, colour = sex)) + 
+  geom_points(size = 2.5) +
+  ggtitle("Height vs. Weight by Sex")
+```
+:::
+:::::
+
+### Line Plot – `geom_line()`
+
+**Use when**: You want to show how a variable changes over time or another ordered variable (like day, year, index)
+
+**What is shows**: Trends, increases or decreases, cycles over time
+
+**Example**
+
+```{webr-r}
+ggplot(economics, aes(x = date, y = unemploy)) +
+  geom_line()
+```
+
+This plot shows how unemployment has changed over time.
+
+### Barplot – `geom_bar()` and `geom_col()`
+
+**Use when**: You want to compare **counts** or **values** between **categories**.
+
+-   `geom_bar()` counts how many times each category appears.
+
+-   `geom_col()` shows values you provided directly.
+
+**What it shows**: Frequencies or values across different categories.
+
+**Example**
+
+```{webr-r}
+ggplot(mpg, aes(x = class)) + 
+  geom_bar()
+```
+
+```{webr-r}
+library(dplyr)
+mpg_summary <- mpg %>%
+  group_by(class) %>%
+  summarise(mean_hwy = mean(hwy))
+
+ggplot(mpg_summary, aes(x = class, y = mean_hwy)) +
+  geom_col()
+```
+
+### Histogram – `geom_histogram()`
+
+**Use when** : You want to see the **distribution** of a numeric variable.
+
+**What is shows** : How values are spread across intervals (called "bins").
+
+**Example**
+
+```{webr-r}
+ggplot(mpg, aes(x = hwy)) + 
+  geom_histogram(binwidth = 2)
+```
+
+This plot shows many cars fall into different highway mpg ranges.
+
+```{webr-r}
+library(MASS)
+library(dplyr)
+
+data("birthwt")
+
+#Make a copy of data
+birthwt1 <- birthwt
+
+#Convert Smoke to a factor 
+birthwt1$smoke <- factor(birthwt1$smoke)
+# levels(birthwt1$smoke)
+
+birthwt1$smoke <- recode(birthwt1$smoke, "0" = "No Smoke", '1' = "Smoke")
+
+ggplot(birthwt1, aes(x = bwt)) + 
+  geom_histogram(fill = "white", colour = "black", bins = 30) + 
+  facet_grid(smoke ~ .) 
+
+```
+
+```{webr-r}
+ggplot(birthwt1, aes(x = bwt, fill = smoke)) +
+  geom_histogram(position = 'identity', alpha = 0.4, bins = 30) 
+```
+
+### Boxplot – `geom_boxplot()`
+
+**Use when**: You want to compare **summary statistics** (like median, quartiles, ouliers) across different groups.
+
+**What it shows** : Median, spread, and outliers for each group.
+
+**Example**
+
+```{webr-r}
+ggplot(mpg, aes(x = hwy)) + 
+  geom_boxplot()
+```
+
+```{webr-r}
+ggplot(mpg, aes(x = class, y = hwy)) + 
+  geom_boxplot()
+```
+
+This plot compare highway mpg for different type of vehicles.
+
+```{webr-r}
+library(MASS)
+data(birthwt) 
+
+ggplot(birthwt, aes(x = factor(race), y = bwt)) + 
+  geom_boxplot(width = 0.5)
+
+```
+
+```{webr-r}
+ggplot(birthwt, aes(x = factor(race), y = bwt)) + 
+  geom_boxplot(outlier.size = 1.5, outlier.shape = 21)
+```
+
+```{webr-r}
+ggplot(birthwt, aes(factor(race), bwt)) + 
+  geom_boxplot() + 
+  stat_summary(fun = "mean", geom = "point", shape = 23, size = 3, fill = "white")
+```
+
+### Violin Plot – geom_violin()
+
+**Use when**: You want to see the **distribution shape** plus summary info for groups.
+
+**What it shows**: Like a boxplot, but with a mirrored density curve – great for showing the full distribution and comparison across groups.
+
+**Example**
+
+```{webr-r}
+ggplot(mpg, aes(x = class, y = hwy)) + 
+  geom_violin()
+```
+
+You can also add **add points or boxplots** inside the violins:
+
+```{webr-r}
+ggplot(mpg, aes(x = class, y = hwy)) + 
+  geom_violin(trim = FALSE, fill = 'lightblue') + 
+  geom_boxplot(width = 0.1, outlier.colour = 'red')
+```
+
+```{webr-r}
+plot <- ggplot(heightweight, aes(x = sex, y = heightIn))
+plot + geom_violin()
+```
+
+```{webr-r}
+plot + geom_violin() + geom_boxplot(width = .1, fill = "black", outlier.colour = NA) +
+stat_summary(fun = median, geom = "point", fill = "white", shape = 21, size = 2.5)
+```
+
+### Dot plot – `geom_dotplot()`
+
+**Use when**: You want to show **individual values**, especially for small datasets.
+
+**Example**
+
+```{webr-r}
+ggplot(mpg, aes(x = hwy)) + 
+  geom_dotplot(binwidth = 1)
+```
+
+### Density Plot – `geom_density()`
+
+**Use when**: You want a **smoothed version** of a histogram.
+
+**What is shows**: Estimate of the data's distribution, good for seeing shapes or peaks.
+
+**Example**
+
+```{webr-r}
+ggplot(mpg, aes(x = hwy)) + 
+  geom_density(fill = 'lightblue', alpha = 0.4)
+```
+
+We can combine the histogram and density plot to show exact counts (histogram) and smooth distribution (density) in one plot.
+
+**Example**
+
+```{webr-r}
+ggplot(mpg, aes(x = hwy)) +
+  geom_histogram(aes(y = ..density..), binwidth = 2, fill = "lightblue", color = "white") +
+  geom_density(color = "red", size = 1)
+
+```
+
+::: callout-note
+## What is `..density..`?
+
+In *ggplot2*, when you use `geom_histogram()`, the default $y$-axis is **count** (how many observations fall in each bin). But if you write `aes(y = ..density..)`, you are asking ggplot2 to scale the height of the bars so they represent probability density instead of raw counts. This allows you to compare this histogram with a density curve (like the one from `geom_density()`), which also shows density.
+:::
+
+This shows both **frequency** and **smoothed distribution** of highway mpg.
+
+```{webr-r}
+# Store the values in a simple vector
+w <- faithful$waiting
+
+ggplot(NULL, aes(x = w)) + 
+  geom_density()
+```
+
+```{webr-r}
+ggplot(NULL, aes(x = w)) + 
+  geom_density() + 
+  geom_line(stat = 'density', adjust = 0.25, colour = 'red') + 
+  geom_line(stat = 'density') + 
+  geom_line(stat = 'density', adjust = 2, colour = 'blue')
+```
+
+```{webr-r}
+library(MASS)
+
+data("birthwt")
+
+#Make a copy of data
+birthwt1 <- birthwt
+
+#Convert Smoke to a factor 
+birthwt1$smoke <- factor(birthwt1$smoke)
+
+# Map smoke to color
+ggplot(birthwt1, aes(x = bwt, colour = smoke)) + 
+  geom_density()
+
+# Map smoke to fill and make the fill semitransparent by setting alpha
+ggplot(birthwt1, aes(x = bwt, fill = smoke)) + 
+  geom_density(alpha = 0.3)
+```
+
+```{webr-r}
+ggplot(faithful, aes(x = waiting, y = ..density..)) +
+geom_histogram(fill = "cornsilk", colour = "grey60", size = .2, bins = 30) +
+geom_density() +
+coord_cartesian(xlim = c(35, 105)) 
+```
+
+### Pie Chart (using Polar Coordinates) 
+
+**Use when**: You want to show **parts of a whole**, but use with caution – bar plots are often easier to read.
+
+**Example**
+
+```{webr-r}
+df <- data.frame(
+  category = c("A", "B", "C"),
+  count = c(10, 20, 35)
+)
+
+ggplot(df, aes(x = "", y = count, fill = category)) +
+  geom_col(width = 1) +
+  coord_polar(theta = "y") +
+  theme_void()
+
+```
+
+### 2D Density Plot 
+
+A *2D density plot* is used to show the distribution of two numeric variables. Instead of plotting each point (like in a scatter plot), it shows where points are concentrated using **contour lines** (`geom_density_2d()`) and **filled contour areas** (`geom_density_2d_filled()`).
+
+**Use when**: you have many overlapping points (overlapping) in a scatter plot and you want to highlight patterns or clusters in two numeric variables and see a smoother version of the joint distribution.
+
+**Example**
+
+```{webr-r}
+ggplot(faithful, aes(x = eruptions, y = waiting)) + 
+  geom_density_2d()
+```
+
+Adding points makes it easier to see what the contours represent.
+
 ```{r}
-#| echo: false
-scale_[aesthetic]_[type]()
+ggplot(faithful, aes(x = waiting, y = eruptions)) +
+  # Add Data Points for Context
+  geom_point(alpha = 0.3) +
+  geom_density_2d()
+```
+
+The following code results in a plot that shows filled bands of density that it is great for visual impact.
+
+```{r}
+ggplot(faithful, aes(x = eruptions, y = waiting)) + 
+  geom_density_2d_filled(alpha = 0.6) 
+```
+
+Combining points and filled contours gives both **precision** and **overview**.
+
+```{webr-r}
+ggplot(faithful, aes(x = eruptions, y = waiting)) +
+  geom_point(alpha = 0.3) +
+  geom_density_2d_filled(alpha = 0.5) +
+  theme_minimal()
+```
+
+You can map density levels to **color** using `..level..`
+
+```{webr-r}
+ggplot(faithful, aes(x = eruptions, y = waiting)) +
+  geom_density_2d(aes(colour = after_stat(level))) +
+  scale_colour_viridis_c()
+```
+
+You can also different code to produce the plot.
+
+```{webr-r}
+p <- ggplot(faithful, aes(x = eruptions, y = waiting))
+p + geom_point() + stat_density2d()
+# Contour lines, with "height" mapped to colo
+p + stat_density2d(aes(colour = after_stat(level)))
+# Map density estimate to fill color
+p + stat_density2d(aes(fill = ..density..), geom = "raster", contour = FALSE)
+# With points, and map density estimate to alpha
+p + geom_point() + 
+  stat_density2d(aes(alpha = ..density..), geom = "tile", contour = FALSE)
+p + stat_density2d(aes(fill = ..density..), geom = "raster",
+contour = FALSE, h = c(.5,5))
+```
+
+### 2D Binned Plot for Big Data – `stat_bin2d()`
+
+**Use when**: You have a lot of points and scatter plots are too dense.
+
+**Example**
+
+```{webr-r}
+ggplot(diamonds, aes(x = carat, y = price)) +
+  stat_bin2d(bins = 50) +
+  scale_fill_gradient(low = "lightblue", high = "red")
+
+```
+
+### Frequency Polygon – `geom_freqpoly()`
+
+A *frequency plot* is similar to a histogram, but it uses **lines instead of bars** to show how a variable is distributed. It is especially useful when you want to **compare distributions across groups**.
+
+**Use when**: You want to show the shape of a distribution and also compare multiple groups using lines (which may be easier to read than overlapping histograms).
+
+**Examples**
+
+```{webr-r}
+ggplot(faithful, aes(x = waiting)) + 
+  geom_freqpoly(binwidth = 4) 
+
+binsize <- diff(range(faithful$waiting)) / 15
+ggplot(faithful, aes(x = waiting)) + 
+  geom_freqpoly(binwidth = binsize) 
+```
+
+```{webr-r}
+ggplot(mpg, aes(x = hwy, colour = class)) + 
+  geom_freqpoly(binwidth = 2, size = 1
+                )
+```
+
+### Correlation Plot (Cor plot)
+
+A *correlation plot* (or *cor plot*) is a visual way to show how strongly variables are related to each other. Correlation values range from $-1$ to $1$, and the plot helps you quickly see positive, negative, or no relationships.
+
+This is not built into *ggplot2*, but we can use it together with
+
+-   The `cor()` function to compute correlation
+
+-   The `corrplot` or `ggcorrplot` package to visualize it.
+
+**Example using `ggcorrplot`**
+
+```{webr-r}
+# install.packages('ggcorrplot')
+
+library(ggcorrplot)
+
+mpg_num <- mpg[, c('displ', 'hwy', 'cty')]
+
+corr <- cor(mpg_num)
+ggcorrplot(corr, lab = TRUE)
+```
+
+**Example using `corrplot`**
+
+```{webr-r}
+# install.packages('corrplot')
+# install.packages('faraway')
+library(corrplot)
+library(faraway) # for loading gamb_data
+
+gamb_data <- data.frame(teengamb)
+corr_gamb <- cor(gamb_data)
+corrplot(corr_gamb, tl.col = 'brown', tl.srt = 30, bg = 'white', type = 'full')
 ```
