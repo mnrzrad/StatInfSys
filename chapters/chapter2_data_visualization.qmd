@@ -704,7 +704,7 @@ ggcorrplot(corr, lab = TRUE)
 
 **Example using `corrplot`**
 
-```{r}
+```{webr-r}
 # install.packages('corrplot')
 library(corrplot)
 
