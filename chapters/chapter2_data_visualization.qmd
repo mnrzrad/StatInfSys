@@ -122,8 +122,8 @@ Scale functions in *ggplot2* usually follow the format `scale_[aesthetic]_[type]
 Here is how to use a custom color scale for the `class` variable in the `mpg` dataset:
 
 ```{webr-r}
-ggplot(data = mpg, mapping = aes(x = xty, y = hwy, colour = class)) +
-  goem_point() + 
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy, colour = class)) +
+  geom_point() + 
   scale_colour_viridis_d()
 ```
 
@@ -307,7 +307,7 @@ You will need
 
 -   `aes(x = ______, y = ______, colour = ______)` -
 
--   `geom_points(size = ______)`
+-   `geom_point(size = ______)`
 
 -   `ggtitle(______)`
 :::
@@ -317,7 +317,7 @@ You will need
 ::: {.solution exercise="ex_1"}
 ``` r
 ggplot(heightweight, aes(x = weightLb, y = heightIn, colour = sex)) + 
-  geom_points(size = 2.5) +
+  geom_point(size = 2.5) +
   ggtitle("Height vs. Weight by Sex")
 ```
 :::
@@ -507,15 +507,15 @@ We can combine the histogram and density plot to show exact counts (histogram) a
 
 ```{webr-r}
 ggplot(mpg, aes(x = hwy)) +
-  geom_histogram(aes(y = ..density..), binwidth = 2, fill = "lightblue", color = "white") +
-  geom_density(color = "red", size = 1)
+  geom_histogram(aes(y = after_stat(density)), binwidth = 2, fill = "lightblue", color = "white") +
+  geom_density(color = "red", linewidth = 1)
 
 ```
 
 ::: callout-note
-## What is `..density..`?
+## What is `after_stat(density)`?
 
-In *ggplot2*, when you use `geom_histogram()`, the default $y$-axis is **count** (how many observations fall in each bin). But if you write `aes(y = ..density..)`, you are asking ggplot2 to scale the height of the bars so they represent probability density instead of raw counts. This allows you to compare this histogram with a density curve (like the one from `geom_density()`), which also shows density.
+In *ggplot2*, when you use `geom_histogram()`, the default $y$-axis is **count** (how many observations fall in each bin). But if you write `aes(y = after_stat(density))`, you are asking *ggplot2* to scale the height of the bars so they represent probability density instead of raw counts. This allows you to compare this histogram with a density curve (like the one from `geom_density()`), which also shows density.
 :::
 
 This shows both **frequency** and **smoothed distribution** of highway mpg.
@@ -557,8 +557,8 @@ ggplot(birthwt1, aes(x = bwt, fill = smoke)) +
 ```
 
 ```{webr-r}
-ggplot(faithful, aes(x = waiting, y = ..density..)) +
-geom_histogram(fill = "cornsilk", colour = "grey60", size = .2, bins = 30) +
+ggplot(faithful, aes(x = waiting, y = after_stat(density))) +
+geom_histogram(fill = "cornsilk", colour = "grey60", linewidth = .2, bins = 30) +
 geom_density() +
 coord_cartesian(xlim = c(35, 105)) 
 ```
@@ -613,14 +613,14 @@ ggplot(faithful, aes(x = eruptions, y = waiting)) +
 
 Combining points and filled contours gives both **precision** and **overview**.
 
-```{webr-r}
+```{r}
 ggplot(faithful, aes(x = eruptions, y = waiting)) +
   geom_point(alpha = 0.3) +
   geom_density_2d_filled(alpha = 0.5) +
   theme_minimal()
 ```
 
-You can map density levels to **color** using `..level..`
+You can map density levels to **color** using `after_stat(level)`
 
 ```{webr-r}
 ggplot(faithful, aes(x = eruptions, y = waiting)) +
@@ -636,11 +636,11 @@ p + geom_point() + stat_density2d()
 # Contour lines, with "height" mapped to colo
 p + stat_density2d(aes(colour = after_stat(level)))
 # Map density estimate to fill color
-p + stat_density2d(aes(fill = ..density..), geom = "raster", contour = FALSE)
+p + stat_density2d(aes(fill = after_stat(density)), geom = "raster", contour = FALSE)
 # With points, and map density estimate to alpha
 p + geom_point() + 
-  stat_density2d(aes(alpha = ..density..), geom = "tile", contour = FALSE)
-p + stat_density2d(aes(fill = ..density..), geom = "raster",
+  stat_density2d(aes(alpha = after_stat(density)), geom = "tile", contour = FALSE)
+p + stat_density2d(aes(fill = after_stat(density)), geom = "raster",
 contour = FALSE, h = c(.5,5))
 ```
 
@@ -676,8 +676,7 @@ ggplot(faithful, aes(x = waiting)) +
 
 ```{webr-r}
 ggplot(mpg, aes(x = hwy, colour = class)) + 
-  geom_freqpoly(binwidth = 2, size = 1
-                )
+  geom_freqpoly(binwidth = 2, size = 1)
 ```
 
 ### Correlation Plot (Cor plot)
@@ -705,13 +704,11 @@ ggcorrplot(corr, lab = TRUE)
 
 **Example using `corrplot`**
 
-```{webr-r}
+```{r}
 # install.packages('corrplot')
-# install.packages('faraway')
 library(corrplot)
-library(faraway) # for loading gamb_data
 
-gamb_data <- data.frame(teengamb)
-corr_gamb <- cor(gamb_data)
-corrplot(corr_gamb, tl.col = 'brown', tl.srt = 30, bg = 'white', type = 'full')
+data(mtcars)
+corr <- cor(mtcars)
+corrplot(corr, tl.col = "brown", tl.srt = 30, bg = "white", type = "full")
 ```
