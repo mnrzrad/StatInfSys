@@ -11,13 +11,13 @@ book:
       chapters: 
         - chapters/chapter1_data_ethics.qmd
         - chapters/chapter2_data_visualization.qmd
+        - chapters/chapter3_dplyr.qmd
         
 bibliography: references.bib
 
 # Set default options for every bookpage that may or may not include webR.
 webr: 
   show-startup-message: false    # Disable displaying status of webR initialization
-  packages: ['ggplot2', 'dplyr', 'MASS', 'fontawesome'] # Install R packages on document open
 
 # Attach webR extension for the project
 filters:

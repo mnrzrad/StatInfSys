@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>2&nbsp; Data Visualization – Statistics and Information Systems</title>
+<title>3&nbsp; Getting ready to use dplyr – Statistics and Information Systems</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -55,27 +55,7 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-/* CSS for citations */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-  margin-bottom: 0em;
-}
-.hanging-indent div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}</style>
+</style>
 
 
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -85,8 +65,7 @@ div.csl-indent {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../chapters/chapter3_dplyr.html" rel="next">
-<link href="../chapters/chapter1_data_ethics.html" rel="prev">
+<link href="../chapters/chapter2_data_visualization.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -424,7 +403,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"code":"library(ggplot2)","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"#load package\nlibrary(ggplot2)\n\n#load dataset \ndata(mpg)\n\nggplot(data = mpg)","id":2,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(data = mpg, mapping = aes(x = cty, y = hwy))","id":3,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-3","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + \n  geom_point() + # scatter plot: each point shows (cty, hwy)\n  geom_smooth(formula = y ~ x, method = 'lm') #adds a trend line","id":4,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-4","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(data = mpg, mapping = aes(x = cty, y = hwy, colour = class)) +\n  geom_point() + \n  scale_colour_viridis_d()","id":5,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-5","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +\n  geom_point() +\n  facet_grid(year ~ drv)","id":6,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-6","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + \n  geom_point() + \n  coord_fixed()","id":7,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-7","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(data = mpg, mapping = aes(x = cty, y = hwy, colour = class)) +\n  geom_point() + \n  theme_minimal() + # Apply a clean, minimal background\n  theme(\n    # Move the legend to the top\n    legend.position = \"top\", \n    # Set the thickness of both axis lines\n    axis.line = element_line(linewidth = 0.75), \n    # Make the bottom x-axis line blue\n    axis.line.x.bottom = element_line(colour = \"blue\")\n  )","id":8,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-8","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Start with data and main mapping\nggplot(mpg, aes(cty, hwy)) + \n  # Add points, colored by engine size\n  geom_point(mapping = aes(colour = displ)) +\n  # Add a linear trend line \n  geom_smooth(formula = y ~ x, method = \"lm\") +\n  # Use a color scale for displ\n  scale_colour_viridis_c() + \n  # Create small plots by year and drive type\n  facet_grid(year ~ drv) +\n  # Fix aspect ratio (1 unit = 1 unit)\n  coord_fixed() + \n  # Apply a clean theme\n  theme_minimal() + \n  # REmove minor grid line for clarity\n  theme(panel.grid.minor = element_blank())","id":9,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-9","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# install.packages('gcookbook')\n\nlibrary(gcookbook) # for loading the dataset heightweight\n\nggplot(heightweight, aes(x = ageYear, y = heightIn)) + \n  geom_point()","id":10,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-10","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(heightweight, aes(ageYear, heightIn)) + \n  geom_point(size = 3)","id":11,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-11","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(heightweight, aes(x = ageYear, y = heightIn, shape = sex, colour = sex)) + \n  geom_point()","id":12,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-12","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(heightweight, aes(x = ageYear, y = heightIn, shape = sex, colour = sex)) +\n  geom_point() +\n  scale_shape_manual(values = c(1,2)) +\n  scale_color_brewer(palette = 'Set1')","id":13,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-13","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(heightweight, aes(x = ageYear, y = heightIn, size = weightLb)) + \n  geom_point()","id":14,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-14","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(heightweight, aes(x = ageYear, y = heightIn, colour = weightLb)) + \n  geom_point()","id":15,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-15","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(heightweight, aes(x = ageYear, y = heightIn, colour = sex, size = weightLb)) + \n  geom_point()","id":16,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-16","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(gcookbook)\nlibrary(ggplot2)\n\ndata(\"heightweight\")\n\n______","id":17,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","exercise":"ex_1","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-17","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(economics, aes(x = date, y = unemploy)) +\n  geom_line()","id":18,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-18","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(mpg, aes(x = class)) + \n  geom_bar()","id":19,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-19","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(dplyr)\nmpg_summary <- mpg %>%\n  group_by(class) %>%\n  summarise(mean_hwy = mean(hwy))\n\nggplot(mpg_summary, aes(x = class, y = mean_hwy)) +\n  geom_col()","id":20,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-20","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(mpg, aes(x = hwy)) + \n  geom_histogram(binwidth = 2)","id":21,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-21","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(MASS)\nlibrary(dplyr)\n\ndata(\"birthwt\")\n\n#Make a copy of data\nbirthwt1 <- birthwt\n\n#Convert Smoke to a factor \nbirthwt1$smoke <- factor(birthwt1$smoke)\n# levels(birthwt1$smoke)\n\nbirthwt1$smoke <- recode(birthwt1$smoke, \"0\" = \"No Smoke\", '1' = \"Smoke\")\n\nggplot(birthwt1, aes(x = bwt)) + \n  geom_histogram(fill = \"white\", colour = \"black\", bins = 30) + \n  facet_grid(smoke ~ .) ","id":22,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-22","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(birthwt1, aes(x = bwt, fill = smoke)) +\n  geom_histogram(position = 'identity', alpha = 0.4, bins = 30) ","id":23,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-23","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(mpg, aes(x = hwy)) + \n  geom_boxplot()","id":24,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-24","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(mpg, aes(x = class, y = hwy)) + \n  geom_boxplot()","id":25,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-25","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(MASS)\ndata(birthwt) \n\nggplot(birthwt, aes(x = factor(race), y = bwt)) + \n  geom_boxplot(width = 0.5)","id":26,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-26","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(birthwt, aes(x = factor(race), y = bwt)) + \n  geom_boxplot(outlier.size = 1.5, outlier.shape = 21)","id":27,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-27","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(birthwt, aes(factor(race), bwt)) + \n  geom_boxplot() + \n  stat_summary(fun = \"mean\", geom = \"point\", shape = 23, size = 3, fill = \"white\")","id":28,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-28","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(mpg, aes(x = class, y = hwy)) + \n  geom_violin()","id":29,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-29","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(mpg, aes(x = class, y = hwy)) + \n  geom_violin(trim = FALSE, fill = 'lightblue') + \n  geom_boxplot(width = 0.1, outlier.colour = 'red')","id":30,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-30","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"plot <- ggplot(heightweight, aes(x = sex, y = heightIn))\nplot + geom_violin()","id":31,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-31","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"plot + geom_violin() + geom_boxplot(width = .1, fill = \"black\", outlier.colour = NA) +\nstat_summary(fun = median, geom = \"point\", fill = \"white\", shape = 21, size = 2.5)","id":32,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-32","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(mpg, aes(x = hwy)) + \n  geom_dotplot(binwidth = 1)","id":33,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-33","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(mpg, aes(x = hwy)) + \n  geom_density(fill = 'lightblue', alpha = 0.4)","id":34,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-34","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(mpg, aes(x = hwy)) +\n  geom_histogram(aes(y = after_stat(density)), binwidth = 2, fill = \"lightblue\", color = \"white\") +\n  geom_density(color = \"red\", linewidth = 1)","id":35,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-35","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Store the values in a simple vector\nw <- faithful$waiting\n\nggplot(NULL, aes(x = w)) + \n  geom_density()","id":36,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-36","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(NULL, aes(x = w)) + \n  geom_density() + \n  geom_line(stat = 'density', adjust = 0.25, colour = 'red') + \n  geom_line(stat = 'density') + \n  geom_line(stat = 'density', adjust = 2, colour = 'blue')","id":37,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-37","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(MASS)\n\ndata(\"birthwt\")\n\n#Make a copy of data\nbirthwt1 <- birthwt\n\n#Convert Smoke to a factor \nbirthwt1$smoke <- factor(birthwt1$smoke)\n\n# Map smoke to color\nggplot(birthwt1, aes(x = bwt, colour = smoke)) + \n  geom_density()\n\n# Map smoke to fill and make the fill semitransparent by setting alpha\nggplot(birthwt1, aes(x = bwt, fill = smoke)) + \n  geom_density(alpha = 0.3)","id":38,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-38","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(faithful, aes(x = waiting, y = after_stat(density))) +\ngeom_histogram(fill = \"cornsilk\", colour = \"grey60\", linewidth = .2, bins = 30) +\ngeom_density() +\ncoord_cartesian(xlim = c(35, 105)) ","id":39,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-39","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"df <- data.frame(\n  category = c(\"A\", \"B\", \"C\"),\n  count = c(10, 20, 35)\n)\n\nggplot(df, aes(x = \"\", y = count, fill = category)) +\n  geom_col(width = 1) +\n  coord_polar(theta = \"y\") +\n  theme_void()","id":40,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-40","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(faithful, aes(x = eruptions, y = waiting)) + \n  geom_density_2d()","id":41,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-41","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(faithful, aes(x = eruptions, y = waiting)) +\n  geom_density_2d(aes(colour = after_stat(level))) +\n  scale_colour_viridis_c()","id":42,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-42","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"p <- ggplot(faithful, aes(x = eruptions, y = waiting))\np + geom_point() + stat_density2d()\n# Contour lines, with \"height\" mapped to colo\np + stat_density2d(aes(colour = after_stat(level)))\n# Map density estimate to fill color\np + stat_density2d(aes(fill = after_stat(density)), geom = \"raster\", contour = FALSE)\n# With points, and map density estimate to alpha\np + geom_point() + \n  stat_density2d(aes(alpha = after_stat(density)), geom = \"tile\", contour = FALSE)\np + stat_density2d(aes(fill = after_stat(density)), geom = \"raster\",\ncontour = FALSE, h = c(.5,5))","id":43,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-43","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(diamonds, aes(x = carat, y = price)) +\n  stat_bin2d(bins = 50) +\n  scale_fill_gradient(low = \"lightblue\", high = \"red\")","id":44,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-44","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(faithful, aes(x = waiting)) + \n  geom_freqpoly(binwidth = 4) \n\nbinsize <- diff(range(faithful$waiting)) / 15\nggplot(faithful, aes(x = waiting)) + \n  geom_freqpoly(binwidth = binsize) ","id":45,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-45","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(mpg, aes(x = hwy, colour = class)) + \n  geom_freqpoly(binwidth = 2, size = 1)","id":46,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-46","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# install.packages('ggcorrplot')\n\nlibrary(ggcorrplot)\n\nmpg_num <- mpg[, c('displ', 'hwy', 'cty')]\n\ncorr <- cor(mpg_num)\nggcorrplot(corr, lab = TRUE)","id":47,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-47","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# install.packages('corrplot')\nlibrary(corrplot)\n\ndata(mtcars)\ncorr <- cor(mtcars)\ncorrplot(corr, tl.col = \"brown\", tl.srt = 30, bg = \"white\", type = \"full\")","id":48,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-48","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
+globalThis.qwebrCellDetails = [{"code":"library(tibble)\n\nclassroom <- tribble(\n  ~name,    ~quiz1, ~quiz2, ~test1,\n  \"Billy\",  NA,     \"D\",    \"C\",\n  \"Suzy\",   \"F\",    NA,     NA,\n  \"Lionel\", \"B\",    \"C\",    \"B\",\n  \"Jenny\",  \"A\",    \"A\",    \"B\"\n)\n\nclassroom","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"tribble(\n  ~assessment, ~Billy, ~Suzy, ~Lionel, ~Jenny,\n  \"quiz1\",     NA,     \"F\",   \"B\",     \"A\",\n  \"quiz2\",     \"D\",    NA,    \"C\",     \"A\",\n  \"test1\",     \"C\",    NA,    \"B\",     \"B\"\n)","id":2,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(dplyr)\n\nrelig_income","id":3,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-3","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(dplyr)\nlibrary(tidyr)\n\nrelig_income %>%\n  pivot_longer(-religion, names_to = \"income\", values_to = 'frequency')","id":4,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-4","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"billboard","id":5,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-5","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"billboard %>%\n  pivot_longer( \n    wk1:wk76, \n    names_to = \"week\", \n    values_to = \"rank\", \n    values_drop_na = TRUE \n    ) %>%\n  mutate( \n    week = as.integer(gsub(\"wk\", \"\", week)), \n    date = as.Date(date.entered) + 7 * (week - 1), \n    date.entered = NULL \n    ) %>%\n  arrange(artist, track, week)","id":6,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-6","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"billboard %>%\n  pivot_longer( \n    wk1:wk76, \n    names_to = \"week\", \n    values_to = \"rank\", \n    values_drop_na = TRUE \n    ) %>%\n  mutate( \n    week = as.integer(gsub(\"wk\", \"\", week)), \n    date = as.Date(date.entered) + 7 * (week - 1), \n    date.entered = NULL \n    ) %>%\n  arrange(date, rank)","id":7,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-7","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
 
 </script>
 <script type="module">
@@ -1720,7 +1699,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter1_data_ethics.html">EDA</a></li><li class="breadcrumb-item"><a href="../chapters/chapter2_data_visualization.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Data Visualization</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter1_data_ethics.html">EDA</a></li><li class="breadcrumb-item"><a href="../chapters/chapter3_dplyr.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Getting ready to use <code>dplyr</code></span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -1768,13 +1747,13 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/chapter2_data_visualization.html" class="sidebar-item-text sidebar-link active">
+  <a href="../chapters/chapter2_data_visualization.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Data Visualization</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/chapter3_dplyr.html" class="sidebar-item-text sidebar-link">
+  <a href="../chapters/chapter3_dplyr.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Getting ready to use <code>dplyr</code></span></span></a>
   </div>
 </li>
@@ -1790,28 +1769,15 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#data" id="toc-data" class="nav-link active" data-scroll-target="#data"><span class="header-section-number">2.1</span> Data</a></li>
-  <li><a href="#mapping" id="toc-mapping" class="nav-link" data-scroll-target="#mapping"><span class="header-section-number">2.2</span> Mapping</a></li>
-  <li><a href="#layers" id="toc-layers" class="nav-link" data-scroll-target="#layers"><span class="header-section-number">2.3</span> Layers</a></li>
-  <li><a href="#scales" id="toc-scales" class="nav-link" data-scroll-target="#scales"><span class="header-section-number">2.4</span> Scales</a></li>
-  <li><a href="#facets" id="toc-facets" class="nav-link" data-scroll-target="#facets"><span class="header-section-number">2.5</span> Facets</a></li>
-  <li><a href="#coordinates" id="toc-coordinates" class="nav-link" data-scroll-target="#coordinates"><span class="header-section-number">2.6</span> Coordinates</a></li>
-  <li><a href="#theme" id="toc-theme" class="nav-link" data-scroll-target="#theme"><span class="header-section-number">2.7</span> Theme</a></li>
-  <li><a href="#mastering-plot-layers-guided-examples-and-student-activities" id="toc-mastering-plot-layers-guided-examples-and-student-activities" class="nav-link" data-scroll-target="#mastering-plot-layers-guided-examples-and-student-activities"><span class="header-section-number">2.8</span> Mastering Plot Layers: Guided Examples and Student Activities</a>
+  <li><a href="#prerequisites" id="toc-prerequisites" class="nav-link active" data-scroll-target="#prerequisites"><span class="header-section-number">3.0.1</span> Prerequisites</a>
   <ul>
-  <li><a href="#scatter-plot-geom_point" id="toc-scatter-plot-geom_point" class="nav-link" data-scroll-target="#scatter-plot-geom_point"><span class="header-section-number">2.8.1</span> Scatter Plot – <code>geom_point()</code></a></li>
-  <li><a href="#line-plot-geom_line" id="toc-line-plot-geom_line" class="nav-link" data-scroll-target="#line-plot-geom_line"><span class="header-section-number">2.8.2</span> Line Plot – <code>geom_line()</code></a></li>
-  <li><a href="#barplot-geom_bar-and-geom_col" id="toc-barplot-geom_bar-and-geom_col" class="nav-link" data-scroll-target="#barplot-geom_bar-and-geom_col"><span class="header-section-number">2.8.3</span> Barplot – <code>geom_bar()</code> and <code>geom_col()</code></a></li>
-  <li><a href="#histogram-geom_histogram" id="toc-histogram-geom_histogram" class="nav-link" data-scroll-target="#histogram-geom_histogram"><span class="header-section-number">2.8.4</span> Histogram – <code>geom_histogram()</code></a></li>
-  <li><a href="#boxplot-geom_boxplot" id="toc-boxplot-geom_boxplot" class="nav-link" data-scroll-target="#boxplot-geom_boxplot"><span class="header-section-number">2.8.5</span> Boxplot – <code>geom_boxplot()</code></a></li>
-  <li><a href="#violin-plot-geom_violin" id="toc-violin-plot-geom_violin" class="nav-link" data-scroll-target="#violin-plot-geom_violin"><span class="header-section-number">2.8.6</span> Violin Plot – geom_violin()</a></li>
-  <li><a href="#dot-plot-geom_dotplot" id="toc-dot-plot-geom_dotplot" class="nav-link" data-scroll-target="#dot-plot-geom_dotplot"><span class="header-section-number">2.8.7</span> Dot plot – <code>geom_dotplot()</code></a></li>
-  <li><a href="#density-plot-geom_density" id="toc-density-plot-geom_density" class="nav-link" data-scroll-target="#density-plot-geom_density"><span class="header-section-number">2.8.8</span> Density Plot – <code>geom_density()</code></a></li>
-  <li><a href="#pie-chart-using-polar-coordinates" id="toc-pie-chart-using-polar-coordinates" class="nav-link" data-scroll-target="#pie-chart-using-polar-coordinates"><span class="header-section-number">2.8.9</span> Pie Chart (using Polar Coordinates)</a></li>
-  <li><a href="#d-density-plot" id="toc-d-density-plot" class="nav-link" data-scroll-target="#d-density-plot"><span class="header-section-number">2.8.10</span> 2D Density Plot</a></li>
-  <li><a href="#d-binned-plot-for-big-data-stat_bin2d" id="toc-d-binned-plot-for-big-data-stat_bin2d" class="nav-link" data-scroll-target="#d-binned-plot-for-big-data-stat_bin2d"><span class="header-section-number">2.8.11</span> 2D Binned Plot for Big Data – <code>stat_bin2d()</code></a></li>
-  <li><a href="#frequency-polygon-geom_freqpoly" id="toc-frequency-polygon-geom_freqpoly" class="nav-link" data-scroll-target="#frequency-polygon-geom_freqpoly"><span class="header-section-number">2.8.12</span> Frequency Polygon – <code>geom_freqpoly()</code></a></li>
-  <li><a href="#correlation-plot-cor-plot" id="toc-correlation-plot-cor-plot" class="nav-link" data-scroll-target="#correlation-plot-cor-plot"><span class="header-section-number">2.8.13</span> Correlation Plot (Cor plot)</a></li>
+  <li><a href="#data-structure" id="toc-data-structure" class="nav-link" data-scroll-target="#data-structure"><span class="header-section-number">3.0.1.1</span> Data Structure</a></li>
+  <li><a href="#data-semantics" id="toc-data-semantics" class="nav-link" data-scroll-target="#data-semantics"><span class="header-section-number">3.0.1.2</span> Data Semantics</a></li>
+  </ul></li>
+  <li><a href="#introduction-to-dplyr" id="toc-introduction-to-dplyr" class="nav-link" data-scroll-target="#introduction-to-dplyr"><span class="header-section-number">3.1</span> Introduction to <code>dplyr</code></a>
+  <ul>
+  <li><a href="#subset-variables-with-select" id="toc-subset-variables-with-select" class="nav-link" data-scroll-target="#subset-variables-with-select"><span class="header-section-number">3.1.1</span> Subset variables with <code>select()</code></a></li>
+  <li><a href="#creating-variables-with-mutate" id="toc-creating-variables-with-mutate" class="nav-link" data-scroll-target="#creating-variables-with-mutate"><span class="header-section-number">3.1.2</span> Creating variables with <code>mutate</code></a></li>
   </ul></li>
   </ul>
 </nav>
@@ -2103,9 +2069,9 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 }
 </script>
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter1_data_ethics.html">EDA</a></li><li class="breadcrumb-item"><a href="../chapters/chapter2_data_visualization.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Data Visualization</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter1_data_ethics.html">EDA</a></li><li class="breadcrumb-item"><a href="../chapters/chapter3_dplyr.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Getting ready to use <code>dplyr</code></span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Data Visualization</span></h1>
+<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Getting ready to use <code>dplyr</code></span></h1>
 </div>
 
 
@@ -2122,133 +2088,139 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </header>
 
 
-<p>The most famous package in R that is used for visualizing of data is <strong>ggplot2</strong> that is based on the grammar <em>of graphics</em>. It allows you to `speak’ a graph from composable elements, instead of being limited to a predefined set of charts.</p>
-<p>Before using <em>ggplot2</em>, a user must first install the package and then load it into their R session. Installation is done <strong>only</strong> using the command <code>install.packages('ggplot2')</code>. Alternatively, the following code can be used to install if only if the package is not already installed on the computer.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(<span class="st">'ggplot2'</span>)) {</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">install.packages</span>(<span class="st">'ggplot2'</span>)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'dplyr'</code></pre>
 </div>
-<p>which downloads the package from CRAN (the Comprehensive R Archive Network). After installation, the package needs to be loaded each time R is restarted. This is done with the following command:</p>
-<div id="qwebr-insertion-location-1"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>A brief overview about using this package is available at this <a href="https://ggplot2.tidyverse.org/articles/ggplot2.html">website</a> and more complete information about how to use ggplot2 can be found in <span class="citation" data-cites="Wickham2019">Wickham, Navarro, and Pederson (<a href="#ref-Wickham2019" role="doc-biblioref">2019</a>)</span>.</p>
-<p>The structure of the package includes 7 composable parts that come together as a set of instructions on how to draw a chart.</p>
-<p><img src="..\figs/ggplot2/overview_graphic-1.png" class="img-fluid"></p>
-<p>The package <em>ggplot2</em> requires a minimum of three main components to create a chart: <strong>data</strong>, <strong>mapping</strong>, and <strong>a layer</strong>. Other components – like <strong>scales</strong>, <strong>facets</strong>, <strong>coordinates</strong>, and <strong>themes</strong> – are optional because <em>ggplot2</em> gives them <strong>automatic settings</strong> that usually work well, so you do not need to adjust them too much.</p>
-<p>In the following, we briefly describe these components:</p>
-<section id="data" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="data"><span class="header-section-number">2.1</span> Data</h2>
-<p>Every plot made with <em>ggplot2</em> starts with <strong>data</strong>. This data should be in a <a href="https://tidyr.tidyverse.org/articles/tidy-data.html">tidy</a> format that means the data is in a <strong>table</strong> (called a rectangular <em>data frame</em>) where:</p>
-<ul>
-<li><p>Each <strong>row</strong> is one <strong>observation</strong>.</p></li>
-<li><p>Each <strong>column</strong> is one <strong>variable</strong>.</p></li>
-</ul>
-<p>The first step to create a plot with <em>ggplot2</em> is to pass this data to the <code>ggplot()</code> function, which stores the data to be used later by other parts of the plot.</p>
-<p>For example, if we want to make a plot using the <code>mpg</code> dataset, we begin like this:</p>
-<div id="qwebr-insertion-location-2"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div class="callout callout-style-default callout-note callout-titled">
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+</div>
+<p><em>dplyr</em> will work with any dataframe. However, it is most powerful when data are organized according to <strong>tidy data</strong> conversions for datasets</p>
+<div class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-You should see an empty plot. It is <strong>correct</strong>. Can you explain why the plot is empty?
+Tidy datasets are all alike, but every messy dataset is messy in its own way – Hadley Wickam
 </div>
 </div>
 <div class="callout-body-container callout-body">
 
 </div>
 </div>
-</section>
-<section id="mapping" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="mapping"><span class="header-section-number">2.2</span> Mapping</h2>
-<p>In <em>ggplot2</em> package, <em>mapping</em> means telling the system how to connect parts of the data to <strong>aesthetic</strong> properties of the plot.</p>
-<p><strong>Aesthetic</strong> (say: es-THE-ik) is a word that describes how something <strong>looks</strong> – its <strong>style</strong>, <strong>color</strong>, <strong>shape</strong>, and <strong>beauty</strong>. In <em>ggplot2</em>, an aesthetic is a visual feature of a plot like:</p>
+<section id="prerequisites" class="level3" data-number="3.0.1">
+<h3 data-number="3.0.1" class="anchored" data-anchor-id="prerequisites"><span class="header-section-number">3.0.1</span> Prerequisites</h3>
+<p>In data analysis, it is common to spend a lot of time cleaning and preparing the data – sometimes more then <span class="math inline">\(80\%\)</span> of the total time!</p>
+<p>And it is not something you do only once — cleaning may need to be repeated during the project as you discover new problems or add more data.</p>
+<p>One important part of cleaning is called <strong>data tidying</strong>. This means organizing the data in a clear and useful way so it is easier to work with.</p>
+<p>Tidy data follows some simple rules that help us:</p>
 <ul>
-<li><svg aria-hidden="true" role="img" viewbox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M200 32H56C42.7 32 32 42.7 32 56V200c0 9.7 5.8 18.5 14.8 22.2s19.3 1.7 26.2-5.2l40-40 79 79-79 79L73 295c-6.9-6.9-17.2-8.9-26.2-5.2S32 302.3 32 312V456c0 13.3 10.7 24 24 24H200c9.7 0 18.5-5.8 22.2-14.8s1.7-19.3-5.2-26.2l-40-40 79-79 79 79-40 40c-6.9 6.9-8.9 17.2-5.2 26.2s12.5 14.8 22.2 14.8H456c13.3 0 24-10.7 24-24V312c0-9.7-5.8-18.5-14.8-22.2s-19.3-1.7-26.2 5.2l-40 40-79-79 79-79 40 40c6.9 6.9 17.2 8.9 26.2 5.2s14.8-12.5 14.8-22.2V56c0-13.3-10.7-24-24-24H312c-9.7 0-18.5 5.8-22.2 14.8s-1.7 19.3 5.2 26.2l40 40-79 79-79-79 40-40c6.9-6.9 8.9-17.2 5.2-26.2S209.7 32 200 32z"></path></svg> <strong>Position (x and y)</strong> – controls where data appears on the plot<br>
-</li>
-<li><svg aria-hidden="true" role="img" viewbox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M512 256c0 .9 0 1.8 0 2.7c-.4 36.5-33.6 61.3-70.1 61.3H344c-26.5 0-48 21.5-48 48c0 3.4 .4 6.7 1 9.9c2.1 10.2 6.5 20 10.8 29.9c6.1 13.8 12.1 27.5 12.1 42c0 31.8-21.6 60.7-53.4 62c-3.5 .1-7 .2-10.6 .2C114.6 512 0 397.4 0 256S114.6 0 256 0S512 114.6 512 256zM128 288a32 32 0 1 0 -64 0 32 32 0 1 0 64 0zm0-96a32 32 0 1 0 0-64 32 32 0 1 0 0 64zM288 96a32 32 0 1 0 -64 0 32 32 0 1 0 64 0zm96 96a32 32 0 1 0 0-64 32 32 0 1 0 0 64z"></path></svg> <strong>Color</strong> – changes color based on data values<br>
-</li>
-<li><svg aria-hidden="true" role="img" viewbox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M464 256A208 208 0 1 0 48 256a208 208 0 1 0 416 0zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256z"></path></svg> <strong>Size</strong> – adjusts the size of points<br>
-</li>
-<li><svg aria-hidden="true" role="img" viewbox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M315.4 15.5C309.7 5.9 299.2 0 288 0s-21.7 5.9-27.4 15.5l-96 160c-5.9 9.9-6.1 22.2-.4 32.2s16.3 16.2 27.8 16.2H384c11.5 0 22.2-6.2 27.8-16.2s5.5-22.3-.4-32.2l-96-160zM288 312V456c0 22.1 17.9 40 40 40H472c22.1 0 40-17.9 40-40V312c0-22.1-17.9-40-40-40H328c-22.1 0-40 17.9-40 40zM128 512a128 128 0 1 0 0-256 128 128 0 1 0 0 256z"></path></svg> <strong>Shape</strong> – uses different shapes for different categories</li>
+<li><p>Use the same format every time.</p></li>
+<li><p>Make data easy to explore, analyze, and visualize.</p></li>
+<li><p>Save time by avoiding confusion when switching between tools.</p></li>
 </ul>
-<p>These help us turn numbers into pictures. It is how we ’’<em>dress up</em>” the data so it speaks to our eyes.</p>
-<div class="callout callout-style-default callout-tip callout-titled">
+<p>When data is tidy, different tools can “speak the same language.” This means you do not waste time reformatting your data for each new function or package.</p>
+<div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Memory tip
+Important
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Just like fashion has aesthetic styles (like modern, classic, or colorful), plots also have <em>aesthetics</em> – they decide how the data looks!</p>
+<p>With tidy data, you can <strong>focus on your real question</strong> – not on fixing messy files!</p>
 </div>
 </div>
-<p>A mapping can be made by using <code>aes()</code> function to make pairs of graphical attributes and parts of the data. Inside <code>aes()</code>, we match parts of the data (like column names) with visual elements (like <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> position).</p>
-<p>For the dataset <code>mpg</code>, if we want to show <code>cty</code> (city miles per gallon) on the <span class="math inline">\(x\)</span>-axis and <code>hwy</code> (highway miles per gallon) on the <span class="math inline">\(y\)</span>-axis, we write</p>
-<div id="qwebr-insertion-location-3"></div>
+<p>Tidy data follows a clear structure that helps connect two important things:</p>
+<ul>
+<li><p><strong>Structure</strong>: how the data <em>look</em> (its physical layout – rows and columns).</p></li>
+<li><p><strong>Semantics/Meanings</strong>: What data <em>means</em> (who, what, when, where).</p></li>
+</ul>
+<section id="data-structure" class="level4" data-number="3.0.1.1">
+<h4 data-number="3.0.1.1" class="anchored" data-anchor-id="data-structure"><span class="header-section-number">3.0.1.1</span> Data Structure</h4>
+<p>Most dataset used in statistics are in the form of a <strong>data frame</strong>: a table made of <strong>rows</strong> and <strong>columns</strong>. Each column usually has a name (say <strong>label</strong>) and contains the same type of data. Each row shows one observation or one person that sometime they are labeled.</p>
+<p>Let us look at an example.</p>
+<p>This code shows a small dataset for an imaginary classroom. Each row is a student, and each column is a quiz or test.</p>
+<div id="qwebr-insertion-location-1"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>Sometimes, the same information can be arranged in different ways. Let us look at this new version of the classroom data.</p>
+<div id="qwebr-insertion-location-2"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>This table has the same information as before. But the <em>layout</em> is different – now each column is a student and each row is a test.</p>
+<p>Knowing <em>what</em> the data says is not enough – we also need to know <em>what it means</em>. So, we do not just care about “which value is in which cell?”. We also care about: “<em>what does the value represent?“,”who is it about?“,”What type of test is it?“</em>. This <strong>meaning</strong> behind the value is called <strong>semantics</strong>. So even though both tables (the original and the transposed one) contain the same <strong>values</strong>, the <strong>structure</strong> is different, and that changes how easy it is to analyze the data.</p>
 </section>
-<section id="layers" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="layers"><span class="header-section-number">2.3</span> Layers</h2>
-<p>The <em>layer</em> is the <strong>heart</strong> of any plot in <em>ggplot2</em>. A layer takes the mapped data and turns it into something that a human can see and understand – like points, lines, or bars.</p>
-<p>Each layer has three main parts: 1. <strong>Geometry</strong> – decides <em>how</em> the data is shown (for example: points, lines, bars) 2. <strong>Statistical transformation</strong> – can create <em>new values</em> from the data (like averages or smooth curves). 3. <strong>Position adjustment</strong> – controls <em>where</em> each part of the plot appears, especially when things overlap.</p>
-<p>A layer can be constructed using functions that start with <code>geom_</code> (for geometry) and <code>stat_</code> (for statistics). These function help us choose how the data looks and what to display.<br>
-::: callout-note The <code>geom_*()</code> and <code>stat_*()</code> functions usually control <strong>one</strong> part of the layer – like the geometry or the statistics – but you can still <strong>manullay</strong> choose the other two parts if you want. :::</p>
-<p>The code below shows how to make a <em>scatter plot</em> with a <em>trend line</em> using two layers:</p>
-<div id="qwebr-insertion-location-4"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-</section>
-<section id="scales" class="level2" data-number="2.4">
-<h2 data-number="2.4" class="anchored" data-anchor-id="scales"><span class="header-section-number">2.4</span> Scales</h2>
-<p>A <em>scale</em> translates what we see on the plot into something we can understand from the data – like showing how far, how big, or what category a point represents.</p>
-<p>Each scale is connected to an aesthetic – for example, the <span class="math inline">\(x\)</span>-axis, <span class="math inline">\(y\)</span>-axis, color, or size – and it controls things like - The <strong>limits</strong> of the plot (minimum and maximum values) - The <strong>breaks</strong> (where ticks or labels appear) - The <strong>format</strong> of the labels (like numbers or percentages) - Any <strong>transformation</strong> (like logarithmic scale)</p>
-<p><em>Scales</em> also create <strong>guides</strong> for the reader – like <strong>axes</strong> or <strong>legend</strong> – so we can better understand the meaning of the plot.</p>
-<p>Scale functions in <em>ggplot2</em> usually follow the format <code>scale_[aesthetic]_[type]()</code>, where <code>{aesthetic}</code> is one of the pairing made in the mapping part of a plot. For example, <code>scale_x_continuous()</code> – for a numeric <span class="math inline">\(x\)</span>-axis; <code>scale_colour_viridis_d()</code> – for discrete color with the Viridis palette.</p>
-<p>Here is how to use a custom color scale for the <code>class</code> variable in the <code>mpg</code> dataset:</p>
-<div id="qwebr-insertion-location-5"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>This tells <em>ggplot2</em> to use <strong>Viridis colors</strong> for the different car classes – making the plot easier to read and more accessible.</p>
-</section>
-<section id="facets" class="level2" data-number="2.5">
-<h2 data-number="2.5" class="anchored" data-anchor-id="facets"><span class="header-section-number">2.5</span> Facets</h2>
-<p><em>Facets</em> are used to split a plot into <strong>smaller subplots</strong>, each showing a <em>subet of the data</em>. This is helpful when you want to compare groups – for example, different years, categories, or types – in separate panels.</p>
-<p><em>Facets</em> are a powerful way to quickly see <strong>patterns</strong>, <strong>trends</strong>, or even <strong>no patterns</strong> in different parts of the data.</p>
-<p><em>Facets</em> have their own mapping, written as a formula.</p>
-<p>The following code creates one scatter plot of two variables <code>cty</code> and <code>hwy</code> of the dataset <code>mpg</code> for each combination of <code>year</code> and <code>drv</code> (driver type) in different panels; so, you can compare them side by side.</p>
-<div id="qwebr-insertion-location-6"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>In <code>facet_grid(year ~ drv)</code>, the <em>rows</em> are based on <code>year</code> and the <em>columns</em> are based on <code>drv</code>. As you see, this creates a grid of plots that makes it easy to explore how variables interact.</p>
-</section>
-<section id="coordinates" class="level2" data-number="2.6">
-<h2 data-number="2.6" class="anchored" data-anchor-id="coordinates"><span class="header-section-number">2.6</span> Coordinates</h2>
-<p>The <em>coordinates</em> is the part if the plot that controls <em>how position aesthetics</em> (like <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>) are shown. You can think of it as the <strong>interpreter</strong> that tells the plot where to place things.</p>
-<p>Most <em>ggplot2</em> plots use <strong>Cartesian coordinates</strong>, where data is shown on regular <span class="math inline">\(x\)</span>-<span class="math inline">\(y\)</span> grid. But you can also use other systems, like: <strong>Polar cooridinate</strong> (for circular plots) and <strong>Map projections</strong> (for geographic data).</p>
-<p>You can also use coordinates to make sure that one unit on the <span class="math inline">\(x\)</span>-axis is the same size as one unit on the <span class="math inline">\(y\)</span>-axis. This is called a <strong>fixed aspect ratio</strong>. The function <code>coord_fixed()</code> does this ratio automatically.</p>
-<div id="qwebr-insertion-location-7"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-</section>
-<section id="theme" class="level2" data-number="2.7">
-<h2 data-number="2.7" class="anchored" data-anchor-id="theme"><span class="header-section-number">2.7</span> Theme</h2>
-<p>The <em>theme</em> controls parts of the plot that are <strong>not related to the data</strong>, such as background, text, grid, and legend position. It helps define the <strong>overall look and feel</strong> of the plot.</p>
-<p>For instance, you can use the <em>theme</em> to: - Move or hide the <strong>legend</strong> - Change <strong>font size</strong> or <strong>colors</strong> - Set a new <strong>background style</strong> - Adjust the <strong>axes</strong> or <strong>grid lines</strong></p>
-<p>Some them settings are <strong>hierarchical</strong>, meaning that if you change the general axis style, it also changes both the <span class="math inline">\(x\)</span>-axis and <span class="math inline">\(y\)</span>-axis unless you set them separately.</p>
-<p>To change the appearance of a plot, you can use the built-in <code>theme_*()</code> functions (like <code>theme_minimal()</code>, <code>theme_classic()</code>, or <code>theme_light()</code>), or you can customize specific details using the <code>theme()</code> function. With <code>element_*()</code> functions (e.g.&nbsp;<code>element_line()</code>, <code>element_text()</code>) let you adjust the <strong>visual style</strong> of theme parts, such as lines, texts, or backgrounds.</p>
-<p>The following code creates a scatter plot and applies a minimal theme. It also moves the legend to the top, makes axis lines thicker, and colors the bottom <span class="math inline">\(x\)</span>-axis blue.</p>
-<div id="qwebr-insertion-location-8"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-</section>
-<section id="mastering-plot-layers-guided-examples-and-student-activities" class="level2" data-number="2.8">
-<h2 data-number="2.8" class="anchored" data-anchor-id="mastering-plot-layers-guided-examples-and-student-activities"><span class="header-section-number">2.8</span> Mastering Plot Layers: Guided Examples and Student Activities</h2>
-<p>As we mentioned before, a <em>ggplot2</em> is made by <strong>layering different parts</strong>. You can combine <em>data</em>, <em>mapping</em>, <em>geoms</em>, <em>scales</em>, <em>facets</em>, <em>coordinates</em>, and <em>themes</em> to build a fully customized plot.</p>
-<p>Below is an example that brings everything together:</p>
-<div id="qwebr-insertion-location-9"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<section id="data-semantics" class="level4" data-number="3.0.1.2">
+<h4 data-number="3.0.1.2" class="anchored" data-anchor-id="data-semantics"><span class="header-section-number">3.0.1.2</span> Data Semantics</h4>
+<p>A dataset is made of <strong>values</strong>. A value can be a number (if quantitative – like a test score: <code>85</code>) or a string (if qualitative – like a grade: <code>"B"</code>). but values do not live alone – they are organized in two ways:</p>
+<ol type="1">
+<li><p>Each value belongs to a <em>variable</em></p>
+<p>A <em>variable is something you are measuring.</em></p>
+<p>For example, <code>quiz1</code>, <code>quiz2</code>, <code>test1</code> are <em>variables</em> because they are types of assessments. Other examples of variables (or attributes) are: <em>height</em>, <em>temperature</em>, <em>age</em>.</p></li>
+<li><p>Each value belongs to an <em>observation</em></p>
+<p>An <em>observation</em> is all values measured for <em>one unit</em> – like one <strong>person</strong>, one <strong>day</strong>, or one <strong>race</strong>.</p>
+<p>For example, <code>"Billy"</code> is one observation – we see all his grades (quiz1, quiz2, test1).</p></li>
+</ol>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+What is Tidy Data?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Tidy data is a standard way of mapping the <strong>meaning</strong> of a dataset to its <strong>structure</strong>.</p>
+</div>
+</div>
+<p>In <strong>tidy data</strong>:</p>
+<ol type="1">
+<li>Each variable is a column; each column is a variable.</li>
+<li>Each observation is a row; each row is an observation.</li>
+<li>Each value is a cell; each cell is a single value.</li>
+</ol>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="..\figs/dplyr/tidy-1.png" class="img-fluid figure-img"></p>
+<figcaption>Following three rules makes a dataset tidy: variables are in columns, observations are in rows, and values are in cells. <span class="citation" data-cites="wickham2023">(source: <a href="#ref-wickham2023" role="doc-biblioref"><strong>wickham2023?</strong></a>)</span></figcaption>
+</figure>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>When you data follows these three rules, it is <strong>tidy</strong>. If it does not, we call it <strong>messy</strong>.</p>
+</div>
+</div>
+<p>Tidy data makes it easier for both analyst and computers to work with the data.</p>
+<p>In messy data, you often need to use different steps to get each variable. This takes more time and can lead to mistakes.</p>
+<p>Many common tasks in data analysis – like finding averages or totals – need all the values from a single variable. If your data is tidy, it is easy to get those values.</p>
+<p>The order of columns and rows does not change your analysis, but a good order can make data easier to read.</p>
+<p>A helpful way to organize your variables (columns in tidy data) is by their role:</p>
+<ul>
+<li><p><strong>Fixed variables</strong> are decided before collecting data. They describe the setup, like a person’s name or group. Actually, they describe the experimental design and are known in advance. These are called <em>dimensions</em> in computer science, and statisticians usually denote them with subscripts on random variables.</p></li>
+<li><p><strong>Measured variables</strong> are the results you collect during the study, like person’s height or test score.</p></li>
+</ul>
+<p>It is a good idea to place fixed variables first, then measured variables, and keep related ones next to each other.</p>
+<p>You can also sort the rows by one or more of the fixed variables to make the table easier to follow.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -2259,288 +2231,159 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>There is no need to type argumants.</p>
+<p>Real-world datasets are often messy and hard to work with. It is rare to get a dataset that is already tidy and ready for analysis.</p>
 </div>
 </div>
-<section id="scatter-plot-geom_point" class="level3" data-number="2.8.1">
-<h3 data-number="2.8.1" class="anchored" data-anchor-id="scatter-plot-geom_point"><span class="header-section-number">2.8.1</span> Scatter Plot – <code>geom_point()</code></h3>
-<p>A <em>scatter plot</em> shows the <strong>relationship between two numeric variables</strong>. each point on the plot represents one observation.</p>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Scatter plots are useful for seeing patterns, trends, or outliers in data.</p>
-</div>
-</div>
-<p>An example for seeing the basic scatter plot is showing how <em>height</em> (in inches) changes with <em>age</em> (in years) for each person in the dataset <em>heightweight</em>.</p>
-<div id="qwebr-insertion-location-10"></div>
+<p>Here are five most common problems in messy data:</p>
+<ol type="1">
+<li>Column headers are actually values, not variable names.</li>
+<li>One column contains more than one variable.</li>
+<li>Variables are stored in both rows and columns.</li>
+<li>Multiple types of observational units are stored in the same table.</li>
+<li>A single observational unit is stored in multiple tables.</li>
+</ol>
+<p>Even though these problems seem different, most messy dataset can be tidied with a small set of tools: <strong>pivoting</strong> (<code>pivot_longer()</code> to make the data longer (more rows) and <code>pivot_wider()</code> to make the data wider (more columns)) and separating (<code>separate()</code> to split values in one column into several columns)</p>
+<p>In the following, we will look at real examples of these problems and how to solve them.</p>
+<p><strong>Column Headers Are Values, Not Variable Name</strong></p>
+<p>Sometimes, data is formatted to look good in a report or spreadsheet – but not to be analyzed. One common issue is when <em>column names are not variable names</em>, but instead are actual data values. Let us look at an example.</p>
+<p><strong>Example 1: Religion and Income</strong></p>
+<p>The dataset <code>relig_income</code> shows how income groups are related to religion in the US. Here is what data looks like (simplified):</p>
+<div id="qwebr-insertion-location-3"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>we can customize the size of points by adding <code>size = 1.5</code> to the function <code>geom_point()</code>.</p>
-<div id="qwebr-insertion-location-11"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>Now, we can add two aesthetics: <code>shape</code> and <code>color</code>, based on the <em>sex</em> variable.</p>
-<div id="qwebr-insertion-location-12"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div id="qwebr-insertion-location-13"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>Now, we are mapping <code>colour</code> or <code>size</code> to a numeric variable (e.g.&nbsp;<em>weightLb</em>)</p>
-<div id="qwebr-insertion-location-14"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div id="qwebr-insertion-location-15"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>These plots show how weight varies with <em>age</em> and <em>height</em> using <code>color</code> or <code>size</code>.</p>
-<p>Now, we are mapping <code>colour</code> to the variable <code>sex</code> and <code>size</code> to a numeric variable <em>weightLb</em></p>
-<div id="qwebr-insertion-location-16"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page">Exercise</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Hints</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false">Solution</a></li></ul>
-<div class="tab-content">
-<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<p>Using the <em>heightweight</em> dataset, make a scatter plot to explore the relationship between <em>heightIn</em> and <em>weightLb</em> variables. Your tasks are:</p>
+<p>Each row is a <em>religion</em>, and each column after “religion” is an <em>income group</em>, but it is used as a column name, not as values in a variable. This dataset has three variables: <em>religion</em>, <em>income</em>, and <em>frequency</em>. It is not tidy.</p>
+<p><strong>How to tidy it</strong>? We want to turn this <strong>wide</strong> table into a <strong>long</strong> format. This is called <strong>pivoting longer</strong> (or making the data “<em>taller</em>”). i.e., we need to pivot the columns that are not actual variables into a <strong>pair of columns</strong>: one for the <strong>key</strong> (the variable name) and one for <strong>value</strong>. This process is often called <strong>making a wide dataset longer (or taller)</strong>.</p>
+<p>When pivoting variables, we need to give names to the two new columns that hold the key-value pairs. First, we define which columns to pivot – in this case, all columns except for <em>religion</em>. Then, we provide the name of the <strong>key</strong> column, which represents the name of variable described by the original column headings – here, that is <em>income</em>. The second if the <strong>value</strong> column, which will hold the data values – here, that is <em>frequency</em>.</p>
+<p>We do this using <code>pivot_longer()</code>. Here is how it works:</p>
+<ol type="1">
+<li>We <strong>keep</strong> the <code>religion</code> column.</li>
+<li>We <strong>pivot</strong> the other columns (the income columns)</li>
+<li>We give names to two new columns:
 <ul>
-<li><p>Use <strong>points</strong> to represent the data.</p></li>
-<li><p>Show the variable <em>sex</em> using <code>color</code> so that we can see the difference between males and females.</p></li>
-<li><p>Make the points <strong>larger than usual</strong>, with a size of <span class="math inline">\(2.5\)</span>.</p></li>
-<li><p>Finally, give your plot a <strong>title</strong> that describes what it shows, The title should be: “Height vs, Weight by Sex”</p></li>
-</ul>
-<div id="qwebr-insertion-location-17"></div>
+<li><p>The column with <strong>former column names</strong> becomes <code>income</code>.</p></li>
+<li><p>The column with the <strong>cell values</strong> becomes <code>frequency</code>.</p></li>
+</ul></li>
+</ol>
+<p>So, the code is:</p>
+<div id="qwebr-insertion-location-4"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-</div>
-<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
-<div class="hint" data-exercise="ex_1">
-<p>You will need</p>
+<p>Now, the data is tidy because 1) each <em>columns</em> is a variable, and 2) each <em>row</em> is one observation, a combination of religion and income.</p>
+<p>The <em>tidy</em> framework is also used to store observations that happen at regular time interval. For example, the <code>Billboard</code> dataset record when a song first entered the top <span class="math inline">\(100\)</span> chart. It includes variables like <em>artist</em>, <em>track</em>, <em>data.entered</em>, <em>rank</em>, and <em>week</em>. The song’s <em>rank</em> over time is recorded across <span class="math inline">\(75\)</span> columns, from <code>wk1</code> to <code>wk75</code>. While this format is not tidy, it can be helpful for entering data. It avoids repeating the same information – like the song title and artist – every week. Because of that, each song only needs one row instead of one row per week. We will explore this type of structure in more details when discussing <em>multiple types</em>.</p>
+<div id="qwebr-insertion-location-5"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>how to tidy it?</strong> Again, we use the <code>pivot_longer()</code> function. Here is how it works:</p>
+<ol type="1">
+<li>We <em>transform</em> the columns from <code>wk1</code> to <code>wk76</code> into a new column called <code>weak</code> which stores the column names.</li>
+<li>We create another column called <code>rank</code> which stores the <strong>values</strong> from those columns.</li>
+<li>We use the option <code>values_drop_na = TRUE</code> to <strong>remove missing values</strong> in the <code>rank</code> column. These missing values mean the song was not on the chart in that week, so we do not need them.</li>
+<li>After that, we clean the data a bit. we <strong>convert the <code>week</code> column to a number</strong>, and we <strong>calculate the chart date</strong> for each row based on when the song first entered the chart.</li>
+<li><strong>Finally</strong>, it is always a good idea to <strong>sort the data</strong> to make it easier to read.
 <ul>
-<li><p><code>aes(x = ______, y = ______, colour = ______)</code> -</p></li>
-<li><p><code>geom_point(size = ______)</code></p></li>
-<li><p><code>ggtitle(______)</code></p></li>
-</ul>
-</div>
-</div>
-<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
-<div class="proof solution" data-exercise="ex_1">
-<p><span class="proof-title"><em>Solution</em>. </span></p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(heightweight, <span class="fu">aes</span>(<span class="at">x =</span> weightLb, <span class="at">y =</span> heightIn, <span class="at">colour =</span> sex)) <span class="sc">+</span> </span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">2.5</span>) <span class="sc">+</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Height vs. Weight by Sex"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-</div>
-</div>
-</section>
-<section id="line-plot-geom_line" class="level3" data-number="2.8.2">
-<h3 data-number="2.8.2" class="anchored" data-anchor-id="line-plot-geom_line"><span class="header-section-number">2.8.2</span> Line Plot – <code>geom_line()</code></h3>
-<p><strong>Use when</strong>: You want to show how a variable changes over time or another ordered variable (like day, year, index)</p>
-<p><strong>What is shows</strong>: Trends, increases or decreases, cycles over time</p>
-<p><strong>Example</strong></p>
-<div id="qwebr-insertion-location-18"></div>
+<li><p>We can srot it by <code>artist</code>, <code>track</code>, and <code>week</code></p></li>
+<li><p>Or we can sort it by <code>date</code> and <code>rank</code></p></li>
+</ul></li>
+</ol>
+<div id="qwebr-insertion-location-6"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>This plot shows how unemployment has changed over time.</p>
+<div id="qwebr-insertion-location-7"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>&lt;!–#</p>
+<p>A tidy version of the classroom data looks like this: (you’ll learn how the functions work a little later)</p>
+<pre><code>library(tidyr) library(dplyr)</code></pre>
+<pre><code>classroom2 &lt;- classroom %&gt;%    pivot_longer(quiz1:test1, names_to = "assessment", values_to = "grade") %&gt;%    arrange(name, assessment) classroom2 #&gt; # A tibble: 12 × 3 #&gt;   name  assessment grade #&gt;   &lt;chr&gt; &lt;chr&gt;      &lt;chr&gt; #&gt; 1 Billy quiz1      &lt;NA&gt;  #&gt; 2 Billy quiz2      D     #&gt; 3 Billy test1      C     #&gt; 4 Jenny quiz1      A     #&gt; 5 Jenny quiz2      A     #&gt; 6 Jenny test1      B     #&gt; # ℹ 6 more rows</code></pre>
+<p>This makes the values, variables, and observations more clear. The dataset contains 36 values representing three variables and 12 observations. The variables are:</p>
+<ol type="1">
+<li></li>
+<li><p><code>name</code>, with four possible values (Billy, Suzy, Lionel, and Jenny).</p></li>
+<li></li>
+<li><p><code>assessment</code>, with three possible values (quiz1, quiz2, and test1).</p></li>
+<li></li>
+<li><p><code>grade</code>, with five or six values depending on how you think of the missing value (A, B, C, D, F, NA).</p></li>
+<li></li>
+</ol>
+<p>The tidy data frame explicitly tells us the definition of an observation. In this classroom, every combination of <code>name</code> and <code>assessment</code> is a single measured observation. The dataset also informs us of missing values, which can and do have meaning. Billy was absent for the first quiz, but tried to salvage his grade. Suzy failed the first quiz, so she decided to drop the class. To calculate Billy’s final grade, we might replace this missing value with an F (or he might get a second chance to take the quiz). However, if we want to know the class average for Test 1, dropping Suzy’s structural missing value would be more appropriate than imputing a new value.</p>
+<p>–&gt;</p>
 </section>
-<section id="barplot-geom_bar-and-geom_col" class="level3" data-number="2.8.3">
-<h3 data-number="2.8.3" class="anchored" data-anchor-id="barplot-geom_bar-and-geom_col"><span class="header-section-number">2.8.3</span> Barplot – <code>geom_bar()</code> and <code>geom_col()</code></h3>
-<p><strong>Use when</strong>: You want to compare <strong>counts</strong> or <strong>values</strong> between <strong>categories</strong>.</p>
+</section>
+<section id="introduction-to-dplyr" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="introduction-to-dplyr"><span class="header-section-number">3.1</span> Introduction to <code>dplyr</code></h2>
+<p>The <em>dplyr</em> package is designed to make it easy to work with data, like data frames. One great feature of <em>dply</em> is its <strong>consistency</strong> – the first argument of each main function is always the dataset. This makes it easier to learn: once you understand one function, it becomes easier to understand the others just by seeing examples.</p>
+<p>Another reason to use <em>dplyr</em> is that it focuses on a <strong>small number of core functions</strong>, built to do one job well. These are called <strong>verbs</strong> because they “<em>do something</em>” to the data. For example:</p>
 <ul>
-<li><p><code>geom_bar()</code> counts how many times each category appears.</p></li>
-<li><p><code>geom_col()</code> shows values you provided directly.</p></li>
+<li><p><code>select()</code> chooses certain columns, i.e., select variables by their names,</p></li>
+<li><p><code>mutate()</code> creates new variables with functions of existing variables,</p></li>
+<li><p><code>filter()</code> picks certain rows, i.e, select observations by their values,</p></li>
+<li><p><code>arrange()</code> reorders the rows,</p></li>
+<li><p><code>summarise()</code> gives summary information for groups.</p></li>
 </ul>
-<p><strong>What it shows</strong>: Frequencies or values across different categories.</p>
-<p><strong>Example</strong></p>
-<div id="qwebr-insertion-location-19"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div id="qwebr-insertion-location-20"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-</section>
-<section id="histogram-geom_histogram" class="level3" data-number="2.8.4">
-<h3 data-number="2.8.4" class="anchored" data-anchor-id="histogram-geom_histogram"><span class="header-section-number">2.8.4</span> Histogram – <code>geom_histogram()</code></h3>
-<p><strong>Use when</strong> : You want to see the <strong>distribution</strong> of a numeric variable.</p>
-<p><strong>What is shows</strong> : How values are spread across intervals (called “bins”).</p>
-<p><strong>Example</strong></p>
-<div id="qwebr-insertion-location-21"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>This plot shows many cars fall into different highway mpg ranges.</p>
-<div id="qwebr-insertion-location-22"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div id="qwebr-insertion-location-23"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-</section>
-<section id="boxplot-geom_boxplot" class="level3" data-number="2.8.5">
-<h3 data-number="2.8.5" class="anchored" data-anchor-id="boxplot-geom_boxplot"><span class="header-section-number">2.8.5</span> Boxplot – <code>geom_boxplot()</code></h3>
-<p><strong>Use when</strong>: You want to compare <strong>summary statistics</strong> (like median, quartiles, ouliers) across different groups.</p>
-<p><strong>What it shows</strong> : Median, spread, and outliers for each group.</p>
-<p><strong>Example</strong></p>
-<div id="qwebr-insertion-location-24"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div id="qwebr-insertion-location-25"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>This plot compare highway mpg for different type of vehicles.</p>
-<div id="qwebr-insertion-location-26"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div id="qwebr-insertion-location-27"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div id="qwebr-insertion-location-28"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-</section>
-<section id="violin-plot-geom_violin" class="level3" data-number="2.8.6">
-<h3 data-number="2.8.6" class="anchored" data-anchor-id="violin-plot-geom_violin"><span class="header-section-number">2.8.6</span> Violin Plot – geom_violin()</h3>
-<p><strong>Use when</strong>: You want to see the <strong>distribution shape</strong> plus summary info for groups.</p>
-<p><strong>What it shows</strong>: Like a boxplot, but with a mirrored density curve – great for showing the full distribution and comparison across groups.</p>
-<p><strong>Example</strong></p>
-<div id="qwebr-insertion-location-29"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>You can also add <strong>add points or boxplots</strong> inside the violins:</p>
-<div id="qwebr-insertion-location-30"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div id="qwebr-insertion-location-31"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div id="qwebr-insertion-location-32"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-</section>
-<section id="dot-plot-geom_dotplot" class="level3" data-number="2.8.7">
-<h3 data-number="2.8.7" class="anchored" data-anchor-id="dot-plot-geom_dotplot"><span class="header-section-number">2.8.7</span> Dot plot – <code>geom_dotplot()</code></h3>
-<p><strong>Use when</strong>: You want to show <strong>individual values</strong>, especially for small datasets.</p>
-<p><strong>Example</strong></p>
-<div id="qwebr-insertion-location-33"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-</section>
-<section id="density-plot-geom_density" class="level3" data-number="2.8.8">
-<h3 data-number="2.8.8" class="anchored" data-anchor-id="density-plot-geom_density"><span class="header-section-number">2.8.8</span> Density Plot – <code>geom_density()</code></h3>
-<p><strong>Use when</strong>: You want a <strong>smoothed version</strong> of a histogram.</p>
-<p><strong>What is shows</strong>: Estimate of the data’s distribution, good for seeing shapes or peaks.</p>
-<p><strong>Example</strong></p>
-<div id="qwebr-insertion-location-34"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>We can combine the histogram and density plot to show exact counts (histogram) and smooth distribution (density) in one plot.</p>
-<p><strong>Example</strong></p>
-<div id="qwebr-insertion-location-35"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-What is <code>after_stat(density)</code>?
+Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>In <em>ggplot2</em>, when you use <code>geom_histogram()</code>, the default <span class="math inline">\(y\)</span>-axis is <strong>count</strong> (how many observations fall in each bin). But if you write <code>aes(y = after_stat(density))</code>, you are asking <em>ggplot2</em> to scale the height of the bars so they represent probability density instead of raw counts. This allows you to compare this histogram with a density curve (like the one from <code>geom_density()</code>), which also shows density.</p>
+<p>The names of these verbs are chosen to clearly show what they do to the input data.</p>
 </div>
 </div>
-<p>This shows both <strong>frequency</strong> and <strong>smoothed distribution</strong> of highway mpg.</p>
-<div id="qwebr-insertion-location-36"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div id="qwebr-insertion-location-37"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div id="qwebr-insertion-location-38"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div id="qwebr-insertion-location-39"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-</section>
-<section id="pie-chart-using-polar-coordinates" class="level3" data-number="2.8.9">
-<h3 data-number="2.8.9" class="anchored" data-anchor-id="pie-chart-using-polar-coordinates"><span class="header-section-number">2.8.9</span> Pie Chart (using Polar Coordinates)</h3>
-<p><strong>Use when</strong>: You want to show <strong>parts of a whole</strong>, but use with caution – bar plots are often easier to read.</p>
-<p><strong>Example</strong></p>
-<div id="qwebr-insertion-location-40"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-</section>
-<section id="d-density-plot" class="level3" data-number="2.8.10">
-<h3 data-number="2.8.10" class="anchored" data-anchor-id="d-density-plot"><span class="header-section-number">2.8.10</span> 2D Density Plot</h3>
-<p>A <em>2D density plot</em> is used to show the distribution of two numeric variables. Instead of plotting each point (like in a scatter plot), it shows where points are concentrated using <strong>contour lines</strong> (<code>geom_density_2d()</code>) and <strong>filled contour areas</strong> (<code>geom_density_2d_filled()</code>).</p>
-<p><strong>Use when</strong>: you have many overlapping points (overlapping) in a scatter plot and you want to highlight patterns or clusters in two numeric variables and see a smoother version of the joint distribution.</p>
-<p><strong>Example</strong></p>
-<div id="qwebr-insertion-location-41"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>Adding points makes it easier to see what the contours represent.</p>
+<p>Besides being simple, <em>dplyr</em> is also <strong>fast</strong>. Speed is not important with small datasets, but it matters when working with hundreds of thousands of rows. Also, <em>dplyr</em> works not only with data frames, but also with other data sources, like databases. Here, we focus on data frames and tibbles. But once you know how to use <em>dplyr</em> here, you can use it with other types of data too.</p>
+<div class="callout callout-style-simple callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+A dplyr cheat sheet
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The developers of Rstudio have created a very helpful <a href="https://rstudio.github.io/cheatsheets/html/data-transformation.html">cheat sheet</a> that summarizes main functions of <em>dplyr</em>.</p>
+<p><img src="..\figs/dplyr/data-transformation.jpg" class="img-fluid"></p>
+</div>
+</div>
+<section id="subset-variables-with-select" class="level3" data-number="3.1.1">
+<h3 data-number="3.1.1" class="anchored" data-anchor-id="subset-variables-with-select"><span class="header-section-number">3.1.1</span> Subset variables with <code>select()</code></h3>
+<p>We use <code>select()</code> function to choose specific variables (columns) from a data frame or tibble. This is helpful when our dataset has many variables, but we only want to work with a few of them.</p>
+<p>The basic structure of <code>select()</code> looks like this</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(faithful, <span class="fu">aes</span>(<span class="at">x =</span> waiting, <span class="at">y =</span> eruptions)) <span class="sc">+</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Add Data Points for Context</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density_2d</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="chapter2_data_visualization_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(<span class="sc">&lt;</span>data<span class="sc">&gt;</span>, <span class="sc">&lt;</span>variable<span class="dv">-1</span><span class="sc">&gt;</span>, <span class="sc">&lt;</span>variable<span class="dv">-2</span><span class="sc">&gt;</span>, ...)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
 </div>
 </div>
-</div>
-<p>The following code results in a plot that shows filled bands of density that it is great for visual impact.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(faithful, <span class="fu">aes</span>(<span class="at">x =</span> eruptions, <span class="at">y =</span> waiting)) <span class="sc">+</span> </span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density_2d_filled</span>(<span class="at">alpha =</span> <span class="fl">0.6</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="chapter2_data_visualization_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
+<div class="callout-body-container callout-body">
+<p>This is <strong>not real R code</strong> you can run – it’s <strong>pseudocode</strong> that shows how the function is used in general.</p>
 </div>
 </div>
-</div>
-<p>Combining points and filled contours gives both <strong>precision</strong> and <strong>overview</strong>.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(faithful, <span class="fu">aes</span>(<span class="at">x =</span> eruptions, <span class="at">y =</span> waiting)) <span class="sc">+</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density_2d_filled</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="chapter2_data_visualization_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>You can map density levels to <strong>color</strong> using <code>after_stat(level)</code></p>
-<div id="qwebr-insertion-location-42"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>You can also different code to produce the plot.</p>
-<div id="qwebr-insertion-location-43"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-</section>
-<section id="d-binned-plot-for-big-data-stat_bin2d" class="level3" data-number="2.8.11">
-<h3 data-number="2.8.11" class="anchored" data-anchor-id="d-binned-plot-for-big-data-stat_bin2d"><span class="header-section-number">2.8.11</span> 2D Binned Plot for Big Data – <code>stat_bin2d()</code></h3>
-<p><strong>Use when</strong>: You have a lot of points and scatter plots are too dense.</p>
-<p><strong>Example</strong></p>
-<div id="qwebr-insertion-location-44"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-</section>
-<section id="frequency-polygon-geom_freqpoly" class="level3" data-number="2.8.12">
-<h3 data-number="2.8.12" class="anchored" data-anchor-id="frequency-polygon-geom_freqpoly"><span class="header-section-number">2.8.12</span> Frequency Polygon – <code>geom_freqpoly()</code></h3>
-<p>A <em>frequency plot</em> is similar to a histogram, but it uses <strong>lines instead of bars</strong> to show how a variable is distributed. It is especially useful when you want to <strong>compare distributions across groups</strong>.</p>
-<p><strong>Use when</strong>: You want to show the shape of a distribution and also compare multiple groups using lines (which may be easier to read than overlapping histograms).</p>
-<p><strong>Examples</strong></p>
-<div id="qwebr-insertion-location-45"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div id="qwebr-insertion-location-46"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-</section>
-<section id="correlation-plot-cor-plot" class="level3" data-number="2.8.13">
-<h3 data-number="2.8.13" class="anchored" data-anchor-id="correlation-plot-cor-plot"><span class="header-section-number">2.8.13</span> Correlation Plot (Cor plot)</h3>
-<p>A <em>correlation plot</em> (or <em>cor plot</em>) is a visual way to show how strongly variables are related to each other. Correlation values range from <span class="math inline">\(-1\)</span> to <span class="math inline">\(1\)</span>, and the plot helps you quickly see positive, negative, or no relationships.</p>
-<p>This is not built into <em>ggplot2</em>, but we can use it together with</p>
+<p>Let us break down what each part means:</p>
 <ul>
-<li><p>The <code>cor()</code> function to compute correlation</p></li>
-<li><p>The <code>corrplot</code> or <code>ggcorrplot</code> package to visualize it.</p></li>
+<li><p>The first argument, <code>&lt;data&gt;</code>, is the name of the dataset. This is required – <em>dplyr</em> functions only work when we give them data.</p></li>
+<li><p>The other arguments are the names of the variables we want to keep. For example, <code>&lt;variable-1&gt;</code> and <code>&lt;variable-2&gt;</code> are the first two variables we are selecting. The <code>...</code> means we can keep adding more variable names if needed.</p></li>
 </ul>
-<p><strong>Example using <code>ggcorrplot</code></strong></p>
-<div id="qwebr-insertion-location-47"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p><strong>Example using <code>corrplot</code></strong></p>
-<div id="qwebr-insertion-location-48"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+</section>
+<section id="creating-variables-with-mutate" class="level3" data-number="3.1.2">
+<h3 data-number="3.1.2" class="anchored" data-anchor-id="creating-variables-with-mutate"><span class="header-section-number">3.1.2</span> Creating variables with <code>mutate</code></h3>
+<p>We use <code>mutate()</code> to add a new variables (columns) to a data frame or tibble. This is helpful when we want to create new variables based on existing ones, for example to help analysis.</p>
+<p>The basic form of <code>mutate()</code> looks like this</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mutate</span>(<span class="sc">&lt;</span>data<span class="sc">&gt;</span>, <span class="sc">&lt;</span>expression<span class="dv">-1</span><span class="sc">&gt;</span>, <span class="sc">&lt;</span>expression<span class="dv">-2</span><span class="sc">&gt;</span>, ...)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><p>The first part, <code>&lt;data&gt;</code>, is the name of your dataset.</p></li>
+<li><p>The other parts, <code>&lt;expression-1&gt;</code>, <code>&lt;expression-2&gt;</code>, and so on, are formulas that create new variables. These expressions can use the columns already in the dataset.</p></li>
+<li><p>the <code>...</code> means you can add as many expressions as you like.</p>
+<p>Each expression usually gives a name to a new columns and defines what goes in it. Most of the time it is a simple calculation, but it can be more complex if needed.</p></li>
+</ul>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
-<div id="ref-Wickham2019" class="csl-entry" role="listitem">
-Wickham, Hadley, Danielle Navarro, and Thomas Lin Pederson. 2019. <em>Ggplot2: Elegant Graphics for Data Analysis</em>. 3rd ed. <a href="https://ggplot2-book.org/">https://ggplot2-book.org/</a>.
-</div>
-</div>
 </section>
 </section>
 
@@ -2946,14 +2789,11 @@ Wickham, Hadley, Danielle Navarro, and Thomas Lin Pederson. 2019. <em>Ggplot2: E
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../chapters/chapter1_data_ethics.html" class="pagination-link" aria-label="Data Ethics">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Data Ethics</span></span>
+      <a href="../chapters/chapter2_data_visualization.html" class="pagination-link" aria-label="Data Visualization">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Data Visualization</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../chapters/chapter3_dplyr.html" class="pagination-link" aria-label="Getting ready to use `dplyr`">
-        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Getting ready to use <code>dplyr</code></span></span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->

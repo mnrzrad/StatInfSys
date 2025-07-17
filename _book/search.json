@@ -140,5 +140,27 @@
       "EDA",
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Data Visualization</span>"
     ]
+  },
+  {
+    "objectID": "chapters/chapter3_dplyr.html",
+    "href": "chapters/chapter3_dplyr.html",
+    "title": "3  Getting ready to use dplyr",
+    "section": "",
+    "text": "3.0.1 Prerequisites\ndplyr will work with any dataframe. However, it is most powerful when data are organized according to tidy data conversions for datasets\nIn data analysis, it is common to spend a lot of time cleaning and preparing the data – sometimes more then \\(80\\%\\) of the total time!\nAnd it is not something you do only once — cleaning may need to be repeated during the project as you discover new problems or add more data.\nOne important part of cleaning is called data tidying. This means organizing the data in a clear and useful way so it is easier to work with.\nTidy data follows some simple rules that help us:\nWhen data is tidy, different tools can “speak the same language.” This means you do not waste time reformatting your data for each new function or package.\nTidy data follows a clear structure that helps connect two important things:",
+    "crumbs": [
+      "EDA",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Getting ready to use `dplyr`</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/chapter3_dplyr.html#introduction-to-dplyr",
+    "href": "chapters/chapter3_dplyr.html#introduction-to-dplyr",
+    "title": "3  Getting ready to use dplyr",
+    "section": "3.1 Introduction to dplyr",
+    "text": "3.1 Introduction to dplyr\nThe dplyr package is designed to make it easy to work with data, like data frames. One great feature of dply is its consistency – the first argument of each main function is always the dataset. This makes it easier to learn: once you understand one function, it becomes easier to understand the others just by seeing examples.\nAnother reason to use dplyr is that it focuses on a small number of core functions, built to do one job well. These are called verbs because they “do something” to the data. For example:\n\nselect() chooses certain columns, i.e., select variables by their names,\nmutate() creates new variables with functions of existing variables,\nfilter() picks certain rows, i.e, select observations by their values,\narrange() reorders the rows,\nsummarise() gives summary information for groups.\n\n\n\n\n\n\n\nNote\n\n\n\nThe names of these verbs are chosen to clearly show what they do to the input data.\n\n\nBesides being simple, dplyr is also fast. Speed is not important with small datasets, but it matters when working with hundreds of thousands of rows. Also, dplyr works not only with data frames, but also with other data sources, like databases. Here, we focus on data frames and tibbles. But once you know how to use dplyr here, you can use it with other types of data too.\n\n\n\n\n\n\nA dplyr cheat sheet\n\n\n\nThe developers of Rstudio have created a very helpful cheat sheet that summarizes main functions of dplyr.\n\n\n\n\n3.1.1 Subset variables with select()\nWe use select() function to choose specific variables (columns) from a data frame or tibble. This is helpful when our dataset has many variables, but we only want to work with a few of them.\nThe basic structure of select() looks like this\n\nselect(&lt;data&gt;, &lt;variable-1&gt;, &lt;variable-2&gt;, ...)\n\n\n\n\n\n\n\nNote\n\n\n\nThis is not real R code you can run – it’s pseudocode that shows how the function is used in general.\n\n\nLet us break down what each part means:\n\nThe first argument, &lt;data&gt;, is the name of the dataset. This is required – dplyr functions only work when we give them data.\nThe other arguments are the names of the variables we want to keep. For example, &lt;variable-1&gt; and &lt;variable-2&gt; are the first two variables we are selecting. The ... means we can keep adding more variable names if needed.\n\n\n\n3.1.2 Creating variables with mutate\nWe use mutate() to add a new variables (columns) to a data frame or tibble. This is helpful when we want to create new variables based on existing ones, for example to help analysis.\nThe basic form of mutate() looks like this\n\nmutate(&lt;data&gt;, &lt;expression-1&gt;, &lt;expression-2&gt;, ...)\n\n\nThe first part, &lt;data&gt;, is the name of your dataset.\nThe other parts, &lt;expression-1&gt;, &lt;expression-2&gt;, and so on, are formulas that create new variables. These expressions can use the columns already in the dataset.\nthe ... means you can add as many expressions as you like.\nEach expression usually gives a name to a new columns and defines what goes in it. Most of the time it is a simple calculation, but it can be more complex if needed.",
+    "crumbs": [
+      "EDA",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Getting ready to use `dplyr`</span>"
+    ]
   }
 ]
