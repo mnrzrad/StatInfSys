@@ -8,6 +8,8 @@ filters:
 ```{r}
 #| echo: false
 library(fontawesome)
+library(ggplot2)
+library(MASS)
 ```
 
 The most famous package in R that is used for visualizing of data is **ggplot2** that is based on the grammar *of graphics*. It allows you to \`speak' a graph from composable elements, instead of being limited to a predefined set of charts.
@@ -561,7 +563,7 @@ geom_density() +
 coord_cartesian(xlim = c(35, 105)) 
 ```
 
-### Pie Chart (using Polar Coordinates) 
+### Pie Chart (using Polar Coordinates)
 
 **Use when**: You want to show **parts of a whole**, but use with caution – bar plots are often easier to read.
 
@@ -580,7 +582,7 @@ ggplot(df, aes(x = "", y = count, fill = category)) +
 
 ```
 
-### 2D Density Plot 
+### 2D Density Plot
 
 A *2D density plot* is used to show the distribution of two numeric variables. Instead of plotting each point (like in a scatter plot), it shows where points are concentrated using **contour lines** (`geom_density_2d()`) and **filled contour areas** (`geom_density_2d_filled()`).
 
