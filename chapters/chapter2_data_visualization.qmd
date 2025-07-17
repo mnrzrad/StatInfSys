@@ -1,6 +1,9 @@
 ---
 filters: 
   - webr
+packages:
+  - ggplot2
+  - MASS
 ---
 
 # Data Visualization

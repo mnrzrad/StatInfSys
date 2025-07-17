@@ -10,7 +10,7 @@ book:
     - part: "EDA"
       chapters: 
         - chapters/chapter1_data_ethics.qmd
-        - chapters/chapter2_data_visualization.qmd
+        
         
 bibliography: references.bib
 
