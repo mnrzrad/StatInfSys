@@ -1,11 +1,5 @@
 ---
-webr:
-  show-startup-message: false # status of webR initialization
-  show-header-message: false  # HTTP Header Check
-  packages: # Pre-install dependencies
-    - ggplot2
-    - MASS
-    - dplyr
+engine: knitr
 filters: 
   - webr
 ---
@@ -296,8 +290,7 @@ Using the *heightweight* dataset, make a scatter plot to explore the relationshi
 
 -   Finally, give your plot a **title** that describes what it shows, The title should be: "Height vs, Weight by Sex"
 
-```{webr}
-#| setup: true
+```{webr-r}
 #| exercise: ex_1
 library(gcookbook)
 library(ggplot2)
