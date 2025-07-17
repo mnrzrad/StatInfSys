@@ -1,9 +1,13 @@
 ---
+webr:
+  show-startup-message: false # status of webR initialization
+  show-header-message: false  # HTTP Header Check
+  packages: # Pre-install dependencies
+    - ggplot2
+    - MASS
+    - dplyr
 filters: 
   - webr
-packages:
-  - ggplot2
-  - MASS
 ---
 
 # Data Visualization
