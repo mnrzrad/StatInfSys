@@ -5,340 +5,865 @@ filters:
 
 ```{r}
 #| echo: false
+#| warning: false
 library(tidyr)
 library(dplyr)
 ```
 
-# Getting ready to use `dplyr`
+# Getting Started with `dplyr`
 
-*dplyr* will work with any dataframe. However, it is most powerful when data are organized according to **tidy data** conversions for datasets
+The *dplyr* package is a part of the R [tidyverse](https://www.tidyverse.org/) : an ecosystem of several libraries designed to work together by representing data in common formats.
+
+::: callout-caution
+To load the *dplyr* package, you can install and load it as a standalone package or load the *tidyverse*.
+:::
+
+::: callout-note
+**Tidyverse includes:**
+
+the [*dplyr*](https://dplyr.tidyverse.org/) for data manipulation, the [*ggplot2*](https://ggplot2.tidyverse.org/)for data visualization, the [*stringr*](https://stringr.tidyverse.org/)for string manipulation, the [*readr*](https://readr.tidyverse.org/)for data importing, the [*tibble*](https://tibble.tidyverse.org/)which extends data frame objects, the [*tidyr*](https://tidyr.tidyverse.org/) for tidy data, the [*purr*](https://purrr.tidyverse.org/)for working with functions and vectors, the [*forcats*](https://forcats.tidyverse.org/) for factors, the [*lubridate*](https://lubridate.tidyverse.org/) for date-times.
+:::
+
+The *data frame* is a key data structure in statistics and in R. The basic structure of a data frame is that there is one observation per ro and each column represents a variable, a measure, feature, or characteristic of that observation. Given the importance of managing data frames, it is important that we have good tools for dealing with them.
 
 ::: {.callout-note appearance="simple" icon="false"}
-## Tidy datasets are all alike, but every messy dataset is messy in its own way – Hadley Wickam
+Imagine you have a big box of cookies, and you want to find all the chocolate chip cookies, count how many you have, and then sort them by size. The **dplyr** is like a super-smart helper that makes it easy to do all these tasks and more!!
 :::
 
-### Prerequisites
+The `dplyr` package is a relatively new R package that allows you to do all kinds of analyses quickly and easily.
 
-In data analysis, it is common to spend a lot of time cleaning and preparing the data – sometimes more then $80\%$ of the total time!
+::: callout-tip
+It is especially useful for creating tables of summary statistics across specific groups of data.
+:::
 
-And it is not something you do only once — cleaning may need to be repeated during the project as you discover new problems or add more data.
-
-One important part of cleaning is called **data tidying**. This means organizing the data in a clear and useful way so it is easier to work with.
-
-Tidy data follows some simple rules that help us:
-
--   Use the same format every time.
-
--   Make data easy to explore, analyze, and visualize.
-
--   Save time by avoiding confusion when switching between tools.
-
-When data is tidy, different tools can "speak the same language." This means you do not waste time reformatting your data for each new function or package.
+One important contribution of the `dplyr` package is that it provides a "grammar" (in particular, verbs) for data manipulating and for operating on data frames. With this grammar, you can sensibly communicate what it is that you are doing to a data frame that other people can understand (assuming they also know the grammar). This is useful because it provides an abstraction for data manipulation that previously did not exist.
 
 ::: callout-important
-With tidy data, you can **focus on your real question** – not on fixing messy files!
+Programming with `dplyr` look a lot different than programming in standard R. The `dplyr` works by combining objects (data frames and columns in data frames), functions (mean, median, etc.), and **verbs** (special commands in `dplyr`).
 :::
-
-Tidy data follows a clear structure that helps connect two important things:
-
--   **Structure**: how the data *look* (its physical layout – rows and columns).
-
--   **Semantics/Meanings**: What data *means* (who, what, when, where).
-
-#### Data Structure
-
-Most dataset used in statistics are in the form of a **data frame**: a table made of **rows** and **columns**. Each column usually has a name (say **label**) and contains the same type of data. Each row shows one observation or one person that sometime they are labeled.
-
-Let us look at an example.
-
-This code shows a small dataset for an imaginary classroom. Each row is a student, and each column is a quiz or test.
-
-```{webr-r}
-library(tibble)
-
-classroom <- tribble(
-  ~name,    ~quiz1, ~quiz2, ~test1,
-  "Billy",  NA,     "D",    "C",
-  "Suzy",   "F",    NA,     NA,
-  "Lionel", "B",    "C",    "B",
-  "Jenny",  "A",    "A",    "B"
-)
-
-classroom
-
-```
-
-Sometimes, the same information can be arranged in different ways. Let us look at this new version of the classroom data.
-
-```{webr-r}
-tribble(
-  ~assessment, ~Billy, ~Suzy, ~Lionel, ~Jenny,
-  "quiz1",     NA,     "F",   "B",     "A",
-  "quiz2",     "D",    NA,    "C",     "A",
-  "test1",     "C",    NA,    "B",     "B"
-)
-```
-
-This table has the same information as before. But the *layout* is different – now each column is a student and each row is a test.
-
-Knowing *what* the data says is not enough – we also need to know *what it means*. So, we do not just care about "which value is in which cell?". We also care about: "*what does the value represent?", "who is it about?", "What type of test is it?"*. This **meaning** behind the value is called **semantics**. So even though both tables (the original and the transposed one) contain the same **values**, the **structure** is different, and that changes how easy it is to analyze the data.
-
-#### Data Semantics
-
-A dataset is made of **values**. A value can be a number (if quantitative – like a test score: `85`) or a string (if qualitative – like a grade: `"B"`). but values do not live alone – they are organized in two ways:
-
-1.  Each value belongs to a *variable*
-
-    A *variable is something you are measuring.*
-
-    For example, `quiz1`, `quiz2`, `test1` are *variables* because they are types of assessments. Other examples of variables (or attributes) are: *height*, *temperature*, *age*.
-
-2.  Each value belongs to an *observation*
-
-    An *observation* is all values measured for *one unit* – like one **person**, one **day**, or one **race**.
-
-    For example, `"Billy"` is one observation – we see all his grades (quiz1, quiz2, test1).
 
 ::: callout-important
-## What is Tidy Data?
-
-Tidy data is a standard way of mapping the **meaning** of a dataset to its **structure**.
+In between the commands in `dplyr` is a new operator called the **pipe** which looks like this `%>%` or in the recent versions, like this `|>` . The pip tells R that you want to continue executing functions or verbs on the object you are working on. you can think about this pip as meaning '*and then ...'*
 :::
-
-In **tidy data**:
-
-1.  Each variable is a column; each column is a variable.
-2.  Each observation is a row; each row is an observation.
-3.  Each value is a cell; each cell is a single value.
-
-![Following three rules makes a dataset tidy: variables are in columns, observations are in rows, and values are in cells. [source: @wickham2023]](/figs/dplyr/tidy-1.png)
-
-::: callout-important
-When you data follows these three rules, it is **tidy**. If it does not, we call it **messy**.
-:::
-
-Tidy data makes it easier for both analyst and computers to work with the data.
-
-In messy data, you often need to use different steps to get each variable. This takes more time and can lead to mistakes.
-
-Many common tasks in data analysis – like finding averages or totals – need all the values from a single variable. If your data is tidy, it is easy to get those values.
-
-The order of columns and rows does not change your analysis, but a good order can make data easier to read.
-
-A helpful way to organize your variables (columns in tidy data) is by their role:
-
--   **Fixed variables** are decided before collecting data. They describe the setup, like a person's name or group. Actually, they describe the experimental design and are known in advance. These are called *dimensions* in computer science, and statisticians usually denote them with subscripts on random variables.
-
--   **Measured variables** are the results you collect during the study, like person's height or test score.
-
-It is a good idea to place fixed variables first, then measured variables, and keep related ones next to each other.
-
-You can also sort the rows by one or more of the fixed variables to make the table easier to follow.
 
 ::: callout-note
-Real-world datasets are often messy and hard to work with. It is rare to get a dataset that is already tidy and ready for analysis.
+Special commands called **verbs** because they "do something" to the data.
 :::
 
-Here are five most common problems in messy data:
+Some of the key "*verbs*" provided by the `dplyr` package are
 
-1.  Column headers are actually values, not variable names.
-2.  One column contains more than one variable.
-3.  Variables are stored in both rows and columns.
-4.  Multiple types of observational units are stored in the same table.
-5.  A single observational unit is stored in multiple tables.
+-   `select()` : chooses certain columns, i.e., select variables by their names,
 
-Even though these problems seem different, most messy dataset can be tidied with a small set of tools: **pivoting** (`pivot_longer()` to make the data longer (more rows) and `pivot_wider()` to make the data wider (more columns)) and separating (`separate()` to split values in one column into several columns)
+-   `filter()` : extract certain rows, i.e, select observations by their values,
 
-In the following, we will look at real examples of these problems and how to solve them.
+-   `mutate()` : creates new variables/columns or transform existing variables,
 
-**Column Headers Are Values, Not Variable Name**
+-   `arrange()` : reorders rows of a data frame
 
-Sometimes, data is formatted to look good in a report or spreadsheet – but not to be analyzed. One common issue is when *column names are not variable names*, but instead are actual data values. Let us look at an example.
+-   `rename()` : rename variables in a data frame
 
-**Example 1: Religion and Income**
+-   `summarise()` / `summarize()` : gives summary information for different variables in data frame
 
-The dataset `relig_income` shows how income groups are related to religion in the US. Here is what data looks like (simplified):
+-   `%>%` or `|>` : the "pipe" operator is used to connect multiple verb actions together into a pipeline.
+
+To install the `dplyr` package from CRAN, just run
+
+```{r}
+#| eval: false
+install.packages("dplyr")
+```
+
+::: callout-tip
+Another way to get `dplyr` package is to install the whole `tidyverse` .
+:::
+
+After installing the package, it is important to load it into the R session.
+
+```{webr-r}
+library(dplyr)
+```
+
+::: callout-warning
+You may get some warnings when the package is loaded because there are functions in the `dplyr` package that have the same name ad functions in other packages.
+:::
+
+::: callout-note
+Note that all functions in the `dplyr` package require tidy data, which means that
+
+-   each variable is in its own column,
+
+-   each observation, or case, is in its own row
+
+-   each value is in its own cell
+
+    ![Rules of a tidy data frame: variables are columns, observations are rows, and values are cells. Source: \@Wickham2023](/figs/dplyr/tidy-1.png)
+:::
+
+To better understanding, let us continue within analyzing a dataset, `penguins`, available within the [*palmerpenguins*](https://cran.r-project.org/web/packages/palmerpenguins/) package. we need to load the dataset and if it is necessary, we need to install the package.
+
+```{r}
+#| eval: false
+install.packages("palmerpenguins")
+
+library("palmerpenguins")
+```
+
+‌The data frame contain data for $344$ penguins and $8$ variables describing the species (`species`), the island (`island`), some measurements of the size of the bill (`bill_length_mm` and `bill_depth_mm`), flipper (`flipper_length_mm`) and body mass (`body_mass_g`), the sex (`sex`) and the study year (`year`). More information about the data frame can be found by running `?penguins` .
+
+You can see some basic characteristics of the dataset with the `dim()` and `str()` functions.
+
+```{webr-r}
+library(palmerpenguins)
+
+data(penguins)
+
+dim(penguins)
+```
+
+```{webr-r}
+str(penguins)
+```
+
+The first and last 6 rows can be displayed by `head()` and `tail()`, respectively.
+
+```{webr-r}
+head(penguins)
+```
+
+```{webr-r}
+tail(penguins)
+```
+
+The summary information of data frame can be found by `summary()` .
+
+```{webr-r}
+summary(penguins)
+```
+
+## Filter observations - `filter()`
+
+This function works on both quantitative and qualitative variables.
+
+```{webr-r}
+# filter observations based on a quantitative variable
+filter(penguins, body_mass_g > 4000)
+```
+
+```{webr-r}
+# filter observations based on a qualitative variable
+filter(penguins, sex == 'female')
+```
+
+You can combine multiple conditions using `&` if all conditions must be true (cumulative), or `|` if at least one condition must be true (alternative). For example,
+
+```{webr-r}
+# filter observations based on 2 cumulative condistions
+filter(penguins, body_mass_g > 4000 & sex == "female")
+```
+
+::: callout-note
+Variable names should be used directly, without enclosing them in single or double quotation marks (`'` or `"`).
+:::
+
+As you can see, the `filter()` functions require the name of the data frames as the first argument, then the condition (with the usual logical operators `>`, `<`, `>=`, `<=`, `==`, `!=`, `%in%`, etc.) as second argument.
+
+::: callout-caution
+To use any functions in the `dplyr` package, you **must** specify the data frame's name as the first argument. Alternatively, you can use the pipe operator (`|>` or `%>%` ) to avoid explicitly naming the data frame within each function.
+:::
+
+:::: callout-tip
+The keyboard shortcut for the pipe operator is `ctrl+shift+M` on Windows or `cmd + shift + M` on Mac. By default, this will produce `%>%`, but if you have configured RStudio to use the native pipe operator, it will print `|>` .
+
+::: callout-note
+the `%>%` pipe, originating from the **`magrittr` package** (included in the `tidyverse`), was superseded in R 4.1.0 (released in 2021) by the native `|>` pipe. We recommend `|>` because it's a simpler, built-in feature of **base R**, always available without needing additional package loads.
+:::
+::::
+
+::: callout-important
+The pipe operator lets you **chain multiple operations together**, which is especially handy for performing several calculations on a data frame without saving the result of each intermediate step.
+:::
+
+So with the pipe operator, the code above becomes:
+
+```{webr-r}
+# filter observations based on a quantitative variable
+penguins |> 
+  filter(body_mass_g > 4000)
+```
+
+```{webr-r}
+# filter observations based on a qualitative variable
+penguins |>
+  filter(sex == "female")
+```
+
+```{webr-r}
+# filter observations based on 2 cumulative conditions
+penguins |>
+  filter(body_mass_g > 4000 & sex == "female")
+```
+
+::: callout-note
+The pipe operator **streamlines your code by feeding the output of one operation directly into the next**, making your code much easier to write and read.
+:::
+
+Instead of listing the data frame's name as the initial argument within functions like `filter()` (or other `{dplyr}` functions), you simply specify the data frame once, then use the pipe operator to connect it to the desired function.
+
+## Extract observations
+
+You can extract observations from a dataset based on either their **positions** or their **values**.
+
+### Based on Their Positions
+
+To extract observations based on their positions, you can use the `slice()` function.
+
+```{webrr}
+# extract rows 2, 5 and 37
+penguins |>
+  slice(c(2, 5, 37))
+```
+
+Furthermore, for extracting specific rows like the first or last, you can use specialized functions:
+
+-   `slice_head()`: Extracts rows from the beginning of the dataset.
+
+-   `slice_tail()`: Extracts rows from the end of the dataset.
+
+```{webr-r}
+# extract first 3 rows
+penguins |>
+  slice_head(n = 3)
+```
+
+```{webr-r}
+# extract last 3 rows
+penguins |>
+  slice_tail(n = 3)
+```
+
+### Based on their values
+
+When you need to extract observations based on the **values** of a variable, you can use:
+
+-   **`slice_min()`**: Selects rows with the **lowest values**, allowing you to define a specific proportion.
+
+-   **`slice_max()`**: Selects rows with the **highest values**, also with the option to define a proportion.
+
+```{webr-r}
+# extract observations with 25% lowest body mass
+penguins |>
+  slice_min(body_mass_g, prop = 0.25)
+```
+
+```{webr-r}
+# extract observations with 25% highest body mass
+penguins |>
+  slice_max(body_mass_g, prop = 0.25)
+
+```
+
+## Sample Observations
+
+Sampling observations can be achieved in two ways:
+
+1.  **`sample_n()`**: Takes a **random sample of a specified number of rows**.
+
+2.  **`sample_frac()`**: Takes a **random sample of a specified fraction of rows**.
+
+```{webr-r}
+# random sample of 3 rows
+penguins |>
+  sample_n(size = 3)
+```
+
+```{webr-r}
+# random sample of 50% of the rows
+penguins  |>
+  sample_frac(size = 0.50)
+```
+
+::: callout-note
+It is important to note that, similar to the base R `sample()` function, the `size` argument can exceed the total number of rows in your data frame. If this happens, some rows will be duplicated, and you will need to explicitly set the argument `replace = TRUE`.
+:::
+
+Alternatively, you can obtain a random sample (either a specific number or a fraction of rows) using **`slice_sample()`**. For this, you use:
+
+-   The argument **`n`** to select a **specific number of rows**.
+
+-   The argument **`prop`** to select a **fraction of rows**.
+
+```{webr-r}
+# random sample of 3 rows
+penguins |> 
+  slice_sample(n = 3)
+```
+
+```{webr-r}
+# random sample of 50% of the row
+penguins |> 
+  slice_sample(prop = 0.5)
+```
+
+## Sort observations
+
+Observations can be sorted using the **`arrange()`** function.
+
+```{webr-r}
+# sort observation based on body mass (asceding order)
+penguins |> 
+  arrange(body_mass_g)
+```
+
+By default, `arrange()` sorts in **ascending order**. To sort in **descending order**, simply use `desc()` within the `arrange()` function, like `arrange(desc(variable_name))`.
+
+```{webr-r}
+# sort observations based on body mass (descending order)
+penguins |>
+  arrange(desc(body_mass_g))
+```
+
+Similar to `filter()`, `arrange()` can sort by **multiple variables** and works with both **quantitative (numerical)** and **qualitative (categorical)** variables. For example, `arrange(sex, body_mass)` would first sort by `sex` (alphabetical order) and then by `body_mass` (ascending, from lowest to highest).
+
+```{webr-r}
+# sort observations based on two variables
+penguins |>
+  arrange(sex, body_mass_g)
+```
+
+::: callout-important
+It is important to note that if a qualitative variable is defined as an **ordered factor**, the sorting will follow its **defined level order**, not alphabetical order.
+:::
+
+## Select variables 
+
+You can select variables using the `select()` function based on their **position** or **name**.
+
+```{webr-r}
+# select variables by their positions
+penguins |>
+  select(c(2, 4))
+```
+
+```{webr-r}
+# select variables by their names
+penguins |>
+  select(body_mass_g, year)
+```
+
+To remove variables, use a **`-` sign** before their position or name.
+
+```{webr-r}
+# remove variables by their positions
+penguins |>
+  select(-c(2, 4))
+```
+
+```{webr-r}
+# remove variables by their names
+penguins |>
+  select(-c(body_mass_g, year))
+```
+
+You can also select a **sequence of variables by name** (e.g., `select(df, var1:var5)`).
+
+```{webr-r}
+# select all variables from species to sex
+penguins |>
+  select(species:sex)
+```
+
+Furthermore, `select()` provides a straightforward way to **rearrange column order** in your data frame.
+
+```{webr-r}
+# put sex as first column, then all the others
+penguins |>
+  select(sex, species:year)
+```
+
+## Renaming Variables
+
+To rename variables, use the `rename()` function.
+
+```{webr-r}
+# rename variables
+penguins |>
+  rename(
+    body_mass = body_mass_g, # rename body_mass_g into body_mass
+    study_year = year # rename year into study_year
+  )
+```
+
+Remember the syntax: **`new_name = old_name`**. This means you always write the desired new name first, followed by an equals sign, and then the current old name of the variable.
+
+## Create or Modify Variables
+
+The `mutate()` function allows you to **create new variables** or **modify existing ones**. You can base these operations on *another existing variabl*e or *a vector* of your choice.
+
+```{webr-r}
+# create a new variable based on an existing one
+penguins |>
+  mutate(
+    body_mass_kg = body_mass_g / 1000
+  )
+```
+
+```{webr-r}
+# create a new variable from a vector of your choice
+penguins |>
+  mutate(
+    ID = 1:nrow(dat)
+  )
+```
+
+::: callout-note
+If you create a variable with a name that already exists, the **old variable will be overwritten**.
+:::
+
+Similar to `rename()`, `mutate()` requires the argument to be in the format `name = expression`, where `name` is the column being created or modified, and `expression` is the formula for its values.
+
+## Summarize Observations
+
+To get descriptive statistics of your data, use the **`summarize()`** (or `summarise()`) function in conjunction with statistical functions like `mean()`, `median()`, `min()`, `max()`, `sd()`, `var()`, etc.
+
+```{webr-r}
+# compute mean and sd of body mass
+penguins |>
+  summarize(
+    body_mass_mean = mean(body_mass_g, na.rm = TRUE),
+    body_mass_sd = sd(body_mass_g, na.rm = TRUE)
+  )
+```
+
+Remember to use `na.rm = TRUE` to **exclude missing values** from calculations.
+
+## Identify Distinct Values
+
+The `distinct()` function helps you find **unique values** within a variable.
+
+```{webr-r}
+# find the distinct species
+penguins |>
+  distinct(species)
+```
+
+While typically used for qualitative or quantitative discrete variables, it works for any variable type and can identify **unique combinations of values** when multiple variables are specified. For instance, `distinct(species, study_year)` would return all unique combinations of species and study year.
+
+```{webr-r}
+# combination of distinct species and year
+penguins |>
+  distinct(species, year)
+```
+
+## Group By
+
+The **`group_by()`** function changes how subsequent operations are performed. Instead of applying functions to the entire data frame, operations will be applied to **each defined group of rows**. This is particularly useful with `summarize()`, as it will produce statistics for **each group** rather than for all observations.
+
+For example, to calculate the mean and standard deviation of `body_mass` separately for each `species`, you would first `group_by(species)` and then `summarize()` the `body_mass`. The pipe operator smoothly passes the grouped data from `group_by()` to `summarize()`.
+
+```{webr-r}
+# compute mean and sd of body mass by species
+penguins |>
+  group_by(species) |> # group by species
+  summarize(
+    mean = mean(body_mass_g, na.rm = TRUE), # compute mean
+    sd = sd(body_mass_g, na.rm = TRUE) # compute sd
+  )
+```
+
+You can also group by multiple variables (e.g., `group_by(var1, var2)`), and the data frame's name only needs to be specified in the very first operation of a chained sequence.
+
+```{webr-r}
+# compute mean and sd of body mass by species and sex
+penguins |>
+  group_by(species, sex) |> # group by species and sex
+  summarize(
+    mean = mean(body_mass_g, na.rm = TRUE), # compute mean
+    sd = sd(body_mass_g, na.rm = TRUE) # compute sd
+  )
+```
+
+## Number of Observations
+
+The function **`n()`** returns the **number of observations**. It can only be used inside `summarize()`.
+
+```{webr-r}
+# number of observations
+penguins |>
+  summarize(n_obs = n())
+```
+
+When combined with `group_by()`, you can easily get the number of observations per group. `n()` takes no parameters, so it's always written as `n()`.
+
+```{webr-r}
+# number of observations by species
+penguins |>
+  group_by(species) |>
+  summarize(n_obs = n())
+```
+
+Notably, the **`count()`** function is a convenient shortcut, equivalent to `summarize(n = n())`.
+
+```{webr-r}
+# number of observations
+penguins |>
+  count()
+```
+
+```{webr-r}
+# number of observations by species
+penguins |>
+  count(species)
+```
+
+## Number of Distinct Values
+
+To count the **number of unique values** or levels in a variable (or combination of variables), use **`n_distinct()`**. Like `n()`, it's exclusively used within `summarize()`.
+
+```{webr-r}
+# number of distinct species
+penguins |>
+  summarize(n_species = n_distinct(species))
+```
+
+```{webr-r}
+# number of distinct species and year of study
+penguins |>
+  summarize(n_species_year = n_distinct(species, year))
+```
+
+You do not have to explicitly name the output; the operation's name will be used by default (e.g., `summarize(n_distinct(variable))`).
+
+```{webr-r}
+# number of distinct species
+penguins |>
+  summarize(n_distinct(species))
+```
+
+## First, Last, or $n$th Value
+
+Also available only within `summarize()`, you can retrieve the **first, last, or nth value** of a variable. Functions like `first()`, `last()`, and `nth()` enable this.
+
+```{webr-r}
+# first value of the variable sex
+penguins |>
+  summarize(first(sex))
+```
+
+```{webr-r}
+# last value of the variable sex
+penguins |>
+  summarize(last(sex))
+```
+
+```{webr-r}
+# 37th value of the variable sex
+penguins |>
+  summarize(nth(sex, n = 37))
+```
+
+These functions offer arguments to handle missing values; for more details, consult their documentation (e.g., `?nth()`).
+
+## Conditional Transformations
+
+### If Else
+
+The **`if_else()`** function (used with `mutate()`) is ideal for creating a new variable with **two levels** based on a condition. It takes three arguments:
+
+1.  **The condition** (e.g., `body_mass_g >= 4000`).
+
+2.  **The output value if the condition is TRUE** (e.g., "High").
+
+3.  **The output value if the condition is FALSE** (e.g., "Low").
+
+```{webr-r}
+# if else
+penguins |>
+  mutate(
+    body_mass_cat = if_else(body_mass_g >= 4000, # condition
+      "High", # output if condition is true
+      "Low" # output if condition is false
+    )
+  )
+```
+
+::: callout-tip
+A key advantage is that `if_else()` propagates missing values (`NA`) if the condition's input is missing, preventing misclassification.
+:::
+
+### Case When
+
+For categorizing a variable into **more than two levels**, **`case_when()`** is far more appropriate and readable than nested `if_else()` statements.
+
+While nested `if_else()` functions can technically work, they are **prone to errors** and result in **difficult-to-read code**. For instance, to classify body mass into "Low" (<3500), "High" (>4750), and "Medium" (otherwise), nested `if_else()` would look like this:
+
+```{webr-r}
+# nested if else
+penguins |>
+  mutate(
+    body_mass_cat = if_else(body_mass_g < 3500, # first condition
+      "Low", # output if first condition is true
+      if_else(body_mass_g > 4750, # second condition when first condition is false
+        "High", # output when second condition is true
+        "Medium" # output when second condition is false
+      )
+    )
+  )
+```
+
+This code first checks if `body_mass_g` is less than 3500. If true, it assigns "Low". If false, it then checks if `body_mass_g` is greater than 4750. If that's true, it assigns "High"; otherwise, it assigns "Medium". While functional, this structure can become complex and error-prone with more conditions.
+
+`case_when()` evaluates conditions sequentially. To improve this workflow, we now use the case when technique:
+
+```{webr-r}
+# case when, without a default option
+penguins |>
+  mutate(
+    body_mass_cat = case_when(
+      body_mass_g < 3500 ~ "Low",
+      body_mass_g >= 3500 & body_mass_g <= 4750 ~ "Medium",
+      body_mass_g > 4750 ~ "High"
+    )
+  )
+```
+
+This workflow is much simpler to code and read!
+
+If there are no missing values in the variable(s) used for the condition(s), it can even be simplified to:
+
+```{webr-r}
+# case when, with a default option
+penguins |>
+  mutate(
+    body_mass_cat = case_when(
+      body_mass_g < 3500 ~ "Low",
+      body_mass_g > 4750 ~ "High",
+      .default = "Medium" # default output
+    )
+  )
+```
+
+While a `.default` argument can be used to specify an output for observations not matching any condition, **exercise caution with missing values**. If `NA` values in the conditioning variable are not explicitly handled, they might be incorrectly assigned to the default category. A safer approach is to explicitly define all categories or ensure `NA`s remain `NA`.
+
+```{webr-r}
+# case when, with a default option and missing values
+penguins |>
+  mutate(
+    body_mass_cat = case_when(
+      body_mass_g < 3500 ~ "Low",
+      body_mass_g > 4750 ~ "High",
+      is.na(body_mass_g) ~ NA, # keep missing values as NA
+      .default = "Medium" # default output
+    )
+  )
+```
+
+::: callout-note
+Regardless of whether you use `if_else()` or `case_when()`, it's always good practice to **verify the newly created variable** to ensure it aligns with your intended results.
+:::
+
+## Exploring Further `dplyr` Functions
+
+Until now, we have focused on analyzing the `penguins` dataset. To effectively explain some of `dplyr`'s other powerful functions, we'll now shift to creating custom datasets tailored to demonstrate their specific functionalities.
+
+### Separate and Unite
+
+You can **separate** a character column into two or more new columns using `separate()`.
+
+```{webr-r}
+data <- data.frame(dates = c("Jan/2/2018",
+                             "Feb/24/2019",
+                             "Jan/14/2015",
+                             "Mar/4/2016",
+                             "Nov/23/2017",
+                             "Jul/1/2016"))
+
+data  |> 
+  separate(dates, c("Month","Day","Year"), sep="/")
+
+```
+
+Conversely, to **combine** two or more columns into a single character column, use `unite()`.
+
+```{webr-r}
+data  |> 
+  separate(dates, c("Month","Day","Year"), sep="/") |> 
+  unite(new_dates, c("Month","Day","Year"), sep=",")
+```
+
+### Reshaping Data: `gather()` and `spread()`
+
+`gather()` transforms "*wide*" format data into "*long*" or "*tall*" format by collapsing columns into key-value pairs.
+
+```{webr-r}
+
+wide_data <- data.frame(City = c("Minneapolis", "New York", "Chicago"),
+                        Jan = c(9, 16, 16),
+                        Feb = c(15, 17, 17),
+                        Mar = c(15, 18, 19),
+                        Apr = c(22, 20, 18),
+                        May = c(20, 21, 19),
+                        Jun = c(19, 22, 19),
+                        July = c(18, 23, 18),
+                        Aug = c(20, 22, 17),
+                        Sep = c(17, 21, 18),
+                        Oct = c(15, 19, 16),
+                        Nov = c(13, 18, 15),
+                        Dec = c(12, 16, 16))
+
+long_data <- wide_data  |>  
+             gather(key = "Month", # Name of new key column
+                    value = "Avg_Precip", # Name of column for values
+                    c(-City))             # Columns to gather
+
+long_data
+```
+
+Conversely, `spread()` converts "*long*" or "*tall*" format data into "*wide*" format by separating key-value pairs across multiple columns.
+
+```{webr-r}
+wide_again <- long_data %>% 
+              spread(key = "Month", # Name of new key column
+                     value = "Avg_Precip") # Name of column for values
+
+wide_again
+```
+
+## Managing Groups: `ungroup()`
+
+After performing operations on grouped data, the `ungroup()` function allows you to **revert to a normal data frame**, enabling operations on entire columns again or switching to new grouping criteria. Remember, you can also `group_by()` multiple columns simultaneously.
+
+## Combining Datasets: Joins
+
+When working with data spread across multiple tables, you'll often need to **combine them based on a shared column (a "key column")**—a process known as joining or merging. `dplyr` provides several functions for common data joins.
+
+If your datasets have identical columns but different records that you wish to concatenate (add rows), use `rbind()` (base R) or `bind_rows()` (`dplyr`). Similarly, to append new columns (add columns), use `cbind()` (base R) or `bind_cols()` (`dplyr`).
+
+::::: panel-tabset
+## Exercise
+
+Using the `starwars` dataset and `dplyr` functions, perform the following data manipulations.
+
+### Part 1: Initial Exploration and Filtering
+
+1.  **Filter for Human Characters:** Create a new data frame called `human_characters` that only includes characters of the "Human" species.
+
+2.  **Select Key Attributes:** From `human_characters`, select only the `name`, `height`, `mass`, and `homeworld` columns.
 
 ```{webr-r}
 library(dplyr)
 
-relig_income
 ```
 
-Each row is a *religion*, and each column after "religion" is an *income group*, but it is used as a column name, not as values in a variable. This dataset has three variables: *religion*, *income*, and *frequency*. It is not tidy.
+### Part 2: Calculating BMI and Identifying Extremes
 
-**How to tidy it**? We want to turn this **wide** table into a **long** format. This is called **pivoting longer** (or making the data "*taller*"). i.e., we need to pivot the columns that are not actual variables into a **pair of columns**: one for the **key** (the variable name) and one for **value**. This process is often called **making a wide dataset longer (or taller)**.
+1.  **Calculate BMI:** Add a new variable called `bmi` (Body Mass Index) to your `human_characters` data frame. The formula for BMI is $\text{mass}/(\text{height}/100)^2$. Ensure that `mass` is in kilograms and `height` in centimeters as provided in the dataset.
 
-When pivoting variables, we need to give names to the two new columns that hold the key-value pairs. First, we define which columns to pivot – in this case, all columns except for *religion*. Then, we provide the name of the **key** column, which represents the name of variable described by the original column headings – here, that is *income*. The second if the **value** column, which will hold the data values – here, that is *frequency*.
-
-We do this using `pivot_longer()`. Here is how it works:
-
-1.  We **keep** the `religion` column.
-2.  We **pivot** the other columns (the income columns)
-3.  We give names to two new columns:
-    -   The column with **former column names** becomes `income`.
-
-    -   The column with the **cell values** becomes `frequency`.
-
-So, the code is:
+2.  **Sort by BMI:** Arrange the `human_characters` data frame in **descending order** based on their `bmi`.
 
 ```{webr-r}
+
+```
+
+### Part 3: Grouped Summaries
+
+1.  **Species Statistics:** Calculate the **number of characters (`n`)** and the **average `height`** for each `species` in the original `starwars` dataset.
+
+2.  **Filter Significant Species:** From the previous summary, filter out species that have **fewer than 5 characters** and an **average height greater than 100**.
+
+```{webr-r}
+
+```
+
+### Part 4: Conditional Categorization
+
+1.  **Categorize Height:** Add a new variable called `height_category` to the `starwars` dataset using `mutate()` and `case_when()`.
+
+    -   If `height` is less than or equal to 100, categorize as "Short".
+
+    -   If `height` is greater than 100 but less than or equal to 180, categorize as "Medium".
+
+    -   If `height` is greater than 180, categorize as "Tall".
+
+    -   Handle `NA` values for `height` appropriately so they remain `NA` in `height_category`.
+
+```{webr-r}
+
+```
+
+## Hints
+
+::: {.hint exercise="ex_1"}
+**Part 1: Initial Exploration and Filtering**
+
+1.  **Filter for Human Characters**: which `dplyr` function helps you select rows based on a condition? Remember the syntax for checking equality.
+
+2.  There is a `dplyr` function specifially for choosing columns.
+
+**Part 2: Calculating BMI and Identifying Extremes**
+
+1.  **Calculate BMI:** Which `dplyr` function is used to create or modify columns? Pay attention to the order of operations in the formula.
+
+2.  **Sort by BMI:** The `arrange()` function is key here. How do you specify descending order?
+
+### Part 3: Grouped Summaries
+
+1.  **Species Statistics: Y**ou will need two main functions here: one to define groups and another to calculate summary statistics within those groups. Do not forget to handle `NA` values for the mean.
+
+2.  **Filter Significant Species:** You will apply another `filter()` operation, but this time on the summarized data. Remember how to combine two conditions.
+
+### Part 4: Conditional Categorization
+
+1.  **Categorize Height:** `case_when()` is perfect for multiple conditions. How do you specify the conditions and their corresponding outputs? Remember to check for `NA`s *first* to ensure they do not get misclassified by other conditions.
+:::
+
+## Solution
+
+::: {.solution exercise="ex_1"}
+``` r
 library(dplyr)
-library(tidyr)
 
-relig_income %>%
-  pivot_longer(-religion, names_to = "income", values_to = 'frequency')
+# Part 1: Initial Exploration and Filtering
+human_characters <- starwars |> 
+  filter(species == "Human") |> 
+  select(name, height, mass, homeworld)
+
+# Part 2: Calculating BMI and Identifying Extremes
+human_characters_bmi <- human_characters  |> 
+  mutate(bmi = mass / ((height / 100)^2))  |> 
+  arrange(desc(bmi))
+
+# Part 3: Grouped Summaries
+species_stats <- starwars  |> 
+  group_by(species) %>%
+  summarise(
+    n = n(),
+    avg_height = mean(height, na.rm = TRUE)
+  ) %>%
+  filter(
+    n >= 5, 
+    avg_height > 100
+  )
+
+# Part 4: Conditional Categorization
+starwars_with_height_category <- starwars %>%
+  mutate(
+    height_category = case_when(
+      is.na(height) ~ NA_character_, # Handle NA values first
+      height <= 100 ~ "Short",
+      height > 100 & height <= 180 ~ "Medium",
+      height > 180 ~ "Tall"
+    )
+  )
 ```
-
-Now, the data is tidy because 1) each *columns* is a variable, and 2) each *row* is one observation, a combination of religion and income.
-
-The *tidy* framework is also used to store observations that happen at regular time interval. For example, the `Billboard` dataset record when a song first entered the top $100$ chart. It includes variables like *artist*, *track*, *data.entered*, *rank*, and *week*. The song's *rank* over time is recorded across $75$ columns, from `wk1` to `wk75`. While this format is not tidy, it can be helpful for entering data. It avoids repeating the same information – like the song title and artist – every week. Because of that, each song only needs one row instead of one row per week. We will explore this type of structure in more details when discussing *multiple types*.
-
-```{webr-r}
-billboard
-```
-
-**how to tidy it?** Again, we use the `pivot_longer()` function. Here is how it works:
-
-1.  We *transform* the columns from `wk1` to `wk76` into a new column called `weak` which stores the column names.
-2.  We create another column called `rank` which stores the **values** from those columns.
-3.  We use the option `values_drop_na = TRUE` to **remove missing values** in the `rank` column. These missing values mean the song was not on the chart in that week, so we do not need them.
-4.   After that, we clean the data a bit. we **convert the `week` column to a number**, and we **calculate the chart date** for each row based on when the song first entered the chart.
-5.  **Finally**, it is always a good idea to **sort the data** to make it easier to read.
-    -   We can srot it by `artist`, `track`, and `week`
-
-    -   Or we can sort it by `date` and `rank`
-
-```{webr-r}
-billboard %>%
-  pivot_longer( 
-    wk1:wk76, 
-    names_to = "week", 
-    values_to = "rank", 
-    values_drop_na = TRUE 
-    ) %>%
-  mutate( 
-    week = as.integer(gsub("wk", "", week)), 
-    date = as.Date(date.entered) + 7 * (week - 1), 
-    date.entered = NULL 
-    ) %>%
-  arrange(artist, track, week)
-```
-
-```{webr-r}
-billboard %>%
-  pivot_longer( 
-    wk1:wk76, 
-    names_to = "week", 
-    values_to = "rank", 
-    values_drop_na = TRUE 
-    ) %>%
-  mutate( 
-    week = as.integer(gsub("wk", "", week)), 
-    date = as.Date(date.entered) + 7 * (week - 1), 
-    date.entered = NULL 
-    ) %>%
-  arrange(date, rank)
-```
-
-\<!--#
-
-A tidy version of the classroom data looks like this: (you’ll learn how the functions work a little later)
-
-```         
-library(tidyr) library(dplyr)
-```
-
-```         
-classroom2 <- classroom %>%    pivot_longer(quiz1:test1, names_to = "assessment", values_to = "grade") %>%    arrange(name, assessment) classroom2 #> # A tibble: 12 × 3 #>   name  assessment grade #>   <chr> <chr>      <chr> #> 1 Billy quiz1      <NA>  #> 2 Billy quiz2      D     #> 3 Billy test1      C     #> 4 Jenny quiz1      A     #> 5 Jenny quiz2      A     #> 6 Jenny test1      B     #> # ℹ 6 more rows
-```
-
-This makes the values, variables, and observations more clear. The dataset contains 36 values representing three variables and 12 observations. The variables are:
-
-1.  
-
-2.  `name`, with four possible values (Billy, Suzy, Lionel, and Jenny).
-
-3.  
-
-4.  `assessment`, with three possible values (quiz1, quiz2, and test1).
-
-5.  
-
-6.  `grade`, with five or six values depending on how you think of the missing value (A, B, C, D, F, NA).
-
-7.  
-
-The tidy data frame explicitly tells us the definition of an observation. In this classroom, every combination of `name` and `assessment` is a single measured observation. The dataset also informs us of missing values, which can and do have meaning. Billy was absent for the first quiz, but tried to salvage his grade. Suzy failed the first quiz, so she decided to drop the class. To calculate Billy’s final grade, we might replace this missing value with an F (or he might get a second chance to take the quiz). However, if we want to know the class average for Test 1, dropping Suzy’s structural missing value would be more appropriate than imputing a new value.
-
---\>
-
-## Introduction to `dplyr`
-
-The *dplyr* package is designed to make it easy to work with data, like data frames. One great feature of *dply* is its **consistency** – the first argument of each main function is always the dataset. This makes it easier to learn: once you understand one function, it becomes easier to understand the others just by seeing examples.
-
-Another reason to use *dplyr* is that it focuses on a **small number of core functions**, built to do one job well. These are called **verbs** because they "*do something*" to the data. For example:
-
--   `select()` chooses certain columns, i.e., select variables by their names,
-
--   `mutate()` creates new variables with functions of existing variables,
-
--   `filter()` picks certain rows, i.e, select observations by their values,
-
--   `arrange()` reorders the rows,
-
--   `summarise()` gives summary information for groups.
-
-::: callout-note
-The names of these verbs are chosen to clearly show what they do to the input data.
 :::
+:::::
 
-Besides being simple, *dplyr* is also **fast**. Speed is not important with small datasets, but it matters when working with hundreds of thousands of rows. Also, *dplyr* works not only with data frames, but also with other data sources, like databases. Here, we focus on data frames and tibbles. But once you know how to use *dplyr* here, you can use it with other types of data too.
+To learn more about the `dplyr` package, here are some recommended resources:
 
-::: {.callout-important appearance="simple"}
-## A dplyr cheat sheet
+-   [dplyr.tidyverse.org](https://dplyr.tidyverse.org/)
 
-The developers of Rstudio have created a very helpful [cheat sheet](https://rstudio.github.io/cheatsheets/html/data-transformation.html) that summarizes main functions of *dplyr*.
+-   [Chapter “Data transformation”](https://r4ds.hadley.nz/data-transform.html) in the book “R for Data Science”
 
-![](/figs/dplyr/data-transformation.jpg)
-:::
+-   [Cheatsheet](https://github.com/rstudio/cheatsheets/blob/main/data-transformation.pdf)
 
-### Subset variables with `select()`
-
-We use `select()` function to choose specific variables (columns) from a data frame or tibble. This is helpful when our dataset has many variables, but we only want to work with a few of them.
-
-The basic structure of `select()` looks like this
-
-```{r}
-#| eval: false
-select(<data>, <variable-1>, <variable-2>, ...)
-```
-
-::: callout-note
-This is **not real R code** you can run – it's **pseudocode** that shows how the function is used in general.
-:::
-
-Let us break down what each part means:
-
--   The first argument, `<data>`, is the name of the dataset. This is required – *dplyr* functions only work when we give them data.
-
--   The other arguments are the names of the variables we want to keep. For example, `<variable-1>` and `<variable-2>` are the first two variables we are selecting. The `...` means we can keep adding more variable names if needed.
-
-### Creating variables with `mutate`
-
-We use `mutate()` to add a new variables (columns) to a data frame or tibble. This is helpful when we want to create new variables based on existing ones, for example to help analysis.
-
-The basic form of `mutate()` looks like this
-
-```{r}
-#| eval: false
-mutate(<data>, <expression-1>, <expression-2>, ...)
-```
-
--   The first part, `<data>`, is the name of your dataset.
-
--   The other parts, `<expression-1>`, `<expression-2>`, and so on, are formulas that create new variables. These expressions can use the columns already in the dataset.
-
--   the `...` means you can add as many expressions as you like.
-
-    Each expression usually gives a name to a new columns and defines what goes in it. Most of the time it is a simple calculation, but it can be more complex if needed.
+-   [Blog Stats and R](https://statsandr.com/blog/introduction-to-data-manipulation-in-r-with-dplyr/)

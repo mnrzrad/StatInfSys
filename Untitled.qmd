@@ -1,0 +1,314 @@
+---
+title: "Untitled"
+format: html
+---
+
+Getting ready to use dplyr
+
+dplyr will work with any dataframe. However, it is most powerful when data are organized according to tidy data conversions for datasets
+
+Tidy datasets are all alike, but every messy dataset is messy in its own way – Hadley Wickam
+
+Prerequisites
+
+In data analysis, it is common to spend a lot of time cleaning and preparing the data – sometimes more then $80\%$ of the total time!
+
+And it is not something you do only once — cleaning may need to be repeated during the project as you discover new problems or add more data.
+
+One important part of cleaning is called data tidying. This means organizing the data in a clear and useful way so it is easier to work with.
+
+Tidy data follows some simple rules that help us:
+
+Use the same format every time.
+
+Make data easy to explore, analyze, and visualize.
+
+Save time by avoiding confusion when switching between tools.
+
+When data is tidy, different tools can "speak the same language." This means you do not waste time reformatting your data for each new function or package.
+
+With tidy data, you can focus on your real question – not on fixing messy files!
+
+Tidy data follows a clear structure that helps connect two important things:
+
+Structure: how the data look (its physical layout – rows and columns).
+
+Semantics/Meanings: What data means (who, what, when, where).
+
+Data Structure
+
+Most dataset used in statistics are in the form of a data frame: a table made of rows and columns. Each column usually has a name (say label) and contains the same type of data. Each row shows one observation or one person that sometime they are labeled.
+
+Let us look at an example.
+
+This code shows a small dataset for an imaginary classroom. Each row is a student, and each column is a quiz or test.
+
+{webr-r}
+library(tibble)
+
+classroom <- tribble(
+  ~name,    ~quiz1, ~quiz2, ~test1,
+  "Billy",  NA,     "D",    "C",
+  "Suzy",   "F",    NA,     NA,
+  "Lionel", "B",    "C",    "B",
+  "Jenny",  "A",    "A",    "B"
+)
+
+classroom
+
+
+Sometimes, the same information can be arranged in different ways. Let us look at this new version of the classroom data.
+
+{webr-r}
+tribble(
+  ~assessment, ~Billy, ~Suzy, ~Lionel, ~Jenny,
+  "quiz1",     NA,     "F",   "B",     "A",
+  "quiz2",     "D",    NA,    "C",     "A",
+  "test1",     "C",    NA,    "B",     "B"
+)
+
+This table has the same information as before. But the layout is different – now each column is a student and each row is a test.
+
+Knowing what the data says is not enough – we also need to know what it means. So, we do not just care about "which value is in which cell?". We also care about: "what does the value represent?", "who is it about?", "What type of test is it?". This meaning behind the value is called semantics. So even though both tables (the original and the transposed one) contain the same values, the structure is different, and that changes how easy it is to analyze the data.
+
+Data Semantics
+
+A dataset is made of values. A value can be a number (if quantitative – like a test score: 85) or a string (if qualitative – like a grade: "B"). but values do not live alone – they are organized in two ways:
+
+Each value belongs to a variable
+
+A variable is something you are measuring.
+
+For example, quiz1, quiz2, test1 are variables because they are types of assessments. Other examples of variables (or attributes) are: height, temperature, age.
+
+Each value belongs to an observation
+
+An observation is all values measured for one unit – like one person, one day, or one race.
+
+For example, "Billy" is one observation – we see all his grades (quiz1, quiz2, test1).
+
+What is Tidy Data?
+
+Tidy data is a standard way of mapping the meaning of a dataset to its structure.
+
+In tidy data:
+
+Each variable is a column; each column is a variable.
+
+Each observation is a row; each row is an observation.
+
+Each value is a cell; each cell is a single value.
+
+Following three rules makes a dataset tidy: variables are in columns, observations are in rows, and values are in cells. [source: @wickham2023]
+
+When you data follows these three rules, it is tidy. If it does not, we call it messy.
+
+Tidy data makes it easier for both analyst and computers to work with the data.
+
+In messy data, you often need to use different steps to get each variable. This takes more time and can lead to mistakes.
+
+Many common tasks in data analysis – like finding averages or totals – need all the values from a single variable. If your data is tidy, it is easy to get those values.
+
+The order of columns and rows does not change your analysis, but a good order can make data easier to read.
+
+A helpful way to organize your variables (columns in tidy data) is by their role:
+
+Fixed variables are decided before collecting data. They describe the setup, like a person's name or group. Actually, they describe the experimental design and are known in advance. These are called dimensions in computer science, and statisticians usually denote them with subscripts on random variables.
+
+Measured variables are the results you collect during the study, like person's height or test score.
+
+It is a good idea to place fixed variables first, then measured variables, and keep related ones next to each other.
+
+You can also sort the rows by one or more of the fixed variables to make the table easier to follow.
+
+Real-world datasets are often messy and hard to work with. It is rare to get a dataset that is already tidy and ready for analysis.
+
+Here are five most common problems in messy data:
+
+Column headers are actually values, not variable names.
+
+One column contains more than one variable.
+
+Variables are stored in both rows and columns.
+
+Multiple types of observational units are stored in the same table.
+
+A single observational unit is stored in multiple tables.
+
+Even though these problems seem different, most messy dataset can be tidied with a small set of tools: pivoting (pivot_longer() to make the data longer (more rows) and pivot_wider() to make the data wider (more columns)) and separating (separate() to split values in one column into several columns)
+
+In the following, we will look at real examples of these problems and how to solve them.
+
+Column Headers Are Values, Not Variable Name
+
+Sometimes, data is formatted to look good in a report or spreadsheet – but not to be analyzed. One common issue is when column names are not variable names, but instead are actual data values. Let us look at an example.
+
+Example 1: Religion and Income
+
+The dataset relig_income shows how income groups are related to religion in the US. Here is what data looks like (simplified):
+
+{webr-r}
+library(dplyr)
+
+relig_income
+
+Each row is a religion, and each column after "religion" is an income group, but it is used as a column name, not as values in a variable. This dataset has three variables: religion, income, and frequency. It is not tidy.
+
+How to tidy it? We want to turn this wide table into a long format. This is called pivoting longer (or making the data "taller"). i.e., we need to pivot the columns that are not actual variables into a pair of columns: one for the key (the variable name) and one for value. This process is often called making a wide dataset longer (or taller).
+
+When pivoting variables, we need to give names to the two new columns that hold the key-value pairs. First, we define which columns to pivot – in this case, all columns except for religion. Then, we provide the name of the key column, which represents the name of variable described by the original column headings – here, that is income. The second if the value column, which will hold the data values – here, that is frequency.
+
+We do this using pivot_longer(). Here is how it works:
+
+We keep the religion column.
+
+We pivot the other columns (the income columns)
+
+We give names to two new columns:
+
+The column with former column names becomes income.
+
+The column with the cell values becomes frequency.
+
+So, the code is:
+
+{webr-r}
+library(dplyr)
+library(tidyr)
+
+relig_income %>%
+  pivot_longer(-religion, names_to = "income", values_to = 'frequency')
+
+Now, the data is tidy because 1) each columns is a variable, and 2) each row is one observation, a combination of religion and income.
+
+The tidy framework is also used to store observations that happen at regular time interval. For example, the Billboard dataset record when a song first entered the top $100$ chart. It includes variables like artist, track, data.entered, rank, and week. The song's rank over time is recorded across $75$ columns, from wk1 to wk75. While this format is not tidy, it can be helpful for entering data. It avoids repeating the same information – like the song title and artist – every week. Because of that, each song only needs one row instead of one row per week. We will explore this type of structure in more details when discussing multiple types.
+
+{webr-r}
+billboard
+
+how to tidy it? Again, we use the pivot_longer() function. Here is how it works:
+
+We transform the columns from wk1 to wk76 into a new column called weak which stores the column names.
+
+We create another column called rank which stores the values from those columns.
+
+We use the option values_drop_na = TRUE to remove missing values in the rank column. These missing values mean the song was not on the chart in that week, so we do not need them.
+
+After that, we clean the data a bit. we convert the week column to a number, and we calculate the chart date for each row based on when the song first entered the chart.
+
+Finally, it is always a good idea to sort the data to make it easier to read.
+
+We can srot it by artist, track, and week
+
+Or we can sort it by date and rank
+
+{webr-r}
+billboard %>%
+  pivot_longer( 
+    wk1:wk76, 
+    names_to = "week", 
+    values_to = "rank", 
+    values_drop_na = TRUE 
+    ) %>%
+  mutate( 
+    week = as.integer(gsub("wk", "", week)), 
+    date = as.Date(date.entered) + 7 * (week - 1), 
+    date.entered = NULL 
+    ) %>%
+  arrange(artist, track, week)
+
+{webr-r}
+billboard %>%
+  pivot_longer( 
+    wk1:wk76, 
+    names_to = "week", 
+    values_to = "rank", 
+    values_drop_na = TRUE 
+    ) %>%
+  mutate( 
+    week = as.integer(gsub("wk", "", week)), 
+    date = as.Date(date.entered) + 7 * (week - 1), 
+    date.entered = NULL 
+    ) %>%
+  arrange(date, rank)
+
+<!--#
+
+A tidy version of the classroom data looks like this: (you’ll learn how the functions work a little later)
+
+library(tidyr) library(dplyr)
+
+classroom2 <- classroom %>%    pivot_longer(quiz1:test1, names_to = "assessment", values_to = "grade") %>%    arrange(name, assessment) classroom2 #> # A tibble: 12 × 3 #>   name  assessment grade #>   <chr> <chr>      <chr> #> 1 Billy quiz1      <NA>  #> 2 Billy quiz2      D     #> 3 Billy test1      C     #> 4 Jenny quiz1      A     #> 5 Jenny quiz2      A     #> 6 Jenny test1      B     #> # ℹ 6 more rows
+
+This makes the values, variables, and observations more clear. The dataset contains 36 values representing three variables and 12 observations. The variables are:
+
+name, with four possible values (Billy, Suzy, Lionel, and Jenny).
+
+assessment, with three possible values (quiz1, quiz2, and test1).
+
+grade, with five or six values depending on how you think of the missing value (A, B, C, D, F, NA).
+
+The tidy data frame explicitly tells us the definition of an observation. In this classroom, every combination of name and assessment is a single measured observation. The dataset also informs us of missing values, which can and do have meaning. Billy was absent for the first quiz, but tried to salvage his grade. Suzy failed the first quiz, so she decided to drop the class. To calculate Billy’s final grade, we might replace this missing value with an F (or he might get a second chance to take the quiz). However, if we want to know the class average for Test 1, dropping Suzy’s structural missing value would be more appropriate than imputing a new value.
+
+-->
+
+Introduction to dplyr
+
+The dplyr package is designed to make it easy to work with data, like data frames. One great feature of dply is its consistency – the first argument of each main function is always the dataset. This makes it easier to learn: once you understand one function, it becomes easier to understand the others just by seeing examples.
+
+Another reason to use dplyr is that it focuses on a small number of core functions, built to do one job well. These are called verbs because they "do something" to the data. For example:
+
+select() chooses certain columns, i.e., select variables by their names,
+
+mutate() creates new variables with functions of existing variables,
+
+filter() picks certain rows, i.e, select observations by their values,
+
+arrange() reorders the rows,
+
+summarise() gives summary information for groups.
+
+The names of these verbs are chosen to clearly show what they do to the input data.
+
+Besides being simple, dplyr is also fast. Speed is not important with small datasets, but it matters when working with hundreds of thousands of rows. Also, dplyr works not only with data frames, but also with other data sources, like databases. Here, we focus on data frames and tibbles. But once you know how to use dplyr here, you can use it with other types of data too.
+
+A dplyr cheat sheet
+
+The developers of Rstudio have created a very helpful cheat sheet that summarizes main functions of dplyr.
+
+Subset variables with select()
+
+We use select() function to choose specific variables (columns) from a data frame or tibble. This is helpful when our dataset has many variables, but we only want to work with a few of them.
+
+The basic structure of select() looks like this
+
+{r}
+#| eval: false
+select(<data>, <variable-1>, <variable-2>, ...)
+
+This is not real R code you can run – it's pseudocode that shows how the function is used in general.
+
+Let us break down what each part means:
+
+The first argument, <data>, is the name of the dataset. This is required – dplyr functions only work when we give them data.
+
+The other arguments are the names of the variables we want to keep. For example, <variable-1> and <variable-2> are the first two variables we are selecting. The ... means we can keep adding more variable names if needed.
+
+Creating variables with mutate
+
+We use mutate() to add a new variables (columns) to a data frame or tibble. This is helpful when we want to create new variables based on existing ones, for example to help analysis.
+
+The basic form of mutate() looks like this
+
+{r}
+#| eval: false
+mutate(<data>, <expression-1>, <expression-2>, ...)
+
+The first part, <data>, is the name of your dataset.
+
+The other parts, <expression-1>, <expression-2>, and so on, are formulas that create new variables. These expressions can use the columns already in the dataset.
+
+the ... means you can add as many expressions as you like.
+
+Each expression usually gives a name to a new columns and defines what goes in it. Most of the time it is a simple calculation, but it can be more complex if needed.
+

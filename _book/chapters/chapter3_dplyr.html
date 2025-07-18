@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>3&nbsp; Getting ready to use dplyr – Statistics and Information Systems</title>
+<title>2&nbsp; Getting Started – Statistics and Information Systems</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -65,7 +65,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../chapters/chapter2_data_visualization.html" rel="prev">
+<link href="../chapters/chapter2_data_visualization.html" rel="next">
+<link href="../chapters/chapter1_data_ethics.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -403,7 +404,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"code":"library(tibble)\n\nclassroom <- tribble(\n  ~name,    ~quiz1, ~quiz2, ~test1,\n  \"Billy\",  NA,     \"D\",    \"C\",\n  \"Suzy\",   \"F\",    NA,     NA,\n  \"Lionel\", \"B\",    \"C\",    \"B\",\n  \"Jenny\",  \"A\",    \"A\",    \"B\"\n)\n\nclassroom","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"tribble(\n  ~assessment, ~Billy, ~Suzy, ~Lionel, ~Jenny,\n  \"quiz1\",     NA,     \"F\",   \"B\",     \"A\",\n  \"quiz2\",     \"D\",    NA,    \"C\",     \"A\",\n  \"test1\",     \"C\",    NA,    \"B\",     \"B\"\n)","id":2,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(dplyr)\n\nrelig_income","id":3,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-3","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(dplyr)\nlibrary(tidyr)\n\nrelig_income %>%\n  pivot_longer(-religion, names_to = \"income\", values_to = 'frequency')","id":4,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-4","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"billboard","id":5,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-5","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"billboard %>%\n  pivot_longer( \n    wk1:wk76, \n    names_to = \"week\", \n    values_to = \"rank\", \n    values_drop_na = TRUE \n    ) %>%\n  mutate( \n    week = as.integer(gsub(\"wk\", \"\", week)), \n    date = as.Date(date.entered) + 7 * (week - 1), \n    date.entered = NULL \n    ) %>%\n  arrange(artist, track, week)","id":6,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-6","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"billboard %>%\n  pivot_longer( \n    wk1:wk76, \n    names_to = \"week\", \n    values_to = \"rank\", \n    values_drop_na = TRUE \n    ) %>%\n  mutate( \n    week = as.integer(gsub(\"wk\", \"\", week)), \n    date = as.Date(date.entered) + 7 * (week - 1), \n    date.entered = NULL \n    ) %>%\n  arrange(date, rank)","id":7,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-7","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
+globalThis.qwebrCellDetails = [{"code":"library(dplyr)","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
 
 </script>
 <script type="module">
@@ -1657,35 +1658,6 @@ globalThis.qwebrExecuteCode = async function (
 
 </script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 <link rel="stylesheet" href="../libs/style.css">
 </head>
@@ -1699,7 +1671,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter1_data_ethics.html">EDA</a></li><li class="breadcrumb-item"><a href="../chapters/chapter3_dplyr.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Getting ready to use <code>dplyr</code></span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter1_data_ethics.html">EDA</a></li><li class="breadcrumb-item"><a href="../chapters/chapter3_dplyr.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Getting Started</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -1747,14 +1719,14 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/chapter2_data_visualization.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Data Visualization</span></span></a>
+  <a href="../chapters/chapter3_dplyr.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Getting Started</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/chapter3_dplyr.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Getting ready to use <code>dplyr</code></span></span></a>
+  <a href="../chapters/chapter2_data_visualization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Data Visualization</span></span></a>
   </div>
 </li>
       </ul>
@@ -1764,23 +1736,8 @@ window.Quarto = {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Table of contents</h2>
-   
-  <ul>
-  <li><a href="#prerequisites" id="toc-prerequisites" class="nav-link active" data-scroll-target="#prerequisites"><span class="header-section-number">3.0.1</span> Prerequisites</a>
-  <ul>
-  <li><a href="#data-structure" id="toc-data-structure" class="nav-link" data-scroll-target="#data-structure"><span class="header-section-number">3.0.1.1</span> Data Structure</a></li>
-  <li><a href="#data-semantics" id="toc-data-semantics" class="nav-link" data-scroll-target="#data-semantics"><span class="header-section-number">3.0.1.2</span> Data Semantics</a></li>
-  </ul></li>
-  <li><a href="#introduction-to-dplyr" id="toc-introduction-to-dplyr" class="nav-link" data-scroll-target="#introduction-to-dplyr"><span class="header-section-number">3.1</span> Introduction to <code>dplyr</code></a>
-  <ul>
-  <li><a href="#subset-variables-with-select" id="toc-subset-variables-with-select" class="nav-link" data-scroll-target="#subset-variables-with-select"><span class="header-section-number">3.1.1</span> Subset variables with <code>select()</code></a></li>
-  <li><a href="#creating-variables-with-mutate" id="toc-creating-variables-with-mutate" class="nav-link" data-scroll-target="#creating-variables-with-mutate"><span class="header-section-number">3.1.2</span> Creating variables with <code>mutate</code></a></li>
-  </ul></li>
-  </ul>
-</nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -2069,9 +2026,9 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 }
 </script>
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter1_data_ethics.html">EDA</a></li><li class="breadcrumb-item"><a href="../chapters/chapter3_dplyr.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Getting ready to use <code>dplyr</code></span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter1_data_ethics.html">EDA</a></li><li class="breadcrumb-item"><a href="../chapters/chapter3_dplyr.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Getting Started</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Getting ready to use <code>dplyr</code></span></h1>
+<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Getting Started</span></h1>
 </div>
 
 
@@ -2104,32 +2061,69 @@ Attaching package: 'dplyr'</code></pre>
     intersect, setdiff, setequal, union</code></pre>
 </div>
 </div>
-<p><em>dplyr</em> will work with any dataframe. However, it is most powerful when data are organized according to <strong>tidy data</strong> conversions for datasets</p>
-<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<p>The <em>dplyr</em> package is a part of the R <a href="https://www.tidyverse.org/">tidyverse</a> : an ecosystem of several libraries designed to work together by representing data in common formats.</p>
+<div class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Caution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>To load the <em>dplyr</em> package, you can install and load it as a standalone package or load the <em>tidyverse</em>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tidyverse includes:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><p>the <a href="https://dplyr.tidyverse.org/"><em>dplyr</em></a> for data manipulation</p></li>
+<li><p>the <a href="https://ggplot2.tidyverse.org/"><em>ggplot2</em></a>for data visualization</p></li>
+<li><p>the <a href="https://stringr.tidyverse.org/"><em>stringr</em></a>for string manipulation</p></li>
+<li><p>the <a href="https://readr.tidyverse.org/"><em>readr</em></a>for data importing</p></li>
+<li><p>the <a href="https://tibble.tidyverse.org/"><em>tibble</em></a>which extends data frame objects</p></li>
+<li><p>the <a href="https://tidyr.tidyverse.org/"><em>tidyr</em></a> for tidy data</p></li>
+<li><p>the <a href="https://purrr.tidyverse.org/"><em>purr</em></a>for working with functions and vectors</p></li>
+<li><p>the <a href="https://forcats.tidyverse.org/"><em>forcats</em></a> for factors</p></li>
+<li><p>the <a href="https://lubridate.tidyverse.org/"><em>lubridate</em></a> for date-times</p></li>
+</ul>
+</div>
+</div>
+<p>The <em>data frame</em> is a key data structure in statistics and in R. The basic structure of a data frame is that there is one observation per ro and each column represents a variable, a measure, feature, or characteristic of that observation. Given the importance of managing data frames, it is important that we have good tools for dealing with them.</p>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
+<div class="callout-body-container">
+<p>Imagine you have a big box of cookies, and you want to find all the chocolate chip cookies, count how many you have, and then sort them by size. The <strong>dplyr</strong> is like a super-smart helper that makes it easy to do all these tasks and more!!</p>
+</div>
+</div>
+</div>
+<p>The <code>dplyr</code> package is a relatively new R package that allows you to do all kinds of analyses quickly and easily.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
 <div class="callout-title-container flex-fill">
-Tidy datasets are all alike, but every messy dataset is messy in its own way – Hadley Wickam
+Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-
+<p>It is especially useful for creating tables of summary statistics across specific groups of data.</p>
 </div>
 </div>
-<section id="prerequisites" class="level3" data-number="3.0.1">
-<h3 data-number="3.0.1" class="anchored" data-anchor-id="prerequisites"><span class="header-section-number">3.0.1</span> Prerequisites</h3>
-<p>In data analysis, it is common to spend a lot of time cleaning and preparing the data – sometimes more then <span class="math inline">\(80\%\)</span> of the total time!</p>
-<p>And it is not something you do only once — cleaning may need to be repeated during the project as you discover new problems or add more data.</p>
-<p>One important part of cleaning is called <strong>data tidying</strong>. This means organizing the data in a clear and useful way so it is easier to work with.</p>
-<p>Tidy data follows some simple rules that help us:</p>
-<ul>
-<li><p>Use the same format every time.</p></li>
-<li><p>Make data easy to explore, analyze, and visualize.</p></li>
-<li><p>Save time by avoiding confusion when switching between tools.</p></li>
-</ul>
-<p>When data is tidy, different tools can “speak the same language.” This means you do not waste time reformatting your data for each new function or package.</p>
+<p>One important contribution of the <code>dplyr</code> package is that it provides a “grammar” (in particular, verbs) for data manipulating and for operating on data frames. With this grammar, you can sensibly communicate what it is that you are doing to a data frame that other people can understand (assuming they also know the grammar). This is useful because it provides an abstraction for data manipulation that previously did not exist.</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -2140,252 +2134,104 @@ Important
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>With tidy data, you can <strong>focus on your real question</strong> – not on fixing messy files!</p>
+<p>Programming with <code>dplyr</code> look a lot different than programming in standard R. The <code>dplyr</code> works by combining objects (data frames and columns in data frames), functions (mean, median, etc.), and <strong>verbs</strong> (special commands in <code>dplyr</code>).</p>
 </div>
 </div>
-<p>Tidy data follows a clear structure that helps connect two important things:</p>
-<ul>
-<li><p><strong>Structure</strong>: how the data <em>look</em> (its physical layout – rows and columns).</p></li>
-<li><p><strong>Semantics/Meanings</strong>: What data <em>means</em> (who, what, when, where).</p></li>
-</ul>
-<section id="data-structure" class="level4" data-number="3.0.1.1">
-<h4 data-number="3.0.1.1" class="anchored" data-anchor-id="data-structure"><span class="header-section-number">3.0.1.1</span> Data Structure</h4>
-<p>Most dataset used in statistics are in the form of a <strong>data frame</strong>: a table made of <strong>rows</strong> and <strong>columns</strong>. Each column usually has a name (say <strong>label</strong>) and contains the same type of data. Each row shows one observation or one person that sometime they are labeled.</p>
-<p>Let us look at an example.</p>
-<p>This code shows a small dataset for an imaginary classroom. Each row is a student, and each column is a quiz or test.</p>
-<div id="qwebr-insertion-location-1"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>Sometimes, the same information can be arranged in different ways. Let us look at this new version of the classroom data.</p>
-<div id="qwebr-insertion-location-2"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>This table has the same information as before. But the <em>layout</em> is different – now each column is a student and each row is a test.</p>
-<p>Knowing <em>what</em> the data says is not enough – we also need to know <em>what it means</em>. So, we do not just care about “which value is in which cell?”. We also care about: “<em>what does the value represent?“,”who is it about?“,”What type of test is it?“</em>. This <strong>meaning</strong> behind the value is called <strong>semantics</strong>. So even though both tables (the original and the transposed one) contain the same <strong>values</strong>, the <strong>structure</strong> is different, and that changes how easy it is to analyze the data.</p>
-</section>
-<section id="data-semantics" class="level4" data-number="3.0.1.2">
-<h4 data-number="3.0.1.2" class="anchored" data-anchor-id="data-semantics"><span class="header-section-number">3.0.1.2</span> Data Semantics</h4>
-<p>A dataset is made of <strong>values</strong>. A value can be a number (if quantitative – like a test score: <code>85</code>) or a string (if qualitative – like a grade: <code>"B"</code>). but values do not live alone – they are organized in two ways:</p>
-<ol type="1">
-<li><p>Each value belongs to a <em>variable</em></p>
-<p>A <em>variable is something you are measuring.</em></p>
-<p>For example, <code>quiz1</code>, <code>quiz2</code>, <code>test1</code> are <em>variables</em> because they are types of assessments. Other examples of variables (or attributes) are: <em>height</em>, <em>temperature</em>, <em>age</em>.</p></li>
-<li><p>Each value belongs to an <em>observation</em></p>
-<p>An <em>observation</em> is all values measured for <em>one unit</em> – like one <strong>person</strong>, one <strong>day</strong>, or one <strong>race</strong>.</p>
-<p>For example, <code>"Billy"</code> is one observation – we see all his grades (quiz1, quiz2, test1).</p></li>
-</ol>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-What is Tidy Data?
+Important
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Tidy data is a standard way of mapping the <strong>meaning</strong> of a dataset to its <strong>structure</strong>.</p>
+<p>In between the commands in <code>dplyr</code> is a new operator called the <strong>pipe</strong> which looks like this <code>%&gt;%</code> or in the recent versions, like this <code>|&gt;</code> . The pip tells R that you want to continue executing functions or verbs on the object you are working on. you can think about this pip as meaning ’<em>and then …’</em></p>
 </div>
 </div>
-<p>In <strong>tidy data</strong>:</p>
-<ol type="1">
-<li>Each variable is a column; each column is a variable.</li>
-<li>Each observation is a row; each row is an observation.</li>
-<li>Each value is a cell; each cell is a single value.</li>
-</ol>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Special commands called <strong>verbs</strong> because they “do something” to the data.</p>
+</div>
+</div>
+<p>Some of the key “<em>verbs</em>” provided by the <code>dplyr</code> package are</p>
+<ul>
+<li><p><code>select()</code> : chooses certain columns, i.e., select variables by their names,</p></li>
+<li><p><code>filter()</code> : extract certain rows, i.e, select observations by their values,</p></li>
+<li><p><code>mutate()</code> : creates new variables/columns or transform existing variables,</p></li>
+<li><p><code>arrange()</code> : reorders rows of a data frame</p></li>
+<li><p><code>rename()</code> : rename variables in a data frame</p></li>
+<li><p><code>summarise()</code> / <code>summarize()</code> : gives summary information for different variables in data frame</p></li>
+<li><p><code>%&gt;%</code> or <code>|&gt;</code> : the “pipe” operator is used to connect multiple verb actions together into a pipeline.</p></li>
+</ul>
+<p>To install the <code>dplyr</code> package from CRAN, just run</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"dplyr"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Another way to get <code>dplyr</code> package is to install the whole <code>tidyverse</code> .</p>
+</div>
+</div>
+<p>After installing the package, it is important to load it into the R session.</p>
+<div id="qwebr-insertion-location-1"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You may get some warnings when the package is loaded because there are functions in the <code>dplyr</code> package that have the same name ad functions in other packages.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Note that all functions in the <code>dplyr</code> package require tidy data, which means that</p>
+<ul>
+<li><p>each variable is in its own column,</p></li>
+<li><p>each observation, or case, is in its own row</p></li>
+<li><p>each value is in its own cell</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="..\figs/dplyr/tidy-1.png" class="img-fluid figure-img"></p>
-<figcaption>Following three rules makes a dataset tidy: variables are in columns, observations are in rows, and values are in cells. <span class="citation" data-cites="wickham2023">(source: <a href="#ref-wickham2023" role="doc-biblioref"><strong>wickham2023?</strong></a>)</span></figcaption>
+<figcaption>Rules of a tidy data frame: variables are columns, observations are rows, and values are cells. Source: @wickham2023</figcaption>
 </figure>
-</div>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Important
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>When you data follows these three rules, it is <strong>tidy</strong>. If it does not, we call it <strong>messy</strong>.</p>
-</div>
-</div>
-<p>Tidy data makes it easier for both analyst and computers to work with the data.</p>
-<p>In messy data, you often need to use different steps to get each variable. This takes more time and can lead to mistakes.</p>
-<p>Many common tasks in data analysis – like finding averages or totals – need all the values from a single variable. If your data is tidy, it is easy to get those values.</p>
-<p>The order of columns and rows does not change your analysis, but a good order can make data easier to read.</p>
-<p>A helpful way to organize your variables (columns in tidy data) is by their role:</p>
-<ul>
-<li><p><strong>Fixed variables</strong> are decided before collecting data. They describe the setup, like a person’s name or group. Actually, they describe the experimental design and are known in advance. These are called <em>dimensions</em> in computer science, and statisticians usually denote them with subscripts on random variables.</p></li>
-<li><p><strong>Measured variables</strong> are the results you collect during the study, like person’s height or test score.</p></li>
+</div></li>
 </ul>
-<p>It is a good idea to place fixed variables first, then measured variables, and keep related ones next to each other.</p>
-<p>You can also sort the rows by one or more of the fixed variables to make the table easier to follow.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
 </div>
 </div>
-<div class="callout-body-container callout-body">
-<p>Real-world datasets are often messy and hard to work with. It is rare to get a dataset that is already tidy and ready for analysis.</p>
-</div>
-</div>
-<p>Here are five most common problems in messy data:</p>
-<ol type="1">
-<li>Column headers are actually values, not variable names.</li>
-<li>One column contains more than one variable.</li>
-<li>Variables are stored in both rows and columns.</li>
-<li>Multiple types of observational units are stored in the same table.</li>
-<li>A single observational unit is stored in multiple tables.</li>
-</ol>
-<p>Even though these problems seem different, most messy dataset can be tidied with a small set of tools: <strong>pivoting</strong> (<code>pivot_longer()</code> to make the data longer (more rows) and <code>pivot_wider()</code> to make the data wider (more columns)) and separating (<code>separate()</code> to split values in one column into several columns)</p>
-<p>In the following, we will look at real examples of these problems and how to solve them.</p>
-<p><strong>Column Headers Are Values, Not Variable Name</strong></p>
-<p>Sometimes, data is formatted to look good in a report or spreadsheet – but not to be analyzed. One common issue is when <em>column names are not variable names</em>, but instead are actual data values. Let us look at an example.</p>
-<p><strong>Example 1: Religion and Income</strong></p>
-<p>The dataset <code>relig_income</code> shows how income groups are related to religion in the US. Here is what data looks like (simplified):</p>
-<div id="qwebr-insertion-location-3"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>Each row is a <em>religion</em>, and each column after “religion” is an <em>income group</em>, but it is used as a column name, not as values in a variable. This dataset has three variables: <em>religion</em>, <em>income</em>, and <em>frequency</em>. It is not tidy.</p>
-<p><strong>How to tidy it</strong>? We want to turn this <strong>wide</strong> table into a <strong>long</strong> format. This is called <strong>pivoting longer</strong> (or making the data “<em>taller</em>”). i.e., we need to pivot the columns that are not actual variables into a <strong>pair of columns</strong>: one for the <strong>key</strong> (the variable name) and one for <strong>value</strong>. This process is often called <strong>making a wide dataset longer (or taller)</strong>.</p>
-<p>When pivoting variables, we need to give names to the two new columns that hold the key-value pairs. First, we define which columns to pivot – in this case, all columns except for <em>religion</em>. Then, we provide the name of the <strong>key</strong> column, which represents the name of variable described by the original column headings – here, that is <em>income</em>. The second if the <strong>value</strong> column, which will hold the data values – here, that is <em>frequency</em>.</p>
-<p>We do this using <code>pivot_longer()</code>. Here is how it works:</p>
-<ol type="1">
-<li>We <strong>keep</strong> the <code>religion</code> column.</li>
-<li>We <strong>pivot</strong> the other columns (the income columns)</li>
-<li>We give names to two new columns:
-<ul>
-<li><p>The column with <strong>former column names</strong> becomes <code>income</code>.</p></li>
-<li><p>The column with the <strong>cell values</strong> becomes <code>frequency</code>.</p></li>
-</ul></li>
-</ol>
-<p>So, the code is:</p>
-<div id="qwebr-insertion-location-4"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>Now, the data is tidy because 1) each <em>columns</em> is a variable, and 2) each <em>row</em> is one observation, a combination of religion and income.</p>
-<p>The <em>tidy</em> framework is also used to store observations that happen at regular time interval. For example, the <code>Billboard</code> dataset record when a song first entered the top <span class="math inline">\(100\)</span> chart. It includes variables like <em>artist</em>, <em>track</em>, <em>data.entered</em>, <em>rank</em>, and <em>week</em>. The song’s <em>rank</em> over time is recorded across <span class="math inline">\(75\)</span> columns, from <code>wk1</code> to <code>wk75</code>. While this format is not tidy, it can be helpful for entering data. It avoids repeating the same information – like the song title and artist – every week. Because of that, each song only needs one row instead of one row per week. We will explore this type of structure in more details when discussing <em>multiple types</em>.</p>
-<div id="qwebr-insertion-location-5"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p><strong>how to tidy it?</strong> Again, we use the <code>pivot_longer()</code> function. Here is how it works:</p>
-<ol type="1">
-<li>We <em>transform</em> the columns from <code>wk1</code> to <code>wk76</code> into a new column called <code>weak</code> which stores the column names.</li>
-<li>We create another column called <code>rank</code> which stores the <strong>values</strong> from those columns.</li>
-<li>We use the option <code>values_drop_na = TRUE</code> to <strong>remove missing values</strong> in the <code>rank</code> column. These missing values mean the song was not on the chart in that week, so we do not need them.</li>
-<li>After that, we clean the data a bit. we <strong>convert the <code>week</code> column to a number</strong>, and we <strong>calculate the chart date</strong> for each row based on when the song first entered the chart.</li>
-<li><strong>Finally</strong>, it is always a good idea to <strong>sort the data</strong> to make it easier to read.
-<ul>
-<li><p>We can srot it by <code>artist</code>, <code>track</code>, and <code>week</code></p></li>
-<li><p>Or we can sort it by <code>date</code> and <code>rank</code></p></li>
-</ul></li>
-</ol>
-<div id="qwebr-insertion-location-6"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div id="qwebr-insertion-location-7"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>&lt;!–#</p>
-<p>A tidy version of the classroom data looks like this: (you’ll learn how the functions work a little later)</p>
-<pre><code>library(tidyr) library(dplyr)</code></pre>
-<pre><code>classroom2 &lt;- classroom %&gt;%    pivot_longer(quiz1:test1, names_to = "assessment", values_to = "grade") %&gt;%    arrange(name, assessment) classroom2 #&gt; # A tibble: 12 × 3 #&gt;   name  assessment grade #&gt;   &lt;chr&gt; &lt;chr&gt;      &lt;chr&gt; #&gt; 1 Billy quiz1      &lt;NA&gt;  #&gt; 2 Billy quiz2      D     #&gt; 3 Billy test1      C     #&gt; 4 Jenny quiz1      A     #&gt; 5 Jenny quiz2      A     #&gt; 6 Jenny test1      B     #&gt; # ℹ 6 more rows</code></pre>
-<p>This makes the values, variables, and observations more clear. The dataset contains 36 values representing three variables and 12 observations. The variables are:</p>
-<ol type="1">
-<li></li>
-<li><p><code>name</code>, with four possible values (Billy, Suzy, Lionel, and Jenny).</p></li>
-<li></li>
-<li><p><code>assessment</code>, with three possible values (quiz1, quiz2, and test1).</p></li>
-<li></li>
-<li><p><code>grade</code>, with five or six values depending on how you think of the missing value (A, B, C, D, F, NA).</p></li>
-<li></li>
-</ol>
-<p>The tidy data frame explicitly tells us the definition of an observation. In this classroom, every combination of <code>name</code> and <code>assessment</code> is a single measured observation. The dataset also informs us of missing values, which can and do have meaning. Billy was absent for the first quiz, but tried to salvage his grade. Suzy failed the first quiz, so she decided to drop the class. To calculate Billy’s final grade, we might replace this missing value with an F (or he might get a second chance to take the quiz). However, if we want to know the class average for Test 1, dropping Suzy’s structural missing value would be more appropriate than imputing a new value.</p>
-<p>–&gt;</p>
-</section>
-</section>
-<section id="introduction-to-dplyr" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="introduction-to-dplyr"><span class="header-section-number">3.1</span> Introduction to <code>dplyr</code></h2>
-<p>The <em>dplyr</em> package is designed to make it easy to work with data, like data frames. One great feature of <em>dply</em> is its <strong>consistency</strong> – the first argument of each main function is always the dataset. This makes it easier to learn: once you understand one function, it becomes easier to understand the others just by seeing examples.</p>
-<p>Another reason to use <em>dplyr</em> is that it focuses on a <strong>small number of core functions</strong>, built to do one job well. These are called <strong>verbs</strong> because they “<em>do something</em>” to the data. For example:</p>
-<ul>
-<li><p><code>select()</code> chooses certain columns, i.e., select variables by their names,</p></li>
-<li><p><code>mutate()</code> creates new variables with functions of existing variables,</p></li>
-<li><p><code>filter()</code> picks certain rows, i.e, select observations by their values,</p></li>
-<li><p><code>arrange()</code> reorders the rows,</p></li>
-<li><p><code>summarise()</code> gives summary information for groups.</p></li>
-</ul>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The names of these verbs are chosen to clearly show what they do to the input data.</p>
-</div>
-</div>
-<p>Besides being simple, <em>dplyr</em> is also <strong>fast</strong>. Speed is not important with small datasets, but it matters when working with hundreds of thousands of rows. Also, <em>dplyr</em> works not only with data frames, but also with other data sources, like databases. Here, we focus on data frames and tibbles. But once you know how to use <em>dplyr</em> here, you can use it with other types of data too.</p>
-<div class="callout callout-style-simple callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-A dplyr cheat sheet
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The developers of Rstudio have created a very helpful <a href="https://rstudio.github.io/cheatsheets/html/data-transformation.html">cheat sheet</a> that summarizes main functions of <em>dplyr</em>.</p>
-<p><img src="..\figs/dplyr/data-transformation.jpg" class="img-fluid"></p>
-</div>
-</div>
-<section id="subset-variables-with-select" class="level3" data-number="3.1.1">
-<h3 data-number="3.1.1" class="anchored" data-anchor-id="subset-variables-with-select"><span class="header-section-number">3.1.1</span> Subset variables with <code>select()</code></h3>
-<p>We use <code>select()</code> function to choose specific variables (columns) from a data frame or tibble. This is helpful when our dataset has many variables, but we only want to work with a few of them.</p>
-<p>The basic structure of <code>select()</code> looks like this</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(<span class="sc">&lt;</span>data<span class="sc">&gt;</span>, <span class="sc">&lt;</span>variable<span class="dv">-1</span><span class="sc">&gt;</span>, <span class="sc">&lt;</span>variable<span class="dv">-2</span><span class="sc">&gt;</span>, ...)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>This is <strong>not real R code</strong> you can run – it’s <strong>pseudocode</strong> that shows how the function is used in general.</p>
-</div>
-</div>
-<p>Let us break down what each part means:</p>
-<ul>
-<li><p>The first argument, <code>&lt;data&gt;</code>, is the name of the dataset. This is required – <em>dplyr</em> functions only work when we give them data.</p></li>
-<li><p>The other arguments are the names of the variables we want to keep. For example, <code>&lt;variable-1&gt;</code> and <code>&lt;variable-2&gt;</code> are the first two variables we are selecting. The <code>...</code> means we can keep adding more variable names if needed.</p></li>
-</ul>
-</section>
-<section id="creating-variables-with-mutate" class="level3" data-number="3.1.2">
-<h3 data-number="3.1.2" class="anchored" data-anchor-id="creating-variables-with-mutate"><span class="header-section-number">3.1.2</span> Creating variables with <code>mutate</code></h3>
-<p>We use <code>mutate()</code> to add a new variables (columns) to a data frame or tibble. This is helpful when we want to create new variables based on existing ones, for example to help analysis.</p>
-<p>The basic form of <code>mutate()</code> looks like this</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mutate</span>(<span class="sc">&lt;</span>data<span class="sc">&gt;</span>, <span class="sc">&lt;</span>expression<span class="dv">-1</span><span class="sc">&gt;</span>, <span class="sc">&lt;</span>expression<span class="dv">-2</span><span class="sc">&gt;</span>, ...)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<ul>
-<li><p>The first part, <code>&lt;data&gt;</code>, is the name of your dataset.</p></li>
-<li><p>The other parts, <code>&lt;expression-1&gt;</code>, <code>&lt;expression-2&gt;</code>, and so on, are formulas that create new variables. These expressions can use the columns already in the dataset.</p></li>
-<li><p>the <code>...</code> means you can add as many expressions as you like.</p>
-<p>Each expression usually gives a name to a new columns and defines what goes in it. Most of the time it is a simple calculation, but it can be more complex if needed.</p></li>
-</ul>
 
 
-</section>
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -2789,11 +2635,14 @@ Note
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../chapters/chapter2_data_visualization.html" class="pagination-link" aria-label="Data Visualization">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Data Visualization</span></span>
+      <a href="../chapters/chapter1_data_ethics.html" class="pagination-link" aria-label="Data Ethics">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Data Ethics</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="../chapters/chapter2_data_visualization.html" class="pagination-link" aria-label="Data Visualization">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Data Visualization</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->
