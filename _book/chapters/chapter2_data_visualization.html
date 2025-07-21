@@ -1768,7 +1768,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/chapter3_dplyr.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Getting Started</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Getting Started with <code>dplyr</code></span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -2197,8 +2197,20 @@ Memory tip
 <h2 data-number="3.3" class="anchored" data-anchor-id="layers"><span class="header-section-number">3.3</span> Layers</h2>
 <p>The <em>layer</em> is the <strong>heart</strong> of any plot in <em>ggplot2</em>. A layer takes the mapped data and turns it into something that a human can see and understand – like points, lines, or bars.</p>
 <p>Each layer has three main parts: 1. <strong>Geometry</strong> – decides <em>how</em> the data is shown (for example: points, lines, bars) 2. <strong>Statistical transformation</strong> – can create <em>new values</em> from the data (like averages or smooth curves). 3. <strong>Position adjustment</strong> – controls <em>where</em> each part of the plot appears, especially when things overlap.</p>
-<p>A layer can be constructed using functions that start with <code>geom_</code> (for geometry) and <code>stat_</code> (for statistics). These function help us choose how the data looks and what to display.<br>
-::: callout-note The <code>geom_*()</code> and <code>stat_*()</code> functions usually control <strong>one</strong> part of the layer – like the geometry or the statistics – but you can still <strong>manullay</strong> choose the other two parts if you want. :::</p>
+<p>A layer can be constructed using functions that start with <code>geom_</code> (for geometry) and <code>stat_</code> (for statistics). These function help us choose how the data looks and what to display.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <code>geom_*()</code> and <code>stat_*()</code> functions usually control <strong>one</strong> part of the layer – like the geometry or the statistics – but you can still <strong>manullay</strong> choose the other two parts if you want.</p>
+</div>
+</div>
 <p>The code below shows how to make a <em>scatter plot</em> with a <em>trend line</em> using two layers:</p>
 <div id="qwebr-insertion-location-4"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
@@ -2945,8 +2957,8 @@ Wickham, Hadley, Danielle Navarro, and Thomas Lin Pederson. 2019. <em>Ggplot2: E
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../chapters/chapter3_dplyr.html" class="pagination-link" aria-label="Getting Started">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Getting Started</span></span>
+      <a href="../chapters/chapter3_dplyr.html" class="pagination-link" aria-label="Getting Started with `dplyr`">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Getting Started with <code>dplyr</code></span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

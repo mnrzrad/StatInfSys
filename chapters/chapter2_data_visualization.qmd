@@ -61,7 +61,7 @@ data(mpg)
 ggplot(data = mpg)
 ```
 
-::: callout-note
+::: {.callout-note}
 ## You should see an empty plot. It is **correct**. Can you explain why the plot is empty?
 :::
 
@@ -78,7 +78,7 @@ In *ggplot2* package, *mapping* means telling the system how to connect parts of
 
 These help us turn numbers into pictures. It is how we ''*dress up*" the data so it speaks to our eyes.
 
-::: callout-tip
+::: {.callout-tip}
 ## Memory tip
 
 Just like fashion has aesthetic styles (like modern, classic, or colorful), plots also have *aesthetics* -- they decide how the data looks!
@@ -98,8 +98,11 @@ The *layer* is the **heart** of any plot in *ggplot2*. A layer takes the mapped 
 
 Each layer has three main parts: 1. **Geometry** -- decides *how* the data is shown (for example: points, lines, bars) 2. **Statistical transformation** -- can create *new values* from the data (like averages or smooth curves). 3. **Position adjustment** -- controls *where* each part of the plot appears, especially when things overlap.
 
-A layer can be constructed using functions that start with `geom_` (for geometry) and `stat_` (for statistics). These function help us choose how the data looks and what to display.\
-::: callout-note The `geom_*()` and `stat_*()` functions usually control **one** part of the layer -- like the geometry or the statistics -- but you can still **manullay** choose the other two parts if you want. :::
+A layer can be constructed using functions that start with `geom_` (for geometry) and `stat_` (for statistics). These function help us choose how the data looks and what to display.
+
+::: {.callout-note}
+The `geom_*()` and `stat_*()` functions usually control **one** part of the layer -- like the geometry or the statistics -- but you can still **manullay** choose the other two parts if you want. 
+:::
 
 The code below shows how to make a *scatter plot* with a *trend line* using two layers:
 
@@ -212,7 +215,7 @@ ggplot(mpg, aes(cty, hwy)) +
   theme(panel.grid.minor = element_blank())
 ```
 
-::: callout-note
+::: {.callout-note}
 There is no need to type argumants.
 :::
 
@@ -220,7 +223,7 @@ There is no need to type argumants.
 
 A *scatter plot* shows the **relationship between two numeric variables**. each point on the plot represents one observation.
 
-::: callout-tip
+::: {.callout-tip}
 Scatter plots are useful for seeing patterns, trends, or outliers in data.
 :::
 
@@ -512,7 +515,7 @@ ggplot(mpg, aes(x = hwy)) +
 
 ```
 
-::: callout-note
+::: {.callout-note}
 ## What is `after_stat(density)`?
 
 In *ggplot2*, when you use `geom_histogram()`, the default $y$-axis is **count** (how many observations fall in each bin). But if you write `aes(y = after_stat(density))`, you are asking *ggplot2* to scale the height of the bars so they represent probability density instead of raw counts. This allows you to compare this histogram with a density curve (like the one from `geom_density()`), which also shows density.

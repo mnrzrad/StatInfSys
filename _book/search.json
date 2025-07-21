@@ -45,12 +45,199 @@
   {
     "objectID": "chapters/chapter3_dplyr.html",
     "href": "chapters/chapter3_dplyr.html",
-    "title": "2  Getting Started",
+    "title": "2  Getting Started with dplyr",
     "section": "",
-    "text": "Attaching package: 'dplyr'\n\n\nThe following objects are masked from 'package:stats':\n\n    filter, lag\n\n\nThe following objects are masked from 'package:base':\n\n    intersect, setdiff, setequal, union\n\n\nThe dplyr package is a part of the R tidyverse : an ecosystem of several libraries designed to work together by representing data in common formats.\n\n\n\n\n\n\nCaution\n\n\n\nTo load the dplyr package, you can install and load it as a standalone package or load the tidyverse.\n\n\n\n\n\n\n\n\nTidyverse includes:\n\n\n\n\nthe dplyr for data manipulation\nthe ggplot2for data visualization\nthe stringrfor string manipulation\nthe readrfor data importing\nthe tibblewhich extends data frame objects\nthe tidyr for tidy data\nthe purrfor working with functions and vectors\nthe forcats for factors\nthe lubridate for date-times\n\n\n\nThe data frame is a key data structure in statistics and in R. The basic structure of a data frame is that there is one observation per ro and each column represents a variable, a measure, feature, or characteristic of that observation. Given the importance of managing data frames, it is important that we have good tools for dealing with them.\n\n\n\n\n\n\nImagine you have a big box of cookies, and you want to find all the chocolate chip cookies, count how many you have, and then sort them by size. The dplyr is like a super-smart helper that makes it easy to do all these tasks and more!!\n\n\n\nThe dplyr package is a relatively new R package that allows you to do all kinds of analyses quickly and easily.\n\n\n\n\n\n\nTip\n\n\n\nIt is especially useful for creating tables of summary statistics across specific groups of data.\n\n\nOne important contribution of the dplyr package is that it provides a “grammar” (in particular, verbs) for data manipulating and for operating on data frames. With this grammar, you can sensibly communicate what it is that you are doing to a data frame that other people can understand (assuming they also know the grammar). This is useful because it provides an abstraction for data manipulation that previously did not exist.\n\n\n\n\n\n\nImportant\n\n\n\nProgramming with dplyr look a lot different than programming in standard R. The dplyr works by combining objects (data frames and columns in data frames), functions (mean, median, etc.), and verbs (special commands in dplyr).\n\n\n\n\n\n\n\n\nImportant\n\n\n\nIn between the commands in dplyr is a new operator called the pipe which looks like this %&gt;% or in the recent versions, like this |&gt; . The pip tells R that you want to continue executing functions or verbs on the object you are working on. you can think about this pip as meaning ’and then …’\n\n\n\n\n\n\n\n\nNote\n\n\n\nSpecial commands called verbs because they “do something” to the data.\n\n\nSome of the key “verbs” provided by the dplyr package are\n\nselect() : chooses certain columns, i.e., select variables by their names,\nfilter() : extract certain rows, i.e, select observations by their values,\nmutate() : creates new variables/columns or transform existing variables,\narrange() : reorders rows of a data frame\nrename() : rename variables in a data frame\nsummarise() / summarize() : gives summary information for different variables in data frame\n%&gt;% or |&gt; : the “pipe” operator is used to connect multiple verb actions together into a pipeline.\n\nTo install the dplyr package from CRAN, just run\n\ninstall.packages(\"dplyr\")\n\n\n\n\n\n\n\nTip\n\n\n\nAnother way to get dplyr package is to install the whole tidyverse .\n\n\nAfter installing the package, it is important to load it into the R session.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\n\n\n\nWarning\n\n\n\nYou may get some warnings when the package is loaded because there are functions in the dplyr package that have the same name ad functions in other packages.\n\n\n\n\n\n\n\n\nNote\n\n\n\nNote that all functions in the dplyr package require tidy data, which means that\n\neach variable is in its own column,\neach observation, or case, is in its own row\neach value is in its own cell\n\n\n\nRules of a tidy data frame: variables are columns, observations are rows, and values are cells. Source: @wickham2023",
+    "text": "2.1 Filter observations - filter()\nThe dplyr package is a part of the R tidyverse : an ecosystem of several libraries designed to work together by representing data in common formats.\nThe data frame is a key data structure in statistics and in R. The basic structure of a data frame is that there is one observation per ro and each column represents a variable, a measure, feature, or characteristic of that observation. Given the importance of managing data frames, it is important that we have good tools for dealing with them.\nThe dplyr package is a relatively new R package that allows you to do all kinds of analyses quickly and easily.\nOne important contribution of the dplyr package is that it provides a “grammar” (in particular, verbs) for data manipulating and for operating on data frames. With this grammar, you can sensibly communicate what it is that you are doing to a data frame that other people can understand (assuming they also know the grammar). This is useful because it provides an abstraction for data manipulation that previously did not exist.\nSome of the key “verbs” provided by the dplyr package are\nTo install the dplyr package from CRAN, just run\nAfter installing the package, it is important to load it into the R session.\nTo better understanding, let us continue within analyzing a dataset, penguins, available within the palmerpenguins package. we need to load the dataset and if it is necessary, we need to install the package.\n‌The data frame contain data for \\(344\\) penguins and \\(8\\) variables describing the species (species), the island (island), some measurements of the size of the bill (bill_length_mm and bill_depth_mm), flipper (flipper_length_mm) and body mass (body_mass_g), the sex (sex) and the study year (year). More information about the data frame can be found by running ?penguins .\nYou can see some basic characteristics of the dataset with the dim() and str() functions.\nThe first and last 6 rows can be displayed by head() and tail(), respectively.\nThe summary information of data frame can be found by summary() .\nThis function works on both quantitative and qualitative variables.\nYou can combine multiple conditions using & if all conditions must be true (cumulative), or | if at least one condition must be true (alternative). For example,\nAs you can see, the filter() functions require the name of the data frames as the first argument, then the condition (with the usual logical operators &gt;, &lt;, &gt;=, &lt;=, ==, !=, %in%, etc.) as second argument.\nSo with the pipe operator, the code above becomes:\nInstead of listing the data frame’s name as the initial argument within functions like filter() (or other {dplyr} functions), you simply specify the data frame once, then use the pipe operator to connect it to the desired function.",
     "crumbs": [
       "EDA",
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Getting Started</span>"
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Getting Started with `dplyr`</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/chapter3_dplyr.html#filter-observations---filter",
+    "href": "chapters/chapter3_dplyr.html#filter-observations---filter",
+    "title": "2  Getting Started with dplyr",
+    "section": "",
+    "text": "Please enable JavaScript to experience the dynamic code cell content on this page.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\n\n\n\nNote\n\n\n\nVariable names should be used directly, without enclosing them in single or double quotation marks (' or \").\n\n\n\n\n\n\n\n\n\nCaution\n\n\n\nTo use any functions in the dplyr package, you must specify the data frame’s name as the first argument. Alternatively, you can use the pipe operator (|&gt; or %&gt;% ) to avoid explicitly naming the data frame within each function.\n\n\n\n\n\n\n\n\nTip\n\n\n\nThe keyboard shortcut for the pipe operator is ctrl+shift+M on Windows or cmd + shift + M on Mac. By default, this will produce %&gt;%, but if you have configured RStudio to use the native pipe operator, it will print |&gt; .\n\n\n\n\n\n\nthe %&gt;% pipe, originating from the magrittr package (included in the tidyverse), was superseded in R 4.1.0 (released in 2021) by the native |&gt; pipe. We recommend |&gt; because it’s a simpler, built-in feature of base R, always available without needing additional package loads.\n\n\n\n\n\n\n\n\n\n\n\nImportant\n\n\n\nThe pipe operator lets you chain multiple operations together, which is especially handy for performing several calculations on a data frame without saving the result of each intermediate step.\n\n\n\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\n\n\n\nNote\n\n\n\nThe pipe operator streamlines your code by feeding the output of one operation directly into the next, making your code much easier to write and read.",
+    "crumbs": [
+      "EDA",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Getting Started with `dplyr`</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/chapter3_dplyr.html#extract-observations",
+    "href": "chapters/chapter3_dplyr.html#extract-observations",
+    "title": "2  Getting Started with dplyr",
+    "section": "2.2 Extract observations",
+    "text": "2.2 Extract observations\nYou can extract observations from a dataset based on either their positions or their values.\n\n2.2.1 Based on Their Positions\nTo extract observations based on their positions, you can use the slice() function.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nFurthermore, for extracting specific rows like the first or last, you can use specialized functions:\n\nslice_head(): Extracts rows from the beginning of the dataset.\nslice_tail(): Extracts rows from the end of the dataset.\n\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n2.2.2 Based on their values\nWhen you need to extract observations based on the values of a variable, you can use:\n\nslice_min(): Selects rows with the lowest values, allowing you to define a specific proportion.\nslice_max(): Selects rows with the highest values, also with the option to define a proportion.\n\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.",
+    "crumbs": [
+      "EDA",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Getting Started with `dplyr`</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/chapter3_dplyr.html#sample-observations",
+    "href": "chapters/chapter3_dplyr.html#sample-observations",
+    "title": "2  Getting Started with dplyr",
+    "section": "2.3 Sample Observations",
+    "text": "2.3 Sample Observations\nSampling observations can be achieved in two ways:\n\nsample_n(): Takes a random sample of a specified number of rows.\nsample_frac(): Takes a random sample of a specified fraction of rows.\n\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\n\n\n\nNote\n\n\n\nIt is important to note that, similar to the base R sample() function, the size argument can exceed the total number of rows in your data frame. If this happens, some rows will be duplicated, and you will need to explicitly set the argument replace = TRUE.\n\n\nAlternatively, you can obtain a random sample (either a specific number or a fraction of rows) using slice_sample(). For this, you use:\n\nThe argument n to select a specific number of rows.\nThe argument prop to select a fraction of rows.\n\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.",
+    "crumbs": [
+      "EDA",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Getting Started with `dplyr`</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/chapter3_dplyr.html#sort-observations",
+    "href": "chapters/chapter3_dplyr.html#sort-observations",
+    "title": "2  Getting Started with dplyr",
+    "section": "2.4 Sort observations",
+    "text": "2.4 Sort observations\nObservations can be sorted using the arrange() function.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nBy default, arrange() sorts in ascending order. To sort in descending order, simply use desc() within the arrange() function, like arrange(desc(variable_name)).\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nSimilar to filter(), arrange() can sort by multiple variables and works with both quantitative (numerical) and qualitative (categorical) variables. For example, arrange(sex, body_mass) would first sort by sex (alphabetical order) and then by body_mass (ascending, from lowest to highest).\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\n\n\n\nImportant\n\n\n\nIt is important to note that if a qualitative variable is defined as an ordered factor, the sorting will follow its defined level order, not alphabetical order.",
+    "crumbs": [
+      "EDA",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Getting Started with `dplyr`</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/chapter3_dplyr.html#select-variables",
+    "href": "chapters/chapter3_dplyr.html#select-variables",
+    "title": "2  Getting Started with dplyr",
+    "section": "2.5 Select variables",
+    "text": "2.5 Select variables\nYou can select variables using the select() function based on their position or name.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nTo remove variables, use a - sign before their position or name.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nYou can also select a sequence of variables by name (e.g., select(df, var1:var5)).\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nFurthermore, select() provides a straightforward way to rearrange column order in your data frame.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n2.5.1 Select using helper functions\nThe select() function also supports helper functions for matching column names based on patterns:\nstarts_with(\"abc\") selects all columns whose names begin with the specified string.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nends_with(\"xyz\") selects all columns whose names end with the specified string.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\ncontains(\"ijk\") selects all columns that contain the specified substring anywhere in their name.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nThe everything() helper selects all remaining columns that have not been explicitly mentioned. It is useful when you want to: move some variables to the front, or keep all others in their existing order.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nnum_range(\"prefix\", 1:3) selects variables with names like \"prefix1\", \"prefix2\", \"prefix3\", etc. This is useful for selecting numbered variables.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nmatches(\"(.)\\\\1\") selects columns whose names match a regular expression (regex).\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nThis example selects aa and bb but not ab, since the pattern (.)\\\\1 means “a character repeated twice”.",
+    "crumbs": [
+      "EDA",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Getting Started with `dplyr`</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/chapter3_dplyr.html#renaming-variables",
+    "href": "chapters/chapter3_dplyr.html#renaming-variables",
+    "title": "2  Getting Started with dplyr",
+    "section": "2.6 Renaming Variables",
+    "text": "2.6 Renaming Variables\nTo rename variables, use the rename() function.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nRemember the syntax: new_name = old_name. This means you always write the desired new name first, followed by an equals sign, and then the current old name of the variable.",
+    "crumbs": [
+      "EDA",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Getting Started with `dplyr`</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/chapter3_dplyr.html#create-or-modify-variables",
+    "href": "chapters/chapter3_dplyr.html#create-or-modify-variables",
+    "title": "2  Getting Started with dplyr",
+    "section": "2.7 Create or Modify Variables",
+    "text": "2.7 Create or Modify Variables\nThe mutate() function allows you to create new variables or modify existing ones. You can base these operations on another existing variable or a vector of your choice.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\n\n\n\nNote\n\n\n\nIf you create a variable with a name that already exists, the old variable will be overwritten.\n\n\nSimilar to rename(), mutate() requires the argument to be in the format name = expression, where name is the column being created or modified, and expression is the formula for its values.\nThere is another function transmute() that is also used to create a new variable in a data frame by transforming existing ones. However, unlike mutate(), which keeps all original columns and simply adds the new ones, transmute() returns only the newly created variables. This means that when you use transmute(), the resulting data frame will include just the variables you explicitly define inside the function. It is particularly useful when you want a clean output focused only on the transformed results, without retaining the original dataset’s columns. In contrast, mutate() is ideal when you want to preserve the full structure of your data while adding new insights.\nLet us create a new column (body mass in kg).\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.",
+    "crumbs": [
+      "EDA",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Getting Started with `dplyr`</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/chapter3_dplyr.html#summarize-observations",
+    "href": "chapters/chapter3_dplyr.html#summarize-observations",
+    "title": "2  Getting Started with dplyr",
+    "section": "2.8 Summarize Observations",
+    "text": "2.8 Summarize Observations\nTo get descriptive statistics of your data, use the summarize() (or summarise()) function in conjunction with statistical functions like mean(), median(), min(), max(), sd(), var(), etc.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nRemember to use na.rm = TRUE to exclude missing values from calculations.",
+    "crumbs": [
+      "EDA",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Getting Started with `dplyr`</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/chapter3_dplyr.html#identify-distinct-values",
+    "href": "chapters/chapter3_dplyr.html#identify-distinct-values",
+    "title": "2  Getting Started with dplyr",
+    "section": "2.9 Identify Distinct Values",
+    "text": "2.9 Identify Distinct Values\nThe distinct() function helps you find unique values within a variable.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nWhile typically used for qualitative or quantitative discrete variables, it works for any variable type and can identify unique combinations of values when multiple variables are specified. For instance, distinct(species, study_year) would return all unique combinations of species and study year.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.",
+    "crumbs": [
+      "EDA",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Getting Started with `dplyr`</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/chapter3_dplyr.html#group-by",
+    "href": "chapters/chapter3_dplyr.html#group-by",
+    "title": "2  Getting Started with dplyr",
+    "section": "2.10 Group By",
+    "text": "2.10 Group By\nThe group_by() function changes how subsequent operations are performed. Instead of applying functions to the entire data frame, operations will be applied to each defined group of rows. This is particularly useful with summarize(), as it will produce statistics for each group rather than for all observations.\nFor example, to calculate the mean and standard deviation of body_mass separately for each species, you would first group_by(species) and then summarize() the body_mass. The pipe operator smoothly passes the grouped data from group_by() to summarize().\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nYou can also group by multiple variables (e.g., group_by(var1, var2)), and the data frame’s name only needs to be specified in the very first operation of a chained sequence.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.",
+    "crumbs": [
+      "EDA",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Getting Started with `dplyr`</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/chapter3_dplyr.html#managing-groups-ungroup",
+    "href": "chapters/chapter3_dplyr.html#managing-groups-ungroup",
+    "title": "2  Getting Started with dplyr",
+    "section": "2.11 Managing Groups: ungroup()",
+    "text": "2.11 Managing Groups: ungroup()\nAfter performing operations on grouped data, the ungroup() function allows you to revert to a normal data frame, enabling operations on entire columns again or switching to new grouping criteria. Remember, you can also group_by() multiple columns simultaneously.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.",
+    "crumbs": [
+      "EDA",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Getting Started with `dplyr`</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/chapter3_dplyr.html#number-of-observations",
+    "href": "chapters/chapter3_dplyr.html#number-of-observations",
+    "title": "2  Getting Started with dplyr",
+    "section": "2.12 Number of Observations",
+    "text": "2.12 Number of Observations\nThe function n() returns the number of observations. It can only be used inside summarize().\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nWhen combined with group_by(), you can easily get the number of observations per group. n() takes no parameters, so it’s always written as n().\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nNotably, the count() function is a convenient shortcut, equivalent to summarize(n = n()).\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.",
+    "crumbs": [
+      "EDA",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Getting Started with `dplyr`</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/chapter3_dplyr.html#number-of-distinct-values",
+    "href": "chapters/chapter3_dplyr.html#number-of-distinct-values",
+    "title": "2  Getting Started with dplyr",
+    "section": "2.13 Number of Distinct Values",
+    "text": "2.13 Number of Distinct Values\nTo count the number of unique values or levels in a variable (or combination of variables), use n_distinct(). Like n(), it’s exclusively used within summarize().\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nYou do not have to explicitly name the output; the operation’s name will be used by default (e.g., summarize(n_distinct(variable))).\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.",
+    "crumbs": [
+      "EDA",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Getting Started with `dplyr`</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/chapter3_dplyr.html#first-last-or-nth-value",
+    "href": "chapters/chapter3_dplyr.html#first-last-or-nth-value",
+    "title": "2  Getting Started with dplyr",
+    "section": "2.14 First, Last, or \\(n\\)th Value",
+    "text": "2.14 First, Last, or \\(n\\)th Value\nAlso available only within summarize(), you can retrieve the first, last, or nth value of a variable. Functions like first(), last(), and nth() enable this.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nThese functions offer arguments to handle missing values; for more details, consult their documentation (e.g., ?nth()).",
+    "crumbs": [
+      "EDA",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Getting Started with `dplyr`</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/chapter3_dplyr.html#conditional-transformations",
+    "href": "chapters/chapter3_dplyr.html#conditional-transformations",
+    "title": "2  Getting Started with dplyr",
+    "section": "2.15 Conditional Transformations",
+    "text": "2.15 Conditional Transformations\n\n2.15.1 If Else\nThe if_else() function (used with mutate()) is ideal for creating a new variable with two levels based on a condition. It takes three arguments:\n\nThe condition (e.g., body_mass_g &gt;= 4000).\nThe output value if the condition is TRUE (e.g., “High”).\nThe output value if the condition is FALSE (e.g., “Low”).\n\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\n\n\n\nTip\n\n\n\nA key advantage is that if_else() propagates missing values (NA) if the condition’s input is missing, preventing misclassification.\n\n\n\n\n2.15.2 Case When\nFor categorizing a variable into more than two levels, case_when() is far more appropriate and readable than nested if_else() statements.\nWhile nested if_else() functions can technically work, they are prone to errors and result in difficult-to-read code. For instance, to classify body mass into “Low” (&lt;3500), “High” (&gt;4750), and “Medium” (otherwise), nested if_else() would look like this:\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nThis code first checks if body_mass_g is less than 3500. If true, it assigns “Low”. If false, it then checks if body_mass_g is greater than 4750. If that’s true, it assigns “High”; otherwise, it assigns “Medium”. While functional, this structure can become complex and error-prone with more conditions.\ncase_when() evaluates conditions sequentially. To improve this workflow, we now use the case when technique:\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nThis workflow is much simpler to code and read!\nIf there are no missing values in the variable(s) used for the condition(s), it can even be simplified to:\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nWhile a .default argument can be used to specify an output for observations not matching any condition, exercise caution with missing values. If NA values in the conditioning variable are not explicitly handled, they might be incorrectly assigned to the default category. A safer approach is to explicitly define all categories or ensure NAs remain NA.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\n\n\n\nNote\n\n\n\nRegardless of whether you use if_else() or case_when(), it’s always good practice to verify the newly created variable to ensure it aligns with your intended results.",
+    "crumbs": [
+      "EDA",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Getting Started with `dplyr`</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/chapter3_dplyr.html#exploring-further-dplyr-functions",
+    "href": "chapters/chapter3_dplyr.html#exploring-further-dplyr-functions",
+    "title": "2  Getting Started with dplyr",
+    "section": "2.16 Exploring Further dplyr Functions",
+    "text": "2.16 Exploring Further dplyr Functions\nUntil now, we have focused on analyzing the penguins dataset. To effectively explain some of dplyr’s other powerful functions, we’ll now shift to creating custom datasets tailored to demonstrate their specific functionalities.\n\n2.16.1 Separate and Unite\nYou can separate a character column into two or more new columns using separate().\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nConversely, to combine two or more columns into a single character column, use unite().\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n2.16.2 Reshaping Data: gather() and spread()\ngather() transforms “wide” format data into “long” or “tall” format by collapsing columns into key-value pairs.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nConversely, spread() converts “long” or “tall” format data into “wide” format by separating key-value pairs across multiple columns.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.",
+    "crumbs": [
+      "EDA",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Getting Started with `dplyr`</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/chapter3_dplyr.html#combining-datasets-joins",
+    "href": "chapters/chapter3_dplyr.html#combining-datasets-joins",
+    "title": "2  Getting Started with dplyr",
+    "section": "2.17 Combining Datasets: Joins",
+    "text": "2.17 Combining Datasets: Joins\nSometimes, your data is split across multiple tables. For example, one table may have demographic information (like gender, marital status, height, weight), and another table may have medical records (like visits and surgeries).\nWhen working with data spread across multiple tables, you’ll often need to combine them based on a shared column (a “key column”)—a process known as joining or merging. dplyr provides several functions for common data joins.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\ninner_join() keeps only the rows where “key column” exists in both tables and drops all rows that do not have a match in both.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nlefy_join() keeps all rows from the left table (here, table1) and fills in matching information from the right table (here, table2). If no match is found, you will get NAs.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nfull_join() keeps all rows from both tables. Rows without a match in the other table will have NAs.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nYou can match on more than one column. For example, match ID and also make sure the gender in table1 matches sex in table2.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nThis is useful when one key (ID) is not unique enough by itself.\nFilter-based joins: These do not add new columns. They just filter rows:\nsemi_join() keeps only rows in table1 that have a match in table2. It does not add any columns from table2.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nanti_join() keeps only rows in table1 that do not have a match in table2. It is good for finding “missing” mathches.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\n\n\n\nFor more information, plesee see chapter 19 of Wickham, Cetinkaya-Rundel, and Grolemund (2023) .\n\n\n\n\nExerciseHintsSolution\n\n\nUsing the starwars dataset and dplyr functions, perform the following data manipulations.\nPart 1: Initial Exploration and Filtering\n\nFilter for Human Characters: Create a new data frame called human_characters that only includes characters of the “Human” species.\nSelect Key Attributes: From human_characters, select only the name, height, mass, and homeworld columns.\n\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nPart 2: Calculating BMI and Identifying Extremes\n\nCalculate BMI: Add a new variable called bmi (Body Mass Index) to your human_characters data frame. The formula for BMI is \\(\\text{mass}/(\\text{height}/100)^2\\). Ensure that mass is in kilograms and height in centimeters as provided in the dataset.\nSort by BMI: Arrange the human_characters data frame in descending order based on their bmi.\n\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nPart 3: Grouped Summaries\n\nSpecies Statistics: Calculate the number of characters (n) and the average height for each species in the original starwars dataset.\nFilter Significant Species: From the previous summary, filter out species that have fewer than 5 characters and an average height greater than 100.\n\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nPart 4: Conditional Categorization\n\nCategorize Height: Add a new variable called height_category to the starwars dataset using mutate() and case_when().\n\nIf height is less than or equal to 100, categorize as “Short”.\nIf height is greater than 100 but less than or equal to 180, categorize as “Medium”.\nIf height is greater than 180, categorize as “Tall”.\nHandle NA values for height appropriately so they remain NA in height_category.\n\n\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\nPart 1: Initial Exploration and Filtering\n\nFilter for Human Characters: which dplyr function helps you select rows based on a condition? Remember the syntax for checking equality.\nThere is a dplyr function specifially for choosing columns.\n\nPart 2: Calculating BMI and Identifying Extremes\n\nCalculate BMI: Which dplyr function is used to create or modify columns? Pay attention to the order of operations in the formula.\nSort by BMI: The arrange() function is key here. How do you specify descending order?\n\nPart 3: Grouped Summaries\n\nSpecies Statistics: You will need two main functions here: one to define groups and another to calculate summary statistics within those groups. Do not forget to handle NA values for the mean.\nFilter Significant Species: You will apply another filter() operation, but this time on the summarized data. Remember how to combine two conditions.\n\nPart 4: Conditional Categorization\n\nCategorize Height: case_when() is perfect for multiple conditions. How do you specify the conditions and their corresponding outputs? Remember to check for NAs first to ensure they do not get misclassified by other conditions.\n\n\n\n\n\nSolution. \nlibrary(dplyr)\n\n# Part 1: Initial Exploration and Filtering\nhuman_characters &lt;- starwars |&gt; \n  filter(species == \"Human\") |&gt; \n  select(name, height, mass, homeworld)\n\n# Part 2: Calculating BMI and Identifying Extremes\nhuman_characters_bmi &lt;- human_characters  |&gt; \n  mutate(bmi = mass / ((height / 100)^2))  |&gt; \n  arrange(desc(bmi))\n\n# Part 3: Grouped Summaries\nspecies_stats &lt;- starwars  |&gt; \n  group_by(species) %&gt;%\n  summarise(\n    n = n(),\n    avg_height = mean(height, na.rm = TRUE)\n  ) %&gt;%\n  filter(\n    n &gt;= 5, \n    avg_height &gt; 100\n  )\n\n# Part 4: Conditional Categorization\nstarwars_with_height_category &lt;- starwars %&gt;%\n  mutate(\n    height_category = case_when(\n      is.na(height) ~ NA_character_, # Handle NA values first\n      height &lt;= 100 ~ \"Short\",\n      height &gt; 100 & height &lt;= 180 ~ \"Medium\",\n      height &gt; 180 ~ \"Tall\"\n    )\n  )\n\n\n\n\nTo learn more about the dplyr package, here are some recommended resources:\n\ndplyr.tidyverse.org\nChapter “Data transformation” in the book “R for Data Science”\nCheatsheet\nBlog Stats and R\nKaggele\n\n\n\n\n\nWickham, Hadley, Mine Cetinkaya-Rundel, and Garrett Grolemund. 2023. R for Data Science: Import, Tidy, Transform, Visualize, and Model Data. 2nd ed. https://r4ds.hadley.nz/.",
+    "crumbs": [
+      "EDA",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Getting Started with `dplyr`</span>"
     ]
   },
   {
@@ -91,7 +278,7 @@
     "href": "chapters/chapter2_data_visualization.html#layers",
     "title": "3  Data Visualization",
     "section": "3.3 Layers",
-    "text": "3.3 Layers\nThe layer is the heart of any plot in ggplot2. A layer takes the mapped data and turns it into something that a human can see and understand – like points, lines, or bars.\nEach layer has three main parts: 1. Geometry – decides how the data is shown (for example: points, lines, bars) 2. Statistical transformation – can create new values from the data (like averages or smooth curves). 3. Position adjustment – controls where each part of the plot appears, especially when things overlap.\nA layer can be constructed using functions that start with geom_ (for geometry) and stat_ (for statistics). These function help us choose how the data looks and what to display.\n::: callout-note The geom_*() and stat_*() functions usually control one part of the layer – like the geometry or the statistics – but you can still manullay choose the other two parts if you want. :::\nThe code below shows how to make a scatter plot with a trend line using two layers:\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.",
+    "text": "3.3 Layers\nThe layer is the heart of any plot in ggplot2. A layer takes the mapped data and turns it into something that a human can see and understand – like points, lines, or bars.\nEach layer has three main parts: 1. Geometry – decides how the data is shown (for example: points, lines, bars) 2. Statistical transformation – can create new values from the data (like averages or smooth curves). 3. Position adjustment – controls where each part of the plot appears, especially when things overlap.\nA layer can be constructed using functions that start with geom_ (for geometry) and stat_ (for statistics). These function help us choose how the data looks and what to display.\n\n\n\n\n\n\nNote\n\n\n\nThe geom_*() and stat_*() functions usually control one part of the layer – like the geometry or the statistics – but you can still manullay choose the other two parts if you want.\n\n\nThe code below shows how to make a scatter plot with a trend line using two layers:\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.",
     "crumbs": [
       "EDA",
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Data Visualization</span>"

@@ -14,30 +14,30 @@ library(dplyr)
 
 The *dplyr* package is a part of the R [tidyverse](https://www.tidyverse.org/) : an ecosystem of several libraries designed to work together by representing data in common formats.
 
-::: callout-caution
+::: {.callout-caution}
 To load the *dplyr* package, you can install and load it as a standalone package or load the *tidyverse*.
 :::
 
-::: callout-note
+::: {.callout-note}
 **Tidyverse includes:**
 
--    [*dplyr*](https://dplyr.tidyverse.org/) for data manipulation,
+-   [*dplyr*](https://dplyr.tidyverse.org/) for data manipulation,
 
--    [*ggplot2*](https://ggplot2.tidyverse.org/) for data visualization,
+-   [*ggplot2*](https://ggplot2.tidyverse.org/) for data visualization,
 
--    [*stringr*](https://stringr.tidyverse.org/) for string manipulation,
+-   [*stringr*](https://stringr.tidyverse.org/) for string manipulation,
 
--    [*readr*](https://readr.tidyverse.org/) for data importing,
+-   [*readr*](https://readr.tidyverse.org/) for data importing,
 
--    [*tibble*](https://tibble.tidyverse.org/)which extends data frame objects,
+-   [*tibble*](https://tibble.tidyverse.org/)which extends data frame objects,
 
--    [*tidyr*](https://tidyr.tidyverse.org/) for tidy data,
+-   [*tidyr*](https://tidyr.tidyverse.org/) for tidy data,
 
--    [*purr*](https://purrr.tidyverse.org/)for working with functions and vectors,
+-   [*purr*](https://purrr.tidyverse.org/)for working with functions and vectors,
 
--    [*forcats*](https://forcats.tidyverse.org/) for factors,
+-   [*forcats*](https://forcats.tidyverse.org/) for factors,
 
--    [*lubridate*](https://lubridate.tidyverse.org/) for date-times.
+-   [*lubridate*](https://lubridate.tidyverse.org/) for date-times.
 :::
 
 The *data frame* is a key data structure in statistics and in R. The basic structure of a data frame is that there is one observation per ro and each column represents a variable, a measure, feature, or characteristic of that observation. Given the importance of managing data frames, it is important that we have good tools for dealing with them.
@@ -48,21 +48,21 @@ Imagine you have a big box of cookies, and you want to find all the chocolate ch
 
 The `dplyr` package is a relatively new R package that allows you to do all kinds of analyses quickly and easily.
 
-::: callout-tip
+::: {.callout-tip}
 It is especially useful for creating tables of summary statistics across specific groups of data.
 :::
 
 One important contribution of the `dplyr` package is that it provides a "grammar" (in particular, verbs) for data manipulating and for operating on data frames. With this grammar, you can sensibly communicate what it is that you are doing to a data frame that other people can understand (assuming they also know the grammar). This is useful because it provides an abstraction for data manipulation that previously did not exist.
 
-::: callout-important
+::: {.callout-important}
 Programming with `dplyr` look a lot different than programming in standard R. The `dplyr` works by combining objects (data frames and columns in data frames), functions (mean, median, etc.), and **verbs** (special commands in `dplyr`).
 :::
 
-::: callout-important
+::: {.callout-important}
 In between the commands in `dplyr` is a new operator called the **pipe** which looks like this `%>%` or in the recent versions, like this `|>` . The pip tells R that you want to continue executing functions or verbs on the object you are working on. you can think about this pip as meaning '*and then ...'*
 :::
 
-::: callout-note
+::: {.callout-note}
 Special commands called **verbs** because they "do something" to the data.
 :::
 
@@ -89,7 +89,7 @@ To install the `dplyr` package from CRAN, just run
 install.packages("dplyr")
 ```
 
-::: callout-tip
+::: {.callout-tip}
 Another way to get `dplyr` package is to install the whole `tidyverse` .
 :::
 
@@ -99,11 +99,11 @@ After installing the package, it is important to load it into the R session.
 library(dplyr)
 ```
 
-::: callout-warning
+::: {.callout-warning}
 You may get some warnings when the package is loaded because there are functions in the `dplyr` package that have the same name ad functions in other packages.
 :::
 
-::: callout-note
+::: {.callout-note}
 Note that all functions in the `dplyr` package require tidy data, which means that
 
 -   each variable is in its own column,
@@ -177,17 +177,17 @@ You can combine multiple conditions using `&` if all conditions must be true (cu
 filter(penguins, body_mass_g > 4000 & sex == "female")
 ```
 
-::: callout-note
+::: {.callout-note}
 Variable names should be used directly, without enclosing them in single or double quotation marks (`'` or `"`).
 :::
 
 As you can see, the `filter()` functions require the name of the data frames as the first argument, then the condition (with the usual logical operators `>`, `<`, `>=`, `<=`, `==`, `!=`, `%in%`, etc.) as second argument.
 
-::: callout-caution
+::: {.callout-caution}
 To use any functions in the `dplyr` package, you **must** specify the data frame's name as the first argument. Alternatively, you can use the pipe operator (`|>` or `%>%` ) to avoid explicitly naming the data frame within each function.
 :::
 
-:::: callout-tip
+:::: {.callout-tip}
 The keyboard shortcut for the pipe operator is `ctrl+shift+M` on Windows or `cmd + shift + M` on Mac. By default, this will produce `%>%`, but if you have configured RStudio to use the native pipe operator, it will print `|>` .
 
 ::: {.callout-note appearance="minimal" icon="false"}
@@ -195,7 +195,7 @@ the `%>%` pipe, originating from the **`magrittr` package** (included in the `ti
 :::
 ::::
 
-::: callout-important
+::: {.callout-important}
 The pipe operator lets you **chain multiple operations together**, which is especially handy for performing several calculations on a data frame without saving the result of each intermediate step.
 :::
 
@@ -219,7 +219,7 @@ penguins |>
   filter(body_mass_g > 4000 & sex == "female")
 ```
 
-::: callout-note
+::: {.callout-note}
 The pipe operator **streamlines your code by feeding the output of one operation directly into the next**, making your code much easier to write and read.
 :::
 
@@ -298,7 +298,7 @@ penguins  |>
   sample_frac(size = 0.50)
 ```
 
-::: callout-note
+::: {.callout-note}
 It is important to note that, similar to the base R `sample()` function, the `size` argument can exceed the total number of rows in your data frame. If this happens, some rows will be duplicated, and you will need to explicitly set the argument `replace = TRUE`.
 :::
 
@@ -346,7 +346,7 @@ penguins |>
   arrange(sex, body_mass_g)
 ```
 
-::: callout-important
+::: {.callout-important}
 It is important to note that if a qualitative variable is defined as an **ordered factor**, the sorting will follow its **defined level order**, not alphabetical order.
 :::
 
@@ -396,6 +396,64 @@ penguins |>
   select(sex, species:year)
 ```
 
+### Select using helper functions
+
+The `select()` function also supports **helper functions** for matching column names based on patterns:
+
+`starts_with("abc")` selects all columns whose names begin with the specified string.
+
+```{webr-r}
+# select all variables that start with "bill"
+penguins |> 
+  select(starts_with('bill'))
+```
+
+`ends_with("xyz")` selects all columns whose names end with the specified string.
+
+```{webr-r}
+# select all variables that end with "_g"
+penguins |> 
+  select(ends_with('_g'))
+```
+
+`contains("ijk")` selects all columns that contain the specified substring anywhere in their name.
+
+```{webr-r}
+# select all variables that contain "length"
+penguins |>
+  select(contains("length"))
+```
+
+The `everything()` helper selects all remaining columns that have not been explicitly mentioned. It is useful when you want to: move some variables to the front, or keep all others in their existing order.
+
+```{webr-r}
+# Put 'sex' and 'year' first, then keep everything else
+penguins |>
+  select(sex, year, everything())
+```
+
+`num_range("prefix", 1:3)` selects variables with names like `"prefix1"`, `"prefix2"`, `"prefix3"`, etc. This is useful for selecting numbered variables.
+
+```{webr-r}
+# if you have variables like x1, x2, x3
+df <- tibble(x1 = 1, x2 = 2, x3 = 3, y = 4)
+
+df |>
+  select(num_range("x", 1:3))
+```
+
+`matches("(.)\\1")` selects columns whose names match a regular expression (regex).
+
+```{webr-r}
+# select columns that have repeated characters like "aa", "bb"
+df <- tibble(aa = 1, bb = 2, ab = 3)
+
+df |>
+  select(matches("(.)\\1"))
+```
+
+This example selects `aa` and `bb` but not `ab`, since the pattern `(.)\\1` means "a character repeated twice".
+
 ## Renaming Variables
 
 To rename variables, use the `rename()` function.
@@ -431,11 +489,37 @@ penguins |>
   )
 ```
 
-::: callout-note
+::: {.callout-note}
 If you create a variable with a name that already exists, the **old variable will be overwritten**.
 :::
 
 Similar to `rename()`, `mutate()` requires the argument to be in the format `name = expression`, where `name` is the column being created or modified, and `expression` is the formula for its values.
+
+There is another function `transmute()` that is also used to create a new variable in a data frame by transforming existing ones. However, unlike `mutate()`, which keeps all original columns and simply adds the new ones, `transmute()` returns only the newly created variables. This means that when you use `transmute()`, the resulting data frame will include just the variables you explicitly define inside the function. It is particularly useful when you want a clean output focused only on the transformed results, without retaining the original dataset's columns. In contrast, `mutate()` is ideal when you want to preserve the full structure of your data while adding new insights.
+
+Let us create a new column (body mass in kg).
+
+```{webr-r}
+penguins |>
+  transmute(body_mass_kg = body_mass_g / 1000)
+```
+
+```{webr-r}
+penguins |>
+  transmute(
+    bill_ratio = bill_length_mm / bill_depth_mm,
+    flipper_m = flipper_length_mm / 1000
+  )
+```
+
+```{webr-r}
+penguins |>
+  filter(!is.na(body_mass_g)) |>
+  transmute(
+    body_mass_kg = body_mass_g / 1000,
+    is_heavy = body_mass_g > 4000
+  )
+```
 
 ## Summarize Observations
 
@@ -498,8 +582,6 @@ penguins |>
     sd = sd(body_mass_g, na.rm = TRUE) # compute sd
   )
 ```
-
-
 
 ## Managing Groups: `ungroup()`
 
@@ -621,7 +703,7 @@ penguins |>
   )
 ```
 
-::: callout-tip
+::: {.callout-tip}
 A key advantage is that `if_else()` propagates missing values (`NA`) if the condition's input is missing, preventing misclassification.
 :::
 
@@ -692,7 +774,7 @@ penguins |>
   )
 ```
 
-::: callout-note
+::: {.callout-note}
 Regardless of whether you use `if_else()` or `case_when()`, it's always good practice to **verify the newly created variable** to ensure it aligns with your intended results.
 :::
 
@@ -766,7 +848,6 @@ wide_again <- long_data %>%
 wide_again
 ```
 
-
 ## Combining Datasets: Joins
 
 Sometimes, your data is split across multiple tables. For example, one table may have **demographic information** (like gender, marital status, height, weight), and another table may have **medical records** (like visits and surgeries).
@@ -775,12 +856,12 @@ When working with data spread across multiple tables, you'll often need to **com
 
 ```{webr-r}
 table1 <- data.frame(ID = c(1:8),
-                     gender = c('M', 'M', 'F', 'F', 'F', 'M', 'M', 'F', 'F'),
+                     gender = c('M', 'M', 'F', 'F', 'F', 'M', 'F', 'F'),
                      height = c(71, 73, 64, 64, 66, 69, 62, 72),
                      weight = c(175, 225, 130, 125, 165, 160, 115, 250))
 
 table2 <- data.frame(ID = c(1, 2, 4, 5, 7, 8, 9, 10),
-                     sex = c('M', 'M', 'F', 'F', 'F', 'M', 'M', 'F', 'F'),
+                     sex = c('M', 'M', 'F', 'F', 'F', 'M', 'M', 'F'),
                      visits = c(1,2,4,12,2,2,1,1),
                      checkup = c(1,1,1,1,1,1,0,0),
                      follow_up = c(0,0,1,2,0,0,0,0),
@@ -827,8 +908,7 @@ table1 %>% full_join(table2, by=c("ID", "gender" = "sex"))
 
 This is useful when one key (`ID`) is not unique enough by itself.
 
-**Filter-based joins**:
-These do not add new columns. They just **filter rows**:
+**Filter-based joins**: These do not add new columns. They just **filter rows**:
 
 `semi_join()` keeps only rows in `table1` that have a match in `table2`. It does not add any columns from `table2`.
 
@@ -841,6 +921,10 @@ table1 %>% semi_join(table2, by="ID")
 ```{webr-r}
 table1 %>% anti_join(table2, by="ID")
 ```
+
+::: {.callout-caution appearance="minimal"}
+For more information, plesee see [chapter 19](https://r4ds.hadley.nz/joins.html#how-do-joins-work) of @Wickham2023 .
+:::
 
 ::::: panel-tabset
 ## Exercise
