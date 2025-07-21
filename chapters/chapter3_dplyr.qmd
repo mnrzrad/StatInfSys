@@ -6,7 +6,7 @@ filters:
 ```{r}
 #| echo: false
 #| warning: false
-library(tidyr)
+library(tidyverse)
 library(dplyr)
 ```
 
@@ -334,7 +334,7 @@ penguins |>
 It is important to note that if a qualitative variable is defined as an **ordered factor**, the sorting will follow its **defined level order**, not alphabetical order.
 :::
 
-## Select variables 
+## Select variables
 
 You can select variables using the `select()` function based on their **position** or **name**.
 
@@ -594,7 +594,7 @@ A key advantage is that `if_else()` propagates missing values (`NA`) if the cond
 
 For categorizing a variable into **more than two levels**, **`case_when()`** is far more appropriate and readable than nested `if_else()` statements.
 
-While nested `if_else()` functions can technically work, they are **prone to errors** and result in **difficult-to-read code**. For instance, to classify body mass into "Low" (<3500), "High" (>4750), and "Medium" (otherwise), nested `if_else()` would look like this:
+While nested `if_else()` functions can technically work, they are **prone to errors** and result in **difficult-to-read code**. For instance, to classify body mass into "Low" (\<3500), "High" (\>4750), and "Medium" (otherwise), nested `if_else()` would look like this:
 
 ```{webr-r}
 # nested if else
