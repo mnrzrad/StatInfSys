@@ -217,7 +217,7 @@ You can extract observations from a dataset based on either their **positions** 
 
 To extract observations based on their positions, you can use the `slice()` function.
 
-```{webrr}
+```{webr-r}
 # extract rows 2, 5 and 37
 penguins |>
   slice(c(2, 5, 37))
