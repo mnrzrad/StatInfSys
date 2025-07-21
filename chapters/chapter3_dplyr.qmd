@@ -867,3 +867,5 @@ To learn more about the `dplyr` package, here are some recommended resources:
 -   [Cheatsheet](https://github.com/rstudio/cheatsheets/blob/main/data-transformation.pdf)
 
 -   [Blog Stats and R](https://statsandr.com/blog/introduction-to-data-manipulation-in-r-with-dplyr/)
+
+-   [Kaggele](https://www.kaggle.com/code/hamelg/dplyr-in-r)
