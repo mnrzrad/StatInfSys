@@ -21,7 +21,23 @@ To load the *dplyr* package, you can install and load it as a standalone package
 ::: callout-note
 **Tidyverse includes:**
 
-the [*dplyr*](https://dplyr.tidyverse.org/) for data manipulation, the [*ggplot2*](https://ggplot2.tidyverse.org/)for data visualization, the [*stringr*](https://stringr.tidyverse.org/)for string manipulation, the [*readr*](https://readr.tidyverse.org/)for data importing, the [*tibble*](https://tibble.tidyverse.org/)which extends data frame objects, the [*tidyr*](https://tidyr.tidyverse.org/) for tidy data, the [*purr*](https://purrr.tidyverse.org/)for working with functions and vectors, the [*forcats*](https://forcats.tidyverse.org/) for factors, the [*lubridate*](https://lubridate.tidyverse.org/) for date-times.
+-    [*dplyr*](https://dplyr.tidyverse.org/) for data manipulation,
+
+-    [*ggplot2*](https://ggplot2.tidyverse.org/) for data visualization,
+
+-    [*stringr*](https://stringr.tidyverse.org/) for string manipulation,
+
+-    [*readr*](https://readr.tidyverse.org/) for data importing,
+
+-    [*tibble*](https://tibble.tidyverse.org/)which extends data frame objects,
+
+-    [*tidyr*](https://tidyr.tidyverse.org/) for tidy data,
+
+-    [*purr*](https://purrr.tidyverse.org/)for working with functions and vectors,
+
+-    [*forcats*](https://forcats.tidyverse.org/) for factors,
+
+-    [*lubridate*](https://lubridate.tidyverse.org/) for date-times.
 :::
 
 The *data frame* is a key data structure in statistics and in R. The basic structure of a data frame is that there is one observation per ro and each column represents a variable, a measure, feature, or characteristic of that observation. Given the importance of managing data frames, it is important that we have good tools for dealing with them.
@@ -103,7 +119,7 @@ To better understanding, let us continue within analyzing a dataset, `penguins`,
 
 ```{r}
 #| eval: false
-install.packages("palmerpenguins")
+# install.packages("palmerpenguins")
 
 library("palmerpenguins")
 ```
@@ -174,7 +190,7 @@ To use any functions in the `dplyr` package, you **must** specify the data frame
 :::: callout-tip
 The keyboard shortcut for the pipe operator is `ctrl+shift+M` on Windows or `cmd + shift + M` on Mac. By default, this will produce `%>%`, but if you have configured RStudio to use the native pipe operator, it will print `|>` .
 
-::: callout-note
+::: {.callout-note appearance="minimal" icon="false"}
 the `%>%` pipe, originating from the **`magrittr` package** (included in the `tidyverse`), was superseded in R 4.1.0 (released in 2021) by the native `|>` pipe. We recommend `|>` because it's a simpler, built-in feature of **base R**, always available without needing additional package loads.
 :::
 ::::
@@ -411,7 +427,7 @@ penguins |>
 # create a new variable from a vector of your choice
 penguins |>
   mutate(
-    ID = 1:nrow(dat)
+    ID = 1:nrow(penguins)
   )
 ```
 
@@ -430,7 +446,8 @@ To get descriptive statistics of your data, use the **`summarize()`** (or `summa
 penguins |>
   summarize(
     body_mass_mean = mean(body_mass_g, na.rm = TRUE),
-    body_mass_sd = sd(body_mass_g, na.rm = TRUE)
+    body_mass_sd = sd(body_mass_g, na.rm = TRUE),
+    .groups = "drop"
   )
 ```
 
@@ -479,6 +496,24 @@ penguins |>
   summarize(
     mean = mean(body_mass_g, na.rm = TRUE), # compute mean
     sd = sd(body_mass_g, na.rm = TRUE) # compute sd
+  )
+```
+
+
+
+## Managing Groups: `ungroup()`
+
+After performing operations on grouped data, the `ungroup()` function allows you to **revert to a normal data frame**, enabling operations on entire columns again or switching to new grouping criteria. Remember, you can also `group_by()` multiple columns simultaneously.
+
+```{webr-r}
+penguins %>%
+  group_by(species) %>%
+  mutate(within_species_diff = body_mass_g - mean(body_mass_g, na.rm = TRUE)) %>%
+  ungroup() %>%  # Remove previous grouping
+  group_by(species, sex) %>%
+  summarize(
+    avg_diff = mean(within_species_diff, na.rm = TRUE),
+    .groups = "drop"  # Optional: drop final grouping after summarise
   )
 ```
 
@@ -670,6 +705,9 @@ Until now, we have focused on analyzing the `penguins` dataset. To effectively e
 You can **separate** a character column into two or more new columns using `separate()`.
 
 ```{webr-r}
+
+library(tidyr)
+
 data <- data.frame(dates = c("Jan/2/2018",
                              "Feb/24/2019",
                              "Jan/14/2015",
@@ -728,33 +766,98 @@ wide_again <- long_data %>%
 wide_again
 ```
 
-## Managing Groups: `ungroup()`
-
-After performing operations on grouped data, the `ungroup()` function allows you to **revert to a normal data frame**, enabling operations on entire columns again or switching to new grouping criteria. Remember, you can also `group_by()` multiple columns simultaneously.
 
 ## Combining Datasets: Joins
 
-When working with data spread across multiple tables, you'll often need to **combine them based on a shared column (a "key column")**—a process known as joining or merging. `dplyr` provides several functions for common data joins.
+Sometimes, your data is split across multiple tables. For example, one table may have **demographic information** (like gender, marital status, height, weight), and another table may have **medical records** (like visits and surgeries).
 
-If your datasets have identical columns but different records that you wish to concatenate (add rows), use `rbind()` (base R) or `bind_rows()` (`dplyr`). Similarly, to append new columns (add columns), use `cbind()` (base R) or `bind_cols()` (`dplyr`).
+When working with data spread across multiple tables, you'll often need to **combine them based on a shared column (a "key column")**—a process known as *joining* or *merging*. `dplyr` provides several functions for common data joins.
+
+```{webr-r}
+table1 <- data.frame(ID = c(1:8),
+                     gender = c('M', 'M', 'F', 'F', 'F', 'M', 'M', 'F', 'F'),
+                     height = c(71, 73, 64, 64, 66, 69, 62, 72),
+                     weight = c(175, 225, 130, 125, 165, 160, 115, 250))
+
+table2 <- data.frame(ID = c(1, 2, 4, 5, 7, 8, 9, 10),
+                     sex = c('M', 'M', 'F', 'F', 'F', 'M', 'M', 'F', 'F'),
+                     visits = c(1,2,4,12,2,2,1,1),
+                     checkup = c(1,1,1,1,1,1,0,0),
+                     follow_up = c(0,0,1,2,0,0,0,0),
+                     illness = c(0,0,2,7,1,1,0,0),
+                     surgery = c(0,0,0,2,0,0,0,0),
+                     ER = c( 0,1,0,0,0,0,1,1))
+```
+
+```{webr-r}
+table1
+```
+
+```{webr-r}
+table2
+```
+
+`inner_join()` keeps only the rows where "key column" exists in both tables and drops all rows that do not have a match in both.
+
+```{webr-r}
+# Inner join
+table1 |> inner_join(table2, by = 'ID')
+```
+
+`lefy_join()` keeps all rows from the left table (here, `table1`) and fills in matching information from the right table (here, `table2`). If no match is found, you will get `NA`s.
+
+```{webr-r}
+# Left join
+table1 %>% left_join(table2, by="ID")
+```
+
+`full_join()` keeps all rows from both tables. Rows without a match in the other table will have `NA`s.
+
+```{webr-r}
+# Outer (full) join
+table1 %>% full_join(table2, by="ID")
+```
+
+You can match on more than one column. For example, match `ID` and also make sure the `gender` in `table1` matches `sex` in `table2`.
+
+```{webr-r}
+# You can specify multiple key columns to join upon
+table1 %>% full_join(table2, by=c("ID", "gender" = "sex"))
+```
+
+This is useful when one key (`ID`) is not unique enough by itself.
+
+**Filter-based joins**:
+These do not add new columns. They just **filter rows**:
+
+`semi_join()` keeps only rows in `table1` that have a match in `table2`. It does not add any columns from `table2`.
+
+```{webr-r}
+table1 %>% semi_join(table2, by="ID")
+```
+
+`anti_join()` keeps only rows in `table1` that do *not* have a match in `table2`. It is good for finding "missing" mathches.
+
+```{webr-r}
+table1 %>% anti_join(table2, by="ID")
+```
 
 ::::: panel-tabset
 ## Exercise
 
 Using the `starwars` dataset and `dplyr` functions, perform the following data manipulations.
 
-### Part 1: Initial Exploration and Filtering
+**Part 1: Initial Exploration and Filtering**
 
 1.  **Filter for Human Characters:** Create a new data frame called `human_characters` that only includes characters of the "Human" species.
 
 2.  **Select Key Attributes:** From `human_characters`, select only the `name`, `height`, `mass`, and `homeworld` columns.
 
 ```{webr-r}
-library(dplyr)
 
 ```
 
-### Part 2: Calculating BMI and Identifying Extremes
+**Part 2: Calculating BMI and Identifying Extremes**
 
 1.  **Calculate BMI:** Add a new variable called `bmi` (Body Mass Index) to your `human_characters` data frame. The formula for BMI is $\text{mass}/(\text{height}/100)^2$. Ensure that `mass` is in kilograms and `height` in centimeters as provided in the dataset.
 
@@ -764,7 +867,7 @@ library(dplyr)
 
 ```
 
-### Part 3: Grouped Summaries
+**Part 3: Grouped Summaries**
 
 1.  **Species Statistics:** Calculate the **number of characters (`n`)** and the **average `height`** for each `species` in the original `starwars` dataset.
 
@@ -774,7 +877,7 @@ library(dplyr)
 
 ```
 
-### Part 4: Conditional Categorization
+**Part 4: Conditional Categorization**
 
 1.  **Categorize Height:** Add a new variable called `height_category` to the `starwars` dataset using `mutate()` and `case_when()`.
 
@@ -805,13 +908,13 @@ library(dplyr)
 
 2.  **Sort by BMI:** The `arrange()` function is key here. How do you specify descending order?
 
-### Part 3: Grouped Summaries
+**Part 3: Grouped Summaries**
 
 1.  **Species Statistics: Y**ou will need two main functions here: one to define groups and another to calculate summary statistics within those groups. Do not forget to handle `NA` values for the mean.
 
 2.  **Filter Significant Species:** You will apply another `filter()` operation, but this time on the summarized data. Remember how to combine two conditions.
 
-### Part 4: Conditional Categorization
+**Part 4: Conditional Categorization**
 
 1.  **Categorize Height:** `case_when()` is perfect for multiple conditions. How do you specify the conditions and their corresponding outputs? Remember to check for `NA`s *first* to ensure they do not get misclassified by other conditions.
 :::
