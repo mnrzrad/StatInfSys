@@ -1,0 +1,373 @@
+---
+engine: knitr
+filters: 
+  - webr
+---
+
+# Exploratory data analysis (EDA)
+
+Exploratory data analysis (EDA) may not be fully described in concrete terms, but most data analysts and statisticians know it when they see it.
+
+::: callout-important
+The EDA is important because it helps researchers make thoughtful decisions about which ideas are worth exploring. Sometimes, the data clearly show that a particular question does not have enough support to be studied further—at least not with the current evidence.
+:::
+
+**Take a first look at your data:** Check that the file type, structure, and layout are what you expected. Make sure everything is organized in a way that works for your analysis.
+
+::: callout-important
+## EDA Checklist
+
+1.  **Start with a clear question:** Before you begin EDA, take time to define exactly what you want to find out. A clear question or hypothesis gives your analysis purpose and helps you stay focused along the way.
+
+2.  **Load your data carefully:** Make sure your dataset is fully and correctly loaded into your analysis tool (e.g., R or Python). This first step is essential—it sets the stage for everything you will do next.
+
+3.  **Take a first look at the data:** Check that the file type, structure, and layout are what you expected. Make sure everything is organized in a way that works for your analysis.
+
+4.  **Use `str()` to Peek Inside the Dataset:** In R, it will get a quick summary: number of observations (rows), number and names of variables (columns), variable types (e.g., numeric, character, factor), and a preview of the data values
+
+5.  **Look at the Beginning and End of Your Data:** Use functions such as `head()` and `tail()` to view the first and last few rows. This visual check can help to detect issues such as incorrect headers, blank rows, or unusual formatting.
+
+6.  **Check the Number of Rows ("n"):** Make sure to verify how many observations (rows) are in your dataset. Compare this to what you expected from the original. source. If the number is too high or too low, there may be missing values, duplicate entries, or extra rows (e.g. duplicates or blank lines).
+
+7.  **Validate with an External Source:** When possible, compare part of your dataset with a trusted external source, such as official statistics or published reports. This helps confirm the accuracy and reliability of your data.
+
+8.  **Try the Simple Solution First:** Start by basic methods–such as summaries, tables, or visualizations– to explore and answer your question. Simple tools can often reveal key patterns or issues. Use more complex techniques only of necessary.
+
+9.  **Challenge Your Findings:** Once you find a result, pause and ask yourself: *Does this make sense?* Check your assumptions and consider possible errors or missing information. Being critical helps make your results stronger and more trustworthy.
+
+10. **Decide What to Do Next:** Use the insights from your EDA to guide your next steps. You may decide to collect more data, use new methods, or refine your question. Sometimes , your initial findings are already enough to answer your main question.
+:::
+
+### Airquailty dataset
+
+We will explore the `airquality` dataset, which contains daily measurement of air pollutants and weather conditions in New York City May to September 1973.
+
+**Step 1 –** *How do ozone levels vary across different months in New York during the summer in 1973?*
+
+::: callout-note
+This question is specific and focused: *One location (New York), One variable (ozone), one year and a defined time window (May to September)*
+:::
+
+**Step 2 –** The `airquality` dataset is built into R. Load it with:
+
+```{webr-r}
+data("airquality")
+airquality
+```
+
+**Step 3 –** Check the size and dimension of the dataset
+
+```{webr-r}
+dim(airquality)
+
+# or 
+nrow(airquality)
+ncol(airquality)
+```
+
+**Step 4 –** run `str()`
+
+```{webr-r}
+str(airquality)
+```
+
+::: callout-caution
+There are some missing values (`NA` , Not Available) in the dataset.
+:::
+
+**Step 5 –**
+
+```{webr-r}
+head(airquality)
+```
+
+```{webr-r}
+tail(airquality)
+```
+
+**Step 6 –**
+
+First, we count how many rows (i.e., records or observations) are in the dataset.
+
+```{webr-r}
+nrow(ozone)
+```
+
+Missing values (denoted as `NA` in R) can lead to incorrect calculations or unexpected results. It is good practice to check how many missing values there are per variable.
+
+```{webr-r}
+colSums(is.na(ozone))
+```
+
+:::: callout-note
+## Using \`dplyr\`
+
+```{webr-r}
+library(dplyr)
+
+airquality |> 
+  summarise(across(everything(), ~sum(is.na(.))))
+```
+
+This command uses `across()` to apply the same function to all columns, and `sum(is.na(.))` to count the number of missing values per column.
+
+::: callout-tip
+## What is \~ ?
+
+The `~` introduces an **anonymous function** — a function written inline without a name.
+
+This
+
+```{r}
+~ sum(is.na(.))
+```
+
+is a shorthand for
+
+```{r}
+function(x) sum(is.na(x))
+```
+:::
+::::
+
+Or, we can check how many rows are from July:
+
+```{webr-r}
+airquality |> 
+  filter(Month == 7) |> nrow()
+```
+
+check how many missing values are just in August.
+
+```{webr-r}
+airquality |> 
+  filter(Month == 8) |> 
+  summarise(across(everything(), ~ sum(is.na(.))))
+```
+
+**Step 7 –** According to the U.S. EPA, ozone levels above 70 parts per billion (ppb) may be considered unhealthy.
+
+```{webr-r}
+summary(airquality$Ozone)
+```
+
+Based on the output, many days have safe levels and some days have extremely high ozone levels.
+
+**Step 8 –** Let us check the average ozone level by month:
+
+```{webr-r}
+library(dplyr)
+
+airquality |> 
+  group_by(Month) |> 
+  summarise(avg_ozone = mean(Ozone, na.rm = TRUE))
+```
+
+This gives a quick overview of how ozone levels change over the summer. Let visualize it:
+
+```{webr-r}
+library(ggplot2)
+
+ggplot(airquality, aes(x = factor(Month), y = Ozone)) + 
+  geom_boxplot(fill = 'lightblue', color = 'black', na.rm = TRUE) +
+  scale_x_discrete(labels = c("May", "June", "July", "August", "September")) +
+  labs(x = "Month",
+       y = 'Ozone (ppb)') + 
+  theme_minimal()
+```
+
+Based on the plot, we observe that July and August have the highest median ozone levels, showing that typical ozone concentrations were significantly higher during mid-summer. This suggests a seasonal pattern, likely driven by higher temperatures and increased sunlight, which promote the formation of ozone. The taller boxes and whiskers for these months reflect a greater variability in ozone levels, including several high outliers. In contrast, May and September show lower median values and less variation, possibly due to cooler temperatures and different atmospheric conditions. The median ozone level is June is slightly higher than in May but lower than in July, with a moderate level of variability. Overall, this seasonal trend is consistent with environmental science – **ozone forms more easily in strong sunlight and warm conditions**, which are more prevalent in July and August.
+
+**Step 9 –** Let us examine whether temperature or wind speed might help explain ozone patterns.
+
+```{webr-r}
+library(ggplot2)
+
+ggplot(airquality, aes(x = Temp, y = Ozone)) + 
+  geom_point(color = 'darkgreen', alpha = 0.8) + 
+  labs(x = 'Temperature (°F)',
+       y = 'Ozone (ppb)') + 
+  theme_minimal()
+```
+
+```{webr-r}
+ggplot(airquality, aes(x = Wind, y = Ozone)) +
+  geom_point(color = "darkblue", alpha = 0.8) +
+  labs(title = "Ozone vs Wind Speed",
+       x = "Wind Speed (mph)",
+       y = "Ozone (ppb)") +
+  theme_minimal()
+```
+
+You may observe that there is a *positive* relationship between temperature and ozone and a *negative* relationship between wind speed and ozone. These patterns support common environmental science findings.
+
+**Step 10 –** Based on our findings, we might fit a simple regression model
+
+```{webr-r}
+model <- lm(Ozone ~ Temp + Wind, data = airquality)
+summary(model)
+```
+
+We might also refine our question: *On which days was the ozone level unusually high, and what were the weather conditions on those days?*
+
+#### Alternative question
+
+***Step 1 – Which weather factor—temperature, wind, or solar radiation—has the strongest relationship with ozone levels during the summer of 1973 in New York?***
+
+This question is more analytical than descriptive, and focused on **relationships** between variables. So, we need to examine how ozone changes with respect to other variables.
+
+**Step 2 –**
+
+```{webr-r}
+data("airquality")
+```
+
+**Step 3 –**
+
+```{webr-r}
+airquality  |>  
+  summarise(rows = n())  |>  
+  mutate(cols = ncol(airquality))
+```
+
+**Step 4 –**
+
+```{webr-r}
+airquality |> 
+  glimpse()
+```
+
+**Step 5 –**
+
+```{webr-r}
+airquality |> 
+  slice_head(n = 5)
+```
+
+```{webr-r}
+airquality |> 
+  slice_tail(n = 5)
+```
+
+**Step 6 –**
+
+```{webr-r}
+ozone_clean <- airquality |> 
+  filter(!is.na(Ozone), !is.na(Temp), !is.na(Wind), !is.na(Solar.R))
+
+ozone_clean |> 
+  summarise(rows = n())
+```
+
+**Step 7 –**
+
+Check how often ozone exceeds EPA's 70 ppb guideline:
+
+```{webr-r}
+ozone_clean |> 
+  summarise(above_70 = sum(Ozone > 70), 
+            total = n(), 
+            percent = round(100 * sum(Ozone > 70) / n(), 1))
+```
+
+**Step 8 –**
+
+Since `dplyr` does not include a `cor()` function, we will compute correlations manually using `summarise()` and `cor()` from base R, keeping within tidy pipelines:
+
+```{webr-r}
+ozone_clean |> 
+  summarise(cor_temp = cor(Ozone, Temp),
+            cor_wind = cor(Ozone, Wind),
+            cor_solar = cor(Ozone, Solar.R))
+```
+
+```{webr-r}
+ggplot(ozone_clean, aes(x = Temp, y = Ozone)) + 
+  geom_point(color = "steelblue") + 
+  labs(x = "Temperature (F)",
+       y = "Ozone (ppb)") + 
+  theme_minimal()
+```
+
+```{webr-r}
+ggplot(ozone_clean, aes(x = Wind, y = Ozone)) + 
+  geom_point(color = 'darkgreen') + 
+  labs(x = "Wind (mph)",
+       y = "Ozone (ppb)") + 
+  theme_minimal()
+```
+
+```{webr-r}
+ggplot(ozone_clean, aes(x = Solar.R, y = Ozone)) + 
+  geom_point(color = 'orange') + 
+  labs(x = "Solar Radiation (langley)",
+       y = "Ozone (ppb)") + 
+  theme_minimal()
+```
+
+**More advanced:**
+
+```{webr-r}
+# install.packages("patchwork")
+library(patchwork)
+
+p1 <- ggplot(ozone_clean, aes(Temp, Ozone)) + 
+  geom_point(color = "steelblue") + 
+  labs(title = "Ozone vs Temp", x = "Temperature", y = "Ozone") + 
+  theme_minimal()
+
+p2 <- ggplot(ozone_clean, aes(Wind, Ozone)) + 
+  geom_point(color = "darkgreen") + 
+  labs(title = "Ozone vs Wind", x = "Wind Speed", y = "Ozone") + 
+  theme_minimal()
+
+p3 <- ggplot(ozone_clean, aes(Solar.R, Ozone)) + 
+  geom_point(color = "orange") + 
+  labs(title = "Ozone vs Solar Radiation", x = "Solar Radiation", y = "Ozone") + 
+  theme_minimal()
+
+(p1 | p2 | p3)
+
+```
+
+But sometimes, a simple code gives the more informative output:
+
+```{webr-r}
+cor(ozone_clean)
+```
+
+visualize the relationships:
+
+```{webr-r}
+pairs(ozone_clean, 
+      main = "Ozone vs. Weather Variables",
+      col = 'darkred', pch = 19)
+```
+
+**Step 9 –**
+
+```{webr-r}
+model <- ozone_clean  |> 
+  lm(Ozone ~ Temp + Wind + Solar.R, data = .)
+
+summary(model)
+
+```
+
+When we check p-values and coefficients, we see `Temp` has strong and significant positive effect, `Wind` has strong and significant negative effect, and `Solar.R` has weaker effect but still contributes.
+
+**Step 10 –**
+
+Now we know temperature has the strongest effect on ozone levels:
+
+-   Should we check for nonlinear effects (e.g., does ozone spike at high temps)?
+
+-   Would a time-based model (e.g. by day or month) add insight?
+
+-   What is the temperature threshold where ozone exceeds 70 ppb?
+
+-   Are there interactions between variables (e.g. high temp + low wind)?
+
+-   Do results change if the we include time (e.g. month)?
+
+We might now refine our question: *How much does temperature need to rise before ozone levels exceed the 70 ppb threshold?*

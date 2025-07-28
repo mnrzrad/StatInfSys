@@ -12,6 +12,7 @@ book:
         - chapters/chapter1_data_ethics.qmd
         - chapters/chapter3_dplyr.qmd
         - chapters/chapter2_data_visualization.qmd
+        - chapters/chapter4_EDA.qmd
         
 bibliography: references.bib
 
