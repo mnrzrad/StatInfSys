@@ -6,10 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Mina Norouzirad, Miguel Fonseca, Gracinda Guerreiro">
-<meta name="dcterms.date" content="2025-07-11">
 
-<title>Statistics and Information Systems</title>
+<title>4&nbsp; Exploratory data analysis (EDA) – Statistics and Information Systems</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -22,27 +20,62 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./chapters/chapter1_data_ethics.html" rel="next">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-5fd9db47a040b21ac2cac9a0b3b722ba.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../chapters/chapter2_data_visualization.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-5fd9db47a040b21ac2cac9a0b3b722ba.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -370,7 +403,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"code":"1 + 1","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
+globalThis.qwebrCellDetails = [{"code":"data(\"airquality\")\nairquality","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"dim(airquality)\n\n# or \nnrow(airquality)\nncol(airquality)","id":2,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"str(airquality)","id":3,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-3","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"head(airquality)","id":4,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-4","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"tail(airquality)","id":5,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-5","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"nrow(ozone)","id":6,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-6","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"colSums(is.na(ozone))","id":7,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-7","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(dplyr)\n\nairquality |> \n  summarise(across(everything(), ~sum(is.na(.))))","id":8,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-8","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"airquality |> \n  filter(Month == 7) |> nrow()","id":9,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-9","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"airquality |> \n  filter(Month == 8) |> \n  summarise(across(everything(), ~ sum(is.na(.))))","id":10,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-10","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"summary(airquality$Ozone)","id":11,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-11","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(dplyr)\n\nairquality |> \n  group_by(Month) |> \n  summarise(avg_ozone = mean(Ozone, na.rm = TRUE))","id":12,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-12","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(ggplot2)\n\nggplot(airquality, aes(x = factor(Month), y = Ozone)) + \n  geom_boxplot(fill = 'lightblue', color = 'black', na.rm = TRUE) +\n  scale_x_discrete(labels = c(\"May\", \"June\", \"July\", \"August\", \"September\")) +\n  labs(x = \"Month\",\n       y = 'Ozone (ppb)') + \n  theme_minimal()","id":13,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-13","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(ggplot2)\n\nggplot(airquality, aes(x = Temp, y = Ozone)) + \n  geom_point(color = 'darkgreen', alpha = 0.8) + \n  labs(x = 'Temperature (°F)',\n       y = 'Ozone (ppb)') + \n  theme_minimal()","id":14,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-14","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(airquality, aes(x = Wind, y = Ozone)) +\n  geom_point(color = \"darkblue\", alpha = 0.8) +\n  labs(title = \"Ozone vs Wind Speed\",\n       x = \"Wind Speed (mph)\",\n       y = \"Ozone (ppb)\") +\n  theme_minimal()","id":15,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-15","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"model <- lm(Ozone ~ Temp + Wind, data = airquality)\nsummary(model)","id":16,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-16","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"data(\"airquality\")","id":17,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-17","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"airquality  |>  \n  summarise(rows = n())  |>  \n  mutate(cols = ncol(airquality))","id":18,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-18","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"airquality |> \n  glimpse()","id":19,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-19","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"airquality |> \n  slice_head(n = 5)","id":20,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-20","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"airquality |> \n  slice_tail(n = 5)","id":21,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-21","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ozone_clean <- airquality |> \n  filter(!is.na(Ozone), !is.na(Temp), !is.na(Wind), !is.na(Solar.R))\n\nozone_clean |> \n  summarise(rows = n())","id":22,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-22","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ozone_clean |> \n  summarise(above_70 = sum(Ozone > 70), \n            total = n(), \n            percent = round(100 * sum(Ozone > 70) / n(), 1))","id":23,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-23","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ozone_clean |> \n  summarise(cor_temp = cor(Ozone, Temp),\n            cor_wind = cor(Ozone, Wind),\n            cor_solar = cor(Ozone, Solar.R))","id":24,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-24","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(ozone_clean, aes(x = Temp, y = Ozone)) + \n  geom_point(color = \"steelblue\") + \n  labs(x = \"Temperature (F)\",\n       y = \"Ozone (ppb)\") + \n  theme_minimal()","id":25,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-25","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(ozone_clean, aes(x = Wind, y = Ozone)) + \n  geom_point(color = 'darkgreen') + \n  labs(x = \"Wind (mph)\",\n       y = \"Ozone (ppb)\") + \n  theme_minimal()","id":26,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-26","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(ozone_clean, aes(x = Solar.R, y = Ozone)) + \n  geom_point(color = 'orange') + \n  labs(x = \"Solar Radiation (langley)\",\n       y = \"Ozone (ppb)\") + \n  theme_minimal()","id":27,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-27","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# install.packages(\"patchwork\")\nlibrary(patchwork)\n\np1 <- ggplot(ozone_clean, aes(Temp, Ozone)) + \n  geom_point(color = \"steelblue\") + \n  labs(title = \"Ozone vs Temp\", x = \"Temperature\", y = \"Ozone\") + \n  theme_minimal()\n\np2 <- ggplot(ozone_clean, aes(Wind, Ozone)) + \n  geom_point(color = \"darkgreen\") + \n  labs(title = \"Ozone vs Wind\", x = \"Wind Speed\", y = \"Ozone\") + \n  theme_minimal()\n\np3 <- ggplot(ozone_clean, aes(Solar.R, Ozone)) + \n  geom_point(color = \"orange\") + \n  labs(title = \"Ozone vs Solar Radiation\", x = \"Solar Radiation\", y = \"Ozone\") + \n  theme_minimal()\n\n(p1 | p2 | p3)","id":28,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-28","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"cor(ozone_clean)","id":29,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-29","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"pairs(ozone_clean, \n      main = \"Ozone vs. Weather Variables\",\n      col = 'darkred', pch = 19)","id":30,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-30","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"model <- ozone_clean  |> \n  lm(Ozone ~ Temp + Wind + Solar.R, data = .)\n\nsummary(model)","id":31,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-31","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
 
 </script>
 <script type="module">
@@ -1625,7 +1658,7 @@ globalThis.qwebrExecuteCode = async function (
 </script>
 
 
-<link rel="stylesheet" href="libs/style.css">
+<link rel="stylesheet" href="../libs/style.css">
 </head>
 
 <body class="nav-sidebar floating quarto-light">
@@ -1637,7 +1670,7 @@ globalThis.qwebrExecuteCode = async function (
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Prerequisites</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter1_data_ethics.html">EDA</a></li><li class="breadcrumb-item"><a href="../chapters/chapter4_EDA.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Exploratory data analysis (EDA)</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -1652,7 +1685,7 @@ globalThis.qwebrExecuteCode = async function (
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">Statistics and Information Systems</a> 
+      <a href="../">Statistics and Information Systems</a> 
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -1664,7 +1697,7 @@ globalThis.qwebrExecuteCode = async function (
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Prerequisites</span></a>
   </div>
 </li>
@@ -1679,25 +1712,25 @@ globalThis.qwebrExecuteCode = async function (
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/chapter1_data_ethics.html" class="sidebar-item-text sidebar-link">
+  <a href="../chapters/chapter1_data_ethics.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Data Ethics</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/chapter3_dplyr.html" class="sidebar-item-text sidebar-link">
+  <a href="../chapters/chapter3_dplyr.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Getting Started with <code>dplyr</code></span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/chapter2_data_visualization.html" class="sidebar-item-text sidebar-link">
+  <a href="../chapters/chapter2_data_visualization.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Data Visualization</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/chapter4_EDA.html" class="sidebar-item-text sidebar-link">
+  <a href="../chapters/chapter4_EDA.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Exploratory data analysis (EDA)</span></span></a>
   </div>
 </li>
@@ -1713,7 +1746,10 @@ globalThis.qwebrExecuteCode = async function (
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#prerequisites" id="toc-prerequisites" class="nav-link active" data-scroll-target="#prerequisites">Prerequisites</a></li>
+  <li><a href="#airquailty-dataset" id="toc-airquailty-dataset" class="nav-link active" data-scroll-target="#airquailty-dataset"><span class="header-section-number">4.0.1</span> Airquailty dataset</a>
+  <ul>
+  <li><a href="#alternative-question" id="toc-alternative-question" class="nav-link" data-scroll-target="#alternative-question"><span class="header-section-number">4.0.1.1</span> Alternative question</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -2004,28 +2040,16 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 }
 </script>
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter1_data_ethics.html">EDA</a></li><li class="breadcrumb-item"><a href="../chapters/chapter4_EDA.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Exploratory data analysis (EDA)</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Statistics and Information Systems</h1>
+<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Exploratory data analysis (EDA)</span></h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Mina Norouzirad, Miguel Fonseca, Gracinda Guerreiro </p>
-          </div>
-  </div>
     
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">July 11, 2025</p>
-    </div>
-  </div>
   
     
   </div>
@@ -2035,14 +2059,227 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </header>
 
 
-<section id="prerequisites" class="level1 unnumbered">
-<h1 class="unnumbered">Prerequisites</h1>
-<p>This is a Quarto book.</p>
-<p>To learn more about Quarto books visit <a href="https://quarto.org/docs/books" class="uri">https://quarto.org/docs/books</a>.</p>
+<p>Exploratory data analysis (EDA) may not be fully described in concrete terms, but most data analysts and statisticians know it when they see it.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The EDA is important because it helps researchers make thoughtful decisions about which ideas are worth exploring. Sometimes, the data clearly show that a particular question does not have enough support to be studied further—at least not with the current evidence.</p>
+</div>
+</div>
+<p><strong>Take a first look at your data:</strong> Check that the file type, structure, and layout are what you expected. Make sure everything is organized in a way that works for your analysis.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+EDA Checklist
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><p><strong>Start with a clear question:</strong> Before you begin EDA, take time to define exactly what you want to find out. A clear question or hypothesis gives your analysis purpose and helps you stay focused along the way.</p></li>
+<li><p><strong>Load your data carefully:</strong> Make sure your dataset is fully and correctly loaded into your analysis tool (e.g., R or Python). This first step is essential—it sets the stage for everything you will do next.</p></li>
+<li><p><strong>Take a first look at the data:</strong> Check that the file type, structure, and layout are what you expected. Make sure everything is organized in a way that works for your analysis.</p></li>
+<li><p><strong>Use <code>str()</code> to Peek Inside the Dataset:</strong> In R, it will get a quick summary: number of observations (rows), number and names of variables (columns), variable types (e.g., numeric, character, factor), and a preview of the data values</p></li>
+<li><p><strong>Look at the Beginning and End of Your Data:</strong> Use functions such as <code>head()</code> and <code>tail()</code> to view the first and last few rows. This visual check can help to detect issues such as incorrect headers, blank rows, or unusual formatting.</p></li>
+<li><p><strong>Check the Number of Rows (“n”):</strong> Make sure to verify how many observations (rows) are in your dataset. Compare this to what you expected from the original. source. If the number is too high or too low, there may be missing values, duplicate entries, or extra rows (e.g.&nbsp;duplicates or blank lines).</p></li>
+<li><p><strong>Validate with an External Source:</strong> When possible, compare part of your dataset with a trusted external source, such as official statistics or published reports. This helps confirm the accuracy and reliability of your data.</p></li>
+<li><p><strong>Try the Simple Solution First:</strong> Start by basic methods–such as summaries, tables, or visualizations– to explore and answer your question. Simple tools can often reveal key patterns or issues. Use more complex techniques only of necessary.</p></li>
+<li><p><strong>Challenge Your Findings:</strong> Once you find a result, pause and ask yourself: <em>Does this make sense?</em> Check your assumptions and consider possible errors or missing information. Being critical helps make your results stronger and more trustworthy.</p></li>
+<li><p><strong>Decide What to Do Next:</strong> Use the insights from your EDA to guide your next steps. You may decide to collect more data, use new methods, or refine your question. Sometimes , your initial findings are already enough to answer your main question.</p></li>
+</ol>
+</div>
+</div>
+<section id="airquailty-dataset" class="level3" data-number="4.0.1">
+<h3 data-number="4.0.1" class="anchored" data-anchor-id="airquailty-dataset"><span class="header-section-number">4.0.1</span> Airquailty dataset</h3>
+<p>We will explore the <code>airquality</code> dataset, which contains daily measurement of air pollutants and weather conditions in New York City May to September 1973.</p>
+<p><strong>Step 1 –</strong> <em>How do ozone levels vary across different months in New York during the summer in 1973?</em></p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This question is specific and focused: <em>One location (New York), One variable (ozone), one year and a defined time window (May to September)</em></p>
+</div>
+</div>
+<p><strong>Step 2 –</strong> The <code>airquality</code> dataset is built into R. Load it with:</p>
 <div id="qwebr-insertion-location-1"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Step 3 –</strong> Check the size and dimension of the dataset</p>
+<div id="qwebr-insertion-location-2"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Step 4 –</strong> run <code>str()</code></p>
+<div id="qwebr-insertion-location-3"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Caution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>There are some missing values (<code>NA</code> , Not Available) in the dataset.</p>
+</div>
+</div>
+<p><strong>Step 5 –</strong></p>
+<div id="qwebr-insertion-location-4"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="qwebr-insertion-location-5"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Step 6 –</strong></p>
+<p>First, we count how many rows (i.e., records or observations) are in the dataset.</p>
+<div id="qwebr-insertion-location-6"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>Missing values (denoted as <code>NA</code> in R) can lead to incorrect calculations or unexpected results. It is good practice to check how many missing values there are per variable.</p>
+<div id="qwebr-insertion-location-7"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Using `dplyr`
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<div id="qwebr-insertion-location-8"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>This command uses <code>across()</code> to apply the same function to all columns, and <code>sum(is.na(.))</code> to count the number of missing values per column.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+What is ~ ?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <code>~</code> introduces an <strong>anonymous function</strong> — a function written inline without a name.</p>
+<p>This</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="sc">~</span> <span class="fu">sum</span>(<span class="fu">is.na</span>(.))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>~sum(is.na(.))</code></pre>
+</div>
+</div>
+<p>is a shorthand for</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span>(x) <span class="fu">sum</span>(<span class="fu">is.na</span>(x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>function (x) 
+sum(is.na(x))</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>Or, we can check how many rows are from July:</p>
+<div id="qwebr-insertion-location-9"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>check how many missing values are just in August.</p>
+<div id="qwebr-insertion-location-10"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Step 7 –</strong> According to the U.S. EPA, ozone levels above 70 parts per billion (ppb) may be considered unhealthy.</p>
+<div id="qwebr-insertion-location-11"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>Based on the output, many days have safe levels and some days have extremely high ozone levels.</p>
+<p><strong>Step 8 –</strong> Let us check the average ozone level by month:</p>
+<div id="qwebr-insertion-location-12"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>This gives a quick overview of how ozone levels change over the summer. Let visualize it:</p>
+<div id="qwebr-insertion-location-13"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>Based on the plot, we observe that July and August have the highest median ozone levels, showing that typical ozone concentrations were significantly higher during mid-summer. This suggests a seasonal pattern, likely driven by higher temperatures and increased sunlight, which promote the formation of ozone. The taller boxes and whiskers for these months reflect a greater variability in ozone levels, including several high outliers. In contrast, May and September show lower median values and less variation, possibly due to cooler temperatures and different atmospheric conditions. The median ozone level is June is slightly higher than in May but lower than in July, with a moderate level of variability. Overall, this seasonal trend is consistent with environmental science – <strong>ozone forms more easily in strong sunlight and warm conditions</strong>, which are more prevalent in July and August.</p>
+<p><strong>Step 9 –</strong> Let us examine whether temperature or wind speed might help explain ozone patterns.</p>
+<div id="qwebr-insertion-location-14"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="qwebr-insertion-location-15"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>You may observe that there is a <em>positive</em> relationship between temperature and ozone and a <em>negative</em> relationship between wind speed and ozone. These patterns support common environmental science findings.</p>
+<p><strong>Step 10 –</strong> Based on our findings, we might fit a simple regression model</p>
+<div id="qwebr-insertion-location-16"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>We might also refine our question: <em>On which days was the ozone level unusually high, and what were the weather conditions on those days?</em></p>
+<section id="alternative-question" class="level4" data-number="4.0.1.1">
+<h4 data-number="4.0.1.1" class="anchored" data-anchor-id="alternative-question"><span class="header-section-number">4.0.1.1</span> Alternative question</h4>
+<p><strong><em>Step 1 – Which weather factor—temperature, wind, or solar radiation—has the strongest relationship with ozone levels during the summer of 1973 in New York?</em></strong></p>
+<p>This question is more analytical than descriptive, and focused on <strong>relationships</strong> between variables. So, we need to examine how ozone changes with respect to other variables.</p>
+<p><strong>Step 2 –</strong></p>
+<div id="qwebr-insertion-location-17"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Step 3 –</strong></p>
+<div id="qwebr-insertion-location-18"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Step 4 –</strong></p>
+<div id="qwebr-insertion-location-19"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Step 5 –</strong></p>
+<div id="qwebr-insertion-location-20"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="qwebr-insertion-location-21"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Step 6 –</strong></p>
+<div id="qwebr-insertion-location-22"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Step 7 –</strong></p>
+<p>Check how often ozone exceeds EPA’s 70 ppb guideline:</p>
+<div id="qwebr-insertion-location-23"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Step 8 –</strong></p>
+<p>Since <code>dplyr</code> does not include a <code>cor()</code> function, we will compute correlations manually using <code>summarise()</code> and <code>cor()</code> from base R, keeping within tidy pipelines:</p>
+<div id="qwebr-insertion-location-24"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="qwebr-insertion-location-25"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="qwebr-insertion-location-26"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="qwebr-insertion-location-27"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>More advanced:</strong></p>
+<div id="qwebr-insertion-location-28"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>But sometimes, a simple code gives the more informative output:</p>
+<div id="qwebr-insertion-location-29"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>visualize the relationships:</p>
+<div id="qwebr-insertion-location-30"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Step 9 –</strong></p>
+<div id="qwebr-insertion-location-31"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>When we check p-values and coefficients, we see <code>Temp</code> has strong and significant positive effect, <code>Wind</code> has strong and significant negative effect, and <code>Solar.R</code> has weaker effect but still contributes.</p>
+<p><strong>Step 10 –</strong></p>
+<p>Now we know temperature has the strongest effect on ozone levels:</p>
+<ul>
+<li><p>Should we check for nonlinear effects (e.g., does ozone spike at high temps)?</p></li>
+<li><p>Would a time-based model (e.g.&nbsp;by day or month) add insight?</p></li>
+<li><p>What is the temperature threshold where ozone exceeds 70 ppb?</p></li>
+<li><p>Are there interactions between variables (e.g.&nbsp;high temp + low wind)?</p></li>
+<li><p>Do results change if the we include time (e.g.&nbsp;month)?</p></li>
+</ul>
+<p>We might now refine our question: <em>How much does temperature need to rise before ozone levels exceed the 70 ppb threshold?</em></p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -2447,11 +2684,11 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="../chapters/chapter2_data_visualization.html" class="pagination-link" aria-label="Data Visualization">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Data Visualization</span></span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./chapters/chapter1_data_ethics.html" class="pagination-link" aria-label="Data Ethics">
-        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Data Ethics</span></span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->
