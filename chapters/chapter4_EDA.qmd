@@ -6,16 +6,40 @@ filters:
 
 # Exploratory data analysis (EDA)
 
-Exploratory data analysis (EDA) may not be fully described in concrete terms, but most data analysts and statisticians know it when they see it.
+## What is EDA?
+
+|     |     |
+|-----|-----|
+|     |     |
+
+: Left: Change in symptom-free days with air cleaner. Right: Change in symptom-free days by treatment group. Source: \[\@Peng2020\]
+
+Exploratory data analysis (EDA) was first formally introduced by @Tukey1977 in his influential 1977 book, *Exploratory Data Analysis.* Since then, its importance has grown significantly, especially in recent years, for several key reasons: i) data is being produced faster and in larger volumes than ever before, ii) modern computing and software tools make it easier to explore, clean, and visualize data in meaningful ways, iii) contemporary statistical models are often complex and assumption-dependent, requiring us to thoroughly understand the data before applying formal techniques. [@Midway2022]
+
+The EDA may not be fully described in concrete terms, but most data analysts and statisticians know it when they see it.
 
 ::: callout-important
 The EDA is important because it helps researchers make thoughtful decisions about which ideas are worth exploring. Sometimes, the data clearly show that a particular question does not have enough support to be studied further—at least not with the current evidence.
 :::
 
-**Take a first look at your data:** Check that the file type, structure, and layout are what you expected. Make sure everything is organized in a way that works for your analysis.
+The main goals of EDA are:
+
+-   To suggest hypotheses about what might be causing the patterns or relationships observed in the data,
+
+-   To guide the choice of appropriate statistical tools or models by helping you understand the structure of the data,
+
+-   To assess key assumptions that must be checked before applying formal statistical analysis (e.g., linearity, normality, independence),
+
+-   To provide a basis for further data collection, by highlighting gaps, inconsistencies, or areas where more information is needed.
+
+::: callout-note
+EDA is not typically the final stage of analysis. Rather, it serves as a **transitional step between raw data and formal modeling**. The insights gained through EDA guide decisions about which models to use, which variables to consider, and which data issues to address.
+:::
 
 ::: callout-important
 ## EDA Checklist
+
+Roger D. Peng in his book [@Peng2012] provide this checklist for conducting EDA.
 
 1.  **Start with a clear question:** Before you begin EDA, take time to define exactly what you want to find out. A clear question or hypothesis gives your analysis purpose and helps you stay focused along the way.
 
@@ -36,6 +60,8 @@ The EDA is important because it helps researchers make thoughtful decisions abou
 9.  **Challenge Your Findings:** Once you find a result, pause and ask yourself: *Does this make sense?* Check your assumptions and consider possible errors or missing information. Being critical helps make your results stronger and more trustworthy.
 
 10. **Decide What to Do Next:** Use the insights from your EDA to guide your next steps. You may decide to collect more data, use new methods, or refine your question. Sometimes , your initial findings are already enough to answer your main question.
+
+In Chapter 4 of @Midway2022, interested reader can find some comments for each step.
 :::
 
 ### Airquailty dataset
@@ -371,3 +397,69 @@ Now we know temperature has the strongest effect on ozone levels:
 -   Do results change if the we include time (e.g. month)?
 
 We might now refine our question: *How much does temperature need to rise before ozone levels exceed the 70 ppb threshold?*
+
+::: callout-note
+As Tukey emphasized, EDA is about "detecting the unexpected" and **learning from the data before attempting to explain it**.
+:::
+
+## Principles of Analytic Graphics
+
+Based on [@Tufte2006], there are six key principles for designing informative and effective graphs.
+
+### Principle 1 – Show Comparison
+
+::: {.callout-caution appearance="simple" icon="false"}
+Showing comparisons is really the basis of all good scientific investigation. [@Peng2012]
+:::
+
+Good data analysis always involves **comparing** things. A single number or result doesn’t mean much on its own. We need to ask:
+
+::: {.callout-important appearance="simple" icon="false"}
+Compared to what?
+:::
+
+For example, if we see that children with air cleaners had more symptom-free days, that sounds good. But how do we know the air cleaner made the difference? We only know that **by comparing** to another group of children who didn’t get the air cleaner. When we add that comparison, we can see that the control group didn’t improve — so the improvement likely came from the air cleaner.
+
+![Change in symptom-free days with air cleaner. Source: \@Peng2012](/figs/EDA/EDA-P1-a.png){fig-align="center"}
+
+![Change in symptom-free days with air cleaner. Source: \@Peng2012](/figs/EDA/EDA-P1-a.png){#figEDA1 fig-align="center"}
+
+![Change in symptom-free days by treatment group. Source: \@Peng2012](/figs/EDA/EDA-P1-b.png){#figEDA2 fig-align="center"}
+
+Good data graphics should always show **at least two things** so we can compare and understand what’s really happening.
+
+### Principle 2: Show Causality and Explanation
+
+When making a data graphics, it is helpful to show **why** you think something is happening – not just what is happening. Even if you can not prove a cause, you can show your **hypothesis** of **idea** about how one thing might lead to another.
+
+::: {.callout-caution appearance="minimal"}
+If possible, it is always useful to show your causal framework for thinking about a question. [@Peng2012]
+
+<!-- # Generally, it is difficult to prove that one thing causes another thing even with the most carefully collected data.  But it is still often useful for your data graphics to indicate what you are thinking about in terms of cause. Such a display may suggest hypotheses or refute them, but most importantly, they will raise new questions that can be followed up with new data or analyses. -->
+:::
+
+For example, in [#figEDA2](#figEDA2) we saw that children with an air cleaner had more symptom–free days. But that alone does not explain **why**. A good follow-up question is: "*Why did the air cleaner help?"* One possible reason is that air cleaners reduce **fine particles** in the air – especially in homes with smokers. Breathing in these particles can make asthma worse, so removing them might help children feel better. To show this, we can make a new plot.
+
+![Change in symptom-free days and change in PM2.5 levels in-home. Source: @Peng2012](/figs/EDA/EDA-P2.png){fig-align="center"}
+
+From the plot, we can see:
+
+-   Children with air cleaners had more symptom-free days.
+
+-   Their homes also had **less PM2.5** after six months.
+
+-   In contrast, the control group had little improvement.
+
+This **pattern supports** the idea that air cleaners work by reducing harmful particles — but it is not final proof. Other things might also cause the change, so more data and careful studies are needed to confirm.
+
+## Principle 3: Show Multivariate Data
+
+::: {.callout-caution appearance="minimal" icon="false"}
+The real world is multivariate. [@Peng2012]
+:::
+
+In real life, most problems involve **more than one or two variables**. We call this **multivariate data**. Good data graphics should try to show these multiple variables at the same time, instead of reducing everything to just one number or a simple trend.
+
+Let’s look at an example.
+
+We have data from New York City (1987–2000) on: **PM10** – fine particles in the air (air pollution), and **Daily mortality –** number of deaths per day.
