@@ -55,7 +55,27 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -1746,10 +1766,19 @@ globalThis.qwebrExecuteCode = async function (
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#airquailty-dataset" id="toc-airquailty-dataset" class="nav-link active" data-scroll-target="#airquailty-dataset"><span class="header-section-number">4.0.1</span> Airquailty dataset</a>
+  <li><a href="#what-is-eda" id="toc-what-is-eda" class="nav-link active" data-scroll-target="#what-is-eda"><span class="header-section-number">4.1</span> What is EDA?</a>
   <ul>
-  <li><a href="#alternative-question" id="toc-alternative-question" class="nav-link" data-scroll-target="#alternative-question"><span class="header-section-number">4.0.1.1</span> Alternative question</a></li>
+  <li><a href="#airquailty-dataset" id="toc-airquailty-dataset" class="nav-link" data-scroll-target="#airquailty-dataset"><span class="header-section-number">4.1.1</span> Airquailty dataset</a>
+  <ul class="collapse">
+  <li><a href="#alternative-question" id="toc-alternative-question" class="nav-link" data-scroll-target="#alternative-question"><span class="header-section-number">4.1.1.1</span> Alternative question</a></li>
   </ul></li>
+  </ul></li>
+  <li><a href="#principles-of-analytic-graphics" id="toc-principles-of-analytic-graphics" class="nav-link" data-scroll-target="#principles-of-analytic-graphics"><span class="header-section-number">4.2</span> Principles of Analytic Graphics</a>
+  <ul>
+  <li><a href="#principle-1-show-comparison" id="toc-principle-1-show-comparison" class="nav-link" data-scroll-target="#principle-1-show-comparison"><span class="header-section-number">4.2.1</span> Principle 1 – Show Comparison</a></li>
+  <li><a href="#principle-2-show-causality-and-explanation" id="toc-principle-2-show-causality-and-explanation" class="nav-link" data-scroll-target="#principle-2-show-causality-and-explanation"><span class="header-section-number">4.2.2</span> Principle 2: Show Causality and Explanation</a></li>
+  </ul></li>
+  <li><a href="#principle-3-show-multivariate-data" id="toc-principle-3-show-multivariate-data" class="nav-link" data-scroll-target="#principle-3-show-multivariate-data"><span class="header-section-number">4.3</span> Principle 3: Show Multivariate Data</a></li>
   </ul>
 </nav>
     </div>
@@ -2059,7 +2088,19 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </header>
 
 
-<p>Exploratory data analysis (EDA) may not be fully described in concrete terms, but most data analysts and statisticians know it when they see it.</p>
+<section id="what-is-eda" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="what-is-eda"><span class="header-section-number">4.1</span> What is EDA?</h2>
+<table class="caption-top table">
+<caption>Left: Change in symptom-free days with air cleaner. Right: Change in symptom-free days by treatment group. Source: [@Peng2020]</caption>
+<tbody>
+<tr class="odd">
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Exploratory data analysis (EDA) was first formally introduced by <span class="citation" data-cites="Tukey1977">Tukey (<a href="#ref-Tukey1977" role="doc-biblioref">1977</a>)</span> in his influential 1977 book, <em>Exploratory Data Analysis.</em> Since then, its importance has grown significantly, especially in recent years, for several key reasons: i) data is being produced faster and in larger volumes than ever before, ii) modern computing and software tools make it easier to explore, clean, and visualize data in meaningful ways, iii) contemporary statistical models are often complex and assumption-dependent, requiring us to thoroughly understand the data before applying formal techniques. <span class="citation" data-cites="Midway2022">(<a href="#ref-Midway2022" role="doc-biblioref">Midway 2022</a>)</span></p>
+<p>The EDA may not be fully described in concrete terms, but most data analysts and statisticians know it when they see it.</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -2073,7 +2114,26 @@ Important
 <p>The EDA is important because it helps researchers make thoughtful decisions about which ideas are worth exploring. Sometimes, the data clearly show that a particular question does not have enough support to be studied further—at least not with the current evidence.</p>
 </div>
 </div>
-<p><strong>Take a first look at your data:</strong> Check that the file type, structure, and layout are what you expected. Make sure everything is organized in a way that works for your analysis.</p>
+<p>The main goals of EDA are:</p>
+<ul>
+<li><p>To suggest hypotheses about what might be causing the patterns or relationships observed in the data,</p></li>
+<li><p>To guide the choice of appropriate statistical tools or models by helping you understand the structure of the data,</p></li>
+<li><p>To assess key assumptions that must be checked before applying formal statistical analysis (e.g., linearity, normality, independence),</p></li>
+<li><p>To provide a basis for further data collection, by highlighting gaps, inconsistencies, or areas where more information is needed.</p></li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>EDA is not typically the final stage of analysis. Rather, it serves as a <strong>transitional step between raw data and formal modeling</strong>. The insights gained through EDA guide decisions about which models to use, which variables to consider, and which data issues to address.</p>
+</div>
+</div>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -2084,6 +2144,7 @@ EDA Checklist
 </div>
 </div>
 <div class="callout-body-container callout-body">
+<p>Roger D. Peng in his book <span class="citation" data-cites="Peng2012">(<a href="#ref-Peng2012" role="doc-biblioref">Peng 2012</a>)</span> provide this checklist for conducting EDA.</p>
 <ol type="1">
 <li><p><strong>Start with a clear question:</strong> Before you begin EDA, take time to define exactly what you want to find out. A clear question or hypothesis gives your analysis purpose and helps you stay focused along the way.</p></li>
 <li><p><strong>Load your data carefully:</strong> Make sure your dataset is fully and correctly loaded into your analysis tool (e.g., R or Python). This first step is essential—it sets the stage for everything you will do next.</p></li>
@@ -2096,10 +2157,11 @@ EDA Checklist
 <li><p><strong>Challenge Your Findings:</strong> Once you find a result, pause and ask yourself: <em>Does this make sense?</em> Check your assumptions and consider possible errors or missing information. Being critical helps make your results stronger and more trustworthy.</p></li>
 <li><p><strong>Decide What to Do Next:</strong> Use the insights from your EDA to guide your next steps. You may decide to collect more data, use new methods, or refine your question. Sometimes , your initial findings are already enough to answer your main question.</p></li>
 </ol>
+<p>In Chapter 4 of <span class="citation" data-cites="Midway2022">Midway (<a href="#ref-Midway2022" role="doc-biblioref">2022</a>)</span>, interested reader can find some comments for each step.</p>
 </div>
 </div>
-<section id="airquailty-dataset" class="level3" data-number="4.0.1">
-<h3 data-number="4.0.1" class="anchored" data-anchor-id="airquailty-dataset"><span class="header-section-number">4.0.1</span> Airquailty dataset</h3>
+<section id="airquailty-dataset" class="level3" data-number="4.1.1">
+<h3 data-number="4.1.1" class="anchored" data-anchor-id="airquailty-dataset"><span class="header-section-number">4.1.1</span> Airquailty dataset</h3>
 <p>We will explore the <code>airquality</code> dataset, which contains daily measurement of air pollutants and weather conditions in New York City May to September 1973.</p>
 <p><strong>Step 1 –</strong> <em>How do ozone levels vary across different months in New York during the summer in 1973?</em></p>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -2219,8 +2281,8 @@ sum(is.na(x))</code></pre>
 <div id="qwebr-insertion-location-16"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>We might also refine our question: <em>On which days was the ozone level unusually high, and what were the weather conditions on those days?</em></p>
-<section id="alternative-question" class="level4" data-number="4.0.1.1">
-<h4 data-number="4.0.1.1" class="anchored" data-anchor-id="alternative-question"><span class="header-section-number">4.0.1.1</span> Alternative question</h4>
+<section id="alternative-question" class="level4" data-number="4.1.1.1">
+<h4 data-number="4.1.1.1" class="anchored" data-anchor-id="alternative-question"><span class="header-section-number">4.1.1.1</span> Alternative question</h4>
 <p><strong><em>Step 1 – Which weather factor—temperature, wind, or solar radiation—has the strongest relationship with ozone levels during the summer of 1973 in New York?</em></strong></p>
 <p>This question is more analytical than descriptive, and focused on <strong>relationships</strong> between variables. So, we need to examine how ozone changes with respect to other variables.</p>
 <p><strong>Step 2 –</strong></p>
@@ -2277,9 +2339,130 @@ sum(is.na(x))</code></pre>
 <li><p>Do results change if the we include time (e.g.&nbsp;month)?</p></li>
 </ul>
 <p>We might now refine our question: <em>How much does temperature need to rise before ozone levels exceed the 70 ppb threshold?</em></p>
-
-
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>As Tukey emphasized, EDA is about “detecting the unexpected” and <strong>learning from the data before attempting to explain it</strong>.</p>
+</div>
+</div>
 </section>
+</section>
+</section>
+<section id="principles-of-analytic-graphics" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="principles-of-analytic-graphics"><span class="header-section-number">4.2</span> Principles of Analytic Graphics</h2>
+<p>Based on <span class="citation" data-cites="Tufte2006">(<a href="#ref-Tufte2006" role="doc-biblioref">Tufte 2006</a>)</span>, there are six key principles for designing informative and effective graphs.</p>
+<section id="principle-1-show-comparison" class="level3" data-number="4.2.1">
+<h3 data-number="4.2.1" class="anchored" data-anchor-id="principle-1-show-comparison"><span class="header-section-number">4.2.1</span> Principle 1 – Show Comparison</h3>
+<div class="callout callout-style-simple callout-caution no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Showing comparisons is really the basis of all good scientific investigation. <span class="citation" data-cites="Peng2012">(<a href="#ref-Peng2012" role="doc-biblioref">Peng 2012</a>)</span></p>
+</div>
+</div>
+</div>
+<p>Good data analysis always involves <strong>comparing</strong> things. A single number or result doesn’t mean much on its own. We need to ask:</p>
+<div class="callout callout-style-simple callout-important no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Compared to what?</p>
+</div>
+</div>
+</div>
+<p>For example, if we see that children with air cleaners had more symptom-free days, that sounds good. But how do we know the air cleaner made the difference? We only know that <strong>by comparing</strong> to another group of children who didn’t get the air cleaner. When we add that comparison, we can see that the control group didn’t improve — so the improvement likely came from the air cleaner.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figs/EDA/EDA-P1-a.png" class="img-fluid figure-img"></p>
+<figcaption>Change in symptom-free days with air cleaner. Source: @Peng2012</figcaption>
+</figure>
+</div>
+<div id="figEDA1" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="../figs/EDA/EDA-P1-a.png" class="img-fluid figure-img"></p>
+<figcaption>Change in symptom-free days with air cleaner. Source: @Peng2012</figcaption>
+</figure>
+</div>
+<div id="figEDA2" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="../figs/EDA/EDA-P1-b.png" class="img-fluid figure-img"></p>
+<figcaption>Change in symptom-free days by treatment group. Source: @Peng2012</figcaption>
+</figure>
+</div>
+<p>Good data graphics should always show <strong>at least two things</strong> so we can compare and understand what’s really happening.</p>
+</section>
+<section id="principle-2-show-causality-and-explanation" class="level3" data-number="4.2.2">
+<h3 data-number="4.2.2" class="anchored" data-anchor-id="principle-2-show-causality-and-explanation"><span class="header-section-number">4.2.2</span> Principle 2: Show Causality and Explanation</h3>
+<p>When making a data graphics, it is helpful to show <strong>why</strong> you think something is happening – not just what is happening. Even if you can not prove a cause, you can show your <strong>hypothesis</strong> of <strong>idea</strong> about how one thing might lead to another.</p>
+<div class="callout callout-style-simple callout-caution no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>If possible, it is always useful to show your causal framework for thinking about a question. <span class="citation" data-cites="Peng2012">(<a href="#ref-Peng2012" role="doc-biblioref">Peng 2012</a>)</span></p>
+<!-- # Generally, it is difficult to prove that one thing causes another thing even with the most carefully collected data.  But it is still often useful for your data graphics to indicate what you are thinking about in terms of cause. Such a display may suggest hypotheses or refute them, but most importantly, they will raise new questions that can be followed up with new data or analyses. -->
+</div>
+</div>
+</div>
+<p>For example, in <a href="#figEDA2">#figEDA2</a> we saw that children with an air cleaner had more symptom–free days. But that alone does not explain <strong>why</strong>. A good follow-up question is: “<em>Why did the air cleaner help?“</em> One possible reason is that air cleaners reduce <strong>fine particles</strong> in the air – especially in homes with smokers. Breathing in these particles can make asthma worse, so removing them might help children feel better. To show this, we can make a new plot.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figs/EDA/EDA-P2.png" class="img-fluid figure-img"></p>
+<figcaption>Change in symptom-free days and change in PM2.5 levels in-home. Source: <span class="citation" data-cites="Peng2012">Peng (<a href="#ref-Peng2012" role="doc-biblioref">2012</a>)</span></figcaption>
+</figure>
+</div>
+<p>From the plot, we can see:</p>
+<ul>
+<li><p>Children with air cleaners had more symptom-free days.</p></li>
+<li><p>Their homes also had <strong>less PM2.5</strong> after six months.</p></li>
+<li><p>In contrast, the control group had little improvement.</p></li>
+</ul>
+<p>This <strong>pattern supports</strong> the idea that air cleaners work by reducing harmful particles — but it is not final proof. Other things might also cause the change, so more data and careful studies are needed to confirm.</p>
+</section>
+</section>
+<section id="principle-3-show-multivariate-data" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="principle-3-show-multivariate-data"><span class="header-section-number">4.3</span> Principle 3: Show Multivariate Data</h2>
+<div class="callout callout-style-simple callout-caution no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>The real world is multivariate. <span class="citation" data-cites="Peng2012">(<a href="#ref-Peng2012" role="doc-biblioref">Peng 2012</a>)</span></p>
+</div>
+</div>
+</div>
+<p>In real life, most problems involve <strong>more than one or two variables</strong>. We call this <strong>multivariate data</strong>. Good data graphics should try to show these multiple variables at the same time, instead of reducing everything to just one number or a simple trend.</p>
+<p>Let’s look at an example.</p>
+<p>We have data from New York City (1987–2000) on: <strong>PM10</strong> – fine particles in the air (air pollution), and <strong>Daily mortality –</strong> number of deaths per day.</p>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-Midway2022" class="csl-entry" role="listitem">
+Midway, Steve. 2022. <em>Data Analysis in r</em>. <a href="https://bookdown.org/steve_midway/DAR/">https://bookdown.org/steve_midway/DAR/</a>.
+</div>
+<div id="ref-Peng2012" class="csl-entry" role="listitem">
+Peng, Roger D. 2012. <em>Exploratory Data Analysis with <span>R</span></em>. <a href="https://bookdown.org/rdpeng/exdata/">https://bookdown.org/rdpeng/exdata/</a>.
+</div>
+<div id="ref-Tufte2006" class="csl-entry" role="listitem">
+Tufte, Edward. 2006. <em>Beautiful Evidence</em>. Graphics Press LLC.
+</div>
+<div id="ref-Tukey1977" class="csl-entry" role="listitem">
+Tukey, John Wilder. 1977. <em>Exploratory Data Analysis</em>. Addison-Wesley Publishing Company.
+</div>
+</div>
 </section>
 
 </main> <!-- /main -->
