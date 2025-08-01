@@ -423,7 +423,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"code":"data(\"airquality\")\nairquality","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"dim(airquality)\n\n# or \nnrow(airquality)\nncol(airquality)","id":2,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"str(airquality)","id":3,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-3","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"head(airquality)","id":4,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-4","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"tail(airquality)","id":5,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-5","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"nrow(ozone)","id":6,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-6","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"colSums(is.na(ozone))","id":7,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-7","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(dplyr)\n\nairquality |> \n  summarise(across(everything(), ~sum(is.na(.))))","id":8,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-8","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"airquality |> \n  filter(Month == 7) |> nrow()","id":9,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-9","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"airquality |> \n  filter(Month == 8) |> \n  summarise(across(everything(), ~ sum(is.na(.))))","id":10,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-10","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"summary(airquality$Ozone)","id":11,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-11","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(dplyr)\n\nairquality |> \n  group_by(Month) |> \n  summarise(avg_ozone = mean(Ozone, na.rm = TRUE))","id":12,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-12","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(ggplot2)\n\nggplot(airquality, aes(x = factor(Month), y = Ozone)) + \n  geom_boxplot(fill = 'lightblue', color = 'black', na.rm = TRUE) +\n  scale_x_discrete(labels = c(\"May\", \"June\", \"July\", \"August\", \"September\")) +\n  labs(x = \"Month\",\n       y = 'Ozone (ppb)') + \n  theme_minimal()","id":13,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-13","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(ggplot2)\n\nggplot(airquality, aes(x = Temp, y = Ozone)) + \n  geom_point(color = 'darkgreen', alpha = 0.8) + \n  labs(x = 'Temperature (°F)',\n       y = 'Ozone (ppb)') + \n  theme_minimal()","id":14,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-14","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(airquality, aes(x = Wind, y = Ozone)) +\n  geom_point(color = \"darkblue\", alpha = 0.8) +\n  labs(title = \"Ozone vs Wind Speed\",\n       x = \"Wind Speed (mph)\",\n       y = \"Ozone (ppb)\") +\n  theme_minimal()","id":15,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-15","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"model <- lm(Ozone ~ Temp + Wind, data = airquality)\nsummary(model)","id":16,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-16","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"data(\"airquality\")","id":17,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-17","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"airquality  |>  \n  summarise(rows = n())  |>  \n  mutate(cols = ncol(airquality))","id":18,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-18","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"airquality |> \n  glimpse()","id":19,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-19","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"airquality |> \n  slice_head(n = 5)","id":20,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-20","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"airquality |> \n  slice_tail(n = 5)","id":21,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-21","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ozone_clean <- airquality |> \n  filter(!is.na(Ozone), !is.na(Temp), !is.na(Wind), !is.na(Solar.R))\n\nozone_clean |> \n  summarise(rows = n())","id":22,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-22","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ozone_clean |> \n  summarise(above_70 = sum(Ozone > 70), \n            total = n(), \n            percent = round(100 * sum(Ozone > 70) / n(), 1))","id":23,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-23","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ozone_clean |> \n  summarise(cor_temp = cor(Ozone, Temp),\n            cor_wind = cor(Ozone, Wind),\n            cor_solar = cor(Ozone, Solar.R))","id":24,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-24","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(ozone_clean, aes(x = Temp, y = Ozone)) + \n  geom_point(color = \"steelblue\") + \n  labs(x = \"Temperature (F)\",\n       y = \"Ozone (ppb)\") + \n  theme_minimal()","id":25,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-25","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(ozone_clean, aes(x = Wind, y = Ozone)) + \n  geom_point(color = 'darkgreen') + \n  labs(x = \"Wind (mph)\",\n       y = \"Ozone (ppb)\") + \n  theme_minimal()","id":26,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-26","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(ozone_clean, aes(x = Solar.R, y = Ozone)) + \n  geom_point(color = 'orange') + \n  labs(x = \"Solar Radiation (langley)\",\n       y = \"Ozone (ppb)\") + \n  theme_minimal()","id":27,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-27","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# install.packages(\"patchwork\")\nlibrary(patchwork)\n\np1 <- ggplot(ozone_clean, aes(Temp, Ozone)) + \n  geom_point(color = \"steelblue\") + \n  labs(title = \"Ozone vs Temp\", x = \"Temperature\", y = \"Ozone\") + \n  theme_minimal()\n\np2 <- ggplot(ozone_clean, aes(Wind, Ozone)) + \n  geom_point(color = \"darkgreen\") + \n  labs(title = \"Ozone vs Wind\", x = \"Wind Speed\", y = \"Ozone\") + \n  theme_minimal()\n\np3 <- ggplot(ozone_clean, aes(Solar.R, Ozone)) + \n  geom_point(color = \"orange\") + \n  labs(title = \"Ozone vs Solar Radiation\", x = \"Solar Radiation\", y = \"Ozone\") + \n  theme_minimal()\n\n(p1 | p2 | p3)","id":28,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-28","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"cor(ozone_clean)","id":29,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-29","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"pairs(ozone_clean, \n      main = \"Ozone vs. Weather Variables\",\n      col = 'darkred', pch = 19)","id":30,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-30","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"model <- ozone_clean  |> \n  lm(Ozone ~ Temp + Wind + Solar.R, data = .)\n\nsummary(model)","id":31,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-31","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
+globalThis.qwebrCellDetails = [{"code":"data(\"airquality\")\nairquality","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"dim(airquality)\n\n# or \nnrow(airquality)\nncol(airquality)","id":2,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"str(airquality)","id":3,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-3","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"head(airquality)","id":4,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-4","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"tail(airquality)","id":5,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-5","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"nrow(ozone)","id":6,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-6","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"colSums(is.na(ozone))","id":7,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-7","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(dplyr)\n\nairquality |> \n  summarise(across(everything(), ~sum(is.na(.))))","id":8,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-8","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"airquality |> \n  filter(Month == 7) |> nrow()","id":9,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-9","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"airquality |> \n  filter(Month == 8) |> \n  summarise(across(everything(), ~ sum(is.na(.))))","id":10,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-10","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"summary(airquality$Ozone)","id":11,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-11","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(dplyr)\n\nairquality |> \n  group_by(Month) |> \n  summarise(avg_ozone = mean(Ozone, na.rm = TRUE))","id":12,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-12","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(ggplot2)\n\nggplot(airquality, aes(x = factor(Month), y = Ozone)) + \n  geom_boxplot(fill = 'lightblue', color = 'black', na.rm = TRUE) +\n  scale_x_discrete(labels = c(\"May\", \"June\", \"July\", \"August\", \"September\")) +\n  labs(x = \"Month\",\n       y = 'Ozone (ppb)') + \n  theme_minimal()","id":13,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-13","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(ggplot2)\n\nggplot(airquality, aes(x = Temp, y = Ozone)) + \n  geom_point(color = 'darkgreen', alpha = 0.8) + \n  labs(x = 'Temperature (°F)',\n       y = 'Ozone (ppb)') + \n  theme_minimal()","id":14,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-14","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(airquality, aes(x = Wind, y = Ozone)) +\n  geom_point(color = \"darkblue\", alpha = 0.8) +\n  labs(title = \"Ozone vs Wind Speed\",\n       x = \"Wind Speed (mph)\",\n       y = \"Ozone (ppb)\") +\n  theme_minimal()","id":15,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-15","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"model <- lm(Ozone ~ Temp + Wind, data = airquality)\nsummary(model)","id":16,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-16","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"data(\"airquality\")","id":17,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-17","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"airquality  |>  \n  summarise(rows = n())  |>  \n  mutate(cols = ncol(airquality))","id":18,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-18","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"airquality |> \n  glimpse()","id":19,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-19","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"airquality |> \n  slice_head(n = 5)","id":20,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-20","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"airquality |> \n  slice_tail(n = 5)","id":21,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-21","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ozone_clean <- airquality |> \n  filter(!is.na(Ozone), !is.na(Temp), !is.na(Wind), !is.na(Solar.R))\n\nozone_clean |> \n  summarise(rows = n())","id":22,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-22","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ozone_clean |> \n  summarise(above_70 = sum(Ozone > 70), \n            total = n(), \n            percent = round(100 * sum(Ozone > 70) / n(), 1))","id":23,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-23","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ozone_clean |> \n  summarise(cor_temp = cor(Ozone, Temp),\n            cor_wind = cor(Ozone, Wind),\n            cor_solar = cor(Ozone, Solar.R))","id":24,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-24","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(ozone_clean, aes(x = Temp, y = Ozone)) + \n  geom_point(color = \"steelblue\") + \n  labs(x = \"Temperature (F)\",\n       y = \"Ozone (ppb)\") + \n  theme_minimal()","id":25,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-25","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(ozone_clean, aes(x = Wind, y = Ozone)) + \n  geom_point(color = 'darkgreen') + \n  labs(x = \"Wind (mph)\",\n       y = \"Ozone (ppb)\") + \n  theme_minimal()","id":26,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-26","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(ozone_clean, aes(x = Solar.R, y = Ozone)) + \n  geom_point(color = 'orange') + \n  labs(x = \"Solar Radiation (langley)\",\n       y = \"Ozone (ppb)\") + \n  theme_minimal()","id":27,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-27","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# install.packages(\"patchwork\")\nlibrary(patchwork)\n\np1 <- ggplot(ozone_clean, aes(Temp, Ozone)) + \n  geom_point(color = \"steelblue\") + \n  labs(title = \"Ozone vs Temp\", x = \"Temperature\", y = \"Ozone\") + \n  theme_minimal()\n\np2 <- ggplot(ozone_clean, aes(Wind, Ozone)) + \n  geom_point(color = \"darkgreen\") + \n  labs(title = \"Ozone vs Wind\", x = \"Wind Speed\", y = \"Ozone\") + \n  theme_minimal()\n\np3 <- ggplot(ozone_clean, aes(Solar.R, Ozone)) + \n  geom_point(color = \"orange\") + \n  labs(title = \"Ozone vs Solar Radiation\", x = \"Solar Radiation\", y = \"Ozone\") + \n  theme_minimal()\n\n(p1 | p2 | p3)","id":28,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-28","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"cor(ozone_clean)","id":29,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-29","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"pairs(ozone_clean, \n      main = \"Ozone vs. Weather Variables\",\n      col = 'darkred', pch = 19)","id":30,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-30","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"model <- ozone_clean  |> \n  lm(Ozone ~ Temp + Wind + Solar.R, data = .)\n\nsummary(model)","id":31,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-31","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"data(\"mtcars\")\nhead(mtcars)","id":32,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-32","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(ggplot2)\n\nggplot(mtcars, aes(x = wt, y = mpg)) + \n  geom_point(color = 'blue', size = 3) + \n  geom_smooth(method = 'lm', se = FALSE, color = 'red') + \n  labs(x = 'weight (1000 lbs)',\n       y = 'Miles per Gallon (MPG)') + \n  theme_minimal()","id":33,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-33","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"mtcars$cyl <- factor(mtcars$cyl)\n\nggplot(mtcars, aes(x = wt, y = mpg, color=cyl)) + \n  geom_point(size = 3) + \n  geom_smooth(method = 'lm', se = FALSE, aes(group = cyl)) + \n  labs(x = 'Weight (1000 lbs)',\n       y = 'Miles per Gallon (MPG)', \n       color = \"Number of cylinders\") + \n  theme_minimal()","id":34,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-34","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(mtcars, aes(x = wt, y = mpg)) + \n  geom_point() + \n  geom_smooth(method = 'lm', se = FALSE) +\n  facet_wrap(~ cyl) + \n  labs(title = 'MPG vs. Weight by Cylinder Group')","id":35,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-35","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Prepare the data\nmtcars$cyl <- factor(mtcars$cyl)  \nmtcars$am <- factor(mtcars$am, labels = c(\"Automatic\", \"Manual\"))  \n\nggplot(mtcars, aes(x = wt, y = mpg, color = cyl, shape = am)) +\n  geom_point(size = 3) +\n  geom_smooth(method = \"lm\", se = FALSE, aes(group = cyl), linetype = \"solid\") +\n  labs(\n    x = \"Weight (1000 lbs)\",\n    y = \"Miles per Gallon (MPG)\",\n    color = \"Cylinders\",\n    shape = \"Transmission\"\n  ) +\n  theme_minimal()","id":36,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-36","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"mtcars$cyl <- factor(mtcars$cyl)\nmtcars$am <- factor(mtcars$am, labels = c('Automatic', 'Manual')) \n\n\nggplot(mtcars, aes(x = wt, y = mpg, color = cyl)) + \n  geom_point(size = 3) + \n  geom_smooth(method = 'lm', se = TRUE, aes(group = cyl)) + \n  facet_wrap(~ am) + \n  labs(\n    x = 'Weight (1000 lbs)',\n    y = 'Miles per Gallon (MPG)',\n    color = 'Cylinders'\n  ) + \n  theme_minimal()","id":37,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-37","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"mtcars$cyl <- factor(mtcars$cyl)\nmtcars$am <- factor(mtcars$am, labels = c('Automatic', 'Manual'))\n\nggplot(mtcars, aes(x = wt, y = mpg)) + \n  geom_point(aes(color = cyl), size = 3) + \n  geom_smooth(method = 'lm', se = FALSE, color = 'black') +\n  facet_grid(am ~ cyl) + \n  labs(\n    x = 'Weight (1000 lbs)',\n    y = 'Miles per Gallon (MPG)',\n    color = 'Cylinders'\n  ) ","id":38,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-38","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
 
 </script>
 <script type="module">
@@ -1777,8 +1777,11 @@ globalThis.qwebrExecuteCode = async function (
   <ul>
   <li><a href="#principle-1-show-comparison" id="toc-principle-1-show-comparison" class="nav-link" data-scroll-target="#principle-1-show-comparison"><span class="header-section-number">4.2.1</span> Principle 1 – Show Comparison</a></li>
   <li><a href="#principle-2-show-causality-and-explanation" id="toc-principle-2-show-causality-and-explanation" class="nav-link" data-scroll-target="#principle-2-show-causality-and-explanation"><span class="header-section-number">4.2.2</span> Principle 2: Show Causality and Explanation</a></li>
+  <li><a href="#principle-3-show-multivariate-data" id="toc-principle-3-show-multivariate-data" class="nav-link" data-scroll-target="#principle-3-show-multivariate-data"><span class="header-section-number">4.2.3</span> Principle 3: Show Multivariate Data</a></li>
+  <li><a href="#principle-4-integrate-evidence-keep-the-message-clear" id="toc-principle-4-integrate-evidence-keep-the-message-clear" class="nav-link" data-scroll-target="#principle-4-integrate-evidence-keep-the-message-clear"><span class="header-section-number">4.2.4</span> Principle 4: Integrate Evidence — Keep the message clear</a></li>
+  <li><a href="#principle-5-describe-and-document-the-evidence" id="toc-principle-5-describe-and-document-the-evidence" class="nav-link" data-scroll-target="#principle-5-describe-and-document-the-evidence"><span class="header-section-number">4.2.5</span> Principle 5: Describe and Document the Evidence</a></li>
+  <li><a href="#principle-6-content-is-king" id="toc-principle-6-content-is-king" class="nav-link" data-scroll-target="#principle-6-content-is-king"><span class="header-section-number">4.2.6</span> Principle 6: Content is King</a></li>
   </ul></li>
-  <li><a href="#principle-3-show-multivariate-data" id="toc-principle-3-show-multivariate-data" class="nav-link" data-scroll-target="#principle-3-show-multivariate-data"><span class="header-section-number">4.3</span> Principle 3: Show Multivariate Data</a></li>
   </ul>
 </nav>
     </div>
@@ -2090,15 +2093,6 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 
 <section id="what-is-eda" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="what-is-eda"><span class="header-section-number">4.1</span> What is EDA?</h2>
-<table class="caption-top table">
-<caption>Left: Change in symptom-free days with air cleaner. Right: Change in symptom-free days by treatment group. Source: [@Peng2020]</caption>
-<tbody>
-<tr class="odd">
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
 <p>Exploratory data analysis (EDA) was first formally introduced by <span class="citation" data-cites="Tukey1977">Tukey (<a href="#ref-Tukey1977" role="doc-biblioref">1977</a>)</span> in his influential 1977 book, <em>Exploratory Data Analysis.</em> Since then, its importance has grown significantly, especially in recent years, for several key reasons: i) data is being produced faster and in larger volumes than ever before, ii) modern computing and software tools make it easier to explore, clean, and visualize data in meaningful ways, iii) contemporary statistical models are often complex and assumption-dependent, requiring us to thoroughly understand the data before applying formal techniques. <span class="citation" data-cites="Midway2022">(<a href="#ref-Midway2022" role="doc-biblioref">Midway 2022</a>)</span></p>
 <p>The EDA may not be fully described in concrete terms, but most data analysts and statisticians know it when they see it.</p>
 <div class="callout callout-style-default callout-important callout-titled">
@@ -2158,6 +2152,32 @@ EDA Checklist
 <li><p><strong>Decide What to Do Next:</strong> Use the insights from your EDA to guide your next steps. You may decide to collect more data, use new methods, or refine your question. Sometimes , your initial findings are already enough to answer your main question.</p></li>
 </ol>
 <p>In Chapter 4 of <span class="citation" data-cites="Midway2022">Midway (<a href="#ref-Midway2022" role="doc-biblioref">2022</a>)</span>, interested reader can find some comments for each step.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>EDA is the single most important task to conduct at the beginning of every data science project.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>EDA is like exploring a new place – you do not know what you will find until you start looking.</p>
 </div>
 </div>
 <section id="airquailty-dataset" class="level3" data-number="4.1.1">
@@ -2352,6 +2372,68 @@ Note
 <p>As Tukey emphasized, EDA is about “detecting the unexpected” and <strong>learning from the data before attempting to explain it</strong>.</p>
 </div>
 </div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>At the beginning, it is hard to ask the <em>perfect</em> question because you do not know the date well yet. But here is the secret:</p>
+<div class="callout callout-style-simple callout-important no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>The more questions you ask, the better your questions become.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>Each time you explore one idea, it leads to a <strong>new question.</strong> That is how you:</p>
+<ul>
+<li><p>Discover patterns</p></li>
+<li><p>Notice surprises</p></li>
+<li><p>Understand your data more deeply</p></li>
+</ul>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Caution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Good EDA is like this</p>
+<ol type="1">
+<li><p>Ask a question</p></li>
+<li><p>Make a plot or summary</p></li>
+<li><p>Look at the result</p></li>
+<li><p>Ask a new, better question</p></li>
+<li><p>Repeat!</p></li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Do not wait for the perfect question - <strong>just start</strong>. Exploration will lead you to insight.</p>
+</div>
+</div>
 </section>
 </section>
 </section>
@@ -2431,9 +2513,8 @@ Note
 </ul>
 <p>This <strong>pattern supports</strong> the idea that air cleaners work by reducing harmful particles — but it is not final proof. Other things might also cause the change, so more data and careful studies are needed to confirm.</p>
 </section>
-</section>
-<section id="principle-3-show-multivariate-data" class="level2" data-number="4.3">
-<h2 data-number="4.3" class="anchored" data-anchor-id="principle-3-show-multivariate-data"><span class="header-section-number">4.3</span> Principle 3: Show Multivariate Data</h2>
+<section id="principle-3-show-multivariate-data" class="level3" data-number="4.2.3">
+<h3 data-number="4.2.3" class="anchored" data-anchor-id="principle-3-show-multivariate-data"><span class="header-section-number">4.2.3</span> Principle 3: Show Multivariate Data</h3>
 <div class="callout callout-style-simple callout-caution no-icon">
 <div class="callout-body d-flex">
 <div class="callout-icon-container">
@@ -2445,8 +2526,165 @@ Note
 </div>
 </div>
 <p>In real life, most problems involve <strong>more than one or two variables</strong>. We call this <strong>multivariate data</strong>. Good data graphics should try to show these multiple variables at the same time, instead of reducing everything to just one number or a simple trend.</p>
-<p>Let’s look at an example.</p>
-<p>We have data from New York City (1987–2000) on: <strong>PM10</strong> – fine particles in the air (air pollution), and <strong>Daily mortality –</strong> number of deaths per day.</p>
+<p>Let us look at an example.</p>
+<p>The <code>mtcars</code> dataset contains information about 32 car models from the 1970s. Each row is a car and each column is a variable. Some of these variables are: <code>mpg</code>: miles per gallon (fuel efficiency), <code>wt</code>: weight (in 1000 lbs), <code>cyl</code>: number of cylanders (engine size), <code>hp</code>: horse power, <code>qsec</code>: 1/4 mile time (acceleration), <code>am</code>: Transmission (0 = auto, 1 = manual). These variables help us to explore relationship between engin size, weight, fuel use, and more.</p>
+<div id="qwebr-insertion-location-32"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>We want to know how a car’s weight affects its fuel efficiency (miles per gallon). We look at a simple scatter plot of these two variables.</p>
+<div id="qwebr-insertion-location-33"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>Heavier cars tend to have lower fuel efficiency. But is weight the only thing affecting fuel use?</p>
+<p>Cars also have different engine sizes, measured by cylinders (<code>cyl</code>). This affects both weight and fuel efficiency. To understand the relationship better, we add <code>cyl</code> as a third variable by coloring points by the number of cylinders.</p>
+<div id="qwebr-insertion-location-34"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>Now, we see that cars with 4, 6, and 8 cylinders have different trends. The overall pattern changes once we include this third variable.</p>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Caution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The number of cylinders <strong>cofounds</strong> the relationship – it influences both weight and MPG.</p>
+</div>
+</div>
+<p>To understand how the number of cylinders changes the relationship between weight and fuel efficiency, we can make separate plots for each cylinder group. This is called <strong>faceting</strong>.</p>
+<div id="qwebr-insertion-location-35"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Sometimes, looking at groups separately helps us find clearer patterns that get lost in a big mixed dataset.</p>
+</div>
+</div>
+<p>Even, we can add the variable transmission(<code>am</code>) as an additional variable by using shapes or facet.</p>
+<div id="qwebr-insertion-location-36"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="qwebr-insertion-location-37"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>Now, each panel shows either automatic automatic or manual cars. Within each panel, colors show the number of cylinders.</p>
+<p>Even we can use <code>facet_grid</code> that allows us to split the plot into rows and columns based on two categorical variables – perfect for showing how relationships vary across combinations. We will use <code>am</code> in rows and <code>cyl</code> in columns.</p>
+<div id="qwebr-insertion-location-38"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>This way, we can see how the relationship between weight and MPG changes in each group combination.</p>
+</section>
+<section id="principle-4-integrate-evidence-keep-the-message-clear" class="level3" data-number="4.2.4">
+<h3 data-number="4.2.4" class="anchored" data-anchor-id="principle-4-integrate-evidence-keep-the-message-clear"><span class="header-section-number">4.2.4</span> Principle 4: Integrate Evidence — Keep the message clear</h3>
+<p>When you make a graph, <em>do not rely</em> on points and lines to show your idea. You can also use: <strong>Numbers</strong> to give exact values, <strong>Words or short labels</strong> to explain what is happening, <strong>Pictures or diagrams</strong> to give context.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A good graph tells a complete story.</p>
+</div>
+</div>
+<p>Use all tools you need – not just the ones your software gives you easily.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The goal is <strong>not to just make a nice picture,</strong> but to help people understand your message clearly.</p>
+</div>
+</div>
+</section>
+<section id="principle-5-describe-and-document-the-evidence" class="level3" data-number="4.2.5">
+<h3 data-number="4.2.5" class="anchored" data-anchor-id="principle-5-describe-and-document-the-evidence"><span class="header-section-number">4.2.5</span> Principle 5: Describe and Document the Evidence</h3>
+<p>A good graph tells a story – clearly and completely. That means it should include:</p>
+<ul>
+<li><p>A clear <strong>title</strong></p></li>
+<li><p>Labels for the <strong>x-axis</strong> and <strong>y-axis</strong></p></li>
+<li><p>Units for measurement (e.g.&nbsp;‘weights in 1000 lbs’)</p></li>
+<li><p>Time scale if needed (e.g.&nbsp;‘daily’, ‘monthly’)</p></li>
+<li><p>where the data comes from (e.g., ‘New York’, ‘EPA’)</p></li>
+<li><p>source of the data</p></li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Imagine someone looking only at your plot without reading anything else. <strong>Can they understand the main idea?</strong> if yes – your plot is doing a good job.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Even if your graph is not <em>final</em>, it is a good habit to label things early. It helps you and others understand what is going on.</p>
+</div>
+</div>
+<p>For example, instead of using</p>
+<p>try this</p>
+<p>when we use <code>ggplot2</code>, it is better to add <code>labs()</code> like we did until now.</p>
+</section>
+<section id="principle-6-content-is-king" class="level3" data-number="4.2.6">
+<h3 data-number="4.2.6" class="anchored" data-anchor-id="principle-6-content-is-king"><span class="header-section-number">4.2.6</span> Principle 6: Content is King</h3>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A beautiful plot means nothing if the <strong>question is weak</strong> or the d<strong>ata is poor.</strong></p>
+</div>
+</div>
+<p>Data graphics are only powerful when:</p>
+<ul>
+<li><p>the <strong>question is clear and important</strong></p></li>
+<li><p>the <strong>data is high quality and relevant</strong></p></li>
+<li><p>the <strong>evidence supports the question</strong></p></li>
+</ul>
+<p>No chart or fancy design can fix a bad question or messy data. That is why it is crucial to start with a strong idea and only show what really matters to answer that idea.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Do not just decorate your data – focus on the message!</p>
+</div>
+</div>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
@@ -2463,6 +2701,7 @@ Tufte, Edward. 2006. <em>Beautiful Evidence</em>. Graphics Press LLC.
 Tukey, John Wilder. 1977. <em>Exploratory Data Analysis</em>. Addison-Wesley Publishing Company.
 </div>
 </div>
+</section>
 </section>
 
 </main> <!-- /main -->
