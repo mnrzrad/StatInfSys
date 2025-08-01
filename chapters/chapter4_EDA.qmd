@@ -8,12 +8,6 @@ filters:
 
 ## What is EDA?
 
-|     |     |
-|-----|-----|
-|     |     |
-
-: Left: Change in symptom-free days with air cleaner. Right: Change in symptom-free days by treatment group. Source: \[\@Peng2020\]
-
 Exploratory data analysis (EDA) was first formally introduced by @Tukey1977 in his influential 1977 book, *Exploratory Data Analysis.* Since then, its importance has grown significantly, especially in recent years, for several key reasons: i) data is being produced faster and in larger volumes than ever before, ii) modern computing and software tools make it easier to explore, clean, and visualize data in meaningful ways, iii) contemporary statistical models are often complex and assumption-dependent, requiring us to thoroughly understand the data before applying formal techniques. [@Midway2022]
 
 The EDA may not be fully described in concrete terms, but most data analysts and statisticians know it when they see it.
@@ -62,6 +56,14 @@ Roger D. Peng in his book [@Peng2012] provide this checklist for conducting EDA.
 10. **Decide What to Do Next:** Use the insights from your EDA to guide your next steps. You may decide to collect more data, use new methods, or refine your question. Sometimes , your initial findings are already enough to answer your main question.
 
 In Chapter 4 of @Midway2022, interested reader can find some comments for each step.
+:::
+
+::: callout-important
+EDA is the single most important task to conduct at the beginning of every data science project.
+:::
+
+::: callout-tip
+EDA is like exploring a new place – you do not know what you will find until you start looking.
 :::
 
 ### Airquailty dataset
@@ -402,6 +404,40 @@ We might now refine our question: *How much does temperature need to rise before
 As Tukey emphasized, EDA is about "detecting the unexpected" and **learning from the data before attempting to explain it**.
 :::
 
+:::: callout-tip
+At the beginning, it is hard to ask the *perfect* question because you do not know the date well yet. But here is the secret:
+
+::: {.callout-important appearance="minimal" icon="false"}
+The more questions you ask, the better your questions become.
+:::
+::::
+
+Each time you explore one idea, it leads to a **new question.** That is how you:
+
+-   Discover patterns
+
+-   Notice surprises
+
+-   Understand your data more deeply
+
+::: callout-caution
+Good EDA is like this
+
+1.  Ask a question
+
+2.  Make a plot or summary
+
+3.  Look at the result
+
+4.  Ask a new, better question
+
+5.  Repeat!
+:::
+
+::: callout-tip
+Do not wait for the perfect question - **just start**. Exploration will lead you to insight.
+:::
+
 ## Principles of Analytic Graphics
 
 Based on [@Tufte2006], there are six key principles for designing informative and effective graphs.
@@ -452,7 +488,7 @@ From the plot, we can see:
 
 This **pattern supports** the idea that air cleaners work by reducing harmful particles — but it is not final proof. Other things might also cause the change, so more data and careful studies are needed to confirm.
 
-## Principle 3: Show Multivariate Data
+### Principle 3: Show Multivariate Data
 
 ::: {.callout-caution appearance="minimal" icon="false"}
 The real world is multivariate. [@Peng2012]
@@ -460,6 +496,197 @@ The real world is multivariate. [@Peng2012]
 
 In real life, most problems involve **more than one or two variables**. We call this **multivariate data**. Good data graphics should try to show these multiple variables at the same time, instead of reducing everything to just one number or a simple trend.
 
-Let’s look at an example.
+Let us look at an example.
 
-We have data from New York City (1987–2000) on: **PM10** – fine particles in the air (air pollution), and **Daily mortality –** number of deaths per day.
+The `mtcars` dataset contains information about 32 car models from the 1970s. Each row is a car and each column is a variable. Some of these variables are: `mpg`: miles per gallon (fuel efficiency), `wt`: weight (in 1000 lbs), `cyl`: number of cylanders (engine size), `hp`: horse power, `qsec`: 1/4 mile time (acceleration), `am`: Transmission (0 = auto, 1 = manual). These variables help us to explore relationship between engin size, weight, fuel use, and more.
+
+```{webr-r}
+data("mtcars")
+head(mtcars)
+```
+
+We want to know how a car's weight affects its fuel efficiency (miles per gallon). We look at a simple scatter plot of these two variables.
+
+```{webr-r}
+library(ggplot2)
+
+ggplot(mtcars, aes(x = wt, y = mpg)) + 
+  geom_point(color = 'blue', size = 3) + 
+  geom_smooth(method = 'lm', se = FALSE, color = 'red') + 
+  labs(x = 'weight (1000 lbs)',
+       y = 'Miles per Gallon (MPG)') + 
+  theme_minimal()
+```
+
+Heavier cars tend to have lower fuel efficiency. But is weight the only thing affecting fuel use?
+
+Cars also have different engine sizes, measured by cylinders (`cyl`). This affects both weight and fuel efficiency. To understand the relationship better, we add `cyl` as a third variable by coloring points by the number of cylinders.
+
+```{webr-r}
+mtcars$cyl <- factor(mtcars$cyl)
+
+ggplot(mtcars, aes(x = wt, y = mpg, color=cyl)) + 
+  geom_point(size = 3) + 
+  geom_smooth(method = 'lm', se = FALSE, aes(group = cyl)) + 
+  labs(x = 'Weight (1000 lbs)',
+       y = 'Miles per Gallon (MPG)', 
+       color = "Number of cylinders") + 
+  theme_minimal()
+```
+
+Now, we see that cars with 4, 6, and 8 cylinders have different trends. The overall pattern changes once we include this third variable.
+
+::: callout-caution
+The number of cylinders **cofounds** the relationship – it influences both weight and MPG.
+:::
+
+To understand how the number of cylinders changes the relationship between weight and fuel efficiency, we can make separate plots for each cylinder group. This is called **faceting**.
+
+```{webr-r}
+ggplot(mtcars, aes(x = wt, y = mpg)) + 
+  geom_point() + 
+  geom_smooth(method = 'lm', se = FALSE) +
+  facet_wrap(~ cyl) + 
+  labs(title = 'MPG vs. Weight by Cylinder Group')
+```
+
+::: callout-important
+Sometimes, looking at groups separately helps us find clearer patterns that get lost in a big mixed dataset.
+:::
+
+Even, we can add the variable transmission(`am`) as an additional variable by using shapes or facet.
+
+```{webr-r}
+# Prepare the data
+mtcars$cyl <- factor(mtcars$cyl)  
+mtcars$am <- factor(mtcars$am, labels = c("Automatic", "Manual"))  
+
+ggplot(mtcars, aes(x = wt, y = mpg, color = cyl, shape = am)) +
+  geom_point(size = 3) +
+  geom_smooth(method = "lm", se = FALSE, aes(group = cyl), linetype = "solid") +
+  labs(
+    x = "Weight (1000 lbs)",
+    y = "Miles per Gallon (MPG)",
+    color = "Cylinders",
+    shape = "Transmission"
+  ) +
+  theme_minimal()
+
+```
+
+```{webr-r}
+mtcars$cyl <- factor(mtcars$cyl)
+mtcars$am <- factor(mtcars$am, labels = c('Automatic', 'Manual')) 
+
+
+ggplot(mtcars, aes(x = wt, y = mpg, color = cyl)) + 
+  geom_point(size = 3) + 
+  geom_smooth(method = 'lm', se = TRUE, aes(group = cyl)) + 
+  facet_wrap(~ am) + 
+  labs(
+    x = 'Weight (1000 lbs)',
+    y = 'Miles per Gallon (MPG)',
+    color = 'Cylinders'
+  ) + 
+  theme_minimal()
+```
+
+Now, each panel shows either automatic automatic or manual cars. Within each panel, colors show the number of cylinders.
+
+Even we can use `facet_grid` that allows us to split the plot into rows and columns based on two categorical variables – perfect for showing how relationships vary across combinations. We will use `am` in rows and `cyl` in columns.
+
+```{webr-r}
+mtcars$cyl <- factor(mtcars$cyl)
+mtcars$am <- factor(mtcars$am, labels = c('Automatic', 'Manual'))
+
+ggplot(mtcars, aes(x = wt, y = mpg)) + 
+  geom_point(aes(color = cyl), size = 3) + 
+  geom_smooth(method = 'lm', se = FALSE, color = 'black') +
+  facet_grid(am ~ cyl) + 
+  labs(
+    x = 'Weight (1000 lbs)',
+    y = 'Miles per Gallon (MPG)',
+    color = 'Cylinders'
+  ) 
+```
+
+This way, we can see how the relationship between weight and MPG changes in each group combination.
+
+### Principle 4: Integrate Evidence — Keep the message clear
+
+When you make a graph, *do not rely* on points and lines to show your idea. You can also use: **Numbers** to give exact values, **Words or short labels** to explain what is happening, **Pictures or diagrams** to give context.
+
+::: callout-important
+A good graph tells a complete story.
+:::
+
+Use all tools you need – not just the ones your software gives you easily.
+
+::: callout-important
+The goal is **not to just make a nice picture,** but to help people understand your message clearly.
+:::
+
+### Principle 5: Describe and Document the Evidence
+
+A good graph tells a story – clearly and completely. That means it should include:
+
+-   A clear **title**
+
+-   Labels for the **x-axis** and **y-axis**
+
+-   Units for measurement (e.g. 'weights in 1000 lbs')
+
+-   Time scale if needed (e.g. 'daily', 'monthly')
+
+-   where the data comes from (e.g., 'New York', 'EPA')
+
+-   source of the data
+
+::: callout-tip
+Imagine someone looking only at your plot without reading anything else. **Can they understand the main idea?** if yes – your plot is doing a good job.
+:::
+
+::: callout-note
+Even if your graph is not *final*, it is a good habit to label things early. It helps you and others understand what is going on.
+:::
+
+For example, instead of using
+
+```{r}
+#| eval: false
+#| include: false
+plot(x, y)
+```
+
+try this
+
+```{r}
+#| eval: false
+#| include: false
+plot(x, y,
+     xlab = "Weight (1000 lbs)",
+     ylab = "Fuel efficiency (Miles per Gallon)",
+     main = "Number of Deaths")
+```
+
+when we use `ggplot2`, it is better to add `labs()` like we did until now.
+
+### Principle 6: Content is King
+
+::: callout-important
+A beautiful plot means nothing if the **question is weak** or the d**ata is poor.**
+:::
+
+Data graphics are only powerful when:
+
+-   the **question is clear and important**
+
+-   the **data is high quality and relevant**
+
+-   the **evidence supports the question**
+
+No chart or fancy design can fix a bad question or messy data. That is why it is crucial to start with a strong idea and only show what really matters to answer that idea.
+
+::: callout-tip
+Do not just decorate your data – focus on the message!
+:::
