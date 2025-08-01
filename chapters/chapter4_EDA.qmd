@@ -851,3 +851,50 @@ If you are not sure about a variable, ask:
 -   Can we **count it** or **measure it**?
 -   Does it have a **true zero**?
 :::
+
+### Types of EDA
+
+EDA helps us answer important questions like:
+
+-   What are the most common values of a variable?
+-   How much do observations differ from each other?
+-   Is one variable related to another?
+
+To answer these questions, EDA uses two main tools:
+
+#### Descriptive Statistics
+
+Descriptive statistics give **numerical summaries** of a dataset. They describe the basic features of a variable, such as:
+
+-   **Center** (e.g. mean or median)
+-   **Spread** (e.g. standard deviation or interquartile range)
+-   **Shape** (e.g. skewness)
+-   **Extremes** (e.g. minimum, maximum, or outliers)
+
+These summaries help us **compare groups** or **make initial conclusions**.\
+For example, the **mean** tells us what the "typical" value might be.
+
+But: **A few numbers can’t tell the whole story.**
+
+#### Graphical Summaries
+
+Graphs help us **see patterns**, **spot outliers**, and **understand distributions**.
+
+Common EDA plots include: - **Histograms** – show the shape and spread of a numeric variable - **Boxplots** – show center, spread, and outliers - **Bar charts** – show frequencies of categories - **Scatterplots** – show relationships between two numeric variables
+
+Graphs are **easier to understand** than tables of numbers. They help us and others **see what’s going on** in the data.
+
+### A Review on Descriptive Statistics
+
+Statisticians have created more precise terms to describe the patterns in data, called **descriptive statistics**.
+
+The two most important features of a numeric variable's distribution are:
+
+-   **Central tendency**: What is a typical value?
+-   **Dispersion**: How spread out are the values?
+
+**Central Tendency**
+
+A **measure of central tendency** tells us what a “typical” value looks like in the data. There are three main measures: **Mean**, **Median**, **Mode**
+
+#### Arithmetic Mean (Average)
