@@ -1782,6 +1782,14 @@ globalThis.qwebrExecuteCode = async function (
   <li><a href="#principle-5-describe-and-document-the-evidence" id="toc-principle-5-describe-and-document-the-evidence" class="nav-link" data-scroll-target="#principle-5-describe-and-document-the-evidence"><span class="header-section-number">4.2.5</span> Principle 5: Describe and Document the Evidence</a></li>
   <li><a href="#principle-6-content-is-king" id="toc-principle-6-content-is-king" class="nav-link" data-scroll-target="#principle-6-content-is-king"><span class="header-section-number">4.2.6</span> Principle 6: Content is King</a></li>
   </ul></li>
+  <li><a href="#enter-the-world-of-eda" id="toc-enter-the-world-of-eda" class="nav-link" data-scroll-target="#enter-the-world-of-eda"><span class="header-section-number">4.3</span> Enter the world of EDA</a>
+  <ul>
+  <li><a href="#types-of-variables" id="toc-types-of-variables" class="nav-link" data-scroll-target="#types-of-variables"><span class="header-section-number">4.3.1</span> Types of Variables</a>
+  <ul class="collapse">
+  <li><a href="#numerical-variables" id="toc-numerical-variables" class="nav-link" data-scroll-target="#numerical-variables"><span class="header-section-number">4.3.1.1</span> Numerical variables</a></li>
+  <li><a href="#categorical-variables" id="toc-categorical-variables" class="nav-link" data-scroll-target="#categorical-variables"><span class="header-section-number">4.3.1.2</span> Categorical Variables</a></li>
+  </ul></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -2685,6 +2693,272 @@ Tip
 <p>Do not just decorate your data – focus on the message!</p>
 </div>
 </div>
+</section>
+</section>
+<section id="enter-the-world-of-eda" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="enter-the-world-of-eda"><span class="header-section-number">4.3</span> Enter the world of EDA</h2>
+<p>EDA is the process of looking at data to understand it before using statistics or models. It helps us to answer questions like: - what types of data do we have? - Are there missing or strange values? - What patterns can we see? - What kind of summary or visualization is helpful?</p>
+<p>Before we start any analysis, we must know <em>what kind of data</em> we are working with. Variables can be broadly divided into <strong>numeric</strong> and <strong>categorical</strong> types.</p>
+<section id="types-of-variables" class="level3" data-number="4.3.1">
+<h3 data-number="4.3.1" class="anchored" data-anchor-id="types-of-variables"><span class="header-section-number">4.3.1</span> Types of Variables</h3>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Knowing the types of data matters because:</p>
+<ul>
+<li><p>Different statistics method are used for different variable types.</p></li>
+<li><p>Some graphs are only useful for some types of variables.</p></li>
+</ul>
+</div>
+</div>
+<section id="numerical-variables" class="level4" data-number="4.3.1.1">
+<h4 data-number="4.3.1.1" class="anchored" data-anchor-id="numerical-variables"><span class="header-section-number">4.3.1.1</span> Numerical variables</h4>
+<p>Numeric variables describe <strong>quantities</strong> that we can measure — they answer questions like “how many?” or “how much?”. These variables are also called <strong>quantitative variables</strong>, and the data they produce are known as <strong>quantitative data</strong>. Briefly, they are <strong>numbers</strong> that can be measured. Also, we can do math with them.</p>
+<section id="continuous-vs.-discrete" class="level5" data-number="4.3.1.1.1">
+<h5 data-number="4.3.1.1.1" class="anchored" data-anchor-id="continuous-vs.-discrete"><span class="header-section-number">4.3.1.1.1</span> Continuous vs.&nbsp;Discrete</h5>
+<p>Numeric variables can be:</p>
+<p><strong>Continuous</strong></p>
+<ul>
+<li>Can take <strong>any value</strong> on a number line, including decimals.</li>
+<li>Represent <strong>real-world quantities</strong>.</li>
+</ul>
+<p>Some examples are: <em>mass</em>, <em>age</em>, <em>temperature, time.</em></p>
+<p>Continuous variables can be <strong>positive only</strong> (like mass) or <strong>positive and negative</strong> (like change in temperature).</p>
+<p><strong>Discrete</strong></p>
+<ul>
+<li><p>Can take <strong>only whole number values</strong> (no decimals).</p></li>
+<li><p>Based on <strong>counting</strong>.</p></li>
+</ul>
+<p>Some examples are: <em>number of students, number of offspring, number of infected individuals</em></p>
+<p>A discrete variable cannot take values between integers — e.g., it makes no sense to have 2.5 individuals.</p>
+</section>
+<section id="ratio-vs.-interval" class="level5" data-number="4.3.1.1.2">
+<h5 data-number="4.3.1.1.2" class="anchored" data-anchor-id="ratio-vs.-interval"><span class="header-section-number">4.3.1.1.2</span> Ratio vs.&nbsp;Interval</h5>
+<p>Numeric variables can be further described based on the <strong>scale</strong> they are measured on: <strong>ratio</strong> or <strong>interval</strong>. This affects how we can interpret differences, proportions, and calculations.</p>
+<p><strong>Ratio</strong></p>
+<ul>
+<li><p>Has a <strong>true zero</strong> point (zero means “none”).</p></li>
+<li><p>Allows <strong>all mathematical operations</strong>, including ratios.</p></li>
+</ul>
+<p>Some examples are: <em>Height, Weight, Age, Income, mass.</em></p>
+<p>You can say: “Tree A is <strong>twice as tall</strong> as Tree B.”</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+What we can do:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><p>All descriptive statistics</p></li>
+<li><p>Use histograms, box-plots, scatterplots</p></li>
+</ul>
+</div>
+</div>
+<p><strong>Interval</strong></p>
+<ul>
+<li>Has <strong>no true zero</strong> — the zero point is <strong>arbitrary</strong>.</li>
+<li>Allows meaningful <strong>differences</strong>, but <strong>not ratios</strong>.</li>
+</ul>
+<p>Some examples are <em>Temperature (</em>in Celsius of Fahrenheit), <em>IQ scores,</em> Calendar dates (e.g.&nbsp;year 1000 vs 2000)</p>
+<p>You can say: “The <strong>difference</strong> between 20°C and 10°C is 10 degrees.” <strong>But not</strong>: “20°C is <strong>twice as hot</strong> as 10°C.”</p>
+<section id="what-we-can-do-1" class="level6" data-number="4.3.1.1.2.1">
+<h6 data-number="4.3.1.1.2.1" class="anchored" data-anchor-id="what-we-can-do-1"><span class="header-section-number">4.3.1.1.2.1</span> What we can do:</h6>
+<ul>
+<li><p>calculate mean, standard deviation</p></li>
+<li><p>plot histograms or line charts</p></li>
+</ul>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Caution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The difference between <strong>ratio</strong> and <strong>interval</strong> is about <strong>how the variable is measured</strong>, not what is being measured.</p>
+<p>For example, <strong>Temperature</strong> can be measured on:</p>
+<ul>
+<li>The <strong>Celsius scale</strong> that results in an <strong>interval scale</strong> (no true zero).</li>
+<li>The <strong>Kelvin scale</strong> that results in a <strong>ratio scale</strong> (zero means no temperature, i.e.&nbsp;absolute zero).</li>
+</ul>
+<p>So, the same <strong>thing</strong> (temperature) can be: an <strong>interval variable</strong> (in °C), or a <strong>ratio variable</strong> (in K), depending on the <strong>scale</strong> we use.</p>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="categorical-variables" class="level4" data-number="4.3.1.2">
+<h4 data-number="4.3.1.2" class="anchored" data-anchor-id="categorical-variables"><span class="header-section-number">4.3.1.2</span> Categorical Variables</h4>
+<p>Categorical variables describe <strong>qualities</strong> or <strong>characteristics</strong>. They answer questions like “what type?” or “which group?”. These are also known as <strong>qualitative variables</strong>, and the data they produce are <strong>qualitative data</strong>.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Categorical variables do <strong>not</strong> have numeric meaning (even if coded as numbers!).</p>
+</div>
+</div>
+<p>Categorical variables fall into two groups:</p>
+<p><strong>Nominal Variables</strong></p>
+<ul>
+<li><p>Categories have <strong>no logical order</strong>.</p></li>
+<li><p>Only show <strong>labels</strong> or <strong>names</strong>.</p></li>
+</ul>
+<p>For example, <em>Gender</em> (male, female), <em>Blood group (</em>A, B, AB, O), <em>City</em> (Lisbon, Porto, Faro, … ), <em>color</em> (red, blue, green)</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+What we can do:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><p>Count frequencies (e.g.&nbsp;how many students are from each city)</p></li>
+<li><p>Use bar charts or pie charts</p></li>
+</ul>
+</div>
+</div>
+<p><strong>Ordinal Variables</strong></p>
+<ul>
+<li><p>Categories <strong>can be ordered</strong> or ranked.</p></li>
+<li><p>But the <strong>distance between categories is not exact</strong>.</p></li>
+</ul>
+<p>For example, <em>Satisfaction</em> (low, medium, high), <em>education</em> (primary, secondary, university), <em>rank</em> (1st, 2nd, 3rd), <em>Academic grades</em> (A, B, C)</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+What we can do:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><p>Count frequencies</p></li>
+<li><p>Compare medians</p></li>
+<li><p>Use bar charts or ordered plots</p></li>
+</ul>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Do not use numbers to label categories.</strong><br>
+Even though categories <strong>can be coded</strong> as numbers (e.g., Male = 1, Female = 2), this can be <strong>confusing</strong>. It may suggest an order or imply mathematical operations that don’t make sense.</p>
+<div class="callout callout-style-simple callout-tip no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><strong>Tip:</strong> Use <strong>text labels</strong> like <code>"Male"</code> and <code>"Female"</code> instead of <code>1</code> and <code>2</code>.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p><strong>Summary of Variable Types</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 17%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable Type</th>
+<th>Scale</th>
+<th>Ordered?</th>
+<th>Can Measure Distance?</th>
+<th>Can Divide?</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Nominal</strong></td>
+<td>Categorical</td>
+<td>❌ No</td>
+<td>❌ No</td>
+<td>❌ No</td>
+<td>Gender, City, Color</td>
+</tr>
+<tr class="even">
+<td><strong>Ordinal</strong></td>
+<td>Categorical</td>
+<td>✅ Yes</td>
+<td>❌ No (not exact)</td>
+<td>❌ No</td>
+<td>Rank, Education, Likert</td>
+</tr>
+<tr class="odd">
+<td><strong>Interval</strong></td>
+<td>Numeric</td>
+<td>✅ Yes</td>
+<td>✅ Yes</td>
+<td>❌ No</td>
+<td>Temperature, Year</td>
+</tr>
+<tr class="even">
+<td><strong>Ratio</strong></td>
+<td>Numeric</td>
+<td>✅ Yes</td>
+<td>✅ Yes</td>
+<td>✅ Yes</td>
+<td>Age, Weight, Income</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you are not sure about a variable, ask:</p>
+<ul>
+<li>Does the variable <strong>have a natural order</strong>?</li>
+<li>Can we <strong>count it</strong> or <strong>measure it</strong>?</li>
+<li>Does it have a <strong>true zero</strong>?</li>
+</ul>
+</div>
+</div>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
@@ -2701,6 +2975,7 @@ Tufte, Edward. 2006. <em>Beautiful Evidence</em>. Graphics Press LLC.
 Tukey, John Wilder. 1977. <em>Exploratory Data Analysis</em>. Addison-Wesley Publishing Company.
 </div>
 </div>
+</section>
 </section>
 </section>
 
