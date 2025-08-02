@@ -702,9 +702,9 @@ Before we start any analysis, we must know *what kind of data* we are working wi
 ::: callout-important
 Knowing the types of data matters because:
 
--    Different statistics method are used for different variable types.
+-   Different statistics method are used for different variable types.
 
--    Some graphs are only useful for some types of variables.
+-   Some graphs are only useful for some types of variables.
 :::
 
 #### Numerical variables
@@ -734,7 +734,7 @@ Some examples are: *number of students, number of offspring, number of infected 
 
 A discrete variable cannot take values between integers — e.g., it makes no sense to have 2.5 individuals.
 
-##### Ratio vs. Interval 
+##### Ratio vs. Interval
 
 Numeric variables can be further described based on the **scale** they are measured on: **ratio** or **interval**. This affects how we can interpret differences, proportions, and calculations.
 
@@ -812,7 +812,7 @@ For example, *Gender* (male, female), *Blood group (*A, B, AB, O), *City* (Lisbo
 
 -   Categories **can be ordered** or ranked.
 
--    But the **distance between categories is not exact**.
+-   But the **distance between categories is not exact**.
 
 For example, *Satisfaction* (low, medium, high), *education* (primary, secondary, university), *rank* (1st, 2nd, 3rd), *Academic grades* (A, B, C)
 
@@ -838,7 +838,7 @@ Even though categories **can be coded** as numbers (e.g., Male = 1, Female = 2),
 **Summary of Variable Types**
 
 | Variable Type | Scale | Ordered? | Can Measure Distance? | Can Divide? | Examples |
-|------------|------------|------------|------------|------------|-------------|
+|------------|------------|------------|------------|------------|------------|
 | **Nominal** | Categorical | ❌ No | ❌ No | ❌ No | Gender, City, Color |
 | **Ordinal** | Categorical | ✅ Yes | ❌ No (not exact) | ❌ No | Rank, Education, Likert |
 | **Interval** | Numeric | ✅ Yes | ✅ Yes | ❌ No | Temperature, Year |
@@ -893,8 +893,40 @@ The two most important features of a numeric variable's distribution are:
 -   **Central tendency**: What is a typical value?
 -   **Dispersion**: How spread out are the values?
 
-**Central Tendency**
+### **Central Tendency**
 
 A **measure of central tendency** tells us what a “typical” value looks like in the data. There are three main measures: **Mean**, **Median**, **Mode**
 
 #### Arithmetic Mean (Average)
+
+\[We should add the definition\]
+
+function `mean()`
+
+Sometimes, we use `na.rm = TRUE` to ignore missing values.
+
+::: callout-note
+**Be careful:** The mean is sensitive to extreme values (outliers).\
+For example, using the mean to describe **income** is misleading because a few very high earners can pull the average up.
+:::
+
+#### Median
+
+\[We should add the definition\]
+
+-   The **middle value** when data are sorted.
+-   More **robust** than the mean when data are skewed.
+
+function `median()`
+
+#### Mode
+
+-   The **most frequent value** in the data.
+-   Conceptually useful, but hard to estimate in numeric data.
+-   Used more often for **categorical variables**.
+
+### Dispersion
+
+**Dispersion** tells us how much values differ from one another. A dataset where all values are similar has **low dispersion**; one with a wide range of values has **high dispersion**.
+
+The three common measures are:
