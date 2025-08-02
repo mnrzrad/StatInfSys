@@ -1789,6 +1789,19 @@ globalThis.qwebrExecuteCode = async function (
   <li><a href="#numerical-variables" id="toc-numerical-variables" class="nav-link" data-scroll-target="#numerical-variables"><span class="header-section-number">4.3.1.1</span> Numerical variables</a></li>
   <li><a href="#categorical-variables" id="toc-categorical-variables" class="nav-link" data-scroll-target="#categorical-variables"><span class="header-section-number">4.3.1.2</span> Categorical Variables</a></li>
   </ul></li>
+  <li><a href="#types-of-eda" id="toc-types-of-eda" class="nav-link" data-scroll-target="#types-of-eda"><span class="header-section-number">4.3.2</span> Types of EDA</a>
+  <ul class="collapse">
+  <li><a href="#descriptive-statistics" id="toc-descriptive-statistics" class="nav-link" data-scroll-target="#descriptive-statistics"><span class="header-section-number">4.3.2.1</span> Descriptive Statistics</a></li>
+  <li><a href="#graphical-summaries" id="toc-graphical-summaries" class="nav-link" data-scroll-target="#graphical-summaries"><span class="header-section-number">4.3.2.2</span> Graphical Summaries</a></li>
+  </ul></li>
+  <li><a href="#a-review-on-descriptive-statistics" id="toc-a-review-on-descriptive-statistics" class="nav-link" data-scroll-target="#a-review-on-descriptive-statistics"><span class="header-section-number">4.3.3</span> A Review on Descriptive Statistics</a></li>
+  <li><a href="#central-tendency" id="toc-central-tendency" class="nav-link" data-scroll-target="#central-tendency"><span class="header-section-number">4.3.4</span> <strong>Central Tendency</strong></a>
+  <ul class="collapse">
+  <li><a href="#arithmetic-mean-average" id="toc-arithmetic-mean-average" class="nav-link" data-scroll-target="#arithmetic-mean-average"><span class="header-section-number">4.3.4.1</span> Arithmetic Mean (Average)</a></li>
+  <li><a href="#median" id="toc-median" class="nav-link" data-scroll-target="#median"><span class="header-section-number">4.3.4.2</span> Median</a></li>
+  <li><a href="#mode" id="toc-mode" class="nav-link" data-scroll-target="#mode"><span class="header-section-number">4.3.4.3</span> Mode</a></li>
+  </ul></li>
+  <li><a href="#dispersion" id="toc-dispersion" class="nav-link" data-scroll-target="#dispersion"><span class="header-section-number">4.3.5</span> Dispersion</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -2894,7 +2907,7 @@ Even though categories <strong>can be coded</strong> as numbers (e.g., Male = 1,
 <col style="width: 16%">
 <col style="width: 16%">
 <col style="width: 16%">
-<col style="width: 17%">
+<col style="width: 16%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -2959,6 +2972,91 @@ Tip
 </ul>
 </div>
 </div>
+</section>
+</section>
+<section id="types-of-eda" class="level3" data-number="4.3.2">
+<h3 data-number="4.3.2" class="anchored" data-anchor-id="types-of-eda"><span class="header-section-number">4.3.2</span> Types of EDA</h3>
+<p>EDA helps us answer important questions like:</p>
+<ul>
+<li>What are the most common values of a variable?</li>
+<li>How much do observations differ from each other?</li>
+<li>Is one variable related to another?</li>
+</ul>
+<p>To answer these questions, EDA uses two main tools:</p>
+<section id="descriptive-statistics" class="level4" data-number="4.3.2.1">
+<h4 data-number="4.3.2.1" class="anchored" data-anchor-id="descriptive-statistics"><span class="header-section-number">4.3.2.1</span> Descriptive Statistics</h4>
+<p>Descriptive statistics give <strong>numerical summaries</strong> of a dataset. They describe the basic features of a variable, such as:</p>
+<ul>
+<li><strong>Center</strong> (e.g.&nbsp;mean or median)</li>
+<li><strong>Spread</strong> (e.g.&nbsp;standard deviation or interquartile range)</li>
+<li><strong>Shape</strong> (e.g.&nbsp;skewness)</li>
+<li><strong>Extremes</strong> (e.g.&nbsp;minimum, maximum, or outliers)</li>
+</ul>
+<p>These summaries help us <strong>compare groups</strong> or <strong>make initial conclusions</strong>.<br>
+For example, the <strong>mean</strong> tells us what the “typical” value might be.</p>
+<p>But: <strong>A few numbers can’t tell the whole story.</strong></p>
+</section>
+<section id="graphical-summaries" class="level4" data-number="4.3.2.2">
+<h4 data-number="4.3.2.2" class="anchored" data-anchor-id="graphical-summaries"><span class="header-section-number">4.3.2.2</span> Graphical Summaries</h4>
+<p>Graphs help us <strong>see patterns</strong>, <strong>spot outliers</strong>, and <strong>understand distributions</strong>.</p>
+<p>Common EDA plots include: - <strong>Histograms</strong> – show the shape and spread of a numeric variable - <strong>Boxplots</strong> – show center, spread, and outliers - <strong>Bar charts</strong> – show frequencies of categories - <strong>Scatterplots</strong> – show relationships between two numeric variables</p>
+<p>Graphs are <strong>easier to understand</strong> than tables of numbers. They help us and others <strong>see what’s going on</strong> in the data.</p>
+</section>
+</section>
+<section id="a-review-on-descriptive-statistics" class="level3" data-number="4.3.3">
+<h3 data-number="4.3.3" class="anchored" data-anchor-id="a-review-on-descriptive-statistics"><span class="header-section-number">4.3.3</span> A Review on Descriptive Statistics</h3>
+<p>Statisticians have created more precise terms to describe the patterns in data, called <strong>descriptive statistics</strong>.</p>
+<p>The two most important features of a numeric variable’s distribution are:</p>
+<ul>
+<li><strong>Central tendency</strong>: What is a typical value?</li>
+<li><strong>Dispersion</strong>: How spread out are the values?</li>
+</ul>
+</section>
+<section id="central-tendency" class="level3" data-number="4.3.4">
+<h3 data-number="4.3.4" class="anchored" data-anchor-id="central-tendency"><span class="header-section-number">4.3.4</span> <strong>Central Tendency</strong></h3>
+<p>A <strong>measure of central tendency</strong> tells us what a “typical” value looks like in the data. There are three main measures: <strong>Mean</strong>, <strong>Median</strong>, <strong>Mode</strong></p>
+<section id="arithmetic-mean-average" class="level4" data-number="4.3.4.1">
+<h4 data-number="4.3.4.1" class="anchored" data-anchor-id="arithmetic-mean-average"><span class="header-section-number">4.3.4.1</span> Arithmetic Mean (Average)</h4>
+<p>[We should add the definition]</p>
+<p>function <code>mean()</code></p>
+<p>Sometimes, we use <code>na.rm = TRUE</code> to ignore missing values.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Be careful:</strong> The mean is sensitive to extreme values (outliers).<br>
+For example, using the mean to describe <strong>income</strong> is misleading because a few very high earners can pull the average up.</p>
+</div>
+</div>
+</section>
+<section id="median" class="level4" data-number="4.3.4.2">
+<h4 data-number="4.3.4.2" class="anchored" data-anchor-id="median"><span class="header-section-number">4.3.4.2</span> Median</h4>
+<p>[We should add the definition]</p>
+<ul>
+<li>The <strong>middle value</strong> when data are sorted.</li>
+<li>More <strong>robust</strong> than the mean when data are skewed.</li>
+</ul>
+<p>function <code>median()</code></p>
+</section>
+<section id="mode" class="level4" data-number="4.3.4.3">
+<h4 data-number="4.3.4.3" class="anchored" data-anchor-id="mode"><span class="header-section-number">4.3.4.3</span> Mode</h4>
+<ul>
+<li>The <strong>most frequent value</strong> in the data.</li>
+<li>Conceptually useful, but hard to estimate in numeric data.</li>
+<li>Used more often for <strong>categorical variables</strong>.</li>
+</ul>
+</section>
+</section>
+<section id="dispersion" class="level3" data-number="4.3.5">
+<h3 data-number="4.3.5" class="anchored" data-anchor-id="dispersion"><span class="header-section-number">4.3.5</span> Dispersion</h3>
+<p><strong>Dispersion</strong> tells us how much values differ from one another. A dataset where all values are similar has <strong>low dispersion</strong>; one with a wide range of values has <strong>high dispersion</strong>.</p>
+<p>The three common measures are:</p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
@@ -2975,7 +3073,6 @@ Tufte, Edward. 2006. <em>Beautiful Evidence</em>. Graphics Press LLC.
 Tukey, John Wilder. 1977. <em>Exploratory Data Analysis</em>. Addison-Wesley Publishing Company.
 </div>
 </div>
-</section>
 </section>
 </section>
 
