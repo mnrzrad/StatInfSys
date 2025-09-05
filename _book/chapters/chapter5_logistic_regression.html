@@ -368,7 +368,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"code":"library(tidyverse)","id":1,"options":{"autorun":"true","classes":"","comment":"","context":"setup","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"n <- 20\nx <- runif(n)\ny <- rbinom(n, 1, x)\nggplot(tibble(x, y), aes(x, y)) +\n  geom_point() +\n  geom_smooth(method = \"lm\", se = FALSE) +\n  labs(title = \"\",\n       x = \"x\",\n       y = \"y\")","id":2,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(tibble(x, y), aes(x, y)) +\n  geom_point() +\n  geom_smooth(method = \"glm\", \n       method.args = list(family = \"binomial\"), \n       se = FALSE) +\n  labs(title = \"\",\n       x = \"x\",\n       y = \"y\")\n  ","id":3,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-3","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
+globalThis.qwebrCellDetails = [{"code":"library(tidyverse)","id":1,"options":{"autorun":"true","classes":"","comment":"","context":"setup","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"n <- 20\nx <- rbeta(n, 0.2, 0.8)\ny <- rbinom(n, 1, x)\nggplot(tibble(x, y), aes(x, y)) +\n  geom_point() +\n  geom_smooth(method = \"lm\", se = FALSE) +\n  labs(title = \"\",\n       x = \"x\",\n       y = \"y\")","id":2,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(tibble(x, y), aes(x, y)) +\n  geom_point() +\n  geom_smooth(method = \"glm\", \n       method.args = list(family = \"binomial\"), \n       se = FALSE) +\n  labs(title = \"\",\n       x = \"x\",\n       y = \"y\")\n  ","id":3,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-3","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"odds <- function(p) p / (1 - p)\np <- seq(0.1, 0.9, length.out = 90)\ntibble(p, odds = odds(p)) %>%\n  ggplot(aes(p, odds)) +\n  geom_line() +\n  geom_vline(xintercept = 0.5, color = \"red\", linetype = \"dashed\") +\n  geom_hline(yintercept = 1, color = \"blue\", linetype = \"dashed\") +\n  annotate(\"text\", x = 0.52, y = max(odds(p))*0.8, label = \"x = 0.5\", color = \"red\", hjust = 0) +\n  annotate(\"text\", x = 0.8, y = 1.05, label = \"y = 1\", color = \"blue\", vjust = 0) +\n  labs(title = \"Odds as a function of probability\",\n       x = \"Probability\",\n       y = \"Odds\")","id":4,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-4","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"logit <- function(p) log(p / (1 - p))\nprob <- seq(0.01, 0.99, length.out = 99)\ntibble(prob, logit = logit(prob)) %>%\n  ggplot(aes(prob, logit)) +\n  geom_line() +\n  geom_vline(xintercept = 0.5, color = \"red\", linetype = \"dashed\") +\n  geom_hline(yintercept = 0, color = \"blue\", linetype = \"dashed\") +\n  annotate(\"text\", x = 0.52, y = max(logit(prob))*0.8, label = \"x = 0.5\", color = \"red\", hjust = 0) +\n  annotate(\"text\", x = 0.8, y = 0.05, label = \"y = 0\", color = \"blue\", vjust = 0) +\n  labs(title = \"Logit as a function of probability\",\n       x = \"Probability\",\n       y = \"Logit\")","id":5,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-5","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
 
 </script>
 <script type="module">
@@ -1759,6 +1759,8 @@ window.Quarto = {
   <ul>
   <li><a href="#modelling-probabilities" id="toc-modelling-probabilities" class="nav-link active" data-scroll-target="#modelling-probabilities"><span class="header-section-number">5.1</span> Modelling Probabilities</a></li>
   <li><a href="#sigmoid-functions" id="toc-sigmoid-functions" class="nav-link" data-scroll-target="#sigmoid-functions"><span class="header-section-number">5.2</span> Sigmoid Functions</a></li>
+  <li><a href="#logistic-model" id="toc-logistic-model" class="nav-link" data-scroll-target="#logistic-model"><span class="header-section-number">5.3</span> Logistic Model</a></li>
+  <li><a href="#fitting-the-model" id="toc-fitting-the-model" class="nav-link" data-scroll-target="#fitting-the-model"><span class="header-section-number">5.4</span> Fitting the Model</a></li>
   </ul>
 </nav>
     </div>
@@ -2084,24 +2086,99 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div id="qwebr-insertion-location-2"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>There are some problems with this approach:</p>
-<ol type="1">
+<ul>
 <li>the output values are never (with probability 1) exactly 0 or 1, the values that are taken by <span class="math inline">\(y\)</span>;</li>
-<li>even considering a threshold (e.g.&nbsp;0.5) to classify the predicted values into 0 or 1 if , this would be mostly an arbitrary chosen value.</li>
-</ol>
-<p>Instead, we can opt to model the <em>probability</em> of success of the event described by <span class="math inline">\(y\)</span>, i.e <span class="math inline">\(\operatorname{P}(Y=1)\)</span>. This is a more sound and natural way to model the prediction of a random binary event.</p>
-<p>A logistic function can be used to model the probability that <span class="math inline">\(y = 1\)</span> given <span class="math inline">\(\mathbf{x}\)</span>.</p>
-<div id="qwebr-insertion-location-3"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<li>even considering a threshold (e.g.&nbsp;0.5) to classify the predicted values into 0 or 1, this would be mostly an arbitrary chosen value.</li>
+</ul>
 </section>
 <section id="sigmoid-functions" class="level2" data-number="5.2">
 <h2 data-number="5.2" class="anchored" data-anchor-id="sigmoid-functions"><span class="header-section-number">5.2</span> Sigmoid Functions</h2>
-<p>A sigmoid function <span class="math inline">\(f(x)\)</span> is a mathematical function having an “S” shaped curve (sigmoid curve) with the following properties:</p>
+<p>Instead of a linear function, we can opt to model the <em>probability</em> of success of the event described by <span class="math inline">\(y\)</span>, i.e <span class="math inline">\(\operatorname{P}(Y=1)\)</span>. This is a more sound and natural way to model the prediction of a random binary event. In order to do this, we can use <strong>sigmoid functions</strong>. A sigmoid function <span class="math inline">\(f(x)\)</span> is a function having an “S” shaped curve (sigmoid curve) with the following properties:</p>
 <ul>
 <li><span class="math inline">\(0&lt;f(x)&lt;1\)</span>;</li>
 <li><span class="math inline">\(\displaystyle \lim_{x \to -\infty} f(x) = 0\)</span>, <span class="math inline">\(\displaystyle \lim_{x \to +\infty} f(x) = 1\)</span>;</li>
 <li><span class="math inline">\(f'(x)&gt;0\)</span>.</li>
 </ul>
-<p>A common sigmoid function is the logistic function, defined as: <span class="math display">\[f(x) = \frac{1}{1 + e^{-x}} = \frac{e^x}{1 + e^x}.\]</span> This function will play a central row in the logistic regression model, as we will see briefly.</p>
+<p>A common sigmoid function is the logistic function, defined as:</p>
+<p><span class="math display">\[
+f(x) = \frac{e^x}{1 + e^x} = \frac{1}{1 + e^{-x}}.
+\]</span></p>
+<p>A logistic function can be used to model the probability that <span class="math inline">\(y = 1\)</span> given <span class="math inline">\(\mathbf{x}\)</span>.</p>
+<div id="qwebr-insertion-location-3"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>This function will play a central row in the logistic regression model, as we will see briefly.</p>
+</section>
+<section id="logistic-model" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="logistic-model"><span class="header-section-number">5.3</span> Logistic Model</h2>
+<p>The first random variable that comes to mind in order to model a random binary event is the <strong>Bernoulli random variable</strong>, which is a discrete random variable that takes value 1 with probability <span class="math inline">\(p\)</span> and value 0 with probability <span class="math inline">\(1-p\)</span>. The parameter <span class="math inline">\(p\)</span> is the probability of success of the event described by the random variable, and it’s probability function is</p>
+<p><span class="math display">\[
+p(y) = p^y (1-p)^{1-y}, \quad y \in \{0, 1\}.
+\]</span> The expected value of a Bernoulli random variable is <span class="math inline">\(\operatorname{E}[Y] = p\)</span> and it’s variance is <span class="math inline">\(\operatorname{V}(Y) = p(1-p)\)</span>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A natural extension is the <strong>Binomial random variable</strong>, which is the sum of <span class="math inline">\(n\)</span> independent Bernoulli random variables with the same parameter <span class="math inline">\(p\)</span>. The parameter <span class="math inline">\(p\)</span> is again the probability of success of the event described by the random variable, and it’s probability function is</p>
+<p><span class="math display">\[
+p(y) = \binom{n}{y} p^y (1-p)^{n-y}, \quad y \in \{0, 1, ..., n\}.
+\]</span></p>
+</div>
+</div>
+<p>Another way of expressing the probability of an event is through the <strong>odds</strong> of the event, defined as the ratio between the probability of the event and the probability of it’s complementary event:</p>
+<p><span class="math display">\[
+\operatorname{odds} = \frac{p}{1-p}, \quad p \in ]0, 1[.
+\]</span></p>
+<p>The odds are a positive number. If the odds are equal to 1, then the event and it’s complementary are equally likely. If the odds are greater than 1, then the event is more likely than it’s complementary event, and vice versa. It’s easy to see that odds are monotonically increasing with respect to <span class="math inline">\(p\)</span>:</p>
+<p><span class="math display">\[
+{(\operatorname{odds})}' = \frac{1}{(1-p)^2} &gt; 0.
+\]</span></p>
+<div id="qwebr-insertion-location-4"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>Odds are an alternative way of expressing probabilities, still being relatively intuitive concerning interpretation. Nevertheless, they are still confined to the interval <span class="math inline">\(]0, +\infty[\)</span>, because</p>
+<p><span class="math display">\[
+\lim_{p \to 0^+} \frac{p}{1-p} = 0, \quad \lim_{p \to 1^-} \frac{p}{1-p} = +\infty.
+\]</span></p>
+<p>If we want to have a represantation of probabilities that spans the whole real line, we can use the <strong>log-odds</strong>, also called <strong>logit</strong> function, defined as</p>
+<p><span class="math display">\[
+\operatorname{logit}(p) = \log\left(\frac{p}{1-p}\right), \quad p \in ]0, 1[.
+\]</span></p>
+<p>This creates a one-to-one mapping between the interval <span class="math inline">\(]0, 1[\)</span> and the whole real line <span class="math inline">\(\mathbb{R}\)</span>.</p>
+<div id="qwebr-insertion-location-5"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>The logit function is also monotonically increasing with respect to <span class="math inline">\(p\)</span>:</p>
+<p><span class="math display">\[
+{\big(\operatorname{logit}(p)\big)}' = \frac{1}{p(1-p)} &gt; 0.
+\]</span></p>
+<p>This representation of probabilities is well suited to be used in a regression model, because it spans the whole real line. In fact, in a logistic regression model, we assume that the log-odds of the probability that <span class="math inline">\(y = 1\)</span> is a linear combination of the input variables: <span class="math display">\[
+\operatorname{logit}\big(\operatorname{P}(Y=1|\mathbf{x})\big) = \operatorname{logit}(p) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + ... + \beta_p x_p = \mathbf{x}^T \boldsymbol{\beta} = \eta (\mathbf{x}),
+\]</span> where <span class="math inline">\(\boldsymbol{\beta} = (\beta_0, \beta_1, ..., \beta_p)\)</span> is the vector of parameters to be estimated.</p>
+<p>Note that the logit function is the inverse of the logistic function! Hence, we can rewrite <span class="math inline">\(\operatorname{P}(Y=1|\mathbf{X}=\mathbf{x})\)</span> as</p>
+<p><span id="eq-logit"><span class="math display">\[
+\operatorname{P}(Y=1|\mathbf{x}) = \frac{e^{\eta(\mathbf{x})}}{1 + e^{\eta(\mathbf{x})}} = \frac{1}{1 + e^{-\eta(\mathbf{x})}}.
+\tag{5.1}\]</span></span></p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><a href="#eq-logit" class="quarto-xref">Equation&nbsp;<span>5.1</span></a> describes a model for the expected value of the random variable <span class="math inline">\(Y\)</span> given <span class="math inline">\(\mathbf{x}\)</span>, that follows a Bernoulli distribution with parameter <span class="math inline">\(p = \operatorname{P}(Y=1|\mathbf{x})\)</span>. It does <strong>not</strong> describe a model for <span class="math inline">\(Y\)</span> itself, which is a discrete random variable taking values 0 or 1.</p>
+</div>
+</div>
+</section>
+<section id="fitting-the-model" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="fitting-the-model"><span class="header-section-number">5.4</span> Fitting the Model</h2>
+<p>To get estimates for the parameter vector <span class="math inline">\(\boldsymbol{\beta} = (\beta_0, \beta_1, \beta_2, ..., \beta_p)\)</span>, the preferential method is through maximum likelihood estimation.</p>
 
 
 </section>
