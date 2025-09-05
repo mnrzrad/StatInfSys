@@ -353,7 +353,7 @@ To understand the IQR, we need to define **quartiles**.
 Quartiles divide the data into **four equal parts**:
 
 | Quartile | Meaning |
-|-------------------|-----------------------------------------------------|
+|------------------|-----------------------------------------------------|
 | **Q1** | First quartile (25%) — one quarter of the data is below this value |
 | **Q2** | Second quartile (50%) — this is the **median** |
 | **Q3** | Third quartile (75%) — three quarters of the data are below this value |
@@ -389,6 +389,126 @@ The wider the IQR, the **more spread out** the middle values are.
 -   It gives a good summary of the **central spread**
 
 -   It is **preferred** in EDA for skewed or messy data.
+
+### Associations
+
+In EDA, we often want to ask *Is one variable associated with another?*
+
+This can be for:
+
+-   Two numeric variables
+
+-   Two categorical variables
+
+-   One numeric and one categorical
+
+#### Pairs of Numeric Variables
+
+The most common way to measure association between two numeric variables is:
+
+**Pearson's Correlation Coefficient**
+
+-   Measures **Strength** and **direction** of a **linear relationship**.
+
+-   Values range from $-1$ to $+1$:
+
+    -   $+1$: Perfect positive linear association
+
+    -   $-1$: Perfect negative linear association
+
+    -   $0$: no linear relationship
+
+::: callout-important
+Person's $r$ only measures **linear** relationships.
+:::
+
+::: callout-caution
+If the relationship is **curved**, $r$ can be misleading. See [Anscombe’s Quartet](https://en.wikipedia.org/wiki/Anscombe%27s_quartet) for famous examples.
+:::
+
+::: callout-note
+**Rank Correlations: For Non-linear Relationships**
+
+If the relationship is not linear, use a **rank correlation**:
+
+| Method                 | Notes                          |
+|------------------------|--------------------------------|
+| **Spearman’s** $\rho$  | More sensitive to **outliers** |
+| **Kendall’s** $\tau$   | Better for **ordinal data**    |
+
+These methods:
+
+-   convert data into **ranks** (1st, 2nd, 3rd, ...)
+
+-   Measure how well the ranks agree between two variables
+
+They are interpreted like Pearson's $r$:
+
+-   Close to $\pm 1$ means strong association
+
+-   $0$ means no association
+:::
+
+#### Pairs of Categorical Variables
+
+For two categorical variables, we ask *Are certain combinations of categories more or less common than expected?*
+
+The most basic tool is the **contingency table**. It counts how many times each combination of categories appears in the data.
+
+This table helps us to answer questions like:
+
+-   Do some combinations occur more often than others?
+
+-   Are the two categorical variables associated?
+
+**Example:** **Penguins Species and Islands**\
+Imagine we observed $344$ penguins from three species on three islands. We record how many penguins of each species were found on each island.
+
+| **Species**   | **Biscoe** | **Dream** | **Torgersen** | **Total** |
+|---------------|------------|-----------|---------------|-----------|
+| **Adelie**    | 44         | 56        | 52            | 152       |
+| **Chinstrap** | 0          | 68        | 0             | 68        |
+| **Gentoo**    | 124        | 0         | 0             | 124       |
+| **Total**     | 168        | 124       | 52            | 344       |
+
+This table tells us:
+
+**Summary of Correlation and Association Measures in R**
+
+This table shows which association or correlation measure to use depending on the types of variables, along with the appropriate R function.
+
+| Variable Types | Measure | Interpretation | R Function / Package |
+|---------------|---------------|---------------------|---------------------|
+| **Numeric – Numeric** | **Pearson’s r** | Strength of **linear** relationship | `cor(x, y, method = "pearson")` |
+| **Numeric – Numeric** | **Spearman’s ρ** | Strength of **monotonic** relationship | `cor(x, y, method = "spearman")` |
+| **Numeric – Numeric** | **Kendall’s τ** | Rank-based measure; robust to ties | `cor(x, y, method = "kendall")` |
+| **Ordinal – Ordinal** | **Spearman’s ρ** or **Kendall’s τ** | Association between ranks | Same as above |
+| **Nominal – Nominal (2×2)** | **Phi (φ) coefficient** | Association between two binary variables | `psych::phi(table)` |
+| **Nominal – Nominal (k×m)** | **Cramér’s V** | Strength of association in contingency table | `rcompanion::cramerV(table)` or `DescTools::CramerV(table)` |
+| **Nominal – Numeric** | **Eta (η) coefficient** | How much variance in numeric var is explained by group | `DescTools::EtaSq(aov(y ~ group))` |
+| **Binary – Binary** | **Tetrachoric correlation** | For binary variables assumed to reflect latent continuous variables | `psych::tetrachoric(table)$rho` |
+| **Ordinal – Nominal** | *(No standard measure)* | Use visual summaries or grouped statistics | `table()`, `ggplot2::geom_bar()`, `mosaicplot()` |
+
+------------------------------------------------------------------------
+
+### 🧭 Notes
+
+-   **Spearman’s ρ** and **Kendall’s τ** both work well for **ranked data** and are more robust to non-linear trends than Pearson’s r.
+-   **Cramér’s V** is used for **nominal data**, and its values range from 0 to 1.
+-   **Eta squared (η²)** measures how much of the variance in the numeric variable is explained by the group (nominal) variable.
+-   For **ordinal + nominal**, no widely accepted coefficient exists; focus on visual summaries (e.g., bar charts or stacked plots).
+
+------------------------------------------------------------------------
+
+### ✅ Example: What Should You Use?
+
+| Situation                       | Use                      |
+|---------------------------------|--------------------------|
+| Height vs Weight                | Pearson’s r              |
+| Exam Rank vs Satisfaction Level | Kendall’s τ              |
+| Eye Color vs Blood Type         | Cramér’s V               |
+| Gender vs Income                | ANOVA + Boxplot          |
+| Plant Type vs Size Category     | Cross-tab or Mosaic Plot |
 
 ### Airquailty dataset
 

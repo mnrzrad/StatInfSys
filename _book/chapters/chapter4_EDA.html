@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.6.42">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -21,9 +21,8 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: middle;
 }
 /* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -34,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -87,16 +86,15 @@ div.csl-indent {
 <meta name="quarto:offset" content="../">
 <link href="../chapters/chapter5_logistic_regression.html" rel="next">
 <link href="../chapters/chapter2_data_visualization.html" rel="prev">
-<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-485d01fc63b59abcd3ee1bf1e8e2748d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-08488171a94ec4690e95561e2c6b96d6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -424,7 +422,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"code":"data(\"airquality\")\nairquality","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"dim(airquality)\n\n# or \nnrow(airquality)\nncol(airquality)","id":2,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"str(airquality)","id":3,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-3","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"head(airquality)","id":4,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-4","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"tail(airquality)","id":5,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-5","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"nrow(airquality)","id":6,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-6","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"colSums(is.na(ozone))","id":7,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-7","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(dplyr)\n\nairquality |> \n  summarise(across(everything(), ~sum(is.na(.))))","id":8,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-8","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"airquality |> \n  filter(Month == 7) |> nrow()","id":9,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-9","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"airquality |> \n  filter(Month == 8) |> \n  summarise(across(everything(), ~ sum(is.na(.))))","id":10,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-10","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"summary(airquality$Ozone)","id":11,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-11","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(dplyr)\n\nairquality |> \n  group_by(Month) |> \n  summarise(avg_ozone = mean(Ozone, na.rm = TRUE))","id":12,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-12","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(ggplot2)\n\nggplot(airquality, aes(x = factor(Month), y = Ozone)) + \n  geom_boxplot(fill = 'lightblue', color = 'black', na.rm = TRUE) +\n  scale_x_discrete(labels = c(\"May\", \"June\", \"July\", \"August\", \"September\")) +\n  labs(x = \"Month\",\n       y = 'Ozone (ppb)') + \n  theme_minimal()","id":13,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-13","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(ggplot2)\n\nggplot(airquality, aes(x = Temp, y = Ozone)) + \n  geom_point(color = 'darkgreen', alpha = 0.8) + \n  labs(x = 'Temperature (°F)',\n       y = 'Ozone (ppb)') + \n  theme_minimal()","id":14,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-14","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(airquality, aes(x = Wind, y = Ozone)) +\n  geom_point(color = \"darkblue\", alpha = 0.8) +\n  labs(title = \"Ozone vs Wind Speed\",\n       x = \"Wind Speed (mph)\",\n       y = \"Ozone (ppb)\") +\n  theme_minimal()","id":15,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-15","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"model <- lm(Ozone ~ Temp + Wind, data = airquality)\nsummary(model)","id":16,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-16","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"data(\"airquality\")","id":17,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-17","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"airquality  |>  \n  summarise(rows = n())  |>  \n  mutate(cols = ncol(airquality))","id":18,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-18","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"airquality |> \n  glimpse()","id":19,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-19","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"airquality |> \n  slice_head(n = 5)","id":20,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-20","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"airquality |> \n  slice_tail(n = 5)","id":21,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-21","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ozone_clean <- airquality |> \n  filter(!is.na(Ozone), !is.na(Temp), !is.na(Wind), !is.na(Solar.R))\n\nozone_clean |> \n  summarise(rows = n())","id":22,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-22","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ozone_clean |> \n  summarise(above_70 = sum(Ozone > 70), \n            total = n(), \n            percent = round(100 * sum(Ozone > 70) / n(), 1))","id":23,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-23","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ozone_clean |> \n  summarise(cor_temp = cor(Ozone, Temp),\n            cor_wind = cor(Ozone, Wind),\n            cor_solar = cor(Ozone, Solar.R))","id":24,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-24","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(ozone_clean, aes(x = Temp, y = Ozone)) + \n  geom_point(color = \"steelblue\") + \n  labs(x = \"Temperature (F)\",\n       y = \"Ozone (ppb)\") + \n  theme_minimal()","id":25,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-25","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(ozone_clean, aes(x = Wind, y = Ozone)) + \n  geom_point(color = 'darkgreen') + \n  labs(x = \"Wind (mph)\",\n       y = \"Ozone (ppb)\") + \n  theme_minimal()","id":26,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-26","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(ozone_clean, aes(x = Solar.R, y = Ozone)) + \n  geom_point(color = 'orange') + \n  labs(x = \"Solar Radiation (langley)\",\n       y = \"Ozone (ppb)\") + \n  theme_minimal()","id":27,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-27","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# install.packages(\"patchwork\")\nlibrary(patchwork)\n\np1 <- ggplot(ozone_clean, aes(Temp, Ozone)) + \n  geom_point(color = \"steelblue\") + \n  labs(title = \"Ozone vs Temp\", x = \"Temperature\", y = \"Ozone\") + \n  theme_minimal()\n\np2 <- ggplot(ozone_clean, aes(Wind, Ozone)) + \n  geom_point(color = \"darkgreen\") + \n  labs(title = \"Ozone vs Wind\", x = \"Wind Speed\", y = \"Ozone\") + \n  theme_minimal()\n\np3 <- ggplot(ozone_clean, aes(Solar.R, Ozone)) + \n  geom_point(color = \"orange\") + \n  labs(title = \"Ozone vs Solar Radiation\", x = \"Solar Radiation\", y = \"Ozone\") + \n  theme_minimal()\n\n(p1 | p2 | p3)","id":28,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-28","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"cor(ozone_clean)","id":29,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-29","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"pairs(ozone_clean, \n      main = \"Ozone vs. Weather Variables\",\n      col = 'darkred', pch = 19)","id":30,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-30","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"model <- ozone_clean  |> \n  lm(Ozone ~ Temp + Wind + Solar.R, data = .)\n\nsummary(model)","id":31,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-31","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"data(\"mtcars\")\nhead(mtcars)","id":32,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-32","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(ggplot2)\n\nggplot(mtcars, aes(x = wt, y = mpg)) + \n  geom_point(color = 'blue', size = 3) + \n  geom_smooth(method = 'lm', se = FALSE, color = 'red') + \n  labs(x = 'weight (1000 lbs)',\n       y = 'Miles per Gallon (MPG)') + \n  theme_minimal()","id":33,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-33","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"mtcars$cyl <- factor(mtcars$cyl)\n\nggplot(mtcars, aes(x = wt, y = mpg, color=cyl)) + \n  geom_point(size = 3) + \n  geom_smooth(method = 'lm', se = FALSE, aes(group = cyl)) + \n  labs(x = 'Weight (1000 lbs)',\n       y = 'Miles per Gallon (MPG)', \n       color = \"Number of cylinders\") + \n  theme_minimal()","id":34,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-34","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(mtcars, aes(x = wt, y = mpg)) + \n  geom_point() + \n  geom_smooth(method = 'lm', se = FALSE) +\n  facet_wrap(~ cyl) + \n  labs(title = 'MPG vs. Weight by Cylinder Group')","id":35,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-35","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Prepare the data\nmtcars$cyl <- factor(mtcars$cyl)  \nmtcars$am <- factor(mtcars$am, labels = c(\"Automatic\", \"Manual\"))  \n\nggplot(mtcars, aes(x = wt, y = mpg, color = cyl, shape = am)) +\n  geom_point(size = 3) +\n  geom_smooth(method = \"lm\", se = FALSE, aes(group = cyl), linetype = \"solid\") +\n  labs(\n    x = \"Weight (1000 lbs)\",\n    y = \"Miles per Gallon (MPG)\",\n    color = \"Cylinders\",\n    shape = \"Transmission\"\n  ) +\n  theme_minimal()","id":36,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-36","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"mtcars$cyl <- factor(mtcars$cyl)\nmtcars$am <- factor(mtcars$am, labels = c('Automatic', 'Manual')) \n\n\nggplot(mtcars, aes(x = wt, y = mpg, color = cyl)) + \n  geom_point(size = 3) + \n  geom_smooth(method = 'lm', se = TRUE, aes(group = cyl)) + \n  facet_wrap(~ am) + \n  labs(\n    x = 'Weight (1000 lbs)',\n    y = 'Miles per Gallon (MPG)',\n    color = 'Cylinders'\n  ) + \n  theme_minimal()","id":37,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-37","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"mtcars$cyl <- factor(mtcars$cyl)\nmtcars$am <- factor(mtcars$am, labels = c('Automatic', 'Manual'))\n\nggplot(mtcars, aes(x = wt, y = mpg)) + \n  geom_point(aes(color = cyl), size = 3) + \n  geom_smooth(method = 'lm', se = FALSE, color = 'black') +\n  facet_grid(am ~ cyl) + \n  labs(\n    x = 'Weight (1000 lbs)',\n    y = 'Miles per Gallon (MPG)',\n    color = 'Cylinders'\n  ) ","id":38,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-38","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
+globalThis.qwebrCellDetails = [{"code":"data(\"airquality\")\nairquality","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"dim(airquality)\n\n# or \nnrow(airquality)\nncol(airquality)","id":2,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"str(airquality)","id":3,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-3","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"head(airquality)","id":4,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-4","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"tail(airquality)","id":5,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-5","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"nrow(ozone)","id":6,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-6","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"colSums(is.na(ozone))","id":7,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-7","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(dplyr)\n\nairquality |> \n  summarise(across(everything(), ~sum(is.na(.))))","id":8,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-8","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"airquality |> \n  filter(Month == 7) |> nrow()","id":9,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-9","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"airquality |> \n  filter(Month == 8) |> \n  summarise(across(everything(), ~ sum(is.na(.))))","id":10,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-10","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"summary(airquality$Ozone)","id":11,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-11","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(dplyr)\n\nairquality |> \n  group_by(Month) |> \n  summarise(avg_ozone = mean(Ozone, na.rm = TRUE))","id":12,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-12","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(ggplot2)\n\nggplot(airquality, aes(x = factor(Month), y = Ozone)) + \n  geom_boxplot(fill = 'lightblue', color = 'black', na.rm = TRUE) +\n  scale_x_discrete(labels = c(\"May\", \"June\", \"July\", \"August\", \"September\")) +\n  labs(x = \"Month\",\n       y = 'Ozone (ppb)') + \n  theme_minimal()","id":13,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-13","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(ggplot2)\n\nggplot(airquality, aes(x = Temp, y = Ozone)) + \n  geom_point(color = 'darkgreen', alpha = 0.8) + \n  labs(x = 'Temperature (°F)',\n       y = 'Ozone (ppb)') + \n  theme_minimal()","id":14,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-14","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(airquality, aes(x = Wind, y = Ozone)) +\n  geom_point(color = \"darkblue\", alpha = 0.8) +\n  labs(title = \"Ozone vs Wind Speed\",\n       x = \"Wind Speed (mph)\",\n       y = \"Ozone (ppb)\") +\n  theme_minimal()","id":15,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-15","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"model <- lm(Ozone ~ Temp + Wind, data = airquality)\nsummary(model)","id":16,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-16","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"data(\"airquality\")","id":17,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-17","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"airquality  |>  \n  summarise(rows = n())  |>  \n  mutate(cols = ncol(airquality))","id":18,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-18","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"airquality |> \n  glimpse()","id":19,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-19","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"airquality |> \n  slice_head(n = 5)","id":20,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-20","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"airquality |> \n  slice_tail(n = 5)","id":21,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-21","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ozone_clean <- airquality |> \n  filter(!is.na(Ozone), !is.na(Temp), !is.na(Wind), !is.na(Solar.R))\n\nozone_clean |> \n  summarise(rows = n())","id":22,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-22","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ozone_clean |> \n  summarise(above_70 = sum(Ozone > 70), \n            total = n(), \n            percent = round(100 * sum(Ozone > 70) / n(), 1))","id":23,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-23","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ozone_clean |> \n  summarise(cor_temp = cor(Ozone, Temp),\n            cor_wind = cor(Ozone, Wind),\n            cor_solar = cor(Ozone, Solar.R))","id":24,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-24","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(ozone_clean, aes(x = Temp, y = Ozone)) + \n  geom_point(color = \"steelblue\") + \n  labs(x = \"Temperature (F)\",\n       y = \"Ozone (ppb)\") + \n  theme_minimal()","id":25,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-25","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(ozone_clean, aes(x = Wind, y = Ozone)) + \n  geom_point(color = 'darkgreen') + \n  labs(x = \"Wind (mph)\",\n       y = \"Ozone (ppb)\") + \n  theme_minimal()","id":26,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-26","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(ozone_clean, aes(x = Solar.R, y = Ozone)) + \n  geom_point(color = 'orange') + \n  labs(x = \"Solar Radiation (langley)\",\n       y = \"Ozone (ppb)\") + \n  theme_minimal()","id":27,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-27","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# install.packages(\"patchwork\")\nlibrary(patchwork)\n\np1 <- ggplot(ozone_clean, aes(Temp, Ozone)) + \n  geom_point(color = \"steelblue\") + \n  labs(title = \"Ozone vs Temp\", x = \"Temperature\", y = \"Ozone\") + \n  theme_minimal()\n\np2 <- ggplot(ozone_clean, aes(Wind, Ozone)) + \n  geom_point(color = \"darkgreen\") + \n  labs(title = \"Ozone vs Wind\", x = \"Wind Speed\", y = \"Ozone\") + \n  theme_minimal()\n\np3 <- ggplot(ozone_clean, aes(Solar.R, Ozone)) + \n  geom_point(color = \"orange\") + \n  labs(title = \"Ozone vs Solar Radiation\", x = \"Solar Radiation\", y = \"Ozone\") + \n  theme_minimal()\n\n(p1 | p2 | p3)","id":28,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-28","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"cor(ozone_clean)","id":29,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-29","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"pairs(ozone_clean, \n      main = \"Ozone vs. Weather Variables\",\n      col = 'darkred', pch = 19)","id":30,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-30","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"model <- ozone_clean  |> \n  lm(Ozone ~ Temp + Wind + Solar.R, data = .)\n\nsummary(model)","id":31,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-31","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"data(\"mtcars\")\nhead(mtcars)","id":32,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-32","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(ggplot2)\n\nggplot(mtcars, aes(x = wt, y = mpg)) + \n  geom_point(color = 'blue', size = 3) + \n  geom_smooth(method = 'lm', se = FALSE, color = 'red') + \n  labs(x = 'weight (1000 lbs)',\n       y = 'Miles per Gallon (MPG)') + \n  theme_minimal()","id":33,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-33","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"mtcars$cyl <- factor(mtcars$cyl)\n\nggplot(mtcars, aes(x = wt, y = mpg, color=cyl)) + \n  geom_point(size = 3) + \n  geom_smooth(method = 'lm', se = FALSE, aes(group = cyl)) + \n  labs(x = 'Weight (1000 lbs)',\n       y = 'Miles per Gallon (MPG)', \n       color = \"Number of cylinders\") + \n  theme_minimal()","id":34,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-34","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(mtcars, aes(x = wt, y = mpg)) + \n  geom_point() + \n  geom_smooth(method = 'lm', se = FALSE) +\n  facet_wrap(~ cyl) + \n  labs(title = 'MPG vs. Weight by Cylinder Group')","id":35,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-35","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Prepare the data\nmtcars$cyl <- factor(mtcars$cyl)  \nmtcars$am <- factor(mtcars$am, labels = c(\"Automatic\", \"Manual\"))  \n\nggplot(mtcars, aes(x = wt, y = mpg, color = cyl, shape = am)) +\n  geom_point(size = 3) +\n  geom_smooth(method = \"lm\", se = FALSE, aes(group = cyl), linetype = \"solid\") +\n  labs(\n    x = \"Weight (1000 lbs)\",\n    y = \"Miles per Gallon (MPG)\",\n    color = \"Cylinders\",\n    shape = \"Transmission\"\n  ) +\n  theme_minimal()","id":36,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-36","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"mtcars$cyl <- factor(mtcars$cyl)\nmtcars$am <- factor(mtcars$am, labels = c('Automatic', 'Manual')) \n\n\nggplot(mtcars, aes(x = wt, y = mpg, color = cyl)) + \n  geom_point(size = 3) + \n  geom_smooth(method = 'lm', se = TRUE, aes(group = cyl)) + \n  facet_wrap(~ am) + \n  labs(\n    x = 'Weight (1000 lbs)',\n    y = 'Miles per Gallon (MPG)',\n    color = 'Cylinders'\n  ) + \n  theme_minimal()","id":37,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-37","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"mtcars$cyl <- factor(mtcars$cyl)\nmtcars$am <- factor(mtcars$am, labels = c('Automatic', 'Manual'))\n\nggplot(mtcars, aes(x = wt, y = mpg)) + \n  geom_point(aes(color = cyl), size = 3) + \n  geom_smooth(method = 'lm', se = FALSE, color = 'black') +\n  facet_grid(am ~ cyl) + \n  labs(\n    x = 'Weight (1000 lbs)',\n    y = 'Miles per Gallon (MPG)',\n    color = 'Cylinders'\n  ) ","id":38,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-38","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
 
 </script>
 <script type="module">
@@ -1678,11 +1676,40 @@ globalThis.qwebrExecuteCode = async function (
 
 </script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../libs/style.css">
 </head>
 
-<body class="nav-sidebar floating quarto-light">
+<body class="nav-sidebar floating">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -1784,43 +1811,60 @@ globalThis.qwebrExecuteCode = async function (
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#what-is-eda" id="toc-what-is-eda" class="nav-link active" data-scroll-target="#what-is-eda"><span class="header-section-number">4.1</span> What is EDA?</a>
+  <li><a href="#what-is-eda" id="toc-what-is-eda" class="nav-link active" data-scroll-target="#what-is-eda"><span class="header-section-number">4.1</span> What is EDA?</a></li>
+  <li><a href="#enter-the-world-of-eda" id="toc-enter-the-world-of-eda" class="nav-link" data-scroll-target="#enter-the-world-of-eda"><span class="header-section-number">4.2</span> Enter the world of EDA</a>
   <ul>
-  <li><a href="#airquailty-dataset" id="toc-airquailty-dataset" class="nav-link" data-scroll-target="#airquailty-dataset"><span class="header-section-number">4.1.1</span> Airquailty dataset</a>
+  <li><a href="#types-of-variables" id="toc-types-of-variables" class="nav-link" data-scroll-target="#types-of-variables"><span class="header-section-number">4.2.1</span> Types of Variables</a>
   <ul class="collapse">
-  <li><a href="#alternative-question" id="toc-alternative-question" class="nav-link" data-scroll-target="#alternative-question"><span class="header-section-number">4.1.1.1</span> Alternative question</a></li>
+  <li><a href="#numerical-variables" id="toc-numerical-variables" class="nav-link" data-scroll-target="#numerical-variables"><span class="header-section-number">4.2.1.1</span> Numerical variables</a></li>
+  <li><a href="#categorical-variables" id="toc-categorical-variables" class="nav-link" data-scroll-target="#categorical-variables"><span class="header-section-number">4.2.1.2</span> Categorical Variables</a></li>
+  </ul></li>
+  <li><a href="#types-of-eda" id="toc-types-of-eda" class="nav-link" data-scroll-target="#types-of-eda"><span class="header-section-number">4.2.2</span> Types of EDA</a>
+  <ul class="collapse">
+  <li><a href="#descriptive-statistics" id="toc-descriptive-statistics" class="nav-link" data-scroll-target="#descriptive-statistics"><span class="header-section-number">4.2.2.1</span> Descriptive Statistics</a></li>
+  <li><a href="#graphical-summaries" id="toc-graphical-summaries" class="nav-link" data-scroll-target="#graphical-summaries"><span class="header-section-number">4.2.2.2</span> Graphical Summaries</a></li>
+  </ul></li>
+  <li><a href="#a-review-on-descriptive-statistics" id="toc-a-review-on-descriptive-statistics" class="nav-link" data-scroll-target="#a-review-on-descriptive-statistics"><span class="header-section-number">4.2.3</span> A Review on Descriptive Statistics</a></li>
+  <li><a href="#central-tendency" id="toc-central-tendency" class="nav-link" data-scroll-target="#central-tendency"><span class="header-section-number">4.2.4</span> <strong>Central Tendency</strong></a>
+  <ul class="collapse">
+  <li><a href="#arithmetic-mean-average" id="toc-arithmetic-mean-average" class="nav-link" data-scroll-target="#arithmetic-mean-average"><span class="header-section-number">4.2.4.1</span> Arithmetic Mean (Average)</a></li>
+  <li><a href="#median" id="toc-median" class="nav-link" data-scroll-target="#median"><span class="header-section-number">4.2.4.2</span> Median</a></li>
+  <li><a href="#mode" id="toc-mode" class="nav-link" data-scroll-target="#mode"><span class="header-section-number">4.2.4.3</span> Mode</a></li>
+  </ul></li>
+  <li><a href="#dispersion" id="toc-dispersion" class="nav-link" data-scroll-target="#dispersion"><span class="header-section-number">4.2.5</span> Dispersion</a>
+  <ul class="collapse">
+  <li><a href="#variance" id="toc-variance" class="nav-link" data-scroll-target="#variance"><span class="header-section-number">4.2.5.1</span> Variance</a></li>
+  <li><a href="#standard-deviation" id="toc-standard-deviation" class="nav-link" data-scroll-target="#standard-deviation"><span class="header-section-number">4.2.5.2</span> Standard Deviation</a></li>
+  <li><a href="#interquantile-range-iqr" id="toc-interquantile-range-iqr" class="nav-link" data-scroll-target="#interquantile-range-iqr"><span class="header-section-number">4.2.5.3</span> Interquantile Range (IQR)</a></li>
+  </ul></li>
+  <li><a href="#associations" id="toc-associations" class="nav-link" data-scroll-target="#associations"><span class="header-section-number">4.2.6</span> Associations</a>
+  <ul class="collapse">
+  <li><a href="#pairs-of-numeric-variables" id="toc-pairs-of-numeric-variables" class="nav-link" data-scroll-target="#pairs-of-numeric-variables"><span class="header-section-number">4.2.6.1</span> Pairs of Numeric Variables</a></li>
+  <li><a href="#pairs-of-categorical-variables" id="toc-pairs-of-categorical-variables" class="nav-link" data-scroll-target="#pairs-of-categorical-variables"><span class="header-section-number">4.2.6.2</span> Pairs of Categorical Variables</a></li>
   </ul></li>
   </ul></li>
-  <li><a href="#principles-of-analytic-graphics" id="toc-principles-of-analytic-graphics" class="nav-link" data-scroll-target="#principles-of-analytic-graphics"><span class="header-section-number">4.2</span> Principles of Analytic Graphics</a>
+  <li><a href="#summary-of-correlation-and-association-measures-in-r" id="toc-summary-of-correlation-and-association-measures-in-r" class="nav-link" data-scroll-target="#summary-of-correlation-and-association-measures-in-r"><span class="header-section-number">4.3</span> 📊 Summary of Correlation and Association Measures in R</a>
   <ul>
-  <li><a href="#principle-1-show-comparison" id="toc-principle-1-show-comparison" class="nav-link" data-scroll-target="#principle-1-show-comparison"><span class="header-section-number">4.2.1</span> Principle 1 – Show Comparison</a></li>
-  <li><a href="#principle-2-show-causality-and-explanation" id="toc-principle-2-show-causality-and-explanation" class="nav-link" data-scroll-target="#principle-2-show-causality-and-explanation"><span class="header-section-number">4.2.2</span> Principle 2: Show Causality and Explanation</a></li>
-  <li><a href="#principle-3-show-multivariate-data" id="toc-principle-3-show-multivariate-data" class="nav-link" data-scroll-target="#principle-3-show-multivariate-data"><span class="header-section-number">4.2.3</span> Principle 3: Show Multivariate Data</a></li>
-  <li><a href="#principle-4-integrate-evidence-keep-the-message-clear" id="toc-principle-4-integrate-evidence-keep-the-message-clear" class="nav-link" data-scroll-target="#principle-4-integrate-evidence-keep-the-message-clear"><span class="header-section-number">4.2.4</span> Principle 4: Integrate Evidence — Keep the message clear</a></li>
-  <li><a href="#principle-5-describe-and-document-the-evidence" id="toc-principle-5-describe-and-document-the-evidence" class="nav-link" data-scroll-target="#principle-5-describe-and-document-the-evidence"><span class="header-section-number">4.2.5</span> Principle 5: Describe and Document the Evidence</a></li>
-  <li><a href="#principle-6-content-is-king" id="toc-principle-6-content-is-king" class="nav-link" data-scroll-target="#principle-6-content-is-king"><span class="header-section-number">4.2.6</span> Principle 6: Content is King</a></li>
+  <li><a href="#notes-for-application" id="toc-notes-for-application" class="nav-link" data-scroll-target="#notes-for-application"><span class="header-section-number">4.3.1</span> 📌 Notes for Application</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">4.3.2</span> 📚 References</a></li>
+  <li><a href="#summary-of-correlation-and-association-measures" id="toc-summary-of-correlation-and-association-measures" class="nav-link" data-scroll-target="#summary-of-correlation-and-association-measures"><span class="header-section-number">4.3.3</span> 📊 Summary of Correlation and Association Measures</a></li>
+  <li><a href="#notes" id="toc-notes" class="nav-link" data-scroll-target="#notes"><span class="header-section-number">4.3.4</span> 🧭 Notes</a></li>
+  <li><a href="#example-what-should-you-use" id="toc-example-what-should-you-use" class="nav-link" data-scroll-target="#example-what-should-you-use"><span class="header-section-number">4.3.5</span> ✅ Example: What Should You Use?</a></li>
+  <li><a href="#airquailty-dataset" id="toc-airquailty-dataset" class="nav-link" data-scroll-target="#airquailty-dataset"><span class="header-section-number">4.3.6</span> Airquailty dataset</a>
+  <ul class="collapse">
+  <li><a href="#alternative-question" id="toc-alternative-question" class="nav-link" data-scroll-target="#alternative-question"><span class="header-section-number">4.3.6.1</span> Alternative question</a></li>
   </ul></li>
-  <li><a href="#enter-the-world-of-eda" id="toc-enter-the-world-of-eda" class="nav-link" data-scroll-target="#enter-the-world-of-eda"><span class="header-section-number">4.3</span> Enter the world of EDA</a>
+  </ul></li>
+  <li><a href="#principles-of-analytic-graphics" id="toc-principles-of-analytic-graphics" class="nav-link" data-scroll-target="#principles-of-analytic-graphics"><span class="header-section-number">4.4</span> Principles of Analytic Graphics</a>
   <ul>
-  <li><a href="#types-of-variables" id="toc-types-of-variables" class="nav-link" data-scroll-target="#types-of-variables"><span class="header-section-number">4.3.1</span> Types of Variables</a>
-  <ul class="collapse">
-  <li><a href="#numerical-variables" id="toc-numerical-variables" class="nav-link" data-scroll-target="#numerical-variables"><span class="header-section-number">4.3.1.1</span> Numerical variables</a></li>
-  <li><a href="#categorical-variables" id="toc-categorical-variables" class="nav-link" data-scroll-target="#categorical-variables"><span class="header-section-number">4.3.1.2</span> Categorical Variables</a></li>
+  <li><a href="#principle-1-show-comparison" id="toc-principle-1-show-comparison" class="nav-link" data-scroll-target="#principle-1-show-comparison"><span class="header-section-number">4.4.1</span> Principle 1 – Show Comparison</a></li>
+  <li><a href="#principle-2-show-causality-and-explanation" id="toc-principle-2-show-causality-and-explanation" class="nav-link" data-scroll-target="#principle-2-show-causality-and-explanation"><span class="header-section-number">4.4.2</span> Principle 2: Show Causality and Explanation</a></li>
+  <li><a href="#principle-3-show-multivariate-data" id="toc-principle-3-show-multivariate-data" class="nav-link" data-scroll-target="#principle-3-show-multivariate-data"><span class="header-section-number">4.4.3</span> Principle 3: Show Multivariate Data</a></li>
+  <li><a href="#principle-4-integrate-evidence-keep-the-message-clear" id="toc-principle-4-integrate-evidence-keep-the-message-clear" class="nav-link" data-scroll-target="#principle-4-integrate-evidence-keep-the-message-clear"><span class="header-section-number">4.4.4</span> Principle 4: Integrate Evidence — Keep the message clear</a></li>
+  <li><a href="#principle-5-describe-and-document-the-evidence" id="toc-principle-5-describe-and-document-the-evidence" class="nav-link" data-scroll-target="#principle-5-describe-and-document-the-evidence"><span class="header-section-number">4.4.5</span> Principle 5: Describe and Document the Evidence</a></li>
+  <li><a href="#principle-6-content-is-king" id="toc-principle-6-content-is-king" class="nav-link" data-scroll-target="#principle-6-content-is-king"><span class="header-section-number">4.4.6</span> Principle 6: Content is King</a></li>
   </ul></li>
-  <li><a href="#types-of-eda" id="toc-types-of-eda" class="nav-link" data-scroll-target="#types-of-eda"><span class="header-section-number">4.3.2</span> Types of EDA</a>
-  <ul class="collapse">
-  <li><a href="#descriptive-statistics" id="toc-descriptive-statistics" class="nav-link" data-scroll-target="#descriptive-statistics"><span class="header-section-number">4.3.2.1</span> Descriptive Statistics</a></li>
-  <li><a href="#graphical-summaries" id="toc-graphical-summaries" class="nav-link" data-scroll-target="#graphical-summaries"><span class="header-section-number">4.3.2.2</span> Graphical Summaries</a></li>
-  </ul></li>
-  <li><a href="#a-review-on-descriptive-statistics" id="toc-a-review-on-descriptive-statistics" class="nav-link" data-scroll-target="#a-review-on-descriptive-statistics"><span class="header-section-number">4.3.3</span> A Review on Descriptive Statistics</a></li>
-  <li><a href="#central-tendency" id="toc-central-tendency" class="nav-link" data-scroll-target="#central-tendency"><span class="header-section-number">4.3.4</span> <strong>Central Tendency</strong></a>
-  <ul class="collapse">
-  <li><a href="#arithmetic-mean-average" id="toc-arithmetic-mean-average" class="nav-link" data-scroll-target="#arithmetic-mean-average"><span class="header-section-number">4.3.4.1</span> Arithmetic Mean (Average)</a></li>
-  <li><a href="#median" id="toc-median" class="nav-link" data-scroll-target="#median"><span class="header-section-number">4.3.4.2</span> Median</a></li>
-  <li><a href="#mode" id="toc-mode" class="nav-link" data-scroll-target="#mode"><span class="header-section-number">4.3.4.3</span> Mode</a></li>
-  </ul></li>
-  <li><a href="#dispersion" id="toc-dispersion" class="nav-link" data-scroll-target="#dispersion"><span class="header-section-number">4.3.5</span> Dispersion</a></li>
-  </ul></li>
+  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section"><span class="header-section-number">4.5</span> </a></li>
   </ul>
 </nav>
     </div>
@@ -2219,491 +2263,13 @@ Tip
 <p>EDA is like exploring a new place – you do not know what you will find until you start looking.</p>
 </div>
 </div>
-<section id="airquailty-dataset" class="level3" data-number="4.1.1">
-<h3 data-number="4.1.1" class="anchored" data-anchor-id="airquailty-dataset"><span class="header-section-number">4.1.1</span> Airquailty dataset</h3>
-<p>We will explore the <code>airquality</code> dataset, which contains daily measurement of air pollutants and weather conditions in New York City May to September 1973.</p>
-<p><strong>Step 1 –</strong> <em>How do ozone levels vary across different months in New York during the summer in 1973?</em></p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>This question is specific and focused: <em>One location (New York), One variable (ozone), one year and a defined time window (May to September)</em></p>
-</div>
-</div>
-<p><strong>Step 2 –</strong> The <code>airquality</code> dataset is built into R. Load it with:</p>
-<div id="qwebr-insertion-location-1"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p><strong>Step 3 –</strong> Check the size and dimension of the dataset</p>
-<div id="qwebr-insertion-location-2"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p><strong>Step 4 –</strong> run <code>str()</code></p>
-<div id="qwebr-insertion-location-3"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div class="callout callout-style-default callout-caution callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Caution
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>There are some missing values (<code>NA</code> , Not Available) in the dataset.</p>
-</div>
-</div>
-<p><strong>Step 5 –</strong></p>
-<div id="qwebr-insertion-location-4"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div id="qwebr-insertion-location-5"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p><strong>Step 6 –</strong></p>
-<p>First, we count how many rows (i.e., records or observations) are in the dataset.</p>
-<div id="qwebr-insertion-location-6"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>Missing values (denoted as <code>NA</code> in R) can lead to incorrect calculations or unexpected results. It is good practice to check how many missing values there are per variable.</p>
-<div id="qwebr-insertion-location-7"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Using `dplyr`
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<div id="qwebr-insertion-location-8"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>This command uses <code>across()</code> to apply the same function to all columns, and <code>sum(is.na(.))</code> to count the number of missing values per column.</p>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-What is ~ ?
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The <code>~</code> introduces an <strong>anonymous function</strong> — a function written inline without a name.</p>
-<p>This</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="sc">~</span> <span class="fu">sum</span>(<span class="fu">is.na</span>(.))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>~sum(is.na(.))</code></pre>
-</div>
-</div>
-<p>is a shorthand for</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span>(x) <span class="fu">sum</span>(<span class="fu">is.na</span>(x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>function (x) 
-sum(is.na(x))</code></pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<p>Or, we can check how many rows are from July:</p>
-<div id="qwebr-insertion-location-9"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>check how many missing values are just in August.</p>
-<div id="qwebr-insertion-location-10"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p><strong>Step 7 –</strong> According to the U.S. EPA, ozone levels above 70 parts per billion (ppb) may be considered unhealthy.</p>
-<div id="qwebr-insertion-location-11"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>Based on the output, many days have safe levels and some days have extremely high ozone levels.</p>
-<p><strong>Step 8 –</strong> Let us check the average ozone level by month:</p>
-<div id="qwebr-insertion-location-12"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>This gives a quick overview of how ozone levels change over the summer. Let visualize it:</p>
-<div id="qwebr-insertion-location-13"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>Based on the plot, we observe that July and August have the highest median ozone levels, showing that typical ozone concentrations were significantly higher during mid-summer. This suggests a seasonal pattern, likely driven by higher temperatures and increased sunlight, which promote the formation of ozone. The taller boxes and whiskers for these months reflect a greater variability in ozone levels, including several high outliers. In contrast, May and September show lower median values and less variation, possibly due to cooler temperatures and different atmospheric conditions. The median ozone level is June is slightly higher than in May but lower than in July, with a moderate level of variability. Overall, this seasonal trend is consistent with environmental science – <strong>ozone forms more easily in strong sunlight and warm conditions</strong>, which are more prevalent in July and August.</p>
-<p><strong>Step 9 –</strong> Let us examine whether temperature or wind speed might help explain ozone patterns.</p>
-<div id="qwebr-insertion-location-14"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div id="qwebr-insertion-location-15"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>You may observe that there is a <em>positive</em> relationship between temperature and ozone and a <em>negative</em> relationship between wind speed and ozone. These patterns support common environmental science findings.</p>
-<p><strong>Step 10 –</strong> Based on our findings, we might fit a simple regression model</p>
-<div id="qwebr-insertion-location-16"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>We might also refine our question: <em>On which days was the ozone level unusually high, and what were the weather conditions on those days?</em></p>
-<section id="alternative-question" class="level4" data-number="4.1.1.1">
-<h4 data-number="4.1.1.1" class="anchored" data-anchor-id="alternative-question"><span class="header-section-number">4.1.1.1</span> Alternative question</h4>
-<p><strong><em>Step 1 – Which weather factor—temperature, wind, or solar radiation—has the strongest relationship with ozone levels during the summer of 1973 in New York?</em></strong></p>
-<p>This question is more analytical than descriptive, and focused on <strong>relationships</strong> between variables. So, we need to examine how ozone changes with respect to other variables.</p>
-<p><strong>Step 2 –</strong></p>
-<div id="qwebr-insertion-location-17"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p><strong>Step 3 –</strong></p>
-<div id="qwebr-insertion-location-18"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p><strong>Step 4 –</strong></p>
-<div id="qwebr-insertion-location-19"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p><strong>Step 5 –</strong></p>
-<div id="qwebr-insertion-location-20"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div id="qwebr-insertion-location-21"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p><strong>Step 6 –</strong></p>
-<div id="qwebr-insertion-location-22"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p><strong>Step 7 –</strong></p>
-<p>Check how often ozone exceeds EPA’s 70 ppb guideline:</p>
-<div id="qwebr-insertion-location-23"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p><strong>Step 8 –</strong></p>
-<p>Since <code>dplyr</code> does not include a <code>cor()</code> function, we will compute correlations manually using <code>summarise()</code> and <code>cor()</code> from base R, keeping within tidy pipelines:</p>
-<div id="qwebr-insertion-location-24"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div id="qwebr-insertion-location-25"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div id="qwebr-insertion-location-26"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div id="qwebr-insertion-location-27"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p><strong>More advanced:</strong></p>
-<div id="qwebr-insertion-location-28"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>But sometimes, a simple code gives the more informative output:</p>
-<div id="qwebr-insertion-location-29"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>visualize the relationships:</p>
-<div id="qwebr-insertion-location-30"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p><strong>Step 9 –</strong></p>
-<div id="qwebr-insertion-location-31"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>When we check p-values and coefficients, we see <code>Temp</code> has strong and significant positive effect, <code>Wind</code> has strong and significant negative effect, and <code>Solar.R</code> has weaker effect but still contributes.</p>
-<p><strong>Step 10 –</strong></p>
-<p>Now we know temperature has the strongest effect on ozone levels:</p>
-<ul>
-<li><p>Should we check for nonlinear effects (e.g., does ozone spike at high temps)?</p></li>
-<li><p>Would a time-based model (e.g.&nbsp;by day or month) add insight?</p></li>
-<li><p>What is the temperature threshold where ozone exceeds 70 ppb?</p></li>
-<li><p>Are there interactions between variables (e.g.&nbsp;high temp + low wind)?</p></li>
-<li><p>Do results change if the we include time (e.g.&nbsp;month)?</p></li>
-</ul>
-<p>We might now refine our question: <em>How much does temperature need to rise before ozone levels exceed the 70 ppb threshold?</em></p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>As Tukey emphasized, EDA is about “detecting the unexpected” and <strong>learning from the data before attempting to explain it</strong>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>At the beginning, it is hard to ask the <em>perfect</em> question because you do not know the date well yet. But here is the secret: <!-- ::: {.callout-important appearance="minimal" icon="false"} --> <!-- ::: {style="text-align: center;"}
-*The more questions you ask, the better your questions become.*
-::: --></p>
-<p><span style="display:block; text-align:center;"><em>The more questions you ask, the better your questions become.</em></span> <!-- ::: --></p>
-</div>
-</div>
-<!-- Each time you explore one idea, it leads to a **new question.** That is how you:
-
--   Discover patterns
-
--   Notice surprises
-
--   Understand your data more deeply -->
-<!-- ::: callout-caution -->
-<p>Good EDA follows these steps:</p>
-<ol type="1">
-<li>Ask a question</li>
-<li>Make a plot or summary</li>
-<li>Look at the result</li>
-<li>Ask a new, better question</li>
-<li>Repeat! <!-- ::: --></li>
-</ol>
-<!-- ::: callout-tip -->
-<p>Do not wait for the perfect question - <strong>just start</strong>. Exploration will lead you to insight. <!-- ::: --></p>
 </section>
-</section>
-</section>
-<section id="principles-of-analytic-graphics" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="principles-of-analytic-graphics"><span class="header-section-number">4.2</span> Principles of Analytic Graphics</h2>
-<p>Based on <span class="citation" data-cites="Tufte2006">(<a href="#ref-Tufte2006" role="doc-biblioref">Tufte 2006</a>)</span>, there are six key principles for designing informative and effective graphs.</p>
-<section id="principle-1-show-comparison" class="level3" data-number="4.2.1">
-<h3 data-number="4.2.1" class="anchored" data-anchor-id="principle-1-show-comparison"><span class="header-section-number">4.2.1</span> Principle 1 – Show Comparison</h3>
-<div class="callout callout-style-simple callout-caution no-icon">
-<div class="callout-body d-flex">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-body-container">
-<p>Showing comparisons is really the basis of all good scientific investigation. <span class="citation" data-cites="Peng2012">(<a href="#ref-Peng2012" role="doc-biblioref">Peng 2012</a>)</span></p>
-</div>
-</div>
-</div>
-<p>Good data analysis always involves <strong>comparing</strong> things. A single number or result doesn’t mean much on its own. We need to ask:</p>
-<div class="callout callout-style-simple callout-important no-icon">
-<div class="callout-body d-flex">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-body-container">
-<p>Compared to what?</p>
-</div>
-</div>
-</div>
-<p>For example, if we see that children with air cleaners had more symptom-free days, that sounds good. But how do we know the air cleaner made the difference? We only know that <strong>by comparing</strong> to another group of children who didn’t get the air cleaner. When we add that comparison, we can see that the control group didn’t improve — so the improvement likely came from the air cleaner.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="../figs/EDA/EDA-P1-a.png" class="img-fluid figure-img"></p>
-<figcaption>Change in symptom-free days with air cleaner. Source: @Peng2012</figcaption>
-</figure>
-</div>
-<div id="figEDA1" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="../figs/EDA/EDA-P1-a.png" class="img-fluid figure-img"></p>
-<figcaption>Change in symptom-free days with air cleaner. Source: @Peng2012</figcaption>
-</figure>
-</div>
-<div id="figEDA2" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="../figs/EDA/EDA-P1-b.png" class="img-fluid figure-img"></p>
-<figcaption>Change in symptom-free days by treatment group. Source: @Peng2012</figcaption>
-</figure>
-</div>
-<p>Good data graphics should always show <strong>at least two things</strong> so we can compare and understand what’s really happening.</p>
-</section>
-<section id="principle-2-show-causality-and-explanation" class="level3" data-number="4.2.2">
-<h3 data-number="4.2.2" class="anchored" data-anchor-id="principle-2-show-causality-and-explanation"><span class="header-section-number">4.2.2</span> Principle 2: Show Causality and Explanation</h3>
-<p>When making a data graphics, it is helpful to show <strong>why</strong> you think something is happening – not just what is happening. Even if you can not prove a cause, you can show your <strong>hypothesis</strong> of <strong>idea</strong> about how one thing might lead to another.</p>
-<div class="callout callout-style-simple callout-caution no-icon">
-<div class="callout-body d-flex">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-body-container">
-<p>If possible, it is always useful to show your causal framework for thinking about a question. <span class="citation" data-cites="Peng2012">(<a href="#ref-Peng2012" role="doc-biblioref">Peng 2012</a>)</span></p>
-<!-- # Generally, it is difficult to prove that one thing causes another thing even with the most carefully collected data.  But it is still often useful for your data graphics to indicate what you are thinking about in terms of cause. Such a display may suggest hypotheses or refute them, but most importantly, they will raise new questions that can be followed up with new data or analyses. -->
-</div>
-</div>
-</div>
-<p>For example, in <a href="#figEDA2">#figEDA2</a> we saw that children with an air cleaner had more symptom–free days. But that alone does not explain <strong>why</strong>. A good follow-up question is: “<em>Why did the air cleaner help?“</em> One possible reason is that air cleaners reduce <strong>fine particles</strong> in the air – especially in homes with smokers. Breathing in these particles can make asthma worse, so removing them might help children feel better. To show this, we can make a new plot.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="../figs/EDA/EDA-P2.png" class="img-fluid figure-img"></p>
-<figcaption>Change in symptom-free days and change in PM2.5 levels in-home. Source: <span class="citation" data-cites="Peng2012">Peng (<a href="#ref-Peng2012" role="doc-biblioref">2012</a>)</span></figcaption>
-</figure>
-</div>
-<p>From the plot, we can see:</p>
-<ul>
-<li><p>Children with air cleaners had more symptom-free days.</p></li>
-<li><p>Their homes also had <strong>less PM2.5</strong> after six months.</p></li>
-<li><p>In contrast, the control group had little improvement.</p></li>
-</ul>
-<p>This <strong>pattern supports</strong> the idea that air cleaners work by reducing harmful particles — but it is not final proof. Other things might also cause the change, so more data and careful studies are needed to confirm.</p>
-</section>
-<section id="principle-3-show-multivariate-data" class="level3" data-number="4.2.3">
-<h3 data-number="4.2.3" class="anchored" data-anchor-id="principle-3-show-multivariate-data"><span class="header-section-number">4.2.3</span> Principle 3: Show Multivariate Data</h3>
-<div class="callout callout-style-simple callout-caution no-icon">
-<div class="callout-body d-flex">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-body-container">
-<p>The real world is multivariate. <span class="citation" data-cites="Peng2012">(<a href="#ref-Peng2012" role="doc-biblioref">Peng 2012</a>)</span></p>
-</div>
-</div>
-</div>
-<p>In real life, most problems involve <strong>more than one or two variables</strong>. We call this <strong>multivariate data</strong>. Good data graphics should try to show these multiple variables at the same time, instead of reducing everything to just one number or a simple trend.</p>
-<p>Let us look at an example.</p>
-<p>The <code>mtcars</code> dataset contains information about 32 car models from the 1970s. Each row is a car and each column is a variable. Some of these variables are: <code>mpg</code>: miles per gallon (fuel efficiency), <code>wt</code>: weight (in 1000 lbs), <code>cyl</code>: number of cylanders (engine size), <code>hp</code>: horse power, <code>qsec</code>: 1/4 mile time (acceleration), <code>am</code>: Transmission (0 = auto, 1 = manual). These variables help us to explore relationship between engin size, weight, fuel use, and more.</p>
-<div id="qwebr-insertion-location-32"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>We want to know how a car’s weight affects its fuel efficiency (miles per gallon). We look at a simple scatter plot of these two variables.</p>
-<div id="qwebr-insertion-location-33"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>Heavier cars tend to have lower fuel efficiency. But is weight the only thing affecting fuel use?</p>
-<p>Cars also have different engine sizes, measured by cylinders (<code>cyl</code>). This affects both weight and fuel efficiency. To understand the relationship better, we add <code>cyl</code> as a third variable by coloring points by the number of cylinders.</p>
-<div id="qwebr-insertion-location-34"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>Now, we see that cars with 4, 6, and 8 cylinders have different trends. The overall pattern changes once we include this third variable.</p>
-<div class="callout callout-style-default callout-caution callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Caution
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The number of cylinders <strong>confounds</strong> the relationship – it influences both weight and MPG.</p>
-</div>
-</div>
-<p>To understand how the number of cylinders changes the relationship between weight and fuel efficiency, we can make separate plots for each cylinder group. This is called <strong>faceting</strong>.</p>
-<div id="qwebr-insertion-location-35"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Important
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Sometimes, looking at groups separately helps us find clearer patterns that get lost in a big mixed dataset.</p>
-</div>
-</div>
-<p>We can even add the variable transmission(<code>am</code>) as an additional variable by using shapes or facet.</p>
-<div id="qwebr-insertion-location-36"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div id="qwebr-insertion-location-37"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>Now, each panel shows either automatic automatic or manual cars. Within each panel, colors show the number of cylinders.</p>
-<p>Even we can use <code>facet_grid</code> that allows us to split the plot into rows and columns based on two categorical variables – perfect for showing how relationships vary across combinations. We will use <code>am</code> in rows and <code>cyl</code> in columns.</p>
-<div id="qwebr-insertion-location-38"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>This way, we can see how the relationship between weight and MPG changes in each group combination.</p>
-</section>
-<section id="principle-4-integrate-evidence-keep-the-message-clear" class="level3" data-number="4.2.4">
-<h3 data-number="4.2.4" class="anchored" data-anchor-id="principle-4-integrate-evidence-keep-the-message-clear"><span class="header-section-number">4.2.4</span> Principle 4: Integrate Evidence — Keep the message clear</h3>
-<p>When you make a graph, <em>do not rely</em> on points and lines to show your idea. You can also use: <strong>Numbers</strong> to give exact values, <strong>Words or short labels</strong> to explain what is happening, <strong>Pictures or diagrams</strong> to give context.</p>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Important
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>A good graph tells a complete story.</p>
-</div>
-</div>
-<p>Use all tools you need – not just the ones your software gives you easily.</p>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Important
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The goal is <strong>not to just make a nice picture,</strong> but to help people understand your message clearly.</p>
-</div>
-</div>
-</section>
-<section id="principle-5-describe-and-document-the-evidence" class="level3" data-number="4.2.5">
-<h3 data-number="4.2.5" class="anchored" data-anchor-id="principle-5-describe-and-document-the-evidence"><span class="header-section-number">4.2.5</span> Principle 5: Describe and Document the Evidence</h3>
-<p>A good graph tells a story – clearly and completely. That means it should include:</p>
-<ul>
-<li><p>A clear <strong>title</strong></p></li>
-<li><p>Labels for the <strong>x-axis</strong> and <strong>y-axis</strong></p></li>
-<li><p>Units for measurement (e.g.&nbsp;‘weights in 1000 lbs’)</p></li>
-<li><p>Time scale if needed (e.g.&nbsp;‘daily’, ‘monthly’)</p></li>
-<li><p>where the data comes from (e.g., ‘New York’, ‘EPA’)</p></li>
-<li><p>source of the data</p></li>
-</ul>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Imagine someone looking only at your plot without reading anything else. <strong>Can they understand the main idea?</strong> if yes – your plot is doing a good job.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Even if your graph is not <em>final</em>, it is a good habit to label things early. It helps you and others understand what is going on.</p>
-</div>
-</div>
-<p>For example, instead of using</p>
-<p>try this</p>
-<p>when we use <code>ggplot2</code>, it is better to add <code>labs()</code> like we did until now.</p>
-</section>
-<section id="principle-6-content-is-king" class="level3" data-number="4.2.6">
-<h3 data-number="4.2.6" class="anchored" data-anchor-id="principle-6-content-is-king"><span class="header-section-number">4.2.6</span> Principle 6: Content is King</h3>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Important
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>A beautiful plot means nothing if the <strong>question is weak</strong> or the d<strong>ata is poor.</strong></p>
-</div>
-</div>
-<p>Data graphics are only powerful when:</p>
-<ul>
-<li>the <strong>question is clear and important</strong></li>
-<li>the <strong>data is high quality and relevant</strong></li>
-<li>the <strong>evidence supports the question</strong></li>
-</ul>
-<p>No chart or fancy design can fix a bad question or messy data. That is why it is crucial to start with a strong idea and only show what really matters to answer that idea.</p>
-<div class="callout callout-style-default callout-caution callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Caution
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Do not just decorate your data – focus on the message!</p>
-</div>
-</div>
-</section>
-</section>
-<section id="enter-the-world-of-eda" class="level2" data-number="4.3">
-<h2 data-number="4.3" class="anchored" data-anchor-id="enter-the-world-of-eda"><span class="header-section-number">4.3</span> Enter the world of EDA</h2>
+<section id="enter-the-world-of-eda" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="enter-the-world-of-eda"><span class="header-section-number">4.2</span> Enter the world of EDA</h2>
 <p>EDA is the process of looking at data to understand it before using statistics or models. It helps us to answer questions like: - what types of data do we have? - Are there missing or strange values? - What patterns can we see? - What kind of summary or visualization is helpful?</p>
 <p>Before we start any analysis, we must know <em>what kind of data</em> we are working with. Variables can be broadly divided into <strong>numeric</strong> and <strong>categorical</strong> types.</p>
-<section id="types-of-variables" class="level3" data-number="4.3.1">
-<h3 data-number="4.3.1" class="anchored" data-anchor-id="types-of-variables"><span class="header-section-number">4.3.1</span> Types of Variables</h3>
+<section id="types-of-variables" class="level3" data-number="4.2.1">
+<h3 data-number="4.2.1" class="anchored" data-anchor-id="types-of-variables"><span class="header-section-number">4.2.1</span> Types of Variables</h3>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -2716,16 +2282,16 @@ Important
 <div class="callout-body-container callout-body">
 <p>Knowing the types of data matters because:</p>
 <ul>
-<li>Different statistics method are used for different variable types.</li>
-<li>Some graphs are only useful for some types of variables.</li>
+<li><p>Different statistics method are used for different variable types.</p></li>
+<li><p>Some graphs are only useful for some types of variables.</p></li>
 </ul>
 </div>
 </div>
-<section id="numerical-variables" class="level4" data-number="4.3.1.1">
-<h4 data-number="4.3.1.1" class="anchored" data-anchor-id="numerical-variables"><span class="header-section-number">4.3.1.1</span> Numerical variables</h4>
+<section id="numerical-variables" class="level4" data-number="4.2.1.1">
+<h4 data-number="4.2.1.1" class="anchored" data-anchor-id="numerical-variables"><span class="header-section-number">4.2.1.1</span> Numerical variables</h4>
 <p>Numeric variables describe <strong>quantities</strong> that we can measure — they answer questions like “how many?” or “how much?”. These variables are also called <strong>quantitative variables</strong>, and the data they produce are known as <strong>quantitative data</strong>. Briefly, they are <strong>numbers</strong> that can be measured. Also, we can do math with them.</p>
-<section id="continuous-vs.-discrete" class="level5" data-number="4.3.1.1.1">
-<h5 data-number="4.3.1.1.1" class="anchored" data-anchor-id="continuous-vs.-discrete"><span class="header-section-number">4.3.1.1.1</span> Continuous vs.&nbsp;Discrete</h5>
+<section id="continuous-vs.-discrete" class="level5" data-number="4.2.1.1.1">
+<h5 data-number="4.2.1.1.1" class="anchored" data-anchor-id="continuous-vs.-discrete"><span class="header-section-number">4.2.1.1.1</span> Continuous vs.&nbsp;Discrete</h5>
 <p>Numeric variables can be:</p>
 <p><strong>Continuous</strong></p>
 <ul>
@@ -2736,38 +2302,28 @@ Important
 <p>Continuous variables can be <strong>positive only</strong> (like mass) or <strong>positive and negative</strong> (like change in temperature).</p>
 <p><strong>Discrete</strong></p>
 <ul>
-<li>Can take <strong>only whole number values</strong> (no decimals).</li>
-<li>Based on <strong>counting</strong>.</li>
+<li><p>Can take <strong>only whole number values</strong> (no decimals).</p></li>
+<li><p>Based on <strong>counting</strong>.</p></li>
 </ul>
 <p>Some examples are: <em>number of students, number of offspring, number of infected individuals</em></p>
 <p>A discrete variable cannot take values between integers — e.g., it makes no sense to have 2.5 individuals.</p>
 </section>
-<section id="ratio-vs.-interval" class="level5" data-number="4.3.1.1.2">
-<h5 data-number="4.3.1.1.2" class="anchored" data-anchor-id="ratio-vs.-interval"><span class="header-section-number">4.3.1.1.2</span> Ratio vs.&nbsp;Interval</h5>
+<section id="ratio-vs.-interval" class="level5" data-number="4.2.1.1.2">
+<h5 data-number="4.2.1.1.2" class="anchored" data-anchor-id="ratio-vs.-interval"><span class="header-section-number">4.2.1.1.2</span> Ratio vs.&nbsp;Interval</h5>
 <p>Numeric variables can be further described based on the <strong>scale</strong> they are measured on: <strong>ratio</strong> or <strong>interval</strong>. This affects how we can interpret differences, proportions, and calculations.</p>
 <p><strong>Ratio</strong></p>
 <ul>
-<li>Has a <strong>true zero</strong> point (zero means “none”).</li>
-<li>Allows <strong>all mathematical operations</strong>, including ratios.</li>
+<li><p>Has a <strong>true zero</strong> point (zero means “none”).</p></li>
+<li><p>Allows <strong>all mathematical operations</strong>, including ratios.</p></li>
 </ul>
 <p>Some examples are: <em>Height, Weight, Age, Income, mass.</em></p>
 <p>You can say: “Tree A is <strong>twice as tall</strong> as Tree B.”</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-What we can do:
-</div>
-</div>
-<div class="callout-body-container callout-body">
+<section id="what-we-can-do" class="level6" data-number="4.2.1.1.2.1">
+<h6 data-number="4.2.1.1.2.1" class="anchored" data-anchor-id="what-we-can-do"><span class="header-section-number">4.2.1.1.2.1</span> What we can do:</h6>
 <ul>
-<li>All descriptive statistics</li>
-<li>Use histograms, box-plots, scatterplots</li>
+<li><p>All descriptive statistics</p></li>
+<li><p>Use histograms, box-plots, scatterplots</p></li>
 </ul>
-</div>
-</div>
 <p><strong>Interval</strong></p>
 <ul>
 <li>Has <strong>no true zero</strong> — the zero point is <strong>arbitrary</strong>.</li>
@@ -2775,11 +2331,12 @@ What we can do:
 </ul>
 <p>Some examples are <em>Temperature (</em>in Celsius of Fahrenheit), <em>IQ scores,</em> Calendar dates (e.g.&nbsp;year 1000 vs 2000)</p>
 <p>You can say: “The <strong>difference</strong> between 20°C and 10°C is 10 degrees.” <strong>But not</strong>: “20°C is <strong>twice as hot</strong> as 10°C.”</p>
-<section id="what-we-can-do-1" class="level6" data-number="4.3.1.1.2.1">
-<h6 data-number="4.3.1.1.2.1" class="anchored" data-anchor-id="what-we-can-do-1"><span class="header-section-number">4.3.1.1.2.1</span> What we can do:</h6>
+</section>
+<section id="what-we-can-do-1" class="level6" data-number="4.2.1.1.2.2">
+<h6 data-number="4.2.1.1.2.2" class="anchored" data-anchor-id="what-we-can-do-1"><span class="header-section-number">4.2.1.1.2.2</span> What we can do:</h6>
 <ul>
-<li>calculate mean, standard deviation</li>
-<li>plot histograms or line charts</li>
+<li><p>calculate mean, standard deviation</p></li>
+<li><p>plot histograms or line charts</p></li>
 </ul>
 <div class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -2803,8 +2360,8 @@ Caution
 </section>
 </section>
 </section>
-<section id="categorical-variables" class="level4" data-number="4.3.1.2">
-<h4 data-number="4.3.1.2" class="anchored" data-anchor-id="categorical-variables"><span class="header-section-number">4.3.1.2</span> Categorical Variables</h4>
+<section id="categorical-variables" class="level4" data-number="4.2.1.2">
+<h4 data-number="4.2.1.2" class="anchored" data-anchor-id="categorical-variables"><span class="header-section-number">4.2.1.2</span> Categorical Variables</h4>
 <p>Categorical variables describe <strong>qualities</strong> or <strong>characteristics</strong>. They answer questions like “what type?” or “which group?”. These are also known as <strong>qualitative variables</strong>, and the data they produce are <strong>qualitative data</strong>.</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -2826,45 +2383,26 @@ Important
 <li><p>Only show <strong>labels</strong> or <strong>names</strong>.</p></li>
 </ul>
 <p>For example, <em>Gender</em> (male, female), <em>Blood group (</em>A, B, AB, O), <em>City</em> (Lisbon, Porto, Faro, … ), <em>color</em> (red, blue, green)</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-What we can do:
-</div>
-</div>
-<div class="callout-body-container callout-body">
+<section id="what-we-can-do-2" class="level6" data-number="4.2.1.2.0.1">
+<h6 data-number="4.2.1.2.0.1" class="anchored" data-anchor-id="what-we-can-do-2"><span class="header-section-number">4.2.1.2.0.1</span> What we can do:</h6>
 <ul>
-<li>Count frequencies (e.g.&nbsp;how many students are from each city)</li>
-<li>Use bar charts or pie charts</li>
+<li><p>Count frequencies (e.g.&nbsp;how many students are from each city)</p></li>
+<li><p>Use bar charts or pie charts</p></li>
 </ul>
-</div>
-</div>
 <p><strong>Ordinal Variables</strong></p>
 <ul>
-<li>Categories <strong>can be ordered</strong> or ranked.</li>
-<li>But the <strong>distance between categories is not exact</strong>.</li>
+<li><p>Categories <strong>can be ordered</strong> or ranked.</p></li>
+<li><p>But the <strong>distance between categories is not exact</strong>.</p></li>
 </ul>
 <p>For example, <em>Satisfaction</em> (low, medium, high), <em>education</em> (primary, secondary, university), <em>rank</em> (1st, 2nd, 3rd), <em>Academic grades</em> (A, B, C)</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-What we can do:
-</div>
-</div>
-<div class="callout-body-container callout-body">
+</section>
+<section id="what-we-can-do-3" class="level6" data-number="4.2.1.2.0.2">
+<h6 data-number="4.2.1.2.0.2" class="anchored" data-anchor-id="what-we-can-do-3"><span class="header-section-number">4.2.1.2.0.2</span> What we can do:</h6>
 <ul>
-<li>Count frequencies</li>
-<li>Compare medians</li>
-<li>Use bar charts or ordered plots</li>
+<li><p>Count frequencies</p></li>
+<li><p>Compare medians</p></li>
+<li><p>Use bar charts or ordered plots</p></li>
 </ul>
-</div>
-</div>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -2964,8 +2502,9 @@ Tip
 </div>
 </section>
 </section>
-<section id="types-of-eda" class="level3" data-number="4.3.2">
-<h3 data-number="4.3.2" class="anchored" data-anchor-id="types-of-eda"><span class="header-section-number">4.3.2</span> Types of EDA</h3>
+</section>
+<section id="types-of-eda" class="level3" data-number="4.2.2">
+<h3 data-number="4.2.2" class="anchored" data-anchor-id="types-of-eda"><span class="header-section-number">4.2.2</span> Types of EDA</h3>
 <p>EDA helps us answer important questions like:</p>
 <ul>
 <li>What are the most common values of a variable?</li>
@@ -2973,8 +2512,8 @@ Tip
 <li>Is one variable related to another?</li>
 </ul>
 <p>To answer these questions, EDA uses two main tools:</p>
-<section id="descriptive-statistics" class="level4" data-number="4.3.2.1">
-<h4 data-number="4.3.2.1" class="anchored" data-anchor-id="descriptive-statistics"><span class="header-section-number">4.3.2.1</span> Descriptive Statistics</h4>
+<section id="descriptive-statistics" class="level4" data-number="4.2.2.1">
+<h4 data-number="4.2.2.1" class="anchored" data-anchor-id="descriptive-statistics"><span class="header-section-number">4.2.2.1</span> Descriptive Statistics</h4>
 <p>Descriptive statistics give <strong>numerical summaries</strong> of a dataset. They describe the basic features of a variable, such as:</p>
 <ul>
 <li><strong>Center</strong> (e.g.&nbsp;mean or median)</li>
@@ -2986,15 +2525,15 @@ Tip
 For example, the <strong>mean</strong> tells us what the “typical” value might be.</p>
 <p>But: <strong>A few numbers can’t tell the whole story.</strong></p>
 </section>
-<section id="graphical-summaries" class="level4" data-number="4.3.2.2">
-<h4 data-number="4.3.2.2" class="anchored" data-anchor-id="graphical-summaries"><span class="header-section-number">4.3.2.2</span> Graphical Summaries</h4>
+<section id="graphical-summaries" class="level4" data-number="4.2.2.2">
+<h4 data-number="4.2.2.2" class="anchored" data-anchor-id="graphical-summaries"><span class="header-section-number">4.2.2.2</span> Graphical Summaries</h4>
 <p>Graphs help us <strong>see patterns</strong>, <strong>spot outliers</strong>, and <strong>understand distributions</strong>.</p>
 <p>Common EDA plots include: - <strong>Histograms</strong> – show the shape and spread of a numeric variable - <strong>Boxplots</strong> – show center, spread, and outliers - <strong>Bar charts</strong> – show frequencies of categories - <strong>Scatterplots</strong> – show relationships between two numeric variables</p>
 <p>Graphs are <strong>easier to understand</strong> than tables of numbers. They help us and others <strong>see what’s going on</strong> in the data.</p>
 </section>
 </section>
-<section id="a-review-on-descriptive-statistics" class="level3" data-number="4.3.3">
-<h3 data-number="4.3.3" class="anchored" data-anchor-id="a-review-on-descriptive-statistics"><span class="header-section-number">4.3.3</span> A Review on Descriptive Statistics</h3>
+<section id="a-review-on-descriptive-statistics" class="level3" data-number="4.2.3">
+<h3 data-number="4.2.3" class="anchored" data-anchor-id="a-review-on-descriptive-statistics"><span class="header-section-number">4.2.3</span> A Review on Descriptive Statistics</h3>
 <p>Statisticians have created more precise terms to describe the patterns in data, called <strong>descriptive statistics</strong>.</p>
 <p>The two most important features of a numeric variable’s distribution are:</p>
 <ul>
@@ -3002,14 +2541,54 @@ For example, the <strong>mean</strong> tells us what the “typical” value mig
 <li><strong>Dispersion</strong>: How spread out are the values?</li>
 </ul>
 </section>
-<section id="central-tendency" class="level3" data-number="4.3.4">
-<h3 data-number="4.3.4" class="anchored" data-anchor-id="central-tendency"><span class="header-section-number">4.3.4</span> <strong>Central Tendency</strong></h3>
+<section id="central-tendency" class="level3" data-number="4.2.4">
+<h3 data-number="4.2.4" class="anchored" data-anchor-id="central-tendency"><span class="header-section-number">4.2.4</span> <strong>Central Tendency</strong></h3>
 <p>A <strong>measure of central tendency</strong> tells us what a “typical” value looks like in the data. There are three main measures: <strong>Mean</strong>, <strong>Median</strong>, <strong>Mode</strong></p>
-<section id="arithmetic-mean-average" class="level4" data-number="4.3.4.1">
-<h4 data-number="4.3.4.1" class="anchored" data-anchor-id="arithmetic-mean-average"><span class="header-section-number">4.3.4.1</span> Arithmetic Mean (Average)</h4>
+<section id="arithmetic-mean-average" class="level4" data-number="4.2.4.1">
+<h4 data-number="4.2.4.1" class="anchored" data-anchor-id="arithmetic-mean-average"><span class="header-section-number">4.2.4.1</span> Arithmetic Mean (Average)</h4>
 <p>[We should add the definition]</p>
 <p>function <code>mean()</code></p>
 <p>Sometimes, we use <code>na.rm = TRUE</code> to ignore missing values.</p>
+<p><strong>Be careful:</strong> The mean is sensitive to extreme values (outliers).<br>
+For example, using the mean to describe <strong>income</strong> is misleading because a few very high earners can pull the average up.</p>
+</section>
+<section id="median" class="level4" data-number="4.2.4.2">
+<h4 data-number="4.2.4.2" class="anchored" data-anchor-id="median"><span class="header-section-number">4.2.4.2</span> Median</h4>
+<p>[We should add the definition]</p>
+<ul>
+<li>The <strong>middle value</strong> when data are sorted.</li>
+<li>More <strong>robust</strong> than the mean when data are skewed.</li>
+</ul>
+<p>function <code>median()</code></p>
+</section>
+<section id="mode" class="level4" data-number="4.2.4.3">
+<h4 data-number="4.2.4.3" class="anchored" data-anchor-id="mode"><span class="header-section-number">4.2.4.3</span> Mode</h4>
+<ul>
+<li>The <strong>most frequent value</strong> in the data.</li>
+<li>Conceptually useful, but hard to estimate in numeric data.</li>
+<li>Used more often for <strong>categorical variables</strong>.</li>
+</ul>
+</section>
+</section>
+<section id="dispersion" class="level3" data-number="4.2.5">
+<h3 data-number="4.2.5" class="anchored" data-anchor-id="dispersion"><span class="header-section-number">4.2.5</span> Dispersion</h3>
+<p><strong>Dispersion</strong> tells us how much values differ from one another. A dataset where all values are similar has <strong>low dispersion</strong>; one with a wide range of values has <strong>high dispersion</strong>.</p>
+<p>There are many ways to describe how <strong>spread out</strong> a sample is. The three common measures are:</p>
+<ul>
+<li><p><strong>Variance</strong> – how far values are far from the mean (on average, squared)</p></li>
+<li><p><strong>Standard Deviation</strong> – the square root of the variance, easier to interpret</p></li>
+<li><p><strong>Interquartile range</strong> – the spread of the middle <span class="math inline">\(50\%\)</span> of the values</p></li>
+</ul>
+<p>Each of these gives us a different way to understand <strong>how variable</strong> the data is.</p>
+<section id="variance" class="level4" data-number="4.2.5.1">
+<h4 data-number="4.2.5.1" class="anchored" data-anchor-id="variance"><span class="header-section-number">4.2.5.1</span> Variance</h4>
+<p>The <strong>Sample Variance</strong>, written as <span class="math inline">\(s^2\)</span>, is <em>the average of the <strong>squared differences</strong></em> between each value and the mean.</p>
+<p>Key facts about variance are:</p>
+<ul>
+<li><p>It is always <strong>non-negative</strong></p></li>
+<li><p>A <strong>larger variance</strong> means the data are spread out.</p></li>
+<li><p>A variance of <strong>zero</strong> means all values are <strong>exactly the same</strong>.</p></li>
+</ul>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -3020,33 +2599,930 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>Be careful:</strong> The mean is sensitive to extreme values (outliers).<br>
-For example, using the mean to describe <strong>income</strong> is misleading because a few very high earners can pull the average up.</p>
+<p><strong>Why does variance matter?</strong></p>
+<p>Variance is an important quantity in statistics. Many <strong>statistical tests</strong> use changes in variance to compare groups or detect effects.</p>
+</div>
+</div>
+<p>But in EDA, we <strong>rarely use</strong> the variance.</p>
+</section>
+<section id="standard-deviation" class="level4" data-number="4.2.5.2">
+<h4 data-number="4.2.5.2" class="anchored" data-anchor-id="standard-deviation"><span class="header-section-number">4.2.5.2</span> Standard Deviation</h4>
+<p>A more useful measure if dispersion is the <strong>standard deviation</strong>, usually written as <span class="math inline">\(s\)</span>. The <strong>standard deviation</strong> is <em>the <strong>squared root</strong> of the variance.</em></p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Why use standard deviation?</strong></p>
+<ul>
+<li><p>It is on the <strong>same scale</strong> as the variable</p></li>
+<li><p>It gives us a <strong>sense of spread</strong> we can understand</p></li>
+<li><p>it is more commonly used in EDA than variance</p></li>
+</ul>
+</div>
+</div>
+<p><strong>But be careful</strong> like the <strong>mean</strong>, the standard deviation is sensitive to:</p>
+<ul>
+<li><p><strong>skewed distributions</strong></p></li>
+<li><p><strong>outliers</strong> (extreme values)</p></li>
+</ul>
+<p>In those cases, we often prefer a <strong>robust</strong> measure like the <strong>interquantile range (IQR).</strong></p>
+<p>To understand the IQR, we need to define <strong>quartiles</strong>.</p>
+<p>Quartiles divide the data into <strong>four equal parts</strong>:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 74%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Quartile</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Q1</strong></td>
+<td>First quartile (25%) — one quarter of the data is below this value</td>
+</tr>
+<tr class="even">
+<td><strong>Q2</strong></td>
+<td>Second quartile (50%) — this is the <strong>median</strong></td>
+</tr>
+<tr class="odd">
+<td><strong>Q3</strong></td>
+<td>Third quartile (75%) — three quarters of the data are below this value</td>
+</tr>
+</tbody>
+</table>
+<p>These values help summarize the distribution, especially for <strong>non-symmetric</strong> data.</p>
+</section>
+<section id="interquantile-range-iqr" class="level4" data-number="4.2.5.3">
+<h4 data-number="4.2.5.3" class="anchored" data-anchor-id="interquantile-range-iqr"><span class="header-section-number">4.2.5.3</span> Interquantile Range (IQR)</h4>
+<p>The <strong>Interquantile Range (IQR)</strong> is another measure of dispersion.</p>
+<p>It is especially useful in EDA because it is robust to outliers and skewed data.</p>
+<p>Because standard deviation is not squared, it has the <strong>same unit</strong> as the original data. This makes it <strong>easier to interpret</strong> than the variance.</p>
+<p><strong>What is IQR?</strong></p>
+<p>The IQR measures the <strong>spread of the middle</strong> <span class="math inline">\(50\%\)</span> of the data.</p>
+<p>It is defined as:</p>
+<pre><code>IQR = Q3 - Q1</code></pre>
+<p>where Q1 is the first quartile and Q3 is the third quartile. So, the IQR is the <strong>range between the</strong> <span class="math inline">\(25\%\)</span> <strong>and</strong> <span class="math inline">\(75\%\)</span> <strong>marks</strong>.</p>
+<p>The wider the IQR, the <strong>more spread out</strong> the middle values are.</p>
+<p><strong>Why is the IQR useful</strong>?</p>
+<ul>
+<li><p>It does <strong>not depend</strong> on extreme values.</p></li>
+<li><p>It gives a good summary of the <strong>central spread</strong></p></li>
+<li><p>It is <strong>preferred</strong> in EDA for skewed or messy data.</p></li>
+</ul>
+</section>
+</section>
+<section id="associations" class="level3" data-number="4.2.6">
+<h3 data-number="4.2.6" class="anchored" data-anchor-id="associations"><span class="header-section-number">4.2.6</span> Associations</h3>
+<p>In EDA, we often want to ask <em>Is one variable associated with another?</em></p>
+<p>This can be for:</p>
+<ul>
+<li><p>Two numeric variables</p></li>
+<li><p>Two categorical variables</p></li>
+<li><p>One numeric and one categorical</p></li>
+</ul>
+<section id="pairs-of-numeric-variables" class="level4" data-number="4.2.6.1">
+<h4 data-number="4.2.6.1" class="anchored" data-anchor-id="pairs-of-numeric-variables"><span class="header-section-number">4.2.6.1</span> Pairs of Numeric Variables</h4>
+<p>The most common way to measure association between two numeric variables is:</p>
+<p><strong>Pearson’s Correlation Coefficient</strong></p>
+<ul>
+<li><p>Measures <strong>Strength</strong> and <strong>direction</strong> of a <strong>linear relationship</strong>.</p></li>
+<li><p>Values range from <span class="math inline">\(-1\)</span> to <span class="math inline">\(+1\)</span>:</p>
+<ul>
+<li><p><span class="math inline">\(+1\)</span>: Perfect positive linear association</p></li>
+<li><p><span class="math inline">\(-1\)</span>: Perfect negative linear association</p></li>
+<li><p><span class="math inline">\(0\)</span>: no linear relationship</p></li>
+</ul></li>
+</ul>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Person’s <span class="math inline">\(r\)</span> only measures <strong>linear</strong> relationships.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Caution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If the relationship is <strong>curved</strong>, <span class="math inline">\(r\)</span> can be misleading. See <a href="https://en.wikipedia.org/wiki/Anscombe%27s_quartet">Anscombe’s Quartet</a> for famous examples.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Rank Correlations: For Non-linear Relationships</strong></p>
+<p>If the relationship is not linear, use a <strong>rank correlation</strong>:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Method</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Spearman’s</strong> <span class="math inline">\(\rho\)</span></td>
+<td>More sensitive to <strong>outliers</strong></td>
+</tr>
+<tr class="even">
+<td><strong>Kendall’s</strong> <span class="math inline">\(\tau\)</span></td>
+<td>Better for <strong>ordinal data</strong></td>
+</tr>
+</tbody>
+</table>
+<p>These methods:</p>
+<ul>
+<li><p>convert data into <strong>ranks</strong> (1st, 2nd, 3rd, …)</p></li>
+<li><p>Measure how well the ranks agree between two variables</p></li>
+</ul>
+<p>They are interpreted like Pearson’s <span class="math inline">\(r\)</span>:</p>
+<ul>
+<li><p>Close to <span class="math inline">\(\pm 1\)</span> means strong association</p></li>
+<li><p><span class="math inline">\(0\)</span> means no association</p></li>
+</ul>
 </div>
 </div>
 </section>
-<section id="median" class="level4" data-number="4.3.4.2">
-<h4 data-number="4.3.4.2" class="anchored" data-anchor-id="median"><span class="header-section-number">4.3.4.2</span> Median</h4>
-<p>[We should add the definition]</p>
+<section id="pairs-of-categorical-variables" class="level4" data-number="4.2.6.2">
+<h4 data-number="4.2.6.2" class="anchored" data-anchor-id="pairs-of-categorical-variables"><span class="header-section-number">4.2.6.2</span> Pairs of Categorical Variables</h4>
+<p>For two categorical variables, we ask <em>Are certain combinations of categories more or less common than expected?</em></p>
+<p>The most basic tool is the <strong>contingency table</strong>.</p>
+</section>
+</section>
+</section>
+<section id="summary-of-correlation-and-association-measures-in-r" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="summary-of-correlation-and-association-measures-in-r"><span class="header-section-number">4.3</span> 📊 Summary of Correlation and Association Measures in R</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 17%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable Types</th>
+<th>Measure</th>
+<th>Formula / Symbol</th>
+<th>Interpretation</th>
+<th>R Function / Package</th>
+<th>Reference</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Numeric – Numeric</strong></td>
+<td><strong>Pearson’s r</strong></td>
+<td><span class="math inline">\(r = \dfrac{\sum (x_i - \bar{x})(y_i - \bar{y})}{\sqrt{\sum (x_i - \bar{x})^2} \sqrt{\sum (y_i - \bar{y})^2}}\)</span></td>
+<td>Strength of <strong>linear</strong> relationship</td>
+<td><code>cor(x, y, method = "pearson")</code></td>
+<td>Pearson (1896); Moore et al.&nbsp;(2013)</td>
+</tr>
+<tr class="even">
+<td><strong>Numeric – Numeric</strong></td>
+<td><strong>Spearman’s ρ</strong></td>
+<td><span class="math inline">\(ρ = 1 - \dfrac{6 \sum d_i^2}{n(n^2 - 1)}\)</span></td>
+<td>Strength of <strong>monotonic</strong> relationship</td>
+<td><code>cor(x, y, method = "spearman")</code></td>
+<td>Spearman (1904); Conover (1999)</td>
+</tr>
+<tr class="odd">
+<td><strong>Numeric – Numeric</strong></td>
+<td><strong>Kendall’s τ</strong></td>
+<td><span class="math inline">\(τ = \dfrac{C - D}{\binom{n}{2}}\)</span></td>
+<td>Based on concordant and discordant pairs</td>
+<td><code>cor(x, y, method = "kendall")</code></td>
+<td>Kendall (1938)</td>
+</tr>
+<tr class="even">
+<td><strong>Ordinal – Ordinal</strong></td>
+<td><strong>Spearman’s ρ</strong> / <strong>Kendall’s τ</strong></td>
+<td>—</td>
+<td>Use for <strong>ranks</strong> or ordered categories</td>
+<td>Same as above</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td><strong>Nominal – Nominal (2×2)</strong></td>
+<td><strong>Phi (φ) coefficient</strong></td>
+<td><span class="math inline">\(φ = \dfrac{ad - bc}{\sqrt{(a+b)(c+d)(a+c)(b+d)}}\)</span></td>
+<td>Strength of association in 2×2 contingency table</td>
+<td><code>psych::phi(table)</code></td>
+<td>Yule (1912); Agresti (2002)</td>
+</tr>
+<tr class="even">
+<td><strong>Nominal – Nominal (k×m)</strong></td>
+<td><strong>Cramér’s V</strong></td>
+<td><span class="math inline">\(V = \sqrt{\dfrac{\chi^2}{n(k-1)}}\)</span></td>
+<td>Strength of association (0 to 1)</td>
+<td><code>rcompanion::cramerV(table)</code> or <code>DescTools::CramerV(table)</code></td>
+<td>Cramér (1946); Agresti (2002)</td>
+</tr>
+<tr class="odd">
+<td><strong>Nominal – Numeric</strong></td>
+<td><strong>Eta (η) coefficient</strong></td>
+<td><span class="math inline">\(η = \sqrt{\dfrac{SS_{\text{between}}}{SS_{\text{total}}}}\)</span></td>
+<td>% of variance in numeric explained by groups</td>
+<td><code>DescTools::EtaSq(aov(y ~ group))</code></td>
+<td>Richardson (1935)</td>
+</tr>
+<tr class="even">
+<td><strong>Binary – Binary</strong></td>
+<td><strong>Tetrachoric r</strong></td>
+<td>Based on bivariate latent normal model</td>
+<td>Used when binary vars are discretized continuous</td>
+<td><code>psych::tetrachoric(table)$rho</code></td>
+<td>Pearson (1900); Olsson (1979)</td>
+</tr>
+<tr class="odd">
+<td><strong>Ordinal – Nominal</strong></td>
+<td>—</td>
+<td>—</td>
+<td>Use visualization or grouped summaries</td>
+<td><code>table()</code>, <code>ggplot2::geom_bar()</code>, <code>mosaicplot()</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<section id="notes-for-application" class="level3" data-number="4.3.1">
+<h3 data-number="4.3.1" class="anchored" data-anchor-id="notes-for-application"><span class="header-section-number">4.3.1</span> 📌 Notes for Application</h3>
 <ul>
-<li>The <strong>middle value</strong> when data are sorted.</li>
-<li>More <strong>robust</strong> than the mean when data are skewed.</li>
+<li><p>Use <code>table()</code> or <code>xtabs()</code> to create frequency tables before applying association functions.</p></li>
+<li><p>For <strong>correlation matrices</strong>, use <code>cor()</code> on a data frame:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(my_data[, <span class="fu">c</span>(<span class="st">"var1"</span>, <span class="st">"var2"</span>, <span class="st">"var3"</span>)], <span class="at">method =</span> <span class="st">"spearman"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>For <strong>effect sizes</strong> (like Eta squared), ANOVA output is needed:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">aov</span>(y <span class="sc">~</span> group, <span class="at">data =</span> df)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>DescTools<span class="sc">::</span><span class="fu">EtaSq</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
 </ul>
-<p>function <code>median()</code></p>
+<hr>
 </section>
-<section id="mode" class="level4" data-number="4.3.4.3">
-<h4 data-number="4.3.4.3" class="anchored" data-anchor-id="mode"><span class="header-section-number">4.3.4.3</span> Mode</h4>
+<section id="references" class="level3" data-number="4.3.2">
+<h3 data-number="4.3.2" class="anchored" data-anchor-id="references"><span class="header-section-number">4.3.2</span> 📚 References</h3>
 <ul>
-<li>The <strong>most frequent value</strong> in the data.</li>
-<li>Conceptually useful, but hard to estimate in numeric data.</li>
-<li>Used more often for <strong>categorical variables</strong>.</li>
+<li>Agresti, A. (2002). <em>Categorical Data Analysis</em>. Wiley.<br>
+</li>
+<li>Conover, W. J. (1999). <em>Practical Nonparametric Statistics</em>.<br>
+</li>
+<li>Cramér, H. (1946). <em>Mathematical Methods of Statistics</em>.<br>
+</li>
+<li>Kendall, M. G. (1938). <em>A New Measure of Rank Correlation</em>.<br>
+</li>
+<li>Moore, D., McCabe, G., &amp; Craig, B. (2013). <em>Introduction to the Practice of Statistics</em>.<br>
+</li>
+<li>Olsson, U. (1979). <em>Maximum likelihood estimation of the polychoric correlation coefficient</em>.<br>
+</li>
+<li>Pearson, K. (1896, 1900). <em>Contributions to the mathematical theory of evolution</em>.<br>
+</li>
+<li>Richardson, M. W. (1935). <em>Multivariate analysis of variance</em>.<br>
+</li>
+<li>Spearman, C. (1904). <em>The proof and measurement of association between two things</em>.<br>
+</li>
+<li>Yule, G. U. (1912). <em>On the Methods of Measuring Association Between Two Attributes</em>.</li>
 </ul>
 </section>
+<section id="summary-of-correlation-and-association-measures" class="level3" data-number="4.3.3">
+<h3 data-number="4.3.3" class="anchored" data-anchor-id="summary-of-correlation-and-association-measures"><span class="header-section-number">4.3.3</span> 📊 Summary of Correlation and Association Measures</h3>
+<p>This table summarizes the most commonly used correlation or association coefficients depending on the <strong>type of variables</strong> you are working with:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 38%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable Pair</th>
+<th>Type of Data</th>
+<th>Recommended Measure</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Numeric – Numeric</strong></td>
+<td>Continuous</td>
+<td><strong>Pearson’s r</strong></td>
+<td>Measures <strong>linear</strong> association; sensitive to outliers</td>
+</tr>
+<tr class="even">
+<td><strong>Numeric – Numeric</strong></td>
+<td>Continuous (non-linear)</td>
+<td><strong>Spearman’s ρ</strong> or <strong>Kendall’s τ</strong></td>
+<td>Based on <strong>ranks</strong>; captures <strong>monotonic</strong> (non-linear) relationships</td>
+</tr>
+<tr class="odd">
+<td><strong>Ordinal – Ordinal</strong></td>
+<td>Ranked categories</td>
+<td><strong>Spearman’s ρ</strong>, <strong>Kendall’s τ</strong></td>
+<td>Use <strong>Kendall’s τ</strong> if many ties or small sample size</td>
+</tr>
+<tr class="even">
+<td><strong>Nominal – Nominal</strong></td>
+<td>Categorical (no order)</td>
+<td><strong>Cramér’s V</strong>, <strong>Phi (φ)</strong></td>
+<td>Based on chi-square; <strong>Cramér’s V</strong> is preferred for tables &gt; 2×2</td>
+</tr>
+<tr class="odd">
+<td><strong>Nominal – Ordinal</strong></td>
+<td>Mixed (unordered + ordered)</td>
+<td><strong>Eta coefficient</strong>, or cross-tabulation</td>
+<td>Less common; usually explored graphically</td>
+</tr>
+<tr class="even">
+<td><strong>Nominal – Numeric</strong></td>
+<td>Grouping + measurement</td>
+<td><strong>ANOVA / Eta squared</strong>, or <strong>boxplots</strong></td>
+<td>Not a correlation; use ANOVA to test group differences</td>
+</tr>
+</tbody>
+</table>
+<hr>
 </section>
-<section id="dispersion" class="level3" data-number="4.3.5">
-<h3 data-number="4.3.5" class="anchored" data-anchor-id="dispersion"><span class="header-section-number">4.3.5</span> Dispersion</h3>
-<p><strong>Dispersion</strong> tells us how much values differ from one another. A dataset where all values are similar has <strong>low dispersion</strong>; one with a wide range of values has <strong>high dispersion</strong>.</p>
-<p>The three common measures are:</p>
+<section id="notes" class="level3" data-number="4.3.4">
+<h3 data-number="4.3.4" class="anchored" data-anchor-id="notes"><span class="header-section-number">4.3.4</span> 🧭 Notes</h3>
+<ul>
+<li><strong>Spearman’s ρ</strong> and <strong>Kendall’s τ</strong> both work well for <strong>ranked data</strong> and are more robust to non-linear trends than Pearson’s r.</li>
+<li><strong>Cramér’s V</strong> is used for <strong>nominal data</strong>, and its values range from 0 to 1.</li>
+<li><strong>Eta squared (η²)</strong> measures how much of the variance in the numeric variable is explained by the group (nominal) variable.</li>
+<li>For <strong>ordinal + nominal</strong>, no widely accepted coefficient exists; focus on visual summaries (e.g., bar charts or stacked plots).</li>
+</ul>
+<hr>
+</section>
+<section id="example-what-should-you-use" class="level3" data-number="4.3.5">
+<h3 data-number="4.3.5" class="anchored" data-anchor-id="example-what-should-you-use"><span class="header-section-number">4.3.5</span> ✅ Example: What Should You Use?</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Situation</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Height vs Weight</td>
+<td>Pearson’s r</td>
+</tr>
+<tr class="even">
+<td>Exam Rank vs Satisfaction Level</td>
+<td>Kendall’s τ</td>
+</tr>
+<tr class="odd">
+<td>Eye Color vs Blood Type</td>
+<td>Cramér’s V</td>
+</tr>
+<tr class="even">
+<td>Gender vs Income</td>
+<td>ANOVA + Boxplot</td>
+</tr>
+<tr class="odd">
+<td>Plant Type vs Size Category</td>
+<td>Cross-tab or Mosaic Plot</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="airquailty-dataset" class="level3" data-number="4.3.6">
+<h3 data-number="4.3.6" class="anchored" data-anchor-id="airquailty-dataset"><span class="header-section-number">4.3.6</span> Airquailty dataset</h3>
+<p>We will explore the <code>airquality</code> dataset, which contains daily measurement of air pollutants and weather conditions in New York City May to September 1973.</p>
+<p><strong>Step 1 –</strong> <em>How do ozone levels vary across different months in New York during the summer in 1973?</em></p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This question is specific and focused: <em>One location (New York), One variable (ozone), one year and a defined time window (May to September)</em></p>
+</div>
+</div>
+<p><strong>Step 2 –</strong> The <code>airquality</code> dataset is built into R. Load it with:</p>
+<div id="qwebr-insertion-location-1"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Step 3 –</strong> Check the size and dimension of the dataset</p>
+<div id="qwebr-insertion-location-2"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Step 4 –</strong> run <code>str()</code></p>
+<div id="qwebr-insertion-location-3"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Caution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>There are some missing values (<code>NA</code> , Not Available) in the dataset.</p>
+</div>
+</div>
+<p><strong>Step 5 –</strong></p>
+<div id="qwebr-insertion-location-4"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="qwebr-insertion-location-5"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Step 6 –</strong></p>
+<p>First, we count how many rows (i.e., records or observations) are in the dataset.</p>
+<div id="qwebr-insertion-location-6"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>Missing values (denoted as <code>NA</code> in R) can lead to incorrect calculations or unexpected results. It is good practice to check how many missing values there are per variable.</p>
+<div id="qwebr-insertion-location-7"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Using `dplyr`
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<div id="qwebr-insertion-location-8"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>This command uses <code>across()</code> to apply the same function to all columns, and <code>sum(is.na(.))</code> to count the number of missing values per column.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+What is ~ ?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <code>~</code> introduces an <strong>anonymous function</strong> — a function written inline without a name.</p>
+<p>This</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="sc">~</span> <span class="fu">sum</span>(<span class="fu">is.na</span>(.))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>~sum(is.na(.))</code></pre>
+</div>
+</div>
+<p>is a shorthand for</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span>(x) <span class="fu">sum</span>(<span class="fu">is.na</span>(x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>function (x) 
+sum(is.na(x))</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>Or, we can check how many rows are from July:</p>
+<div id="qwebr-insertion-location-9"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>check how many missing values are just in August.</p>
+<div id="qwebr-insertion-location-10"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Step 7 –</strong> According to the U.S. EPA, ozone levels above 70 parts per billion (ppb) may be considered unhealthy.</p>
+<div id="qwebr-insertion-location-11"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>Based on the output, many days have safe levels and some days have extremely high ozone levels.</p>
+<p><strong>Step 8 –</strong> Let us check the average ozone level by month:</p>
+<div id="qwebr-insertion-location-12"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>This gives a quick overview of how ozone levels change over the summer. Let visualize it:</p>
+<div id="qwebr-insertion-location-13"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>Based on the plot, we observe that July and August have the highest median ozone levels, showing that typical ozone concentrations were significantly higher during mid-summer. This suggests a seasonal pattern, likely driven by higher temperatures and increased sunlight, which promote the formation of ozone. The taller boxes and whiskers for these months reflect a greater variability in ozone levels, including several high outliers. In contrast, May and September show lower median values and less variation, possibly due to cooler temperatures and different atmospheric conditions. The median ozone level is June is slightly higher than in May but lower than in July, with a moderate level of variability. Overall, this seasonal trend is consistent with environmental science – <strong>ozone forms more easily in strong sunlight and warm conditions</strong>, which are more prevalent in July and August.</p>
+<p><strong>Step 9 –</strong> Let us examine whether temperature or wind speed might help explain ozone patterns.</p>
+<div id="qwebr-insertion-location-14"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="qwebr-insertion-location-15"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>You may observe that there is a <em>positive</em> relationship between temperature and ozone and a <em>negative</em> relationship between wind speed and ozone. These patterns support common environmental science findings.</p>
+<p><strong>Step 10 –</strong> Based on our findings, we might fit a simple regression model</p>
+<div id="qwebr-insertion-location-16"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>We might also refine our question: <em>On which days was the ozone level unusually high, and what were the weather conditions on those days?</em></p>
+<section id="alternative-question" class="level4" data-number="4.3.6.1">
+<h4 data-number="4.3.6.1" class="anchored" data-anchor-id="alternative-question"><span class="header-section-number">4.3.6.1</span> Alternative question</h4>
+<p><strong><em>Step 1 – Which weather factor—temperature, wind, or solar radiation—has the strongest relationship with ozone levels during the summer of 1973 in New York?</em></strong></p>
+<p>This question is more analytical than descriptive, and focused on <strong>relationships</strong> between variables. So, we need to examine how ozone changes with respect to other variables.</p>
+<p><strong>Step 2 –</strong></p>
+<div id="qwebr-insertion-location-17"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Step 3 –</strong></p>
+<div id="qwebr-insertion-location-18"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Step 4 –</strong></p>
+<div id="qwebr-insertion-location-19"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Step 5 –</strong></p>
+<div id="qwebr-insertion-location-20"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="qwebr-insertion-location-21"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Step 6 –</strong></p>
+<div id="qwebr-insertion-location-22"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Step 7 –</strong></p>
+<p>Check how often ozone exceeds EPA’s 70 ppb guideline:</p>
+<div id="qwebr-insertion-location-23"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Step 8 –</strong></p>
+<p>Since <code>dplyr</code> does not include a <code>cor()</code> function, we will compute correlations manually using <code>summarise()</code> and <code>cor()</code> from base R, keeping within tidy pipelines:</p>
+<div id="qwebr-insertion-location-24"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="qwebr-insertion-location-25"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="qwebr-insertion-location-26"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="qwebr-insertion-location-27"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>More advanced:</strong></p>
+<div id="qwebr-insertion-location-28"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>But sometimes, a simple code gives the more informative output:</p>
+<div id="qwebr-insertion-location-29"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>visualize the relationships:</p>
+<div id="qwebr-insertion-location-30"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Step 9 –</strong></p>
+<div id="qwebr-insertion-location-31"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>When we check p-values and coefficients, we see <code>Temp</code> has strong and significant positive effect, <code>Wind</code> has strong and significant negative effect, and <code>Solar.R</code> has weaker effect but still contributes.</p>
+<p><strong>Step 10 –</strong></p>
+<p>Now we know temperature has the strongest effect on ozone levels:</p>
+<ul>
+<li><p>Should we check for nonlinear effects (e.g., does ozone spike at high temps)?</p></li>
+<li><p>Would a time-based model (e.g.&nbsp;by day or month) add insight?</p></li>
+<li><p>What is the temperature threshold where ozone exceeds 70 ppb?</p></li>
+<li><p>Are there interactions between variables (e.g.&nbsp;high temp + low wind)?</p></li>
+<li><p>Do results change if the we include time (e.g.&nbsp;month)?</p></li>
+</ul>
+<p>We might now refine our question: <em>How much does temperature need to rise before ozone levels exceed the 70 ppb threshold?</em></p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>As Tukey emphasized, EDA is about “detecting the unexpected” and <strong>learning from the data before attempting to explain it</strong>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>At the beginning, it is hard to ask the <em>perfect</em> question because you do not know the date well yet. But here is the secret:</p>
+<div class="callout callout-style-simple callout-important no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>The more questions you ask, the better your questions become.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>Each time you explore one idea, it leads to a <strong>new question.</strong> That is how you:</p>
+<ul>
+<li><p>Discover patterns</p></li>
+<li><p>Notice surprises</p></li>
+<li><p>Understand your data more deeply</p></li>
+</ul>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Caution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Good EDA is like this</p>
+<ol type="1">
+<li><p>Ask a question</p></li>
+<li><p>Make a plot or summary</p></li>
+<li><p>Look at the result</p></li>
+<li><p>Ask a new, better question</p></li>
+<li><p>Repeat!</p></li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Do not wait for the perfect question - <strong>just start</strong>. Exploration will lead you to insight.</p>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="principles-of-analytic-graphics" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="principles-of-analytic-graphics"><span class="header-section-number">4.4</span> Principles of Analytic Graphics</h2>
+<p>Based on <span class="citation" data-cites="Tufte2006">(<a href="#ref-Tufte2006" role="doc-biblioref">Tufte 2006</a>)</span>, there are six key principles for designing informative and effective graphs.</p>
+<section id="principle-1-show-comparison" class="level3" data-number="4.4.1">
+<h3 data-number="4.4.1" class="anchored" data-anchor-id="principle-1-show-comparison"><span class="header-section-number">4.4.1</span> Principle 1 – Show Comparison</h3>
+<div class="callout callout-style-simple callout-caution no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Showing comparisons is really the basis of all good scientific investigation. <span class="citation" data-cites="Peng2012">(<a href="#ref-Peng2012" role="doc-biblioref">Peng 2012</a>)</span></p>
+</div>
+</div>
+</div>
+<p>Good data analysis always involves <strong>comparing</strong> things. A single number or result doesn’t mean much on its own. We need to ask:</p>
+<div class="callout callout-style-simple callout-important no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Compared to what?</p>
+</div>
+</div>
+</div>
+<p>For example, if we see that children with air cleaners had more symptom-free days, that sounds good. But how do we know the air cleaner made the difference? We only know that <strong>by comparing</strong> to another group of children who didn’t get the air cleaner. When we add that comparison, we can see that the control group didn’t improve — so the improvement likely came from the air cleaner.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figs/EDA/EDA-P1-a.png" class="img-fluid figure-img"></p>
+<figcaption>Change in symptom-free days with air cleaner. Source: @Peng2012</figcaption>
+</figure>
+</div>
+<div id="figEDA1" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="../figs/EDA/EDA-P1-a.png" class="img-fluid figure-img"></p>
+<figcaption>Change in symptom-free days with air cleaner. Source: @Peng2012</figcaption>
+</figure>
+</div>
+<div id="figEDA2" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="../figs/EDA/EDA-P1-b.png" class="img-fluid figure-img"></p>
+<figcaption>Change in symptom-free days by treatment group. Source: @Peng2012</figcaption>
+</figure>
+</div>
+<p>Good data graphics should always show <strong>at least two things</strong> so we can compare and understand what’s really happening.</p>
+</section>
+<section id="principle-2-show-causality-and-explanation" class="level3" data-number="4.4.2">
+<h3 data-number="4.4.2" class="anchored" data-anchor-id="principle-2-show-causality-and-explanation"><span class="header-section-number">4.4.2</span> Principle 2: Show Causality and Explanation</h3>
+<p>When making a data graphics, it is helpful to show <strong>why</strong> you think something is happening – not just what is happening. Even if you can not prove a cause, you can show your <strong>hypothesis</strong> of <strong>idea</strong> about how one thing might lead to another.</p>
+<div class="callout callout-style-simple callout-caution no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>If possible, it is always useful to show your causal framework for thinking about a question. <span class="citation" data-cites="Peng2012">(<a href="#ref-Peng2012" role="doc-biblioref">Peng 2012</a>)</span></p>
+<!-- # Generally, it is difficult to prove that one thing causes another thing even with the most carefully collected data.  But it is still often useful for your data graphics to indicate what you are thinking about in terms of cause. Such a display may suggest hypotheses or refute them, but most importantly, they will raise new questions that can be followed up with new data or analyses. -->
+</div>
+</div>
+</div>
+<p>For example, in <a href="#figEDA2">#figEDA2</a> we saw that children with an air cleaner had more symptom–free days. But that alone does not explain <strong>why</strong>. A good follow-up question is: “<em>Why did the air cleaner help?“</em> One possible reason is that air cleaners reduce <strong>fine particles</strong> in the air – especially in homes with smokers. Breathing in these particles can make asthma worse, so removing them might help children feel better. To show this, we can make a new plot.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figs/EDA/EDA-P2.png" class="img-fluid figure-img"></p>
+<figcaption>Change in symptom-free days and change in PM2.5 levels in-home. Source: <span class="citation" data-cites="Peng2012">Peng (<a href="#ref-Peng2012" role="doc-biblioref">2012</a>)</span></figcaption>
+</figure>
+</div>
+<p>From the plot, we can see:</p>
+<ul>
+<li><p>Children with air cleaners had more symptom-free days.</p></li>
+<li><p>Their homes also had <strong>less PM2.5</strong> after six months.</p></li>
+<li><p>In contrast, the control group had little improvement.</p></li>
+</ul>
+<p>This <strong>pattern supports</strong> the idea that air cleaners work by reducing harmful particles — but it is not final proof. Other things might also cause the change, so more data and careful studies are needed to confirm.</p>
+</section>
+<section id="principle-3-show-multivariate-data" class="level3" data-number="4.4.3">
+<h3 data-number="4.4.3" class="anchored" data-anchor-id="principle-3-show-multivariate-data"><span class="header-section-number">4.4.3</span> Principle 3: Show Multivariate Data</h3>
+<div class="callout callout-style-simple callout-caution no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>The real world is multivariate. <span class="citation" data-cites="Peng2012">(<a href="#ref-Peng2012" role="doc-biblioref">Peng 2012</a>)</span></p>
+</div>
+</div>
+</div>
+<p>In real life, most problems involve <strong>more than one or two variables</strong>. We call this <strong>multivariate data</strong>. Good data graphics should try to show these multiple variables at the same time, instead of reducing everything to just one number or a simple trend.</p>
+<p>Let us look at an example.</p>
+<p>The <code>mtcars</code> dataset contains information about 32 car models from the 1970s. Each row is a car and each column is a variable. Some of these variables are: <code>mpg</code>: miles per gallon (fuel efficiency), <code>wt</code>: weight (in 1000 lbs), <code>cyl</code>: number of cylanders (engine size), <code>hp</code>: horse power, <code>qsec</code>: 1/4 mile time (acceleration), <code>am</code>: Transmission (0 = auto, 1 = manual). These variables help us to explore relationship between engin size, weight, fuel use, and more.</p>
+<div id="qwebr-insertion-location-32"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>We want to know how a car’s weight affects its fuel efficiency (miles per gallon). We look at a simple scatter plot of these two variables.</p>
+<div id="qwebr-insertion-location-33"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>Heavier cars tend to have lower fuel efficiency. But is weight the only thing affecting fuel use?</p>
+<p>Cars also have different engine sizes, measured by cylinders (<code>cyl</code>). This affects both weight and fuel efficiency. To understand the relationship better, we add <code>cyl</code> as a third variable by coloring points by the number of cylinders.</p>
+<div id="qwebr-insertion-location-34"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>Now, we see that cars with 4, 6, and 8 cylinders have different trends. The overall pattern changes once we include this third variable.</p>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Caution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The number of cylinders <strong>cofounds</strong> the relationship – it influences both weight and MPG.</p>
+</div>
+</div>
+<p>To understand how the number of cylinders changes the relationship between weight and fuel efficiency, we can make separate plots for each cylinder group. This is called <strong>faceting</strong>.</p>
+<div id="qwebr-insertion-location-35"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Sometimes, looking at groups separately helps us find clearer patterns that get lost in a big mixed dataset.</p>
+</div>
+</div>
+<p>Even, we can add the variable transmission(<code>am</code>) as an additional variable by using shapes or facet.</p>
+<div id="qwebr-insertion-location-36"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="qwebr-insertion-location-37"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>Now, each panel shows either automatic automatic or manual cars. Within each panel, colors show the number of cylinders.</p>
+<p>Even we can use <code>facet_grid</code> that allows us to split the plot into rows and columns based on two categorical variables – perfect for showing how relationships vary across combinations. We will use <code>am</code> in rows and <code>cyl</code> in columns.</p>
+<div id="qwebr-insertion-location-38"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>This way, we can see how the relationship between weight and MPG changes in each group combination.</p>
+</section>
+<section id="principle-4-integrate-evidence-keep-the-message-clear" class="level3" data-number="4.4.4">
+<h3 data-number="4.4.4" class="anchored" data-anchor-id="principle-4-integrate-evidence-keep-the-message-clear"><span class="header-section-number">4.4.4</span> Principle 4: Integrate Evidence — Keep the message clear</h3>
+<p>When you make a graph, <em>do not rely</em> on points and lines to show your idea. You can also use: <strong>Numbers</strong> to give exact values, <strong>Words or short labels</strong> to explain what is happening, <strong>Pictures or diagrams</strong> to give context.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A good graph tells a complete story.</p>
+</div>
+</div>
+<p>Use all tools you need – not just the ones your software gives you easily.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The goal is <strong>not to just make a nice picture,</strong> but to help people understand your message clearly.</p>
+</div>
+</div>
+</section>
+<section id="principle-5-describe-and-document-the-evidence" class="level3" data-number="4.4.5">
+<h3 data-number="4.4.5" class="anchored" data-anchor-id="principle-5-describe-and-document-the-evidence"><span class="header-section-number">4.4.5</span> Principle 5: Describe and Document the Evidence</h3>
+<p>A good graph tells a story – clearly and completely. That means it should include:</p>
+<ul>
+<li><p>A clear <strong>title</strong></p></li>
+<li><p>Labels for the <strong>x-axis</strong> and <strong>y-axis</strong></p></li>
+<li><p>Units for measurement (e.g.&nbsp;‘weights in 1000 lbs’)</p></li>
+<li><p>Time scale if needed (e.g.&nbsp;‘daily’, ‘monthly’)</p></li>
+<li><p>where the data comes from (e.g., ‘New York’, ‘EPA’)</p></li>
+<li><p>source of the data</p></li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Imagine someone looking only at your plot without reading anything else. <strong>Can they understand the main idea?</strong> if yes – your plot is doing a good job.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Even if your graph is not <em>final</em>, it is a good habit to label things early. It helps you and others understand what is going on.</p>
+</div>
+</div>
+<p>For example, instead of using</p>
+<p>try this</p>
+<p>when we use <code>ggplot2</code>, it is better to add <code>labs()</code> like we did until now.</p>
+</section>
+<section id="principle-6-content-is-king" class="level3" data-number="4.4.6">
+<h3 data-number="4.4.6" class="anchored" data-anchor-id="principle-6-content-is-king"><span class="header-section-number">4.4.6</span> Principle 6: Content is King</h3>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A beautiful plot means nothing if the <strong>question is weak</strong> or the d<strong>ata is poor.</strong></p>
+</div>
+</div>
+<p>Data graphics are only powerful when:</p>
+<ul>
+<li><p>the <strong>question is clear and important</strong></p></li>
+<li><p>the <strong>data is high quality and relevant</strong></p></li>
+<li><p>the <strong>evidence supports the question</strong></p></li>
+</ul>
+<p>No chart or fancy design can fix a bad question or messy data. That is why it is crucial to start with a strong idea and only show what really matters to answer that idea.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Do not just decorate your data – focus on the message!</p>
+</div>
+</div>
+</section>
+</section>
+<section id="section" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="section"><span class="header-section-number">4.5</span> </h2>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
@@ -3064,246 +3540,239 @@ Tukey, John Wilder. 1977. <em>Exploratory Data Analysis</em>. Addison-Wesley Pub
 </div>
 </div>
 </section>
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
-  window.document.addEventListener("DOMContentLoaded", function (event) {
-    const icon = "";
-    const anchorJS = new window.AnchorJS();
-    anchorJS.options = {
-      placement: 'right',
-      icon: icon
-    };
-    anchorJS.add('.anchored');
-    const isCodeAnnotation = (el) => {
-      for (const clz of el.classList) {
-        if (clz.startsWith('code-annotation-')) {                     
-          return true;
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
       }
-      return false;
-    }
-    const onCopySuccess = function(e) {
-      // button target
-      const button = e.trigger;
-      // don't keep focus
-      button.blur();
-      // flash "checked"
-      button.classList.add('code-copy-button-checked');
-      var currentTitle = button.getAttribute("title");
-      button.setAttribute("title", "Copied!");
-      let tooltip;
-      if (window.bootstrap) {
-        button.setAttribute("data-bs-toggle", "tooltip");
-        button.setAttribute("data-bs-placement", "left");
-        button.setAttribute("data-bs-title", "Copied!");
-        tooltip = new bootstrap.Tooltip(button, 
-          { trigger: "manual", 
-            customClass: "code-copy-button-tooltip",
-            offset: [0, -8]});
-        tooltip.show();    
-      }
-      setTimeout(function() {
-        if (tooltip) {
-          tooltip.hide();
-          button.removeAttribute("data-bs-title");
-          button.removeAttribute("data-bs-toggle");
-          button.removeAttribute("data-bs-placement");
-        }
-        button.setAttribute("title", currentTitle);
-        button.classList.remove('code-copy-button-checked');
-      }, 1000);
-      // clear code selection
-      e.clearSelection();
-    }
-    const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
-        }
-        return codeEl.innerText;
-    }
-    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-      text: getTextToCopy
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
     });
-    clipboard.on('success', onCopySuccess);
-    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-        text: getTextToCopy,
-        container: window.document.getElementById('quarto-embedded-source-code-modal')
-      });
-      clipboardModal.on('success', onCopySuccess);
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
-      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-      var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp('/' + window.location.host + '/');
-      var isInternal = (href) => {
-          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
-      }
-      // Inspect non-navigation links and adorn them if external
-     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
-      for (var i=0; i<links.length; i++) {
-        const link = links[i];
-        if (!isInternal(link.href)) {
-          // undo the damage that might have been done by quarto-nav.js in the case of
-          // links that we want to consider external
-          if (link.dataset.originalHref !== undefined) {
-            link.href = link.dataset.originalHref;
-          }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
         }
       }
-    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
-      const config = {
-        allowHTML: true,
-        maxWidth: 500,
-        delay: 100,
-        arrow: false,
-        appendTo: function(el) {
-            return el.parentElement;
-        },
-        interactive: true,
-        interactiveBorder: 10,
-        theme: 'quarto',
-        placement: 'bottom-start',
-      };
-      if (contentFn) {
-        config.content = contentFn;
-      }
-      if (onTriggerFn) {
-        config.onTrigger = onTriggerFn;
-      }
-      if (onUntriggerFn) {
-        config.onUntrigger = onUntriggerFn;
-      }
-      window.tippy(el, config); 
     }
-    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
-    for (var i=0; i<noterefs.length; i++) {
-      const ref = noterefs[i];
-      tippyHover(ref, function() {
-        // use id or data attribute instead here
-        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
-        try { href = new URL(href).hash; } catch {}
-        const id = href.replace(/^#\/?/, "");
-        const note = window.document.getElementById(id);
-        if (note) {
-          return note.innerHTML;
-        } else {
-          return "";
-        }
-      });
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
     }
-    const xrefs = window.document.querySelectorAll('a.quarto-xref');
-    const processXRef = (id, note) => {
-      // Strip column container classes
-      const stripColumnClz = (el) => {
-        el.classList.remove("page-full", "page-columns");
-        if (el.children) {
-          for (const child of el.children) {
-            stripColumnClz(child);
-          }
-        }
-      }
-      stripColumnClz(note)
-      if (id === null || id.startsWith('sec-')) {
-        // Special case sections, only their first couple elements
-        const container = document.createElement("div");
-        if (note.children && note.children.length > 2) {
-          container.appendChild(note.children[0].cloneNode(true));
-          for (let i = 1; i < note.children.length; i++) {
-            const child = note.children[i];
-            if (child.tagName === "P" && child.innerText === "") {
-              continue;
-            } else {
-              container.appendChild(child.cloneNode(true));
-              break;
-            }
-          }
-          if (window.Quarto?.typesetMath) {
-            window.Quarto.typesetMath(container);
-          }
-          return container.innerHTML
-        } else {
-          if (window.Quarto?.typesetMath) {
-            window.Quarto.typesetMath(note);
-          }
-          return note.innerHTML;
-        }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
       } else {
-        // Remove any anchor links if they are present
-        const anchorLink = note.querySelector('a.anchorjs-link');
-        if (anchorLink) {
-          anchorLink.remove();
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
         }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
         if (window.Quarto?.typesetMath) {
           window.Quarto.typesetMath(note);
         }
-        if (note.classList.contains("callout")) {
-          return note.outerHTML;
-        } else {
-          return note.innerHTML;
-        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
       }
     }
-    for (var i=0; i<xrefs.length; i++) {
-      const xref = xrefs[i];
-      tippyHover(xref, undefined, function(instance) {
-        instance.disable();
-        let url = xref.getAttribute('href');
-        let hash = undefined; 
-        if (url.startsWith('#')) {
-          hash = url;
-        } else {
-          try { hash = new URL(url).hash; } catch {}
-        }
-        if (hash) {
-          const id = hash.replace(/^#\/?/, "");
-          const note = window.document.getElementById(id);
-          if (note !== null) {
-            try {
-              const html = processXRef(id, note.cloneNode(true));
-              instance.setContent(html);
-            } finally {
-              instance.enable();
-              instance.show();
-            }
-          } else {
-            // See if we can fetch this
-            fetch(url.split('#')[0])
-            .then(res => res.text())
-            .then(html => {
-              const parser = new DOMParser();
-              const htmlDoc = parser.parseFromString(html, "text/html");
-              const note = htmlDoc.getElementById(id);
-              if (note !== null) {
-                const html = processXRef(id, note);
-                instance.setContent(html);
-              } 
-            }).finally(() => {
-              instance.enable();
-              instance.show();
-            });
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
           }
         } else {
-          // See if we can fetch a full url (with no hash to target)
-          // This is a special case and we should probably do some content thinning / targeting
-          fetch(url)
+          // See if we can fetch this
+          fetch(url.split('#')[0])
           .then(res => res.text())
           .then(html => {
             const parser = new DOMParser();
             const htmlDoc = parser.parseFromString(html, "text/html");
-            const note = htmlDoc.querySelector('main.content');
+            const note = htmlDoc.getElementById(id);
             if (note !== null) {
-              // This should only happen for chapter cross references
-              // (since there is no id in the URL)
-              // remove the first header
-              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
-                note.children[0].remove();
-              }
-              const html = processXRef(null, note);
+              const html = processXRef(id, note);
               instance.setContent(html);
             } 
           }).finally(() => {
@@ -3311,161 +3780,185 @@ Tukey, John Wilder. 1977. <em>Exploratory Data Analysis</em>. Addison-Wesley Pub
             instance.show();
           });
         }
-      }, function(instance) {
-      });
-    }
-        let selectedAnnoteEl;
-        const selectorForAnnotation = ( cell, annotation) => {
-          let cellAttr = 'data-code-cell="' + cell + '"';
-          let lineAttr = 'data-code-annotation="' +  annotation + '"';
-          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
-          return selector;
-        }
-        const selectCodeLines = (annoteEl) => {
-          const doc = window.document;
-          const targetCell = annoteEl.getAttribute("data-target-cell");
-          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
-          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
-          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
-          const lineIds = lines.map((line) => {
-            return targetCell + "-" + line;
-          })
-          let top = null;
-          let height = null;
-          let parent = null;
-          if (lineIds.length > 0) {
-              //compute the position of the single el (top and bottom and make a div)
-              const el = window.document.getElementById(lineIds[0]);
-              top = el.offsetTop;
-              height = el.offsetHeight;
-              parent = el.parentElement.parentElement;
-            if (lineIds.length > 1) {
-              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
-              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
-              height = bottom - top;
-            }
-            if (top !== null && height !== null && parent !== null) {
-              // cook up a div (if necessary) and position it 
-              let div = window.document.getElementById("code-annotation-line-highlight");
-              if (div === null) {
-                div = window.document.createElement("div");
-                div.setAttribute("id", "code-annotation-line-highlight");
-                div.style.position = 'absolute';
-                parent.appendChild(div);
-              }
-              div.style.top = top - 2 + "px";
-              div.style.height = height + 4 + "px";
-              div.style.left = 0;
-              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
-              if (gutterDiv === null) {
-                gutterDiv = window.document.createElement("div");
-                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
-                gutterDiv.style.position = 'absolute';
-                const codeCell = window.document.getElementById(targetCell);
-                const gutter = codeCell.querySelector('.code-annotation-gutter');
-                gutter.appendChild(gutterDiv);
-              }
-              gutterDiv.style.top = top - 2 + "px";
-              gutterDiv.style.height = height + 4 + "px";
-            }
-            selectedAnnoteEl = annoteEl;
-          }
-        };
-        const unselectCodeLines = () => {
-          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
-          elementsIds.forEach((elId) => {
-            const div = window.document.getElementById(elId);
-            if (div) {
-              div.remove();
-            }
-          });
-          selectedAnnoteEl = undefined;
-        };
-          // Handle positioning of the toggle
-      window.addEventListener(
-        "resize",
-        throttle(() => {
-          elRect = undefined;
-          if (selectedAnnoteEl) {
-            selectCodeLines(selectedAnnoteEl);
-          }
-        }, 10)
-      );
-      function throttle(fn, ms) {
-      let throttle = false;
-      let timer;
-        return (...args) => {
-          if(!throttle) { // first call gets through
-              fn.apply(this, args);
-              throttle = true;
-          } else { // all the others get throttled
-              if(timer) clearTimeout(timer); // cancel #2
-              timer = setTimeout(() => {
-                fn.apply(this, args);
-                timer = throttle = false;
-              }, ms);
-          }
-        };
-      }
-        // Attach click handler to the DT
-        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
-        for (const annoteDlNode of annoteDls) {
-          annoteDlNode.addEventListener('click', (event) => {
-            const clickedEl = event.target;
-            if (clickedEl !== selectedAnnoteEl) {
-              unselectCodeLines();
-              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
-              if (activeEl) {
-                activeEl.classList.remove('code-annotation-active');
-              }
-              selectCodeLines(clickedEl);
-              clickedEl.classList.add('code-annotation-active');
-            } else {
-              // Unselect the line
-              unselectCodeLines();
-              clickedEl.classList.remove('code-annotation-active');
-            }
-          });
-        }
-    const findCites = (el) => {
-      const parentEl = el.parentElement;
-      if (parentEl) {
-        const cites = parentEl.dataset.cites;
-        if (cites) {
-          return {
-            el,
-            cites: cites.split(' ')
-          };
-        } else {
-          return findCites(el.parentElement)
-        }
       } else {
-        return undefined;
-      }
-    };
-    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
-    for (var i=0; i<bibliorefs.length; i++) {
-      const ref = bibliorefs[i];
-      const citeInfo = findCites(ref);
-      if (citeInfo) {
-        tippyHover(citeInfo.el, function() {
-          var popup = window.document.createElement('div');
-          citeInfo.cites.forEach(function(cite) {
-            var citeDiv = window.document.createElement('div');
-            citeDiv.classList.add('hanging-indent');
-            citeDiv.classList.add('csl-entry');
-            var biblioDiv = window.document.getElementById('ref-' + cite);
-            if (biblioDiv) {
-              citeDiv.innerHTML = biblioDiv.innerHTML;
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
             }
-            popup.appendChild(citeDiv);
-          });
-          return popup.innerHTML;
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
         });
       }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
     }
-  });
-  </script>
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="../chapters/chapter2_data_visualization.html" class="pagination-link" aria-label="Data Visualization">
