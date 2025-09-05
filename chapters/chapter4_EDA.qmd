@@ -66,6 +66,330 @@ EDA is the single most important task to conduct at the beginning of every data 
 EDA is like exploring a new place – you do not know what you will find until you start looking.
 :::
 
+## Enter the world of EDA
+
+EDA is the process of looking at data to understand it before using statistics or models. It helps us to answer questions like: - what types of data do we have? - Are there missing or strange values? - What patterns can we see? - What kind of summary or visualization is helpful?
+
+Before we start any analysis, we must know *what kind of data* we are working with. Variables can be broadly divided into **numeric** and **categorical** types.
+
+### Types of Variables
+
+::: callout-important
+Knowing the types of data matters because:
+
+-   Different statistics method are used for different variable types.
+
+-   Some graphs are only useful for some types of variables.
+:::
+
+#### Numerical variables
+
+Numeric variables describe **quantities** that we can measure — they answer questions like “how many?” or “how much?”. These variables are also called **quantitative variables**, and the data they produce are known as **quantitative data**. Briefly, they are **numbers** that can be measured. Also, we can do math with them.
+
+##### Continuous vs. Discrete
+
+Numeric variables can be:
+
+**Continuous**
+
+-   Can take **any value** on a number line, including decimals.
+-   Represent **real-world quantities**.
+
+Some examples are: *mass*, *age*, *temperature, time.*
+
+Continuous variables can be **positive only** (like mass) or **positive and negative** (like change in temperature).
+
+**Discrete**
+
+-   Can take **only whole number values** (no decimals).
+
+-   Based on **counting**.
+
+Some examples are: *number of students, number of offspring, number of infected individuals*
+
+A discrete variable cannot take values between integers — e.g., it makes no sense to have 2.5 individuals.
+
+##### Ratio vs. Interval
+
+Numeric variables can be further described based on the **scale** they are measured on: **ratio** or **interval**. This affects how we can interpret differences, proportions, and calculations.
+
+**Ratio**
+
+-   Has a **true zero** point (zero means “none”).
+
+-   Allows **all mathematical operations**, including ratios.
+
+Some examples are: *Height, Weight, Age, Income, mass.*
+
+You can say: “Tree A is **twice as tall** as Tree B.”
+
+###### What we can do:
+
+-   All descriptive statistics
+
+-   Use histograms, box-plots, scatterplots
+
+**Interval**
+
+-   Has **no true zero** — the zero point is **arbitrary**.
+-   Allows meaningful **differences**, but **not ratios**.
+
+Some examples are *Temperature (*in Celsius of Fahrenheit), *IQ scores,* Calendar dates (e.g. year 1000 vs 2000)
+
+You can say: “The **difference** between 20°C and 10°C is 10 degrees.” **But not**: “20°C is **twice as hot** as 10°C.”
+
+###### What we can do:
+
+-   calculate mean, standard deviation
+
+-   plot histograms or line charts
+
+::: callout-caution
+The difference between **ratio** and **interval** is about **how the variable is measured**, not what is being measured.
+
+For example, **Temperature** can be measured on:
+
+-   The **Celsius scale** that results in an **interval scale** (no true zero).
+-   The **Kelvin scale** that results in a **ratio scale** (zero means no temperature, i.e. absolute zero).
+
+So, the same **thing** (temperature) can be: an **interval variable** (in °C), or a **ratio variable** (in K), depending on the **scale** we use.
+:::
+
+#### Categorical Variables
+
+Categorical variables describe **qualities** or **characteristics**. They answer questions like “what type?” or “which group?”. These are also known as **qualitative variables**, and the data they produce are **qualitative data**.
+
+::: callout-important
+Categorical variables do **not** have numeric meaning (even if coded as numbers!).
+:::
+
+Categorical variables fall into two groups:
+
+**Nominal Variables**
+
+-   Categories have **no logical order**.
+
+-   Only show **labels** or **names**.
+
+For example, *Gender* (male, female), *Blood group (*A, B, AB, O), *City* (Lisbon, Porto, Faro, ... ), *color* (red, blue, green)
+
+###### What we can do:
+
+-   Count frequencies (e.g. how many students are from each city)
+
+-   Use bar charts or pie charts
+
+**Ordinal Variables**
+
+-   Categories **can be ordered** or ranked.
+
+-   But the **distance between categories is not exact**.
+
+For example, *Satisfaction* (low, medium, high), *education* (primary, secondary, university), *rank* (1st, 2nd, 3rd), *Academic grades* (A, B, C)
+
+###### What we can do:
+
+-   Count frequencies
+
+-   Compare medians
+
+-   Use bar charts or ordered plots
+
+:::: callout-important
+**Do not use numbers to label categories.**\
+Even though categories **can be coded** as numbers (e.g., Male = 1, Female = 2), this can be **confusing**. It may suggest an order or imply mathematical operations that don’t make sense.
+
+::: {.callout-tip appearance="minimal" icon="false"}
+**Tip:** Use **text labels** like `"Male"` and `"Female"` instead of `1` and `2`.
+:::
+::::
+
+**Summary of Variable Types**
+
+| Variable Type | Scale | Ordered? | Can Measure Distance? | Can Divide? | Examples |
+|------------|------------|------------|------------|------------|------------|
+| **Nominal** | Categorical | ❌ No | ❌ No | ❌ No | Gender, City, Color |
+| **Ordinal** | Categorical | ✅ Yes | ❌ No (not exact) | ❌ No | Rank, Education, Likert |
+| **Interval** | Numeric | ✅ Yes | ✅ Yes | ❌ No | Temperature, Year |
+| **Ratio** | Numeric | ✅ Yes | ✅ Yes | ✅ Yes | Age, Weight, Income |
+
+::: callout-tip
+If you are not sure about a variable, ask:
+
+-   Does the variable **have a natural order**?
+-   Can we **count it** or **measure it**?
+-   Does it have a **true zero**?
+:::
+
+### Types of EDA
+
+EDA helps us answer important questions like:
+
+-   What are the most common values of a variable?
+-   How much do observations differ from each other?
+-   Is one variable related to another?
+
+To answer these questions, EDA uses two main tools:
+
+#### Descriptive Statistics
+
+Descriptive statistics give **numerical summaries** of a dataset. They describe the basic features of a variable, such as:
+
+-   **Center** (e.g. mean or median)
+-   **Spread** (e.g. standard deviation or interquartile range)
+-   **Shape** (e.g. skewness)
+-   **Extremes** (e.g. minimum, maximum, or outliers)
+
+These summaries help us **compare groups** or **make initial conclusions**.\
+For example, the **mean** tells us what the "typical" value might be.
+
+But: **A few numbers can’t tell the whole story.**
+
+#### Graphical Summaries
+
+Graphs help us **see patterns**, **spot outliers**, and **understand distributions**.
+
+Common EDA plots include: - **Histograms** – show the shape and spread of a numeric variable - **Boxplots** – show center, spread, and outliers - **Bar charts** – show frequencies of categories - **Scatterplots** – show relationships between two numeric variables
+
+Graphs are **easier to understand** than tables of numbers. They help us and others **see what’s going on** in the data.
+
+### A Review on Descriptive Statistics
+
+Statisticians have created more precise terms to describe the patterns in data, called **descriptive statistics**.
+
+The two most important features of a numeric variable's distribution are:
+
+-   **Central tendency**: What is a typical value?
+-   **Dispersion**: How spread out are the values?
+
+### **Central Tendency**
+
+A **measure of central tendency** tells us what a “typical” value looks like in the data. There are three main measures: **Mean**, **Median**, **Mode**
+
+#### Arithmetic Mean (Average)
+
+\[We should add the definition\]
+
+function `mean()`
+
+Sometimes, we use `na.rm = TRUE` to ignore missing values.
+
+**Be careful:** The mean is sensitive to extreme values (outliers).\
+For example, using the mean to describe **income** is misleading because a few very high earners can pull the average up.
+
+#### Median
+
+\[We should add the definition\]
+
+-   The **middle value** when data are sorted.
+-   More **robust** than the mean when data are skewed.
+
+function `median()`
+
+#### Mode
+
+-   The **most frequent value** in the data.
+-   Conceptually useful, but hard to estimate in numeric data.
+-   Used more often for **categorical variables**.
+
+### Dispersion
+
+**Dispersion** tells us how much values differ from one another. A dataset where all values are similar has **low dispersion**; one with a wide range of values has **high dispersion**.
+
+There are many ways to describe how **spread out** a sample is. The three common measures are:
+
+-   **Variance** – how far values are far from the mean (on average, squared)
+
+-   **Standard Deviation** – the square root of the variance, easier to interpret
+
+-   **Interquartile range** – the spread of the middle $50\%$ of the values
+
+Each of these gives us a different way to understand **how variable** the data is.
+
+#### Variance
+
+The **Sample Variance**, written as $s^2$, is *the average of the **squared differences*** between each value and the mean.
+
+Key facts about variance are:
+
+-   It is always **non-negative**
+
+-   A **larger variance** means the data are spread out.
+
+-   A variance of **zero** means all values are **exactly the same**.
+
+::: callout-note
+**Why does variance matter?**
+
+Variance is an important quantity in statistics. Many **statistical tests** use changes in variance to compare groups or detect effects.
+:::
+
+But in EDA, we **rarely use** the variance.
+
+#### Standard Deviation
+
+A more useful measure if dispersion is the **standard deviation**, usually written as $s$. The **standard deviation** is *the **squared root** of the variance.*
+
+::: callout-note
+**Why use standard deviation?**
+
+-   It is on the **same scale** as the variable
+
+-   It gives us a **sense of spread** we can understand
+
+-   it is more commonly used in EDA than variance
+:::
+
+**But be careful** like the **mean**, the standard deviation is sensitive to:
+
+-   **skewed distributions**
+
+-   **outliers** (extreme values)
+
+In those cases, we often prefer a **robust** measure like the **interquantile range (IQR).**
+
+To understand the IQR, we need to define **quartiles**.
+
+Quartiles divide the data into **four equal parts**:
+
+| Quartile | Meaning |
+|-------------------|-----------------------------------------------------|
+| **Q1** | First quartile (25%) — one quarter of the data is below this value |
+| **Q2** | Second quartile (50%) — this is the **median** |
+| **Q3** | Third quartile (75%) — three quarters of the data are below this value |
+
+These values help summarize the distribution, especially for **non-symmetric** data.
+
+#### Interquantile Range (IQR)
+
+The **Interquantile Range (IQR)** is another measure of dispersion.
+
+It is especially useful in EDA because it is robust to outliers and skewed data.
+
+Because standard deviation is not squared, it has the **same unit** as the original data. This makes it **easier to interpret** than the variance.
+
+**What is IQR?**
+
+The IQR measures the **spread of the middle** $50\%$ of the data.
+
+It is defined as:
+
+```         
+IQR = Q3 - Q1
+```
+
+where Q1 is the first quartile and Q3 is the third quartile. So, the IQR is the **range between the** $25\%$ **and** $75\%$ **marks**.
+
+The wider the IQR, the **more spread out** the middle values are.
+
+**Why is the IQR useful**?
+
+-   It does **not depend** on extreme values.
+
+-   It gives a good summary of the **central spread**
+
+-   It is **preferred** in EDA for skewed or messy data.
+
 ### Airquailty dataset
 
 We will explore the `airquality` dataset, which contains daily measurement of air pollutants and weather conditions in New York City May to September 1973.
@@ -691,242 +1015,4 @@ No chart or fancy design can fix a bad question or messy data. That is why it is
 Do not just decorate your data – focus on the message!
 :::
 
-## Enter the world of EDA
-
-EDA is the process of looking at data to understand it before using statistics or models. It helps us to answer questions like: - what types of data do we have? - Are there missing or strange values? - What patterns can we see? - What kind of summary or visualization is helpful?
-
-Before we start any analysis, we must know *what kind of data* we are working with. Variables can be broadly divided into **numeric** and **categorical** types.
-
-### Types of Variables
-
-::: callout-important
-Knowing the types of data matters because:
-
--   Different statistics method are used for different variable types.
-
--   Some graphs are only useful for some types of variables.
-:::
-
-#### Numerical variables
-
-Numeric variables describe **quantities** that we can measure — they answer questions like “how many?” or “how much?”. These variables are also called **quantitative variables**, and the data they produce are known as **quantitative data**. Briefly, they are **numbers** that can be measured. Also, we can do math with them.
-
-##### Continuous vs. Discrete
-
-Numeric variables can be:
-
-**Continuous**
-
--   Can take **any value** on a number line, including decimals.
--   Represent **real-world quantities**.
-
-Some examples are: *mass*, *age*, *temperature, time.*
-
-Continuous variables can be **positive only** (like mass) or **positive and negative** (like change in temperature).
-
-**Discrete**
-
--   Can take **only whole number values** (no decimals).
-
--   Based on **counting**.
-
-Some examples are: *number of students, number of offspring, number of infected individuals*
-
-A discrete variable cannot take values between integers — e.g., it makes no sense to have 2.5 individuals.
-
-##### Ratio vs. Interval
-
-Numeric variables can be further described based on the **scale** they are measured on: **ratio** or **interval**. This affects how we can interpret differences, proportions, and calculations.
-
-**Ratio**
-
--   Has a **true zero** point (zero means “none”).
-
--   Allows **all mathematical operations**, including ratios.
-
-Some examples are: *Height, Weight, Age, Income, mass.*
-
-You can say: “Tree A is **twice as tall** as Tree B.”
-
-::: callout-note
-###### What we can do:
-
--   All descriptive statistics
-
--   Use histograms, box-plots, scatterplots
-:::
-
-**Interval**
-
--   Has **no true zero** — the zero point is **arbitrary**.
--   Allows meaningful **differences**, but **not ratios**.
-
-Some examples are *Temperature (*in Celsius of Fahrenheit), *IQ scores,* Calendar dates (e.g. year 1000 vs 2000)
-
-You can say: “The **difference** between 20°C and 10°C is 10 degrees.” **But not**: “20°C is **twice as hot** as 10°C.”
-
-###### What we can do:
-
--   calculate mean, standard deviation
-
--   plot histograms or line charts
-
-::: callout-caution
-The difference between **ratio** and **interval** is about **how the variable is measured**, not what is being measured.
-
-For example, **Temperature** can be measured on:
-
--   The **Celsius scale** that results in an **interval scale** (no true zero).
--   The **Kelvin scale** that results in a **ratio scale** (zero means no temperature, i.e. absolute zero).
-
-So, the same **thing** (temperature) can be: an **interval variable** (in °C), or a **ratio variable** (in K), depending on the **scale** we use.
-:::
-
-#### Categorical Variables
-
-Categorical variables describe **qualities** or **characteristics**. They answer questions like “what type?” or “which group?”. These are also known as **qualitative variables**, and the data they produce are **qualitative data**.
-
-::: callout-important
-Categorical variables do **not** have numeric meaning (even if coded as numbers!).
-:::
-
-Categorical variables fall into two groups:
-
-**Nominal Variables**
-
--   Categories have **no logical order**.
-
--   Only show **labels** or **names**.
-
-For example, *Gender* (male, female), *Blood group (*A, B, AB, O), *City* (Lisbon, Porto, Faro, ... ), *color* (red, blue, green)
-
-::: callout-note
-###### What we can do:
-
--   Count frequencies (e.g. how many students are from each city)
-
--   Use bar charts or pie charts
-:::
-
-**Ordinal Variables**
-
--   Categories **can be ordered** or ranked.
-
--   But the **distance between categories is not exact**.
-
-For example, *Satisfaction* (low, medium, high), *education* (primary, secondary, university), *rank* (1st, 2nd, 3rd), *Academic grades* (A, B, C)
-
-::: callout-note
-###### What we can do:
-
--   Count frequencies
-
--   Compare medians
-
--   Use bar charts or ordered plots
-:::
-
-:::: callout-important
-**Do not use numbers to label categories.**\
-Even though categories **can be coded** as numbers (e.g., Male = 1, Female = 2), this can be **confusing**. It may suggest an order or imply mathematical operations that don’t make sense.
-
-::: {.callout-tip appearance="minimal" icon="false"}
-**Tip:** Use **text labels** like `"Male"` and `"Female"` instead of `1` and `2`.
-:::
-::::
-
-**Summary of Variable Types**
-
-| Variable Type | Scale | Ordered? | Can Measure Distance? | Can Divide? | Examples |
-|------------|------------|------------|------------|------------|------------|
-| **Nominal** | Categorical | ❌ No | ❌ No | ❌ No | Gender, City, Color |
-| **Ordinal** | Categorical | ✅ Yes | ❌ No (not exact) | ❌ No | Rank, Education, Likert |
-| **Interval** | Numeric | ✅ Yes | ✅ Yes | ❌ No | Temperature, Year |
-| **Ratio** | Numeric | ✅ Yes | ✅ Yes | ✅ Yes | Age, Weight, Income |
-
-::: callout-tip
-If you are not sure about a variable, ask:
-
--   Does the variable **have a natural order**?
--   Can we **count it** or **measure it**?
--   Does it have a **true zero**?
-:::
-
-### Types of EDA
-
-EDA helps us answer important questions like:
-
--   What are the most common values of a variable?
--   How much do observations differ from each other?
--   Is one variable related to another?
-
-To answer these questions, EDA uses two main tools:
-
-#### Descriptive Statistics
-
-Descriptive statistics give **numerical summaries** of a dataset. They describe the basic features of a variable, such as:
-
--   **Center** (e.g. mean or median)
--   **Spread** (e.g. standard deviation or interquartile range)
--   **Shape** (e.g. skewness)
--   **Extremes** (e.g. minimum, maximum, or outliers)
-
-These summaries help us **compare groups** or **make initial conclusions**.\
-For example, the **mean** tells us what the "typical" value might be.
-
-But: **A few numbers can’t tell the whole story.**
-
-#### Graphical Summaries
-
-Graphs help us **see patterns**, **spot outliers**, and **understand distributions**.
-
-Common EDA plots include: - **Histograms** – show the shape and spread of a numeric variable - **Boxplots** – show center, spread, and outliers - **Bar charts** – show frequencies of categories - **Scatterplots** – show relationships between two numeric variables
-
-Graphs are **easier to understand** than tables of numbers. They help us and others **see what’s going on** in the data.
-
-### A Review on Descriptive Statistics
-
-Statisticians have created more precise terms to describe the patterns in data, called **descriptive statistics**.
-
-The two most important features of a numeric variable's distribution are:
-
--   **Central tendency**: What is a typical value?
--   **Dispersion**: How spread out are the values?
-
-### **Central Tendency**
-
-A **measure of central tendency** tells us what a “typical” value looks like in the data. There are three main measures: **Mean**, **Median**, **Mode**
-
-#### Arithmetic Mean (Average)
-
-\[We should add the definition\]
-
-function `mean()`
-
-Sometimes, we use `na.rm = TRUE` to ignore missing values.
-
-::: callout-note
-**Be careful:** The mean is sensitive to extreme values (outliers).\
-For example, using the mean to describe **income** is misleading because a few very high earners can pull the average up.
-:::
-
-#### Median
-
-\[We should add the definition\]
-
--   The **middle value** when data are sorted.
--   More **robust** than the mean when data are skewed.
-
-function `median()`
-
-#### Mode
-
--   The **most frequent value** in the data.
--   Conceptually useful, but hard to estimate in numeric data.
--   Used more often for **categorical variables**.
-
-### Dispersion
-
-**Dispersion** tells us how much values differ from one another. A dataset where all values are similar has **low dispersion**; one with a wide range of values has **high dispersion**.
-
-The three common measures are:
+## 
