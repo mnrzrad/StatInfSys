@@ -13,6 +13,9 @@ book:
         - chapters/chapter3_dplyr.qmd
         - chapters/chapter2_data_visualization.qmd
         - chapters/chapter4_EDA.qmd
+    - part: "Logistic Regression"
+      chapters:
+        - chapters/chapter5_logistic_regression.qmd
         
 bibliography: references.bib
 

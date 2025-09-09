@@ -85,6 +85,7 @@ div.csl-indent {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
+<link href="../chapters/chapter5_logistic_regression.html" rel="next">
 <link href="../chapters/chapter2_data_visualization.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -1785,6 +1786,23 @@ window.Quarto = {
 </li>
       </ul>
   </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Logistic Regression</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter5_logistic_regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Logistic Regression</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
@@ -1798,55 +1816,84 @@ window.Quarto = {
   <li><a href="#plan-the-study" id="toc-plan-the-study" class="nav-link active" data-scroll-target="#plan-the-study"><span class="header-section-number">4.1</span> Plan the Study</a></li>
   <li><a href="#after-collecting-the-data" id="toc-after-collecting-the-data" class="nav-link" data-scroll-target="#after-collecting-the-data"><span class="header-section-number">4.2</span> After collecting the data</a></li>
   <li><a href="#what-is-eda" id="toc-what-is-eda" class="nav-link" data-scroll-target="#what-is-eda"><span class="header-section-number">4.3</span> What is EDA?</a></li>
-  <li><a href="#landscape" id="toc-landscape" class="nav-link" data-scroll-target="#landscape"><span class="header-section-number">4.4</span> Landscape</a></li>
-  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section"><span class="header-section-number">4.5</span> </a>
+  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section"><span class="header-section-number">5</span> ##</a>
   <ul>
-  <li><a href="#airquailty-dataset" id="toc-airquailty-dataset" class="nav-link" data-scroll-target="#airquailty-dataset"><span class="header-section-number">4.5.1</span> Airquailty dataset</a>
+  <li><a href="#enter-the-world-of-eda" id="toc-enter-the-world-of-eda" class="nav-link" data-scroll-target="#enter-the-world-of-eda"><span class="header-section-number">5.1</span> Enter the world of EDA</a>
   <ul class="collapse">
-  <li><a href="#alternative-question" id="toc-alternative-question" class="nav-link" data-scroll-target="#alternative-question"><span class="header-section-number">4.5.1.1</span> Alternative question</a></li>
-  </ul></li>
-  </ul></li>
-  <li><a href="#principles-of-analytic-graphics" id="toc-principles-of-analytic-graphics" class="nav-link" data-scroll-target="#principles-of-analytic-graphics"><span class="header-section-number">4.6</span> Principles of Analytic Graphics</a>
-  <ul>
-  <li><a href="#principle-1-show-comparison" id="toc-principle-1-show-comparison" class="nav-link" data-scroll-target="#principle-1-show-comparison"><span class="header-section-number">4.6.1</span> Principle 1 – Show Comparison</a></li>
-  <li><a href="#principle-2-show-causality-and-explanation" id="toc-principle-2-show-causality-and-explanation" class="nav-link" data-scroll-target="#principle-2-show-causality-and-explanation"><span class="header-section-number">4.6.2</span> Principle 2: Show Causality and Explanation</a></li>
-  <li><a href="#principle-3-show-multivariate-data" id="toc-principle-3-show-multivariate-data" class="nav-link" data-scroll-target="#principle-3-show-multivariate-data"><span class="header-section-number">4.6.3</span> Principle 3: Show Multivariate Data</a></li>
-  <li><a href="#principle-4-integrate-evidence-keep-the-message-clear" id="toc-principle-4-integrate-evidence-keep-the-message-clear" class="nav-link" data-scroll-target="#principle-4-integrate-evidence-keep-the-message-clear"><span class="header-section-number">4.6.4</span> Principle 4: Integrate Evidence — Keep the message clear</a></li>
-  <li><a href="#principle-5-describe-and-document-the-evidence" id="toc-principle-5-describe-and-document-the-evidence" class="nav-link" data-scroll-target="#principle-5-describe-and-document-the-evidence"><span class="header-section-number">4.6.5</span> Principle 5: Describe and Document the Evidence</a></li>
-  <li><a href="#principle-6-content-is-king" id="toc-principle-6-content-is-king" class="nav-link" data-scroll-target="#principle-6-content-is-king"><span class="header-section-number">4.6.6</span> Principle 6: Content is King</a></li>
-  </ul></li>
-  <li><a href="#enter-the-world-of-eda" id="toc-enter-the-world-of-eda" class="nav-link" data-scroll-target="#enter-the-world-of-eda"><span class="header-section-number">4.7</span> Enter the world of EDA</a>
-  <ul>
-  <li><a href="#types-of-variables" id="toc-types-of-variables" class="nav-link" data-scroll-target="#types-of-variables"><span class="header-section-number">4.7.1</span> Types of Variables</a>
+  <li><a href="#types-of-variables" id="toc-types-of-variables" class="nav-link" data-scroll-target="#types-of-variables"><span class="header-section-number">5.1.1</span> Types of Variables</a>
   <ul class="collapse">
-  <li><a href="#numerical-variables" id="toc-numerical-variables" class="nav-link" data-scroll-target="#numerical-variables"><span class="header-section-number">4.7.1.1</span> Numerical variables</a></li>
-  <li><a href="#categorical-variables" id="toc-categorical-variables" class="nav-link" data-scroll-target="#categorical-variables"><span class="header-section-number">4.7.1.2</span> Categorical Variables</a></li>
+  <li><a href="#numerical-variables" id="toc-numerical-variables" class="nav-link" data-scroll-target="#numerical-variables"><span class="header-section-number">5.1.1.1</span> Numerical variables</a></li>
+  <li><a href="#categorical-variables" id="toc-categorical-variables" class="nav-link" data-scroll-target="#categorical-variables"><span class="header-section-number">5.1.1.2</span> Categorical Variables</a></li>
   </ul></li>
-  <li><a href="#types-of-eda" id="toc-types-of-eda" class="nav-link" data-scroll-target="#types-of-eda"><span class="header-section-number">4.7.2</span> Types of EDA</a>
+  <li><a href="#types-of-eda" id="toc-types-of-eda" class="nav-link" data-scroll-target="#types-of-eda"><span class="header-section-number">5.1.2</span> Types of EDA</a>
   <ul class="collapse">
-  <li><a href="#descriptive-statistics" id="toc-descriptive-statistics" class="nav-link" data-scroll-target="#descriptive-statistics"><span class="header-section-number">4.7.2.1</span> Descriptive Statistics</a></li>
-  <li><a href="#graphical-summaries" id="toc-graphical-summaries" class="nav-link" data-scroll-target="#graphical-summaries"><span class="header-section-number">4.7.2.2</span> Graphical Summaries</a></li>
+  <li><a href="#descriptive-statistics" id="toc-descriptive-statistics" class="nav-link" data-scroll-target="#descriptive-statistics"><span class="header-section-number">5.1.2.1</span> Descriptive Statistics</a></li>
+  <li><a href="#graphical-summaries" id="toc-graphical-summaries" class="nav-link" data-scroll-target="#graphical-summaries"><span class="header-section-number">5.1.2.2</span> Graphical Summaries</a></li>
   </ul></li>
-  <li><a href="#a-review-on-descriptive-statistics" id="toc-a-review-on-descriptive-statistics" class="nav-link" data-scroll-target="#a-review-on-descriptive-statistics"><span class="header-section-number">4.7.3</span> A Review on Descriptive Statistics</a></li>
-  <li><a href="#central-tendency" id="toc-central-tendency" class="nav-link" data-scroll-target="#central-tendency"><span class="header-section-number">4.7.4</span> <strong>Central Tendency</strong></a>
+  <li><a href="#a-review-on-descriptive-statistics" id="toc-a-review-on-descriptive-statistics" class="nav-link" data-scroll-target="#a-review-on-descriptive-statistics"><span class="header-section-number">5.1.3</span> A Review on Descriptive Statistics</a></li>
+  <li><a href="#central-tendency" id="toc-central-tendency" class="nav-link" data-scroll-target="#central-tendency"><span class="header-section-number">5.1.4</span> <strong>Central Tendency</strong></a>
   <ul class="collapse">
-  <li><a href="#arithmetic-mean-average" id="toc-arithmetic-mean-average" class="nav-link" data-scroll-target="#arithmetic-mean-average"><span class="header-section-number">4.7.4.1</span> Arithmetic Mean (Average)</a></li>
-  <li><a href="#median" id="toc-median" class="nav-link" data-scroll-target="#median"><span class="header-section-number">4.7.4.2</span> Median</a></li>
-  <li><a href="#mode" id="toc-mode" class="nav-link" data-scroll-target="#mode"><span class="header-section-number">4.7.4.3</span> Mode</a></li>
+  <li><a href="#arithmetic-mean-average" id="toc-arithmetic-mean-average" class="nav-link" data-scroll-target="#arithmetic-mean-average"><span class="header-section-number">5.1.4.1</span> Arithmetic Mean (Average)</a></li>
+  <li><a href="#median" id="toc-median" class="nav-link" data-scroll-target="#median"><span class="header-section-number">5.1.4.2</span> Median</a></li>
+  <li><a href="#mode" id="toc-mode" class="nav-link" data-scroll-target="#mode"><span class="header-section-number">5.1.4.3</span> Mode</a></li>
   </ul></li>
-  <li><a href="#dispersion" id="toc-dispersion" class="nav-link" data-scroll-target="#dispersion"><span class="header-section-number">4.7.5</span> Dispersion</a>
+  <li><a href="#dispersion" id="toc-dispersion" class="nav-link" data-scroll-target="#dispersion"><span class="header-section-number">5.1.5</span> Dispersion</a>
   <ul class="collapse">
-  <li><a href="#variance" id="toc-variance" class="nav-link" data-scroll-target="#variance"><span class="header-section-number">4.7.5.1</span> Variance</a></li>
-  <li><a href="#standard-deviation" id="toc-standard-deviation" class="nav-link" data-scroll-target="#standard-deviation"><span class="header-section-number">4.7.5.2</span> Standard Deviation</a></li>
+  <li><a href="#variance" id="toc-variance" class="nav-link" data-scroll-target="#variance"><span class="header-section-number">5.1.5.1</span> Variance</a></li>
+  <li><a href="#standard-deviation" id="toc-standard-deviation" class="nav-link" data-scroll-target="#standard-deviation"><span class="header-section-number">5.1.5.2</span> Standard Deviation</a></li>
+  <li><a href="#interquantile-range-iqr" id="toc-interquantile-range-iqr" class="nav-link" data-scroll-target="#interquantile-range-iqr"><span class="header-section-number">5.1.5.3</span> Interquantile Range (IQR)</a></li>
   </ul></li>
-  <li><a href="#why-use-standard-deviation" id="toc-why-use-standard-deviation" class="nav-link" data-scroll-target="#why-use-standard-deviation"><span class="header-section-number">4.7.6</span> Why use standard deviation?</a>
+  <li><a href="#associations" id="toc-associations" class="nav-link" data-scroll-target="#associations"><span class="header-section-number">5.1.6</span> Associations</a>
   <ul class="collapse">
-  <li><a href="#interquartile-range-iqr" id="toc-interquartile-range-iqr" class="nav-link" data-scroll-target="#interquartile-range-iqr"><span class="header-section-number">4.7.6.1</span> Interquartile Range (IQR)</a></li>
+  <li><a href="#pairs-of-numeric-variables" id="toc-pairs-of-numeric-variables" class="nav-link" data-scroll-target="#pairs-of-numeric-variables"><span class="header-section-number">5.1.6.1</span> Pairs of Numeric Variables</a></li>
+  <li><a href="#pairs-of-categorical-variables" id="toc-pairs-of-categorical-variables" class="nav-link" data-scroll-target="#pairs-of-categorical-variables"><span class="header-section-number">5.1.6.2</span> Pairs of Categorical Variables</a></li>
   </ul></li>
-  <li><a href="#the-boxplot-connection" id="toc-the-boxplot-connection" class="nav-link" data-scroll-target="#the-boxplot-connection"><span class="header-section-number">4.7.7</span> The Boxplot Connection</a>
+  <li><a href="#notes" id="toc-notes" class="nav-link" data-scroll-target="#notes"><span class="header-section-number">5.1.7</span> 🧭 Notes</a></li>
+  <li><a href="#example-what-should-you-use" id="toc-example-what-should-you-use" class="nav-link" data-scroll-target="#example-what-should-you-use"><span class="header-section-number">5.1.8</span> ✅ Example: What Should You Use?</a></li>
+  <li><a href="#airquailty-dataset" id="toc-airquailty-dataset" class="nav-link" data-scroll-target="#airquailty-dataset"><span class="header-section-number">5.1.9</span> Airquailty dataset</a>
   <ul class="collapse">
-  <li><a href="#categorical-variables-1" id="toc-categorical-variables-1" class="nav-link" data-scroll-target="#categorical-variables-1"><span class="header-section-number">4.7.7.1</span> Categorical Variables</a></li>
-  <li><a href="#associations" id="toc-associations" class="nav-link" data-scroll-target="#associations"><span class="header-section-number">4.7.7.2</span> Associations</a></li>
+  <li><a href="#alternative-question" id="toc-alternative-question" class="nav-link" data-scroll-target="#alternative-question"><span class="header-section-number">5.1.9.1</span> Alternative question</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#principles-of-analytic-graphics" id="toc-principles-of-analytic-graphics" class="nav-link" data-scroll-target="#principles-of-analytic-graphics"><span class="header-section-number">5.2</span> Principles of Analytic Graphics</a>
+  <ul class="collapse">
+  <li><a href="#principle-1-show-comparison" id="toc-principle-1-show-comparison" class="nav-link" data-scroll-target="#principle-1-show-comparison"><span class="header-section-number">5.2.1</span> Principle 1 – Show Comparison</a></li>
+  <li><a href="#principle-2-show-causality-and-explanation" id="toc-principle-2-show-causality-and-explanation" class="nav-link" data-scroll-target="#principle-2-show-causality-and-explanation"><span class="header-section-number">5.2.2</span> Principle 2: Show Causality and Explanation</a></li>
+  <li><a href="#principle-3-show-multivariate-data" id="toc-principle-3-show-multivariate-data" class="nav-link" data-scroll-target="#principle-3-show-multivariate-data"><span class="header-section-number">5.2.3</span> Principle 3: Show Multivariate Data</a></li>
+  <li><a href="#principle-4-integrate-evidence-keep-the-message-clear" id="toc-principle-4-integrate-evidence-keep-the-message-clear" class="nav-link" data-scroll-target="#principle-4-integrate-evidence-keep-the-message-clear"><span class="header-section-number">5.2.4</span> Principle 4: Integrate Evidence — Keep the message clear</a></li>
+  <li><a href="#principle-5-describe-and-document-the-evidence" id="toc-principle-5-describe-and-document-the-evidence" class="nav-link" data-scroll-target="#principle-5-describe-and-document-the-evidence"><span class="header-section-number">5.2.5</span> Principle 5: Describe and Document the Evidence</a></li>
+  <li><a href="#principle-6-content-is-king" id="toc-principle-6-content-is-king" class="nav-link" data-scroll-target="#principle-6-content-is-king"><span class="header-section-number">5.2.6</span> Principle 6: Content is King</a></li>
+  <li><a href="#types-of-variables-1" id="toc-types-of-variables-1" class="nav-link" data-scroll-target="#types-of-variables-1"><span class="header-section-number">5.2.7</span> Types of Variables</a>
+  <ul class="collapse">
+  <li><a href="#numerical-variables-1" id="toc-numerical-variables-1" class="nav-link" data-scroll-target="#numerical-variables-1"><span class="header-section-number">5.2.7.1</span> Numerical variables</a></li>
+  <li><a href="#categorical-variables-1" id="toc-categorical-variables-1" class="nav-link" data-scroll-target="#categorical-variables-1"><span class="header-section-number">5.2.7.2</span> Categorical Variables</a></li>
+  </ul></li>
+  <li><a href="#types-of-eda-1" id="toc-types-of-eda-1" class="nav-link" data-scroll-target="#types-of-eda-1"><span class="header-section-number">5.2.8</span> Types of EDA</a>
+  <ul class="collapse">
+  <li><a href="#descriptive-statistics-1" id="toc-descriptive-statistics-1" class="nav-link" data-scroll-target="#descriptive-statistics-1"><span class="header-section-number">5.2.8.1</span> Descriptive Statistics</a></li>
+  <li><a href="#graphical-summaries-1" id="toc-graphical-summaries-1" class="nav-link" data-scroll-target="#graphical-summaries-1"><span class="header-section-number">5.2.8.2</span> Graphical Summaries</a></li>
+  </ul></li>
+  <li><a href="#a-review-on-descriptive-statistics-1" id="toc-a-review-on-descriptive-statistics-1" class="nav-link" data-scroll-target="#a-review-on-descriptive-statistics-1"><span class="header-section-number">5.2.9</span> A Review on Descriptive Statistics</a></li>
+  <li><a href="#central-tendency-1" id="toc-central-tendency-1" class="nav-link" data-scroll-target="#central-tendency-1"><span class="header-section-number">5.2.10</span> <strong>Central Tendency</strong></a>
+  <ul class="collapse">
+  <li><a href="#arithmetic-mean-average-1" id="toc-arithmetic-mean-average-1" class="nav-link" data-scroll-target="#arithmetic-mean-average-1"><span class="header-section-number">5.2.10.1</span> Arithmetic Mean (Average)</a></li>
+  <li><a href="#median-1" id="toc-median-1" class="nav-link" data-scroll-target="#median-1"><span class="header-section-number">5.2.10.2</span> Median</a></li>
+  <li><a href="#mode-1" id="toc-mode-1" class="nav-link" data-scroll-target="#mode-1"><span class="header-section-number">5.2.10.3</span> Mode</a></li>
+  </ul></li>
+  <li><a href="#dispersion-1" id="toc-dispersion-1" class="nav-link" data-scroll-target="#dispersion-1"><span class="header-section-number">5.2.11</span> Dispersion</a>
+  <ul class="collapse">
+  <li><a href="#variance-1" id="toc-variance-1" class="nav-link" data-scroll-target="#variance-1"><span class="header-section-number">5.2.11.1</span> Variance</a></li>
+  <li><a href="#standard-deviation-1" id="toc-standard-deviation-1" class="nav-link" data-scroll-target="#standard-deviation-1"><span class="header-section-number">5.2.11.2</span> Standard Deviation</a></li>
+  </ul></li>
+  <li><a href="#why-use-standard-deviation" id="toc-why-use-standard-deviation" class="nav-link" data-scroll-target="#why-use-standard-deviation"><span class="header-section-number">5.2.12</span> Why use standard deviation?</a>
+  <ul class="collapse">
+  <li><a href="#interquartile-range-iqr" id="toc-interquartile-range-iqr" class="nav-link" data-scroll-target="#interquartile-range-iqr"><span class="header-section-number">5.2.12.1</span> Interquartile Range (IQR)</a></li>
+  </ul></li>
+  <li><a href="#the-boxplot-connection" id="toc-the-boxplot-connection" class="nav-link" data-scroll-target="#the-boxplot-connection"><span class="header-section-number">5.2.13</span> The Boxplot Connection</a>
+  <ul class="collapse">
+  <li><a href="#categorical-variables-2" id="toc-categorical-variables-2" class="nav-link" data-scroll-target="#categorical-variables-2"><span class="header-section-number">5.2.13.1</span> Categorical Variables</a></li>
+  <li><a href="#associations-1" id="toc-associations-1" class="nav-link" data-scroll-target="#associations-1"><span class="header-section-number">5.2.13.2</span> Associations</a></li>
+  </ul></li>
   </ul></li>
   </ul></li>
   </ul>
@@ -2168,8 +2215,8 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <svg width="672" height="480" viewbox="0.00 0.00 324.00 564.00" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none">
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 560)">
 <title>StatProcess</title>
-<g id="clust9" class="cluster">
-<title>cluster_conclusion</title>
+<g id="clust5" class="cluster">
+<title>cluster_data</title>
 </g>
 <g id="clust7" class="cluster">
 <title>cluster_analysis</title>
@@ -2180,8 +2227,8 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <g id="clust1" class="cluster">
 <title>cluster_problem</title>
 </g>
-<g id="clust5" class="cluster">
-<title>cluster_data</title>
+<g id="clust9" class="cluster">
+<title>cluster_conclusion</title>
 </g>
 <!-- P1 -->
 <g id="node1" class="node">
@@ -2193,12 +2240,12 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <g id="node2" class="node">
 <title>BOX1</title>
 <defs>
-<lineargradient id="l_95" gradientunits="userSpaceOnUse" x1="16" y1="-491" x2="232" y2="-491">
+<lineargradient id="l_100" gradientunits="userSpaceOnUse" x1="16" y1="-491" x2="232" y2="-491">
 <stop offset="0" style="stop-color:#e07b39;stop-opacity:1.;"></stop>
 <stop offset="1" style="stop-color:white;stop-opacity:1.;"></stop>
 </lineargradient>
 </defs>
-<path fill="url(#l_95)" stroke="#333333" stroke-width="2" d="M220,-540C220,-540 28,-540 28,-540 22,-540 16,-534 16,-528 16,-528 16,-454 16,-454 16,-448 22,-442 28,-442 28,-442 220,-442 220,-442 226,-442 232,-448 232,-454 232,-454 232,-528 232,-528 232,-534 226,-540 220,-540"></path>
+<path fill="url(#l_100)" stroke="#333333" stroke-width="2" d="M220,-540C220,-540 28,-540 28,-540 22,-540 16,-534 16,-528 16,-528 16,-454 16,-454 16,-448 22,-442 28,-442 28,-442 220,-442 220,-442 226,-442 232,-448 232,-454 232,-454 232,-528 232,-528 232,-534 226,-540 220,-540"></path>
 <text text-anchor="start" x="95.99" y="-520.4" font-family="Arial" font-weight="bold" font-size="14.00">Problem</text>
 <text text-anchor="start" x="31" y="-497.2" font-family="Arial" font-size="12.00">• Write down study objectives</text>
 <text text-anchor="start" x="30.61" y="-475.2" font-family="Arial" font-size="12.00">• Identify target/sample population</text>
@@ -2225,12 +2272,12 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <g id="node4" class="node">
 <title>BOX2</title>
 <defs>
-<lineargradient id="l_96" gradientunits="userSpaceOnUse" x1="16" y1="-357" x2="232" y2="-357">
+<lineargradient id="l_101" gradientunits="userSpaceOnUse" x1="16" y1="-357" x2="232" y2="-357">
 <stop offset="0" style="stop-color:#999999;stop-opacity:1.;"></stop>
 <stop offset="1" style="stop-color:white;stop-opacity:1.;"></stop>
 </lineargradient>
 </defs>
-<path fill="url(#l_96)" stroke="#333333" stroke-width="2" d="M220,-406C220,-406 28,-406 28,-406 22,-406 16,-400 16,-394 16,-394 16,-320 16,-320 16,-314 22,-308 28,-308 28,-308 220,-308 220,-308 226,-308 232,-314 232,-320 232,-320 232,-394 232,-394 232,-400 226,-406 220,-406"></path>
+<path fill="url(#l_101)" stroke="#333333" stroke-width="2" d="M220,-406C220,-406 28,-406 28,-406 22,-406 16,-400 16,-394 16,-394 16,-320 16,-320 16,-314 22,-308 28,-308 28,-308 220,-308 220,-308 226,-308 232,-314 232,-320 232,-320 232,-394 232,-394 232,-400 226,-406 220,-406"></path>
 <text text-anchor="start" x="109.22" y="-386.4" font-family="Arial" font-weight="bold" font-size="14.00">Plan</text>
 <text text-anchor="start" x="40.62" y="-363.2" font-family="Arial" font-size="12.00">• Plan data collection methods</text>
 <text text-anchor="start" x="41" y="-341.2" font-family="Arial" font-size="12.00">• Calculate sample size</text>
@@ -2257,12 +2304,12 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <g id="node6" class="node">
 <title>BOX3</title>
 <defs>
-<lineargradient id="l_97" gradientunits="userSpaceOnUse" x1="16" y1="-234" x2="232" y2="-234">
+<lineargradient id="l_102" gradientunits="userSpaceOnUse" x1="16" y1="-234" x2="232" y2="-234">
 <stop offset="0" style="stop-color:#f4d03f;stop-opacity:1.;"></stop>
 <stop offset="1" style="stop-color:white;stop-opacity:1.;"></stop>
 </lineargradient>
 </defs>
-<path fill="url(#l_97)" stroke="#333333" stroke-width="2" d="M220,-272C220,-272 28,-272 28,-272 22,-272 16,-266 16,-260 16,-260 16,-208 16,-208 16,-202 22,-196 28,-196 28,-196 220,-196 220,-196 226,-196 232,-202 232,-208 232,-208 232,-260 232,-260 232,-266 226,-272 220,-272"></path>
+<path fill="url(#l_102)" stroke="#333333" stroke-width="2" d="M220,-272C220,-272 28,-272 28,-272 22,-272 16,-266 16,-260 16,-260 16,-208 16,-208 16,-202 22,-196 28,-196 28,-196 220,-196 220,-196 226,-196 232,-202 232,-208 232,-208 232,-260 232,-260 232,-266 226,-272 220,-272"></path>
 <text text-anchor="start" x="109.33" y="-252.4" font-family="Arial" font-weight="bold" font-size="14.00">Data</text>
 <text text-anchor="start" x="62.8" y="-229.2" font-family="Arial" font-size="12.00">• Collect data per plan</text>
 <text text-anchor="start" x="63" y="-207.2" font-family="Arial" font-size="12.00">• Note any deviations</text>
@@ -2288,12 +2335,12 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <g id="node8" class="node">
 <title>BOX4</title>
 <defs>
-<lineargradient id="l_98" gradientunits="userSpaceOnUse" x1="16" y1="-133" x2="232" y2="-133">
+<lineargradient id="l_103" gradientunits="userSpaceOnUse" x1="16" y1="-133" x2="232" y2="-133">
 <stop offset="0" style="stop-color:#5dade2;stop-opacity:1.;"></stop>
 <stop offset="1" style="stop-color:white;stop-opacity:1.;"></stop>
 </lineargradient>
 </defs>
-<path fill="url(#l_98)" stroke="#333333" stroke-width="2" d="M220,-160C220,-160 28,-160 28,-160 22,-160 16,-154 16,-148 16,-148 16,-118 16,-118 16,-112 22,-106 28,-106 28,-106 220,-106 220,-106 226,-106 232,-112 232,-118 232,-118 232,-148 232,-148 232,-154 226,-160 220,-160"></path>
+<path fill="url(#l_103)" stroke="#333333" stroke-width="2" d="M220,-160C220,-160 28,-160 28,-160 22,-160 16,-154 16,-148 16,-148 16,-118 16,-118 16,-112 22,-106 28,-106 28,-106 220,-106 220,-106 226,-106 232,-112 232,-118 232,-118 232,-148 232,-148 232,-154 226,-160 220,-160"></path>
 <text text-anchor="start" x="95.71" y="-140.4" font-family="Arial" font-weight="bold" font-size="14.00">Analysis</text>
 <text text-anchor="start" x="59.79" y="-117.2" font-family="Arial" font-size="12.00">• Analyze data per plan</text>
 </g>
@@ -2318,12 +2365,12 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <g id="node10" class="node">
 <title>BOX5</title>
 <defs>
-<lineargradient id="l_99" gradientunits="userSpaceOnUse" x1="16" y1="-43" x2="232" y2="-43">
+<lineargradient id="l_104" gradientunits="userSpaceOnUse" x1="16" y1="-43" x2="232" y2="-43">
 <stop offset="0" style="stop-color:#82c341;stop-opacity:1.;"></stop>
 <stop offset="1" style="stop-color:white;stop-opacity:1.;"></stop>
 </lineargradient>
 </defs>
-<path fill="url(#l_99)" stroke="#333333" stroke-width="2" d="M220,-70C220,-70 28,-70 28,-70 22,-70 16,-64 16,-58 16,-58 16,-28 16,-28 16,-22 22,-16 28,-16 28,-16 220,-16 220,-16 226,-16 232,-22 232,-28 232,-28 232,-58 232,-58 232,-64 226,-70 220,-70"></path>
+<path fill="url(#l_104)" stroke="#333333" stroke-width="2" d="M220,-70C220,-70 28,-70 28,-70 22,-70 16,-64 16,-58 16,-58 16,-28 16,-28 16,-22 22,-16 28,-16 28,-16 220,-16 220,-16 226,-16 232,-22 232,-28 232,-28 232,-58 232,-58 232,-64 226,-70 220,-70"></path>
 <text text-anchor="start" x="85.89" y="-50.4" font-family="Arial" font-weight="bold" font-size="14.00">Conclusion</text>
 <text text-anchor="start" x="45.96" y="-27.2" font-family="Arial" font-size="12.00">• Draw conclusion in context</text>
 </g>
@@ -2533,9 +2580,7 @@ Tip
 <p>EDA is like exploring a new place – you do not know what you will find until you start looking.</p>
 </div>
 </div>
-</section>
-<section id="landscape" class="level2" data-number="4.4">
-<h2 data-number="4.4" class="anchored" data-anchor-id="landscape"><span class="header-section-number">4.4</span> Landscape</h2>
+<p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD ## Landscape</p>
 <div class="cell" data-layout-align="default">
 <div class="cell-output-display">
 <div>
@@ -2676,10 +2721,706 @@ Tip
 </div>
 </div>
 </section>
-<section id="section" class="level2" data-number="4.5">
-<h2 data-number="4.5" class="anchored" data-anchor-id="section"><span class="header-section-number">4.5</span> </h2>
-<section id="airquailty-dataset" class="level3" data-number="4.5.1">
-<h3 data-number="4.5.1" class="anchored" data-anchor-id="airquailty-dataset"><span class="header-section-number">4.5.1</span> Airquailty dataset</h3>
+<section id="section" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> ##</h1>
+<section id="enter-the-world-of-eda" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="enter-the-world-of-eda"><span class="header-section-number">5.1</span> Enter the world of EDA</h2>
+<p>EDA is the process of looking at data to understand it before using statistics or models. It helps us to answer questions like: - what types of data do we have? - Are there missing or strange values? - What patterns can we see? - What kind of summary or visualization is helpful?</p>
+<p>Before we start any analysis, we must know <em>what kind of data</em> we are working with. Variables can be broadly divided into <strong>numeric</strong> and <strong>categorical</strong> types.</p>
+<section id="types-of-variables" class="level3" data-number="5.1.1">
+<h3 data-number="5.1.1" class="anchored" data-anchor-id="types-of-variables"><span class="header-section-number">5.1.1</span> Types of Variables</h3>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Knowing the types of data matters because:</p>
+<ul>
+<li><p>Different statistics method are used for different variable types.</p></li>
+<li><p>Some graphs are only useful for some types of variables.</p></li>
+</ul>
+</div>
+</div>
+<section id="numerical-variables" class="level4" data-number="5.1.1.1">
+<h4 data-number="5.1.1.1" class="anchored" data-anchor-id="numerical-variables"><span class="header-section-number">5.1.1.1</span> Numerical variables</h4>
+<p>Numeric variables describe <strong>quantities</strong> that we can measure — they answer questions like “how many?” or “how much?”. These variables are also called <strong>quantitative variables</strong>, and the data they produce are known as <strong>quantitative data</strong>. Briefly, they are <strong>numbers</strong> that can be measured. Also, we can do math with them.</p>
+<section id="continuous-vs.-discrete" class="level5" data-number="5.1.1.1.1">
+<h5 data-number="5.1.1.1.1" class="anchored" data-anchor-id="continuous-vs.-discrete"><span class="header-section-number">5.1.1.1.1</span> Continuous vs.&nbsp;Discrete</h5>
+<p>Numeric variables can be:</p>
+<p><strong>Continuous</strong></p>
+<ul>
+<li>Can take <strong>any value</strong> on a number line, including decimals.</li>
+<li>Represent <strong>real-world quantities</strong>.</li>
+</ul>
+<p>Some examples are: <em>mass</em>, <em>age</em>, <em>temperature, time.</em></p>
+<p>Continuous variables can be <strong>positive only</strong> (like mass) or <strong>positive and negative</strong> (like change in temperature).</p>
+<p><strong>Discrete</strong></p>
+<ul>
+<li><p>Can take <strong>only whole number values</strong> (no decimals).</p></li>
+<li><p>Based on <strong>counting</strong>.</p></li>
+</ul>
+<p>Some examples are: <em>number of students, number of offspring, number of infected individuals</em></p>
+<p>A discrete variable cannot take values between integers — e.g., it makes no sense to have 2.5 individuals.</p>
+</section>
+<section id="ratio-vs.-interval" class="level5" data-number="5.1.1.1.2">
+<h5 data-number="5.1.1.1.2" class="anchored" data-anchor-id="ratio-vs.-interval"><span class="header-section-number">5.1.1.1.2</span> Ratio vs.&nbsp;Interval</h5>
+<p>Numeric variables can be further described based on the <strong>scale</strong> they are measured on: <strong>ratio</strong> or <strong>interval</strong>. This affects how we can interpret differences, proportions, and calculations.</p>
+<p><strong>Ratio</strong></p>
+<ul>
+<li><p>Has a <strong>true zero</strong> point (zero means “none”).</p></li>
+<li><p>Allows <strong>all mathematical operations</strong>, including ratios.</p></li>
+</ul>
+<p>Some examples are: <em>Height, Weight, Age, Income, mass.</em></p>
+<p>You can say: “Tree A is <strong>twice as tall</strong> as Tree B.”</p>
+<section id="what-we-can-do" class="level6" data-number="5.1.1.1.2.1">
+<h6 data-number="5.1.1.1.2.1" class="anchored" data-anchor-id="what-we-can-do"><span class="header-section-number">5.1.1.1.2.1</span> What we can do:</h6>
+<ul>
+<li><p>All descriptive statistics</p></li>
+<li><p>Use histograms, box-plots, scatterplots</p></li>
+</ul>
+<p><strong>Interval</strong></p>
+<ul>
+<li>Has <strong>no true zero</strong> — the zero point is <strong>arbitrary</strong>.</li>
+<li>Allows meaningful <strong>differences</strong>, but <strong>not ratios</strong>.</li>
+</ul>
+<p>Some examples are <em>Temperature (</em>in Celsius of Fahrenheit), <em>IQ scores,</em> Calendar dates (e.g.&nbsp;year 1000 vs 2000)</p>
+<p>You can say: “The <strong>difference</strong> between 20°C and 10°C is 10 degrees.” <strong>But not</strong>: “20°C is <strong>twice as hot</strong> as 10°C.”</p>
+</section>
+<section id="what-we-can-do-1" class="level6" data-number="5.1.1.1.2.2">
+<h6 data-number="5.1.1.1.2.2" class="anchored" data-anchor-id="what-we-can-do-1"><span class="header-section-number">5.1.1.1.2.2</span> What we can do:</h6>
+<ul>
+<li><p>calculate mean, standard deviation</p></li>
+<li><p>plot histograms or line charts</p></li>
+</ul>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Caution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The difference between <strong>ratio</strong> and <strong>interval</strong> is about <strong>how the variable is measured</strong>, not what is being measured.</p>
+<p>For example, <strong>Temperature</strong> can be measured on:</p>
+<ul>
+<li>The <strong>Celsius scale</strong> that results in an <strong>interval scale</strong> (no true zero).</li>
+<li>The <strong>Kelvin scale</strong> that results in a <strong>ratio scale</strong> (zero means no temperature, i.e.&nbsp;absolute zero).</li>
+</ul>
+<p>So, the same <strong>thing</strong> (temperature) can be: an <strong>interval variable</strong> (in °C), or a <strong>ratio variable</strong> (in K), depending on the <strong>scale</strong> we use.</p>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="categorical-variables" class="level4" data-number="5.1.1.2">
+<h4 data-number="5.1.1.2" class="anchored" data-anchor-id="categorical-variables"><span class="header-section-number">5.1.1.2</span> Categorical Variables</h4>
+<p>Categorical variables describe <strong>qualities</strong> or <strong>characteristics</strong>. They answer questions like “what type?” or “which group?”. These are also known as <strong>qualitative variables</strong>, and the data they produce are <strong>qualitative data</strong>.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Categorical variables do <strong>not</strong> have numeric meaning (even if coded as numbers!).</p>
+</div>
+</div>
+<p>Categorical variables fall into two groups:</p>
+<p><strong>Nominal Variables</strong></p>
+<ul>
+<li><p>Categories have <strong>no logical order</strong>.</p></li>
+<li><p>Only show <strong>labels</strong> or <strong>names</strong>.</p></li>
+</ul>
+<p>For example, <em>Gender</em> (male, female), <em>Blood group (</em>A, B, AB, O), <em>City</em> (Lisbon, Porto, Faro, … ), <em>color</em> (red, blue, green)</p>
+<section id="what-we-can-do-2" class="level6" data-number="5.1.1.2.0.1">
+<h6 data-number="5.1.1.2.0.1" class="anchored" data-anchor-id="what-we-can-do-2"><span class="header-section-number">5.1.1.2.0.1</span> What we can do:</h6>
+<ul>
+<li><p>Count frequencies (e.g.&nbsp;how many students are from each city)</p></li>
+<li><p>Use bar charts or pie charts</p></li>
+</ul>
+<p><strong>Ordinal Variables</strong></p>
+<ul>
+<li><p>Categories <strong>can be ordered</strong> or ranked.</p></li>
+<li><p>But the <strong>distance between categories is not exact</strong>.</p></li>
+</ul>
+<p>For example, <em>Satisfaction</em> (low, medium, high), <em>education</em> (primary, secondary, university), <em>rank</em> (1st, 2nd, 3rd), <em>Academic grades</em> (A, B, C)</p>
+</section>
+<section id="what-we-can-do-3" class="level6" data-number="5.1.1.2.0.2">
+<h6 data-number="5.1.1.2.0.2" class="anchored" data-anchor-id="what-we-can-do-3"><span class="header-section-number">5.1.1.2.0.2</span> What we can do:</h6>
+<ul>
+<li><p>Count frequencies</p></li>
+<li><p>Compare medians</p></li>
+<li><p>Use bar charts or ordered plots</p></li>
+</ul>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Do not use numbers to label categories.</strong><br>
+Even though categories <strong>can be coded</strong> as numbers (e.g., Male = 1, Female = 2), this can be <strong>confusing</strong>. It may suggest an order or imply mathematical operations that don’t make sense.</p>
+<div class="callout callout-style-simple callout-tip no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><strong>Tip:</strong> Use <strong>text labels</strong> like <code>"Male"</code> and <code>"Female"</code> instead of <code>1</code> and <code>2</code>.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p><strong>Summary of Variable Types</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable Type</th>
+<th>Scale</th>
+<th>Ordered?</th>
+<th>Can Measure Distance?</th>
+<th>Can Divide?</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Nominal</strong></td>
+<td>Categorical</td>
+<td>❌ No</td>
+<td>❌ No</td>
+<td>❌ No</td>
+<td>Gender, City, Color</td>
+</tr>
+<tr class="even">
+<td><strong>Ordinal</strong></td>
+<td>Categorical</td>
+<td>✅ Yes</td>
+<td>❌ No (not exact)</td>
+<td>❌ No</td>
+<td>Rank, Education, Likert</td>
+</tr>
+<tr class="odd">
+<td><strong>Interval</strong></td>
+<td>Numeric</td>
+<td>✅ Yes</td>
+<td>✅ Yes</td>
+<td>❌ No</td>
+<td>Temperature, Year</td>
+</tr>
+<tr class="even">
+<td><strong>Ratio</strong></td>
+<td>Numeric</td>
+<td>✅ Yes</td>
+<td>✅ Yes</td>
+<td>✅ Yes</td>
+<td>Age, Weight, Income</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you are not sure about a variable, ask:</p>
+<ul>
+<li>Does the variable <strong>have a natural order</strong>?</li>
+<li>Can we <strong>count it</strong> or <strong>measure it</strong>?</li>
+<li>Does it have a <strong>true zero</strong>?</li>
+</ul>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="types-of-eda" class="level3" data-number="5.1.2">
+<h3 data-number="5.1.2" class="anchored" data-anchor-id="types-of-eda"><span class="header-section-number">5.1.2</span> Types of EDA</h3>
+<p>EDA helps us answer important questions like:</p>
+<ul>
+<li>What are the most common values of a variable?</li>
+<li>How much do observations differ from each other?</li>
+<li>Is one variable related to another?</li>
+</ul>
+<p>To answer these questions, EDA uses two main tools:</p>
+<section id="descriptive-statistics" class="level4" data-number="5.1.2.1">
+<h4 data-number="5.1.2.1" class="anchored" data-anchor-id="descriptive-statistics"><span class="header-section-number">5.1.2.1</span> Descriptive Statistics</h4>
+<p>Descriptive statistics give <strong>numerical summaries</strong> of a dataset. They describe the basic features of a variable, such as:</p>
+<ul>
+<li><strong>Center</strong> (e.g.&nbsp;mean or median)</li>
+<li><strong>Spread</strong> (e.g.&nbsp;standard deviation or interquartile range)</li>
+<li><strong>Shape</strong> (e.g.&nbsp;skewness)</li>
+<li><strong>Extremes</strong> (e.g.&nbsp;minimum, maximum, or outliers)</li>
+</ul>
+<p>These summaries help us <strong>compare groups</strong> or <strong>make initial conclusions</strong>.<br>
+For example, the <strong>mean</strong> tells us what the “typical” value might be.</p>
+<p>But: <strong>A few numbers can’t tell the whole story.</strong></p>
+</section>
+<section id="graphical-summaries" class="level4" data-number="5.1.2.2">
+<h4 data-number="5.1.2.2" class="anchored" data-anchor-id="graphical-summaries"><span class="header-section-number">5.1.2.2</span> Graphical Summaries</h4>
+<p>Graphs help us <strong>see patterns</strong>, <strong>spot outliers</strong>, and <strong>understand distributions</strong>.</p>
+<p>Common EDA plots include: - <strong>Histograms</strong> – show the shape and spread of a numeric variable - <strong>Boxplots</strong> – show center, spread, and outliers - <strong>Bar charts</strong> – show frequencies of categories - <strong>Scatterplots</strong> – show relationships between two numeric variables</p>
+<p>Graphs are <strong>easier to understand</strong> than tables of numbers. They help us and others <strong>see what’s going on</strong> in the data.</p>
+</section>
+</section>
+<section id="a-review-on-descriptive-statistics" class="level3" data-number="5.1.3">
+<h3 data-number="5.1.3" class="anchored" data-anchor-id="a-review-on-descriptive-statistics"><span class="header-section-number">5.1.3</span> A Review on Descriptive Statistics</h3>
+<p>Statisticians have created more precise terms to describe the patterns in data, called <strong>descriptive statistics</strong>.</p>
+<p>The two most important features of a numeric variable’s distribution are:</p>
+<ul>
+<li><strong>Central tendency</strong>: What is a typical value?</li>
+<li><strong>Dispersion</strong>: How spread out are the values?</li>
+</ul>
+</section>
+<section id="central-tendency" class="level3" data-number="5.1.4">
+<h3 data-number="5.1.4" class="anchored" data-anchor-id="central-tendency"><span class="header-section-number">5.1.4</span> <strong>Central Tendency</strong></h3>
+<p>A <strong>measure of central tendency</strong> tells us what a “typical” value looks like in the data. There are three main measures: <strong>Mean</strong>, <strong>Median</strong>, <strong>Mode</strong></p>
+<section id="arithmetic-mean-average" class="level4" data-number="5.1.4.1">
+<h4 data-number="5.1.4.1" class="anchored" data-anchor-id="arithmetic-mean-average"><span class="header-section-number">5.1.4.1</span> Arithmetic Mean (Average)</h4>
+<p>[We should add the definition]</p>
+<p>function <code>mean()</code></p>
+<p>Sometimes, we use <code>na.rm = TRUE</code> to ignore missing values.</p>
+<p><strong>Be careful:</strong> The mean is sensitive to extreme values (outliers).<br>
+For example, using the mean to describe <strong>income</strong> is misleading because a few very high earners can pull the average up.</p>
+</section>
+<section id="median" class="level4" data-number="5.1.4.2">
+<h4 data-number="5.1.4.2" class="anchored" data-anchor-id="median"><span class="header-section-number">5.1.4.2</span> Median</h4>
+<p>[We should add the definition]</p>
+<ul>
+<li>The <strong>middle value</strong> when data are sorted.</li>
+<li>More <strong>robust</strong> than the mean when data are skewed.</li>
+</ul>
+<p>function <code>median()</code></p>
+</section>
+<section id="mode" class="level4" data-number="5.1.4.3">
+<h4 data-number="5.1.4.3" class="anchored" data-anchor-id="mode"><span class="header-section-number">5.1.4.3</span> Mode</h4>
+<ul>
+<li>The <strong>most frequent value</strong> in the data.</li>
+<li>Conceptually useful, but hard to estimate in numeric data.</li>
+<li>Used more often for <strong>categorical variables</strong>.</li>
+</ul>
+</section>
+</section>
+<section id="dispersion" class="level3" data-number="5.1.5">
+<h3 data-number="5.1.5" class="anchored" data-anchor-id="dispersion"><span class="header-section-number">5.1.5</span> Dispersion</h3>
+<p><strong>Dispersion</strong> tells us how much values differ from one another. A dataset where all values are similar has <strong>low dispersion</strong>; one with a wide range of values has <strong>high dispersion</strong>.</p>
+<p>There are many ways to describe how <strong>spread out</strong> a sample is. The three common measures are:</p>
+<ul>
+<li><p><strong>Variance</strong> – how far values are far from the mean (on average, squared)</p></li>
+<li><p><strong>Standard Deviation</strong> – the square root of the variance, easier to interpret</p></li>
+<li><p><strong>Interquartile range</strong> – the spread of the middle <span class="math inline">\(50\%\)</span> of the values</p></li>
+</ul>
+<p>Each of these gives us a different way to understand <strong>how variable</strong> the data is.</p>
+<section id="variance" class="level4" data-number="5.1.5.1">
+<h4 data-number="5.1.5.1" class="anchored" data-anchor-id="variance"><span class="header-section-number">5.1.5.1</span> Variance</h4>
+<p>The <strong>Sample Variance</strong>, written as <span class="math inline">\(s^2\)</span>, is <em>the average of the <strong>squared differences</strong></em> between each value and the mean.</p>
+<p>Key facts about variance are:</p>
+<ul>
+<li><p>It is always <strong>non-negative</strong></p></li>
+<li><p>A <strong>larger variance</strong> means the data are spread out.</p></li>
+<li><p>A variance of <strong>zero</strong> means all values are <strong>exactly the same</strong>.</p></li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Why does variance matter?</strong></p>
+<p>Variance is an important quantity in statistics. Many <strong>statistical tests</strong> use changes in variance to compare groups or detect effects.</p>
+</div>
+</div>
+<p>But in EDA, we <strong>rarely use</strong> the variance.</p>
+</section>
+<section id="standard-deviation" class="level4" data-number="5.1.5.2">
+<h4 data-number="5.1.5.2" class="anchored" data-anchor-id="standard-deviation"><span class="header-section-number">5.1.5.2</span> Standard Deviation</h4>
+<p>A more useful measure if dispersion is the <strong>standard deviation</strong>, usually written as <span class="math inline">\(s\)</span>. The <strong>standard deviation</strong> is <em>the <strong>squared root</strong> of the variance.</em></p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Why use standard deviation?</strong></p>
+<ul>
+<li><p>It is on the <strong>same scale</strong> as the variable</p></li>
+<li><p>It gives us a <strong>sense of spread</strong> we can understand</p></li>
+<li><p>it is more commonly used in EDA than variance</p></li>
+</ul>
+</div>
+</div>
+<p><strong>But be careful</strong> like the <strong>mean</strong>, the standard deviation is sensitive to:</p>
+<ul>
+<li><p><strong>skewed distributions</strong></p></li>
+<li><p><strong>outliers</strong> (extreme values)</p></li>
+</ul>
+<p>In those cases, we often prefer a <strong>robust</strong> measure like the <strong>interquantile range (IQR).</strong></p>
+<p>To understand the IQR, we need to define <strong>quartiles</strong>.</p>
+<p>Quartiles divide the data into <strong>four equal parts</strong>:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 74%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Quartile</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Q1</strong></td>
+<td>First quartile (25%) — one quarter of the data is below this value</td>
+</tr>
+<tr class="even">
+<td><strong>Q2</strong></td>
+<td>Second quartile (50%) — this is the <strong>median</strong></td>
+</tr>
+<tr class="odd">
+<td><strong>Q3</strong></td>
+<td>Third quartile (75%) — three quarters of the data are below this value</td>
+</tr>
+</tbody>
+</table>
+<p>These values help summarize the distribution, especially for <strong>non-symmetric</strong> data.</p>
+</section>
+<section id="interquantile-range-iqr" class="level4" data-number="5.1.5.3">
+<h4 data-number="5.1.5.3" class="anchored" data-anchor-id="interquantile-range-iqr"><span class="header-section-number">5.1.5.3</span> Interquantile Range (IQR)</h4>
+<p>The <strong>Interquantile Range (IQR)</strong> is another measure of dispersion.</p>
+<p>It is especially useful in EDA because it is robust to outliers and skewed data.</p>
+<p>Because standard deviation is not squared, it has the <strong>same unit</strong> as the original data. This makes it <strong>easier to interpret</strong> than the variance.</p>
+<p><strong>What is IQR?</strong></p>
+<p>The IQR measures the <strong>spread of the middle</strong> <span class="math inline">\(50\%\)</span> of the data.</p>
+<p>It is defined as:</p>
+<pre><code>IQR = Q3 - Q1</code></pre>
+<p>where Q1 is the first quartile and Q3 is the third quartile. So, the IQR is the <strong>range between the</strong> <span class="math inline">\(25\%\)</span> <strong>and</strong> <span class="math inline">\(75\%\)</span> <strong>marks</strong>.</p>
+<p>The wider the IQR, the <strong>more spread out</strong> the middle values are.</p>
+<p><strong>Why is the IQR useful</strong>?</p>
+<ul>
+<li><p>It does <strong>not depend</strong> on extreme values.</p></li>
+<li><p>It gives a good summary of the <strong>central spread</strong></p></li>
+<li><p>It is <strong>preferred</strong> in EDA for skewed or messy data.</p></li>
+</ul>
+</section>
+</section>
+<section id="associations" class="level3" data-number="5.1.6">
+<h3 data-number="5.1.6" class="anchored" data-anchor-id="associations"><span class="header-section-number">5.1.6</span> Associations</h3>
+<p>In EDA, we often want to ask <em>Is one variable associated with another?</em></p>
+<p>This can be for:</p>
+<ul>
+<li><p>Two numeric variables</p></li>
+<li><p>Two categorical variables</p></li>
+<li><p>One numeric and one categorical</p></li>
+</ul>
+<section id="pairs-of-numeric-variables" class="level4" data-number="5.1.6.1">
+<h4 data-number="5.1.6.1" class="anchored" data-anchor-id="pairs-of-numeric-variables"><span class="header-section-number">5.1.6.1</span> Pairs of Numeric Variables</h4>
+<p>The most common way to measure association between two numeric variables is:</p>
+<p><strong>Pearson’s Correlation Coefficient</strong></p>
+<ul>
+<li><p>Measures <strong>Strength</strong> and <strong>direction</strong> of a <strong>linear relationship</strong>.</p></li>
+<li><p>Values range from <span class="math inline">\(-1\)</span> to <span class="math inline">\(+1\)</span>:</p>
+<ul>
+<li><p><span class="math inline">\(+1\)</span>: Perfect positive linear association</p></li>
+<li><p><span class="math inline">\(-1\)</span>: Perfect negative linear association</p></li>
+<li><p><span class="math inline">\(0\)</span>: no linear relationship</p></li>
+</ul></li>
+</ul>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Person’s <span class="math inline">\(r\)</span> only measures <strong>linear</strong> relationships.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Caution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If the relationship is <strong>curved</strong>, <span class="math inline">\(r\)</span> can be misleading. See <a href="https://en.wikipedia.org/wiki/Anscombe%27s_quartet">Anscombe’s Quartet</a> for famous examples.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Rank Correlations: For Non-linear Relationships</strong></p>
+<p>If the relationship is not linear, use a <strong>rank correlation</strong>:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Method</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Spearman’s</strong> <span class="math inline">\(\rho\)</span></td>
+<td>More sensitive to <strong>outliers</strong></td>
+</tr>
+<tr class="even">
+<td><strong>Kendall’s</strong> <span class="math inline">\(\tau\)</span></td>
+<td>Better for <strong>ordinal data</strong></td>
+</tr>
+</tbody>
+</table>
+<p>These methods:</p>
+<ul>
+<li><p>convert data into <strong>ranks</strong> (1st, 2nd, 3rd, …)</p></li>
+<li><p>Measure how well the ranks agree between two variables</p></li>
+</ul>
+<p>They are interpreted like Pearson’s <span class="math inline">\(r\)</span>:</p>
+<ul>
+<li><p>Close to <span class="math inline">\(\pm 1\)</span> means strong association</p></li>
+<li><p><span class="math inline">\(0\)</span> means no association</p></li>
+</ul>
+</div>
+</div>
+</section>
+<section id="pairs-of-categorical-variables" class="level4" data-number="5.1.6.2">
+<h4 data-number="5.1.6.2" class="anchored" data-anchor-id="pairs-of-categorical-variables"><span class="header-section-number">5.1.6.2</span> Pairs of Categorical Variables</h4>
+<p>For two categorical variables, we ask <em>Are certain combinations of categories more or less common than expected?</em></p>
+<p>The most basic tool is the <strong>contingency table</strong>. It counts how many times each combination of categories appears in the data.</p>
+<p>This table helps us to answer questions like:</p>
+<ul>
+<li><p>Do some combinations occur more often than others?</p></li>
+<li><p>Are the two categorical variables associated?</p></li>
+</ul>
+<p><strong>Example:</strong> <strong>Penguins Species and Islands</strong><br>
+Imagine we observed <span class="math inline">\(344\)</span> penguins from three species on three islands. We record how many penguins of each species were found on each island.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th><strong>Species</strong></th>
+<th><strong>Biscoe</strong></th>
+<th><strong>Dream</strong></th>
+<th><strong>Torgersen</strong></th>
+<th><strong>Total</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Adelie</strong></td>
+<td>44</td>
+<td>56</td>
+<td>52</td>
+<td>152</td>
+</tr>
+<tr class="even">
+<td><strong>Chinstrap</strong></td>
+<td>0</td>
+<td>68</td>
+<td>0</td>
+<td>68</td>
+</tr>
+<tr class="odd">
+<td><strong>Gentoo</strong></td>
+<td>124</td>
+<td>0</td>
+<td>0</td>
+<td>124</td>
+</tr>
+<tr class="even">
+<td><strong>Total</strong></td>
+<td>168</td>
+<td>124</td>
+<td>52</td>
+<td>344</td>
+</tr>
+</tbody>
+</table>
+<p>This table tells us:</p>
+<p><strong>Summary of Correlation and Association Measures in R</strong></p>
+<p>This table shows which association or correlation measure to use depending on the types of variables, along with the appropriate R function.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 29%">
+<col style="width: 29%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable Types</th>
+<th>Measure</th>
+<th>Interpretation</th>
+<th>R Function / Package</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Numeric – Numeric</strong></td>
+<td><strong>Pearson’s r</strong></td>
+<td>Strength of <strong>linear</strong> relationship</td>
+<td><code>cor(x, y, method = "pearson")</code></td>
+</tr>
+<tr class="even">
+<td><strong>Numeric – Numeric</strong></td>
+<td><strong>Spearman’s ρ</strong></td>
+<td>Strength of <strong>monotonic</strong> relationship</td>
+<td><code>cor(x, y, method = "spearman")</code></td>
+</tr>
+<tr class="odd">
+<td><strong>Numeric – Numeric</strong></td>
+<td><strong>Kendall’s τ</strong></td>
+<td>Rank-based measure; robust to ties</td>
+<td><code>cor(x, y, method = "kendall")</code></td>
+</tr>
+<tr class="even">
+<td><strong>Ordinal – Ordinal</strong></td>
+<td><strong>Spearman’s ρ</strong> or <strong>Kendall’s τ</strong></td>
+<td>Association between ranks</td>
+<td>Same as above</td>
+</tr>
+<tr class="odd">
+<td><strong>Nominal – Nominal (2×2)</strong></td>
+<td><strong>Phi (φ) coefficient</strong></td>
+<td>Association between two binary variables</td>
+<td><code>psych::phi(table)</code></td>
+</tr>
+<tr class="even">
+<td><strong>Nominal – Nominal (k×m)</strong></td>
+<td><strong>Cramér’s V</strong></td>
+<td>Strength of association in contingency table</td>
+<td><code>rcompanion::cramerV(table)</code> or <code>DescTools::CramerV(table)</code></td>
+</tr>
+<tr class="odd">
+<td><strong>Nominal – Numeric</strong></td>
+<td><strong>Eta (η) coefficient</strong></td>
+<td>How much variance in numeric var is explained by group</td>
+<td><code>DescTools::EtaSq(aov(y ~ group))</code></td>
+</tr>
+<tr class="even">
+<td><strong>Binary – Binary</strong></td>
+<td><strong>Tetrachoric correlation</strong></td>
+<td>For binary variables assumed to reflect latent continuous variables</td>
+<td><code>psych::tetrachoric(table)$rho</code></td>
+</tr>
+<tr class="odd">
+<td><strong>Ordinal – Nominal</strong></td>
+<td><em>(No standard measure)</em></td>
+<td>Use visual summaries or grouped statistics</td>
+<td><code>table()</code>, <code>ggplot2::geom_bar()</code>, <code>mosaicplot()</code></td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+</section>
+<section id="notes" class="level3" data-number="5.1.7">
+<h3 data-number="5.1.7" class="anchored" data-anchor-id="notes"><span class="header-section-number">5.1.7</span> 🧭 Notes</h3>
+<ul>
+<li><strong>Spearman’s ρ</strong> and <strong>Kendall’s τ</strong> both work well for <strong>ranked data</strong> and are more robust to non-linear trends than Pearson’s r.</li>
+<li><strong>Cramér’s V</strong> is used for <strong>nominal data</strong>, and its values range from 0 to 1.</li>
+<li><strong>Eta squared (η²)</strong> measures how much of the variance in the numeric variable is explained by the group (nominal) variable.</li>
+<li>For <strong>ordinal + nominal</strong>, no widely accepted coefficient exists; focus on visual summaries (e.g., bar charts or stacked plots).</li>
+</ul>
+<hr>
+</section>
+<section id="example-what-should-you-use" class="level3" data-number="5.1.8">
+<h3 data-number="5.1.8" class="anchored" data-anchor-id="example-what-should-you-use"><span class="header-section-number">5.1.8</span> ✅ Example: What Should You Use?</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Situation</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Height vs Weight</td>
+<td>Pearson’s r</td>
+</tr>
+<tr class="even">
+<td>Exam Rank vs Satisfaction Level</td>
+<td>Kendall’s τ</td>
+</tr>
+<tr class="odd">
+<td>Eye Color vs Blood Type</td>
+<td>Cramér’s V</td>
+</tr>
+<tr class="even">
+<td>Gender vs Income</td>
+<td>ANOVA + Boxplot</td>
+</tr>
+<tr class="odd">
+<td>Plant Type vs Size Category</td>
+<td>Cross-tab or Mosaic Plot</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="blockquote">
+<blockquote class="blockquote">
+<blockquote class="blockquote">
+<blockquote class="blockquote">
+<blockquote class="blockquote">
+<blockquote class="blockquote">
+<blockquote class="blockquote">
+<p>a16ced031b3d26382bbbaabba295b276d03f88e3</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</section>
+<section id="airquailty-dataset" class="level3" data-number="5.1.9">
+<h3 data-number="5.1.9" class="anchored" data-anchor-id="airquailty-dataset"><span class="header-section-number">5.1.9</span> Airquailty dataset</h3>
 <p>We will explore the <code>airquality</code> dataset, which contains daily measurement of air pollutants and weather conditions in New York City May to September 1973.</p>
 <p><strong>Step 1 –</strong> <em>How do ozone levels vary across different months in New York during the summer in 1973?</em></p>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -2755,14 +3496,14 @@ What is ~ ?
 <p>The <code>~</code> introduces an <strong>anonymous function</strong> — a function written inline without a name.</p>
 <p>This</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="sc">~</span> <span class="fu">sum</span>(<span class="fu">is.na</span>(.))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="sc">~</span> <span class="fu">sum</span>(<span class="fu">is.na</span>(.))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>~sum(is.na(.))</code></pre>
 </div>
 </div>
 <p>is a shorthand for</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span>(x) <span class="fu">sum</span>(<span class="fu">is.na</span>(x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span>(x) <span class="fu">sum</span>(<span class="fu">is.na</span>(x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>function (x) 
 sum(is.na(x))</code></pre>
@@ -2799,8 +3540,8 @@ sum(is.na(x))</code></pre>
 <div id="qwebr-insertion-location-16"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>We might also refine our question: <em>On which days was the ozone level unusually high, and what were the weather conditions on those days?</em></p>
-<section id="alternative-question" class="level4" data-number="4.5.1.1">
-<h4 data-number="4.5.1.1" class="anchored" data-anchor-id="alternative-question"><span class="header-section-number">4.5.1.1</span> Alternative question</h4>
+<section id="alternative-question" class="level4" data-number="5.1.9.1">
+<h4 data-number="5.1.9.1" class="anchored" data-anchor-id="alternative-question"><span class="header-section-number">5.1.9.1</span> Alternative question</h4>
 <p><strong><em>Step 1 – Which weather factor—temperature, wind, or solar radiation—has the strongest relationship with ozone levels during the summer of 1973 in New York?</em></strong></p>
 <p>This question is more analytical than descriptive, and focused on <strong>relationships</strong> between variables. So, we need to examine how ozone changes with respect to other variables.</p>
 <p><strong>Step 2 –</strong></p>
@@ -2935,11 +3676,11 @@ Tip
 </section>
 </section>
 </section>
-<section id="principles-of-analytic-graphics" class="level2" data-number="4.6">
-<h2 data-number="4.6" class="anchored" data-anchor-id="principles-of-analytic-graphics"><span class="header-section-number">4.6</span> Principles of Analytic Graphics</h2>
+<section id="principles-of-analytic-graphics" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="principles-of-analytic-graphics"><span class="header-section-number">5.2</span> Principles of Analytic Graphics</h2>
 <p>Based on <span class="citation" data-cites="Tufte2006">(<a href="#ref-Tufte2006" role="doc-biblioref">Tufte 2006</a>)</span>, there are six key principles for designing informative and effective graphs.</p>
-<section id="principle-1-show-comparison" class="level3" data-number="4.6.1">
-<h3 data-number="4.6.1" class="anchored" data-anchor-id="principle-1-show-comparison"><span class="header-section-number">4.6.1</span> Principle 1 – Show Comparison</h3>
+<section id="principle-1-show-comparison" class="level3" data-number="5.2.1">
+<h3 data-number="5.2.1" class="anchored" data-anchor-id="principle-1-show-comparison"><span class="header-section-number">5.2.1</span> Principle 1 – Show Comparison</h3>
 <div class="callout callout-style-simple callout-caution no-icon">
 <div class="callout-body d-flex">
 <div class="callout-icon-container">
@@ -2982,8 +3723,8 @@ Tip
 </div>
 <p>Good data graphics should always show <strong>at least two things</strong> so we can compare and understand what’s really happening.</p>
 </section>
-<section id="principle-2-show-causality-and-explanation" class="level3" data-number="4.6.2">
-<h3 data-number="4.6.2" class="anchored" data-anchor-id="principle-2-show-causality-and-explanation"><span class="header-section-number">4.6.2</span> Principle 2: Show Causality and Explanation</h3>
+<section id="principle-2-show-causality-and-explanation" class="level3" data-number="5.2.2">
+<h3 data-number="5.2.2" class="anchored" data-anchor-id="principle-2-show-causality-and-explanation"><span class="header-section-number">5.2.2</span> Principle 2: Show Causality and Explanation</h3>
 <p>When making a data graphics, it is helpful to show <strong>why</strong> you think something is happening – not just what is happening. Even if you can not prove a cause, you can show your <strong>hypothesis</strong> of <strong>idea</strong> about how one thing might lead to another.</p>
 <div class="callout callout-style-simple callout-caution no-icon">
 <div class="callout-body d-flex">
@@ -3011,8 +3752,8 @@ Tip
 </ul>
 <p>This <strong>pattern supports</strong> the idea that air cleaners work by reducing harmful particles — but it is not final proof. Other things might also cause the change, so more data and careful studies are needed to confirm.</p>
 </section>
-<section id="principle-3-show-multivariate-data" class="level3" data-number="4.6.3">
-<h3 data-number="4.6.3" class="anchored" data-anchor-id="principle-3-show-multivariate-data"><span class="header-section-number">4.6.3</span> Principle 3: Show Multivariate Data</h3>
+<section id="principle-3-show-multivariate-data" class="level3" data-number="5.2.3">
+<h3 data-number="5.2.3" class="anchored" data-anchor-id="principle-3-show-multivariate-data"><span class="header-section-number">5.2.3</span> Principle 3: Show Multivariate Data</h3>
 <div class="callout callout-style-simple callout-caution no-icon">
 <div class="callout-body d-flex">
 <div class="callout-icon-container">
@@ -3076,8 +3817,8 @@ Important
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>This way, we can see how the relationship between weight and MPG changes in each group combination.</p>
 </section>
-<section id="principle-4-integrate-evidence-keep-the-message-clear" class="level3" data-number="4.6.4">
-<h3 data-number="4.6.4" class="anchored" data-anchor-id="principle-4-integrate-evidence-keep-the-message-clear"><span class="header-section-number">4.6.4</span> Principle 4: Integrate Evidence — Keep the message clear</h3>
+<section id="principle-4-integrate-evidence-keep-the-message-clear" class="level3" data-number="5.2.4">
+<h3 data-number="5.2.4" class="anchored" data-anchor-id="principle-4-integrate-evidence-keep-the-message-clear"><span class="header-section-number">5.2.4</span> Principle 4: Integrate Evidence — Keep the message clear</h3>
 <p>When you make a graph, <em>do not rely</em> on points and lines to show your idea. You can also use: <strong>Numbers</strong> to give exact values, <strong>Words or short labels</strong> to explain what is happening, <strong>Pictures or diagrams</strong> to give context.</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -3107,8 +3848,8 @@ Important
 </div>
 </div>
 </section>
-<section id="principle-5-describe-and-document-the-evidence" class="level3" data-number="4.6.5">
-<h3 data-number="4.6.5" class="anchored" data-anchor-id="principle-5-describe-and-document-the-evidence"><span class="header-section-number">4.6.5</span> Principle 5: Describe and Document the Evidence</h3>
+<section id="principle-5-describe-and-document-the-evidence" class="level3" data-number="5.2.5">
+<h3 data-number="5.2.5" class="anchored" data-anchor-id="principle-5-describe-and-document-the-evidence"><span class="header-section-number">5.2.5</span> Principle 5: Describe and Document the Evidence</h3>
 <p>A good graph tells a story – clearly and completely. That means it should include:</p>
 <ul>
 <li><p>A clear <strong>title</strong></p></li>
@@ -3148,8 +3889,8 @@ Note
 <p>try this</p>
 <p>when we use <code>ggplot2</code>, it is better to add <code>labs()</code> like we did until now.</p>
 </section>
-<section id="principle-6-content-is-king" class="level3" data-number="4.6.6">
-<h3 data-number="4.6.6" class="anchored" data-anchor-id="principle-6-content-is-king"><span class="header-section-number">4.6.6</span> Principle 6: Content is King</h3>
+<section id="principle-6-content-is-king" class="level3" data-number="5.2.6">
+<h3 data-number="5.2.6" class="anchored" data-anchor-id="principle-6-content-is-king"><span class="header-section-number">5.2.6</span> Principle 6: Content is King</h3>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -3183,14 +3924,12 @@ Tip
 <p>Do not just decorate your data – focus on the message!</p>
 </div>
 </div>
-</section>
-</section>
-<section id="enter-the-world-of-eda" class="level2" data-number="4.7">
-<h2 data-number="4.7" class="anchored" data-anchor-id="enter-the-world-of-eda"><span class="header-section-number">4.7</span> Enter the world of EDA</h2>
+<p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD ## Enter the world of EDA</p>
 <p>EDA is the process of looking at data to understand it before using statistics or models. It helps us to answer questions like: - what types of data do we have? - Are there missing or strange values? - What patterns can we see? - What kind of summary or visualization is helpful?</p>
 <p>Before we start any analysis, we must know <em>what kind of data</em> we are working with. Variables can be broadly divided into <strong>numeric</strong> and <strong>categorical</strong> types.</p>
-<section id="types-of-variables" class="level3" data-number="4.7.1">
-<h3 data-number="4.7.1" class="anchored" data-anchor-id="types-of-variables"><span class="header-section-number">4.7.1</span> Types of Variables</h3>
+</section>
+<section id="types-of-variables-1" class="level3" data-number="5.2.7">
+<h3 data-number="5.2.7" class="anchored" data-anchor-id="types-of-variables-1"><span class="header-section-number">5.2.7</span> Types of Variables</h3>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -3208,11 +3947,11 @@ Important
 </ul>
 </div>
 </div>
-<section id="numerical-variables" class="level4" data-number="4.7.1.1">
-<h4 data-number="4.7.1.1" class="anchored" data-anchor-id="numerical-variables"><span class="header-section-number">4.7.1.1</span> Numerical variables</h4>
+<section id="numerical-variables-1" class="level4" data-number="5.2.7.1">
+<h4 data-number="5.2.7.1" class="anchored" data-anchor-id="numerical-variables-1"><span class="header-section-number">5.2.7.1</span> Numerical variables</h4>
 <p>Numeric variables describe <strong>quantities</strong> that we can measure — they answer questions like “how many?” or “how much?”. These variables are also called <strong>quantitative variables</strong>, and the data they produce are known as <strong>quantitative data</strong>. Briefly, they are <strong>numbers</strong> that can be measured. Also, we can do math with them.</p>
-<section id="continuous-vs.-discrete" class="level5" data-number="4.7.1.1.1">
-<h5 data-number="4.7.1.1.1" class="anchored" data-anchor-id="continuous-vs.-discrete"><span class="header-section-number">4.7.1.1.1</span> Continuous vs.&nbsp;Discrete</h5>
+<section id="continuous-vs.-discrete-1" class="level5" data-number="5.2.7.1.1">
+<h5 data-number="5.2.7.1.1" class="anchored" data-anchor-id="continuous-vs.-discrete-1"><span class="header-section-number">5.2.7.1.1</span> Continuous vs.&nbsp;Discrete</h5>
 <p>Numeric variables can be:</p>
 <p><strong>Continuous</strong></p>
 <ul>
@@ -3229,8 +3968,8 @@ Important
 <p>Some examples are: <em>number of students, number of offspring, number of infected individuals</em></p>
 <p>A discrete variable cannot take values between integers — e.g., it makes no sense to have 2.5 individuals.</p>
 </section>
-<section id="ratio-vs.-interval" class="level5" data-number="4.7.1.1.2">
-<h5 data-number="4.7.1.1.2" class="anchored" data-anchor-id="ratio-vs.-interval"><span class="header-section-number">4.7.1.1.2</span> Ratio vs.&nbsp;Interval</h5>
+<section id="ratio-vs.-interval-1" class="level5" data-number="5.2.7.1.2">
+<h5 data-number="5.2.7.1.2" class="anchored" data-anchor-id="ratio-vs.-interval-1"><span class="header-section-number">5.2.7.1.2</span> Ratio vs.&nbsp;Interval</h5>
 <p>Numeric variables can be further described based on the <strong>scale</strong> they are measured on: <strong>ratio</strong> or <strong>interval</strong>. This affects how we can interpret differences, proportions, and calculations.</p>
 <p><strong>Ratio</strong></p>
 <ul>
@@ -3262,8 +4001,8 @@ What we can do:
 </ul>
 <p>Some examples are <em>Temperature (</em>in Celsius of Fahrenheit), <em>IQ scores,</em> Calendar dates (e.g.&nbsp;year 1000 vs 2000)</p>
 <p>You can say: “The <strong>difference</strong> between 20°C and 10°C is 10 degrees.” <strong>But not</strong>: “20°C is <strong>twice as hot</strong> as 10°C.”</p>
-<section id="what-we-can-do-1" class="level6" data-number="4.7.1.1.2.1">
-<h6 data-number="4.7.1.1.2.1" class="anchored" data-anchor-id="what-we-can-do-1"><span class="header-section-number">4.7.1.1.2.1</span> What we can do:</h6>
+<section id="what-we-can-do-5" class="level6" data-number="5.2.7.1.2.1">
+<h6 data-number="5.2.7.1.2.1" class="anchored" data-anchor-id="what-we-can-do-5"><span class="header-section-number">5.2.7.1.2.1</span> What we can do:</h6>
 <ul>
 <li><p>calculate mean, standard deviation</p></li>
 <li><p>plot histograms or line charts</p></li>
@@ -3290,8 +4029,8 @@ Caution
 </section>
 </section>
 </section>
-<section id="categorical-variables" class="level4" data-number="4.7.1.2">
-<h4 data-number="4.7.1.2" class="anchored" data-anchor-id="categorical-variables"><span class="header-section-number">4.7.1.2</span> Categorical Variables</h4>
+<section id="categorical-variables-1" class="level4" data-number="5.2.7.2">
+<h4 data-number="5.2.7.2" class="anchored" data-anchor-id="categorical-variables-1"><span class="header-section-number">5.2.7.2</span> Categorical Variables</h4>
 <p>Categorical variables describe <strong>qualities</strong> or <strong>characteristics</strong>. They answer questions like “what type?” or “which group?”. These are also known as <strong>qualitative variables</strong>, and the data they produce are <strong>qualitative data</strong>.</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -3451,8 +4190,8 @@ Tip
 </div>
 </section>
 </section>
-<section id="types-of-eda" class="level3" data-number="4.7.2">
-<h3 data-number="4.7.2" class="anchored" data-anchor-id="types-of-eda"><span class="header-section-number">4.7.2</span> Types of EDA</h3>
+<section id="types-of-eda-1" class="level3" data-number="5.2.8">
+<h3 data-number="5.2.8" class="anchored" data-anchor-id="types-of-eda-1"><span class="header-section-number">5.2.8</span> Types of EDA</h3>
 <p>EDA helps us answer important questions like:</p>
 <ul>
 <li>What are the most common values of a variable?</li>
@@ -3460,8 +4199,8 @@ Tip
 <li>Is one variable related to another?</li>
 </ul>
 <p>To answer these questions, EDA uses two main tools:</p>
-<section id="descriptive-statistics" class="level4" data-number="4.7.2.1">
-<h4 data-number="4.7.2.1" class="anchored" data-anchor-id="descriptive-statistics"><span class="header-section-number">4.7.2.1</span> Descriptive Statistics</h4>
+<section id="descriptive-statistics-1" class="level4" data-number="5.2.8.1">
+<h4 data-number="5.2.8.1" class="anchored" data-anchor-id="descriptive-statistics-1"><span class="header-section-number">5.2.8.1</span> Descriptive Statistics</h4>
 <p>Descriptive statistics give <strong>numerical summaries</strong> of a dataset. They describe the basic features of a variable, such as:</p>
 <ul>
 <li><strong>Center</strong> (e.g.&nbsp;mean or median)</li>
@@ -3473,15 +4212,15 @@ Tip
 For example, the <strong>mean</strong> tells us what the “typical” value might be.</p>
 <p>But: <strong>A few numbers can’t tell the whole story.</strong></p>
 </section>
-<section id="graphical-summaries" class="level4" data-number="4.7.2.2">
-<h4 data-number="4.7.2.2" class="anchored" data-anchor-id="graphical-summaries"><span class="header-section-number">4.7.2.2</span> Graphical Summaries</h4>
+<section id="graphical-summaries-1" class="level4" data-number="5.2.8.2">
+<h4 data-number="5.2.8.2" class="anchored" data-anchor-id="graphical-summaries-1"><span class="header-section-number">5.2.8.2</span> Graphical Summaries</h4>
 <p>Graphs help us <strong>see patterns</strong>, <strong>spot outliers</strong>, and <strong>understand distributions</strong>.</p>
 <p>Common EDA plots include: - <strong>Histograms</strong> – show the shape and spread of a numeric variable - <strong>Boxplots</strong> – show center, spread, and outliers - <strong>Bar charts</strong> – show frequencies of categories - <strong>Scatterplots</strong> – show relationships between two numeric variables</p>
 <p>Graphs are <strong>easier to understand</strong> than tables of numbers. They help us and others <strong>see what’s going on</strong> in the data.</p>
 </section>
 </section>
-<section id="a-review-on-descriptive-statistics" class="level3" data-number="4.7.3">
-<h3 data-number="4.7.3" class="anchored" data-anchor-id="a-review-on-descriptive-statistics"><span class="header-section-number">4.7.3</span> A Review on Descriptive Statistics</h3>
+<section id="a-review-on-descriptive-statistics-1" class="level3" data-number="5.2.9">
+<h3 data-number="5.2.9" class="anchored" data-anchor-id="a-review-on-descriptive-statistics-1"><span class="header-section-number">5.2.9</span> A Review on Descriptive Statistics</h3>
 <p>Statisticians have created more precise terms to describe the patterns in data, called <strong>descriptive statistics</strong>.</p>
 <p>The two most important features of a numeric variable’s distribution are:</p>
 <ul>
@@ -3489,11 +4228,11 @@ For example, the <strong>mean</strong> tells us what the “typical” value mig
 <li><strong>Dispersion</strong>: How spread out are the values?</li>
 </ul>
 </section>
-<section id="central-tendency" class="level3" data-number="4.7.4">
-<h3 data-number="4.7.4" class="anchored" data-anchor-id="central-tendency"><span class="header-section-number">4.7.4</span> <strong>Central Tendency</strong></h3>
+<section id="central-tendency-1" class="level3" data-number="5.2.10">
+<h3 data-number="5.2.10" class="anchored" data-anchor-id="central-tendency-1"><span class="header-section-number">5.2.10</span> <strong>Central Tendency</strong></h3>
 <p>A <strong>measure of central tendency</strong> tells us what a “typical” value looks like in the data. There are three main measures: <strong>Mean</strong>, <strong>Median</strong>, <strong>Mode</strong></p>
-<section id="arithmetic-mean-average" class="level4" data-number="4.7.4.1">
-<h4 data-number="4.7.4.1" class="anchored" data-anchor-id="arithmetic-mean-average"><span class="header-section-number">4.7.4.1</span> Arithmetic Mean (Average)</h4>
+<section id="arithmetic-mean-average-1" class="level4" data-number="5.2.10.1">
+<h4 data-number="5.2.10.1" class="anchored" data-anchor-id="arithmetic-mean-average-1"><span class="header-section-number">5.2.10.1</span> Arithmetic Mean (Average)</h4>
 <p>[We should add the definition]</p>
 <p>function <code>mean()</code></p>
 <p>Sometimes, we use <code>na.rm = TRUE</code> to ignore missing values.</p>
@@ -3512,8 +4251,8 @@ For example, using the mean to describe <strong>income</strong> is misleading be
 </div>
 </div>
 </section>
-<section id="median" class="level4" data-number="4.7.4.2">
-<h4 data-number="4.7.4.2" class="anchored" data-anchor-id="median"><span class="header-section-number">4.7.4.2</span> Median</h4>
+<section id="median-1" class="level4" data-number="5.2.10.2">
+<h4 data-number="5.2.10.2" class="anchored" data-anchor-id="median-1"><span class="header-section-number">5.2.10.2</span> Median</h4>
 <p>[We should add the definition]</p>
 <ul>
 <li>The <strong>middle value</strong> when data are sorted.</li>
@@ -3521,8 +4260,8 @@ For example, using the mean to describe <strong>income</strong> is misleading be
 </ul>
 <p>function <code>median()</code></p>
 </section>
-<section id="mode" class="level4" data-number="4.7.4.3">
-<h4 data-number="4.7.4.3" class="anchored" data-anchor-id="mode"><span class="header-section-number">4.7.4.3</span> Mode</h4>
+<section id="mode-1" class="level4" data-number="5.2.10.3">
+<h4 data-number="5.2.10.3" class="anchored" data-anchor-id="mode-1"><span class="header-section-number">5.2.10.3</span> Mode</h4>
 <ul>
 <li>The <strong>most frequent value</strong> in the data.</li>
 <li>Conceptually useful, but hard to estimate in numeric data.</li>
@@ -3530,8 +4269,8 @@ For example, using the mean to describe <strong>income</strong> is misleading be
 </ul>
 </section>
 </section>
-<section id="dispersion" class="level3" data-number="4.7.5">
-<h3 data-number="4.7.5" class="anchored" data-anchor-id="dispersion"><span class="header-section-number">4.7.5</span> Dispersion</h3>
+<section id="dispersion-1" class="level3" data-number="5.2.11">
+<h3 data-number="5.2.11" class="anchored" data-anchor-id="dispersion-1"><span class="header-section-number">5.2.11</span> Dispersion</h3>
 <p><strong>Dispersion</strong> tells us how much values differ from one another. A dataset where all values are similar has <strong>low dispersion</strong>; one with a wide range of values has <strong>high dispersion</strong>.</p>
 <p>A <strong>measure of dispersion</strong> tells us <strong>how spread out</strong> the values of a variable are.</p>
 <p>Dispersion measures help us understand <strong>how much the data varies</strong> — whether most values are close together or far apart.</p>
@@ -3555,8 +4294,8 @@ Tip
 <p>Each of these gives us a different way to understand <strong>how variable</strong> the data is.</p>
 </div>
 </div>
-<section id="variance" class="level4" data-number="4.7.5.1">
-<h4 data-number="4.7.5.1" class="anchored" data-anchor-id="variance"><span class="header-section-number">4.7.5.1</span> Variance</h4>
+<section id="variance-1" class="level4" data-number="5.2.11.1">
+<h4 data-number="5.2.11.1" class="anchored" data-anchor-id="variance-1"><span class="header-section-number">5.2.11.1</span> Variance</h4>
 <ul>
 <li>Measures the <strong>average squared distance</strong> from the mean.</li>
 <li>Hard to interpret because it’s in <strong>squared units</strong>.</li>
@@ -3569,7 +4308,7 @@ Tip
 <li>A variance of <strong>zero</strong> means all values are <strong>exactly the same</strong>.</li>
 </ul>
 <p>In R, we can calculate it using the <code>var()</code> function</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(penguins<span class="sc">$</span>body_mass_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(penguins<span class="sc">$</span>body_mass_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <pre><code>## [1] 643131.1</code></pre>
 <p>That’s a large number — but what does it really tell us?</p>
 <div class="callout callout-style-default callout-important callout-titled">
@@ -3593,8 +4332,8 @@ For example, here it’s in <strong>grams squared</strong>, which is not easy to
 Instead, we often prefer the <strong>standard deviation</strong>, because it is <strong>easier to understand</strong>.</p>
 <p>This is hard to interpret directly — that is why we usually prefer the <strong>standard deviation</strong>.</p>
 </section>
-<section id="standard-deviation" class="level4" data-number="4.7.5.2">
-<h4 data-number="4.7.5.2" class="anchored" data-anchor-id="standard-deviation"><span class="header-section-number">4.7.5.2</span> Standard Deviation</h4>
+<section id="standard-deviation-1" class="level4" data-number="5.2.11.2">
+<h4 data-number="5.2.11.2" class="anchored" data-anchor-id="standard-deviation-1"><span class="header-section-number">5.2.11.2</span> Standard Deviation</h4>
 <p>A more useful measure of dispersion is the <strong>standard deviation</strong>, usually written as <code>s</code>.</p>
 <p>The <strong>standard deviation</strong> is: <em>the <strong>square root</strong> of the variance.</em></p>
 <p>Because it is not squared, it has the <strong>same unit</strong> as the original data.<br>
@@ -3606,13 +4345,13 @@ This makes it <strong>easier to interpret</strong> than the variance.</p>
 </ul>
 <p>Like the mean, the standard deviation is <strong>sensitive to outliers</strong>.</p>
 <p>In R, we use the <code>sd()</code> function:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(penguins<span class="sc">$</span>body_mass_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(penguins<span class="sc">$</span>body_mass_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <pre><code>## [1] 801.9545</code></pre>
 <p>This tells us that most penguins have body mass values within about <strong>802 grams</strong> of the mean.</p>
 </section>
 </section>
-<section id="why-use-standard-deviation" class="level3" data-number="4.7.6">
-<h3 data-number="4.7.6" class="anchored" data-anchor-id="why-use-standard-deviation"><span class="header-section-number">4.7.6</span> Why use standard deviation?</h3>
+<section id="why-use-standard-deviation" class="level3" data-number="5.2.12">
+<h3 data-number="5.2.12" class="anchored" data-anchor-id="why-use-standard-deviation"><span class="header-section-number">5.2.12</span> Why use standard deviation?</h3>
 <ul>
 <li>It’s on the <strong>same scale</strong> as the variable (grams, not grams²).</li>
 <li>It gives us a <strong>sense of spread</strong> we can understand.</li>
@@ -3623,8 +4362,8 @@ This makes it <strong>easier to interpret</strong> than the variance.</p>
 <li><p><strong>Skewed distributions</strong></p></li>
 <li><p><strong>Outliers</strong> (extreme values)</p></li>
 </ul>
-<section id="interquartile-range-iqr" class="level4" data-number="4.7.6.1">
-<h4 data-number="4.7.6.1" class="anchored" data-anchor-id="interquartile-range-iqr"><span class="header-section-number">4.7.6.1</span> Interquartile Range (IQR)</h4>
+<section id="interquartile-range-iqr" class="level4" data-number="5.2.12.1">
+<h4 data-number="5.2.12.1" class="anchored" data-anchor-id="interquartile-range-iqr"><span class="header-section-number">5.2.12.1</span> Interquartile Range (IQR)</h4>
 <p>The <strong>interquartile range (IQR)</strong> is another measure of dispersion.</p>
 <p>It is especially useful in <strong>EDA</strong> because it is <strong>robust to outliers</strong> and skewed data.</p>
 <ul>
@@ -3671,14 +4410,14 @@ What Are Quartiles?
 <li>It is <strong>preferred</strong> in EDA for skewed or messy data.</li>
 </ul>
 <p>In R, we can calculate the IQR like this:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">IQR</span>(penguins<span class="sc">$</span>body_mass_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">IQR</span>(penguins<span class="sc">$</span>body_mass_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <pre><code>## [1] 1200</code></pre>
 <p>This means the middle 50% of penguins have body masses that differ by <strong>1200 grams</strong>.</p>
 <hr>
 </section>
 </section>
-<section id="the-boxplot-connection" class="level3" data-number="4.7.7">
-<h3 data-number="4.7.7" class="anchored" data-anchor-id="the-boxplot-connection"><span class="header-section-number">4.7.7</span> The Boxplot Connection</h3>
+<section id="the-boxplot-connection" class="level3" data-number="5.2.13">
+<h3 data-number="5.2.13" class="anchored" data-anchor-id="the-boxplot-connection"><span class="header-section-number">5.2.13</span> The Boxplot Connection</h3>
 <p>The <strong>boxplot</strong> (also called a “box-and-whisker plot”) is based on the IQR.</p>
 <ul>
 <li>The <strong>box</strong> shows Q1 to Q3.</li>
@@ -3722,11 +4461,11 @@ What Are Quartiles?
 </tbody>
 </table>
 <p>These values help summarize the distribution, especially for <strong>non-symmetric</strong> data.</p>
-<section id="categorical-variables-1" class="level4" data-number="4.7.7.1">
-<h4 data-number="4.7.7.1" class="anchored" data-anchor-id="categorical-variables-1"><span class="header-section-number">4.7.7.1</span> Categorical Variables</h4>
+<section id="categorical-variables-2" class="level4" data-number="5.2.13.1">
+<h4 data-number="5.2.13.1" class="anchored" data-anchor-id="categorical-variables-2"><span class="header-section-number">5.2.13.1</span> Categorical Variables</h4>
 <p>Descriptive statistics for <strong>categorical variables</strong> aim to answer: <em>“How often does each category occur?”</em></p>
 <p>Since categorical variables have a <strong>limited number of values</strong>, we can simply <strong>count</strong> how many times each category appears.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> <span class="fu">count</span>(species)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> <span class="fu">count</span>(species)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>Central Tendency?</strong></p>
 <p>We can use the <strong>mode</strong> — the <strong>most common category</strong> — as a measure of central tendency for categorical variables.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
@@ -3750,8 +4489,8 @@ Tip
 </ul>
 <p>So, we usually <strong>don’t use</strong> them in exploratory analysis.</p>
 </section>
-<section id="associations" class="level4" data-number="4.7.7.2">
-<h4 data-number="4.7.7.2" class="anchored" data-anchor-id="associations"><span class="header-section-number">4.7.7.2</span> Associations</h4>
+<section id="associations-1" class="level4" data-number="5.2.13.2">
+<h4 data-number="5.2.13.2" class="anchored" data-anchor-id="associations-1"><span class="header-section-number">5.2.13.2</span> Associations</h4>
 <p>Statisticians have created different ways to <strong>quantify relationships</strong> between variables. These are often called <strong>measures of association</strong>.</p>
 <p>The most common type is a <strong>correlation coefficient</strong>, which gives a number that tells us: <em>How strong is the relationship between two variables?</em></p>
 <p><strong>Are “association” and “correlation” the same?</strong></p>
@@ -3894,6 +4633,7 @@ Note
 </ul>
 </div>
 </div>
+<p>======= ## &gt;&gt;&gt;&gt;&gt;&gt;&gt; a16ced031b3d26382bbbaabba295b276d03f88e3</p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
@@ -3910,6 +4650,7 @@ Tufte, Edward. 2006. <em>Beautiful Evidence</em>. Graphics Press LLC.
 Tukey, John Wilder. 1977. <em>Exploratory Data Analysis</em>. Addison-Wesley Publishing Company.
 </div>
 </div>
+</section>
 </section>
 </section>
 </section>
@@ -4321,6 +5062,9 @@ Tukey, John Wilder. 1977. <em>Exploratory Data Analysis</em>. Addison-Wesley Pub
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="../chapters/chapter5_logistic_regression.html" class="pagination-link" aria-label="Logistic Regression">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Logistic Regression</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->
