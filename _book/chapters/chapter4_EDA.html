@@ -1677,6 +1677,35 @@ globalThis.qwebrExecuteCode = async function (
 
 </script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../libs/style.css">
 </head>
@@ -1766,28 +1795,58 @@ globalThis.qwebrExecuteCode = async function (
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#what-is-eda" id="toc-what-is-eda" class="nav-link active" data-scroll-target="#what-is-eda"><span class="header-section-number">4.1</span> What is EDA?</a>
+  <li><a href="#plan-the-study" id="toc-plan-the-study" class="nav-link active" data-scroll-target="#plan-the-study"><span class="header-section-number">4.1</span> Plan the Study</a></li>
+  <li><a href="#after-collecting-the-data" id="toc-after-collecting-the-data" class="nav-link" data-scroll-target="#after-collecting-the-data"><span class="header-section-number">4.2</span> After collecting the data</a></li>
+  <li><a href="#what-is-eda" id="toc-what-is-eda" class="nav-link" data-scroll-target="#what-is-eda"><span class="header-section-number">4.3</span> What is EDA?</a></li>
+  <li><a href="#landscape" id="toc-landscape" class="nav-link" data-scroll-target="#landscape"><span class="header-section-number">4.4</span> Landscape</a></li>
+  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section"><span class="header-section-number">4.5</span> </a>
   <ul>
-  <li><a href="#airquailty-dataset" id="toc-airquailty-dataset" class="nav-link" data-scroll-target="#airquailty-dataset"><span class="header-section-number">4.1.1</span> Airquailty dataset</a>
+  <li><a href="#airquailty-dataset" id="toc-airquailty-dataset" class="nav-link" data-scroll-target="#airquailty-dataset"><span class="header-section-number">4.5.1</span> Airquailty dataset</a>
   <ul class="collapse">
-  <li><a href="#alternative-question" id="toc-alternative-question" class="nav-link" data-scroll-target="#alternative-question"><span class="header-section-number">4.1.1.1</span> Alternative question</a></li>
+  <li><a href="#alternative-question" id="toc-alternative-question" class="nav-link" data-scroll-target="#alternative-question"><span class="header-section-number">4.5.1.1</span> Alternative question</a></li>
   </ul></li>
   </ul></li>
-  <li><a href="#principles-of-analytic-graphics" id="toc-principles-of-analytic-graphics" class="nav-link" data-scroll-target="#principles-of-analytic-graphics"><span class="header-section-number">4.2</span> Principles of Analytic Graphics</a>
+  <li><a href="#principles-of-analytic-graphics" id="toc-principles-of-analytic-graphics" class="nav-link" data-scroll-target="#principles-of-analytic-graphics"><span class="header-section-number">4.6</span> Principles of Analytic Graphics</a>
   <ul>
-  <li><a href="#principle-1-show-comparison" id="toc-principle-1-show-comparison" class="nav-link" data-scroll-target="#principle-1-show-comparison"><span class="header-section-number">4.2.1</span> Principle 1 – Show Comparison</a></li>
-  <li><a href="#principle-2-show-causality-and-explanation" id="toc-principle-2-show-causality-and-explanation" class="nav-link" data-scroll-target="#principle-2-show-causality-and-explanation"><span class="header-section-number">4.2.2</span> Principle 2: Show Causality and Explanation</a></li>
-  <li><a href="#principle-3-show-multivariate-data" id="toc-principle-3-show-multivariate-data" class="nav-link" data-scroll-target="#principle-3-show-multivariate-data"><span class="header-section-number">4.2.3</span> Principle 3: Show Multivariate Data</a></li>
-  <li><a href="#principle-4-integrate-evidence-keep-the-message-clear" id="toc-principle-4-integrate-evidence-keep-the-message-clear" class="nav-link" data-scroll-target="#principle-4-integrate-evidence-keep-the-message-clear"><span class="header-section-number">4.2.4</span> Principle 4: Integrate Evidence — Keep the message clear</a></li>
-  <li><a href="#principle-5-describe-and-document-the-evidence" id="toc-principle-5-describe-and-document-the-evidence" class="nav-link" data-scroll-target="#principle-5-describe-and-document-the-evidence"><span class="header-section-number">4.2.5</span> Principle 5: Describe and Document the Evidence</a></li>
-  <li><a href="#principle-6-content-is-king" id="toc-principle-6-content-is-king" class="nav-link" data-scroll-target="#principle-6-content-is-king"><span class="header-section-number">4.2.6</span> Principle 6: Content is King</a></li>
+  <li><a href="#principle-1-show-comparison" id="toc-principle-1-show-comparison" class="nav-link" data-scroll-target="#principle-1-show-comparison"><span class="header-section-number">4.6.1</span> Principle 1 – Show Comparison</a></li>
+  <li><a href="#principle-2-show-causality-and-explanation" id="toc-principle-2-show-causality-and-explanation" class="nav-link" data-scroll-target="#principle-2-show-causality-and-explanation"><span class="header-section-number">4.6.2</span> Principle 2: Show Causality and Explanation</a></li>
+  <li><a href="#principle-3-show-multivariate-data" id="toc-principle-3-show-multivariate-data" class="nav-link" data-scroll-target="#principle-3-show-multivariate-data"><span class="header-section-number">4.6.3</span> Principle 3: Show Multivariate Data</a></li>
+  <li><a href="#principle-4-integrate-evidence-keep-the-message-clear" id="toc-principle-4-integrate-evidence-keep-the-message-clear" class="nav-link" data-scroll-target="#principle-4-integrate-evidence-keep-the-message-clear"><span class="header-section-number">4.6.4</span> Principle 4: Integrate Evidence — Keep the message clear</a></li>
+  <li><a href="#principle-5-describe-and-document-the-evidence" id="toc-principle-5-describe-and-document-the-evidence" class="nav-link" data-scroll-target="#principle-5-describe-and-document-the-evidence"><span class="header-section-number">4.6.5</span> Principle 5: Describe and Document the Evidence</a></li>
+  <li><a href="#principle-6-content-is-king" id="toc-principle-6-content-is-king" class="nav-link" data-scroll-target="#principle-6-content-is-king"><span class="header-section-number">4.6.6</span> Principle 6: Content is King</a></li>
   </ul></li>
-  <li><a href="#enter-the-world-of-eda" id="toc-enter-the-world-of-eda" class="nav-link" data-scroll-target="#enter-the-world-of-eda"><span class="header-section-number">4.3</span> Enter the world of EDA</a>
+  <li><a href="#enter-the-world-of-eda" id="toc-enter-the-world-of-eda" class="nav-link" data-scroll-target="#enter-the-world-of-eda"><span class="header-section-number">4.7</span> Enter the world of EDA</a>
   <ul>
-  <li><a href="#types-of-variables" id="toc-types-of-variables" class="nav-link" data-scroll-target="#types-of-variables"><span class="header-section-number">4.3.1</span> Types of Variables</a>
+  <li><a href="#types-of-variables" id="toc-types-of-variables" class="nav-link" data-scroll-target="#types-of-variables"><span class="header-section-number">4.7.1</span> Types of Variables</a>
   <ul class="collapse">
-  <li><a href="#numerical-variables" id="toc-numerical-variables" class="nav-link" data-scroll-target="#numerical-variables"><span class="header-section-number">4.3.1.1</span> Numerical variables</a></li>
-  <li><a href="#categorical-variables" id="toc-categorical-variables" class="nav-link" data-scroll-target="#categorical-variables"><span class="header-section-number">4.3.1.2</span> Categorical Variables</a></li>
+  <li><a href="#numerical-variables" id="toc-numerical-variables" class="nav-link" data-scroll-target="#numerical-variables"><span class="header-section-number">4.7.1.1</span> Numerical variables</a></li>
+  <li><a href="#categorical-variables" id="toc-categorical-variables" class="nav-link" data-scroll-target="#categorical-variables"><span class="header-section-number">4.7.1.2</span> Categorical Variables</a></li>
+  </ul></li>
+  <li><a href="#types-of-eda" id="toc-types-of-eda" class="nav-link" data-scroll-target="#types-of-eda"><span class="header-section-number">4.7.2</span> Types of EDA</a>
+  <ul class="collapse">
+  <li><a href="#descriptive-statistics" id="toc-descriptive-statistics" class="nav-link" data-scroll-target="#descriptive-statistics"><span class="header-section-number">4.7.2.1</span> Descriptive Statistics</a></li>
+  <li><a href="#graphical-summaries" id="toc-graphical-summaries" class="nav-link" data-scroll-target="#graphical-summaries"><span class="header-section-number">4.7.2.2</span> Graphical Summaries</a></li>
+  </ul></li>
+  <li><a href="#a-review-on-descriptive-statistics" id="toc-a-review-on-descriptive-statistics" class="nav-link" data-scroll-target="#a-review-on-descriptive-statistics"><span class="header-section-number">4.7.3</span> A Review on Descriptive Statistics</a></li>
+  <li><a href="#central-tendency" id="toc-central-tendency" class="nav-link" data-scroll-target="#central-tendency"><span class="header-section-number">4.7.4</span> <strong>Central Tendency</strong></a>
+  <ul class="collapse">
+  <li><a href="#arithmetic-mean-average" id="toc-arithmetic-mean-average" class="nav-link" data-scroll-target="#arithmetic-mean-average"><span class="header-section-number">4.7.4.1</span> Arithmetic Mean (Average)</a></li>
+  <li><a href="#median" id="toc-median" class="nav-link" data-scroll-target="#median"><span class="header-section-number">4.7.4.2</span> Median</a></li>
+  <li><a href="#mode" id="toc-mode" class="nav-link" data-scroll-target="#mode"><span class="header-section-number">4.7.4.3</span> Mode</a></li>
+  </ul></li>
+  <li><a href="#dispersion" id="toc-dispersion" class="nav-link" data-scroll-target="#dispersion"><span class="header-section-number">4.7.5</span> Dispersion</a>
+  <ul class="collapse">
+  <li><a href="#variance" id="toc-variance" class="nav-link" data-scroll-target="#variance"><span class="header-section-number">4.7.5.1</span> Variance</a></li>
+  <li><a href="#standard-deviation" id="toc-standard-deviation" class="nav-link" data-scroll-target="#standard-deviation"><span class="header-section-number">4.7.5.2</span> Standard Deviation</a></li>
+  </ul></li>
+  <li><a href="#why-use-standard-deviation" id="toc-why-use-standard-deviation" class="nav-link" data-scroll-target="#why-use-standard-deviation"><span class="header-section-number">4.7.6</span> Why use standard deviation?</a>
+  <ul class="collapse">
+  <li><a href="#interquartile-range-iqr" id="toc-interquartile-range-iqr" class="nav-link" data-scroll-target="#interquartile-range-iqr"><span class="header-section-number">4.7.6.1</span> Interquartile Range (IQR)</a></li>
+  </ul></li>
+  <li><a href="#the-boxplot-connection" id="toc-the-boxplot-connection" class="nav-link" data-scroll-target="#the-boxplot-connection"><span class="header-section-number">4.7.7</span> The Boxplot Connection</a>
+  <ul class="collapse">
+  <li><a href="#categorical-variables-1" id="toc-categorical-variables-1" class="nav-link" data-scroll-target="#categorical-variables-1"><span class="header-section-number">4.7.7.1</span> Categorical Variables</a></li>
+  <li><a href="#associations" id="toc-associations" class="nav-link" data-scroll-target="#associations"><span class="header-section-number">4.7.7.2</span> Associations</a></li>
   </ul></li>
   </ul></li>
   </ul>
@@ -2099,9 +2158,295 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </header>
 
 
-<section id="what-is-eda" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="what-is-eda"><span class="header-section-number">4.1</span> What is EDA?</h2>
-<p>Exploratory data analysis (EDA) was first formally introduced by <span class="citation" data-cites="Tukey1977">Tukey (<a href="#ref-Tukey1977" role="doc-biblioref">1977</a>)</span> in his influential 1977 book, <em>Exploratory Data Analysis.</em> Since then, its importance has grown significantly, especially in recent years, for several key reasons: i) data is being produced faster and in larger volumes than ever before, ii) modern computing and software tools make it easier to explore, clean, and visualize data in meaningful ways, iii) contemporary statistical models are often complex and assumption-dependent, requiring us to thoroughly understand the data before applying formal techniques. <span class="citation" data-cites="Midway2022">(<a href="#ref-Midway2022" role="doc-biblioref">Midway 2022</a>)</span></p>
+<section id="plan-the-study" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="plan-the-study"><span class="header-section-number">4.1</span> Plan the Study</h2>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<svg width="672" height="480" viewbox="0.00 0.00 324.00 564.00" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 560)">
+<title>StatProcess</title>
+<g id="clust9" class="cluster">
+<title>cluster_conclusion</title>
+</g>
+<g id="clust7" class="cluster">
+<title>cluster_analysis</title>
+</g>
+<g id="clust3" class="cluster">
+<title>cluster_plan</title>
+</g>
+<g id="clust1" class="cluster">
+<title>cluster_problem</title>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_data</title>
+</g>
+<!-- P1 -->
+<g id="node1" class="node">
+<title>P1</title>
+<ellipse fill="#e07b39" stroke="black" cx="275" cy="-491" rx="25" ry="25"></ellipse>
+<text text-anchor="middle" x="275" y="-486.2" font-family="Arial Bold" font-size="16.00" fill="white">P</text>
+</g>
+<!-- BOX1 -->
+<g id="node2" class="node">
+<title>BOX1</title>
+<defs>
+<lineargradient id="l_95" gradientunits="userSpaceOnUse" x1="16" y1="-491" x2="232" y2="-491">
+<stop offset="0" style="stop-color:#e07b39;stop-opacity:1.;"></stop>
+<stop offset="1" style="stop-color:white;stop-opacity:1.;"></stop>
+</lineargradient>
+</defs>
+<path fill="url(#l_95)" stroke="#333333" stroke-width="2" d="M220,-540C220,-540 28,-540 28,-540 22,-540 16,-534 16,-528 16,-528 16,-454 16,-454 16,-448 22,-442 28,-442 28,-442 220,-442 220,-442 226,-442 232,-448 232,-454 232,-454 232,-528 232,-528 232,-534 226,-540 220,-540"></path>
+<text text-anchor="start" x="95.99" y="-520.4" font-family="Arial" font-weight="bold" font-size="14.00">Problem</text>
+<text text-anchor="start" x="31" y="-497.2" font-family="Arial" font-size="12.00">• Write down study objectives</text>
+<text text-anchor="start" x="30.61" y="-475.2" font-family="Arial" font-size="12.00">• Identify target/sample population</text>
+<text text-anchor="start" x="31" y="-453.2" font-family="Arial" font-size="12.00">• Define the variates</text>
+</g>
+<!-- P1&#45;&gt;BOX1 -->
+<g id="edge1" class="edge">
+<title>P1-&gt;BOX1</title>
+<path fill="none" stroke="#666666" stroke-width="2" stroke-dasharray="1,5" d="M249.94,-491C244.04,-491 238.14,-491 232.24,-491"></path>
+</g>
+<!-- P2 -->
+<g id="node3" class="node">
+<title>P2</title>
+<ellipse fill="#999999" stroke="black" cx="275" cy="-357" rx="25" ry="25"></ellipse>
+<text text-anchor="middle" x="275" y="-352.2" font-family="Arial Bold" font-size="16.00" fill="white">P</text>
+</g>
+<!-- P1&#45;&gt;P2 -->
+<g id="edge6" class="edge">
+<title>P1-&gt;P2</title>
+<path fill="none" stroke="#333333" stroke-width="2" d="M275,-465.79C275,-445.14 275,-415.21 275,-392.12"></path>
+<polygon fill="#333333" stroke="#333333" stroke-width="2" points="278.5,-392.06 275,-382.06 271.5,-392.06 278.5,-392.06"></polygon>
+</g>
+<!-- BOX2 -->
+<g id="node4" class="node">
+<title>BOX2</title>
+<defs>
+<lineargradient id="l_96" gradientunits="userSpaceOnUse" x1="16" y1="-357" x2="232" y2="-357">
+<stop offset="0" style="stop-color:#999999;stop-opacity:1.;"></stop>
+<stop offset="1" style="stop-color:white;stop-opacity:1.;"></stop>
+</lineargradient>
+</defs>
+<path fill="url(#l_96)" stroke="#333333" stroke-width="2" d="M220,-406C220,-406 28,-406 28,-406 22,-406 16,-400 16,-394 16,-394 16,-320 16,-320 16,-314 22,-308 28,-308 28,-308 220,-308 220,-308 226,-308 232,-314 232,-320 232,-320 232,-394 232,-394 232,-400 226,-406 220,-406"></path>
+<text text-anchor="start" x="109.22" y="-386.4" font-family="Arial" font-weight="bold" font-size="14.00">Plan</text>
+<text text-anchor="start" x="40.62" y="-363.2" font-family="Arial" font-size="12.00">• Plan data collection methods</text>
+<text text-anchor="start" x="41" y="-341.2" font-family="Arial" font-size="12.00">• Calculate sample size</text>
+<text text-anchor="start" x="41" y="-319.2" font-family="Arial" font-size="12.00">• Consider analysis options</text>
+</g>
+<!-- P2&#45;&gt;BOX2 -->
+<g id="edge2" class="edge">
+<title>P2-&gt;BOX2</title>
+<path fill="none" stroke="#666666" stroke-width="2" stroke-dasharray="1,5" d="M249.94,-357C244.04,-357 238.14,-357 232.24,-357"></path>
+</g>
+<!-- D -->
+<g id="node5" class="node">
+<title>D</title>
+<ellipse fill="#f4d03f" stroke="black" cx="275" cy="-234" rx="25" ry="25"></ellipse>
+<text text-anchor="middle" x="275" y="-229.2" font-family="Arial Bold" font-size="16.00">D</text>
+</g>
+<!-- P2&#45;&gt;D -->
+<g id="edge7" class="edge">
+<title>P2-&gt;D</title>
+<path fill="none" stroke="#333333" stroke-width="2" d="M275,-331.8C275,-313.92 275,-289.31 275,-269.38"></path>
+<polygon fill="#333333" stroke="#333333" stroke-width="2" points="278.5,-269.15 275,-259.15 271.5,-269.15 278.5,-269.15"></polygon>
+</g>
+<!-- BOX3 -->
+<g id="node6" class="node">
+<title>BOX3</title>
+<defs>
+<lineargradient id="l_97" gradientunits="userSpaceOnUse" x1="16" y1="-234" x2="232" y2="-234">
+<stop offset="0" style="stop-color:#f4d03f;stop-opacity:1.;"></stop>
+<stop offset="1" style="stop-color:white;stop-opacity:1.;"></stop>
+</lineargradient>
+</defs>
+<path fill="url(#l_97)" stroke="#333333" stroke-width="2" d="M220,-272C220,-272 28,-272 28,-272 22,-272 16,-266 16,-260 16,-260 16,-208 16,-208 16,-202 22,-196 28,-196 28,-196 220,-196 220,-196 226,-196 232,-202 232,-208 232,-208 232,-260 232,-260 232,-266 226,-272 220,-272"></path>
+<text text-anchor="start" x="109.33" y="-252.4" font-family="Arial" font-weight="bold" font-size="14.00">Data</text>
+<text text-anchor="start" x="62.8" y="-229.2" font-family="Arial" font-size="12.00">• Collect data per plan</text>
+<text text-anchor="start" x="63" y="-207.2" font-family="Arial" font-size="12.00">• Note any deviations</text>
+</g>
+<!-- D&#45;&gt;BOX3 -->
+<g id="edge3" class="edge">
+<title>D-&gt;BOX3</title>
+<path fill="none" stroke="#666666" stroke-width="2" stroke-dasharray="1,5" d="M249.94,-234C244.04,-234 238.14,-234 232.24,-234"></path>
+</g>
+<!-- A -->
+<g id="node7" class="node">
+<title>A</title>
+<ellipse fill="#5dade2" stroke="black" cx="275" cy="-133" rx="25" ry="25"></ellipse>
+<text text-anchor="middle" x="275" y="-128.2" font-family="Arial Bold" font-size="16.00" fill="white">A</text>
+</g>
+<!-- D&#45;&gt;A -->
+<g id="edge8" class="edge">
+<title>D-&gt;A</title>
+<path fill="none" stroke="#333333" stroke-width="2" d="M275,-208.78C275,-196.68 275,-181.81 275,-168.54"></path>
+<polygon fill="#333333" stroke="#333333" stroke-width="2" points="278.5,-168.31 275,-158.31 271.5,-168.31 278.5,-168.31"></polygon>
+</g>
+<!-- BOX4 -->
+<g id="node8" class="node">
+<title>BOX4</title>
+<defs>
+<lineargradient id="l_98" gradientunits="userSpaceOnUse" x1="16" y1="-133" x2="232" y2="-133">
+<stop offset="0" style="stop-color:#5dade2;stop-opacity:1.;"></stop>
+<stop offset="1" style="stop-color:white;stop-opacity:1.;"></stop>
+</lineargradient>
+</defs>
+<path fill="url(#l_98)" stroke="#333333" stroke-width="2" d="M220,-160C220,-160 28,-160 28,-160 22,-160 16,-154 16,-148 16,-148 16,-118 16,-118 16,-112 22,-106 28,-106 28,-106 220,-106 220,-106 226,-106 232,-112 232,-118 232,-118 232,-148 232,-148 232,-154 226,-160 220,-160"></path>
+<text text-anchor="start" x="95.71" y="-140.4" font-family="Arial" font-weight="bold" font-size="14.00">Analysis</text>
+<text text-anchor="start" x="59.79" y="-117.2" font-family="Arial" font-size="12.00">• Analyze data per plan</text>
+</g>
+<!-- A&#45;&gt;BOX4 -->
+<g id="edge4" class="edge">
+<title>A-&gt;BOX4</title>
+<path fill="none" stroke="#666666" stroke-width="2" stroke-dasharray="1,5" d="M249.94,-133C244.04,-133 238.14,-133 232.24,-133"></path>
+</g>
+<!-- C -->
+<g id="node9" class="node">
+<title>C</title>
+<ellipse fill="#82c341" stroke="black" cx="275" cy="-43" rx="25" ry="25"></ellipse>
+<text text-anchor="middle" x="275" y="-38.2" font-family="Arial Bold" font-size="16.00" fill="white">C</text>
+</g>
+<!-- A&#45;&gt;C -->
+<g id="edge9" class="edge">
+<title>A-&gt;C</title>
+<path fill="none" stroke="#333333" stroke-width="2" d="M275,-107.95C275,-98.74 275,-88.04 275,-78.06"></path>
+<polygon fill="#333333" stroke="#333333" stroke-width="2" points="278.5,-78.02 275,-68.02 271.5,-78.02 278.5,-78.02"></polygon>
+</g>
+<!-- BOX5 -->
+<g id="node10" class="node">
+<title>BOX5</title>
+<defs>
+<lineargradient id="l_99" gradientunits="userSpaceOnUse" x1="16" y1="-43" x2="232" y2="-43">
+<stop offset="0" style="stop-color:#82c341;stop-opacity:1.;"></stop>
+<stop offset="1" style="stop-color:white;stop-opacity:1.;"></stop>
+</lineargradient>
+</defs>
+<path fill="url(#l_99)" stroke="#333333" stroke-width="2" d="M220,-70C220,-70 28,-70 28,-70 22,-70 16,-64 16,-58 16,-58 16,-28 16,-28 16,-22 22,-16 28,-16 28,-16 220,-16 220,-16 226,-16 232,-22 232,-28 232,-28 232,-58 232,-58 232,-64 226,-70 220,-70"></path>
+<text text-anchor="start" x="85.89" y="-50.4" font-family="Arial" font-weight="bold" font-size="14.00">Conclusion</text>
+<text text-anchor="start" x="45.96" y="-27.2" font-family="Arial" font-size="12.00">• Draw conclusion in context</text>
+</g>
+<!-- C&#45;&gt;BOX5 -->
+<g id="edge5" class="edge">
+<title>C-&gt;BOX5</title>
+<path fill="none" stroke="#666666" stroke-width="2" stroke-dasharray="1,5" d="M249.94,-43C244.04,-43 238.14,-43 232.24,-43"></path>
+</g>
+</g>
+</svg>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+<section id="after-collecting-the-data" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="after-collecting-the-data"><span class="header-section-number">4.2</span> After collecting the data</h2>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<svg width="672" height="480" viewbox="0.00 0.00 728.00 1196.00" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 1192)">
+<title>AfterCollecting</title>
+<!-- S1 -->
+<g id="node1" class="node">
+<title>S1</title>
+<path fill="#fad7a0" stroke="#333333" stroke-width="2" d="M708,-1188C708,-1188 12,-1188 12,-1188 6,-1188 0,-1182 0,-1176 0,-1176 0,-1020 0,-1020 0,-1014 6,-1008 12,-1008 12,-1008 708,-1008 708,-1008 714,-1008 720,-1014 720,-1020 720,-1020 720,-1176 720,-1176 720,-1182 714,-1188 708,-1188"></path>
+<text text-anchor="start" x="121.82" y="-1139" font-family="Arial" font-weight="bold" font-size="40.00">Review the hypotheses</text>
+<text text-anchor="start" x="149.33" y="-1077.3" font-family="Arial" font-size="14.00">•</text>
+<text text-anchor="start" x="167" y="-1072.8" font-family="Arial" font-size="28.00">Review the research questions</text>
+<text text-anchor="start" x="149.33" y="-1038.3" font-family="Arial" font-size="14.00">•</text>
+<text text-anchor="start" x="167" y="-1033.8" font-family="Arial" font-size="28.00">Consider sub-questions</text>
+</g>
+<!-- S2 -->
+<g id="node2" class="node">
+<title>S2</title>
+<path fill="#d5dbdb" stroke="#333333" stroke-width="2" d="M708,-936C708,-936 12,-936 12,-936 6,-936 0,-930 0,-924 0,-924 0,-768 0,-768 0,-762 6,-756 12,-756 12,-756 708,-756 708,-756 714,-756 720,-762 720,-768 720,-768 720,-924 720,-924 720,-930 714,-936 708,-936"></path>
+<text text-anchor="start" x="81" y="-887" font-family="Arial" font-weight="bold" font-size="40.00">Process the raw data</text>
+<text text-anchor="start" x="89.33" y="-825.3" font-family="Arial" font-size="14.00">•</text>
+<text text-anchor="start" x="107" y="-820.8" font-family="Arial" font-size="28.00">Select a suitable statistics software</text>
+<text text-anchor="start" x="89.33" y="-786.3" font-family="Arial" font-size="14.00">•</text>
+<text text-anchor="start" x="106.89" y="-781.8" font-family="Arial" font-size="28.00">Convert the data into an acceptable format</text>
+</g>
+<!-- S1&#45;&gt;S2 -->
+<g id="edge1" class="edge">
+<title>S1-&gt;S2</title>
+<path fill="none" stroke="#666666" stroke-width="2" d="M360,-1007.8C360,-988.53 360,-968.01 360,-948.31"></path>
+<polygon fill="#666666" stroke="#666666" stroke-width="2" points="364.2,-948.16 360,-936.16 355.8,-948.16 364.2,-948.16"></polygon>
+</g>
+<!-- S3 -->
+<g id="node3" class="node">
+<title>S3</title>
+<path fill="#f9e79f" stroke="#333333" stroke-width="2" d="M708,-684C708,-684 12,-684 12,-684 6,-684 0,-678 0,-672 0,-672 0,-516 0,-516 0,-510 6,-504 12,-504 12,-504 708,-504 708,-504 714,-504 720,-510 720,-516 720,-516 720,-672 720,-672 720,-678 714,-684 708,-684"></path>
+<text text-anchor="start" x="122" y="-635" font-family="Arial" font-weight="bold" font-size="40.00">Explore the data</text>
+<text text-anchor="start" x="130.33" y="-573.3" font-family="Arial" font-size="14.00">•</text>
+<text text-anchor="start" x="147.91" y="-568.8" font-family="Arial" font-size="28.00">Descriptive summaries</text>
+<text text-anchor="start" x="130.33" y="-534.3" font-family="Arial" font-size="14.00">•</text>
+<text text-anchor="start" x="148" y="-529.8" font-family="Arial" font-size="28.00">Data visualization</text>
+</g>
+<!-- S2&#45;&gt;S3 -->
+<g id="edge2" class="edge">
+<title>S2-&gt;S3</title>
+<path fill="none" stroke="#666666" stroke-width="2" d="M360,-755.8C360,-736.53 360,-716.01 360,-696.31"></path>
+<polygon fill="#666666" stroke="#666666" stroke-width="2" points="364.2,-696.16 360,-684.16 355.8,-696.16 364.2,-696.16"></polygon>
+</g>
+<!-- S4 -->
+<g id="node4" class="node">
+<title>S4</title>
+<path fill="#aed6f1" stroke="#333333" stroke-width="2" d="M708,-432C708,-432 12,-432 12,-432 6,-432 0,-426 0,-420 0,-420 0,-264 0,-264 0,-258 6,-252 12,-252 12,-252 708,-252 708,-252 714,-252 720,-258 720,-264 720,-264 720,-420 720,-420 720,-426 714,-432 708,-432"></path>
+<text text-anchor="start" x="121.68" y="-383" font-family="Arial" font-weight="bold" font-size="40.00">Analyze the data</text>
+<text text-anchor="start" x="157.33" y="-321.3" font-family="Arial" font-size="14.00">•</text>
+<text text-anchor="start" x="175" y="-316.8" font-family="Arial" font-size="28.00">Inferential analysis</text>
+<text text-anchor="start" x="157.33" y="-282.3" font-family="Arial" font-size="14.00">•</text>
+<text text-anchor="start" x="175" y="-277.8" font-family="Arial" font-size="28.00">Prediction</text>
+</g>
+<!-- S3&#45;&gt;S4 -->
+<g id="edge3" class="edge">
+<title>S3-&gt;S4</title>
+<path fill="none" stroke="#666666" stroke-width="2" d="M360,-503.8C360,-484.53 360,-464.01 360,-444.31"></path>
+<polygon fill="#666666" stroke="#666666" stroke-width="2" points="364.2,-444.16 360,-432.16 355.8,-444.16 364.2,-444.16"></polygon>
+</g>
+<!-- S5 -->
+<g id="node5" class="node">
+<title>S5</title>
+<path fill="#abebc6" stroke="#333333" stroke-width="2" d="M708,-180C708,-180 12,-180 12,-180 6,-180 0,-174 0,-168 0,-168 0,-12 0,-12 0,-6 6,0 12,0 12,0 708,0 708,0 714,0 720,-6 720,-12 720,-12 720,-168 720,-168 720,-174 714,-180 708,-180"></path>
+<text text-anchor="start" x="61" y="-111" font-family="Arial" font-weight="bold" font-size="40.00">Report the results</text>
+<text text-anchor="start" x="69.33" y="-49.3" font-family="Arial" font-size="14.00">•</text>
+<text text-anchor="start" x="86.95" y="-44.8" font-family="Arial" font-size="28.00">Interpret the results in the context of the study</text>
+</g>
+<!-- S4&#45;&gt;S5 -->
+<g id="edge4" class="edge">
+<title>S4-&gt;S5</title>
+<path fill="none" stroke="#666666" stroke-width="2" d="M360,-251.8C360,-232.53 360,-212.01 360,-192.31"></path>
+<polygon fill="#666666" stroke="#666666" stroke-width="2" points="364.2,-192.16 360,-180.16 355.8,-192.16 364.2,-192.16"></polygon>
+</g>
+</g>
+</svg>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+<section id="what-is-eda" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="what-is-eda"><span class="header-section-number">4.3</span> What is EDA?</h2>
+<p>Exploratory data analysis (EDA) was first formally introduced by <span class="citation" data-cites="Tukey1977">Tukey (<a href="#ref-Tukey1977" role="doc-biblioref">1977</a>)</span> in his influential book, <em>Exploratory Data Analysis.</em></p>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 54.8%;justify-content: center;">
+<p><img src="..\figs/EDA/Tukey.jpg" class="img-fluid" width="288"></p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 45.2%;justify-content: center;">
+<p><img src="..\figs/EDA/book.jpg" class="img-fluid" width="238"></p>
+</div>
+</div>
+</div>
+<p>Since then, its importance has grown significantly, especially in recent years, for several key reasons <span class="citation" data-cites="Midway2022">(<a href="#ref-Midway2022" role="doc-biblioref">Midway 2022</a>)</span>:</p>
+<p>i) data is being produced faster and in larger volumes than ever before,</p>
+<p>ii) modern computing and software tools make it easier to explore, clean, and visualize data in meaningful ways,</p>
+<p>iii) contemporary statistical models are often complex and assumption-dependent, requiring us to thoroughly understand the data before applying formal techniques.</p>
 <p>The EDA may not be fully described in concrete terms, but most data analysts and statisticians know it when they see it.</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -2188,8 +2533,153 @@ Tip
 <p>EDA is like exploring a new place – you do not know what you will find until you start looking.</p>
 </div>
 </div>
-<section id="airquailty-dataset" class="level3" data-number="4.1.1">
-<h3 data-number="4.1.1" class="anchored" data-anchor-id="airquailty-dataset"><span class="header-section-number">4.1.1</span> Airquailty dataset</h3>
+</section>
+<section id="landscape" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="landscape"><span class="header-section-number">4.4</span> Landscape</h2>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<svg width="672" height="480" viewbox="0.00 0.00 1358.00 540.00" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 536)">
+<title>EDA</title>
+<!-- EDA -->
+<g id="node1" class="node">
+<title>EDA</title>
+<path fill="#eaf2f8" stroke="#333333" d="M843,-532C843,-532 507,-532 507,-532 501,-532 495,-526 495,-520 495,-520 495,-458 495,-458 495,-452 501,-446 507,-446 507,-446 843,-446 843,-446 849,-446 855,-452 855,-458 855,-458 855,-520 855,-520 855,-526 849,-532 843,-532"></path>
+<text text-anchor="start" x="515.55" y="-481.6" font-family="Arial Bold" font-weight="bold" font-size="28.00">Exploratory Data Analysis</text>
+</g>
+<!-- View -->
+<g id="node2" class="node">
+<title>View</title>
+<ellipse fill="#fad7a0" stroke="#333333" cx="216" cy="-367" rx="108" ry="43"></ellipse>
+<text text-anchor="middle" x="216" y="-360.4" font-family="Arial" font-size="22.00">View data</text>
+</g>
+<!-- EDA&#45;&gt;View -->
+<g id="edge1" class="edge">
+<title>EDA-&gt;View</title>
+<path fill="none" stroke="black" d="M514.14,-445.95C447.94,-428.64 373.35,-409.14 315.33,-393.97"></path>
+<polygon fill="black" stroke="black" points="316,-390.53 305.44,-391.38 314.22,-397.3 316,-390.53"></polygon>
+</g>
+<!-- Summary -->
+<g id="node3" class="node">
+<title>Summary</title>
+<ellipse fill="#d5dbdb" stroke="#333333" cx="531" cy="-367" rx="108" ry="43"></ellipse>
+<text text-anchor="middle" x="531" y="-373.6" font-family="Arial" font-size="22.00">Summary</text>
+<text text-anchor="middle" x="531" y="-347.2" font-family="Arial" font-size="22.00">statistics</text>
+</g>
+<!-- EDA&#45;&gt;Summary -->
+<g id="edge2" class="edge">
+<title>EDA-&gt;Summary</title>
+<path fill="none" stroke="black" d="M624.23,-445.69C611.49,-435.08 597.78,-423.65 584.89,-412.91"></path>
+<polygon fill="black" stroke="black" points="586.91,-410.04 576.99,-406.32 582.43,-415.41 586.91,-410.04"></polygon>
+</g>
+<!-- Graphs -->
+<g id="node4" class="node">
+<title>Graphs</title>
+<ellipse fill="#f9e79f" stroke="#333333" cx="819" cy="-367" rx="108" ry="43"></ellipse>
+<text text-anchor="middle" x="819" y="-373.6" font-family="Arial" font-size="22.00">Basic</text>
+<text text-anchor="middle" x="819" y="-347.2" font-family="Arial" font-size="22.00">Graphs</text>
+</g>
+<!-- EDA&#45;&gt;Graphs -->
+<g id="edge3" class="edge">
+<title>EDA-&gt;Graphs</title>
+<path fill="none" stroke="black" d="M725.77,-445.69C738.51,-435.08 752.22,-423.65 765.11,-412.91"></path>
+<polygon fill="black" stroke="black" points="767.57,-415.41 773.01,-406.32 763.09,-410.04 767.57,-415.41"></polygon>
+</g>
+<!-- Tests -->
+<g id="node5" class="node">
+<title>Tests</title>
+<ellipse fill="#abebc6" stroke="#333333" cx="1161" cy="-367" rx="108" ry="43"></ellipse>
+<text text-anchor="middle" x="1161" y="-373.6" font-family="Arial" font-size="22.00">Basic</text>
+<text text-anchor="middle" x="1161" y="-347.2" font-family="Arial" font-size="22.00">Tests</text>
+</g>
+<!-- EDA&#45;&gt;Tests -->
+<g id="edge4" class="edge">
+<title>EDA-&gt;Tests</title>
+<path fill="none" stroke="black" d="M845.32,-445.95C917.13,-428.21 998.27,-408.18 1060.31,-392.86"></path>
+<polygon fill="black" stroke="black" points="1061.23,-396.24 1070.1,-390.45 1059.55,-389.44 1061.23,-396.24"></polygon>
+</g>
+<!-- V1 -->
+<g id="node6" class="node">
+<title>V1</title>
+<path fill="none" stroke="#333333" d="M312,-288C312,-288 12,-288 12,-288 6,-288 0,-282 0,-276 0,-276 0,-12 0,-12 0,-6 6,0 12,0 12,0 312,0 312,0 318,0 324,-6 324,-12 324,-12 324,-276 324,-276 324,-282 318,-288 312,-288"></path>
+<text text-anchor="middle" x="162" y="-194.4" font-family="Arial" font-size="24.00">Observation number</text>
+<text text-anchor="middle" x="162" y="-165.6" font-family="Arial" font-size="24.00">Variable number</text>
+<text text-anchor="middle" x="162" y="-136.8" font-family="Arial" font-size="24.00">Variable type</text>
+<text text-anchor="middle" x="162" y="-108" font-family="Arial" font-size="24.00">Variable category</text>
+<text text-anchor="middle" x="162" y="-79.2" font-family="Arial" font-size="24.00">Structure</text>
+</g>
+<!-- View&#45;&gt;V1 -->
+<g id="edge5" class="edge">
+<title>View-&gt;V1</title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M205.78,-324.17C203.83,-316.18 201.68,-307.4 199.42,-298.15"></path>
+<polygon fill="black" stroke="black" points="202.8,-297.24 197.03,-288.35 196,-298.9 202.8,-297.24"></polygon>
+</g>
+<!-- S1 -->
+<g id="node7" class="node">
+<title>S1</title>
+<path fill="none" stroke="#333333" d="M654,-288C654,-288 354,-288 354,-288 348,-288 342,-282 342,-276 342,-276 342,-12 342,-12 342,-6 348,0 354,0 354,0 654,0 654,0 660,0 666,-6 666,-12 666,-12 666,-276 666,-276 666,-282 660,-288 654,-288"></path>
+<text text-anchor="middle" x="504" y="-237.6" font-family="Arial" font-size="24.00">Mean</text>
+<text text-anchor="middle" x="504" y="-208.8" font-family="Arial" font-size="24.00">Median</text>
+<text text-anchor="middle" x="504" y="-180" font-family="Arial" font-size="24.00">Mode</text>
+<text text-anchor="middle" x="504" y="-151.2" font-family="Arial" font-size="24.00">Range</text>
+<text text-anchor="middle" x="504" y="-122.4" font-family="Arial" font-size="24.00">Variance</text>
+<text text-anchor="middle" x="504" y="-93.6" font-family="Arial" font-size="24.00">Standard deviation</text>
+<text text-anchor="middle" x="504" y="-64.8" font-family="Arial" font-size="24.00">Outliers</text>
+<text text-anchor="middle" x="504" y="-36" font-family="Arial" font-size="24.00">Missing data</text>
+</g>
+<!-- Summary&#45;&gt;S1 -->
+<g id="edge6" class="edge">
+<title>Summary-&gt;S1</title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M525.86,-323.91C524.89,-316 523.83,-307.32 522.71,-298.18"></path>
+<polygon fill="black" stroke="black" points="526.17,-297.6 521.48,-288.1 519.22,-298.45 526.17,-297.6"></polygon>
+</g>
+<!-- G1 -->
+<g id="node8" class="node">
+<title>G1</title>
+<path fill="none" stroke="#333333" d="M996,-288C996,-288 696,-288 696,-288 690,-288 684,-282 684,-276 684,-276 684,-12 684,-12 684,-6 690,0 696,0 696,0 996,0 996,0 1002,0 1008,-6 1008,-12 1008,-12 1008,-276 1008,-276 1008,-282 1002,-288 996,-288"></path>
+<text text-anchor="middle" x="846" y="-194.4" font-family="Arial" font-size="24.00">Histogram</text>
+<text text-anchor="middle" x="846" y="-165.6" font-family="Arial" font-size="24.00">Bar plot</text>
+<text text-anchor="middle" x="846" y="-136.8" font-family="Arial" font-size="24.00">Boxplot</text>
+<text text-anchor="middle" x="846" y="-108" font-family="Arial" font-size="24.00">Scatter-plot</text>
+<text text-anchor="middle" x="846" y="-79.2" font-family="Arial" font-size="24.00">QQ-plot</text>
+</g>
+<!-- Graphs&#45;&gt;G1 -->
+<g id="edge7" class="edge">
+<title>Graphs-&gt;G1</title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M824.14,-323.91C825.11,-316 826.17,-307.32 827.29,-298.18"></path>
+<polygon fill="black" stroke="black" points="830.78,-298.45 828.52,-288.1 823.83,-297.6 830.78,-298.45"></polygon>
+</g>
+<!-- T1 -->
+<g id="node9" class="node">
+<title>T1</title>
+<path fill="none" stroke="#333333" d="M1338,-288C1338,-288 1038,-288 1038,-288 1032,-288 1026,-282 1026,-276 1026,-276 1026,-12 1026,-12 1026,-6 1032,0 1038,0 1038,0 1338,0 1338,0 1344,0 1350,-6 1350,-12 1350,-12 1350,-276 1350,-276 1350,-282 1344,-288 1338,-288"></path>
+<text text-anchor="middle" x="1188" y="-194.4" font-family="Arial" font-size="24.00">Check assumptions</text>
+<text text-anchor="middle" x="1188" y="-165.6" font-family="Arial" font-size="24.00">T-tests</text>
+<text text-anchor="middle" x="1188" y="-136.8" font-family="Arial" font-size="24.00">Correlations</text>
+<text text-anchor="middle" x="1188" y="-108" font-family="Arial" font-size="24.00">ANOVA</text>
+<text text-anchor="middle" x="1188" y="-79.2" font-family="Arial" font-size="24.00">Linear model</text>
+</g>
+<!-- Tests&#45;&gt;T1 -->
+<g id="edge8" class="edge">
+<title>Tests-&gt;T1</title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M1166.14,-323.91C1167.11,-316 1168.17,-307.32 1169.29,-298.18"></path>
+<polygon fill="black" stroke="black" points="1172.78,-298.45 1170.52,-288.1 1165.83,-297.6 1172.78,-298.45"></polygon>
+</g>
+</g>
+</svg>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+<section id="section" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="section"><span class="header-section-number">4.5</span> </h2>
+<section id="airquailty-dataset" class="level3" data-number="4.5.1">
+<h3 data-number="4.5.1" class="anchored" data-anchor-id="airquailty-dataset"><span class="header-section-number">4.5.1</span> Airquailty dataset</h3>
 <p>We will explore the <code>airquality</code> dataset, which contains daily measurement of air pollutants and weather conditions in New York City May to September 1973.</p>
 <p><strong>Step 1 –</strong> <em>How do ozone levels vary across different months in New York during the summer in 1973?</em></p>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -2309,8 +2799,8 @@ sum(is.na(x))</code></pre>
 <div id="qwebr-insertion-location-16"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>We might also refine our question: <em>On which days was the ozone level unusually high, and what were the weather conditions on those days?</em></p>
-<section id="alternative-question" class="level4" data-number="4.1.1.1">
-<h4 data-number="4.1.1.1" class="anchored" data-anchor-id="alternative-question"><span class="header-section-number">4.1.1.1</span> Alternative question</h4>
+<section id="alternative-question" class="level4" data-number="4.5.1.1">
+<h4 data-number="4.5.1.1" class="anchored" data-anchor-id="alternative-question"><span class="header-section-number">4.5.1.1</span> Alternative question</h4>
 <p><strong><em>Step 1 – Which weather factor—temperature, wind, or solar radiation—has the strongest relationship with ozone levels during the summer of 1973 in New York?</em></strong></p>
 <p>This question is more analytical than descriptive, and focused on <strong>relationships</strong> between variables. So, we need to examine how ozone changes with respect to other variables.</p>
 <p><strong>Step 2 –</strong></p>
@@ -2445,11 +2935,11 @@ Tip
 </section>
 </section>
 </section>
-<section id="principles-of-analytic-graphics" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="principles-of-analytic-graphics"><span class="header-section-number">4.2</span> Principles of Analytic Graphics</h2>
+<section id="principles-of-analytic-graphics" class="level2" data-number="4.6">
+<h2 data-number="4.6" class="anchored" data-anchor-id="principles-of-analytic-graphics"><span class="header-section-number">4.6</span> Principles of Analytic Graphics</h2>
 <p>Based on <span class="citation" data-cites="Tufte2006">(<a href="#ref-Tufte2006" role="doc-biblioref">Tufte 2006</a>)</span>, there are six key principles for designing informative and effective graphs.</p>
-<section id="principle-1-show-comparison" class="level3" data-number="4.2.1">
-<h3 data-number="4.2.1" class="anchored" data-anchor-id="principle-1-show-comparison"><span class="header-section-number">4.2.1</span> Principle 1 – Show Comparison</h3>
+<section id="principle-1-show-comparison" class="level3" data-number="4.6.1">
+<h3 data-number="4.6.1" class="anchored" data-anchor-id="principle-1-show-comparison"><span class="header-section-number">4.6.1</span> Principle 1 – Show Comparison</h3>
 <div class="callout callout-style-simple callout-caution no-icon">
 <div class="callout-body d-flex">
 <div class="callout-icon-container">
@@ -2492,8 +2982,8 @@ Tip
 </div>
 <p>Good data graphics should always show <strong>at least two things</strong> so we can compare and understand what’s really happening.</p>
 </section>
-<section id="principle-2-show-causality-and-explanation" class="level3" data-number="4.2.2">
-<h3 data-number="4.2.2" class="anchored" data-anchor-id="principle-2-show-causality-and-explanation"><span class="header-section-number">4.2.2</span> Principle 2: Show Causality and Explanation</h3>
+<section id="principle-2-show-causality-and-explanation" class="level3" data-number="4.6.2">
+<h3 data-number="4.6.2" class="anchored" data-anchor-id="principle-2-show-causality-and-explanation"><span class="header-section-number">4.6.2</span> Principle 2: Show Causality and Explanation</h3>
 <p>When making a data graphics, it is helpful to show <strong>why</strong> you think something is happening – not just what is happening. Even if you can not prove a cause, you can show your <strong>hypothesis</strong> of <strong>idea</strong> about how one thing might lead to another.</p>
 <div class="callout callout-style-simple callout-caution no-icon">
 <div class="callout-body d-flex">
@@ -2521,8 +3011,8 @@ Tip
 </ul>
 <p>This <strong>pattern supports</strong> the idea that air cleaners work by reducing harmful particles — but it is not final proof. Other things might also cause the change, so more data and careful studies are needed to confirm.</p>
 </section>
-<section id="principle-3-show-multivariate-data" class="level3" data-number="4.2.3">
-<h3 data-number="4.2.3" class="anchored" data-anchor-id="principle-3-show-multivariate-data"><span class="header-section-number">4.2.3</span> Principle 3: Show Multivariate Data</h3>
+<section id="principle-3-show-multivariate-data" class="level3" data-number="4.6.3">
+<h3 data-number="4.6.3" class="anchored" data-anchor-id="principle-3-show-multivariate-data"><span class="header-section-number">4.6.3</span> Principle 3: Show Multivariate Data</h3>
 <div class="callout callout-style-simple callout-caution no-icon">
 <div class="callout-body d-flex">
 <div class="callout-icon-container">
@@ -2586,8 +3076,8 @@ Important
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>This way, we can see how the relationship between weight and MPG changes in each group combination.</p>
 </section>
-<section id="principle-4-integrate-evidence-keep-the-message-clear" class="level3" data-number="4.2.4">
-<h3 data-number="4.2.4" class="anchored" data-anchor-id="principle-4-integrate-evidence-keep-the-message-clear"><span class="header-section-number">4.2.4</span> Principle 4: Integrate Evidence — Keep the message clear</h3>
+<section id="principle-4-integrate-evidence-keep-the-message-clear" class="level3" data-number="4.6.4">
+<h3 data-number="4.6.4" class="anchored" data-anchor-id="principle-4-integrate-evidence-keep-the-message-clear"><span class="header-section-number">4.6.4</span> Principle 4: Integrate Evidence — Keep the message clear</h3>
 <p>When you make a graph, <em>do not rely</em> on points and lines to show your idea. You can also use: <strong>Numbers</strong> to give exact values, <strong>Words or short labels</strong> to explain what is happening, <strong>Pictures or diagrams</strong> to give context.</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -2617,8 +3107,8 @@ Important
 </div>
 </div>
 </section>
-<section id="principle-5-describe-and-document-the-evidence" class="level3" data-number="4.2.5">
-<h3 data-number="4.2.5" class="anchored" data-anchor-id="principle-5-describe-and-document-the-evidence"><span class="header-section-number">4.2.5</span> Principle 5: Describe and Document the Evidence</h3>
+<section id="principle-5-describe-and-document-the-evidence" class="level3" data-number="4.6.5">
+<h3 data-number="4.6.5" class="anchored" data-anchor-id="principle-5-describe-and-document-the-evidence"><span class="header-section-number">4.6.5</span> Principle 5: Describe and Document the Evidence</h3>
 <p>A good graph tells a story – clearly and completely. That means it should include:</p>
 <ul>
 <li><p>A clear <strong>title</strong></p></li>
@@ -2658,8 +3148,8 @@ Note
 <p>try this</p>
 <p>when we use <code>ggplot2</code>, it is better to add <code>labs()</code> like we did until now.</p>
 </section>
-<section id="principle-6-content-is-king" class="level3" data-number="4.2.6">
-<h3 data-number="4.2.6" class="anchored" data-anchor-id="principle-6-content-is-king"><span class="header-section-number">4.2.6</span> Principle 6: Content is King</h3>
+<section id="principle-6-content-is-king" class="level3" data-number="4.6.6">
+<h3 data-number="4.6.6" class="anchored" data-anchor-id="principle-6-content-is-king"><span class="header-section-number">4.6.6</span> Principle 6: Content is King</h3>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -2695,12 +3185,12 @@ Tip
 </div>
 </section>
 </section>
-<section id="enter-the-world-of-eda" class="level2" data-number="4.3">
-<h2 data-number="4.3" class="anchored" data-anchor-id="enter-the-world-of-eda"><span class="header-section-number">4.3</span> Enter the world of EDA</h2>
+<section id="enter-the-world-of-eda" class="level2" data-number="4.7">
+<h2 data-number="4.7" class="anchored" data-anchor-id="enter-the-world-of-eda"><span class="header-section-number">4.7</span> Enter the world of EDA</h2>
 <p>EDA is the process of looking at data to understand it before using statistics or models. It helps us to answer questions like: - what types of data do we have? - Are there missing or strange values? - What patterns can we see? - What kind of summary or visualization is helpful?</p>
 <p>Before we start any analysis, we must know <em>what kind of data</em> we are working with. Variables can be broadly divided into <strong>numeric</strong> and <strong>categorical</strong> types.</p>
-<section id="types-of-variables" class="level3" data-number="4.3.1">
-<h3 data-number="4.3.1" class="anchored" data-anchor-id="types-of-variables"><span class="header-section-number">4.3.1</span> Types of Variables</h3>
+<section id="types-of-variables" class="level3" data-number="4.7.1">
+<h3 data-number="4.7.1" class="anchored" data-anchor-id="types-of-variables"><span class="header-section-number">4.7.1</span> Types of Variables</h3>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -2718,11 +3208,11 @@ Important
 </ul>
 </div>
 </div>
-<section id="numerical-variables" class="level4" data-number="4.3.1.1">
-<h4 data-number="4.3.1.1" class="anchored" data-anchor-id="numerical-variables"><span class="header-section-number">4.3.1.1</span> Numerical variables</h4>
+<section id="numerical-variables" class="level4" data-number="4.7.1.1">
+<h4 data-number="4.7.1.1" class="anchored" data-anchor-id="numerical-variables"><span class="header-section-number">4.7.1.1</span> Numerical variables</h4>
 <p>Numeric variables describe <strong>quantities</strong> that we can measure — they answer questions like “how many?” or “how much?”. These variables are also called <strong>quantitative variables</strong>, and the data they produce are known as <strong>quantitative data</strong>. Briefly, they are <strong>numbers</strong> that can be measured. Also, we can do math with them.</p>
-<section id="continuous-vs.-discrete" class="level5" data-number="4.3.1.1.1">
-<h5 data-number="4.3.1.1.1" class="anchored" data-anchor-id="continuous-vs.-discrete"><span class="header-section-number">4.3.1.1.1</span> Continuous vs.&nbsp;Discrete</h5>
+<section id="continuous-vs.-discrete" class="level5" data-number="4.7.1.1.1">
+<h5 data-number="4.7.1.1.1" class="anchored" data-anchor-id="continuous-vs.-discrete"><span class="header-section-number">4.7.1.1.1</span> Continuous vs.&nbsp;Discrete</h5>
 <p>Numeric variables can be:</p>
 <p><strong>Continuous</strong></p>
 <ul>
@@ -2739,8 +3229,8 @@ Important
 <p>Some examples are: <em>number of students, number of offspring, number of infected individuals</em></p>
 <p>A discrete variable cannot take values between integers — e.g., it makes no sense to have 2.5 individuals.</p>
 </section>
-<section id="ratio-vs.-interval" class="level5" data-number="4.3.1.1.2">
-<h5 data-number="4.3.1.1.2" class="anchored" data-anchor-id="ratio-vs.-interval"><span class="header-section-number">4.3.1.1.2</span> Ratio vs.&nbsp;Interval</h5>
+<section id="ratio-vs.-interval" class="level5" data-number="4.7.1.1.2">
+<h5 data-number="4.7.1.1.2" class="anchored" data-anchor-id="ratio-vs.-interval"><span class="header-section-number">4.7.1.1.2</span> Ratio vs.&nbsp;Interval</h5>
 <p>Numeric variables can be further described based on the <strong>scale</strong> they are measured on: <strong>ratio</strong> or <strong>interval</strong>. This affects how we can interpret differences, proportions, and calculations.</p>
 <p><strong>Ratio</strong></p>
 <ul>
@@ -2772,8 +3262,8 @@ What we can do:
 </ul>
 <p>Some examples are <em>Temperature (</em>in Celsius of Fahrenheit), <em>IQ scores,</em> Calendar dates (e.g.&nbsp;year 1000 vs 2000)</p>
 <p>You can say: “The <strong>difference</strong> between 20°C and 10°C is 10 degrees.” <strong>But not</strong>: “20°C is <strong>twice as hot</strong> as 10°C.”</p>
-<section id="what-we-can-do-1" class="level6" data-number="4.3.1.1.2.1">
-<h6 data-number="4.3.1.1.2.1" class="anchored" data-anchor-id="what-we-can-do-1"><span class="header-section-number">4.3.1.1.2.1</span> What we can do:</h6>
+<section id="what-we-can-do-1" class="level6" data-number="4.7.1.1.2.1">
+<h6 data-number="4.7.1.1.2.1" class="anchored" data-anchor-id="what-we-can-do-1"><span class="header-section-number">4.7.1.1.2.1</span> What we can do:</h6>
 <ul>
 <li><p>calculate mean, standard deviation</p></li>
 <li><p>plot histograms or line charts</p></li>
@@ -2800,8 +3290,8 @@ Caution
 </section>
 </section>
 </section>
-<section id="categorical-variables" class="level4" data-number="4.3.1.2">
-<h4 data-number="4.3.1.2" class="anchored" data-anchor-id="categorical-variables"><span class="header-section-number">4.3.1.2</span> Categorical Variables</h4>
+<section id="categorical-variables" class="level4" data-number="4.7.1.2">
+<h4 data-number="4.7.1.2" class="anchored" data-anchor-id="categorical-variables"><span class="header-section-number">4.7.1.2</span> Categorical Variables</h4>
 <p>Categorical variables describe <strong>qualities</strong> or <strong>characteristics</strong>. They answer questions like “what type?” or “which group?”. These are also known as <strong>qualitative variables</strong>, and the data they produce are <strong>qualitative data</strong>.</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -2894,7 +3384,7 @@ Even though categories <strong>can be coded</strong> as numbers (e.g., Male = 1,
 <col style="width: 16%">
 <col style="width: 16%">
 <col style="width: 16%">
-<col style="width: 17%">
+<col style="width: 16%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -2956,6 +3446,451 @@ Tip
 <li>Does the variable <strong>have a natural order</strong>?</li>
 <li>Can we <strong>count it</strong> or <strong>measure it</strong>?</li>
 <li>Does it have a <strong>true zero</strong>?</li>
+</ul>
+</div>
+</div>
+</section>
+</section>
+<section id="types-of-eda" class="level3" data-number="4.7.2">
+<h3 data-number="4.7.2" class="anchored" data-anchor-id="types-of-eda"><span class="header-section-number">4.7.2</span> Types of EDA</h3>
+<p>EDA helps us answer important questions like:</p>
+<ul>
+<li>What are the most common values of a variable?</li>
+<li>How much do observations differ from each other?</li>
+<li>Is one variable related to another?</li>
+</ul>
+<p>To answer these questions, EDA uses two main tools:</p>
+<section id="descriptive-statistics" class="level4" data-number="4.7.2.1">
+<h4 data-number="4.7.2.1" class="anchored" data-anchor-id="descriptive-statistics"><span class="header-section-number">4.7.2.1</span> Descriptive Statistics</h4>
+<p>Descriptive statistics give <strong>numerical summaries</strong> of a dataset. They describe the basic features of a variable, such as:</p>
+<ul>
+<li><strong>Center</strong> (e.g.&nbsp;mean or median)</li>
+<li><strong>Spread</strong> (e.g.&nbsp;standard deviation or interquartile range)</li>
+<li><strong>Shape</strong> (e.g.&nbsp;skewness)</li>
+<li><strong>Extremes</strong> (e.g.&nbsp;minimum, maximum, or outliers)</li>
+</ul>
+<p>These summaries help us <strong>compare groups</strong> or <strong>make initial conclusions</strong>.<br>
+For example, the <strong>mean</strong> tells us what the “typical” value might be.</p>
+<p>But: <strong>A few numbers can’t tell the whole story.</strong></p>
+</section>
+<section id="graphical-summaries" class="level4" data-number="4.7.2.2">
+<h4 data-number="4.7.2.2" class="anchored" data-anchor-id="graphical-summaries"><span class="header-section-number">4.7.2.2</span> Graphical Summaries</h4>
+<p>Graphs help us <strong>see patterns</strong>, <strong>spot outliers</strong>, and <strong>understand distributions</strong>.</p>
+<p>Common EDA plots include: - <strong>Histograms</strong> – show the shape and spread of a numeric variable - <strong>Boxplots</strong> – show center, spread, and outliers - <strong>Bar charts</strong> – show frequencies of categories - <strong>Scatterplots</strong> – show relationships between two numeric variables</p>
+<p>Graphs are <strong>easier to understand</strong> than tables of numbers. They help us and others <strong>see what’s going on</strong> in the data.</p>
+</section>
+</section>
+<section id="a-review-on-descriptive-statistics" class="level3" data-number="4.7.3">
+<h3 data-number="4.7.3" class="anchored" data-anchor-id="a-review-on-descriptive-statistics"><span class="header-section-number">4.7.3</span> A Review on Descriptive Statistics</h3>
+<p>Statisticians have created more precise terms to describe the patterns in data, called <strong>descriptive statistics</strong>.</p>
+<p>The two most important features of a numeric variable’s distribution are:</p>
+<ul>
+<li><strong>Central tendency</strong>: What is a typical value?</li>
+<li><strong>Dispersion</strong>: How spread out are the values?</li>
+</ul>
+</section>
+<section id="central-tendency" class="level3" data-number="4.7.4">
+<h3 data-number="4.7.4" class="anchored" data-anchor-id="central-tendency"><span class="header-section-number">4.7.4</span> <strong>Central Tendency</strong></h3>
+<p>A <strong>measure of central tendency</strong> tells us what a “typical” value looks like in the data. There are three main measures: <strong>Mean</strong>, <strong>Median</strong>, <strong>Mode</strong></p>
+<section id="arithmetic-mean-average" class="level4" data-number="4.7.4.1">
+<h4 data-number="4.7.4.1" class="anchored" data-anchor-id="arithmetic-mean-average"><span class="header-section-number">4.7.4.1</span> Arithmetic Mean (Average)</h4>
+<p>[We should add the definition]</p>
+<p>function <code>mean()</code></p>
+<p>Sometimes, we use <code>na.rm = TRUE</code> to ignore missing values.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Be careful:</strong> The mean is sensitive to extreme values (outliers).<br>
+For example, using the mean to describe <strong>income</strong> is misleading because a few very high earners can pull the average up.</p>
+</div>
+</div>
+</section>
+<section id="median" class="level4" data-number="4.7.4.2">
+<h4 data-number="4.7.4.2" class="anchored" data-anchor-id="median"><span class="header-section-number">4.7.4.2</span> Median</h4>
+<p>[We should add the definition]</p>
+<ul>
+<li>The <strong>middle value</strong> when data are sorted.</li>
+<li>More <strong>robust</strong> than the mean when data are skewed.</li>
+</ul>
+<p>function <code>median()</code></p>
+</section>
+<section id="mode" class="level4" data-number="4.7.4.3">
+<h4 data-number="4.7.4.3" class="anchored" data-anchor-id="mode"><span class="header-section-number">4.7.4.3</span> Mode</h4>
+<ul>
+<li>The <strong>most frequent value</strong> in the data.</li>
+<li>Conceptually useful, but hard to estimate in numeric data.</li>
+<li>Used more often for <strong>categorical variables</strong>.</li>
+</ul>
+</section>
+</section>
+<section id="dispersion" class="level3" data-number="4.7.5">
+<h3 data-number="4.7.5" class="anchored" data-anchor-id="dispersion"><span class="header-section-number">4.7.5</span> Dispersion</h3>
+<p><strong>Dispersion</strong> tells us how much values differ from one another. A dataset where all values are similar has <strong>low dispersion</strong>; one with a wide range of values has <strong>high dispersion</strong>.</p>
+<p>A <strong>measure of dispersion</strong> tells us <strong>how spread out</strong> the values of a variable are.</p>
+<p>Dispersion measures help us understand <strong>how much the data varies</strong> — whether most values are close together or far apart.</p>
+<p>If one distribution is <strong>more dispersed</strong> than another, it means it includes a <strong>wider range</strong> of values.</p>
+<p>There are many ways to measure dispersion, but the most common ones are:</p>
+<ul>
+<li><strong>Variance</strong> – how far values are from the mean (on average, squared)</li>
+<li><strong>Standard deviation</strong> – the square root of the variance, easier to interpret</li>
+<li><strong>Interquartile range (IQR)</strong> – the spread of the middle 50% of the values</li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Each of these gives us a different way to understand <strong>how variable</strong> the data is.</p>
+</div>
+</div>
+<section id="variance" class="level4" data-number="4.7.5.1">
+<h4 data-number="4.7.5.1" class="anchored" data-anchor-id="variance"><span class="header-section-number">4.7.5.1</span> Variance</h4>
+<ul>
+<li>Measures the <strong>average squared distance</strong> from the mean.</li>
+<li>Hard to interpret because it’s in <strong>squared units</strong>.</li>
+</ul>
+<p>The <strong>sample variance</strong>, written as <code>s²</code>, is: <em>the average of the <strong>squared differences</strong> between each value and the mean.</em></p>
+<p>Key facts about variance:</p>
+<ul>
+<li>It is always <strong>non-negative</strong>.</li>
+<li>A <strong>larger variance</strong> means the data are more spread out.</li>
+<li>A variance of <strong>zero</strong> means all values are <strong>exactly the same</strong>.</li>
+</ul>
+<p>In R, we can calculate it using the <code>var()</code> function</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(penguins<span class="sc">$</span>body_mass_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>## [1] 643131.1</code></pre>
+<p>That’s a large number — but what does it really tell us?</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>It’s hard to say if that number is “big” or “small.”<br>
+That’s because variance is in <strong>squared units</strong>, which are difficult to interpret directly.<br>
+For example, here it’s in <strong>grams squared</strong>, which is not easy to relate to actual body mass.</p>
+</div>
+</div>
+<p><strong>Why does variance matter?</strong></p>
+<p>Variance is an important quantity in statistics. Many <strong>statistical tests</strong> use changes in variance to compare groups or detect effects.</p>
+<p>But in <strong>EDA</strong>, we <strong>rarely use</strong> the variance.<br>
+Instead, we often prefer the <strong>standard deviation</strong>, because it is <strong>easier to understand</strong>.</p>
+<p>This is hard to interpret directly — that is why we usually prefer the <strong>standard deviation</strong>.</p>
+</section>
+<section id="standard-deviation" class="level4" data-number="4.7.5.2">
+<h4 data-number="4.7.5.2" class="anchored" data-anchor-id="standard-deviation"><span class="header-section-number">4.7.5.2</span> Standard Deviation</h4>
+<p>A more useful measure of dispersion is the <strong>standard deviation</strong>, usually written as <code>s</code>.</p>
+<p>The <strong>standard deviation</strong> is: <em>the <strong>square root</strong> of the variance.</em></p>
+<p>Because it is not squared, it has the <strong>same unit</strong> as the original data.<br>
+This makes it <strong>easier to interpret</strong> than the variance.</p>
+<ul>
+<li>Square root of the variance.</li>
+<li>Has the <strong>same unit</strong> as the variable.</li>
+<li>More interpretable than variance.</li>
+</ul>
+<p>Like the mean, the standard deviation is <strong>sensitive to outliers</strong>.</p>
+<p>In R, we use the <code>sd()</code> function:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(penguins<span class="sc">$</span>body_mass_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>## [1] 801.9545</code></pre>
+<p>This tells us that most penguins have body mass values within about <strong>802 grams</strong> of the mean.</p>
+</section>
+</section>
+<section id="why-use-standard-deviation" class="level3" data-number="4.7.6">
+<h3 data-number="4.7.6" class="anchored" data-anchor-id="why-use-standard-deviation"><span class="header-section-number">4.7.6</span> Why use standard deviation?</h3>
+<ul>
+<li>It’s on the <strong>same scale</strong> as the variable (grams, not grams²).</li>
+<li>It gives us a <strong>sense of spread</strong> we can understand.</li>
+<li>It is more commonly used in <strong>EDA</strong> than variance.</li>
+</ul>
+<p><strong>But be careful:</strong> Like the <strong>mean</strong>, the standard deviation is sensitive to:</p>
+<ul>
+<li><p><strong>Skewed distributions</strong></p></li>
+<li><p><strong>Outliers</strong> (extreme values)</p></li>
+</ul>
+<section id="interquartile-range-iqr" class="level4" data-number="4.7.6.1">
+<h4 data-number="4.7.6.1" class="anchored" data-anchor-id="interquartile-range-iqr"><span class="header-section-number">4.7.6.1</span> Interquartile Range (IQR)</h4>
+<p>The <strong>interquartile range (IQR)</strong> is another measure of dispersion.</p>
+<p>It is especially useful in <strong>EDA</strong> because it is <strong>robust to outliers</strong> and skewed data.</p>
+<ul>
+<li>Measures the range of the <strong>middle 50%</strong> of the data.</li>
+<li><strong>Robust</strong> to outliers.</li>
+<li>Preferred in exploratory work.</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+What Are Quartiles?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>To understand the IQR, we need to define <strong>quartiles</strong>:</p>
+<ul>
+<li><strong>Q1</strong> (1st quartile): 25% of values are below this point.</li>
+<li><strong>Q2</strong> (2nd quartile): The <strong>median</strong>, 50% below, 50% above.</li>
+<li><strong>Q3</strong> (3rd quartile): 75% of values are below this point.</li>
+</ul>
+</div>
+</div>
+<p>The IQR measures the <strong>spread of the middle 50%</strong> of the data. It is defined as:</p>
+<p><span class="math display">\[
+\text{IQR} = \text{Q3} - \text{Q1}
+\]</span></p>
+<p>where</p>
+<ul>
+<li><strong>Q1</strong> = first quartile = 25th percentile<br>
+</li>
+<li><strong>Q3</strong> = third quartile = 75th percentile</li>
+</ul>
+<p>So, the IQR is the <strong>range between the 25% and 75% marks</strong>.</p>
+<p>This range contains the <strong>middle half</strong> of the dataset.</p>
+<p>The IQR is used to build <strong>boxplots</strong> (a.k.a. “box-and-whisker plots”).</p>
+<p>The wider the IQR, the <strong>more spread out</strong> the middle values are.</p>
+<p>Why is the IQR useful?</p>
+<ul>
+<li>It does <strong>not depend</strong> on extreme values.</li>
+<li>It gives a good summary of the <strong>central spread</strong>.</li>
+<li>It is <strong>preferred</strong> in EDA for skewed or messy data.</li>
+</ul>
+<p>In R, we can calculate the IQR like this:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">IQR</span>(penguins<span class="sc">$</span>body_mass_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>## [1] 1200</code></pre>
+<p>This means the middle 50% of penguins have body masses that differ by <strong>1200 grams</strong>.</p>
+<hr>
+</section>
+</section>
+<section id="the-boxplot-connection" class="level3" data-number="4.7.7">
+<h3 data-number="4.7.7" class="anchored" data-anchor-id="the-boxplot-connection"><span class="header-section-number">4.7.7</span> The Boxplot Connection</h3>
+<p>The <strong>boxplot</strong> (also called a “box-and-whisker plot”) is based on the IQR.</p>
+<ul>
+<li>The <strong>box</strong> shows Q1 to Q3.</li>
+<li>The <strong>line</strong> inside the box is the <strong>median (Q2)</strong>.</li>
+<li>The <strong>whiskers</strong> extend to show the general range of the data (excluding outliers).</li>
+</ul>
+<p><strong>What About Skewness?</strong></p>
+<p><strong>Skewness</strong> describes the <strong>asymmetry</strong> of a distribution:</p>
+<ul>
+<li><strong>Right-skewed</strong> (positive skew): Tail on the right.</li>
+<li><strong>Left-skewed</strong> (negative skew): Tail on the left.</li>
+<li><strong>Symmetric</strong>: Looks like a bell curve.</li>
+</ul>
+<p>What Are Quartiles?</p>
+<p>To understand the IQR, we need to define <strong>quartiles</strong>.</p>
+<p>Quartiles divide your data into <strong>four equal parts</strong>:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Quartile</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Q1</strong></td>
+<td>First quartile (25%) — one quarter of the data is below this value</td>
+</tr>
+<tr class="even">
+<td><strong>Q2</strong></td>
+<td>Second quartile (50%) — this is the <strong>median</strong></td>
+</tr>
+<tr class="odd">
+<td><strong>Q3</strong></td>
+<td>Third quartile (75%) — three quarters of the data are below this value</td>
+</tr>
+</tbody>
+</table>
+<p>These values help summarize the distribution, especially for <strong>non-symmetric</strong> data.</p>
+<section id="categorical-variables-1" class="level4" data-number="4.7.7.1">
+<h4 data-number="4.7.7.1" class="anchored" data-anchor-id="categorical-variables-1"><span class="header-section-number">4.7.7.1</span> Categorical Variables</h4>
+<p>Descriptive statistics for <strong>categorical variables</strong> aim to answer: <em>“How often does each category occur?”</em></p>
+<p>Since categorical variables have a <strong>limited number of values</strong>, we can simply <strong>count</strong> how many times each category appears.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> <span class="fu">count</span>(species)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Central Tendency?</strong></p>
+<p>We can use the <strong>mode</strong> — the <strong>most common category</strong> — as a measure of central tendency for categorical variables.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <strong>median</strong> only makes sense for <strong>ordinal</strong> variables (e.g.&nbsp;“Low”, “Medium”, “High”), where there is a natural order.</p>
+</div>
+</div>
+<p><strong>Dispersion?</strong></p>
+<p>There are <strong>some measures of dispersion</strong> for categorical variables, but they are:</p>
+<ul>
+<li><p>Less intuitive</p></li>
+<li><p>Rarely used in EDA</p></li>
+</ul>
+<p>So, we usually <strong>don’t use</strong> them in exploratory analysis.</p>
+</section>
+<section id="associations" class="level4" data-number="4.7.7.2">
+<h4 data-number="4.7.7.2" class="anchored" data-anchor-id="associations"><span class="header-section-number">4.7.7.2</span> Associations</h4>
+<p>Statisticians have created different ways to <strong>quantify relationships</strong> between variables. These are often called <strong>measures of association</strong>.</p>
+<p>The most common type is a <strong>correlation coefficient</strong>, which gives a number that tells us: <em>How strong is the relationship between two variables?</em></p>
+<p><strong>Are “association” and “correlation” the same?</strong></p>
+<p>These terms are often used <strong>interchangeably</strong>, but they are <strong>not exactly the same</strong>.</p>
+<ul>
+<li><strong>Association</strong> is the general idea that <strong>two variables are related</strong> in some way.</li>
+<li><strong>Correlation</strong> is a <strong>specific, mathematical way</strong> to describe an association — using a <strong>correlation coefficient</strong>.</li>
+</ul>
+<p>So:</p>
+<blockquote class="blockquote">
+<p>All correlations are associations, but not all associations are correlations.</p>
+</blockquote>
+<p>In EDA, we often want to ask:</p>
+<blockquote class="blockquote">
+<p>“Is one variable associated with another?”</p>
+</blockquote>
+<p>This can be for:</p>
+<ul>
+<li><p>Two numeric variables</p></li>
+<li><p>Two categorical variables</p></li>
+<li><p>One numeric and one categorical</p></li>
+</ul>
+<p><strong>Pairs of Numeric Variables</strong></p>
+<p>The most common way to measure association between two numeric variables is:</p>
+<p><strong>Pearson’s Correlation Coefficient (r)</strong></p>
+<ul>
+<li>Measures <strong>strength</strong> and <strong>direction</strong> of a <strong>linear relationship</strong>.</li>
+<li>Values range from <strong>–1 to +1</strong>:
+<ul>
+<li><strong>+1</strong> → perfect positive linear association</li>
+<li><strong>–1</strong> → perfect negative linear association</li>
+<li><strong>0</strong> → no linear relationship</li>
+</ul></li>
+</ul>
+<p><strong>Important:</strong> Pearson’s r only measures <strong>linear</strong> relationships.<br>
+If the relationship is <strong>curved</strong>, <code>r</code> can be misleading.</p>
+<p>See <a href="https://en.wikipedia.org/wiki/Anscombe%27s_quartet"><strong>Anscombe’s Quartet</strong></a> for famous examples.</p>
+<p>Rank Correlations: For Non-linear Relationships</p>
+<p>If the relationship is not linear, use a <strong>rank correlation</strong>:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Method</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Spearman’s ρ</strong></td>
+<td>More sensitive to <strong>outliers</strong></td>
+</tr>
+<tr class="even">
+<td><strong>Kendall’s τ</strong></td>
+<td>Better for <strong>ordinal data</strong>, but slower</td>
+</tr>
+</tbody>
+</table>
+<p>These methods: - Convert data into <strong>ranks</strong> (1st, 2nd, 3rd, …) - Measure how well the ranks agree between two variables</p>
+<p><strong>Pairs of Categorical Variables</strong></p>
+<p>For two <strong>categorical variables</strong>, we ask:</p>
+<blockquote class="blockquote">
+<p>🔍 “Are certain combinations of categories more or less common than expected?”</p>
+</blockquote>
+<p>The most basic tool is the <strong>contingency table</strong>, created using <code>xtabs()</code>.</p>
+<p><strong>What about correlation?</strong></p>
+<p>Rank correlations like <strong>Spearman’s ρ</strong> and <strong>Kendall’s τ</strong> can also be used with <strong>ordinal variables</strong>.</p>
+<p>For <strong>nominal variables</strong>, specialized measures exist, like:</p>
+<ul>
+<li><strong>Cramér’s V</strong></li>
+<li><strong>Chi-square-based measures</strong></li>
+</ul>
+<p>But these are <strong>rarely used in EDA</strong>.<br>
+Most people rely on <strong>tables and plots</strong> (like <strong>mosaic plots</strong> or <strong>stacked bar charts</strong>) for categorical associations.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For any data variable,</p>
+<ul>
+<li><p>check the meaning of the variable</p></li>
+<li><p>check expected data type, the expected set of values, the used units when applicable</p></li>
+<li><p>check the available information to find semantic relationship between variables</p>
+<ul>
+<li><p>Hierarchies (i.e.&nbsp;Year, Month, Day)</p></li>
+<li><p>Components of a whole (i.e.&nbsp;latitude and longitude)</p></li>
+</ul></li>
+<li><p>Number of the NULL values (and percentage)</p></li>
+<li><p>Number of Invalid values (and percentage)</p></li>
+<li><p>Number of valid values (and percentage)</p></li>
+</ul>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For Nominal scales - Arbitrary number of values</p>
+<ul>
+<li><p>Number of distinct values</p></li>
+<li><p>number of distinct values / number of rows in the dataset</p>
+<ul>
+<li>Do they have the role of a key?</li>
+</ul></li>
+<li><p>Check if there is any known or visible structure in the values</p></li>
+<li><p>Check if they are meaningful or friendly</p></li>
+</ul>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For Nominal Scales – Large number of categories</p>
+<ul>
+<li><p>Number of distinct values</p></li>
+<li><p>Frequency distributions (absolute and relative)</p></li>
+<li><p>Bar charts with the categories sorted by decreasing order of the frequency</p>
+<ul>
+<li>Top N</li>
+</ul></li>
+<li><p>Possibly create a new attribute</p></li>
 </ul>
 </div>
 </div>

@@ -6,9 +6,213 @@ filters:
 
 # Exploratory data analysis (EDA)
 
+## Plan the Study 
+
+```{dot}
+digraph StatProcess {
+    // Graph settings
+    rankdir=TB;   // Top -> Bottom
+    bgcolor="transparent";
+    node [fontname="Arial", fontsize=12];  // larger font default
+    edge [color="#333333", penwidth=2];
+
+    // === Problem ===
+    subgraph cluster_problem {
+        style=invis; label="";
+        P1 [shape=circle, style=filled, fillcolor="#E07B39", fontcolor=white,
+            label="P", width=0.7, height=0.7, fontsize=16, fontname="Arial Bold"];
+
+        BOX1 [shape=box, style="filled,rounded", fillcolor="#E07B39:white",
+              color="#333333", penwidth=2, fontsize=12, fontname="Arial", width=3,
+              label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4">
+                     <TR><TD><B><FONT POINT-SIZE="14">Problem</FONT></B></TD></TR>
+                     <TR><TD ALIGN="LEFT">• Write down study objectives</TD></TR>
+                     <TR><TD ALIGN="LEFT">• Identify target/sample population</TD></TR>
+                     <TR><TD ALIGN="LEFT">• Define the variates</TD></TR>
+              </TABLE>>];
+
+        { rank=same; P1; BOX1; }
+        P1 -> BOX1 [style=dotted, arrowhead=none, color="#666666", constraint=false];
+    }
+
+    // === Plan ===
+    subgraph cluster_plan {
+        style=invis; label="";
+        P2 [shape=circle, style=filled, fillcolor="#999999", fontcolor=white,
+            label="P", width=0.7, height=0.7, fontsize=16, fontname="Arial Bold"];
+
+        BOX2 [shape=box, style="filled,rounded", fillcolor="#999999:white",
+              color="#333333", penwidth=2, fontsize=12, fontname="Arial", width=3,
+              label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4">
+                     <TR><TD><B><FONT POINT-SIZE="14">Plan</FONT></B></TD></TR>
+                     <TR><TD ALIGN="LEFT">• Plan data collection methods</TD></TR>
+                     <TR><TD ALIGN="LEFT">• Calculate sample size</TD></TR>
+                     <TR><TD ALIGN="LEFT">• Consider analysis options</TD></TR>
+              </TABLE>>];
+
+        { rank=same; P2; BOX2; }
+        P2 -> BOX2 [style=dotted, arrowhead=none, color="#666666", constraint=false];
+    }
+
+    // === Data ===
+    subgraph cluster_data {
+        style=invis; label="";
+        D [shape=circle, style=filled, fillcolor="#F4D03F", fontcolor=black,
+           label="D", width=0.7, height=0.7, fontsize=16, fontname="Arial Bold"];
+
+        BOX3 [shape=box, style="filled,rounded", fillcolor="#F4D03F:white",
+              color="#333333", penwidth=2, fontsize=12, fontname="Arial", width=3,
+              label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4">
+                     <TR><TD><B><FONT POINT-SIZE="14">Data</FONT></B></TD></TR>
+                     <TR><TD ALIGN="LEFT">• Collect data per plan</TD></TR>
+                     <TR><TD ALIGN="LEFT">• Note any deviations</TD></TR>
+              </TABLE>>];
+
+        { rank=same; D; BOX3; }
+        D -> BOX3 [style=dotted, arrowhead=none, color="#666666", constraint=false];
+    }
+
+    // === Analysis ===
+    subgraph cluster_analysis {
+        style=invis; label="";
+        A [shape=circle, style=filled, fillcolor="#5DADE2", fontcolor=white,
+           label="A", width=0.7, height=0.7, fontsize=16, fontname="Arial Bold"];
+
+        BOX4 [shape=box, style="filled,rounded", fillcolor="#5DADE2:white",
+              color="#333333", penwidth=2, fontsize=12, fontname="Arial", width=3,
+              label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4">
+                     <TR><TD><B><FONT POINT-SIZE="14">Analysis</FONT></B></TD></TR>
+                     <TR><TD ALIGN="LEFT">• Analyze data per plan</TD></TR>
+              </TABLE>>];
+
+        { rank=same; A; BOX4; }
+        A -> BOX4 [style=dotted, arrowhead=none, color="#666666", constraint=false];
+    }
+
+    // === Conclusion ===
+    subgraph cluster_conclusion {
+        style=invis; label="";
+        C [shape=circle, style=filled, fillcolor="#82C341", fontcolor=white,
+           label="C", width=0.7, height=0.7, fontsize=16, fontname="Arial Bold"];
+
+        BOX5 [shape=box, style="filled,rounded", fillcolor="#82C341:white",
+              color="#333333", penwidth=2, fontsize=12, fontname="Arial", width=3,
+              label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4">
+                     <TR><TD><B><FONT POINT-SIZE="14">Conclusion</FONT></B></TD></TR>
+                     <TR><TD ALIGN="LEFT">• Draw conclusion in context</TD></TR>
+              </TABLE>>];
+
+        { rank=same; C; BOX5; }
+        C -> BOX5 [style=dotted, arrowhead=none, color="#666666", constraint=false];
+    }
+
+    // Vertical flow between clusters (left arrow column)
+    P1 -> P2 -> D -> A -> C;
+}
+```
+
+## After collecting the data
+
+```{dot}
+digraph AfterCollecting {
+  rankdir=TB;  // top to bottom
+  bgcolor="transparent";
+  ranksep=1.0; // vertical spacing between stages
+  
+  // Common node style (uniform size for all boxes)
+  node [
+    shape=box, style="rounded,filled", color="#333333", penwidth=2,
+    fontname="Arial",
+    width=10, height=2.5, fixedsize=true
+  ];
+  
+  // Stage 1
+  S1 [label=<
+    <TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="12" WIDTH="500" HEIGHT="120">
+      <TR><TD ALIGN="LEFT"><B><FONT POINT-SIZE="40">Review the hypotheses</FONT></B></TD></TR>
+      <TR><TD ALIGN="LEFT">
+        <TABLE BORDER="0" CELLBORDER="0" CELLSPACING="2">
+          <TR><TD ALIGN="RIGHT" WIDTH="28">•</TD><TD ALIGN="LEFT"><FONT POINT-SIZE="28">Review the research questions</FONT></TD></TR>
+          <TR><TD ALIGN="RIGHT">•</TD><TD ALIGN="LEFT"><FONT POINT-SIZE="28">Consider sub-questions</FONT></TD></TR>
+        </TABLE>
+      </TD></TR>
+    </TABLE>
+  >, fillcolor="#FAD7A0"];
+  
+  // Stage 2
+  S2 [label=<
+    <TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="12" WIDTH="500" HEIGHT="120">
+      <TR><TD ALIGN="LEFT"><B><FONT POINT-SIZE="40">Process the raw data</FONT></B></TD></TR>
+      <TR><TD ALIGN="LEFT">
+        <TABLE BORDER="0" CELLBORDER="0" CELLSPACING="2">
+          <TR><TD ALIGN="RIGHT" WIDTH="20">•</TD><TD ALIGN="LEFT"><FONT POINT-SIZE="28">Select a suitable statistics software</FONT></TD></TR>
+          <TR><TD ALIGN="RIGHT">•</TD><TD ALIGN="LEFT"><FONT POINT-SIZE="28">Convert the data into an acceptable format</FONT></TD></TR>
+        </TABLE>
+      </TD></TR>
+    </TABLE>
+  >, fillcolor="#D5DBDB"];
+  
+  // Stage 3
+  S3 [label=<
+    <TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="12" WIDTH="500" HEIGHT="120">
+      <TR><TD ALIGN="LEFT"><B><FONT POINT-SIZE="40">Explore the data</FONT></B></TD></TR>
+      <TR><TD ALIGN="LEFT">
+        <TABLE BORDER="0" CELLBORDER="0" CELLSPACING="2">
+          <TR><TD ALIGN="RIGHT" WIDTH="20">•</TD><TD ALIGN="LEFT"><FONT POINT-SIZE="28">Descriptive summaries</FONT></TD></TR>
+          <TR><TD ALIGN="RIGHT">•</TD><TD ALIGN="LEFT"><FONT POINT-SIZE="28">Data visualization</FONT></TD></TR>
+        </TABLE>
+      </TD></TR>
+    </TABLE>
+  >, fillcolor="#F9E79F"];
+  
+  // Stage 4
+  S4 [label=<
+    <TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="12" WIDTH="500" HEIGHT="120">
+      <TR><TD ALIGN="LEFT"><B><FONT POINT-SIZE="40">Analyze the data</FONT></B></TD></TR>
+      <TR><TD ALIGN="LEFT">
+        <TABLE BORDER="0" CELLBORDER="0" CELLSPACING="2">
+          <TR><TD ALIGN="RIGHT" WIDTH="20">•</TD><TD ALIGN="LEFT"><FONT POINT-SIZE="28">Inferential analysis</FONT></TD></TR>
+          <TR><TD ALIGN="RIGHT">•</TD><TD ALIGN="LEFT"><FONT POINT-SIZE="28">Prediction</FONT></TD></TR>
+        </TABLE>
+      </TD></TR>
+    </TABLE>
+  >, fillcolor="#AED6F1"];
+  
+  // Stage 5
+  S5 [label=<
+    <TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="12" WIDTH="500" HEIGHT="120">
+      <TR><TD ALIGN="LEFT"><B><FONT POINT-SIZE="40">Report the results</FONT></B></TD></TR>
+      <TR><TD ALIGN="LEFT">
+        <TABLE BORDER="0" CELLBORDER="0" CELLSPACING="2">
+          <TR><TD ALIGN="RIGHT" WIDTH="20">•</TD><TD ALIGN="LEFT"><FONT POINT-SIZE="28">Interpret the results in the context of the study</FONT></TD></TR>
+        </TABLE>
+      </TD></TR>
+    </TABLE>
+  >, fillcolor="#ABEBC6"];
+  
+  // Vertical flow connections
+  S1 -> S2 -> S3 -> S4 -> S5 [color="#666666", arrowsize=1.2, penwidth=2];
+}
+
+```
+
 ## What is EDA?
 
-Exploratory data analysis (EDA) was first formally introduced by @Tukey1977 in his influential 1977 book, *Exploratory Data Analysis.* Since then, its importance has grown significantly, especially in recent years, for several key reasons: i) data is being produced faster and in larger volumes than ever before, ii) modern computing and software tools make it easier to explore, clean, and visualize data in meaningful ways, iii) contemporary statistical models are often complex and assumption-dependent, requiring us to thoroughly understand the data before applying formal techniques. [@Midway2022]
+Exploratory data analysis (EDA) was first formally introduced by @Tukey1977 in his influential book, *Exploratory Data Analysis.*
+
+::: {layout-ncol="2"}
+![](/figs/EDA/Tukey.jpg){width="288"}
+
+![](/figs/EDA/book.jpg){width="238"}
+:::
+
+Since then, its importance has grown significantly, especially in recent years, for several key reasons [@Midway2022]:
+
+i\) data is being produced faster and in larger volumes than ever before,
+
+ii\) modern computing and software tools make it easier to explore, clean, and visualize data in meaningful ways,
+
+iii\) contemporary statistical models are often complex and assumption-dependent, requiring us to thoroughly understand the data before applying formal techniques.
 
 The EDA may not be fully described in concrete terms, but most data analysts and statisticians know it when they see it.
 
@@ -65,6 +269,54 @@ EDA is the single most important task to conduct at the beginning of every data 
 ::: callout-tip
 EDA is like exploring a new place – you do not know what you will find until you start looking.
 :::
+
+## Landscape
+
+```{dot}
+digraph EDA {
+  rankdir=TB;
+  bgcolor="transparent";
+  fontsize=20;
+  fontname="Arial";
+
+  // Main node (bold, rounded box)
+  EDA [label=<<B>Exploratory Data Analysis</B>>, 
+       shape=box, style="rounded,filled", fontsize=28, fontname="Arial Bold", 
+       fillcolor="#EAF2F8", color="#333333", width=5, height=1.2, fixedsize=true];
+
+  // Subcategories (ellipses, same size)
+  node [shape=ellipse, style="filled", fontname="Arial", fontsize=22, color="#333333", width=3, height=1.2, fixedsize=true];
+
+  View     [label="View data", fillcolor="#FAD7A0"];
+  Summary  [label="Summary\nstatistics", fillcolor="#D5DBDB"];
+  Graphs   [label="Basic\nGraphs", fillcolor="#F9E79F"];
+  Tests    [label="Basic\nTests", fillcolor="#ABEBC6"];
+
+  // Connect main to sub
+  EDA -> View;
+  EDA -> Summary;
+  EDA -> Graphs;
+  EDA -> Tests;
+
+  // Detail boxes (uniform size)
+  node [shape=box, style="rounded", fontsize=24, fontname="Arial", width=4.5, height=4, fixedsize=true, color="#333333"];
+
+  V1 [label="Observation number\nVariable number\nVariable type\nVariable category\nStructure"];
+  View -> V1 [style=dashed];
+
+  S1 [label="Mean\nMedian\nMode\nRange\nVariance\nStandard deviation\nOutliers\nMissing data"];
+  Summary -> S1 [style=dashed];
+
+  G1 [label="Histogram\nBar plot\nBoxplot\nScatter-plot\nQQ-plot"];
+  Graphs -> G1 [style=dashed];
+
+  T1 [label="Check assumptions\nT-tests\nCorrelations\nANOVA\nLinear model"];
+  Tests -> T1 [style=dashed];
+
+}
+```
+
+## 
 
 ### Airquailty dataset
 
@@ -929,4 +1181,339 @@ function `median()`
 
 **Dispersion** tells us how much values differ from one another. A dataset where all values are similar has **low dispersion**; one with a wide range of values has **high dispersion**.
 
-The three common measures are:
+A **measure of dispersion** tells us **how spread out** the values of a variable are.
+
+Dispersion measures help us understand **how much the data varies** — whether most values are close together or far apart.
+
+If one distribution is **more dispersed** than another, it means it includes a **wider range** of values.
+
+There are many ways to measure dispersion, but the most common ones are:
+
+-   **Variance** – how far values are from the mean (on average, squared)
+-   **Standard deviation** – the square root of the variance, easier to interpret
+-   **Interquartile range (IQR)** – the spread of the middle 50% of the values
+
+::: callout-tip
+Each of these gives us a different way to understand **how variable** the data is.
+:::
+
+#### Variance
+
+-   Measures the **average squared distance** from the mean.
+-   Hard to interpret because it's in **squared units**.
+
+The **sample variance**, written as `s²`, is: *the average of the **squared differences** between each value and the mean.*
+
+Key facts about variance:
+
+-   It is always **non-negative**.
+-   A **larger variance** means the data are more spread out.
+-   A variance of **zero** means all values are **exactly the same**.
+
+In R, we can calculate it using the `var()` function
+
+``` r
+var(penguins$body_mass_g, na.rm = TRUE)
+```
+
+```         
+## [1] 643131.1
+```
+
+That’s a large number — but what does it really tell us?
+
+::: callout-important
+It’s hard to say if that number is "big" or "small."\
+That’s because variance is in **squared units**, which are difficult to interpret directly.\
+For example, here it’s in **grams squared**, which is not easy to relate to actual body mass.
+:::
+
+**Why does variance matter?**
+
+Variance is an important quantity in statistics. Many **statistical tests** use changes in variance to compare groups or detect effects.
+
+But in **EDA**, we **rarely use** the variance.\
+Instead, we often prefer the **standard deviation**, because it is **easier to understand**.
+
+This is hard to interpret directly — that is why we usually prefer the **standard deviation**.
+
+#### Standard Deviation
+
+A more useful measure of dispersion is the **standard deviation**, usually written as `s`.
+
+The **standard deviation** is: *the **square root** of the variance.*
+
+Because it is not squared, it has the **same unit** as the original data.\
+This makes it **easier to interpret** than the variance.
+
+-   Square root of the variance.
+-   Has the **same unit** as the variable.
+-   More interpretable than variance.
+
+Like the mean, the standard deviation is **sensitive to outliers**.
+
+In R, we use the `sd()` function:
+
+``` r
+sd(penguins$body_mass_g, na.rm = TRUE)
+```
+
+```         
+## [1] 801.9545
+```
+
+This tells us that most penguins have body mass values within about **802 grams** of the mean.
+
+### Why use standard deviation?
+
+-   It’s on the **same scale** as the variable (grams, not grams²).
+-   It gives us a **sense of spread** we can understand.
+-   It is more commonly used in **EDA** than variance.
+
+**But be careful:** Like the **mean**, the standard deviation is sensitive to:
+
+-   **Skewed distributions**
+
+-   **Outliers** (extreme values)
+
+#### Interquartile Range (IQR)
+
+The **interquartile range (IQR)** is another measure of dispersion.
+
+It is especially useful in **EDA** because it is **robust to outliers** and skewed data.
+
+-   Measures the range of the **middle 50%** of the data.
+-   **Robust** to outliers.
+-   Preferred in exploratory work.
+
+::: callout-note
+## What Are Quartiles?
+
+To understand the IQR, we need to define **quartiles**:
+
+-   **Q1** (1st quartile): 25% of values are below this point.
+-   **Q2** (2nd quartile): The **median**, 50% below, 50% above.
+-   **Q3** (3rd quartile): 75% of values are below this point.
+:::
+
+The IQR measures the **spread of the middle 50%** of the data. It is defined as:
+
+$$
+\text{IQR} = \text{Q3} - \text{Q1}
+$$
+
+where
+
+-   **Q1** = first quartile = 25th percentile\
+-   **Q3** = third quartile = 75th percentile
+
+So, the IQR is the **range between the 25% and 75% marks**.
+
+This range contains the **middle half** of the dataset.
+
+The IQR is used to build **boxplots** (a.k.a. "box-and-whisker plots").
+
+The wider the IQR, the **more spread out** the middle values are.
+
+Why is the IQR useful?
+
+-   It does **not depend** on extreme values.
+-   It gives a good summary of the **central spread**.
+-   It is **preferred** in EDA for skewed or messy data.
+
+In R, we can calculate the IQR like this:
+
+``` r
+IQR(penguins$body_mass_g, na.rm = TRUE)
+```
+
+```         
+## [1] 1200
+```
+
+This means the middle 50% of penguins have body masses that differ by **1200 grams**.
+
+------------------------------------------------------------------------
+
+### The Boxplot Connection
+
+The **boxplot** (also called a "box-and-whisker plot") is based on the IQR.
+
+-   The **box** shows Q1 to Q3.
+-   The **line** inside the box is the **median (Q2)**.
+-   The **whiskers** extend to show the general range of the data (excluding outliers).
+
+**What About Skewness?**
+
+**Skewness** describes the **asymmetry** of a distribution:
+
+-   **Right-skewed** (positive skew): Tail on the right.
+-   **Left-skewed** (negative skew): Tail on the left.
+-   **Symmetric**: Looks like a bell curve.
+
+What Are Quartiles?
+
+To understand the IQR, we need to define **quartiles**.
+
+Quartiles divide your data into **four equal parts**:
+
+| Quartile | Meaning |
+|------------------------------------|------------------------------------|
+| **Q1** | First quartile (25%) — one quarter of the data is below this value |
+| **Q2** | Second quartile (50%) — this is the **median** |
+| **Q3** | Third quartile (75%) — three quarters of the data are below this value |
+
+These values help summarize the distribution, especially for **non-symmetric** data.
+
+#### Categorical Variables
+
+Descriptive statistics for **categorical variables** aim to answer: *“How often does each category occur?”*
+
+Since categorical variables have a **limited number of values**, we can simply **count** how many times each category appears.
+
+``` r
+penguins %>% count(species)
+```
+
+**Central Tendency?**
+
+We can use the **mode** — the **most common category** — as a measure of central tendency for categorical variables.
+
+::: callout-tip
+The **median** only makes sense for **ordinal** variables (e.g. "Low", "Medium", "High"), where there is a natural order.
+:::
+
+**Dispersion?**
+
+There are **some measures of dispersion** for categorical variables, but they are:
+
+-   Less intuitive
+
+-   Rarely used in EDA
+
+So, we usually **don’t use** them in exploratory analysis.
+
+#### Associations
+
+Statisticians have created different ways to **quantify relationships** between variables. These are often called **measures of association**.
+
+The most common type is a **correlation coefficient**, which gives a number that tells us: *How strong is the relationship between two variables?*
+
+**Are “association” and “correlation” the same?**
+
+These terms are often used **interchangeably**, but they are **not exactly the same**.
+
+-   **Association** is the general idea that **two variables are related** in some way.
+-   **Correlation** is a **specific, mathematical way** to describe an association — using a **correlation coefficient**.
+
+So:
+
+> All correlations are associations, but not all associations are correlations.
+
+In EDA, we often want to ask:
+
+> “Is one variable associated with another?”
+
+This can be for:
+
+-   Two numeric variables
+
+-   Two categorical variables
+
+-   One numeric and one categorical
+
+**Pairs of Numeric Variables**
+
+The most common way to measure association between two numeric variables is:
+
+**Pearson’s Correlation Coefficient (r)**
+
+-   Measures **strength** and **direction** of a **linear relationship**.
+-   Values range from **–1 to +1**:
+    -   **+1** → perfect positive linear association
+    -   **–1** → perfect negative linear association
+    -   **0** → no linear relationship
+
+**Important:** Pearson’s r only measures **linear** relationships.\
+If the relationship is **curved**, `r` can be misleading.
+
+See [**Anscombe’s Quartet**](https://en.wikipedia.org/wiki/Anscombe%27s_quartet) for famous examples.
+
+Rank Correlations: For Non-linear Relationships
+
+If the relationship is not linear, use a **rank correlation**:
+
+| Method           | Notes                                   |
+|------------------|-----------------------------------------|
+| **Spearman’s ρ** | More sensitive to **outliers**          |
+| **Kendall’s τ**  | Better for **ordinal data**, but slower |
+
+These methods: - Convert data into **ranks** (1st, 2nd, 3rd, ...) - Measure how well the ranks agree between two variables
+
+**Pairs of Categorical Variables**
+
+For two **categorical variables**, we ask:
+
+> 🔍 “Are certain combinations of categories more or less common than expected?”
+
+The most basic tool is the **contingency table**, created using `xtabs()`.
+
+**What about correlation?**
+
+Rank correlations like **Spearman’s ρ** and **Kendall’s τ** can also be used with **ordinal variables**.
+
+For **nominal variables**, specialized measures exist, like:
+
+-   **Cramér’s V**
+-   **Chi-square-based measures**
+
+But these are **rarely used in EDA**.\
+Most people rely on **tables and plots** (like **mosaic plots** or **stacked bar charts**) for categorical associations.
+
+::: callout-note
+For any data variable,
+
+-   check the meaning of the variable
+
+-   check expected data type, the expected set of values, the used units when applicable
+
+-   check the available information to find semantic relationship between variables
+
+    -   Hierarchies (i.e. Year, Month, Day)
+
+    -   Components of a whole (i.e. latitude and longitude)
+
+-   Number of the NULL values (and percentage)
+
+-   Number of Invalid values (and percentage)
+
+-   Number of valid values (and percentage)
+:::
+
+::: callout-note
+For Nominal scales - Arbitrary number of values
+
+-   Number of distinct values
+
+-   number of distinct values / number of rows in the dataset
+
+    -   Do they have the role of a key?
+
+-   Check if there is any known or visible structure in the values
+
+-   Check if they are meaningful or friendly
+:::
+
+::: callout-note
+For Nominal Scales – Large number of categories
+
+-   Number of distinct values
+
+-   Frequency distributions (absolute and relative)
+
+-   Bar charts with the categories sorted by decreasing order of the frequency
+
+    -   Top N
+
+-   Possibly create a new attribute
+:::
