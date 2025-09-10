@@ -7,8 +7,8 @@ editor: visual
 
 {{< include ./_extensions/r-wasm/live/_knitr.qmd >}}
 
-
 ### Exercise 1
+
 Calculate the average of all the integers in the vector defined as the variable `foo`.
 
 ```{webr}
@@ -16,4 +16,3 @@ Calculate the average of all the integers in the vector defined as the variable 
 #| setup: true
 foo <- sample.int(100, 10)
 ```
-

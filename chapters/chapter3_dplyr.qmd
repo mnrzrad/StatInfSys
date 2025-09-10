@@ -10,7 +10,7 @@ library(tidyverse)
 library(dplyr)
 ```
 
-# Getting Started with `dplyr`
+# Data Wrangling 
 
 The *dplyr* package is a part of the R [tidyverse](https://www.tidyverse.org/) : an ecosystem of several libraries designed to work together by representing data in common formats.
 

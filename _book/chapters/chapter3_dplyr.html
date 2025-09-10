@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.42">
+<meta name="generator" content="quarto-1.7.32">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>2&nbsp; Getting Started with dplyr – Statistics and Information Systems</title>
+<title>3&nbsp; Getting Started with dplyr – Statistics and Information Systems</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,8 +21,9 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: middle;
 }
 /* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -33,7 +34,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -85,16 +86,17 @@ div.csl-indent {
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
 <link href="../chapters/chapter2_data_visualization.html" rel="next">
-<link href="../chapters/chapter1_data_ethics.html" rel="prev">
-<script src="../site_libs/quarto-html/quarto.js"></script>
+<link href="../chapters/chapter4_EDA.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-08488171a94ec4690e95561e2c6b96d6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-364982630eef5352dd1537128a8ed5cb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -1709,7 +1711,7 @@ window.Quarto = {
 <link rel="stylesheet" href="../libs/style.css">
 </head>
 
-<body class="nav-sidebar floating">
+<body class="nav-sidebar floating quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -1718,7 +1720,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter1_data_ethics.html">EDA</a></li><li class="breadcrumb-item"><a href="../chapters/chapter3_dplyr.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Getting Started with <code>dplyr</code></span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter4_EDA.html">Explanatory Data Analysis</a></li><li class="breadcrumb-item"><a href="../chapters/chapter3_dplyr.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Data Wrangling</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -1746,13 +1748,13 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Prerequisites</span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Note</span></span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
- <span class="menu-text">EDA</span></a>
+ <span class="menu-text">Explanatory Data Analysis</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -1760,26 +1762,20 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/chapter1_data_ethics.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Data Ethics</span></span></a>
+  <a href="../chapters/chapter4_EDA.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Exploratory data analysis (EDA)</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/chapter3_dplyr.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Getting Started with <code>dplyr</code></span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Data Wrangling</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/chapter2_data_visualization.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Data Visualization</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/chapter4_EDA.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Exploratory data analysis (EDA)</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Data Visualization</span></span></a>
   </div>
 </li>
       </ul>
@@ -1801,6 +1797,23 @@ window.Quarto = {
 </li>
       </ul>
   </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Data</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter1_data_ethics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Data Ethics</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
@@ -1811,38 +1824,38 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#filter-observations---filter" id="toc-filter-observations---filter" class="nav-link active" data-scroll-target="#filter-observations---filter"><span class="header-section-number">2.1</span> Filter observations - <code>filter()</code></a></li>
-  <li><a href="#extract-observations" id="toc-extract-observations" class="nav-link" data-scroll-target="#extract-observations"><span class="header-section-number">2.2</span> Extract observations</a>
+  <li><a href="#filter-observations---filter" id="toc-filter-observations---filter" class="nav-link active" data-scroll-target="#filter-observations---filter"><span class="header-section-number">3.1</span> Filter observations - <code>filter()</code></a></li>
+  <li><a href="#extract-observations" id="toc-extract-observations" class="nav-link" data-scroll-target="#extract-observations"><span class="header-section-number">3.2</span> Extract observations</a>
   <ul>
-  <li><a href="#based-on-their-positions" id="toc-based-on-their-positions" class="nav-link" data-scroll-target="#based-on-their-positions"><span class="header-section-number">2.2.1</span> Based on Their Positions</a></li>
-  <li><a href="#based-on-their-values" id="toc-based-on-their-values" class="nav-link" data-scroll-target="#based-on-their-values"><span class="header-section-number">2.2.2</span> Based on their values</a></li>
+  <li><a href="#based-on-their-positions" id="toc-based-on-their-positions" class="nav-link" data-scroll-target="#based-on-their-positions"><span class="header-section-number">3.2.1</span> Based on Their Positions</a></li>
+  <li><a href="#based-on-their-values" id="toc-based-on-their-values" class="nav-link" data-scroll-target="#based-on-their-values"><span class="header-section-number">3.2.2</span> Based on their values</a></li>
   </ul></li>
-  <li><a href="#sample-observations" id="toc-sample-observations" class="nav-link" data-scroll-target="#sample-observations"><span class="header-section-number">2.3</span> Sample Observations</a></li>
-  <li><a href="#sort-observations" id="toc-sort-observations" class="nav-link" data-scroll-target="#sort-observations"><span class="header-section-number">2.4</span> Sort observations</a></li>
-  <li><a href="#select-variables" id="toc-select-variables" class="nav-link" data-scroll-target="#select-variables"><span class="header-section-number">2.5</span> Select variables</a>
+  <li><a href="#sample-observations" id="toc-sample-observations" class="nav-link" data-scroll-target="#sample-observations"><span class="header-section-number">3.3</span> Sample Observations</a></li>
+  <li><a href="#sort-observations" id="toc-sort-observations" class="nav-link" data-scroll-target="#sort-observations"><span class="header-section-number">3.4</span> Sort observations</a></li>
+  <li><a href="#select-variables" id="toc-select-variables" class="nav-link" data-scroll-target="#select-variables"><span class="header-section-number">3.5</span> Select variables</a>
   <ul>
-  <li><a href="#select-using-helper-functions" id="toc-select-using-helper-functions" class="nav-link" data-scroll-target="#select-using-helper-functions"><span class="header-section-number">2.5.1</span> Select using helper functions</a></li>
+  <li><a href="#select-using-helper-functions" id="toc-select-using-helper-functions" class="nav-link" data-scroll-target="#select-using-helper-functions"><span class="header-section-number">3.5.1</span> Select using helper functions</a></li>
   </ul></li>
-  <li><a href="#renaming-variables" id="toc-renaming-variables" class="nav-link" data-scroll-target="#renaming-variables"><span class="header-section-number">2.6</span> Renaming Variables</a></li>
-  <li><a href="#create-or-modify-variables" id="toc-create-or-modify-variables" class="nav-link" data-scroll-target="#create-or-modify-variables"><span class="header-section-number">2.7</span> Create or Modify Variables</a></li>
-  <li><a href="#summarize-observations" id="toc-summarize-observations" class="nav-link" data-scroll-target="#summarize-observations"><span class="header-section-number">2.8</span> Summarize Observations</a></li>
-  <li><a href="#identify-distinct-values" id="toc-identify-distinct-values" class="nav-link" data-scroll-target="#identify-distinct-values"><span class="header-section-number">2.9</span> Identify Distinct Values</a></li>
-  <li><a href="#group-by" id="toc-group-by" class="nav-link" data-scroll-target="#group-by"><span class="header-section-number">2.10</span> Group By</a></li>
-  <li><a href="#managing-groups-ungroup" id="toc-managing-groups-ungroup" class="nav-link" data-scroll-target="#managing-groups-ungroup"><span class="header-section-number">2.11</span> Managing Groups: <code>ungroup()</code></a></li>
-  <li><a href="#number-of-observations" id="toc-number-of-observations" class="nav-link" data-scroll-target="#number-of-observations"><span class="header-section-number">2.12</span> Number of Observations</a></li>
-  <li><a href="#number-of-distinct-values" id="toc-number-of-distinct-values" class="nav-link" data-scroll-target="#number-of-distinct-values"><span class="header-section-number">2.13</span> Number of Distinct Values</a></li>
-  <li><a href="#first-last-or-nth-value" id="toc-first-last-or-nth-value" class="nav-link" data-scroll-target="#first-last-or-nth-value"><span class="header-section-number">2.14</span> First, Last, or <span class="math inline">\(n\)</span>th Value</a></li>
-  <li><a href="#conditional-transformations" id="toc-conditional-transformations" class="nav-link" data-scroll-target="#conditional-transformations"><span class="header-section-number">2.15</span> Conditional Transformations</a>
+  <li><a href="#renaming-variables" id="toc-renaming-variables" class="nav-link" data-scroll-target="#renaming-variables"><span class="header-section-number">3.6</span> Renaming Variables</a></li>
+  <li><a href="#create-or-modify-variables" id="toc-create-or-modify-variables" class="nav-link" data-scroll-target="#create-or-modify-variables"><span class="header-section-number">3.7</span> Create or Modify Variables</a></li>
+  <li><a href="#summarize-observations" id="toc-summarize-observations" class="nav-link" data-scroll-target="#summarize-observations"><span class="header-section-number">3.8</span> Summarize Observations</a></li>
+  <li><a href="#identify-distinct-values" id="toc-identify-distinct-values" class="nav-link" data-scroll-target="#identify-distinct-values"><span class="header-section-number">3.9</span> Identify Distinct Values</a></li>
+  <li><a href="#group-by" id="toc-group-by" class="nav-link" data-scroll-target="#group-by"><span class="header-section-number">3.10</span> Group By</a></li>
+  <li><a href="#managing-groups-ungroup" id="toc-managing-groups-ungroup" class="nav-link" data-scroll-target="#managing-groups-ungroup"><span class="header-section-number">3.11</span> Managing Groups: <code>ungroup()</code></a></li>
+  <li><a href="#number-of-observations" id="toc-number-of-observations" class="nav-link" data-scroll-target="#number-of-observations"><span class="header-section-number">3.12</span> Number of Observations</a></li>
+  <li><a href="#number-of-distinct-values" id="toc-number-of-distinct-values" class="nav-link" data-scroll-target="#number-of-distinct-values"><span class="header-section-number">3.13</span> Number of Distinct Values</a></li>
+  <li><a href="#first-last-or-nth-value" id="toc-first-last-or-nth-value" class="nav-link" data-scroll-target="#first-last-or-nth-value"><span class="header-section-number">3.14</span> First, Last, or <span class="math inline">\(n\)</span>th Value</a></li>
+  <li><a href="#conditional-transformations" id="toc-conditional-transformations" class="nav-link" data-scroll-target="#conditional-transformations"><span class="header-section-number">3.15</span> Conditional Transformations</a>
   <ul>
-  <li><a href="#if-else" id="toc-if-else" class="nav-link" data-scroll-target="#if-else"><span class="header-section-number">2.15.1</span> If Else</a></li>
-  <li><a href="#case-when" id="toc-case-when" class="nav-link" data-scroll-target="#case-when"><span class="header-section-number">2.15.2</span> Case When</a></li>
+  <li><a href="#if-else" id="toc-if-else" class="nav-link" data-scroll-target="#if-else"><span class="header-section-number">3.15.1</span> If Else</a></li>
+  <li><a href="#case-when" id="toc-case-when" class="nav-link" data-scroll-target="#case-when"><span class="header-section-number">3.15.2</span> Case When</a></li>
   </ul></li>
-  <li><a href="#exploring-further-dplyr-functions" id="toc-exploring-further-dplyr-functions" class="nav-link" data-scroll-target="#exploring-further-dplyr-functions"><span class="header-section-number">2.16</span> Exploring Further <code>dplyr</code> Functions</a>
+  <li><a href="#exploring-further-dplyr-functions" id="toc-exploring-further-dplyr-functions" class="nav-link" data-scroll-target="#exploring-further-dplyr-functions"><span class="header-section-number">3.16</span> Exploring Further <code>dplyr</code> Functions</a>
   <ul>
-  <li><a href="#separate-and-unite" id="toc-separate-and-unite" class="nav-link" data-scroll-target="#separate-and-unite"><span class="header-section-number">2.16.1</span> Separate and Unite</a></li>
-  <li><a href="#reshaping-data-gather-and-spread" id="toc-reshaping-data-gather-and-spread" class="nav-link" data-scroll-target="#reshaping-data-gather-and-spread"><span class="header-section-number">2.16.2</span> Reshaping Data: <code>gather()</code> and <code>spread()</code></a></li>
+  <li><a href="#separate-and-unite" id="toc-separate-and-unite" class="nav-link" data-scroll-target="#separate-and-unite"><span class="header-section-number">3.16.1</span> Separate and Unite</a></li>
+  <li><a href="#reshaping-data-gather-and-spread" id="toc-reshaping-data-gather-and-spread" class="nav-link" data-scroll-target="#reshaping-data-gather-and-spread"><span class="header-section-number">3.16.2</span> Reshaping Data: <code>gather()</code> and <code>spread()</code></a></li>
   </ul></li>
-  <li><a href="#combining-datasets-joins" id="toc-combining-datasets-joins" class="nav-link" data-scroll-target="#combining-datasets-joins"><span class="header-section-number">2.17</span> Combining Datasets: Joins</a></li>
+  <li><a href="#combining-datasets-joins" id="toc-combining-datasets-joins" class="nav-link" data-scroll-target="#combining-datasets-joins"><span class="header-section-number">3.17</span> Combining Datasets: Joins</a></li>
   </ul>
 </nav>
     </div>
@@ -2133,9 +2146,9 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 }
 </script>
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter1_data_ethics.html">EDA</a></li><li class="breadcrumb-item"><a href="../chapters/chapter3_dplyr.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Getting Started with <code>dplyr</code></span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter4_EDA.html">Explanatory Data Analysis</a></li><li class="breadcrumb-item"><a href="../chapters/chapter3_dplyr.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Data Wrangling</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Getting Started with <code>dplyr</code></span></h1>
+<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Getting Started with <code>dplyr</code></span></h1>
 </div>
 
 
@@ -2315,7 +2328,7 @@ Note
 <li><p>each value is in its own cell</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="../figs/dplyr/tidy-1.png" class="img-fluid figure-img"></p>
+<p><img src="..\figs/dplyr/tidy-1.png" class="img-fluid figure-img"></p>
 <figcaption>Rules of a tidy data frame: variables are columns, observations are rows, and values are cells. Source: @Wickham2023</figcaption>
 </figure>
 </div></li>
@@ -2342,8 +2355,8 @@ Note
 <p>The summary information of data frame can be found by <code>summary()</code> .</p>
 <div id="qwebr-insertion-location-6"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<section id="filter-observations---filter" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="filter-observations---filter"><span class="header-section-number">2.1</span> Filter observations - <code>filter()</code></h2>
+<section id="filter-observations---filter" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="filter-observations---filter"><span class="header-section-number">3.1</span> Filter observations - <code>filter()</code></h2>
 <p>This function works on both quantitative and qualitative variables.</p>
 <div id="qwebr-insertion-location-7"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
@@ -2437,11 +2450,11 @@ Note
 </div>
 <p>Instead of listing the data frame’s name as the initial argument within functions like <code>filter()</code> (or other <code>{dplyr}</code> functions), you simply specify the data frame once, then use the pipe operator to connect it to the desired function.</p>
 </section>
-<section id="extract-observations" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="extract-observations"><span class="header-section-number">2.2</span> Extract observations</h2>
+<section id="extract-observations" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="extract-observations"><span class="header-section-number">3.2</span> Extract observations</h2>
 <p>You can extract observations from a dataset based on either their <strong>positions</strong> or their <strong>values</strong>.</p>
-<section id="based-on-their-positions" class="level3" data-number="2.2.1">
-<h3 data-number="2.2.1" class="anchored" data-anchor-id="based-on-their-positions"><span class="header-section-number">2.2.1</span> Based on Their Positions</h3>
+<section id="based-on-their-positions" class="level3" data-number="3.2.1">
+<h3 data-number="3.2.1" class="anchored" data-anchor-id="based-on-their-positions"><span class="header-section-number">3.2.1</span> Based on Their Positions</h3>
 <p>To extract observations based on their positions, you can use the <code>slice()</code> function.</p>
 <div id="qwebr-insertion-location-13"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
@@ -2455,8 +2468,8 @@ Note
 <div id="qwebr-insertion-location-15"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
-<section id="based-on-their-values" class="level3" data-number="2.2.2">
-<h3 data-number="2.2.2" class="anchored" data-anchor-id="based-on-their-values"><span class="header-section-number">2.2.2</span> Based on their values</h3>
+<section id="based-on-their-values" class="level3" data-number="3.2.2">
+<h3 data-number="3.2.2" class="anchored" data-anchor-id="based-on-their-values"><span class="header-section-number">3.2.2</span> Based on their values</h3>
 <p>When you need to extract observations based on the <strong>values</strong> of a variable, you can use:</p>
 <ul>
 <li><p><strong><code>slice_min()</code></strong>: Selects rows with the <strong>lowest values</strong>, allowing you to define a specific proportion.</p></li>
@@ -2468,8 +2481,8 @@ Note
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
 </section>
-<section id="sample-observations" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="sample-observations"><span class="header-section-number">2.3</span> Sample Observations</h2>
+<section id="sample-observations" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="sample-observations"><span class="header-section-number">3.3</span> Sample Observations</h2>
 <p>Sampling observations can be achieved in two ways:</p>
 <ol type="1">
 <li><p><strong><code>sample_n()</code></strong>: Takes a <strong>random sample of a specified number of rows</strong>.</p></li>
@@ -2502,8 +2515,8 @@ Note
 <div id="qwebr-insertion-location-21"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
-<section id="sort-observations" class="level2" data-number="2.4">
-<h2 data-number="2.4" class="anchored" data-anchor-id="sort-observations"><span class="header-section-number">2.4</span> Sort observations</h2>
+<section id="sort-observations" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="sort-observations"><span class="header-section-number">3.4</span> Sort observations</h2>
 <p>Observations can be sorted using the <strong><code>arrange()</code></strong> function.</p>
 <div id="qwebr-insertion-location-22"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
@@ -2527,8 +2540,8 @@ Important
 </div>
 </div>
 </section>
-<section id="select-variables" class="level2" data-number="2.5">
-<h2 data-number="2.5" class="anchored" data-anchor-id="select-variables"><span class="header-section-number">2.5</span> Select variables</h2>
+<section id="select-variables" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="select-variables"><span class="header-section-number">3.5</span> Select variables</h2>
 <p>You can select variables using the <code>select()</code> function based on their <strong>position</strong> or <strong>name</strong>.</p>
 <div id="qwebr-insertion-location-25"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
@@ -2545,8 +2558,8 @@ Important
 <p>Furthermore, <code>select()</code> provides a straightforward way to <strong>rearrange column order</strong> in your data frame.</p>
 <div id="qwebr-insertion-location-30"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<section id="select-using-helper-functions" class="level3" data-number="2.5.1">
-<h3 data-number="2.5.1" class="anchored" data-anchor-id="select-using-helper-functions"><span class="header-section-number">2.5.1</span> Select using helper functions</h3>
+<section id="select-using-helper-functions" class="level3" data-number="3.5.1">
+<h3 data-number="3.5.1" class="anchored" data-anchor-id="select-using-helper-functions"><span class="header-section-number">3.5.1</span> Select using helper functions</h3>
 <p>The <code>select()</code> function also supports <strong>helper functions</strong> for matching column names based on patterns:</p>
 <p><code>starts_with("abc")</code> selects all columns whose names begin with the specified string.</p>
 <div id="qwebr-insertion-location-31"></div>
@@ -2569,15 +2582,15 @@ Important
 <p>This example selects <code>aa</code> and <code>bb</code> but not <code>ab</code>, since the pattern <code>(.)\\1</code> means “a character repeated twice”.</p>
 </section>
 </section>
-<section id="renaming-variables" class="level2" data-number="2.6">
-<h2 data-number="2.6" class="anchored" data-anchor-id="renaming-variables"><span class="header-section-number">2.6</span> Renaming Variables</h2>
+<section id="renaming-variables" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="renaming-variables"><span class="header-section-number">3.6</span> Renaming Variables</h2>
 <p>To rename variables, use the <code>rename()</code> function.</p>
 <div id="qwebr-insertion-location-37"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>Remember the syntax: <strong><code>new_name = old_name</code></strong>. This means you always write the desired new name first, followed by an equals sign, and then the current old name of the variable.</p>
 </section>
-<section id="create-or-modify-variables" class="level2" data-number="2.7">
-<h2 data-number="2.7" class="anchored" data-anchor-id="create-or-modify-variables"><span class="header-section-number">2.7</span> Create or Modify Variables</h2>
+<section id="create-or-modify-variables" class="level2" data-number="3.7">
+<h2 data-number="3.7" class="anchored" data-anchor-id="create-or-modify-variables"><span class="header-section-number">3.7</span> Create or Modify Variables</h2>
 <p>The <code>mutate()</code> function allows you to <strong>create new variables</strong> or <strong>modify existing ones</strong>. You can base these operations on <em>another existing variabl</em>e or <em>a vector</em> of your choice.</p>
 <div id="qwebr-insertion-location-38"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
@@ -2606,15 +2619,15 @@ Note
 <div id="qwebr-insertion-location-42"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
-<section id="summarize-observations" class="level2" data-number="2.8">
-<h2 data-number="2.8" class="anchored" data-anchor-id="summarize-observations"><span class="header-section-number">2.8</span> Summarize Observations</h2>
+<section id="summarize-observations" class="level2" data-number="3.8">
+<h2 data-number="3.8" class="anchored" data-anchor-id="summarize-observations"><span class="header-section-number">3.8</span> Summarize Observations</h2>
 <p>To get descriptive statistics of your data, use the <strong><code>summarize()</code></strong> (or <code>summarise()</code>) function in conjunction with statistical functions like <code>mean()</code>, <code>median()</code>, <code>min()</code>, <code>max()</code>, <code>sd()</code>, <code>var()</code>, etc.</p>
 <div id="qwebr-insertion-location-43"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>Remember to use <code>na.rm = TRUE</code> to <strong>exclude missing values</strong> from calculations.</p>
 </section>
-<section id="identify-distinct-values" class="level2" data-number="2.9">
-<h2 data-number="2.9" class="anchored" data-anchor-id="identify-distinct-values"><span class="header-section-number">2.9</span> Identify Distinct Values</h2>
+<section id="identify-distinct-values" class="level2" data-number="3.9">
+<h2 data-number="3.9" class="anchored" data-anchor-id="identify-distinct-values"><span class="header-section-number">3.9</span> Identify Distinct Values</h2>
 <p>The <code>distinct()</code> function helps you find <strong>unique values</strong> within a variable.</p>
 <div id="qwebr-insertion-location-44"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
@@ -2622,8 +2635,8 @@ Note
 <div id="qwebr-insertion-location-45"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
-<section id="group-by" class="level2" data-number="2.10">
-<h2 data-number="2.10" class="anchored" data-anchor-id="group-by"><span class="header-section-number">2.10</span> Group By</h2>
+<section id="group-by" class="level2" data-number="3.10">
+<h2 data-number="3.10" class="anchored" data-anchor-id="group-by"><span class="header-section-number">3.10</span> Group By</h2>
 <p>The <strong><code>group_by()</code></strong> function changes how subsequent operations are performed. Instead of applying functions to the entire data frame, operations will be applied to <strong>each defined group of rows</strong>. This is particularly useful with <code>summarize()</code>, as it will produce statistics for <strong>each group</strong> rather than for all observations.</p>
 <p>For example, to calculate the mean and standard deviation of <code>body_mass</code> separately for each <code>species</code>, you would first <code>group_by(species)</code> and then <code>summarize()</code> the <code>body_mass</code>. The pipe operator smoothly passes the grouped data from <code>group_by()</code> to <code>summarize()</code>.</p>
 <div id="qwebr-insertion-location-46"></div>
@@ -2632,14 +2645,14 @@ Note
 <div id="qwebr-insertion-location-47"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
-<section id="managing-groups-ungroup" class="level2" data-number="2.11">
-<h2 data-number="2.11" class="anchored" data-anchor-id="managing-groups-ungroup"><span class="header-section-number">2.11</span> Managing Groups: <code>ungroup()</code></h2>
+<section id="managing-groups-ungroup" class="level2" data-number="3.11">
+<h2 data-number="3.11" class="anchored" data-anchor-id="managing-groups-ungroup"><span class="header-section-number">3.11</span> Managing Groups: <code>ungroup()</code></h2>
 <p>After performing operations on grouped data, the <code>ungroup()</code> function allows you to <strong>revert to a normal data frame</strong>, enabling operations on entire columns again or switching to new grouping criteria. Remember, you can also <code>group_by()</code> multiple columns simultaneously.</p>
 <div id="qwebr-insertion-location-48"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
-<section id="number-of-observations" class="level2" data-number="2.12">
-<h2 data-number="2.12" class="anchored" data-anchor-id="number-of-observations"><span class="header-section-number">2.12</span> Number of Observations</h2>
+<section id="number-of-observations" class="level2" data-number="3.12">
+<h2 data-number="3.12" class="anchored" data-anchor-id="number-of-observations"><span class="header-section-number">3.12</span> Number of Observations</h2>
 <p>The function <strong><code>n()</code></strong> returns the <strong>number of observations</strong>. It can only be used inside <code>summarize()</code>.</p>
 <div id="qwebr-insertion-location-49"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
@@ -2652,8 +2665,8 @@ Note
 <div id="qwebr-insertion-location-52"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
-<section id="number-of-distinct-values" class="level2" data-number="2.13">
-<h2 data-number="2.13" class="anchored" data-anchor-id="number-of-distinct-values"><span class="header-section-number">2.13</span> Number of Distinct Values</h2>
+<section id="number-of-distinct-values" class="level2" data-number="3.13">
+<h2 data-number="3.13" class="anchored" data-anchor-id="number-of-distinct-values"><span class="header-section-number">3.13</span> Number of Distinct Values</h2>
 <p>To count the <strong>number of unique values</strong> or levels in a variable (or combination of variables), use <strong><code>n_distinct()</code></strong>. Like <code>n()</code>, it’s exclusively used within <code>summarize()</code>.</p>
 <div id="qwebr-insertion-location-53"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
@@ -2663,8 +2676,8 @@ Note
 <div id="qwebr-insertion-location-55"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
-<section id="first-last-or-nth-value" class="level2" data-number="2.14">
-<h2 data-number="2.14" class="anchored" data-anchor-id="first-last-or-nth-value"><span class="header-section-number">2.14</span> First, Last, or <span class="math inline">\(n\)</span>th Value</h2>
+<section id="first-last-or-nth-value" class="level2" data-number="3.14">
+<h2 data-number="3.14" class="anchored" data-anchor-id="first-last-or-nth-value"><span class="header-section-number">3.14</span> First, Last, or <span class="math inline">\(n\)</span>th Value</h2>
 <p>Also available only within <code>summarize()</code>, you can retrieve the <strong>first, last, or nth value</strong> of a variable. Functions like <code>first()</code>, <code>last()</code>, and <code>nth()</code> enable this.</p>
 <div id="qwebr-insertion-location-56"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
@@ -2674,10 +2687,10 @@ Note
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>These functions offer arguments to handle missing values; for more details, consult their documentation (e.g., <code>?nth()</code>).</p>
 </section>
-<section id="conditional-transformations" class="level2" data-number="2.15">
-<h2 data-number="2.15" class="anchored" data-anchor-id="conditional-transformations"><span class="header-section-number">2.15</span> Conditional Transformations</h2>
-<section id="if-else" class="level3" data-number="2.15.1">
-<h3 data-number="2.15.1" class="anchored" data-anchor-id="if-else"><span class="header-section-number">2.15.1</span> If Else</h3>
+<section id="conditional-transformations" class="level2" data-number="3.15">
+<h2 data-number="3.15" class="anchored" data-anchor-id="conditional-transformations"><span class="header-section-number">3.15</span> Conditional Transformations</h2>
+<section id="if-else" class="level3" data-number="3.15.1">
+<h3 data-number="3.15.1" class="anchored" data-anchor-id="if-else"><span class="header-section-number">3.15.1</span> If Else</h3>
 <p>The <strong><code>if_else()</code></strong> function (used with <code>mutate()</code>) is ideal for creating a new variable with <strong>two levels</strong> based on a condition. It takes three arguments:</p>
 <ol type="1">
 <li><p><strong>The condition</strong> (e.g., <code>body_mass_g &gt;= 4000</code>).</p></li>
@@ -2700,8 +2713,8 @@ Tip
 </div>
 </div>
 </section>
-<section id="case-when" class="level3" data-number="2.15.2">
-<h3 data-number="2.15.2" class="anchored" data-anchor-id="case-when"><span class="header-section-number">2.15.2</span> Case When</h3>
+<section id="case-when" class="level3" data-number="3.15.2">
+<h3 data-number="3.15.2" class="anchored" data-anchor-id="case-when"><span class="header-section-number">3.15.2</span> Case When</h3>
 <p>For categorizing a variable into <strong>more than two levels</strong>, <strong><code>case_when()</code></strong> is far more appropriate and readable than nested <code>if_else()</code> statements.</p>
 <p>While nested <code>if_else()</code> functions can technically work, they are <strong>prone to errors</strong> and result in <strong>difficult-to-read code</strong>. For instance, to classify body mass into “Low” (&lt;3500), “High” (&gt;4750), and “Medium” (otherwise), nested <code>if_else()</code> would look like this:</p>
 <div id="qwebr-insertion-location-60"></div>
@@ -2732,11 +2745,11 @@ Note
 </div>
 </section>
 </section>
-<section id="exploring-further-dplyr-functions" class="level2" data-number="2.16">
-<h2 data-number="2.16" class="anchored" data-anchor-id="exploring-further-dplyr-functions"><span class="header-section-number">2.16</span> Exploring Further <code>dplyr</code> Functions</h2>
+<section id="exploring-further-dplyr-functions" class="level2" data-number="3.16">
+<h2 data-number="3.16" class="anchored" data-anchor-id="exploring-further-dplyr-functions"><span class="header-section-number">3.16</span> Exploring Further <code>dplyr</code> Functions</h2>
 <p>Until now, we have focused on analyzing the <code>penguins</code> dataset. To effectively explain some of <code>dplyr</code>’s other powerful functions, we’ll now shift to creating custom datasets tailored to demonstrate their specific functionalities.</p>
-<section id="separate-and-unite" class="level3" data-number="2.16.1">
-<h3 data-number="2.16.1" class="anchored" data-anchor-id="separate-and-unite"><span class="header-section-number">2.16.1</span> Separate and Unite</h3>
+<section id="separate-and-unite" class="level3" data-number="3.16.1">
+<h3 data-number="3.16.1" class="anchored" data-anchor-id="separate-and-unite"><span class="header-section-number">3.16.1</span> Separate and Unite</h3>
 <p>You can <strong>separate</strong> a character column into two or more new columns using <code>separate()</code>.</p>
 <div id="qwebr-insertion-location-64"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
@@ -2744,8 +2757,8 @@ Note
 <div id="qwebr-insertion-location-65"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
-<section id="reshaping-data-gather-and-spread" class="level3" data-number="2.16.2">
-<h3 data-number="2.16.2" class="anchored" data-anchor-id="reshaping-data-gather-and-spread"><span class="header-section-number">2.16.2</span> Reshaping Data: <code>gather()</code> and <code>spread()</code></h3>
+<section id="reshaping-data-gather-and-spread" class="level3" data-number="3.16.2">
+<h3 data-number="3.16.2" class="anchored" data-anchor-id="reshaping-data-gather-and-spread"><span class="header-section-number">3.16.2</span> Reshaping Data: <code>gather()</code> and <code>spread()</code></h3>
 <p><code>gather()</code> transforms “<em>wide</em>” format data into “<em>long</em>” or “<em>tall</em>” format by collapsing columns into key-value pairs.</p>
 <div id="qwebr-insertion-location-66"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
@@ -2754,8 +2767,8 @@ Note
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
 </section>
-<section id="combining-datasets-joins" class="level2" data-number="2.17">
-<h2 data-number="2.17" class="anchored" data-anchor-id="combining-datasets-joins"><span class="header-section-number">2.17</span> Combining Datasets: Joins</h2>
+<section id="combining-datasets-joins" class="level2" data-number="3.17">
+<h2 data-number="3.17" class="anchored" data-anchor-id="combining-datasets-joins"><span class="header-section-number">3.17</span> Combining Datasets: Joins</h2>
 <p>Sometimes, your data is split across multiple tables. For example, one table may have <strong>demographic information</strong> (like gender, marital status, height, weight), and another table may have <strong>medical records</strong> (like visits and surgeries).</p>
 <p>When working with data spread across multiple tables, you’ll often need to <strong>combine them based on a shared column (a “key column”)</strong>—a process known as <em>joining</em> or <em>merging</em>. <code>dplyr</code> provides several functions for common data joins.</p>
 <div id="qwebr-insertion-location-68"></div>
@@ -2916,236 +2929,242 @@ Wickham, Hadley, Mine Cetinkaya-Rundel, and Garrett Grolemund. 2023. <em>R for D
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
-window.document.addEventListener("DOMContentLoaded", function (event) {
-  const toggleBodyColorMode = (bsSheetEl) => {
-    const mode = bsSheetEl.getAttribute("data-mode");
-    const bodyEl = window.document.querySelector("body");
-    if (mode === "dark") {
-      bodyEl.classList.add("quarto-dark");
-      bodyEl.classList.remove("quarto-light");
-    } else {
-      bodyEl.classList.add("quarto-light");
-      bodyEl.classList.remove("quarto-dark");
-    }
-  }
-  const toggleBodyColorPrimary = () => {
-    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
-    if (bsSheetEl) {
-      toggleBodyColorMode(bsSheetEl);
-    }
-  }
-  toggleBodyColorPrimary();  
-  const icon = "";
-  const anchorJS = new window.AnchorJS();
-  anchorJS.options = {
-    placement: 'right',
-    icon: icon
-  };
-  anchorJS.add('.anchored');
-  const isCodeAnnotation = (el) => {
-    for (const clz of el.classList) {
-      if (clz.startsWith('code-annotation-')) {                     
-        return true;
-      }
-    }
-    return false;
-  }
-  const onCopySuccess = function(e) {
-    // button target
-    const button = e.trigger;
-    // don't keep focus
-    button.blur();
-    // flash "checked"
-    button.classList.add('code-copy-button-checked');
-    var currentTitle = button.getAttribute("title");
-    button.setAttribute("title", "Copied!");
-    let tooltip;
-    if (window.bootstrap) {
-      button.setAttribute("data-bs-toggle", "tooltip");
-      button.setAttribute("data-bs-placement", "left");
-      button.setAttribute("data-bs-title", "Copied!");
-      tooltip = new bootstrap.Tooltip(button, 
-        { trigger: "manual", 
-          customClass: "code-copy-button-tooltip",
-          offset: [0, -8]});
-      tooltip.show();    
-    }
-    setTimeout(function() {
-      if (tooltip) {
-        tooltip.hide();
-        button.removeAttribute("data-bs-title");
-        button.removeAttribute("data-bs-toggle");
-        button.removeAttribute("data-bs-placement");
-      }
-      button.setAttribute("title", currentTitle);
-      button.classList.remove('code-copy-button-checked');
-    }, 1000);
-    // clear code selection
-    e.clearSelection();
-  }
-  const getTextToCopy = function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-    text: getTextToCopy
-  });
-  clipboard.on('success', onCopySuccess);
-  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-      text: getTextToCopy,
-      container: window.document.getElementById('quarto-embedded-source-code-modal')
-    });
-    clipboardModal.on('success', onCopySuccess);
-  }
-    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-    var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp('/' + window.location.host + '/');
-    var isInternal = (href) => {
-        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
-    }
-    // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
-    for (var i=0; i<links.length; i++) {
-      const link = links[i];
-      if (!isInternal(link.href)) {
-        // undo the damage that might have been done by quarto-nav.js in the case of
-        // links that we want to consider external
-        if (link.dataset.originalHref !== undefined) {
-          link.href = link.dataset.originalHref;
-        }
-      }
-    }
-  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
-    const config = {
-      allowHTML: true,
-      maxWidth: 500,
-      delay: 100,
-      arrow: false,
-      appendTo: function(el) {
-          return el.parentElement;
-      },
-      interactive: true,
-      interactiveBorder: 10,
-      theme: 'quarto',
-      placement: 'bottom-start',
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
     };
-    if (contentFn) {
-      config.content = contentFn;
-    }
-    if (onTriggerFn) {
-      config.onTrigger = onTriggerFn;
-    }
-    if (onUntriggerFn) {
-      config.onUntrigger = onUntriggerFn;
-    }
-    window.tippy(el, config); 
-  }
-  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
-  for (var i=0; i<noterefs.length; i++) {
-    const ref = noterefs[i];
-    tippyHover(ref, function() {
-      // use id or data attribute instead here
-      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
-      try { href = new URL(href).hash; } catch {}
-      const id = href.replace(/^#\/?/, "");
-      const note = window.document.getElementById(id);
-      if (note) {
-        return note.innerHTML;
-      } else {
-        return "";
-      }
-    });
-  }
-  const xrefs = window.document.querySelectorAll('a.quarto-xref');
-  const processXRef = (id, note) => {
-    // Strip column container classes
-    const stripColumnClz = (el) => {
-      el.classList.remove("page-full", "page-columns");
-      if (el.children) {
-        for (const child of el.children) {
-          stripColumnClz(child);
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
         }
       }
+      return false;
     }
-    stripColumnClz(note)
-    if (id === null || id.startsWith('sec-')) {
-      // Special case sections, only their first couple elements
-      const container = document.createElement("div");
-      if (note.children && note.children.length > 2) {
-        container.appendChild(note.children[0].cloneNode(true));
-        for (let i = 1; i < note.children.length; i++) {
-          const child = note.children[i];
-          if (child.tagName === "P" && child.innerText === "") {
-            continue;
-          } else {
-            container.appendChild(child.cloneNode(true));
-            break;
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
           }
         }
-        if (window.Quarto?.typesetMath) {
-          window.Quarto.typesetMath(container);
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
         }
-        return container.innerHTML
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
       } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
         if (window.Quarto?.typesetMath) {
           window.Quarto.typesetMath(note);
         }
-        return note.innerHTML;
-      }
-    } else {
-      // Remove any anchor links if they are present
-      const anchorLink = note.querySelector('a.anchorjs-link');
-      if (anchorLink) {
-        anchorLink.remove();
-      }
-      if (window.Quarto?.typesetMath) {
-        window.Quarto.typesetMath(note);
-      }
-      if (note.classList.contains("callout")) {
-        return note.outerHTML;
-      } else {
-        return note.innerHTML;
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
       }
     }
-  }
-  for (var i=0; i<xrefs.length; i++) {
-    const xref = xrefs[i];
-    tippyHover(xref, undefined, function(instance) {
-      instance.disable();
-      let url = xref.getAttribute('href');
-      let hash = undefined; 
-      if (url.startsWith('#')) {
-        hash = url;
-      } else {
-        try { hash = new URL(url).hash; } catch {}
-      }
-      if (hash) {
-        const id = hash.replace(/^#\/?/, "");
-        const note = window.document.getElementById(id);
-        if (note !== null) {
-          try {
-            const html = processXRef(id, note.cloneNode(true));
-            instance.setContent(html);
-          } finally {
-            instance.enable();
-            instance.show();
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
           }
         } else {
-          // See if we can fetch this
-          fetch(url.split('#')[0])
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
           .then(res => res.text())
           .then(html => {
             const parser = new DOMParser();
             const htmlDoc = parser.parseFromString(html, "text/html");
-            const note = htmlDoc.getElementById(id);
+            const note = htmlDoc.querySelector('main.content');
             if (note !== null) {
-              const html = processXRef(id, note);
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
               instance.setContent(html);
             } 
           }).finally(() => {
@@ -3153,194 +3172,170 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             instance.show();
           });
         }
-      } else {
-        // See if we can fetch a full url (with no hash to target)
-        // This is a special case and we should probably do some content thinning / targeting
-        fetch(url)
-        .then(res => res.text())
-        .then(html => {
-          const parser = new DOMParser();
-          const htmlDoc = parser.parseFromString(html, "text/html");
-          const note = htmlDoc.querySelector('main.content');
-          if (note !== null) {
-            // This should only happen for chapter cross references
-            // (since there is no id in the URL)
-            // remove the first header
-            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
-              note.children[0].remove();
-            }
-            const html = processXRef(null, note);
-            instance.setContent(html);
-          } 
-        }).finally(() => {
-          instance.enable();
-          instance.show();
-        });
-      }
-    }, function(instance) {
-    });
-  }
-      let selectedAnnoteEl;
-      const selectorForAnnotation = ( cell, annotation) => {
-        let cellAttr = 'data-code-cell="' + cell + '"';
-        let lineAttr = 'data-code-annotation="' +  annotation + '"';
-        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
-        return selector;
-      }
-      const selectCodeLines = (annoteEl) => {
-        const doc = window.document;
-        const targetCell = annoteEl.getAttribute("data-target-cell");
-        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
-        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
-        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
-        const lineIds = lines.map((line) => {
-          return targetCell + "-" + line;
-        })
-        let top = null;
-        let height = null;
-        let parent = null;
-        if (lineIds.length > 0) {
-            //compute the position of the single el (top and bottom and make a div)
-            const el = window.document.getElementById(lineIds[0]);
-            top = el.offsetTop;
-            height = el.offsetHeight;
-            parent = el.parentElement.parentElement;
-          if (lineIds.length > 1) {
-            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
-            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
-            height = bottom - top;
-          }
-          if (top !== null && height !== null && parent !== null) {
-            // cook up a div (if necessary) and position it 
-            let div = window.document.getElementById("code-annotation-line-highlight");
-            if (div === null) {
-              div = window.document.createElement("div");
-              div.setAttribute("id", "code-annotation-line-highlight");
-              div.style.position = 'absolute';
-              parent.appendChild(div);
-            }
-            div.style.top = top - 2 + "px";
-            div.style.height = height + 4 + "px";
-            div.style.left = 0;
-            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
-            if (gutterDiv === null) {
-              gutterDiv = window.document.createElement("div");
-              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
-              gutterDiv.style.position = 'absolute';
-              const codeCell = window.document.getElementById(targetCell);
-              const gutter = codeCell.querySelector('.code-annotation-gutter');
-              gutter.appendChild(gutterDiv);
-            }
-            gutterDiv.style.top = top - 2 + "px";
-            gutterDiv.style.height = height + 4 + "px";
-          }
-          selectedAnnoteEl = annoteEl;
-        }
-      };
-      const unselectCodeLines = () => {
-        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
-        elementsIds.forEach((elId) => {
-          const div = window.document.getElementById(elId);
-          if (div) {
-            div.remove();
-          }
-        });
-        selectedAnnoteEl = undefined;
-      };
-        // Handle positioning of the toggle
-    window.addEventListener(
-      "resize",
-      throttle(() => {
-        elRect = undefined;
-        if (selectedAnnoteEl) {
-          selectCodeLines(selectedAnnoteEl);
-        }
-      }, 10)
-    );
-    function throttle(fn, ms) {
-    let throttle = false;
-    let timer;
-      return (...args) => {
-        if(!throttle) { // first call gets through
-            fn.apply(this, args);
-            throttle = true;
-        } else { // all the others get throttled
-            if(timer) clearTimeout(timer); // cancel #2
-            timer = setTimeout(() => {
-              fn.apply(this, args);
-              timer = throttle = false;
-            }, ms);
-        }
-      };
-    }
-      // Attach click handler to the DT
-      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
-      for (const annoteDlNode of annoteDls) {
-        annoteDlNode.addEventListener('click', (event) => {
-          const clickedEl = event.target;
-          if (clickedEl !== selectedAnnoteEl) {
-            unselectCodeLines();
-            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
-            if (activeEl) {
-              activeEl.classList.remove('code-annotation-active');
-            }
-            selectCodeLines(clickedEl);
-            clickedEl.classList.add('code-annotation-active');
-          } else {
-            // Unselect the line
-            unselectCodeLines();
-            clickedEl.classList.remove('code-annotation-active');
-          }
-        });
-      }
-  const findCites = (el) => {
-    const parentEl = el.parentElement;
-    if (parentEl) {
-      const cites = parentEl.dataset.cites;
-      if (cites) {
-        return {
-          el,
-          cites: cites.split(' ')
-        };
-      } else {
-        return findCites(el.parentElement)
-      }
-    } else {
-      return undefined;
-    }
-  };
-  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
-  for (var i=0; i<bibliorefs.length; i++) {
-    const ref = bibliorefs[i];
-    const citeInfo = findCites(ref);
-    if (citeInfo) {
-      tippyHover(citeInfo.el, function() {
-        var popup = window.document.createElement('div');
-        citeInfo.cites.forEach(function(cite) {
-          var citeDiv = window.document.createElement('div');
-          citeDiv.classList.add('hanging-indent');
-          citeDiv.classList.add('csl-entry');
-          var biblioDiv = window.document.getElementById('ref-' + cite);
-          if (biblioDiv) {
-            citeDiv.innerHTML = biblioDiv.innerHTML;
-          }
-          popup.appendChild(citeDiv);
-        });
-        return popup.innerHTML;
+      }, function(instance) {
       });
     }
-  }
-});
-</script>
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../chapters/chapter1_data_ethics.html" class="pagination-link" aria-label="Data Ethics">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Data Ethics</span></span>
+      <a href="../chapters/chapter4_EDA.html" class="pagination-link" aria-label="Exploratory data analysis (EDA)">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Exploratory data analysis (EDA)</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="../chapters/chapter2_data_visualization.html" class="pagination-link" aria-label="Data Visualization">
-        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Data Visualization</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Data Visualization</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

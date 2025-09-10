@@ -7,15 +7,17 @@ book:
   date: "7/11/2025"
   chapters:
     - index.qmd
-    - part: "EDA"
+    - part: "Explanatory Data Analysis"
       chapters: 
-        - chapters/chapter1_data_ethics.qmd
+        - chapters/chapter4_EDA.qmd
         - chapters/chapter3_dplyr.qmd
         - chapters/chapter2_data_visualization.qmd
-        - chapters/chapter4_EDA.qmd
     - part: "Logistic Regression"
       chapters:
         - chapters/chapter5_logistic_regression.qmd
+    - part: "Data"
+      chapters: 
+        - chapters/chapter1_data_ethics.qmd
         
 bibliography: references.bib
 

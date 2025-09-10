@@ -3,13 +3,5 @@ filters:
   - webr
 ---
 
-# Prerequisites {.unnumbered}
-
-This is a Quarto book.
-
-To learn more about Quarto books visit <https://quarto.org/docs/books>.
-
-```{webr-r}
-1 + 1
-```
-
+# Note 
+This interactive book is designed as a companion to the course **Systems Information and Statistics**, taught at the **NOVA School of Science and Technology (NOVA FCT)** in Lisbon, Portugal.
