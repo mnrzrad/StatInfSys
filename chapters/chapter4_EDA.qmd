@@ -498,7 +498,7 @@ EDA helps us answer important questions like:
 To answer these questions, EDA is generally cross-classified into two ways:
 
 |   | **Non-graphical (numbers/tables)** | **Graphical (plots)** |
-|----------------------|-------------------------------|--------------------|
+|----------------------|------------------------------|--------------------|
 | **Univariate (one)** | Univariate × Non-graphical | Univariate × Graphical |
 | **Multivariate (≥2\*)** | Multivariate × Non-graphical | Multivariate × Graphical |
 
@@ -577,13 +577,13 @@ For **quantitative** variables, it is meaningful to report a variable’s **cent
 
 They describe the key features of a variable:
 
--    **Center** (e.g., mean or median) — a typical value
+-   **Center** (e.g., mean or median) — a typical value
 
--    **Spread** (e.g., standard deviation or interquartile range) — how much values vary
+-   **Spread** (e.g., standard deviation or interquartile range) — how much values vary
 
 -   **Shape** (e.g., skewness) — symmetry or lean and tail behavior
 
--    **Extremes** (e.g., minimum, maximum, or outliers) — unusual low/high values
+-   **Extremes** (e.g., minimum, maximum, or outliers) — unusual low/high values
 
 **Central Tendency**
 
@@ -675,6 +675,12 @@ The most common measure of central tendency is the **mean**. When **outliers** a
 
 Other quick checks: the **range** (max − min) is easy but very sensitive to extremes; **MAD** (median absolute deviation) is a robust alternative to SD.
 
+The MAD can be defined as
+
+$$
+\mathrm{MAD} = \mathop{\mathrm{median}}_{1\leq i \leq n} |x_i - \bar{x}|
+$$
+
 ::: callout-tip
 **Which measure when?**\
 Use **SD** when the distribution is roughly symmetric and free of extreme outliers. Use **IQR** (often with the **median**) when the distribution is **skewed** or contains **outliers**.
@@ -693,6 +699,9 @@ $$
 s^2 = \frac{1}{n-1}\sum_{i=1}^n (x_i - \bar{x})^2
 $$As a **sample statistic**, ($s^2$) varies from sample to sample; we use it to **estimate** the single, fixed **population variance** ($\sigma^2$). The $(n-1)$ in the denominator ensures *unbiasedness*: across many random samples, the average of $s^2$ equals $\sigma^2$.
 
+```{=html}
+<!-- 
+
 Another (equivalent) way to write the variance is
 
 $$
@@ -700,6 +709,9 @@ s^2 = \frac{SS}{df}
 $$
 
 where $SS$ is the **sum of squared deviations** (often just “sum of squares”), i.e., $SS = \sum_{i=1}^n (x_i-\bar{x})^2$, and $df$ is the **degrees of freedom**. For a single sample variance, $df = n-1$.
+
+-->
+```
 
 ::: callout-note
 **Why does variance matter?**
@@ -743,7 +755,7 @@ x <- mpg$hwy
 sd(x, na.rm = TRUE) 
 ```
 
-To understand the **interquantile range (IQR),** first we define **quartiles**. Quartiles split the data into four equal parts: the first quartile (**Q1**) is the value below which 25% of observations fall, the second quartile (**Q2**) is the median (50%), and the third quartile (**Q3**) marks 75%. These three cut points summarize where the lower quarter ends, where the middle lies, and where the upper quarter begins, which is especially helpful when the distribution is not symmetric.
+To understand the **interquantile range (IQR),** first we define **quartiles**. Quartiles split the data into four equal parts: the first quartile (**Q1**) is the smallest value below which 25% of observations fall, the second quartile (**Q2**) is the median (50%), and the third quartile (**Q3**) marks 75%. These three cut points summarize where the lower quarter ends, where the middle lies, and where the upper quarter begins, which is especially helpful when the distribution is not symmetric.
 
 The **interquartile range (IQR)** is the distance between the third and first quartiles, (\$ \mathrm{IQR} = Q3 - Q1\$ ). It measures how spread out the **middle 50%** of the data are: a wider IQR means the central values are more dispersed, and a narrower IQR means they are more tightly clustered. Like the standard deviation, the IQR is expressed in the **same units** as the original data, but unlike the standard deviation it is **robust**—a few extreme highs or lows have little effect on it because it depends only on the central half of the distribution.
 
@@ -835,7 +847,7 @@ outliers
 ```
 
 :::: panel-tabset
-## Exercise
+**Exercise**
 
 In the dataset `mpg`,
 
@@ -869,7 +881,7 @@ In the dataset `mpg`,
 
     ```
 
-## Solution
+**Solution**
 
 ::: {.solution exercise="ex_1"}
 ``` r
@@ -944,7 +956,7 @@ by_year_rowpct$`2008`
 
 ```
 
-### Associations
+**Associations**
 
 In EDA, we often want to ask *Is one variable associated with another?*
 
@@ -956,7 +968,7 @@ This can be for:
 
 -   One numeric and one categorical
 
-#### Pairs of Numeric Variables
+**Pairs of Numeric Variables**
 
 The most common way to measure association between two numeric variables is:
 
@@ -1001,7 +1013,7 @@ They are interpreted like Pearson's $r$:
 
 -   $0$ means no association
 
-#### Pairs of Categorical Variables
+**Pairs of Categorical Variables**
 
 For two categorical variables, we ask *Are certain combinations of categories more or less common than expected?*
 
@@ -1030,7 +1042,7 @@ This table tells us:
 This table shows which association or correlation measure to use depending on the types of variables, along with the appropriate R function.
 
 | Variable Types | Measure | Interpretation | R Function / Package |
-|------------------|------------------|-------------------|-------------------|
+|------------------|------------------|------------------|------------------|
 | **Numeric – Numeric** | **Pearson’s r** | Strength of **linear** relationship | `cor(x, y, method = "pearson")` |
 | **Numeric – Numeric** | **Spearman’s ρ** | Strength of **monotonic** relationship | `cor(x, y, method = "spearman")` |
 | **Numeric – Numeric** | **Kendall’s τ** | Rank-based measure; robust to ties | `cor(x, y, method = "kendall")` |
@@ -1043,7 +1055,7 @@ This table shows which association or correlation measure to use depending on th
 
 ------------------------------------------------------------------------
 
-### Notes
+**Notes**
 
 -   **Spearman’s ρ** and **Kendall’s τ** both work well for **ranked data** and are more robust to non-linear trends than Pearson’s r.
 -   **Cramér’s V** is used for **nominal data**, and its values range from 0 to 1.
@@ -1052,7 +1064,7 @@ This table shows which association or correlation measure to use depending on th
 
 ------------------------------------------------------------------------
 
-### Example: What Should You Use?
+**Example: What Should You Use?**
 
 | Situation                       | Use                      |
 |---------------------------------|--------------------------|
@@ -1062,11 +1074,7 @@ This table shows which association or correlation measure to use depending on th
 | Gender vs Income                | ANOVA + Boxplot          |
 | Plant Type vs Size Category     | Cross-tab or Mosaic Plot |
 
-### 
-
-::: callout-important
 These summaries help us compare groups and form initial impressions (for example, the mean suggests a “typical” value). **But a few numbers can not tell the whole story**—different datasets can share the same mean and spread yet look very different, so always pair numbers with plots and context.
-:::
 
 #### Graphical Summaries
 
@@ -1108,15 +1116,266 @@ plot histograms or line charts
 --\>
 :::
 
-### Airquailty dataset
+##### Principles of Analytic Graphics
+
+Based on [@Tufte2006], there are six key principles for designing informative and effective graphs.
+
+**Principle 1 – Show Comparison**
+
+::: {.callout-caution appearance="simple" icon="false"}
+Showing comparisons is really the basis of all good scientific investigation. [@Peng2012]
+:::
+
+Good data analysis always involves **comparing** things. A single number or result doesn’t mean much on its own. We need to ask:
+
+::: {.callout-important appearance="simple" icon="false"}
+Compared to what?
+:::
+
+For example, if we see that children with air cleaners had more symptom-free days, that sounds good. But how do we know the air cleaner made the difference? We only know that **by comparing** to another group of children who didn’t get the air cleaner. When we add that comparison, we can see that the control group didn’t improve — so the improvement likely came from the air cleaner.
+
+![Change in symptom-free days with air cleaner. Source: \@Peng2012](/figs/EDA/EDA-P1-a.png){fig-align="center"}
+
+![Change in symptom-free days with air cleaner. Source: \@Peng2012](/figs/EDA/EDA-P1-a.png){#figEDA1 fig-align="center"}
+
+![Change in symptom-free days by treatment group. Source: \@Peng2012](/figs/EDA/EDA-P1-b.png){#figEDA2 fig-align="center"}
+
+Good data graphics should always show **at least two things** so we can compare and understand what’s really happening.
+
+**Principle 2: Show Causality and Explanation**
+
+When making a data graphics, it is helpful to show **why** you think something is happening – not just what is happening. Even if you can not prove a cause, you can show your **hypothesis** of **idea** about how one thing might lead to another.
+
+::: {.callout-caution appearance="minimal"}
+If possible, it is always useful to show your causal framework for thinking about a question. [@Peng2012]
+
+<!-- # Generally, it is difficult to prove that one thing causes another thing even with the most carefully collected data.  But it is still often useful for your data graphics to indicate what you are thinking about in terms of cause. Such a display may suggest hypotheses or refute them, but most importantly, they will raise new questions that can be followed up with new data or analyses. -->
+:::
+
+For example, in [#figEDA2](#figEDA2) we saw that children with an air cleaner had more symptom–free days. But that alone does not explain **why**. A good follow-up question is: "*Why did the air cleaner help?"* One possible reason is that air cleaners reduce **fine particles** in the air – especially in homes with smokers. Breathing in these particles can make asthma worse, so removing them might help children feel better. To show this, we can make a new plot.
+
+![Change in symptom-free days and change in PM2.5 levels in-home. Source: @Peng2012](/figs/EDA/EDA-P2.png){fig-align="center"}
+
+From the plot, we can see:
+
+-   Children with air cleaners had more symptom-free days.
+
+-   Their homes also had **less PM2.5** after six months.
+
+-   In contrast, the control group had little improvement.
+
+This **pattern supports** the idea that air cleaners work by reducing harmful particles — but it is not final proof. Other things might also cause the change, so more data and careful studies are needed to confirm.
+
+**Principle 3: Show Multivariate Data**
+
+::: {.callout-caution appearance="minimal" icon="false"}
+The real world is multivariate. [@Peng2012]
+:::
+
+In real life, most problems involve **more than one or two variables**. We call this **multivariate data**. Good data graphics should try to show these multiple variables at the same time, instead of reducing everything to just one number or a simple trend.
+
+Let us look at an example.
+
+The `mtcars` dataset contains information about 32 car models from the 1970s. Each row is a car and each column is a variable. Some of these variables are: `mpg`: miles per gallon (fuel efficiency), `wt`: weight (in 1000 lbs), `cyl`: number of cylanders (engine size), `hp`: horse power, `qsec`: 1/4 mile time (acceleration), `am`: Transmission (0 = auto, 1 = manual). These variables help us to explore relationship between engin size, weight, fuel use, and more.
+
+```{webr-r}
+data("mtcars")
+head(mtcars)
+```
+
+We want to know how a car's weight affects its fuel efficiency (miles per gallon). We look at a simple scatter plot of these two variables.
+
+```{webr-r}
+library(ggplot2)
+
+ggplot(mtcars, aes(x = wt, y = mpg)) + 
+  geom_point(color = 'blue', size = 3) + 
+  geom_smooth(method = 'lm', se = FALSE, color = 'red') + 
+  labs(x = 'weight (1000 lbs)',
+       y = 'Miles per Gallon (MPG)') + 
+  theme_minimal()
+```
+
+Heavier cars tend to have lower fuel efficiency. But is weight the only thing affecting fuel use?
+
+Cars also have different engine sizes, measured by cylinders (`cyl`). This affects both weight and fuel efficiency. To understand the relationship better, we add `cyl` as a third variable by coloring points by the number of cylinders.
+
+```{webr-r}
+mtcars$cyl <- factor(mtcars$cyl)
+
+ggplot(mtcars, aes(x = wt, y = mpg, color=cyl)) + 
+  geom_point(size = 3) + 
+  geom_smooth(method = 'lm', se = FALSE, aes(group = cyl)) + 
+  labs(x = 'Weight (1000 lbs)',
+       y = 'Miles per Gallon (MPG)', 
+       color = "Number of cylinders") + 
+  theme_minimal()
+```
+
+Now, we see that cars with 4, 6, and 8 cylinders have different trends. The overall pattern changes once we include this third variable.
+
+::: callout-caution
+The number of cylinders **cofounds** the relationship – it influences both weight and MPG.
+:::
+
+To understand how the number of cylinders changes the relationship between weight and fuel efficiency, we can make separate plots for each cylinder group. This is called **faceting**.
+
+```{webr-r}
+ggplot(mtcars, aes(x = wt, y = mpg)) + 
+  geom_point() + 
+  geom_smooth(method = 'lm', se = FALSE) +
+  facet_wrap(~ cyl) + 
+  labs(title = 'MPG vs. Weight by Cylinder Group')
+```
+
+::: callout-important
+Sometimes, looking at groups separately helps us find clearer patterns that get lost in a big mixed dataset.
+:::
+
+Even, we can add the variable transmission(`am`) as an additional variable by using shapes or facet.
+
+```{webr-r}
+# Prepare the data
+mtcars$cyl <- factor(mtcars$cyl)  
+mtcars$am <- factor(mtcars$am, labels = c("Automatic", "Manual"))  
+
+ggplot(mtcars, aes(x = wt, y = mpg, color = cyl, shape = am)) +
+  geom_point(size = 3) +
+  geom_smooth(method = "lm", se = FALSE, aes(group = cyl), linetype = "solid") +
+  labs(
+    x = "Weight (1000 lbs)",
+    y = "Miles per Gallon (MPG)",
+    color = "Cylinders",
+    shape = "Transmission"
+  ) +
+  theme_minimal()
+
+```
+
+```{webr-r}
+mtcars$cyl <- factor(mtcars$cyl)
+mtcars$am <- factor(mtcars$am, labels = c('Automatic', 'Manual')) 
+
+
+ggplot(mtcars, aes(x = wt, y = mpg, color = cyl)) + 
+  geom_point(size = 3) + 
+  geom_smooth(method = 'lm', se = TRUE, aes(group = cyl)) + 
+  facet_wrap(~ am) + 
+  labs(
+    x = 'Weight (1000 lbs)',
+    y = 'Miles per Gallon (MPG)',
+    color = 'Cylinders'
+  ) + 
+  theme_minimal()
+```
+
+Now, each panel shows either automatic automatic or manual cars. Within each panel, colors show the number of cylinders.
+
+Even we can use `facet_grid` that allows us to split the plot into rows and columns based on two categorical variables – perfect for showing how relationships vary across combinations. We will use `am` in rows and `cyl` in columns.
+
+```{webr-r}
+mtcars$cyl <- factor(mtcars$cyl)
+mtcars$am <- factor(mtcars$am, labels = c('Automatic', 'Manual'))
+
+ggplot(mtcars, aes(x = wt, y = mpg)) + 
+  geom_point(aes(color = cyl), size = 3) + 
+  geom_smooth(method = 'lm', se = FALSE, color = 'black') +
+  facet_grid(am ~ cyl) + 
+  labs(
+    x = 'Weight (1000 lbs)',
+    y = 'Miles per Gallon (MPG)',
+    color = 'Cylinders'
+  ) 
+```
+
+This way, we can see how the relationship between weight and MPG changes in each group combination.
+
+**Principle 4: Integrate Evidence — Keep the message clear**
+
+When you make a graph, *do not rely* on points and lines to show your idea. You can also use: **Numbers** to give exact values, **Words or short labels** to explain what is happening, **Pictures or diagrams** to give context.
+
+::: callout-important
+A good graph tells a complete story.
+:::
+
+Use all tools you need – not just the ones your software gives you easily.
+
+::: callout-important
+The goal is **not to just make a nice picture,** but to help people understand your message clearly.
+:::
+
+**Principle 5: Describe and Document the Evidence**
+
+A good graph tells a story – clearly and completely. That means it should include:
+
+-   A clear **title**
+
+-   Labels for the **x-axis** and **y-axis**
+
+-   Units for measurement (e.g. 'weights in 1000 lbs')
+
+-   Time scale if needed (e.g. 'daily', 'monthly')
+
+-   where the data comes from (e.g., 'New York', 'EPA')
+
+-   source of the data
+
+::: callout-tip
+Imagine someone looking only at your plot without reading anything else. **Can they understand the main idea?** if yes – your plot is doing a good job.
+:::
+
+::: callout-note
+Even if your graph is not *final*, it is a good habit to label things early. It helps you and others understand what is going on.
+:::
+
+For example, instead of using
+
+```{r}
+#| eval: false
+#| include: false
+plot(x, y)
+```
+
+try this
+
+```{r}
+#| eval: false
+#| include: false
+plot(x, y,
+     xlab = "Weight (1000 lbs)",
+     ylab = "Fuel efficiency (Miles per Gallon)",
+     main = "Number of Deaths")
+```
+
+when we use `ggplot2`, it is better to add `labs()` like we did until now.
+
+**Principle 6: Content is King**
+
+::: callout-important
+A beautiful plot means nothing if the **question is weak** or the d**ata is poor.**
+:::
+
+Data graphics are only powerful when:
+
+-   the **question is clear and important**
+
+-   the **data is high quality and relevant**
+
+-   the **evidence supports the question**
+
+No chart or fancy design can fix a bad question or messy data. That is why it is crucial to start with a strong idea and only show what really matters to answer that idea.
+
+::: callout-tip
+Do not just decorate your data – focus on the message!
+:::
+
+## Airquailty dataset
 
 We will explore the `airquality` dataset, which contains daily measurement of air pollutants and weather conditions in New York City May to September 1973.
 
 **Step 1 –** *How do ozone levels vary across different months in New York during the summer in 1973?*
 
-::: callout-note
 This question is specific and focused: *One location (New York), One variable (ozone), one year and a defined time window (May to September)*
-:::
 
 **Step 2 –** The `airquality` dataset is built into R. Load it with:
 
@@ -1169,8 +1428,7 @@ Missing values (denoted as `NA` in R) can lead to incorrect calculations or unex
 colSums(is.na(ozone))
 ```
 
-:::: callout-note
-## Using \`dplyr\`
+**Using \`dplyr\`**
 
 ```{webr-r}
 library(dplyr)
@@ -1182,7 +1440,7 @@ airquality |>
 This command uses `across()` to apply the same function to all columns, and `sum(is.na(.))` to count the number of missing values per column.
 
 ::: callout-tip
-## What is \~ ?
+**What is \~ ?**
 
 The `~` introduces an **anonymous function** — a function written inline without a name.
 
@@ -1198,7 +1456,6 @@ is a shorthand for
 function(x) sum(is.na(x))
 ```
 :::
-::::
 
 Or, we can check how many rows are from July:
 
@@ -1280,7 +1537,7 @@ summary(model)
 
 We might also refine our question: *On which days was the ozone level unusually high, and what were the weather conditions on those days?*
 
-#### Alternative question
+Alternative question
 
 ***Step 1 – Which weather factor—temperature, wind, or solar radiation—has the strongest relationship with ozone levels during the summer of 1973 in New York?***
 
@@ -1442,9 +1699,7 @@ Now we know temperature has the strongest effect on ozone levels:
 
 We might now refine our question: *How much does temperature need to rise before ozone levels exceed the 70 ppb threshold?*
 
-::: callout-note
 As Tukey emphasized, EDA is about "detecting the unexpected" and **learning from the data before attempting to explain it**.
-:::
 
 :::: callout-tip
 At the beginning, it is hard to ask the *perfect* question because you do not know the date well yet. But here is the secret:
@@ -1478,832 +1733,4 @@ Good EDA is like this
 
 ::: callout-tip
 Do not wait for the perfect question - **just start**. Exploration will lead you to insight.
-:::
-
-## Principles of Analytic Graphics
-
-Based on [@Tufte2006], there are six key principles for designing informative and effective graphs.
-
-### Principle 1 – Show Comparison
-
-::: {.callout-caution appearance="simple" icon="false"}
-Showing comparisons is really the basis of all good scientific investigation. [@Peng2012]
-:::
-
-Good data analysis always involves **comparing** things. A single number or result doesn’t mean much on its own. We need to ask:
-
-::: {.callout-important appearance="simple" icon="false"}
-Compared to what?
-:::
-
-For example, if we see that children with air cleaners had more symptom-free days, that sounds good. But how do we know the air cleaner made the difference? We only know that **by comparing** to another group of children who didn’t get the air cleaner. When we add that comparison, we can see that the control group didn’t improve — so the improvement likely came from the air cleaner.
-
-![Change in symptom-free days with air cleaner. Source: \@Peng2012](/figs/EDA/EDA-P1-a.png){fig-align="center"}
-
-![Change in symptom-free days with air cleaner. Source: \@Peng2012](/figs/EDA/EDA-P1-a.png){#figEDA1 fig-align="center"}
-
-![Change in symptom-free days by treatment group. Source: \@Peng2012](/figs/EDA/EDA-P1-b.png){#figEDA2 fig-align="center"}
-
-Good data graphics should always show **at least two things** so we can compare and understand what’s really happening.
-
-### Principle 2: Show Causality and Explanation
-
-When making a data graphics, it is helpful to show **why** you think something is happening – not just what is happening. Even if you can not prove a cause, you can show your **hypothesis** of **idea** about how one thing might lead to another.
-
-::: {.callout-caution appearance="minimal"}
-If possible, it is always useful to show your causal framework for thinking about a question. [@Peng2012]
-
-<!-- # Generally, it is difficult to prove that one thing causes another thing even with the most carefully collected data.  But it is still often useful for your data graphics to indicate what you are thinking about in terms of cause. Such a display may suggest hypotheses or refute them, but most importantly, they will raise new questions that can be followed up with new data or analyses. -->
-:::
-
-For example, in [#figEDA2](#figEDA2) we saw that children with an air cleaner had more symptom–free days. But that alone does not explain **why**. A good follow-up question is: "*Why did the air cleaner help?"* One possible reason is that air cleaners reduce **fine particles** in the air – especially in homes with smokers. Breathing in these particles can make asthma worse, so removing them might help children feel better. To show this, we can make a new plot.
-
-![Change in symptom-free days and change in PM2.5 levels in-home. Source: @Peng2012](/figs/EDA/EDA-P2.png){fig-align="center"}
-
-From the plot, we can see:
-
--   Children with air cleaners had more symptom-free days.
-
--   Their homes also had **less PM2.5** after six months.
-
--   In contrast, the control group had little improvement.
-
-This **pattern supports** the idea that air cleaners work by reducing harmful particles — but it is not final proof. Other things might also cause the change, so more data and careful studies are needed to confirm.
-
-### Principle 3: Show Multivariate Data
-
-::: {.callout-caution appearance="minimal" icon="false"}
-The real world is multivariate. [@Peng2012]
-:::
-
-In real life, most problems involve **more than one or two variables**. We call this **multivariate data**. Good data graphics should try to show these multiple variables at the same time, instead of reducing everything to just one number or a simple trend.
-
-Let us look at an example.
-
-The `mtcars` dataset contains information about 32 car models from the 1970s. Each row is a car and each column is a variable. Some of these variables are: `mpg`: miles per gallon (fuel efficiency), `wt`: weight (in 1000 lbs), `cyl`: number of cylanders (engine size), `hp`: horse power, `qsec`: 1/4 mile time (acceleration), `am`: Transmission (0 = auto, 1 = manual). These variables help us to explore relationship between engin size, weight, fuel use, and more.
-
-```{webr-r}
-data("mtcars")
-head(mtcars)
-```
-
-We want to know how a car's weight affects its fuel efficiency (miles per gallon). We look at a simple scatter plot of these two variables.
-
-```{webr-r}
-library(ggplot2)
-
-ggplot(mtcars, aes(x = wt, y = mpg)) + 
-  geom_point(color = 'blue', size = 3) + 
-  geom_smooth(method = 'lm', se = FALSE, color = 'red') + 
-  labs(x = 'weight (1000 lbs)',
-       y = 'Miles per Gallon (MPG)') + 
-  theme_minimal()
-```
-
-Heavier cars tend to have lower fuel efficiency. But is weight the only thing affecting fuel use?
-
-Cars also have different engine sizes, measured by cylinders (`cyl`). This affects both weight and fuel efficiency. To understand the relationship better, we add `cyl` as a third variable by coloring points by the number of cylinders.
-
-```{webr-r}
-mtcars$cyl <- factor(mtcars$cyl)
-
-ggplot(mtcars, aes(x = wt, y = mpg, color=cyl)) + 
-  geom_point(size = 3) + 
-  geom_smooth(method = 'lm', se = FALSE, aes(group = cyl)) + 
-  labs(x = 'Weight (1000 lbs)',
-       y = 'Miles per Gallon (MPG)', 
-       color = "Number of cylinders") + 
-  theme_minimal()
-```
-
-Now, we see that cars with 4, 6, and 8 cylinders have different trends. The overall pattern changes once we include this third variable.
-
-::: callout-caution
-The number of cylinders **cofounds** the relationship – it influences both weight and MPG.
-:::
-
-To understand how the number of cylinders changes the relationship between weight and fuel efficiency, we can make separate plots for each cylinder group. This is called **faceting**.
-
-```{webr-r}
-ggplot(mtcars, aes(x = wt, y = mpg)) + 
-  geom_point() + 
-  geom_smooth(method = 'lm', se = FALSE) +
-  facet_wrap(~ cyl) + 
-  labs(title = 'MPG vs. Weight by Cylinder Group')
-```
-
-::: callout-important
-Sometimes, looking at groups separately helps us find clearer patterns that get lost in a big mixed dataset.
-:::
-
-Even, we can add the variable transmission(`am`) as an additional variable by using shapes or facet.
-
-```{webr-r}
-# Prepare the data
-mtcars$cyl <- factor(mtcars$cyl)  
-mtcars$am <- factor(mtcars$am, labels = c("Automatic", "Manual"))  
-
-ggplot(mtcars, aes(x = wt, y = mpg, color = cyl, shape = am)) +
-  geom_point(size = 3) +
-  geom_smooth(method = "lm", se = FALSE, aes(group = cyl), linetype = "solid") +
-  labs(
-    x = "Weight (1000 lbs)",
-    y = "Miles per Gallon (MPG)",
-    color = "Cylinders",
-    shape = "Transmission"
-  ) +
-  theme_minimal()
-
-```
-
-```{webr-r}
-mtcars$cyl <- factor(mtcars$cyl)
-mtcars$am <- factor(mtcars$am, labels = c('Automatic', 'Manual')) 
-
-
-ggplot(mtcars, aes(x = wt, y = mpg, color = cyl)) + 
-  geom_point(size = 3) + 
-  geom_smooth(method = 'lm', se = TRUE, aes(group = cyl)) + 
-  facet_wrap(~ am) + 
-  labs(
-    x = 'Weight (1000 lbs)',
-    y = 'Miles per Gallon (MPG)',
-    color = 'Cylinders'
-  ) + 
-  theme_minimal()
-```
-
-Now, each panel shows either automatic automatic or manual cars. Within each panel, colors show the number of cylinders.
-
-Even we can use `facet_grid` that allows us to split the plot into rows and columns based on two categorical variables – perfect for showing how relationships vary across combinations. We will use `am` in rows and `cyl` in columns.
-
-```{webr-r}
-mtcars$cyl <- factor(mtcars$cyl)
-mtcars$am <- factor(mtcars$am, labels = c('Automatic', 'Manual'))
-
-ggplot(mtcars, aes(x = wt, y = mpg)) + 
-  geom_point(aes(color = cyl), size = 3) + 
-  geom_smooth(method = 'lm', se = FALSE, color = 'black') +
-  facet_grid(am ~ cyl) + 
-  labs(
-    x = 'Weight (1000 lbs)',
-    y = 'Miles per Gallon (MPG)',
-    color = 'Cylinders'
-  ) 
-```
-
-This way, we can see how the relationship between weight and MPG changes in each group combination.
-
-### Principle 4: Integrate Evidence — Keep the message clear
-
-When you make a graph, *do not rely* on points and lines to show your idea. You can also use: **Numbers** to give exact values, **Words or short labels** to explain what is happening, **Pictures or diagrams** to give context.
-
-::: callout-important
-A good graph tells a complete story.
-:::
-
-Use all tools you need – not just the ones your software gives you easily.
-
-::: callout-important
-The goal is **not to just make a nice picture,** but to help people understand your message clearly.
-:::
-
-### Principle 5: Describe and Document the Evidence
-
-A good graph tells a story – clearly and completely. That means it should include:
-
--   A clear **title**
-
--   Labels for the **x-axis** and **y-axis**
-
--   Units for measurement (e.g. 'weights in 1000 lbs')
-
--   Time scale if needed (e.g. 'daily', 'monthly')
-
--   where the data comes from (e.g., 'New York', 'EPA')
-
--   source of the data
-
-::: callout-tip
-Imagine someone looking only at your plot without reading anything else. **Can they understand the main idea?** if yes – your plot is doing a good job.
-:::
-
-::: callout-note
-Even if your graph is not *final*, it is a good habit to label things early. It helps you and others understand what is going on.
-:::
-
-For example, instead of using
-
-```{r}
-#| eval: false
-#| include: false
-plot(x, y)
-```
-
-try this
-
-```{r}
-#| eval: false
-#| include: false
-plot(x, y,
-     xlab = "Weight (1000 lbs)",
-     ylab = "Fuel efficiency (Miles per Gallon)",
-     main = "Number of Deaths")
-```
-
-when we use `ggplot2`, it is better to add `labs()` like we did until now.
-
-### Principle 6: Content is King
-
-::: callout-important
-A beautiful plot means nothing if the **question is weak** or the d**ata is poor.**
-:::
-
-Data graphics are only powerful when:
-
--   the **question is clear and important**
-
--   the **data is high quality and relevant**
-
--   the **evidence supports the question**
-
-No chart or fancy design can fix a bad question or messy data. That is why it is crucial to start with a strong idea and only show what really matters to answer that idea.
-
-::: callout-tip
-Do not just decorate your data – focus on the message!
-:::
-
-## Enter the world of EDA
-
-EDA is the process of looking at data to understand it before using statistics or models. It helps us to answer questions like: - what types of data do we have? - Are there missing or strange values? - What patterns can we see? - What kind of summary or visualization is helpful?
-
-Before we start any analysis, we must know *what kind of data* we are working with. Variables can be broadly divided into **numeric** and **categorical** types.
-
-### Types of Variables
-
-::: callout-important
-Knowing the types of data matters because:
-
--   Different statistics method are used for different variable types.
-
--   Some graphs are only useful for some types of variables.
-:::
-
-#### Numerical variables
-
-Numeric variables describe **quantities** that we can measure — they answer questions like “how many?” or “how much?”. These variables are also called **quantitative variables**, and the data they produce are known as **quantitative data**. Briefly, they are **numbers** that can be measured. Also, we can do math with them.
-
-##### Continuous vs. Discrete
-
-Numeric variables can be:
-
-**Continuous**
-
--   Can take **any value** on a number line, including decimals.
--   Represent **real-world quantities**.
-
-Some examples are: *mass*, *age*, *temperature, time.*
-
-Continuous variables can be **positive only** (like mass) or **positive and negative** (like change in temperature).
-
-**Discrete**
-
--   Can take **only whole number values** (no decimals).
-
--   Based on **counting**.
-
-Some examples are: *number of students, number of offspring, number of infected individuals*
-
-A discrete variable cannot take values between integers — e.g., it makes no sense to have 2.5 individuals.
-
-##### Ratio vs. Interval
-
-Numeric variables can be further described based on the **scale** they are measured on: **ratio** or **interval**. This affects how we can interpret differences, proportions, and calculations.
-
-**Ratio**
-
--   Has a **true zero** point (zero means “none”).
-
--   Allows **all mathematical operations**, including ratios.
-
-Some examples are: *Height, Weight, Age, Income, mass.*
-
-You can say: “Tree A is **twice as tall** as Tree B.”
-
-::: callout-note
-###### What we can do:
-
--   All descriptive statistics
-
--   Use histograms, box-plots, scatterplots
-:::
-
-**Interval**
-
--   Has **no true zero** — the zero point is **arbitrary**.
--   Allows meaningful **differences**, but **not ratios**.
-
-Some examples are *Temperature (*in Celsius of Fahrenheit), *IQ scores,* Calendar dates (e.g. year 1000 vs 2000)
-
-You can say: “The **difference** between 20°C and 10°C is 10 degrees.” **But not**: “20°C is **twice as hot** as 10°C.”
-
-###### What we can do:
-
--   calculate mean, standard deviation
-
--   plot histograms or line charts
-
-::: callout-caution
-The difference between **ratio** and **interval** is about **how the variable is measured**, not what is being measured.
-
-For example, **Temperature** can be measured on:
-
--   The **Celsius scale** that results in an **interval scale** (no true zero).
--   The **Kelvin scale** that results in a **ratio scale** (zero means no temperature, i.e. absolute zero).
-
-So, the same **thing** (temperature) can be: an **interval variable** (in °C), or a **ratio variable** (in K), depending on the **scale** we use.
-:::
-
-#### Categorical Variables
-
-Categorical variables describe **qualities** or **characteristics**. They answer questions like “what type?” or “which group?”. These are also known as **qualitative variables**, and the data they produce are **qualitative data**.
-
-::: callout-important
-Categorical variables do **not** have numeric meaning (even if coded as numbers!).
-:::
-
-Categorical variables fall into two groups:
-
-**Nominal Variables**
-
--   Categories have **no logical order**.
-
--   Only show **labels** or **names**.
-
-For example, *Gender* (male, female), *Blood group (*A, B, AB, O), *City* (Lisbon, Porto, Faro, ... ), *color* (red, blue, green)
-
-::: callout-note
-###### What we can do:
-
--   Count frequencies (e.g. how many students are from each city)
-
--   Use bar charts or pie charts
-:::
-
-**Ordinal Variables**
-
--   Categories **can be ordered** or ranked.
-
--   But the **distance between categories is not exact**.
-
-For example, *Satisfaction* (low, medium, high), *education* (primary, secondary, university), *rank* (1st, 2nd, 3rd), *Academic grades* (A, B, C)
-
-::: callout-note
-###### What we can do:
-
--   Count frequencies
-
--   Compare medians
-
--   Use bar charts or ordered plots
-:::
-
-:::: callout-important
-**Do not use numbers to label categories.**\
-Even though categories **can be coded** as numbers (e.g., Male = 1, Female = 2), this can be **confusing**. It may suggest an order or imply mathematical operations that don’t make sense.
-
-::: {.callout-tip appearance="minimal" icon="false"}
-**Tip:** Use **text labels** like `"Male"` and `"Female"` instead of `1` and `2`.
-:::
-::::
-
-**Summary of Variable Types**
-
-| Variable Type | Scale | Ordered? | Can Measure Distance? | Can Divide? | Examples |
-|------------|------------|------------|------------|------------|------------|
-| **Nominal** | Categorical | ❌ No | ❌ No | ❌ No | Gender, City, Color |
-| **Ordinal** | Categorical | ✅ Yes | ❌ No (not exact) | ❌ No | Rank, Education, Likert |
-| **Interval** | Numeric | ✅ Yes | ✅ Yes | ❌ No | Temperature, Year |
-| **Ratio** | Numeric | ✅ Yes | ✅ Yes | ✅ Yes | Age, Weight, Income |
-
-::: callout-tip
-If you are not sure about a variable, ask:
-
--   Does the variable **have a natural order**?
--   Can we **count it** or **measure it**?
--   Does it have a **true zero**?
-:::
-
-### Types of EDA
-
-EDA helps us answer important questions like:
-
--   What are the most common values of a variable?
--   How much do observations differ from each other?
--   Is one variable related to another?
-
-To answer these questions, EDA uses two main tools:
-
-#### Descriptive Statistics
-
-Descriptive statistics give **numerical summaries** of a dataset. They describe the basic features of a variable, such as:
-
--   **Center** (e.g. mean or median)
--   **Spread** (e.g. standard deviation or interquartile range)
--   **Shape** (e.g. skewness)
--   **Extremes** (e.g. minimum, maximum, or outliers)
-
-These summaries help us **compare groups** or **make initial conclusions**.\
-For example, the **mean** tells us what the "typical" value might be.
-
-But: **A few numbers can’t tell the whole story.**
-
-#### Graphical Summaries
-
-Graphs help us **see patterns**, **spot outliers**, and **understand distributions**.
-
-Common EDA plots include: - **Histograms** – show the shape and spread of a numeric variable - **Boxplots** – show center, spread, and outliers - **Bar charts** – show frequencies of categories - **Scatterplots** – show relationships between two numeric variables
-
-Graphs are **easier to understand** than tables of numbers. They help us and others **see what’s going on** in the data.
-
-### A Review on Descriptive Statistics
-
-Statisticians have created more precise terms to describe the patterns in data, called **descriptive statistics**.
-
-The two most important features of a numeric variable's distribution are:
-
--   **Central tendency**: What is a typical value?
--   **Dispersion**: How spread out are the values?
-
-### **Central Tendency**
-
-A **measure of central tendency** tells us what a “typical” value looks like in the data. There are three main measures: **Mean**, **Median**, **Mode**
-
-#### Arithmetic Mean (Average)
-
-\[We should add the definition\]
-
-function `mean()`
-
-Sometimes, we use `na.rm = TRUE` to ignore missing values.
-
-::: callout-note
-**Be careful:** The mean is sensitive to extreme values (outliers).\
-For example, using the mean to describe **income** is misleading because a few very high earners can pull the average up.
-:::
-
-#### Median
-
-\[We should add the definition\]
-
--   The **middle value** when data are sorted.
--   More **robust** than the mean when data are skewed.
-
-function `median()`
-
-#### Mode
-
--   The **most frequent value** in the data.
--   Conceptually useful, but hard to estimate in numeric data.
--   Used more often for **categorical variables**.
-
-### Dispersion
-
-**Dispersion** tells us how much values differ from one another. A dataset where all values are similar has **low dispersion**; one with a wide range of values has **high dispersion**.
-
-A **measure of dispersion** tells us **how spread out** the values of a variable are.
-
-Dispersion measures help us understand **how much the data varies** — whether most values are close together or far apart.
-
-If one distribution is **more dispersed** than another, it means it includes a **wider range** of values.
-
-There are many ways to measure dispersion, but the most common ones are:
-
--   **Variance** – how far values are from the mean (on average, squared)
--   **Standard deviation** – the square root of the variance, easier to interpret
--   **Interquartile range (IQR)** – the spread of the middle 50% of the values
-
-::: callout-tip
-Each of these gives us a different way to understand **how variable** the data is.
-:::
-
-#### Variance
-
--   Measures the **average squared distance** from the mean.
--   Hard to interpret because it's in **squared units**.
-
-The **sample variance**, written as `s²`, is: *the average of the **squared differences** between each value and the mean.*
-
-Key facts about variance:
-
--   It is always **non-negative**.
--   A **larger variance** means the data are more spread out.
--   A variance of **zero** means all values are **exactly the same**.
-
-In R, we can calculate it using the `var()` function
-
-``` r
-var(penguins$body_mass_g, na.rm = TRUE)
-```
-
-```         
-## [1] 643131.1
-```
-
-That’s a large number — but what does it really tell us?
-
-::: callout-important
-It’s hard to say if that number is "big" or "small."\
-That’s because variance is in **squared units**, which are difficult to interpret directly.\
-For example, here it’s in **grams squared**, which is not easy to relate to actual body mass.
-:::
-
-**Why does variance matter?**
-
-Variance is an important quantity in statistics. Many **statistical tests** use changes in variance to compare groups or detect effects.
-
-But in **EDA**, we **rarely use** the variance.\
-Instead, we often prefer the **standard deviation**, because it is **easier to understand**.
-
-This is hard to interpret directly — that is why we usually prefer the **standard deviation**.
-
-#### Standard Deviation
-
-A more useful measure of dispersion is the **standard deviation**, usually written as `s`.
-
-The **standard deviation** is: *the **square root** of the variance.*
-
-Because it is not squared, it has the **same unit** as the original data.\
-This makes it **easier to interpret** than the variance.
-
--   Square root of the variance.
--   Has the **same unit** as the variable.
--   More interpretable than variance.
-
-Like the mean, the standard deviation is **sensitive to outliers**.
-
-In R, we use the `sd()` function:
-
-``` r
-sd(penguins$body_mass_g, na.rm = TRUE)
-```
-
-```         
-## [1] 801.9545
-```
-
-This tells us that most penguins have body mass values within about **802 grams** of the mean.
-
-### Why use standard deviation?
-
--   It’s on the **same scale** as the variable (grams, not grams²).
--   It gives us a **sense of spread** we can understand.
--   It is more commonly used in **EDA** than variance.
-
-**But be careful:** Like the **mean**, the standard deviation is sensitive to:
-
--   **Skewed distributions**
-
--   **Outliers** (extreme values)
-
-#### Interquartile Range (IQR)
-
-The **interquartile range (IQR)** is another measure of dispersion.
-
-It is especially useful in **EDA** because it is **robust to outliers** and skewed data.
-
--   Measures the range of the **middle 50%** of the data.
--   **Robust** to outliers.
--   Preferred in exploratory work.
-
-::: callout-note
-## What Are Quartiles?
-
-To understand the IQR, we need to define **quartiles**:
-
--   **Q1** (1st quartile): 25% of values are below this point.
--   **Q2** (2nd quartile): The **median**, 50% below, 50% above.
--   **Q3** (3rd quartile): 75% of values are below this point.
-:::
-
-The IQR measures the **spread of the middle 50%** of the data. It is defined as:
-
-$$
-\text{IQR} = \text{Q3} - \text{Q1}
-$$
-
-where
-
--   **Q1** = first quartile = 25th percentile\
--   **Q3** = third quartile = 75th percentile
-
-So, the IQR is the **range between the 25% and 75% marks**.
-
-This range contains the **middle half** of the dataset.
-
-The IQR is used to build **boxplots** (a.k.a. "box-and-whisker plots").
-
-The wider the IQR, the **more spread out** the middle values are.
-
-Why is the IQR useful?
-
--   It does **not depend** on extreme values.
--   It gives a good summary of the **central spread**.
--   It is **preferred** in EDA for skewed or messy data.
-
-In R, we can calculate the IQR like this:
-
-``` r
-IQR(penguins$body_mass_g, na.rm = TRUE)
-```
-
-```         
-## [1] 1200
-```
-
-This means the middle 50% of penguins have body masses that differ by **1200 grams**.
-
-------------------------------------------------------------------------
-
-### The Boxplot Connection
-
-The **boxplot** (also called a "box-and-whisker plot") is based on the IQR.
-
--   The **box** shows Q1 to Q3.
--   The **line** inside the box is the **median (Q2)**.
--   The **whiskers** extend to show the general range of the data (excluding outliers).
-
-**What About Skewness?**
-
-**Skewness** describes the **asymmetry** of a distribution:
-
--   **Right-skewed** (positive skew): Tail on the right.
--   **Left-skewed** (negative skew): Tail on the left.
--   **Symmetric**: Looks like a bell curve.
-
-What Are Quartiles?
-
-To understand the IQR, we need to define **quartiles**.
-
-Quartiles divide your data into **four equal parts**:
-
-| Quartile | Meaning |
-|------------------------------------|------------------------------------|
-| **Q1** | First quartile (25%) — one quarter of the data is below this value |
-| **Q2** | Second quartile (50%) — this is the **median** |
-| **Q3** | Third quartile (75%) — three quarters of the data are below this value |
-
-These values help summarize the distribution, especially for **non-symmetric** data.
-
-#### Categorical Variables
-
-Descriptive statistics for **categorical variables** aim to answer: *“How often does each category occur?”*
-
-Since categorical variables have a **limited number of values**, we can simply **count** how many times each category appears.
-
-``` r
-penguins %>% count(species)
-```
-
-**Central Tendency?**
-
-We can use the **mode** — the **most common category** — as a measure of central tendency for categorical variables.
-
-::: callout-tip
-The **median** only makes sense for **ordinal** variables (e.g. "Low", "Medium", "High"), where there is a natural order.
-:::
-
-**Dispersion?**
-
-There are **some measures of dispersion** for categorical variables, but they are:
-
--   Less intuitive
-
--   Rarely used in EDA
-
-So, we usually **don’t use** them in exploratory analysis.
-
-#### Associations
-
-Statisticians have created different ways to **quantify relationships** between variables. These are often called **measures of association**.
-
-The most common type is a **correlation coefficient**, which gives a number that tells us: *How strong is the relationship between two variables?*
-
-**Are “association” and “correlation” the same?**
-
-These terms are often used **interchangeably**, but they are **not exactly the same**.
-
--   **Association** is the general idea that **two variables are related** in some way.
--   **Correlation** is a **specific, mathematical way** to describe an association — using a **correlation coefficient**.
-
-So:
-
-> All correlations are associations, but not all associations are correlations.
-
-In EDA, we often want to ask:
-
-> “Is one variable associated with another?”
-
-This can be for:
-
--   Two numeric variables
-
--   Two categorical variables
-
--   One numeric and one categorical
-
-**Pairs of Numeric Variables**
-
-The most common way to measure association between two numeric variables is:
-
-**Pearson’s Correlation Coefficient (r)**
-
--   Measures **strength** and **direction** of a **linear relationship**.
--   Values range from **–1 to +1**:
-    -   **+1** → perfect positive linear association
-    -   **–1** → perfect negative linear association
-    -   **0** → no linear relationship
-
-**Important:** Pearson’s r only measures **linear** relationships.\
-If the relationship is **curved**, `r` can be misleading.
-
-See [**Anscombe’s Quartet**](https://en.wikipedia.org/wiki/Anscombe%27s_quartet) for famous examples.
-
-Rank Correlations: For Non-linear Relationships
-
-If the relationship is not linear, use a **rank correlation**:
-
-| Method           | Notes                                   |
-|------------------|-----------------------------------------|
-| **Spearman’s ρ** | More sensitive to **outliers**          |
-| **Kendall’s τ**  | Better for **ordinal data**, but slower |
-
-These methods: - Convert data into **ranks** (1st, 2nd, 3rd, ...) - Measure how well the ranks agree between two variables
-
-**Pairs of Categorical Variables**
-
-For two **categorical variables**, we ask:
-
-> 🔍 “Are certain combinations of categories more or less common than expected?”
-
-The most basic tool is the **contingency table**, created using `xtabs()`.
-
-**What about correlation?**
-
-Rank correlations like **Spearman’s ρ** and **Kendall’s τ** can also be used with **ordinal variables**.
-
-For **nominal variables**, specialized measures exist, like:
-
--   **Cramér’s V**
--   **Chi-square-based measures**
-
-But these are **rarely used in EDA**.\
-Most people rely on **tables and plots** (like **mosaic plots** or **stacked bar charts**) for categorical associations.
-
-::: callout-note
-For any data variable,
-
--   check the meaning of the variable
-
--   check expected data type, the expected set of values, the used units when applicable
-
--   check the available information to find semantic relationship between variables
-
-    -   Hierarchies (i.e. Year, Month, Day)
-
-    -   Components of a whole (i.e. latitude and longitude)
-
--   Number of the NULL values (and percentage)
-
--   Number of Invalid values (and percentage)
-
--   Number of valid values (and percentage)
-:::
-
-::: callout-note
-For Nominal scales - Arbitrary number of values
-
--   Number of distinct values
-
--   number of distinct values / number of rows in the dataset
-
-    -   Do they have the role of a key?
-
--   Check if there is any known or visible structure in the values
-
--   Check if they are meaningful or friendly
-:::
-
-::: callout-note
-For Nominal Scales – Large number of categories
-
--   Number of distinct values
-
--   Frequency distributions (absolute and relative)
-
--   Bar charts with the categories sorted by decreasing order of the frequency
-
-    -   Top N
-
--   Possibly create a new attribute
 :::
