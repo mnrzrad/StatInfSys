@@ -699,7 +699,6 @@ $$
 s^2 = \frac{1}{n-1}\sum_{i=1}^n (x_i - \bar{x})^2
 $$As a **sample statistic**, ($s^2$) varies from sample to sample; we use it to **estimate** the single, fixed **population variance** ($\sigma^2$). The $(n-1)$ in the denominator ensures *unbiasedness*: across many random samples, the average of $s^2$ equals $\sigma^2$.
 
-```{=html}
 <!-- 
 
 Another (equivalent) way to write the variance is
@@ -711,7 +710,6 @@ $$
 where $SS$ is the **sum of squared deviations** (often just “sum of squares”), i.e., $SS = \sum_{i=1}^n (x_i-\bar{x})^2$, and $df$ is the **degrees of freedom**. For a single sample variance, $df = n-1$.
 
 -->
-```
 
 ::: callout-note
 **Why does variance matter?**
