@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.6.42">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>3&nbsp; Data Visualization – Statistics and Information Systems</title>
+<title>4&nbsp; Data Visualization – Statistics and Information Systems</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,9 +21,8 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: middle;
 }
 /* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -34,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -85,18 +84,17 @@ div.csl-indent {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../chapters/chapter4_EDA.html" rel="next">
+<link href="../chapters/chapter5_logistic_regression.html" rel="next">
 <link href="../chapters/chapter3_dplyr.html" rel="prev">
-<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-364982630eef5352dd1537128a8ed5cb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-08488171a94ec4690e95561e2c6b96d6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -1711,7 +1709,7 @@ window.Quarto = {
 <link rel="stylesheet" href="../libs/style.css">
 </head>
 
-<body class="nav-sidebar floating quarto-light">
+<body class="nav-sidebar floating">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -1720,7 +1718,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter1_data_ethics.html">EDA</a></li><li class="breadcrumb-item"><a href="../chapters/chapter2_data_visualization.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Data Visualization</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter4_EDA.html">Explanatory Data Analysis</a></li><li class="breadcrumb-item"><a href="../chapters/chapter2_data_visualization.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Data Visualization</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -1748,13 +1746,13 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Prerequisites</span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Note</span></span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
- <span class="menu-text">EDA</span></a>
+ <span class="menu-text">Explanatory Data Analysis</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -1762,26 +1760,20 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/chapter1_data_ethics.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Data Ethics</span></span></a>
+  <a href="../chapters/chapter4_EDA.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Exploratory data analysis (EDA)</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/chapter3_dplyr.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Getting Started with <code>dplyr</code></span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Data Wrangling</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/chapter2_data_visualization.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Data Visualization</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/chapter4_EDA.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Exploratory data analysis (EDA)</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Data Visualization</span></span></a>
   </div>
 </li>
       </ul>
@@ -1803,6 +1795,23 @@ window.Quarto = {
 </li>
       </ul>
   </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Data</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter1_data_ethics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Data Ethics</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
@@ -1813,28 +1822,28 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#data" id="toc-data" class="nav-link active" data-scroll-target="#data"><span class="header-section-number">3.1</span> Data</a></li>
-  <li><a href="#mapping" id="toc-mapping" class="nav-link" data-scroll-target="#mapping"><span class="header-section-number">3.2</span> Mapping</a></li>
-  <li><a href="#layers" id="toc-layers" class="nav-link" data-scroll-target="#layers"><span class="header-section-number">3.3</span> Layers</a></li>
-  <li><a href="#scales" id="toc-scales" class="nav-link" data-scroll-target="#scales"><span class="header-section-number">3.4</span> Scales</a></li>
-  <li><a href="#facets" id="toc-facets" class="nav-link" data-scroll-target="#facets"><span class="header-section-number">3.5</span> Facets</a></li>
-  <li><a href="#coordinates" id="toc-coordinates" class="nav-link" data-scroll-target="#coordinates"><span class="header-section-number">3.6</span> Coordinates</a></li>
-  <li><a href="#theme" id="toc-theme" class="nav-link" data-scroll-target="#theme"><span class="header-section-number">3.7</span> Theme</a></li>
-  <li><a href="#mastering-plot-layers-guided-examples-and-student-activities" id="toc-mastering-plot-layers-guided-examples-and-student-activities" class="nav-link" data-scroll-target="#mastering-plot-layers-guided-examples-and-student-activities"><span class="header-section-number">3.8</span> Mastering Plot Layers: Guided Examples and Student Activities</a>
+  <li><a href="#data" id="toc-data" class="nav-link active" data-scroll-target="#data"><span class="header-section-number">4.1</span> Data</a></li>
+  <li><a href="#mapping" id="toc-mapping" class="nav-link" data-scroll-target="#mapping"><span class="header-section-number">4.2</span> Mapping</a></li>
+  <li><a href="#layers" id="toc-layers" class="nav-link" data-scroll-target="#layers"><span class="header-section-number">4.3</span> Layers</a></li>
+  <li><a href="#scales" id="toc-scales" class="nav-link" data-scroll-target="#scales"><span class="header-section-number">4.4</span> Scales</a></li>
+  <li><a href="#facets" id="toc-facets" class="nav-link" data-scroll-target="#facets"><span class="header-section-number">4.5</span> Facets</a></li>
+  <li><a href="#coordinates" id="toc-coordinates" class="nav-link" data-scroll-target="#coordinates"><span class="header-section-number">4.6</span> Coordinates</a></li>
+  <li><a href="#theme" id="toc-theme" class="nav-link" data-scroll-target="#theme"><span class="header-section-number">4.7</span> Theme</a></li>
+  <li><a href="#mastering-plot-layers-guided-examples-and-student-activities" id="toc-mastering-plot-layers-guided-examples-and-student-activities" class="nav-link" data-scroll-target="#mastering-plot-layers-guided-examples-and-student-activities"><span class="header-section-number">4.8</span> Mastering Plot Layers: Guided Examples and Student Activities</a>
   <ul>
-  <li><a href="#scatter-plot-geom_point" id="toc-scatter-plot-geom_point" class="nav-link" data-scroll-target="#scatter-plot-geom_point"><span class="header-section-number">3.8.1</span> Scatter Plot – <code>geom_point()</code></a></li>
-  <li><a href="#line-plot-geom_line" id="toc-line-plot-geom_line" class="nav-link" data-scroll-target="#line-plot-geom_line"><span class="header-section-number">3.8.2</span> Line Plot – <code>geom_line()</code></a></li>
-  <li><a href="#barplot-geom_bar-and-geom_col" id="toc-barplot-geom_bar-and-geom_col" class="nav-link" data-scroll-target="#barplot-geom_bar-and-geom_col"><span class="header-section-number">3.8.3</span> Barplot – <code>geom_bar()</code> and <code>geom_col()</code></a></li>
-  <li><a href="#histogram-geom_histogram" id="toc-histogram-geom_histogram" class="nav-link" data-scroll-target="#histogram-geom_histogram"><span class="header-section-number">3.8.4</span> Histogram – <code>geom_histogram()</code></a></li>
-  <li><a href="#boxplot-geom_boxplot" id="toc-boxplot-geom_boxplot" class="nav-link" data-scroll-target="#boxplot-geom_boxplot"><span class="header-section-number">3.8.5</span> Boxplot – <code>geom_boxplot()</code></a></li>
-  <li><a href="#violin-plot-geom_violin" id="toc-violin-plot-geom_violin" class="nav-link" data-scroll-target="#violin-plot-geom_violin"><span class="header-section-number">3.8.6</span> Violin Plot – geom_violin()</a></li>
-  <li><a href="#dot-plot-geom_dotplot" id="toc-dot-plot-geom_dotplot" class="nav-link" data-scroll-target="#dot-plot-geom_dotplot"><span class="header-section-number">3.8.7</span> Dot plot – <code>geom_dotplot()</code></a></li>
-  <li><a href="#density-plot-geom_density" id="toc-density-plot-geom_density" class="nav-link" data-scroll-target="#density-plot-geom_density"><span class="header-section-number">3.8.8</span> Density Plot – <code>geom_density()</code></a></li>
-  <li><a href="#pie-chart-using-polar-coordinates" id="toc-pie-chart-using-polar-coordinates" class="nav-link" data-scroll-target="#pie-chart-using-polar-coordinates"><span class="header-section-number">3.8.9</span> Pie Chart (using Polar Coordinates)</a></li>
-  <li><a href="#d-density-plot" id="toc-d-density-plot" class="nav-link" data-scroll-target="#d-density-plot"><span class="header-section-number">3.8.10</span> 2D Density Plot</a></li>
-  <li><a href="#d-binned-plot-for-big-data-stat_bin2d" id="toc-d-binned-plot-for-big-data-stat_bin2d" class="nav-link" data-scroll-target="#d-binned-plot-for-big-data-stat_bin2d"><span class="header-section-number">3.8.11</span> 2D Binned Plot for Big Data – <code>stat_bin2d()</code></a></li>
-  <li><a href="#frequency-polygon-geom_freqpoly" id="toc-frequency-polygon-geom_freqpoly" class="nav-link" data-scroll-target="#frequency-polygon-geom_freqpoly"><span class="header-section-number">3.8.12</span> Frequency Polygon – <code>geom_freqpoly()</code></a></li>
-  <li><a href="#correlation-plot-cor-plot" id="toc-correlation-plot-cor-plot" class="nav-link" data-scroll-target="#correlation-plot-cor-plot"><span class="header-section-number">3.8.13</span> Correlation Plot (Cor plot)</a></li>
+  <li><a href="#scatter-plot-geom_point" id="toc-scatter-plot-geom_point" class="nav-link" data-scroll-target="#scatter-plot-geom_point"><span class="header-section-number">4.8.1</span> Scatter Plot – <code>geom_point()</code></a></li>
+  <li><a href="#line-plot-geom_line" id="toc-line-plot-geom_line" class="nav-link" data-scroll-target="#line-plot-geom_line"><span class="header-section-number">4.8.2</span> Line Plot – <code>geom_line()</code></a></li>
+  <li><a href="#barplot-geom_bar-and-geom_col" id="toc-barplot-geom_bar-and-geom_col" class="nav-link" data-scroll-target="#barplot-geom_bar-and-geom_col"><span class="header-section-number">4.8.3</span> Barplot – <code>geom_bar()</code> and <code>geom_col()</code></a></li>
+  <li><a href="#histogram-geom_histogram" id="toc-histogram-geom_histogram" class="nav-link" data-scroll-target="#histogram-geom_histogram"><span class="header-section-number">4.8.4</span> Histogram – <code>geom_histogram()</code></a></li>
+  <li><a href="#boxplot-geom_boxplot" id="toc-boxplot-geom_boxplot" class="nav-link" data-scroll-target="#boxplot-geom_boxplot"><span class="header-section-number">4.8.5</span> Boxplot – <code>geom_boxplot()</code></a></li>
+  <li><a href="#violin-plot-geom_violin" id="toc-violin-plot-geom_violin" class="nav-link" data-scroll-target="#violin-plot-geom_violin"><span class="header-section-number">4.8.6</span> Violin Plot – geom_violin()</a></li>
+  <li><a href="#dot-plot-geom_dotplot" id="toc-dot-plot-geom_dotplot" class="nav-link" data-scroll-target="#dot-plot-geom_dotplot"><span class="header-section-number">4.8.7</span> Dot plot – <code>geom_dotplot()</code></a></li>
+  <li><a href="#density-plot-geom_density" id="toc-density-plot-geom_density" class="nav-link" data-scroll-target="#density-plot-geom_density"><span class="header-section-number">4.8.8</span> Density Plot – <code>geom_density()</code></a></li>
+  <li><a href="#pie-chart-using-polar-coordinates" id="toc-pie-chart-using-polar-coordinates" class="nav-link" data-scroll-target="#pie-chart-using-polar-coordinates"><span class="header-section-number">4.8.9</span> Pie Chart (using Polar Coordinates)</a></li>
+  <li><a href="#d-density-plot" id="toc-d-density-plot" class="nav-link" data-scroll-target="#d-density-plot"><span class="header-section-number">4.8.10</span> 2D Density Plot</a></li>
+  <li><a href="#d-binned-plot-for-big-data-stat_bin2d" id="toc-d-binned-plot-for-big-data-stat_bin2d" class="nav-link" data-scroll-target="#d-binned-plot-for-big-data-stat_bin2d"><span class="header-section-number">4.8.11</span> 2D Binned Plot for Big Data – <code>stat_bin2d()</code></a></li>
+  <li><a href="#frequency-polygon-geom_freqpoly" id="toc-frequency-polygon-geom_freqpoly" class="nav-link" data-scroll-target="#frequency-polygon-geom_freqpoly"><span class="header-section-number">4.8.12</span> Frequency Polygon – <code>geom_freqpoly()</code></a></li>
+  <li><a href="#correlation-plot-cor-plot" id="toc-correlation-plot-cor-plot" class="nav-link" data-scroll-target="#correlation-plot-cor-plot"><span class="header-section-number">4.8.13</span> Correlation Plot (Cor plot)</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -2126,9 +2135,9 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 }
 </script>
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter1_data_ethics.html">EDA</a></li><li class="breadcrumb-item"><a href="../chapters/chapter2_data_visualization.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Data Visualization</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter4_EDA.html">Explanatory Data Analysis</a></li><li class="breadcrumb-item"><a href="../chapters/chapter2_data_visualization.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Data Visualization</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Data Visualization</span></h1>
+<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Data Visualization</span></h1>
 </div>
 
 
@@ -2157,11 +2166,11 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>A brief overview about using this package is available at this <a href="https://ggplot2.tidyverse.org/articles/ggplot2.html">website</a> and more complete information about how to use ggplot2 can be found in <span class="citation" data-cites="Wickham2019">Wickham, Navarro, and Pederson (<a href="#ref-Wickham2019" role="doc-biblioref">2019</a>)</span>.</p>
 <p>The structure of the package includes 7 composable parts that come together as a set of instructions on how to draw a chart.</p>
-<p><img src="..\figs/ggplot2/overview_graphic-1.png" class="img-fluid"></p>
+<p><img src="../figs/ggplot2/overview_graphic-1.png" class="img-fluid"></p>
 <p>The package <em>ggplot2</em> requires a minimum of three main components to create a chart: <strong>data</strong>, <strong>mapping</strong>, and <strong>a layer</strong>. Other components – like <strong>scales</strong>, <strong>facets</strong>, <strong>coordinates</strong>, and <strong>themes</strong> – are optional because <em>ggplot2</em> gives them <strong>automatic settings</strong> that usually work well, so you do not need to adjust them too much.</p>
 <p>In the following, we briefly describe these components:</p>
-<section id="data" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="data"><span class="header-section-number">3.1</span> Data</h2>
+<section id="data" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="data"><span class="header-section-number">4.1</span> Data</h2>
 <p>Every plot made with <em>ggplot2</em> starts with <strong>data</strong>. This data should be in a <a href="https://tidyr.tidyverse.org/articles/tidy-data.html">tidy</a> format that means the data is in a <strong>table</strong> (called a rectangular <em>data frame</em>) where:</p>
 <ul>
 <li><p>Each <strong>row</strong> is one <strong>observation</strong>.</p></li>
@@ -2185,8 +2194,8 @@ You should see an empty plot. It is <strong>correct</strong>. Can you explain wh
 </div>
 </div>
 </section>
-<section id="mapping" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="mapping"><span class="header-section-number">3.2</span> Mapping</h2>
+<section id="mapping" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="mapping"><span class="header-section-number">4.2</span> Mapping</h2>
 <p>In <em>ggplot2</em> package, <em>mapping</em> means telling the system how to connect parts of the data to <strong>aesthetic</strong> properties of the plot.</p>
 <p><strong>Aesthetic</strong> (say: es-THE-ik) is a word that describes how something <strong>looks</strong> – its <strong>style</strong>, <strong>color</strong>, <strong>shape</strong>, and <strong>beauty</strong>. In <em>ggplot2</em>, an aesthetic is a visual feature of a plot like:</p>
 <ul>
@@ -2217,8 +2226,8 @@ Memory tip
 <div id="qwebr-insertion-location-3"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
-<section id="layers" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="layers"><span class="header-section-number">3.3</span> Layers</h2>
+<section id="layers" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="layers"><span class="header-section-number">4.3</span> Layers</h2>
 <p>The <em>layer</em> is the <strong>heart</strong> of any plot in <em>ggplot2</em>. A layer takes the mapped data and turns it into something that a human can see and understand – like points, lines, or bars.</p>
 <p>Each layer has three main parts: 1. <strong>Geometry</strong> – decides <em>how</em> the data is shown (for example: points, lines, bars) 2. <strong>Statistical transformation</strong> – can create <em>new values</em> from the data (like averages or smooth curves). 3. <strong>Position adjustment</strong> – controls <em>where</em> each part of the plot appears, especially when things overlap.</p>
 <p>A layer can be constructed using functions that start with <code>geom_</code> (for geometry) and <code>stat_</code> (for statistics). These function help us choose how the data looks and what to display.</p>
@@ -2239,8 +2248,8 @@ Note
 <div id="qwebr-insertion-location-4"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
-<section id="scales" class="level2" data-number="3.4">
-<h2 data-number="3.4" class="anchored" data-anchor-id="scales"><span class="header-section-number">3.4</span> Scales</h2>
+<section id="scales" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="scales"><span class="header-section-number">4.4</span> Scales</h2>
 <p>A <em>scale</em> translates what we see on the plot into something we can understand from the data – like showing how far, how big, or what category a point represents.</p>
 <p>Each scale is connected to an aesthetic – for example, the <span class="math inline">\(x\)</span>-axis, <span class="math inline">\(y\)</span>-axis, color, or size – and it controls things like - The <strong>limits</strong> of the plot (minimum and maximum values) - The <strong>breaks</strong> (where ticks or labels appear) - The <strong>format</strong> of the labels (like numbers or percentages) - Any <strong>transformation</strong> (like logarithmic scale)</p>
 <p><em>Scales</em> also create <strong>guides</strong> for the reader – like <strong>axes</strong> or <strong>legend</strong> – so we can better understand the meaning of the plot.</p>
@@ -2250,8 +2259,8 @@ Note
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>This tells <em>ggplot2</em> to use <strong>Viridis colors</strong> for the different car classes – making the plot easier to read and more accessible.</p>
 </section>
-<section id="facets" class="level2" data-number="3.5">
-<h2 data-number="3.5" class="anchored" data-anchor-id="facets"><span class="header-section-number">3.5</span> Facets</h2>
+<section id="facets" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="facets"><span class="header-section-number">4.5</span> Facets</h2>
 <p><em>Facets</em> are used to split a plot into <strong>smaller subplots</strong>, each showing a <em>subet of the data</em>. This is helpful when you want to compare groups – for example, different years, categories, or types – in separate panels.</p>
 <p><em>Facets</em> are a powerful way to quickly see <strong>patterns</strong>, <strong>trends</strong>, or even <strong>no patterns</strong> in different parts of the data.</p>
 <p><em>Facets</em> have their own mapping, written as a formula.</p>
@@ -2260,16 +2269,16 @@ Note
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>In <code>facet_grid(year ~ drv)</code>, the <em>rows</em> are based on <code>year</code> and the <em>columns</em> are based on <code>drv</code>. As you see, this creates a grid of plots that makes it easy to explore how variables interact.</p>
 </section>
-<section id="coordinates" class="level2" data-number="3.6">
-<h2 data-number="3.6" class="anchored" data-anchor-id="coordinates"><span class="header-section-number">3.6</span> Coordinates</h2>
+<section id="coordinates" class="level2" data-number="4.6">
+<h2 data-number="4.6" class="anchored" data-anchor-id="coordinates"><span class="header-section-number">4.6</span> Coordinates</h2>
 <p>The <em>coordinates</em> is the part if the plot that controls <em>how position aesthetics</em> (like <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>) are shown. You can think of it as the <strong>interpreter</strong> that tells the plot where to place things.</p>
 <p>Most <em>ggplot2</em> plots use <strong>Cartesian coordinates</strong>, where data is shown on regular <span class="math inline">\(x\)</span>-<span class="math inline">\(y\)</span> grid. But you can also use other systems, like: <strong>Polar cooridinate</strong> (for circular plots) and <strong>Map projections</strong> (for geographic data).</p>
 <p>You can also use coordinates to make sure that one unit on the <span class="math inline">\(x\)</span>-axis is the same size as one unit on the <span class="math inline">\(y\)</span>-axis. This is called a <strong>fixed aspect ratio</strong>. The function <code>coord_fixed()</code> does this ratio automatically.</p>
 <div id="qwebr-insertion-location-7"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
-<section id="theme" class="level2" data-number="3.7">
-<h2 data-number="3.7" class="anchored" data-anchor-id="theme"><span class="header-section-number">3.7</span> Theme</h2>
+<section id="theme" class="level2" data-number="4.7">
+<h2 data-number="4.7" class="anchored" data-anchor-id="theme"><span class="header-section-number">4.7</span> Theme</h2>
 <p>The <em>theme</em> controls parts of the plot that are <strong>not related to the data</strong>, such as background, text, grid, and legend position. It helps define the <strong>overall look and feel</strong> of the plot.</p>
 <p>For instance, you can use the <em>theme</em> to: - Move or hide the <strong>legend</strong> - Change <strong>font size</strong> or <strong>colors</strong> - Set a new <strong>background style</strong> - Adjust the <strong>axes</strong> or <strong>grid lines</strong></p>
 <p>Some them settings are <strong>hierarchical</strong>, meaning that if you change the general axis style, it also changes both the <span class="math inline">\(x\)</span>-axis and <span class="math inline">\(y\)</span>-axis unless you set them separately.</p>
@@ -2278,8 +2287,8 @@ Note
 <div id="qwebr-insertion-location-8"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
-<section id="mastering-plot-layers-guided-examples-and-student-activities" class="level2" data-number="3.8">
-<h2 data-number="3.8" class="anchored" data-anchor-id="mastering-plot-layers-guided-examples-and-student-activities"><span class="header-section-number">3.8</span> Mastering Plot Layers: Guided Examples and Student Activities</h2>
+<section id="mastering-plot-layers-guided-examples-and-student-activities" class="level2" data-number="4.8">
+<h2 data-number="4.8" class="anchored" data-anchor-id="mastering-plot-layers-guided-examples-and-student-activities"><span class="header-section-number">4.8</span> Mastering Plot Layers: Guided Examples and Student Activities</h2>
 <p>As we mentioned before, a <em>ggplot2</em> is made by <strong>layering different parts</strong>. You can combine <em>data</em>, <em>mapping</em>, <em>geoms</em>, <em>scales</em>, <em>facets</em>, <em>coordinates</em>, and <em>themes</em> to build a fully customized plot.</p>
 <p>Below is an example that brings everything together:</p>
 <div id="qwebr-insertion-location-9"></div>
@@ -2297,8 +2306,8 @@ Note
 <p>There is no need to type argumants.</p>
 </div>
 </div>
-<section id="scatter-plot-geom_point" class="level3" data-number="3.8.1">
-<h3 data-number="3.8.1" class="anchored" data-anchor-id="scatter-plot-geom_point"><span class="header-section-number">3.8.1</span> Scatter Plot – <code>geom_point()</code></h3>
+<section id="scatter-plot-geom_point" class="level3" data-number="4.8.1">
+<h3 data-number="4.8.1" class="anchored" data-anchor-id="scatter-plot-geom_point"><span class="header-section-number">4.8.1</span> Scatter Plot – <code>geom_point()</code></h3>
 <p>A <em>scatter plot</em> shows the <strong>relationship between two numeric variables</strong>. each point on the plot represents one observation.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -2368,8 +2377,8 @@ Tip
 </div>
 </div>
 </section>
-<section id="line-plot-geom_line" class="level3" data-number="3.8.2">
-<h3 data-number="3.8.2" class="anchored" data-anchor-id="line-plot-geom_line"><span class="header-section-number">3.8.2</span> Line Plot – <code>geom_line()</code></h3>
+<section id="line-plot-geom_line" class="level3" data-number="4.8.2">
+<h3 data-number="4.8.2" class="anchored" data-anchor-id="line-plot-geom_line"><span class="header-section-number">4.8.2</span> Line Plot – <code>geom_line()</code></h3>
 <p><strong>Use when</strong>: You want to show how a variable changes over time or another ordered variable (like day, year, index)</p>
 <p><strong>What is shows</strong>: Trends, increases or decreases, cycles over time</p>
 <p><strong>Example</strong></p>
@@ -2377,8 +2386,8 @@ Tip
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>This plot shows how unemployment has changed over time.</p>
 </section>
-<section id="barplot-geom_bar-and-geom_col" class="level3" data-number="3.8.3">
-<h3 data-number="3.8.3" class="anchored" data-anchor-id="barplot-geom_bar-and-geom_col"><span class="header-section-number">3.8.3</span> Barplot – <code>geom_bar()</code> and <code>geom_col()</code></h3>
+<section id="barplot-geom_bar-and-geom_col" class="level3" data-number="4.8.3">
+<h3 data-number="4.8.3" class="anchored" data-anchor-id="barplot-geom_bar-and-geom_col"><span class="header-section-number">4.8.3</span> Barplot – <code>geom_bar()</code> and <code>geom_col()</code></h3>
 <p><strong>Use when</strong>: You want to compare <strong>counts</strong> or <strong>values</strong> between <strong>categories</strong>.</p>
 <ul>
 <li><p><code>geom_bar()</code> counts how many times each category appears.</p></li>
@@ -2391,8 +2400,8 @@ Tip
 <div id="qwebr-insertion-location-20"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
-<section id="histogram-geom_histogram" class="level3" data-number="3.8.4">
-<h3 data-number="3.8.4" class="anchored" data-anchor-id="histogram-geom_histogram"><span class="header-section-number">3.8.4</span> Histogram – <code>geom_histogram()</code></h3>
+<section id="histogram-geom_histogram" class="level3" data-number="4.8.4">
+<h3 data-number="4.8.4" class="anchored" data-anchor-id="histogram-geom_histogram"><span class="header-section-number">4.8.4</span> Histogram – <code>geom_histogram()</code></h3>
 <p><strong>Use when</strong> : You want to see the <strong>distribution</strong> of a numeric variable.</p>
 <p><strong>What is shows</strong> : How values are spread across intervals (called “bins”).</p>
 <p><strong>Example</strong></p>
@@ -2404,8 +2413,8 @@ Tip
 <div id="qwebr-insertion-location-23"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
-<section id="boxplot-geom_boxplot" class="level3" data-number="3.8.5">
-<h3 data-number="3.8.5" class="anchored" data-anchor-id="boxplot-geom_boxplot"><span class="header-section-number">3.8.5</span> Boxplot – <code>geom_boxplot()</code></h3>
+<section id="boxplot-geom_boxplot" class="level3" data-number="4.8.5">
+<h3 data-number="4.8.5" class="anchored" data-anchor-id="boxplot-geom_boxplot"><span class="header-section-number">4.8.5</span> Boxplot – <code>geom_boxplot()</code></h3>
 <p><strong>Use when</strong>: You want to compare <strong>summary statistics</strong> (like median, quartiles, ouliers) across different groups.</p>
 <p><strong>What it shows</strong> : Median, spread, and outliers for each group.</p>
 <p><strong>Example</strong></p>
@@ -2421,8 +2430,8 @@ Tip
 <div id="qwebr-insertion-location-28"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
-<section id="violin-plot-geom_violin" class="level3" data-number="3.8.6">
-<h3 data-number="3.8.6" class="anchored" data-anchor-id="violin-plot-geom_violin"><span class="header-section-number">3.8.6</span> Violin Plot – geom_violin()</h3>
+<section id="violin-plot-geom_violin" class="level3" data-number="4.8.6">
+<h3 data-number="4.8.6" class="anchored" data-anchor-id="violin-plot-geom_violin"><span class="header-section-number">4.8.6</span> Violin Plot – geom_violin()</h3>
 <p><strong>Use when</strong>: You want to see the <strong>distribution shape</strong> plus summary info for groups.</p>
 <p><strong>What it shows</strong>: Like a boxplot, but with a mirrored density curve – great for showing the full distribution and comparison across groups.</p>
 <p><strong>Example</strong></p>
@@ -2436,15 +2445,15 @@ Tip
 <div id="qwebr-insertion-location-32"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
-<section id="dot-plot-geom_dotplot" class="level3" data-number="3.8.7">
-<h3 data-number="3.8.7" class="anchored" data-anchor-id="dot-plot-geom_dotplot"><span class="header-section-number">3.8.7</span> Dot plot – <code>geom_dotplot()</code></h3>
+<section id="dot-plot-geom_dotplot" class="level3" data-number="4.8.7">
+<h3 data-number="4.8.7" class="anchored" data-anchor-id="dot-plot-geom_dotplot"><span class="header-section-number">4.8.7</span> Dot plot – <code>geom_dotplot()</code></h3>
 <p><strong>Use when</strong>: You want to show <strong>individual values</strong>, especially for small datasets.</p>
 <p><strong>Example</strong></p>
 <div id="qwebr-insertion-location-33"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
-<section id="density-plot-geom_density" class="level3" data-number="3.8.8">
-<h3 data-number="3.8.8" class="anchored" data-anchor-id="density-plot-geom_density"><span class="header-section-number">3.8.8</span> Density Plot – <code>geom_density()</code></h3>
+<section id="density-plot-geom_density" class="level3" data-number="4.8.8">
+<h3 data-number="4.8.8" class="anchored" data-anchor-id="density-plot-geom_density"><span class="header-section-number">4.8.8</span> Density Plot – <code>geom_density()</code></h3>
 <p><strong>Use when</strong>: You want a <strong>smoothed version</strong> of a histogram.</p>
 <p><strong>What is shows</strong>: Estimate of the data’s distribution, good for seeing shapes or peaks.</p>
 <p><strong>Example</strong></p>
@@ -2477,15 +2486,15 @@ What is <code>after_stat(density)</code>?
 <div id="qwebr-insertion-location-39"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
-<section id="pie-chart-using-polar-coordinates" class="level3" data-number="3.8.9">
-<h3 data-number="3.8.9" class="anchored" data-anchor-id="pie-chart-using-polar-coordinates"><span class="header-section-number">3.8.9</span> Pie Chart (using Polar Coordinates)</h3>
+<section id="pie-chart-using-polar-coordinates" class="level3" data-number="4.8.9">
+<h3 data-number="4.8.9" class="anchored" data-anchor-id="pie-chart-using-polar-coordinates"><span class="header-section-number">4.8.9</span> Pie Chart (using Polar Coordinates)</h3>
 <p><strong>Use when</strong>: You want to show <strong>parts of a whole</strong>, but use with caution – bar plots are often easier to read.</p>
 <p><strong>Example</strong></p>
 <div id="qwebr-insertion-location-40"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
-<section id="d-density-plot" class="level3" data-number="3.8.10">
-<h3 data-number="3.8.10" class="anchored" data-anchor-id="d-density-plot"><span class="header-section-number">3.8.10</span> 2D Density Plot</h3>
+<section id="d-density-plot" class="level3" data-number="4.8.10">
+<h3 data-number="4.8.10" class="anchored" data-anchor-id="d-density-plot"><span class="header-section-number">4.8.10</span> 2D Density Plot</h3>
 <p>A <em>2D density plot</em> is used to show the distribution of two numeric variables. Instead of plotting each point (like in a scatter plot), it shows where points are concentrated using <strong>contour lines</strong> (<code>geom_density_2d()</code>) and <strong>filled contour areas</strong> (<code>geom_density_2d_filled()</code>).</p>
 <p><strong>Use when</strong>: you have many overlapping points (overlapping) in a scatter plot and you want to highlight patterns or clusters in two numeric variables and see a smoother version of the joint distribution.</p>
 <p><strong>Example</strong></p>
@@ -2538,15 +2547,15 @@ What is <code>after_stat(density)</code>?
 <div id="qwebr-insertion-location-43"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
-<section id="d-binned-plot-for-big-data-stat_bin2d" class="level3" data-number="3.8.11">
-<h3 data-number="3.8.11" class="anchored" data-anchor-id="d-binned-plot-for-big-data-stat_bin2d"><span class="header-section-number">3.8.11</span> 2D Binned Plot for Big Data – <code>stat_bin2d()</code></h3>
+<section id="d-binned-plot-for-big-data-stat_bin2d" class="level3" data-number="4.8.11">
+<h3 data-number="4.8.11" class="anchored" data-anchor-id="d-binned-plot-for-big-data-stat_bin2d"><span class="header-section-number">4.8.11</span> 2D Binned Plot for Big Data – <code>stat_bin2d()</code></h3>
 <p><strong>Use when</strong>: You have a lot of points and scatter plots are too dense.</p>
 <p><strong>Example</strong></p>
 <div id="qwebr-insertion-location-44"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
-<section id="frequency-polygon-geom_freqpoly" class="level3" data-number="3.8.12">
-<h3 data-number="3.8.12" class="anchored" data-anchor-id="frequency-polygon-geom_freqpoly"><span class="header-section-number">3.8.12</span> Frequency Polygon – <code>geom_freqpoly()</code></h3>
+<section id="frequency-polygon-geom_freqpoly" class="level3" data-number="4.8.12">
+<h3 data-number="4.8.12" class="anchored" data-anchor-id="frequency-polygon-geom_freqpoly"><span class="header-section-number">4.8.12</span> Frequency Polygon – <code>geom_freqpoly()</code></h3>
 <p>A <em>frequency plot</em> is similar to a histogram, but it uses <strong>lines instead of bars</strong> to show how a variable is distributed. It is especially useful when you want to <strong>compare distributions across groups</strong>.</p>
 <p><strong>Use when</strong>: You want to show the shape of a distribution and also compare multiple groups using lines (which may be easier to read than overlapping histograms).</p>
 <p><strong>Examples</strong></p>
@@ -2555,8 +2564,8 @@ What is <code>after_stat(density)</code>?
 <div id="qwebr-insertion-location-46"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
-<section id="correlation-plot-cor-plot" class="level3" data-number="3.8.13">
-<h3 data-number="3.8.13" class="anchored" data-anchor-id="correlation-plot-cor-plot"><span class="header-section-number">3.8.13</span> Correlation Plot (Cor plot)</h3>
+<section id="correlation-plot-cor-plot" class="level3" data-number="4.8.13">
+<h3 data-number="4.8.13" class="anchored" data-anchor-id="correlation-plot-cor-plot"><span class="header-section-number">4.8.13</span> Correlation Plot (Cor plot)</h3>
 <p>A <em>correlation plot</em> (or <em>cor plot</em>) is a visual way to show how strongly variables are related to each other. Correlation values range from <span class="math inline">\(-1\)</span> to <span class="math inline">\(1\)</span>, and the plot helps you quickly see positive, negative, or no relationships.</p>
 <p>This is not built into <em>ggplot2</em>, but we can use it together with</p>
 <ul>
@@ -2581,242 +2590,236 @@ Wickham, Hadley, Danielle Navarro, and Thomas Lin Pederson. 2019. <em>Ggplot2: E
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
-  window.document.addEventListener("DOMContentLoaded", function (event) {
-    const icon = "";
-    const anchorJS = new window.AnchorJS();
-    anchorJS.options = {
-      placement: 'right',
-      icon: icon
-    };
-    anchorJS.add('.anchored');
-    const isCodeAnnotation = (el) => {
-      for (const clz of el.classList) {
-        if (clz.startsWith('code-annotation-')) {                     
-          return true;
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
       }
-      return false;
-    }
-    const onCopySuccess = function(e) {
-      // button target
-      const button = e.trigger;
-      // don't keep focus
-      button.blur();
-      // flash "checked"
-      button.classList.add('code-copy-button-checked');
-      var currentTitle = button.getAttribute("title");
-      button.setAttribute("title", "Copied!");
-      let tooltip;
-      if (window.bootstrap) {
-        button.setAttribute("data-bs-toggle", "tooltip");
-        button.setAttribute("data-bs-placement", "left");
-        button.setAttribute("data-bs-title", "Copied!");
-        tooltip = new bootstrap.Tooltip(button, 
-          { trigger: "manual", 
-            customClass: "code-copy-button-tooltip",
-            offset: [0, -8]});
-        tooltip.show();    
-      }
-      setTimeout(function() {
-        if (tooltip) {
-          tooltip.hide();
-          button.removeAttribute("data-bs-title");
-          button.removeAttribute("data-bs-toggle");
-          button.removeAttribute("data-bs-placement");
-        }
-        button.setAttribute("title", currentTitle);
-        button.classList.remove('code-copy-button-checked');
-      }, 1000);
-      // clear code selection
-      e.clearSelection();
-    }
-    const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
-        }
-        return codeEl.innerText;
-    }
-    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-      text: getTextToCopy
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
     });
-    clipboard.on('success', onCopySuccess);
-    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-        text: getTextToCopy,
-        container: window.document.getElementById('quarto-embedded-source-code-modal')
-      });
-      clipboardModal.on('success', onCopySuccess);
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
-      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-      var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp('/' + window.location.host + '/');
-      var isInternal = (href) => {
-          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
-      }
-      // Inspect non-navigation links and adorn them if external
-     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
-      for (var i=0; i<links.length; i++) {
-        const link = links[i];
-        if (!isInternal(link.href)) {
-          // undo the damage that might have been done by quarto-nav.js in the case of
-          // links that we want to consider external
-          if (link.dataset.originalHref !== undefined) {
-            link.href = link.dataset.originalHref;
-          }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
         }
       }
-    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
-      const config = {
-        allowHTML: true,
-        maxWidth: 500,
-        delay: 100,
-        arrow: false,
-        appendTo: function(el) {
-            return el.parentElement;
-        },
-        interactive: true,
-        interactiveBorder: 10,
-        theme: 'quarto',
-        placement: 'bottom-start',
-      };
-      if (contentFn) {
-        config.content = contentFn;
-      }
-      if (onTriggerFn) {
-        config.onTrigger = onTriggerFn;
-      }
-      if (onUntriggerFn) {
-        config.onUntrigger = onUntriggerFn;
-      }
-      window.tippy(el, config); 
     }
-    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
-    for (var i=0; i<noterefs.length; i++) {
-      const ref = noterefs[i];
-      tippyHover(ref, function() {
-        // use id or data attribute instead here
-        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
-        try { href = new URL(href).hash; } catch {}
-        const id = href.replace(/^#\/?/, "");
-        const note = window.document.getElementById(id);
-        if (note) {
-          return note.innerHTML;
-        } else {
-          return "";
-        }
-      });
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
     }
-    const xrefs = window.document.querySelectorAll('a.quarto-xref');
-    const processXRef = (id, note) => {
-      // Strip column container classes
-      const stripColumnClz = (el) => {
-        el.classList.remove("page-full", "page-columns");
-        if (el.children) {
-          for (const child of el.children) {
-            stripColumnClz(child);
-          }
-        }
-      }
-      stripColumnClz(note)
-      if (id === null || id.startsWith('sec-')) {
-        // Special case sections, only their first couple elements
-        const container = document.createElement("div");
-        if (note.children && note.children.length > 2) {
-          container.appendChild(note.children[0].cloneNode(true));
-          for (let i = 1; i < note.children.length; i++) {
-            const child = note.children[i];
-            if (child.tagName === "P" && child.innerText === "") {
-              continue;
-            } else {
-              container.appendChild(child.cloneNode(true));
-              break;
-            }
-          }
-          if (window.Quarto?.typesetMath) {
-            window.Quarto.typesetMath(container);
-          }
-          return container.innerHTML
-        } else {
-          if (window.Quarto?.typesetMath) {
-            window.Quarto.typesetMath(note);
-          }
-          return note.innerHTML;
-        }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
       } else {
-        // Remove any anchor links if they are present
-        const anchorLink = note.querySelector('a.anchorjs-link');
-        if (anchorLink) {
-          anchorLink.remove();
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
         }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
         if (window.Quarto?.typesetMath) {
           window.Quarto.typesetMath(note);
         }
-        if (note.classList.contains("callout")) {
-          return note.outerHTML;
-        } else {
-          return note.innerHTML;
-        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
       }
     }
-    for (var i=0; i<xrefs.length; i++) {
-      const xref = xrefs[i];
-      tippyHover(xref, undefined, function(instance) {
-        instance.disable();
-        let url = xref.getAttribute('href');
-        let hash = undefined; 
-        if (url.startsWith('#')) {
-          hash = url;
-        } else {
-          try { hash = new URL(url).hash; } catch {}
-        }
-        if (hash) {
-          const id = hash.replace(/^#\/?/, "");
-          const note = window.document.getElementById(id);
-          if (note !== null) {
-            try {
-              const html = processXRef(id, note.cloneNode(true));
-              instance.setContent(html);
-            } finally {
-              instance.enable();
-              instance.show();
-            }
-          } else {
-            // See if we can fetch this
-            fetch(url.split('#')[0])
-            .then(res => res.text())
-            .then(html => {
-              const parser = new DOMParser();
-              const htmlDoc = parser.parseFromString(html, "text/html");
-              const note = htmlDoc.getElementById(id);
-              if (note !== null) {
-                const html = processXRef(id, note);
-                instance.setContent(html);
-              } 
-            }).finally(() => {
-              instance.enable();
-              instance.show();
-            });
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
           }
         } else {
-          // See if we can fetch a full url (with no hash to target)
-          // This is a special case and we should probably do some content thinning / targeting
-          fetch(url)
+          // See if we can fetch this
+          fetch(url.split('#')[0])
           .then(res => res.text())
           .then(html => {
             const parser = new DOMParser();
             const htmlDoc = parser.parseFromString(html, "text/html");
-            const note = htmlDoc.querySelector('main.content');
+            const note = htmlDoc.getElementById(id);
             if (note !== null) {
-              // This should only happen for chapter cross references
-              // (since there is no id in the URL)
-              // remove the first header
-              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
-                note.children[0].remove();
-              }
-              const html = processXRef(null, note);
+              const html = processXRef(id, note);
               instance.setContent(html);
             } 
           }).finally(() => {
@@ -2824,170 +2827,194 @@ Wickham, Hadley, Danielle Navarro, and Thomas Lin Pederson. 2019. <em>Ggplot2: E
             instance.show();
           });
         }
-      }, function(instance) {
-      });
-    }
-        let selectedAnnoteEl;
-        const selectorForAnnotation = ( cell, annotation) => {
-          let cellAttr = 'data-code-cell="' + cell + '"';
-          let lineAttr = 'data-code-annotation="' +  annotation + '"';
-          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
-          return selector;
-        }
-        const selectCodeLines = (annoteEl) => {
-          const doc = window.document;
-          const targetCell = annoteEl.getAttribute("data-target-cell");
-          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
-          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
-          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
-          const lineIds = lines.map((line) => {
-            return targetCell + "-" + line;
-          })
-          let top = null;
-          let height = null;
-          let parent = null;
-          if (lineIds.length > 0) {
-              //compute the position of the single el (top and bottom and make a div)
-              const el = window.document.getElementById(lineIds[0]);
-              top = el.offsetTop;
-              height = el.offsetHeight;
-              parent = el.parentElement.parentElement;
-            if (lineIds.length > 1) {
-              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
-              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
-              height = bottom - top;
-            }
-            if (top !== null && height !== null && parent !== null) {
-              // cook up a div (if necessary) and position it 
-              let div = window.document.getElementById("code-annotation-line-highlight");
-              if (div === null) {
-                div = window.document.createElement("div");
-                div.setAttribute("id", "code-annotation-line-highlight");
-                div.style.position = 'absolute';
-                parent.appendChild(div);
-              }
-              div.style.top = top - 2 + "px";
-              div.style.height = height + 4 + "px";
-              div.style.left = 0;
-              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
-              if (gutterDiv === null) {
-                gutterDiv = window.document.createElement("div");
-                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
-                gutterDiv.style.position = 'absolute';
-                const codeCell = window.document.getElementById(targetCell);
-                const gutter = codeCell.querySelector('.code-annotation-gutter');
-                gutter.appendChild(gutterDiv);
-              }
-              gutterDiv.style.top = top - 2 + "px";
-              gutterDiv.style.height = height + 4 + "px";
-            }
-            selectedAnnoteEl = annoteEl;
-          }
-        };
-        const unselectCodeLines = () => {
-          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
-          elementsIds.forEach((elId) => {
-            const div = window.document.getElementById(elId);
-            if (div) {
-              div.remove();
-            }
-          });
-          selectedAnnoteEl = undefined;
-        };
-          // Handle positioning of the toggle
-      window.addEventListener(
-        "resize",
-        throttle(() => {
-          elRect = undefined;
-          if (selectedAnnoteEl) {
-            selectCodeLines(selectedAnnoteEl);
-          }
-        }, 10)
-      );
-      function throttle(fn, ms) {
-      let throttle = false;
-      let timer;
-        return (...args) => {
-          if(!throttle) { // first call gets through
-              fn.apply(this, args);
-              throttle = true;
-          } else { // all the others get throttled
-              if(timer) clearTimeout(timer); // cancel #2
-              timer = setTimeout(() => {
-                fn.apply(this, args);
-                timer = throttle = false;
-              }, ms);
-          }
-        };
-      }
-        // Attach click handler to the DT
-        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
-        for (const annoteDlNode of annoteDls) {
-          annoteDlNode.addEventListener('click', (event) => {
-            const clickedEl = event.target;
-            if (clickedEl !== selectedAnnoteEl) {
-              unselectCodeLines();
-              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
-              if (activeEl) {
-                activeEl.classList.remove('code-annotation-active');
-              }
-              selectCodeLines(clickedEl);
-              clickedEl.classList.add('code-annotation-active');
-            } else {
-              // Unselect the line
-              unselectCodeLines();
-              clickedEl.classList.remove('code-annotation-active');
-            }
-          });
-        }
-    const findCites = (el) => {
-      const parentEl = el.parentElement;
-      if (parentEl) {
-        const cites = parentEl.dataset.cites;
-        if (cites) {
-          return {
-            el,
-            cites: cites.split(' ')
-          };
-        } else {
-          return findCites(el.parentElement)
-        }
       } else {
-        return undefined;
-      }
-    };
-    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
-    for (var i=0; i<bibliorefs.length; i++) {
-      const ref = bibliorefs[i];
-      const citeInfo = findCites(ref);
-      if (citeInfo) {
-        tippyHover(citeInfo.el, function() {
-          var popup = window.document.createElement('div');
-          citeInfo.cites.forEach(function(cite) {
-            var citeDiv = window.document.createElement('div');
-            citeDiv.classList.add('hanging-indent');
-            citeDiv.classList.add('csl-entry');
-            var biblioDiv = window.document.getElementById('ref-' + cite);
-            if (biblioDiv) {
-              citeDiv.innerHTML = biblioDiv.innerHTML;
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
             }
-            popup.appendChild(citeDiv);
-          });
-          return popup.innerHTML;
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
         });
       }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
     }
-  });
-  </script>
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../chapters/chapter3_dplyr.html" class="pagination-link" aria-label="Getting Started with `dplyr`">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Getting Started with <code>dplyr</code></span></span>
+      <a href="../chapters/chapter3_dplyr.html" class="pagination-link" aria-label="Data Wrangling">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Data Wrangling</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../chapters/chapter4_EDA.html" class="pagination-link" aria-label="Exploratory data analysis (EDA)">
-        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Exploratory data analysis (EDA)</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../chapters/chapter5_logistic_regression.html" class="pagination-link" aria-label="Logistic Regression">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Logistic Regression</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

@@ -845,7 +845,7 @@ outliers
 ```
 
 :::: panel-tabset
-**Exercise**
+### Exercise
 
 In the dataset `mpg`,
 
@@ -880,7 +880,7 @@ In the dataset `mpg`,
     ```
 
 
-**Solution**
+### Solutions
 
 <!--
 ::: {.solution exercise="ex_1"}
