@@ -322,7 +322,6 @@ Most datasets are organized in a rectangular format — like a spreadsheet — w
 
 ![Adapted from Slides of 'EDA Module I: A Bird's Eye View' by Dr. Mark Williamson](/figs/EDA/datatable.png){fig-align="center"}
 
-```{=html}
 <!-- 
 EDA is the process of looking at data to understand it before using statistics or models. It helps us to answer questions like: 
 
@@ -334,7 +333,7 @@ EDA is the process of looking at data to understand it before using statistics o
 
 - What kind of summary or visualization is helpful?
 -->
-```
+
 
 ### Types of Variables
 
