@@ -525,6 +525,7 @@ Descriptive statistics give **numerical summaries** of a dataset.
 Before diving into categorical and numerical summaries, first check for **missing values**. Missingness is part of the data story and can be informative: **count** missing values and look for **patterns** (are they concentrated in certain variables or groups?). In EDA, always **report the number (and share) of missing values per variable**. We will return to strategies for handling missingness later, since it merits more attention and advanced methods.
 
 ```{webr-r}
+library(ggplot2)
 data("mpg", package = "ggplot2")
 
 colSums(is.na(mpg))
@@ -881,8 +882,10 @@ In the dataset `mpg`,
 
     ```
 
+
 **Solution**
 
+<!--
 ::: {.solution exercise="ex_1"}
 ``` r
 # 1
@@ -914,6 +917,7 @@ which(x < lower | x > upper)
 length(which(x < lower | x > upper))
 ```
 :::
+-->
 ::::
 
 **Multivariate Case**
