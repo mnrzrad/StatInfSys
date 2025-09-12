@@ -540,7 +540,7 @@ summaries like mean/SD ignore `NA` by default only if you set `na.rm = TRUE`; si
 
 For a categorical variable, the key features are the **set of categories** (the possible values) and **how often each occurs** (frequency or relative frequency).
 
-The primary tool is a **frequency table**: list each category with its **count** and **proportion/percent**. Always include the total \$N\$ (and any **missing**) to verify that every recruited subject is represented. As a quick quality check, proportions should sum to $1.00$ (or $100\%$). Once you are comfortable, reporting either **proportion** *or* **percent** is sufficient—they are equivalent.
+The primary tool is a **frequency table**: list each category with its **count** and **proportion/percent**. Always include the total $N$ (and any **missing**) to verify that every recruited subject is represented. As a quick quality check, proportions should sum to $1.00$ (or $100\%$). Once you are comfortable, reporting either **proportion** *or* **percent** is sufficient—they are equivalent.
 
 ```{webr-r}
 data("mpg", package = "ggplot2")
@@ -755,7 +755,7 @@ sd(x, na.rm = TRUE)
 
 To understand the **interquantile range (IQR),** first we define **quartiles**. Quartiles split the data into four equal parts: the first quartile (**Q1**) is the smallest value below which 25% of observations fall, the second quartile (**Q2**) is the median (50%), and the third quartile (**Q3**) marks 75%. These three cut points summarize where the lower quarter ends, where the middle lies, and where the upper quarter begins, which is especially helpful when the distribution is not symmetric.
 
-The **interquartile range (IQR)** is the distance between the third and first quartiles, (\$ \mathrm{IQR} = Q3 - Q1\$ ). It measures how spread out the **middle 50%** of the data are: a wider IQR means the central values are more dispersed, and a narrower IQR means they are more tightly clustered. Like the standard deviation, the IQR is expressed in the **same units** as the original data, but unlike the standard deviation it is **robust**—a few extreme highs or lows have little effect on it because it depends only on the central half of the distribution.
+The **interquartile range (IQR)** is the distance between the third and first quartiles, ($ \mathrm{IQR} = Q3 - Q1$ ). It measures how spread out the **middle 50%** of the data are: a wider IQR means the central values are more dispersed, and a narrower IQR means they are more tightly clustered. Like the standard deviation, the IQR is expressed in the **same units** as the original data, but unlike the standard deviation it is **robust**—a few extreme highs or lows have little effect on it because it depends only on the central half of the distribution.
 
 In contrast, the **range** (maximum minus minimum) is very sensitive to outliers and can change dramatically from sample to sample; it is useful for quick checks and for spotting obvious data-entry errors when you know plausible bounds, but it is not a stable measure of spread. By comparison, the variance/standard deviation fluctuate less than the range, and the IQR fluctuates less than either of them.
 
