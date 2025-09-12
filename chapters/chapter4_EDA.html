@@ -424,7 +424,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"code":"data(\"mpg\", package = \"ggplot2\")\n\ncolSums(is.na(mpg))","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"data(\"mpg\", package = \"ggplot2\")\n\nN <- nrow(mpg)\ncat('Total number of data is:', N)\nhead(mpg, 3)\n\n# Frequency table\ntab <- table(mpg$class)\n\n# Proportions and percentages\nprop <- prop.table(tab)\npercent <- round(100 * prop, 1)\n\n# Check totals\nsum(tab)      # should equal N\nsum(prop)     # should be 1","id":2,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"data(\"mpg\", package = \"ggplot2\")\n\n# variable 'hwy' (highway mpg)\nx <- mpg$hwy\nlength(x)\n\nmean(x)\nmean(x, na.rm = TRUE)","id":3,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-3","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"x <- mpg$hwy\n\nmedian(x)\nmedian(x, na.rm = TRUE)","id":4,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-4","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"tab_class <- table(mpg$class, useNA = \"ifany\")\ntab_class\n\ncat_mode <- names(tab_class)[tab_class == max(tab_class)]\ncat_mode","id":5,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-5","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"x <- mpg$hwy\nvar(x, na.rm = TRUE)         ","id":6,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-6","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"x <- mpg$hwy\nsd(x, na.rm = TRUE) ","id":7,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-7","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"x <- mpg$hwy\nIQR(x, na.rm = TRUE) ","id":8,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-8","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"x <- mpg$hwy\n\nlibrary(moments)\nmoments::skewness(x) \n\n# OR\n\nlibrary(e1071)\ne1071::skewness(x) ","id":9,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-9","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(moments)\nmoments::kurtosis(x) \n\n# OR\n\nlibrary(e1071)\ne1071::kurtosis(x) ","id":10,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-10","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"x <- mpg$hwy\n\nmin(x, na.rm = TRUE)\nmax(x, na.rm = TRUE)","id":11,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-11","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Tukey outliers using 1.5*IQR rule\nQ <- quantile(x, probs = c(.25, .75), na.rm = TRUE, names = FALSE)\niqr <- Q[2] - Q[1]\nlower <- Q[1] - 1.5 * iqr\nupper <- Q[2] + 1.5 * iqr\nc(lower = lower, upper = upper)\n\n# Values flagged as outliers by this rule\noutliers <- x[x < lower | x > upper]\noutliers","id":12,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-12","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"","id":13,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-13","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"","id":14,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-14","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"","id":15,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-15","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"","id":16,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-16","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"","id":17,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-17","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Data\ndata(\"mpg\", package = \"ggplot2\")\n\n# Two-way cross-tab: vehicle class (rows) by drive type (columns)\ntab <- table(mpg$class, mpg$drv)   # counts\ntab\naddmargins(tab)                    # add row/col totals\n\n# Percentages\ncell_pct <- round(100 * prop.table(tab), 1)   # over all cells\nrow_pct  <- round(100 * prop.table(tab, 1), 1) # within rows\ncol_pct  <- round(100 * prop.table(tab, 2), 1) # within columns\n\ncell_pct\nrow_pct\ncol_pct\n\n# Treat a quantitative-with-few-levels variable as categorical (e.g., cylinders)\ntab_cyl_drv <- table(factor(mpg$cyl), mpg$drv)\ntab_cyl_drv\nround(100 * prop.table(tab_cyl_drv, 1), 1)  # row %\n\n# Three-way cross-tab: class × drv by model year (1999 vs 2008)\ntab3 <- xtabs(~ class + drv + year, data = mpg)   # 3D table\nftable(tab3)                                      # flat view\n\n# Row % within each year\nby_year_rowpct <- lapply(split(mpg, mpg$year), function(d) {\n  round(100 * prop.table(table(d$class, d$drv), 1), 1)\n})\nby_year_rowpct$`1999`\nby_year_rowpct$`2008`","id":18,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-18","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"data(\"airquality\")\nairquality","id":19,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-19","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"dim(airquality)\n\n# or \nnrow(airquality)\nncol(airquality)","id":20,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-20","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"str(airquality)","id":21,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-21","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"head(airquality)","id":22,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-22","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"tail(airquality)","id":23,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-23","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"nrow(ozone)","id":24,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-24","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"colSums(is.na(ozone))","id":25,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-25","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(dplyr)\n\nairquality |> \n  summarise(across(everything(), ~sum(is.na(.))))","id":26,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-26","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"airquality |> \n  filter(Month == 7) |> nrow()","id":27,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-27","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"airquality |> \n  filter(Month == 8) |> \n  summarise(across(everything(), ~ sum(is.na(.))))","id":28,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-28","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"summary(airquality$Ozone)","id":29,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-29","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(dplyr)\n\nairquality |> \n  group_by(Month) |> \n  summarise(avg_ozone = mean(Ozone, na.rm = TRUE))","id":30,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-30","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(ggplot2)\n\nggplot(airquality, aes(x = factor(Month), y = Ozone)) + \n  geom_boxplot(fill = 'lightblue', color = 'black', na.rm = TRUE) +\n  scale_x_discrete(labels = c(\"May\", \"June\", \"July\", \"August\", \"September\")) +\n  labs(x = \"Month\",\n       y = 'Ozone (ppb)') + \n  theme_minimal()","id":31,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-31","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(ggplot2)\n\nggplot(airquality, aes(x = Temp, y = Ozone)) + \n  geom_point(color = 'darkgreen', alpha = 0.8) + \n  labs(x = 'Temperature (°F)',\n       y = 'Ozone (ppb)') + \n  theme_minimal()","id":32,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-32","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(airquality, aes(x = Wind, y = Ozone)) +\n  geom_point(color = \"darkblue\", alpha = 0.8) +\n  labs(title = \"Ozone vs Wind Speed\",\n       x = \"Wind Speed (mph)\",\n       y = \"Ozone (ppb)\") +\n  theme_minimal()","id":33,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-33","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"model <- lm(Ozone ~ Temp + Wind, data = airquality)\nsummary(model)","id":34,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-34","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"data(\"airquality\")","id":35,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-35","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"airquality  |>  \n  summarise(rows = n())  |>  \n  mutate(cols = ncol(airquality))","id":36,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-36","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"airquality |> \n  glimpse()","id":37,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-37","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"airquality |> \n  slice_head(n = 5)","id":38,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-38","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"airquality |> \n  slice_tail(n = 5)","id":39,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-39","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ozone_clean <- airquality |> \n  filter(!is.na(Ozone), !is.na(Temp), !is.na(Wind), !is.na(Solar.R))\n\nozone_clean |> \n  summarise(rows = n())","id":40,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-40","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ozone_clean |> \n  summarise(above_70 = sum(Ozone > 70), \n            total = n(), \n            percent = round(100 * sum(Ozone > 70) / n(), 1))","id":41,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-41","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ozone_clean |> \n  summarise(cor_temp = cor(Ozone, Temp),\n            cor_wind = cor(Ozone, Wind),\n            cor_solar = cor(Ozone, Solar.R))","id":42,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-42","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(ozone_clean, aes(x = Temp, y = Ozone)) + \n  geom_point(color = \"steelblue\") + \n  labs(x = \"Temperature (F)\",\n       y = \"Ozone (ppb)\") + \n  theme_minimal()","id":43,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-43","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(ozone_clean, aes(x = Wind, y = Ozone)) + \n  geom_point(color = 'darkgreen') + \n  labs(x = \"Wind (mph)\",\n       y = \"Ozone (ppb)\") + \n  theme_minimal()","id":44,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-44","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(ozone_clean, aes(x = Solar.R, y = Ozone)) + \n  geom_point(color = 'orange') + \n  labs(x = \"Solar Radiation (langley)\",\n       y = \"Ozone (ppb)\") + \n  theme_minimal()","id":45,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-45","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# install.packages(\"patchwork\")\nlibrary(patchwork)\n\np1 <- ggplot(ozone_clean, aes(Temp, Ozone)) + \n  geom_point(color = \"steelblue\") + \n  labs(title = \"Ozone vs Temp\", x = \"Temperature\", y = \"Ozone\") + \n  theme_minimal()\n\np2 <- ggplot(ozone_clean, aes(Wind, Ozone)) + \n  geom_point(color = \"darkgreen\") + \n  labs(title = \"Ozone vs Wind\", x = \"Wind Speed\", y = \"Ozone\") + \n  theme_minimal()\n\np3 <- ggplot(ozone_clean, aes(Solar.R, Ozone)) + \n  geom_point(color = \"orange\") + \n  labs(title = \"Ozone vs Solar Radiation\", x = \"Solar Radiation\", y = \"Ozone\") + \n  theme_minimal()\n\n(p1 | p2 | p3)","id":46,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-46","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"cor(ozone_clean)","id":47,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-47","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"pairs(ozone_clean, \n      main = \"Ozone vs. Weather Variables\",\n      col = 'darkred', pch = 19)","id":48,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-48","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"model <- ozone_clean  |> \n  lm(Ozone ~ Temp + Wind + Solar.R, data = .)\n\nsummary(model)","id":49,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-49","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"data(\"mtcars\")\nhead(mtcars)","id":50,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-50","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(ggplot2)\n\nggplot(mtcars, aes(x = wt, y = mpg)) + \n  geom_point(color = 'blue', size = 3) + \n  geom_smooth(method = 'lm', se = FALSE, color = 'red') + \n  labs(x = 'weight (1000 lbs)',\n       y = 'Miles per Gallon (MPG)') + \n  theme_minimal()","id":51,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-51","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"mtcars$cyl <- factor(mtcars$cyl)\n\nggplot(mtcars, aes(x = wt, y = mpg, color=cyl)) + \n  geom_point(size = 3) + \n  geom_smooth(method = 'lm', se = FALSE, aes(group = cyl)) + \n  labs(x = 'Weight (1000 lbs)',\n       y = 'Miles per Gallon (MPG)', \n       color = \"Number of cylinders\") + \n  theme_minimal()","id":52,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-52","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(mtcars, aes(x = wt, y = mpg)) + \n  geom_point() + \n  geom_smooth(method = 'lm', se = FALSE) +\n  facet_wrap(~ cyl) + \n  labs(title = 'MPG vs. Weight by Cylinder Group')","id":53,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-53","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Prepare the data\nmtcars$cyl <- factor(mtcars$cyl)  \nmtcars$am <- factor(mtcars$am, labels = c(\"Automatic\", \"Manual\"))  \n\nggplot(mtcars, aes(x = wt, y = mpg, color = cyl, shape = am)) +\n  geom_point(size = 3) +\n  geom_smooth(method = \"lm\", se = FALSE, aes(group = cyl), linetype = \"solid\") +\n  labs(\n    x = \"Weight (1000 lbs)\",\n    y = \"Miles per Gallon (MPG)\",\n    color = \"Cylinders\",\n    shape = \"Transmission\"\n  ) +\n  theme_minimal()","id":54,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-54","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"mtcars$cyl <- factor(mtcars$cyl)\nmtcars$am <- factor(mtcars$am, labels = c('Automatic', 'Manual')) \n\n\nggplot(mtcars, aes(x = wt, y = mpg, color = cyl)) + \n  geom_point(size = 3) + \n  geom_smooth(method = 'lm', se = TRUE, aes(group = cyl)) + \n  facet_wrap(~ am) + \n  labs(\n    x = 'Weight (1000 lbs)',\n    y = 'Miles per Gallon (MPG)',\n    color = 'Cylinders'\n  ) + \n  theme_minimal()","id":55,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-55","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"mtcars$cyl <- factor(mtcars$cyl)\nmtcars$am <- factor(mtcars$am, labels = c('Automatic', 'Manual'))\n\nggplot(mtcars, aes(x = wt, y = mpg)) + \n  geom_point(aes(color = cyl), size = 3) + \n  geom_smooth(method = 'lm', se = FALSE, color = 'black') +\n  facet_grid(am ~ cyl) + \n  labs(\n    x = 'Weight (1000 lbs)',\n    y = 'Miles per Gallon (MPG)',\n    color = 'Cylinders'\n  ) ","id":56,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-56","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
+globalThis.qwebrCellDetails = [{"code":"library(ggplot2)\ndata(\"mpg\", package = \"ggplot2\")\n\ncolSums(is.na(mpg))","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"data(\"mpg\", package = \"ggplot2\")\n\nN <- nrow(mpg)\ncat('Total number of data is:', N)\nhead(mpg, 3)\n\n# Frequency table\ntab <- table(mpg$class)\n\n# Proportions and percentages\nprop <- prop.table(tab)\npercent <- round(100 * prop, 1)\n\n# Check totals\nsum(tab)      # should equal N\nsum(prop)     # should be 1","id":2,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"data(\"mpg\", package = \"ggplot2\")\n\n# variable 'hwy' (highway mpg)\nx <- mpg$hwy\nlength(x)\n\nmean(x)\nmean(x, na.rm = TRUE)","id":3,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-3","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"x <- mpg$hwy\n\nmedian(x)\nmedian(x, na.rm = TRUE)","id":4,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-4","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"tab_class <- table(mpg$class, useNA = \"ifany\")\ntab_class\n\ncat_mode <- names(tab_class)[tab_class == max(tab_class)]\ncat_mode","id":5,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-5","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"x <- mpg$hwy\nvar(x, na.rm = TRUE)         ","id":6,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-6","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"x <- mpg$hwy\nsd(x, na.rm = TRUE) ","id":7,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-7","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"x <- mpg$hwy\nIQR(x, na.rm = TRUE) ","id":8,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-8","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"x <- mpg$hwy\n\nlibrary(moments)\nmoments::skewness(x) \n\n# OR\n\nlibrary(e1071)\ne1071::skewness(x) ","id":9,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-9","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(moments)\nmoments::kurtosis(x) \n\n# OR\n\nlibrary(e1071)\ne1071::kurtosis(x) ","id":10,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-10","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"x <- mpg$hwy\n\nmin(x, na.rm = TRUE)\nmax(x, na.rm = TRUE)","id":11,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-11","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Tukey outliers using 1.5*IQR rule\nQ <- quantile(x, probs = c(.25, .75), na.rm = TRUE, names = FALSE)\niqr <- Q[2] - Q[1]\nlower <- Q[1] - 1.5 * iqr\nupper <- Q[2] + 1.5 * iqr\nc(lower = lower, upper = upper)\n\n# Values flagged as outliers by this rule\noutliers <- x[x < lower | x > upper]\noutliers","id":12,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-12","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"","id":13,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-13","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"","id":14,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-14","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"","id":15,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-15","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"","id":16,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-16","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"","id":17,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-17","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Data\ndata(\"mpg\", package = \"ggplot2\")\n\n# Two-way cross-tab: vehicle class (rows) by drive type (columns)\ntab <- table(mpg$class, mpg$drv)   # counts\ntab\naddmargins(tab)                    # add row/col totals\n\n# Percentages\ncell_pct <- round(100 * prop.table(tab), 1)   # over all cells\nrow_pct  <- round(100 * prop.table(tab, 1), 1) # within rows\ncol_pct  <- round(100 * prop.table(tab, 2), 1) # within columns\n\ncell_pct\nrow_pct\ncol_pct\n\n# Treat a quantitative-with-few-levels variable as categorical (e.g., cylinders)\ntab_cyl_drv <- table(factor(mpg$cyl), mpg$drv)\ntab_cyl_drv\nround(100 * prop.table(tab_cyl_drv, 1), 1)  # row %\n\n# Three-way cross-tab: class × drv by model year (1999 vs 2008)\ntab3 <- xtabs(~ class + drv + year, data = mpg)   # 3D table\nftable(tab3)                                      # flat view\n\n# Row % within each year\nby_year_rowpct <- lapply(split(mpg, mpg$year), function(d) {\n  round(100 * prop.table(table(d$class, d$drv), 1), 1)\n})\nby_year_rowpct$`1999`\nby_year_rowpct$`2008`","id":18,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-18","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"data(\"mtcars\")\nhead(mtcars)","id":19,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-19","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(ggplot2)\n\nggplot(mtcars, aes(x = wt, y = mpg)) + \n  geom_point(color = 'blue', size = 3) + \n  geom_smooth(method = 'lm', se = FALSE, color = 'red') + \n  labs(x = 'weight (1000 lbs)',\n       y = 'Miles per Gallon (MPG)') + \n  theme_minimal()","id":20,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-20","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"mtcars$cyl <- factor(mtcars$cyl)\n\nggplot(mtcars, aes(x = wt, y = mpg, color=cyl)) + \n  geom_point(size = 3) + \n  geom_smooth(method = 'lm', se = FALSE, aes(group = cyl)) + \n  labs(x = 'Weight (1000 lbs)',\n       y = 'Miles per Gallon (MPG)', \n       color = \"Number of cylinders\") + \n  theme_minimal()","id":21,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-21","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(mtcars, aes(x = wt, y = mpg)) + \n  geom_point() + \n  geom_smooth(method = 'lm', se = FALSE) +\n  facet_wrap(~ cyl) + \n  labs(title = 'MPG vs. Weight by Cylinder Group')","id":22,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-22","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Prepare the data\nmtcars$cyl <- factor(mtcars$cyl)  \nmtcars$am <- factor(mtcars$am, labels = c(\"Automatic\", \"Manual\"))  \n\nggplot(mtcars, aes(x = wt, y = mpg, color = cyl, shape = am)) +\n  geom_point(size = 3) +\n  geom_smooth(method = \"lm\", se = FALSE, aes(group = cyl), linetype = \"solid\") +\n  labs(\n    x = \"Weight (1000 lbs)\",\n    y = \"Miles per Gallon (MPG)\",\n    color = \"Cylinders\",\n    shape = \"Transmission\"\n  ) +\n  theme_minimal()","id":23,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-23","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"mtcars$cyl <- factor(mtcars$cyl)\nmtcars$am <- factor(mtcars$am, labels = c('Automatic', 'Manual')) \n\n\nggplot(mtcars, aes(x = wt, y = mpg, color = cyl)) + \n  geom_point(size = 3) + \n  geom_smooth(method = 'lm', se = TRUE, aes(group = cyl)) + \n  facet_wrap(~ am) + \n  labs(\n    x = 'Weight (1000 lbs)',\n    y = 'Miles per Gallon (MPG)',\n    color = 'Cylinders'\n  ) + \n  theme_minimal()","id":24,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-24","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"mtcars$cyl <- factor(mtcars$cyl)\nmtcars$am <- factor(mtcars$am, labels = c('Automatic', 'Manual'))\n\nggplot(mtcars, aes(x = wt, y = mpg)) + \n  geom_point(aes(color = cyl), size = 3) + \n  geom_smooth(method = 'lm', se = FALSE, color = 'black') +\n  facet_grid(am ~ cyl) + \n  labs(\n    x = 'Weight (1000 lbs)',\n    y = 'Miles per Gallon (MPG)',\n    color = 'Cylinders'\n  ) ","id":25,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-25","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"data(\"airquality\")\nairquality","id":26,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-26","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"dim(airquality)\n\n# or \nnrow(airquality)\nncol(airquality)","id":27,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-27","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"str(airquality)","id":28,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-28","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"head(airquality)","id":29,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-29","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"tail(airquality)","id":30,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-30","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"nrow(ozone)","id":31,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-31","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"colSums(is.na(ozone))","id":32,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-32","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(dplyr)\n\nairquality |> \n  summarise(across(everything(), ~sum(is.na(.))))","id":33,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-33","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"airquality |> \n  filter(Month == 7) |> nrow()","id":34,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-34","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"airquality |> \n  filter(Month == 8) |> \n  summarise(across(everything(), ~ sum(is.na(.))))","id":35,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-35","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"summary(airquality$Ozone)","id":36,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-36","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(dplyr)\n\nairquality |> \n  group_by(Month) |> \n  summarise(avg_ozone = mean(Ozone, na.rm = TRUE))","id":37,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-37","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(ggplot2)\n\nggplot(airquality, aes(x = factor(Month), y = Ozone)) + \n  geom_boxplot(fill = 'lightblue', color = 'black', na.rm = TRUE) +\n  scale_x_discrete(labels = c(\"May\", \"June\", \"July\", \"August\", \"September\")) +\n  labs(x = \"Month\",\n       y = 'Ozone (ppb)') + \n  theme_minimal()","id":38,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-38","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(ggplot2)\n\nggplot(airquality, aes(x = Temp, y = Ozone)) + \n  geom_point(color = 'darkgreen', alpha = 0.8) + \n  labs(x = 'Temperature (°F)',\n       y = 'Ozone (ppb)') + \n  theme_minimal()","id":39,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-39","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(airquality, aes(x = Wind, y = Ozone)) +\n  geom_point(color = \"darkblue\", alpha = 0.8) +\n  labs(title = \"Ozone vs Wind Speed\",\n       x = \"Wind Speed (mph)\",\n       y = \"Ozone (ppb)\") +\n  theme_minimal()","id":40,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-40","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"model <- lm(Ozone ~ Temp + Wind, data = airquality)\nsummary(model)","id":41,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-41","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"data(\"airquality\")","id":42,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-42","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"airquality  |>  \n  summarise(rows = n())  |>  \n  mutate(cols = ncol(airquality))","id":43,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-43","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"airquality |> \n  glimpse()","id":44,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-44","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"airquality |> \n  slice_head(n = 5)","id":45,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-45","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"airquality |> \n  slice_tail(n = 5)","id":46,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-46","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ozone_clean <- airquality |> \n  filter(!is.na(Ozone), !is.na(Temp), !is.na(Wind), !is.na(Solar.R))\n\nozone_clean |> \n  summarise(rows = n())","id":47,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-47","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ozone_clean |> \n  summarise(above_70 = sum(Ozone > 70), \n            total = n(), \n            percent = round(100 * sum(Ozone > 70) / n(), 1))","id":48,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-48","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ozone_clean |> \n  summarise(cor_temp = cor(Ozone, Temp),\n            cor_wind = cor(Ozone, Wind),\n            cor_solar = cor(Ozone, Solar.R))","id":49,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-49","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(ozone_clean, aes(x = Temp, y = Ozone)) + \n  geom_point(color = \"steelblue\") + \n  labs(x = \"Temperature (F)\",\n       y = \"Ozone (ppb)\") + \n  theme_minimal()","id":50,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-50","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(ozone_clean, aes(x = Wind, y = Ozone)) + \n  geom_point(color = 'darkgreen') + \n  labs(x = \"Wind (mph)\",\n       y = \"Ozone (ppb)\") + \n  theme_minimal()","id":51,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-51","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(ozone_clean, aes(x = Solar.R, y = Ozone)) + \n  geom_point(color = 'orange') + \n  labs(x = \"Solar Radiation (langley)\",\n       y = \"Ozone (ppb)\") + \n  theme_minimal()","id":52,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-52","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# install.packages(\"patchwork\")\nlibrary(patchwork)\n\np1 <- ggplot(ozone_clean, aes(Temp, Ozone)) + \n  geom_point(color = \"steelblue\") + \n  labs(title = \"Ozone vs Temp\", x = \"Temperature\", y = \"Ozone\") + \n  theme_minimal()\n\np2 <- ggplot(ozone_clean, aes(Wind, Ozone)) + \n  geom_point(color = \"darkgreen\") + \n  labs(title = \"Ozone vs Wind\", x = \"Wind Speed\", y = \"Ozone\") + \n  theme_minimal()\n\np3 <- ggplot(ozone_clean, aes(Solar.R, Ozone)) + \n  geom_point(color = \"orange\") + \n  labs(title = \"Ozone vs Solar Radiation\", x = \"Solar Radiation\", y = \"Ozone\") + \n  theme_minimal()\n\n(p1 | p2 | p3)","id":53,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-53","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"cor(ozone_clean)","id":54,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-54","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"pairs(ozone_clean, \n      main = \"Ozone vs. Weather Variables\",\n      col = 'darkred', pch = 19)","id":55,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-55","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"model <- ozone_clean  |> \n  lm(Ozone ~ Temp + Wind + Solar.R, data = .)\n\nsummary(model)","id":56,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-56","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
 
 </script>
 <script type="module">
@@ -1837,66 +1837,10 @@ window.Quarto = {
   <li><a href="#types-of-eda" id="toc-types-of-eda" class="nav-link" data-scroll-target="#types-of-eda"><span class="header-section-number">2.4.2</span> Types of EDA</a>
   <ul class="collapse">
   <li><a href="#descriptive-statistics" id="toc-descriptive-statistics" class="nav-link" data-scroll-target="#descriptive-statistics"><span class="header-section-number">2.4.2.1</span> Descriptive Statistics</a></li>
-  </ul></li>
-  <li><a href="#associations" id="toc-associations" class="nav-link" data-scroll-target="#associations"><span class="header-section-number">2.4.3</span> Associations</a>
-  <ul class="collapse">
-  <li><a href="#pairs-of-numeric-variables" id="toc-pairs-of-numeric-variables" class="nav-link" data-scroll-target="#pairs-of-numeric-variables"><span class="header-section-number">2.4.3.1</span> Pairs of Numeric Variables</a></li>
-  <li><a href="#pairs-of-categorical-variables" id="toc-pairs-of-categorical-variables" class="nav-link" data-scroll-target="#pairs-of-categorical-variables"><span class="header-section-number">2.4.3.2</span> Pairs of Categorical Variables</a></li>
-  </ul></li>
-  <li><a href="#notes" id="toc-notes" class="nav-link" data-scroll-target="#notes"><span class="header-section-number">2.4.4</span> Notes</a></li>
-  <li><a href="#example-what-should-you-use" id="toc-example-what-should-you-use" class="nav-link" data-scroll-target="#example-what-should-you-use"><span class="header-section-number">2.4.5</span> Example: What Should You Use?</a></li>
-  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section"><span class="header-section-number">2.4.6</span> </a>
-  <ul class="collapse">
-  <li><a href="#graphical-summaries" id="toc-graphical-summaries" class="nav-link" data-scroll-target="#graphical-summaries"><span class="header-section-number">2.4.6.1</span> Graphical Summaries</a></li>
-  </ul></li>
-  <li><a href="#airquailty-dataset" id="toc-airquailty-dataset" class="nav-link" data-scroll-target="#airquailty-dataset"><span class="header-section-number">2.4.7</span> Airquailty dataset</a>
-  <ul class="collapse">
-  <li><a href="#alternative-question" id="toc-alternative-question" class="nav-link" data-scroll-target="#alternative-question"><span class="header-section-number">2.4.7.1</span> Alternative question</a></li>
+  <li><a href="#graphical-summaries" id="toc-graphical-summaries" class="nav-link" data-scroll-target="#graphical-summaries"><span class="header-section-number">2.4.2.2</span> Graphical Summaries</a></li>
   </ul></li>
   </ul></li>
-  <li><a href="#principles-of-analytic-graphics" id="toc-principles-of-analytic-graphics" class="nav-link" data-scroll-target="#principles-of-analytic-graphics"><span class="header-section-number">2.5</span> Principles of Analytic Graphics</a>
-  <ul>
-  <li><a href="#principle-1-show-comparison" id="toc-principle-1-show-comparison" class="nav-link" data-scroll-target="#principle-1-show-comparison"><span class="header-section-number">2.5.1</span> Principle 1 – Show Comparison</a></li>
-  <li><a href="#principle-2-show-causality-and-explanation" id="toc-principle-2-show-causality-and-explanation" class="nav-link" data-scroll-target="#principle-2-show-causality-and-explanation"><span class="header-section-number">2.5.2</span> Principle 2: Show Causality and Explanation</a></li>
-  <li><a href="#principle-3-show-multivariate-data" id="toc-principle-3-show-multivariate-data" class="nav-link" data-scroll-target="#principle-3-show-multivariate-data"><span class="header-section-number">2.5.3</span> Principle 3: Show Multivariate Data</a></li>
-  <li><a href="#principle-4-integrate-evidence-keep-the-message-clear" id="toc-principle-4-integrate-evidence-keep-the-message-clear" class="nav-link" data-scroll-target="#principle-4-integrate-evidence-keep-the-message-clear"><span class="header-section-number">2.5.4</span> Principle 4: Integrate Evidence — Keep the message clear</a></li>
-  <li><a href="#principle-5-describe-and-document-the-evidence" id="toc-principle-5-describe-and-document-the-evidence" class="nav-link" data-scroll-target="#principle-5-describe-and-document-the-evidence"><span class="header-section-number">2.5.5</span> Principle 5: Describe and Document the Evidence</a></li>
-  <li><a href="#principle-6-content-is-king" id="toc-principle-6-content-is-king" class="nav-link" data-scroll-target="#principle-6-content-is-king"><span class="header-section-number">2.5.6</span> Principle 6: Content is King</a></li>
-  </ul></li>
-  <li><a href="#enter-the-world-of-eda-1" id="toc-enter-the-world-of-eda-1" class="nav-link" data-scroll-target="#enter-the-world-of-eda-1"><span class="header-section-number">2.6</span> Enter the world of EDA</a>
-  <ul>
-  <li><a href="#types-of-variables-1" id="toc-types-of-variables-1" class="nav-link" data-scroll-target="#types-of-variables-1"><span class="header-section-number">2.6.1</span> Types of Variables</a>
-  <ul class="collapse">
-  <li><a href="#numerical-variables-1" id="toc-numerical-variables-1" class="nav-link" data-scroll-target="#numerical-variables-1"><span class="header-section-number">2.6.1.1</span> Numerical variables</a></li>
-  <li><a href="#categorical-variables-1" id="toc-categorical-variables-1" class="nav-link" data-scroll-target="#categorical-variables-1"><span class="header-section-number">2.6.1.2</span> Categorical Variables</a></li>
-  </ul></li>
-  <li><a href="#types-of-eda-1" id="toc-types-of-eda-1" class="nav-link" data-scroll-target="#types-of-eda-1"><span class="header-section-number">2.6.2</span> Types of EDA</a>
-  <ul class="collapse">
-  <li><a href="#descriptive-statistics-1" id="toc-descriptive-statistics-1" class="nav-link" data-scroll-target="#descriptive-statistics-1"><span class="header-section-number">2.6.2.1</span> Descriptive Statistics</a></li>
-  <li><a href="#graphical-summaries-1" id="toc-graphical-summaries-1" class="nav-link" data-scroll-target="#graphical-summaries-1"><span class="header-section-number">2.6.2.2</span> Graphical Summaries</a></li>
-  </ul></li>
-  <li><a href="#a-review-on-descriptive-statistics" id="toc-a-review-on-descriptive-statistics" class="nav-link" data-scroll-target="#a-review-on-descriptive-statistics"><span class="header-section-number">2.6.3</span> A Review on Descriptive Statistics</a></li>
-  <li><a href="#central-tendency" id="toc-central-tendency" class="nav-link" data-scroll-target="#central-tendency"><span class="header-section-number">2.6.4</span> <strong>Central Tendency</strong></a>
-  <ul class="collapse">
-  <li><a href="#arithmetic-mean-average" id="toc-arithmetic-mean-average" class="nav-link" data-scroll-target="#arithmetic-mean-average"><span class="header-section-number">2.6.4.1</span> Arithmetic Mean (Average)</a></li>
-  <li><a href="#median" id="toc-median" class="nav-link" data-scroll-target="#median"><span class="header-section-number">2.6.4.2</span> Median</a></li>
-  <li><a href="#mode" id="toc-mode" class="nav-link" data-scroll-target="#mode"><span class="header-section-number">2.6.4.3</span> Mode</a></li>
-  </ul></li>
-  <li><a href="#dispersion" id="toc-dispersion" class="nav-link" data-scroll-target="#dispersion"><span class="header-section-number">2.6.5</span> Dispersion</a>
-  <ul class="collapse">
-  <li><a href="#variance" id="toc-variance" class="nav-link" data-scroll-target="#variance"><span class="header-section-number">2.6.5.1</span> Variance</a></li>
-  <li><a href="#standard-deviation" id="toc-standard-deviation" class="nav-link" data-scroll-target="#standard-deviation"><span class="header-section-number">2.6.5.2</span> Standard Deviation</a></li>
-  </ul></li>
-  <li><a href="#why-use-standard-deviation" id="toc-why-use-standard-deviation" class="nav-link" data-scroll-target="#why-use-standard-deviation"><span class="header-section-number">2.6.6</span> Why use standard deviation?</a>
-  <ul class="collapse">
-  <li><a href="#interquartile-range-iqr" id="toc-interquartile-range-iqr" class="nav-link" data-scroll-target="#interquartile-range-iqr"><span class="header-section-number">2.6.6.1</span> Interquartile Range (IQR)</a></li>
-  </ul></li>
-  <li><a href="#the-boxplot-connection" id="toc-the-boxplot-connection" class="nav-link" data-scroll-target="#the-boxplot-connection"><span class="header-section-number">2.6.7</span> The Boxplot Connection</a>
-  <ul class="collapse">
-  <li><a href="#categorical-variables-2" id="toc-categorical-variables-2" class="nav-link" data-scroll-target="#categorical-variables-2"><span class="header-section-number">2.6.7.1</span> Categorical Variables</a></li>
-  <li><a href="#associations-1" id="toc-associations-1" class="nav-link" data-scroll-target="#associations-1"><span class="header-section-number">2.6.7.2</span> Associations</a></li>
-  </ul></li>
-  </ul></li>
+  <li><a href="#airquailty-dataset" id="toc-airquailty-dataset" class="nav-link" data-scroll-target="#airquailty-dataset"><span class="header-section-number">2.5</span> Airquailty dataset</a></li>
   </ul>
 </nav>
     </div>
@@ -2983,7 +2927,7 @@ Important
 <table class="caption-top table">
 <colgroup>
 <col style="width: 30%">
-<col style="width: 42%">
+<col style="width: 41%">
 <col style="width: 27%">
 </colgroup>
 <thead>
@@ -3191,6 +3135,10 @@ Note
 <li><strong>Interquartile range (IQR)</strong> — the distance between the 25th and 75th percentiles; the <strong>middle 50%</strong> of the data. <strong>Robust</strong> to outliers, and usually paired with the <strong>median</strong>.</li>
 </ul>
 <p>Other quick checks: the <strong>range</strong> (max − min) is easy but very sensitive to extremes; <strong>MAD</strong> (median absolute deviation) is a robust alternative to SD.</p>
+<p>The MAD can be defined as</p>
+<p><span class="math display">\[
+\mathrm{MAD} = \mathop{\mathrm{median}}_{1\leq i \leq n} |x_i - \bar{x}|
+\]</span></p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -3224,11 +3172,17 @@ A few extreme values can make the variance and SD look large even if most data a
 <p><span class="math display">\[
 s^2 = \frac{1}{n-1}\sum_{i=1}^n (x_i - \bar{x})^2
 \]</span>As a <strong>sample statistic</strong>, (<span class="math inline">\(s^2\)</span>) varies from sample to sample; we use it to <strong>estimate</strong> the single, fixed <strong>population variance</strong> (<span class="math inline">\(\sigma^2\)</span>). The <span class="math inline">\((n-1)\)</span> in the denominator ensures <em>unbiasedness</em>: across many random samples, the average of <span class="math inline">\(s^2\)</span> equals <span class="math inline">\(\sigma^2\)</span>.</p>
-<p>Another (equivalent) way to write the variance is</p>
-<p><span class="math display">\[
+<!-- 
+
+Another (equivalent) way to write the variance is
+
+$$
 s^2 = \frac{SS}{df}
-\]</span></p>
-<p>where <span class="math inline">\(SS\)</span> is the <strong>sum of squared deviations</strong> (often just “sum of squares”), i.e., <span class="math inline">\(SS = \sum_{i=1}^n (x_i-\bar{x})^2\)</span>, and <span class="math inline">\(df\)</span> is the <strong>degrees of freedom</strong>. For a single sample variance, <span class="math inline">\(df = n-1\)</span>.</p>
+$$
+
+where $SS$ is the **sum of squared deviations** (often just “sum of squares”), i.e., $SS = \sum_{i=1}^n (x_i-\bar{x})^2$, and $df$ is the **degrees of freedom**. For a single sample variance, $df = n-1$.
+
+-->
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -3295,7 +3249,7 @@ Warning
 </div>
 <div id="qwebr-insertion-location-7"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>To understand the <strong>interquantile range (IQR),</strong> first we define <strong>quartiles</strong>. Quartiles split the data into four equal parts: the first quartile (<strong>Q1</strong>) is the value below which 25% of observations fall, the second quartile (<strong>Q2</strong>) is the median (50%), and the third quartile (<strong>Q3</strong>) marks 75%. These three cut points summarize where the lower quarter ends, where the middle lies, and where the upper quarter begins, which is especially helpful when the distribution is not symmetric.</p>
+<p>To understand the <strong>interquantile range (IQR),</strong> first we define <strong>quartiles</strong>. Quartiles split the data into four equal parts: the first quartile (<strong>Q1</strong>) is the smallest value below which 25% of observations fall, the second quartile (<strong>Q2</strong>) is the median (50%), and the third quartile (<strong>Q3</strong>) marks 75%. These three cut points summarize where the lower quarter ends, where the middle lies, and where the upper quarter begins, which is especially helpful when the distribution is not symmetric.</p>
 <p>The <strong>interquartile range (IQR)</strong> is the distance between the third and first quartiles, ($ = Q3 - Q1$ ). It measures how spread out the <strong>middle 50%</strong> of the data are: a wider IQR means the central values are more dispersed, and a narrower IQR means they are more tightly clustered. Like the standard deviation, the IQR is expressed in the <strong>same units</strong> as the original data, but unlike the standard deviation it is <strong>robust</strong>—a few extreme highs or lows have little effect on it because it depends only on the central half of the distribution.</p>
 <p>In contrast, the <strong>range</strong> (maximum minus minimum) is very sensitive to outliers and can change dramatically from sample to sample; it is useful for quick checks and for spotting obvious data-entry errors when you know plausible bounds, but it is not a stable measure of spread. By comparison, the variance/standard deviation fluctuate less than the range, and the IQR fluctuates less than either of them.</p>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -3363,7 +3317,7 @@ Note
 <div id="qwebr-insertion-location-12"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page">Exercise</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Solution</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page">Exercise</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Solutions</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
 <p>In the dataset <code>mpg</code>,</p>
@@ -3386,36 +3340,39 @@ Note
 </ol>
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
-<div class="proof solution" data-exercise="ex_1">
-<p><span class="proof-title"><em>Solution</em>. </span></p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(mpg<span class="sc">$</span>cty, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">median</span>(mpg<span class="sc">$</span>cty, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">skewness</span>(mpg<span class="sc">$</span>cty)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">#2 </span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(mpg<span class="sc">$</span>displ, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">IQR</span>(mpg<span class="sc">$</span>displ, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co">#3 </span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>tab <span class="ot">&lt;-</span> <span class="fu">table</span>(mpg<span class="sc">$</span>drv)</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(tab)[tab <span class="sc">==</span> <span class="fu">max</span>(tab)]</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.table</span>(tab)</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 4</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>vars <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"hwy"</span>,<span class="st">"cty"</span>,<span class="st">"displ"</span>)</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(mpg[vars], skewness)</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(mpg[vars], kurtosis_excess)</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co"># 5</span></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> mpg<span class="sc">$</span>cty</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="fu">min</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>); <span class="fu">max</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>Q <span class="ot">&lt;-</span> <span class="fu">quantile</span>(x, <span class="fu">c</span>(.<span class="dv">25</span>,.<span class="dv">75</span>), <span class="at">na.rm =</span> <span class="cn">TRUE</span>); iqr <span class="ot">&lt;-</span> <span class="fu">diff</span>(Q)</span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>lower <span class="ot">&lt;-</span> Q[<span class="dv">1</span>] <span class="sc">-</span> <span class="fl">1.5</span><span class="sc">*</span>iqr; upper <span class="ot">&lt;-</span> Q[<span class="dv">2</span>] <span class="sc">+</span> <span class="fl">1.5</span><span class="sc">*</span>iqr</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span>(x <span class="sc">&lt;</span> lower <span class="sc">|</span> x <span class="sc">&gt;</span> upper)</span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(<span class="fu">which</span>(x <span class="sc">&lt;</span> lower <span class="sc">|</span> x <span class="sc">&gt;</span> upper))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<!--
+::: {.solution exercise="ex_1"}
+``` r
+# 1
+mean(mpg$cty, na.rm = TRUE)
+median(mpg$cty, na.rm = TRUE)
+skewness(mpg$cty)
+
+#2 
+sd(mpg$displ, na.rm = TRUE)
+IQR(mpg$displ, na.rm = TRUE)
+
+#3 
+tab <- table(mpg$drv)
+names(tab)[tab == max(tab)]
+prop.table(tab)
+
+# 4
+vars <- c("hwy","cty","displ")
+sapply(mpg[vars], skewness)
+sapply(mpg[vars], kurtosis_excess)
+
+
+# 5
+x <- mpg$cty
+min(x, na.rm = TRUE); max(x, na.rm = TRUE)
+Q <- quantile(x, c(.25,.75), na.rm = TRUE); iqr <- diff(Q)
+lower <- Q[1] - 1.5*iqr; upper <- Q[2] + 1.5*iqr
+which(x < lower | x > upper)
+length(which(x < lower | x > upper))
+```
+:::
+-->
 </div>
 </div>
 </div>
@@ -3423,10 +3380,7 @@ Note
 <p><strong>Cross-tabulation</strong> is the basic non-graphical way to study the relationship between two (or more) variables. For two categorical variables, make a two-way table of <strong>counts</strong>, and (depending on your question) add <strong>row %</strong> (each row sums to 100), <strong>column %</strong> (each column sums to 100), and/or <strong>cell %</strong> (table sums to 100). You can extend this to a third variable by producing one two-way table <strong>at each level</strong> of the third variable (or by using a three-way contingency table).</p>
 <div id="qwebr-insertion-location-18"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-</section>
-</section>
-<section id="associations" class="level3" data-number="2.4.3">
-<h3 data-number="2.4.3" class="anchored" data-anchor-id="associations"><span class="header-section-number">2.4.3</span> Associations</h3>
+<p><strong>Associations</strong></p>
 <p>In EDA, we often want to ask <em>Is one variable associated with another?</em></p>
 <p>This can be for:</p>
 <ul>
@@ -3434,8 +3388,7 @@ Note
 <li><p>Two categorical variables</p></li>
 <li><p>One numeric and one categorical</p></li>
 </ul>
-<section id="pairs-of-numeric-variables" class="level4" data-number="2.4.3.1">
-<h4 data-number="2.4.3.1" class="anchored" data-anchor-id="pairs-of-numeric-variables"><span class="header-section-number">2.4.3.1</span> Pairs of Numeric Variables</h4>
+<p><strong>Pairs of Numeric Variables</strong></p>
 <p>The most common way to measure association between two numeric variables is:</p>
 <p><strong>Pearson’s Correlation Coefficient</strong></p>
 <ul>
@@ -3503,9 +3456,7 @@ Caution
 <li><p>Close to <span class="math inline">\(\pm 1\)</span> means strong association</p></li>
 <li><p><span class="math inline">\(0\)</span> means no association</p></li>
 </ul>
-</section>
-<section id="pairs-of-categorical-variables" class="level4" data-number="2.4.3.2">
-<h4 data-number="2.4.3.2" class="anchored" data-anchor-id="pairs-of-categorical-variables"><span class="header-section-number">2.4.3.2</span> Pairs of Categorical Variables</h4>
+<p><strong>Pairs of Categorical Variables</strong></p>
 <p>For two categorical variables, we ask <em>Are certain combinations of categories more or less common than expected?</em></p>
 <p>The most basic tool is the <strong>contingency table</strong>. It counts how many times each combination of categories appears in the data.</p>
 <p>This table helps us to answer questions like:</p>
@@ -3561,8 +3512,8 @@ Imagine we observed <span class="math inline">\(344\)</span> penguins from three
 <p>This table shows which association or correlation measure to use depending on the types of variables, along with the appropriate R function.</p>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 24%">
-<col style="width: 24%">
+<col style="width: 25%">
+<col style="width: 25%">
 <col style="width: 25%">
 <col style="width: 25%">
 </colgroup>
@@ -3632,10 +3583,7 @@ Imagine we observed <span class="math inline">\(344\)</span> penguins from three
 </tbody>
 </table>
 <hr>
-</section>
-</section>
-<section id="notes" class="level3" data-number="2.4.4">
-<h3 data-number="2.4.4" class="anchored" data-anchor-id="notes"><span class="header-section-number">2.4.4</span> Notes</h3>
+<p><strong>Notes</strong></p>
 <ul>
 <li><strong>Spearman’s ρ</strong> and <strong>Kendall’s τ</strong> both work well for <strong>ranked data</strong> and are more robust to non-linear trends than Pearson’s r.</li>
 <li><strong>Cramér’s V</strong> is used for <strong>nominal data</strong>, and its values range from 0 to 1.</li>
@@ -3643,9 +3591,7 @@ Imagine we observed <span class="math inline">\(344\)</span> penguins from three
 <li>For <strong>ordinal + nominal</strong>, no widely accepted coefficient exists; focus on visual summaries (e.g., bar charts or stacked plots).</li>
 </ul>
 <hr>
-</section>
-<section id="example-what-should-you-use" class="level3" data-number="2.4.5">
-<h3 data-number="2.4.5" class="anchored" data-anchor-id="example-what-should-you-use"><span class="header-section-number">2.4.5</span> Example: What Should You Use?</h3>
+<p><strong>Example: What Should You Use?</strong></p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -3676,24 +3622,10 @@ Imagine we observed <span class="math inline">\(344\)</span> penguins from three
 </tr>
 </tbody>
 </table>
-</section>
-<section id="section" class="level3" data-number="2.4.6">
-<h3 data-number="2.4.6" class="anchored" data-anchor-id="section"><span class="header-section-number">2.4.6</span> </h3>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Important
-</div>
-</div>
-<div class="callout-body-container callout-body">
 <p>These summaries help us compare groups and form initial impressions (for example, the mean suggests a “typical” value). <strong>But a few numbers can not tell the whole story</strong>—different datasets can share the same mean and spread yet look very different, so always pair numbers with plots and context.</p>
-</div>
-</div>
-<section id="graphical-summaries" class="level4" data-number="2.4.6.1">
-<h4 data-number="2.4.6.1" class="anchored" data-anchor-id="graphical-summaries"><span class="header-section-number">2.4.6.1</span> Graphical Summaries</h4>
+</section>
+<section id="graphical-summaries" class="level4" data-number="2.4.2.2">
+<h4 data-number="2.4.2.2" class="anchored" data-anchor-id="graphical-summaries"><span class="header-section-number">2.4.2.2</span> Graphical Summaries</h4>
 <p>Graphs help us <strong>see patterns</strong>, <strong>spot outliers</strong>, and <strong>understand distributions</strong>.</p>
 <p>Common EDA plots include: - <strong>Histograms</strong> – show the shape and spread of a numeric variable - <strong>Boxplots</strong> – show center, spread, and outliers - <strong>Bar charts</strong> – show frequencies of categories - <strong>Scatterplots</strong> – show relationships between two numeric variables</p>
 <p>Graphs are <strong>easier to understand</strong> than tables of numbers. They help us and others <strong>see what’s going on</strong> in the data.</p>
@@ -3721,12 +3653,193 @@ Important
 </div>
 </div>
 </div>
-</section>
-</section>
-<section id="airquailty-dataset" class="level3" data-number="2.4.7">
-<h3 data-number="2.4.7" class="anchored" data-anchor-id="airquailty-dataset"><span class="header-section-number">2.4.7</span> Airquailty dataset</h3>
-<p>We will explore the <code>airquality</code> dataset, which contains daily measurement of air pollutants and weather conditions in New York City May to September 1973.</p>
-<p><strong>Step 1 –</strong> <em>How do ozone levels vary across different months in New York during the summer in 1973?</em></p>
+<section id="principles-of-analytic-graphics" class="level5" data-number="2.4.2.2.1">
+<h5 data-number="2.4.2.2.1" class="anchored" data-anchor-id="principles-of-analytic-graphics"><span class="header-section-number">2.4.2.2.1</span> Principles of Analytic Graphics</h5>
+<p>Based on <span class="citation" data-cites="Tufte2006">(<a href="#ref-Tufte2006" role="doc-biblioref">Tufte 2006</a>)</span>, there are six key principles for designing informative and effective graphs.</p>
+<p><strong>Principle 1 – Show Comparison</strong></p>
+<div class="callout callout-style-simple callout-caution no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Showing comparisons is really the basis of all good scientific investigation. <span class="citation" data-cites="Peng2012">(<a href="#ref-Peng2012" role="doc-biblioref">Peng 2012</a>)</span></p>
+</div>
+</div>
+</div>
+<p>Good data analysis always involves <strong>comparing</strong> things. A single number or result doesn’t mean much on its own. We need to ask:</p>
+<div class="callout callout-style-simple callout-important no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Compared to what?</p>
+</div>
+</div>
+</div>
+<p>For example, if we see that children with air cleaners had more symptom-free days, that sounds good. But how do we know the air cleaner made the difference? We only know that <strong>by comparing</strong> to another group of children who didn’t get the air cleaner. When we add that comparison, we can see that the control group didn’t improve — so the improvement likely came from the air cleaner.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figs/EDA/EDA-P1-a.png" class="img-fluid figure-img"></p>
+<figcaption>Change in symptom-free days with air cleaner. Source: @Peng2012</figcaption>
+</figure>
+</div>
+<div id="figEDA1" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="../figs/EDA/EDA-P1-a.png" class="img-fluid figure-img"></p>
+<figcaption>Change in symptom-free days with air cleaner. Source: @Peng2012</figcaption>
+</figure>
+</div>
+<div id="figEDA2" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="../figs/EDA/EDA-P1-b.png" class="img-fluid figure-img"></p>
+<figcaption>Change in symptom-free days by treatment group. Source: @Peng2012</figcaption>
+</figure>
+</div>
+<p>Good data graphics should always show <strong>at least two things</strong> so we can compare and understand what’s really happening.</p>
+<p><strong>Principle 2: Show Causality and Explanation</strong></p>
+<p>When making a data graphics, it is helpful to show <strong>why</strong> you think something is happening – not just what is happening. Even if you can not prove a cause, you can show your <strong>hypothesis</strong> of <strong>idea</strong> about how one thing might lead to another.</p>
+<div class="callout callout-style-simple callout-caution no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>If possible, it is always useful to show your causal framework for thinking about a question. <span class="citation" data-cites="Peng2012">(<a href="#ref-Peng2012" role="doc-biblioref">Peng 2012</a>)</span></p>
+<!-- # Generally, it is difficult to prove that one thing causes another thing even with the most carefully collected data.  But it is still often useful for your data graphics to indicate what you are thinking about in terms of cause. Such a display may suggest hypotheses or refute them, but most importantly, they will raise new questions that can be followed up with new data or analyses. -->
+</div>
+</div>
+</div>
+<p>For example, in <a href="#figEDA2">#figEDA2</a> we saw that children with an air cleaner had more symptom–free days. But that alone does not explain <strong>why</strong>. A good follow-up question is: “<em>Why did the air cleaner help?“</em> One possible reason is that air cleaners reduce <strong>fine particles</strong> in the air – especially in homes with smokers. Breathing in these particles can make asthma worse, so removing them might help children feel better. To show this, we can make a new plot.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figs/EDA/EDA-P2.png" class="img-fluid figure-img"></p>
+<figcaption>Change in symptom-free days and change in PM2.5 levels in-home. Source: <span class="citation" data-cites="Peng2012">Peng (<a href="#ref-Peng2012" role="doc-biblioref">2012</a>)</span></figcaption>
+</figure>
+</div>
+<p>From the plot, we can see:</p>
+<ul>
+<li><p>Children with air cleaners had more symptom-free days.</p></li>
+<li><p>Their homes also had <strong>less PM2.5</strong> after six months.</p></li>
+<li><p>In contrast, the control group had little improvement.</p></li>
+</ul>
+<p>This <strong>pattern supports</strong> the idea that air cleaners work by reducing harmful particles — but it is not final proof. Other things might also cause the change, so more data and careful studies are needed to confirm.</p>
+<p><strong>Principle 3: Show Multivariate Data</strong></p>
+<div class="callout callout-style-simple callout-caution no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>The real world is multivariate. <span class="citation" data-cites="Peng2012">(<a href="#ref-Peng2012" role="doc-biblioref">Peng 2012</a>)</span></p>
+</div>
+</div>
+</div>
+<p>In real life, most problems involve <strong>more than one or two variables</strong>. We call this <strong>multivariate data</strong>. Good data graphics should try to show these multiple variables at the same time, instead of reducing everything to just one number or a simple trend.</p>
+<p>Let us look at an example.</p>
+<p>The <code>mtcars</code> dataset contains information about 32 car models from the 1970s. Each row is a car and each column is a variable. Some of these variables are: <code>mpg</code>: miles per gallon (fuel efficiency), <code>wt</code>: weight (in 1000 lbs), <code>cyl</code>: number of cylanders (engine size), <code>hp</code>: horse power, <code>qsec</code>: 1/4 mile time (acceleration), <code>am</code>: Transmission (0 = auto, 1 = manual). These variables help us to explore relationship between engin size, weight, fuel use, and more.</p>
+<div id="qwebr-insertion-location-19"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>We want to know how a car’s weight affects its fuel efficiency (miles per gallon). We look at a simple scatter plot of these two variables.</p>
+<div id="qwebr-insertion-location-20"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>Heavier cars tend to have lower fuel efficiency. But is weight the only thing affecting fuel use?</p>
+<p>Cars also have different engine sizes, measured by cylinders (<code>cyl</code>). This affects both weight and fuel efficiency. To understand the relationship better, we add <code>cyl</code> as a third variable by coloring points by the number of cylinders.</p>
+<div id="qwebr-insertion-location-21"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>Now, we see that cars with 4, 6, and 8 cylinders have different trends. The overall pattern changes once we include this third variable.</p>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Caution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The number of cylinders <strong>cofounds</strong> the relationship – it influences both weight and MPG.</p>
+</div>
+</div>
+<p>To understand how the number of cylinders changes the relationship between weight and fuel efficiency, we can make separate plots for each cylinder group. This is called <strong>faceting</strong>.</p>
+<div id="qwebr-insertion-location-22"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Sometimes, looking at groups separately helps us find clearer patterns that get lost in a big mixed dataset.</p>
+</div>
+</div>
+<p>Even, we can add the variable transmission(<code>am</code>) as an additional variable by using shapes or facet.</p>
+<div id="qwebr-insertion-location-23"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="qwebr-insertion-location-24"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>Now, each panel shows either automatic automatic or manual cars. Within each panel, colors show the number of cylinders.</p>
+<p>Even we can use <code>facet_grid</code> that allows us to split the plot into rows and columns based on two categorical variables – perfect for showing how relationships vary across combinations. We will use <code>am</code> in rows and <code>cyl</code> in columns.</p>
+<div id="qwebr-insertion-location-25"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>This way, we can see how the relationship between weight and MPG changes in each group combination.</p>
+<p><strong>Principle 4: Integrate Evidence — Keep the message clear</strong></p>
+<p>When you make a graph, <em>do not rely</em> on points and lines to show your idea. You can also use: <strong>Numbers</strong> to give exact values, <strong>Words or short labels</strong> to explain what is happening, <strong>Pictures or diagrams</strong> to give context.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A good graph tells a complete story.</p>
+</div>
+</div>
+<p>Use all tools you need – not just the ones your software gives you easily.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The goal is <strong>not to just make a nice picture,</strong> but to help people understand your message clearly.</p>
+</div>
+</div>
+<p><strong>Principle 5: Describe and Document the Evidence</strong></p>
+<p>A good graph tells a story – clearly and completely. That means it should include:</p>
+<ul>
+<li><p>A clear <strong>title</strong></p></li>
+<li><p>Labels for the <strong>x-axis</strong> and <strong>y-axis</strong></p></li>
+<li><p>Units for measurement (e.g.&nbsp;‘weights in 1000 lbs’)</p></li>
+<li><p>Time scale if needed (e.g.&nbsp;‘daily’, ‘monthly’)</p></li>
+<li><p>where the data comes from (e.g., ‘New York’, ‘EPA’)</p></li>
+<li><p>source of the data</p></li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Imagine someone looking only at your plot without reading anything else. <strong>Can they understand the main idea?</strong> if yes – your plot is doing a good job.</p>
+</div>
+</div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -3737,17 +3850,63 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
+<p>Even if your graph is not <em>final</em>, it is a good habit to label things early. It helps you and others understand what is going on.</p>
+</div>
+</div>
+<p>For example, instead of using</p>
+<p>try this</p>
+<p>when we use <code>ggplot2</code>, it is better to add <code>labs()</code> like we did until now.</p>
+<p><strong>Principle 6: Content is King</strong></p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A beautiful plot means nothing if the <strong>question is weak</strong> or the d<strong>ata is poor.</strong></p>
+</div>
+</div>
+<p>Data graphics are only powerful when:</p>
+<ul>
+<li><p>the <strong>question is clear and important</strong></p></li>
+<li><p>the <strong>data is high quality and relevant</strong></p></li>
+<li><p>the <strong>evidence supports the question</strong></p></li>
+</ul>
+<p>No chart or fancy design can fix a bad question or messy data. That is why it is crucial to start with a strong idea and only show what really matters to answer that idea.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Do not just decorate your data – focus on the message!</p>
+</div>
+</div>
+</section>
+</section>
+</section>
+</section>
+<section id="airquailty-dataset" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="airquailty-dataset"><span class="header-section-number">2.5</span> Airquailty dataset</h2>
+<p>We will explore the <code>airquality</code> dataset, which contains daily measurement of air pollutants and weather conditions in New York City May to September 1973.</p>
+<p><strong>Step 1 –</strong> <em>How do ozone levels vary across different months in New York during the summer in 1973?</em></p>
 <p>This question is specific and focused: <em>One location (New York), One variable (ozone), one year and a defined time window (May to September)</em></p>
-</div>
-</div>
 <p><strong>Step 2 –</strong> The <code>airquality</code> dataset is built into R. Load it with:</p>
-<div id="qwebr-insertion-location-19"></div>
+<div id="qwebr-insertion-location-26"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p><strong>Step 3 –</strong> Check the size and dimension of the dataset</p>
-<div id="qwebr-insertion-location-20"></div>
+<div id="qwebr-insertion-location-27"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p><strong>Step 4 –</strong> run <code>str()</code></p>
-<div id="qwebr-insertion-location-21"></div>
+<div id="qwebr-insertion-location-28"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <div class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -3763,28 +3922,19 @@ Caution
 </div>
 </div>
 <p><strong>Step 5 –</strong></p>
-<div id="qwebr-insertion-location-22"></div>
+<div id="qwebr-insertion-location-29"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div id="qwebr-insertion-location-23"></div>
+<div id="qwebr-insertion-location-30"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p><strong>Step 6 –</strong></p>
 <p>First, we count how many rows (i.e., records or observations) are in the dataset.</p>
-<div id="qwebr-insertion-location-24"></div>
+<div id="qwebr-insertion-location-31"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>Missing values (denoted as <code>NA</code> in R) can lead to incorrect calculations or unexpected results. It is good practice to check how many missing values there are per variable.</p>
-<div id="qwebr-insertion-location-25"></div>
+<div id="qwebr-insertion-location-32"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Using `dplyr`
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<div id="qwebr-insertion-location-26"></div>
+<p><strong>Using `dplyr`</strong></p>
+<div id="qwebr-insertion-location-33"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>This command uses <code>across()</code> to apply the same function to all columns, and <code>sum(is.na(.))</code> to count the number of missing values per column.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
@@ -3793,21 +3943,22 @@ Using `dplyr`
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-What is ~ ?
+Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
+<p><strong>What is ~ ?</strong></p>
 <p>The <code>~</code> introduces an <strong>anonymous function</strong> — a function written inline without a name.</p>
 <p>This</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="sc">~</span> <span class="fu">sum</span>(<span class="fu">is.na</span>(.))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="sc">~</span> <span class="fu">sum</span>(<span class="fu">is.na</span>(.))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>~sum(is.na(.))</code></pre>
 </div>
 </div>
 <p>is a shorthand for</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span>(x) <span class="fu">sum</span>(<span class="fu">is.na</span>(x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span>(x) <span class="fu">sum</span>(<span class="fu">is.na</span>(x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>function (x) 
 sum(is.na(x))</code></pre>
@@ -3815,81 +3966,78 @@ sum(is.na(x))</code></pre>
 </div>
 </div>
 </div>
-</div>
-</div>
 <p>Or, we can check how many rows are from July:</p>
-<div id="qwebr-insertion-location-27"></div>
+<div id="qwebr-insertion-location-34"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>check how many missing values are just in August.</p>
-<div id="qwebr-insertion-location-28"></div>
+<div id="qwebr-insertion-location-35"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p><strong>Step 7 –</strong> According to the U.S. EPA, ozone levels above 70 parts per billion (ppb) may be considered unhealthy.</p>
-<div id="qwebr-insertion-location-29"></div>
+<div id="qwebr-insertion-location-36"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>Based on the output, many days have safe levels and some days have extremely high ozone levels.</p>
 <p><strong>Step 8 –</strong> Let us check the average ozone level by month:</p>
-<div id="qwebr-insertion-location-30"></div>
+<div id="qwebr-insertion-location-37"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>This gives a quick overview of how ozone levels change over the summer. Let visualize it:</p>
-<div id="qwebr-insertion-location-31"></div>
+<div id="qwebr-insertion-location-38"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>Based on the plot, we observe that July and August have the highest median ozone levels, showing that typical ozone concentrations were significantly higher during mid-summer. This suggests a seasonal pattern, likely driven by higher temperatures and increased sunlight, which promote the formation of ozone. The taller boxes and whiskers for these months reflect a greater variability in ozone levels, including several high outliers. In contrast, May and September show lower median values and less variation, possibly due to cooler temperatures and different atmospheric conditions. The median ozone level is June is slightly higher than in May but lower than in July, with a moderate level of variability. Overall, this seasonal trend is consistent with environmental science – <strong>ozone forms more easily in strong sunlight and warm conditions</strong>, which are more prevalent in July and August.</p>
 <p><strong>Step 9 –</strong> Let us examine whether temperature or wind speed might help explain ozone patterns.</p>
-<div id="qwebr-insertion-location-32"></div>
+<div id="qwebr-insertion-location-39"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div id="qwebr-insertion-location-33"></div>
+<div id="qwebr-insertion-location-40"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>You may observe that there is a <em>positive</em> relationship between temperature and ozone and a <em>negative</em> relationship between wind speed and ozone. These patterns support common environmental science findings.</p>
 <p><strong>Step 10 –</strong> Based on our findings, we might fit a simple regression model</p>
-<div id="qwebr-insertion-location-34"></div>
+<div id="qwebr-insertion-location-41"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>We might also refine our question: <em>On which days was the ozone level unusually high, and what were the weather conditions on those days?</em></p>
-<section id="alternative-question" class="level4" data-number="2.4.7.1">
-<h4 data-number="2.4.7.1" class="anchored" data-anchor-id="alternative-question"><span class="header-section-number">2.4.7.1</span> Alternative question</h4>
+<p>Alternative question</p>
 <p><strong><em>Step 1 – Which weather factor—temperature, wind, or solar radiation—has the strongest relationship with ozone levels during the summer of 1973 in New York?</em></strong></p>
 <p>This question is more analytical than descriptive, and focused on <strong>relationships</strong> between variables. So, we need to examine how ozone changes with respect to other variables.</p>
 <p><strong>Step 2 –</strong></p>
-<div id="qwebr-insertion-location-35"></div>
+<div id="qwebr-insertion-location-42"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p><strong>Step 3 –</strong></p>
-<div id="qwebr-insertion-location-36"></div>
+<div id="qwebr-insertion-location-43"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p><strong>Step 4 –</strong></p>
-<div id="qwebr-insertion-location-37"></div>
+<div id="qwebr-insertion-location-44"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p><strong>Step 5 –</strong></p>
-<div id="qwebr-insertion-location-38"></div>
+<div id="qwebr-insertion-location-45"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div id="qwebr-insertion-location-39"></div>
+<div id="qwebr-insertion-location-46"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p><strong>Step 6 –</strong></p>
-<div id="qwebr-insertion-location-40"></div>
+<div id="qwebr-insertion-location-47"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p><strong>Step 7 –</strong></p>
 <p>Check how often ozone exceeds EPA’s 70 ppb guideline:</p>
-<div id="qwebr-insertion-location-41"></div>
+<div id="qwebr-insertion-location-48"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p><strong>Step 8 –</strong></p>
 <p>Since <code>dplyr</code> does not include a <code>cor()</code> function, we will compute correlations manually using <code>summarise()</code> and <code>cor()</code> from base R, keeping within tidy pipelines:</p>
-<div id="qwebr-insertion-location-42"></div>
+<div id="qwebr-insertion-location-49"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div id="qwebr-insertion-location-43"></div>
+<div id="qwebr-insertion-location-50"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div id="qwebr-insertion-location-44"></div>
+<div id="qwebr-insertion-location-51"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div id="qwebr-insertion-location-45"></div>
+<div id="qwebr-insertion-location-52"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p><strong>More advanced:</strong></p>
-<div id="qwebr-insertion-location-46"></div>
+<div id="qwebr-insertion-location-53"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>But sometimes, a simple code gives the more informative output:</p>
-<div id="qwebr-insertion-location-47"></div>
+<div id="qwebr-insertion-location-54"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>visualize the relationships:</p>
-<div id="qwebr-insertion-location-48"></div>
+<div id="qwebr-insertion-location-55"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p><strong>Step 9 –</strong></p>
-<div id="qwebr-insertion-location-49"></div>
+<div id="qwebr-insertion-location-56"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>When we check p-values and coefficients, we see <code>Temp</code> has strong and significant positive effect, <code>Wind</code> has strong and significant negative effect, and <code>Solar.R</code> has weaker effect but still contributes.</p>
 <p><strong>Step 10 –</strong></p>
@@ -3902,19 +4050,7 @@ sum(is.na(x))</code></pre>
 <li><p>Do results change if the we include time (e.g.&nbsp;month)?</p></li>
 </ul>
 <p>We might now refine our question: <em>How much does temperature need to rise before ozone levels exceed the 70 ppb threshold?</em></p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
 <p>As Tukey emphasized, EDA is about “detecting the unexpected” and <strong>learning from the data before attempting to explain it</strong>.</p>
-</div>
-</div>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -3977,968 +4113,6 @@ Tip
 <p>Do not wait for the perfect question - <strong>just start</strong>. Exploration will lead you to insight.</p>
 </div>
 </div>
-</section>
-</section>
-</section>
-<section id="principles-of-analytic-graphics" class="level2" data-number="2.5">
-<h2 data-number="2.5" class="anchored" data-anchor-id="principles-of-analytic-graphics"><span class="header-section-number">2.5</span> Principles of Analytic Graphics</h2>
-<p>Based on <span class="citation" data-cites="Tufte2006">(<a href="#ref-Tufte2006" role="doc-biblioref">Tufte 2006</a>)</span>, there are six key principles for designing informative and effective graphs.</p>
-<section id="principle-1-show-comparison" class="level3" data-number="2.5.1">
-<h3 data-number="2.5.1" class="anchored" data-anchor-id="principle-1-show-comparison"><span class="header-section-number">2.5.1</span> Principle 1 – Show Comparison</h3>
-<div class="callout callout-style-simple callout-caution no-icon">
-<div class="callout-body d-flex">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-body-container">
-<p>Showing comparisons is really the basis of all good scientific investigation. <span class="citation" data-cites="Peng2012">(<a href="#ref-Peng2012" role="doc-biblioref">Peng 2012</a>)</span></p>
-</div>
-</div>
-</div>
-<p>Good data analysis always involves <strong>comparing</strong> things. A single number or result doesn’t mean much on its own. We need to ask:</p>
-<div class="callout callout-style-simple callout-important no-icon">
-<div class="callout-body d-flex">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-body-container">
-<p>Compared to what?</p>
-</div>
-</div>
-</div>
-<p>For example, if we see that children with air cleaners had more symptom-free days, that sounds good. But how do we know the air cleaner made the difference? We only know that <strong>by comparing</strong> to another group of children who didn’t get the air cleaner. When we add that comparison, we can see that the control group didn’t improve — so the improvement likely came from the air cleaner.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="../figs/EDA/EDA-P1-a.png" class="img-fluid figure-img"></p>
-<figcaption>Change in symptom-free days with air cleaner. Source: @Peng2012</figcaption>
-</figure>
-</div>
-<div id="figEDA1" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="../figs/EDA/EDA-P1-a.png" class="img-fluid figure-img"></p>
-<figcaption>Change in symptom-free days with air cleaner. Source: @Peng2012</figcaption>
-</figure>
-</div>
-<div id="figEDA2" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="../figs/EDA/EDA-P1-b.png" class="img-fluid figure-img"></p>
-<figcaption>Change in symptom-free days by treatment group. Source: @Peng2012</figcaption>
-</figure>
-</div>
-<p>Good data graphics should always show <strong>at least two things</strong> so we can compare and understand what’s really happening.</p>
-</section>
-<section id="principle-2-show-causality-and-explanation" class="level3" data-number="2.5.2">
-<h3 data-number="2.5.2" class="anchored" data-anchor-id="principle-2-show-causality-and-explanation"><span class="header-section-number">2.5.2</span> Principle 2: Show Causality and Explanation</h3>
-<p>When making a data graphics, it is helpful to show <strong>why</strong> you think something is happening – not just what is happening. Even if you can not prove a cause, you can show your <strong>hypothesis</strong> of <strong>idea</strong> about how one thing might lead to another.</p>
-<div class="callout callout-style-simple callout-caution no-icon">
-<div class="callout-body d-flex">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-body-container">
-<p>If possible, it is always useful to show your causal framework for thinking about a question. <span class="citation" data-cites="Peng2012">(<a href="#ref-Peng2012" role="doc-biblioref">Peng 2012</a>)</span></p>
-<!-- # Generally, it is difficult to prove that one thing causes another thing even with the most carefully collected data.  But it is still often useful for your data graphics to indicate what you are thinking about in terms of cause. Such a display may suggest hypotheses or refute them, but most importantly, they will raise new questions that can be followed up with new data or analyses. -->
-</div>
-</div>
-</div>
-<p>For example, in <a href="#figEDA2">#figEDA2</a> we saw that children with an air cleaner had more symptom–free days. But that alone does not explain <strong>why</strong>. A good follow-up question is: “<em>Why did the air cleaner help?“</em> One possible reason is that air cleaners reduce <strong>fine particles</strong> in the air – especially in homes with smokers. Breathing in these particles can make asthma worse, so removing them might help children feel better. To show this, we can make a new plot.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="../figs/EDA/EDA-P2.png" class="img-fluid figure-img"></p>
-<figcaption>Change in symptom-free days and change in PM2.5 levels in-home. Source: <span class="citation" data-cites="Peng2012">Peng (<a href="#ref-Peng2012" role="doc-biblioref">2012</a>)</span></figcaption>
-</figure>
-</div>
-<p>From the plot, we can see:</p>
-<ul>
-<li><p>Children with air cleaners had more symptom-free days.</p></li>
-<li><p>Their homes also had <strong>less PM2.5</strong> after six months.</p></li>
-<li><p>In contrast, the control group had little improvement.</p></li>
-</ul>
-<p>This <strong>pattern supports</strong> the idea that air cleaners work by reducing harmful particles — but it is not final proof. Other things might also cause the change, so more data and careful studies are needed to confirm.</p>
-</section>
-<section id="principle-3-show-multivariate-data" class="level3" data-number="2.5.3">
-<h3 data-number="2.5.3" class="anchored" data-anchor-id="principle-3-show-multivariate-data"><span class="header-section-number">2.5.3</span> Principle 3: Show Multivariate Data</h3>
-<div class="callout callout-style-simple callout-caution no-icon">
-<div class="callout-body d-flex">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-body-container">
-<p>The real world is multivariate. <span class="citation" data-cites="Peng2012">(<a href="#ref-Peng2012" role="doc-biblioref">Peng 2012</a>)</span></p>
-</div>
-</div>
-</div>
-<p>In real life, most problems involve <strong>more than one or two variables</strong>. We call this <strong>multivariate data</strong>. Good data graphics should try to show these multiple variables at the same time, instead of reducing everything to just one number or a simple trend.</p>
-<p>Let us look at an example.</p>
-<p>The <code>mtcars</code> dataset contains information about 32 car models from the 1970s. Each row is a car and each column is a variable. Some of these variables are: <code>mpg</code>: miles per gallon (fuel efficiency), <code>wt</code>: weight (in 1000 lbs), <code>cyl</code>: number of cylanders (engine size), <code>hp</code>: horse power, <code>qsec</code>: 1/4 mile time (acceleration), <code>am</code>: Transmission (0 = auto, 1 = manual). These variables help us to explore relationship between engin size, weight, fuel use, and more.</p>
-<div id="qwebr-insertion-location-50"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>We want to know how a car’s weight affects its fuel efficiency (miles per gallon). We look at a simple scatter plot of these two variables.</p>
-<div id="qwebr-insertion-location-51"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>Heavier cars tend to have lower fuel efficiency. But is weight the only thing affecting fuel use?</p>
-<p>Cars also have different engine sizes, measured by cylinders (<code>cyl</code>). This affects both weight and fuel efficiency. To understand the relationship better, we add <code>cyl</code> as a third variable by coloring points by the number of cylinders.</p>
-<div id="qwebr-insertion-location-52"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>Now, we see that cars with 4, 6, and 8 cylinders have different trends. The overall pattern changes once we include this third variable.</p>
-<div class="callout callout-style-default callout-caution callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Caution
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The number of cylinders <strong>cofounds</strong> the relationship – it influences both weight and MPG.</p>
-</div>
-</div>
-<p>To understand how the number of cylinders changes the relationship between weight and fuel efficiency, we can make separate plots for each cylinder group. This is called <strong>faceting</strong>.</p>
-<div id="qwebr-insertion-location-53"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Important
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Sometimes, looking at groups separately helps us find clearer patterns that get lost in a big mixed dataset.</p>
-</div>
-</div>
-<p>Even, we can add the variable transmission(<code>am</code>) as an additional variable by using shapes or facet.</p>
-<div id="qwebr-insertion-location-54"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div id="qwebr-insertion-location-55"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>Now, each panel shows either automatic automatic or manual cars. Within each panel, colors show the number of cylinders.</p>
-<p>Even we can use <code>facet_grid</code> that allows us to split the plot into rows and columns based on two categorical variables – perfect for showing how relationships vary across combinations. We will use <code>am</code> in rows and <code>cyl</code> in columns.</p>
-<div id="qwebr-insertion-location-56"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>This way, we can see how the relationship between weight and MPG changes in each group combination.</p>
-</section>
-<section id="principle-4-integrate-evidence-keep-the-message-clear" class="level3" data-number="2.5.4">
-<h3 data-number="2.5.4" class="anchored" data-anchor-id="principle-4-integrate-evidence-keep-the-message-clear"><span class="header-section-number">2.5.4</span> Principle 4: Integrate Evidence — Keep the message clear</h3>
-<p>When you make a graph, <em>do not rely</em> on points and lines to show your idea. You can also use: <strong>Numbers</strong> to give exact values, <strong>Words or short labels</strong> to explain what is happening, <strong>Pictures or diagrams</strong> to give context.</p>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Important
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>A good graph tells a complete story.</p>
-</div>
-</div>
-<p>Use all tools you need – not just the ones your software gives you easily.</p>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Important
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The goal is <strong>not to just make a nice picture,</strong> but to help people understand your message clearly.</p>
-</div>
-</div>
-</section>
-<section id="principle-5-describe-and-document-the-evidence" class="level3" data-number="2.5.5">
-<h3 data-number="2.5.5" class="anchored" data-anchor-id="principle-5-describe-and-document-the-evidence"><span class="header-section-number">2.5.5</span> Principle 5: Describe and Document the Evidence</h3>
-<p>A good graph tells a story – clearly and completely. That means it should include:</p>
-<ul>
-<li><p>A clear <strong>title</strong></p></li>
-<li><p>Labels for the <strong>x-axis</strong> and <strong>y-axis</strong></p></li>
-<li><p>Units for measurement (e.g.&nbsp;‘weights in 1000 lbs’)</p></li>
-<li><p>Time scale if needed (e.g.&nbsp;‘daily’, ‘monthly’)</p></li>
-<li><p>where the data comes from (e.g., ‘New York’, ‘EPA’)</p></li>
-<li><p>source of the data</p></li>
-</ul>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Imagine someone looking only at your plot without reading anything else. <strong>Can they understand the main idea?</strong> if yes – your plot is doing a good job.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Even if your graph is not <em>final</em>, it is a good habit to label things early. It helps you and others understand what is going on.</p>
-</div>
-</div>
-<p>For example, instead of using</p>
-<p>try this</p>
-<p>when we use <code>ggplot2</code>, it is better to add <code>labs()</code> like we did until now.</p>
-</section>
-<section id="principle-6-content-is-king" class="level3" data-number="2.5.6">
-<h3 data-number="2.5.6" class="anchored" data-anchor-id="principle-6-content-is-king"><span class="header-section-number">2.5.6</span> Principle 6: Content is King</h3>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Important
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>A beautiful plot means nothing if the <strong>question is weak</strong> or the d<strong>ata is poor.</strong></p>
-</div>
-</div>
-<p>Data graphics are only powerful when:</p>
-<ul>
-<li><p>the <strong>question is clear and important</strong></p></li>
-<li><p>the <strong>data is high quality and relevant</strong></p></li>
-<li><p>the <strong>evidence supports the question</strong></p></li>
-</ul>
-<p>No chart or fancy design can fix a bad question or messy data. That is why it is crucial to start with a strong idea and only show what really matters to answer that idea.</p>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Do not just decorate your data – focus on the message!</p>
-</div>
-</div>
-</section>
-</section>
-<section id="enter-the-world-of-eda-1" class="level2" data-number="2.6">
-<h2 data-number="2.6" class="anchored" data-anchor-id="enter-the-world-of-eda-1"><span class="header-section-number">2.6</span> Enter the world of EDA</h2>
-<p>EDA is the process of looking at data to understand it before using statistics or models. It helps us to answer questions like: - what types of data do we have? - Are there missing or strange values? - What patterns can we see? - What kind of summary or visualization is helpful?</p>
-<p>Before we start any analysis, we must know <em>what kind of data</em> we are working with. Variables can be broadly divided into <strong>numeric</strong> and <strong>categorical</strong> types.</p>
-<section id="types-of-variables-1" class="level3" data-number="2.6.1">
-<h3 data-number="2.6.1" class="anchored" data-anchor-id="types-of-variables-1"><span class="header-section-number">2.6.1</span> Types of Variables</h3>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Important
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Knowing the types of data matters because:</p>
-<ul>
-<li><p>Different statistics method are used for different variable types.</p></li>
-<li><p>Some graphs are only useful for some types of variables.</p></li>
-</ul>
-</div>
-</div>
-<section id="numerical-variables-1" class="level4" data-number="2.6.1.1">
-<h4 data-number="2.6.1.1" class="anchored" data-anchor-id="numerical-variables-1"><span class="header-section-number">2.6.1.1</span> Numerical variables</h4>
-<p>Numeric variables describe <strong>quantities</strong> that we can measure — they answer questions like “how many?” or “how much?”. These variables are also called <strong>quantitative variables</strong>, and the data they produce are known as <strong>quantitative data</strong>. Briefly, they are <strong>numbers</strong> that can be measured. Also, we can do math with them.</p>
-<section id="continuous-vs.-discrete" class="level5" data-number="2.6.1.1.1">
-<h5 data-number="2.6.1.1.1" class="anchored" data-anchor-id="continuous-vs.-discrete"><span class="header-section-number">2.6.1.1.1</span> Continuous vs.&nbsp;Discrete</h5>
-<p>Numeric variables can be:</p>
-<p><strong>Continuous</strong></p>
-<ul>
-<li>Can take <strong>any value</strong> on a number line, including decimals.</li>
-<li>Represent <strong>real-world quantities</strong>.</li>
-</ul>
-<p>Some examples are: <em>mass</em>, <em>age</em>, <em>temperature, time.</em></p>
-<p>Continuous variables can be <strong>positive only</strong> (like mass) or <strong>positive and negative</strong> (like change in temperature).</p>
-<p><strong>Discrete</strong></p>
-<ul>
-<li><p>Can take <strong>only whole number values</strong> (no decimals).</p></li>
-<li><p>Based on <strong>counting</strong>.</p></li>
-</ul>
-<p>Some examples are: <em>number of students, number of offspring, number of infected individuals</em></p>
-<p>A discrete variable cannot take values between integers — e.g., it makes no sense to have 2.5 individuals.</p>
-</section>
-<section id="ratio-vs.-interval" class="level5" data-number="2.6.1.1.2">
-<h5 data-number="2.6.1.1.2" class="anchored" data-anchor-id="ratio-vs.-interval"><span class="header-section-number">2.6.1.1.2</span> Ratio vs.&nbsp;Interval</h5>
-<p>Numeric variables can be further described based on the <strong>scale</strong> they are measured on: <strong>ratio</strong> or <strong>interval</strong>. This affects how we can interpret differences, proportions, and calculations.</p>
-<p><strong>Ratio</strong></p>
-<ul>
-<li><p>Has a <strong>true zero</strong> point (zero means “none”).</p></li>
-<li><p>Allows <strong>all mathematical operations</strong>, including ratios.</p></li>
-</ul>
-<p>Some examples are: <em>Height, Weight, Age, Income, mass.</em></p>
-<p>You can say: “Tree A is <strong>twice as tall</strong> as Tree B.”</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-What we can do:
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<ul>
-<li><p>All descriptive statistics</p></li>
-<li><p>Use histograms, box-plots, scatterplots</p></li>
-</ul>
-</div>
-</div>
-<p><strong>Interval</strong></p>
-<ul>
-<li>Has <strong>no true zero</strong> — the zero point is <strong>arbitrary</strong>.</li>
-<li>Allows meaningful <strong>differences</strong>, but <strong>not ratios</strong>.</li>
-</ul>
-<p>Some examples are <em>Temperature (</em>in Celsius of Fahrenheit), <em>IQ scores,</em> Calendar dates (e.g.&nbsp;year 1000 vs 2000)</p>
-<p>You can say: “The <strong>difference</strong> between 20°C and 10°C is 10 degrees.” <strong>But not</strong>: “20°C is <strong>twice as hot</strong> as 10°C.”</p>
-<section id="what-we-can-do-1" class="level6" data-number="2.6.1.1.2.1">
-<h6 data-number="2.6.1.1.2.1" class="anchored" data-anchor-id="what-we-can-do-1"><span class="header-section-number">2.6.1.1.2.1</span> What we can do:</h6>
-<ul>
-<li><p>calculate mean, standard deviation</p></li>
-<li><p>plot histograms or line charts</p></li>
-</ul>
-<div class="callout callout-style-default callout-caution callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Caution
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The difference between <strong>ratio</strong> and <strong>interval</strong> is about <strong>how the variable is measured</strong>, not what is being measured.</p>
-<p>For example, <strong>Temperature</strong> can be measured on:</p>
-<ul>
-<li>The <strong>Celsius scale</strong> that results in an <strong>interval scale</strong> (no true zero).</li>
-<li>The <strong>Kelvin scale</strong> that results in a <strong>ratio scale</strong> (zero means no temperature, i.e.&nbsp;absolute zero).</li>
-</ul>
-<p>So, the same <strong>thing</strong> (temperature) can be: an <strong>interval variable</strong> (in °C), or a <strong>ratio variable</strong> (in K), depending on the <strong>scale</strong> we use.</p>
-</div>
-</div>
-</section>
-</section>
-</section>
-<section id="categorical-variables-1" class="level4" data-number="2.6.1.2">
-<h4 data-number="2.6.1.2" class="anchored" data-anchor-id="categorical-variables-1"><span class="header-section-number">2.6.1.2</span> Categorical Variables</h4>
-<p>Categorical variables describe <strong>qualities</strong> or <strong>characteristics</strong>. They answer questions like “what type?” or “which group?”. These are also known as <strong>qualitative variables</strong>, and the data they produce are <strong>qualitative data</strong>.</p>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Important
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Categorical variables do <strong>not</strong> have numeric meaning (even if coded as numbers!).</p>
-</div>
-</div>
-<p>Categorical variables fall into two groups:</p>
-<p><strong>Nominal Variables</strong></p>
-<ul>
-<li><p>Categories have <strong>no logical order</strong>.</p></li>
-<li><p>Only show <strong>labels</strong> or <strong>names</strong>.</p></li>
-</ul>
-<p>For example, <em>Gender</em> (male, female), <em>Blood group (</em>A, B, AB, O), <em>City</em> (Lisbon, Porto, Faro, … ), <em>color</em> (red, blue, green)</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-What we can do:
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<ul>
-<li><p>Count frequencies (e.g.&nbsp;how many students are from each city)</p></li>
-<li><p>Use bar charts or pie charts</p></li>
-</ul>
-</div>
-</div>
-<p><strong>Ordinal Variables</strong></p>
-<ul>
-<li><p>Categories <strong>can be ordered</strong> or ranked.</p></li>
-<li><p>But the <strong>distance between categories is not exact</strong>.</p></li>
-</ul>
-<p>For example, <em>Satisfaction</em> (low, medium, high), <em>education</em> (primary, secondary, university), <em>rank</em> (1st, 2nd, 3rd), <em>Academic grades</em> (A, B, C)</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-What we can do:
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<ul>
-<li><p>Count frequencies</p></li>
-<li><p>Compare medians</p></li>
-<li><p>Use bar charts or ordered plots</p></li>
-</ul>
-</div>
-</div>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Important
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>Do not use numbers to label categories.</strong><br>
-Even though categories <strong>can be coded</strong> as numbers (e.g., Male = 1, Female = 2), this can be <strong>confusing</strong>. It may suggest an order or imply mathematical operations that don’t make sense.</p>
-<div class="callout callout-style-simple callout-tip no-icon">
-<div class="callout-body d-flex">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-body-container">
-<p><strong>Tip:</strong> Use <strong>text labels</strong> like <code>"Male"</code> and <code>"Female"</code> instead of <code>1</code> and <code>2</code>.</p>
-</div>
-</div>
-</div>
-</div>
-</div>
-<p><strong>Summary of Variable Types</strong></p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 16%">
-<col style="width: 16%">
-<col style="width: 16%">
-<col style="width: 16%">
-<col style="width: 16%">
-<col style="width: 16%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Variable Type</th>
-<th>Scale</th>
-<th>Ordered?</th>
-<th>Can Measure Distance?</th>
-<th>Can Divide?</th>
-<th>Examples</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><strong>Nominal</strong></td>
-<td>Categorical</td>
-<td>❌ No</td>
-<td>❌ No</td>
-<td>❌ No</td>
-<td>Gender, City, Color</td>
-</tr>
-<tr class="even">
-<td><strong>Ordinal</strong></td>
-<td>Categorical</td>
-<td>✅ Yes</td>
-<td>❌ No (not exact)</td>
-<td>❌ No</td>
-<td>Rank, Education, Likert</td>
-</tr>
-<tr class="odd">
-<td><strong>Interval</strong></td>
-<td>Numeric</td>
-<td>✅ Yes</td>
-<td>✅ Yes</td>
-<td>❌ No</td>
-<td>Temperature, Year</td>
-</tr>
-<tr class="even">
-<td><strong>Ratio</strong></td>
-<td>Numeric</td>
-<td>✅ Yes</td>
-<td>✅ Yes</td>
-<td>✅ Yes</td>
-<td>Age, Weight, Income</td>
-</tr>
-</tbody>
-</table>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>If you are not sure about a variable, ask:</p>
-<ul>
-<li>Does the variable <strong>have a natural order</strong>?</li>
-<li>Can we <strong>count it</strong> or <strong>measure it</strong>?</li>
-<li>Does it have a <strong>true zero</strong>?</li>
-</ul>
-</div>
-</div>
-</section>
-</section>
-<section id="types-of-eda-1" class="level3" data-number="2.6.2">
-<h3 data-number="2.6.2" class="anchored" data-anchor-id="types-of-eda-1"><span class="header-section-number">2.6.2</span> Types of EDA</h3>
-<p>EDA helps us answer important questions like:</p>
-<ul>
-<li>What are the most common values of a variable?</li>
-<li>How much do observations differ from each other?</li>
-<li>Is one variable related to another?</li>
-</ul>
-<p>To answer these questions, EDA uses two main tools:</p>
-<section id="descriptive-statistics-1" class="level4" data-number="2.6.2.1">
-<h4 data-number="2.6.2.1" class="anchored" data-anchor-id="descriptive-statistics-1"><span class="header-section-number">2.6.2.1</span> Descriptive Statistics</h4>
-<p>Descriptive statistics give <strong>numerical summaries</strong> of a dataset. They describe the basic features of a variable, such as:</p>
-<ul>
-<li><strong>Center</strong> (e.g.&nbsp;mean or median)</li>
-<li><strong>Spread</strong> (e.g.&nbsp;standard deviation or interquartile range)</li>
-<li><strong>Shape</strong> (e.g.&nbsp;skewness)</li>
-<li><strong>Extremes</strong> (e.g.&nbsp;minimum, maximum, or outliers)</li>
-</ul>
-<p>These summaries help us <strong>compare groups</strong> or <strong>make initial conclusions</strong>.<br>
-For example, the <strong>mean</strong> tells us what the “typical” value might be.</p>
-<p>But: <strong>A few numbers can’t tell the whole story.</strong></p>
-</section>
-<section id="graphical-summaries-1" class="level4" data-number="2.6.2.2">
-<h4 data-number="2.6.2.2" class="anchored" data-anchor-id="graphical-summaries-1"><span class="header-section-number">2.6.2.2</span> Graphical Summaries</h4>
-<p>Graphs help us <strong>see patterns</strong>, <strong>spot outliers</strong>, and <strong>understand distributions</strong>.</p>
-<p>Common EDA plots include: - <strong>Histograms</strong> – show the shape and spread of a numeric variable - <strong>Boxplots</strong> – show center, spread, and outliers - <strong>Bar charts</strong> – show frequencies of categories - <strong>Scatterplots</strong> – show relationships between two numeric variables</p>
-<p>Graphs are <strong>easier to understand</strong> than tables of numbers. They help us and others <strong>see what’s going on</strong> in the data.</p>
-</section>
-</section>
-<section id="a-review-on-descriptive-statistics" class="level3" data-number="2.6.3">
-<h3 data-number="2.6.3" class="anchored" data-anchor-id="a-review-on-descriptive-statistics"><span class="header-section-number">2.6.3</span> A Review on Descriptive Statistics</h3>
-<p>Statisticians have created more precise terms to describe the patterns in data, called <strong>descriptive statistics</strong>.</p>
-<p>The two most important features of a numeric variable’s distribution are:</p>
-<ul>
-<li><strong>Central tendency</strong>: What is a typical value?</li>
-<li><strong>Dispersion</strong>: How spread out are the values?</li>
-</ul>
-</section>
-<section id="central-tendency" class="level3" data-number="2.6.4">
-<h3 data-number="2.6.4" class="anchored" data-anchor-id="central-tendency"><span class="header-section-number">2.6.4</span> <strong>Central Tendency</strong></h3>
-<p>A <strong>measure of central tendency</strong> tells us what a “typical” value looks like in the data. There are three main measures: <strong>Mean</strong>, <strong>Median</strong>, <strong>Mode</strong></p>
-<section id="arithmetic-mean-average" class="level4" data-number="2.6.4.1">
-<h4 data-number="2.6.4.1" class="anchored" data-anchor-id="arithmetic-mean-average"><span class="header-section-number">2.6.4.1</span> Arithmetic Mean (Average)</h4>
-<p>[We should add the definition]</p>
-<p>function <code>mean()</code></p>
-<p>Sometimes, we use <code>na.rm = TRUE</code> to ignore missing values.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>Be careful:</strong> The mean is sensitive to extreme values (outliers).<br>
-For example, using the mean to describe <strong>income</strong> is misleading because a few very high earners can pull the average up.</p>
-</div>
-</div>
-</section>
-<section id="median" class="level4" data-number="2.6.4.2">
-<h4 data-number="2.6.4.2" class="anchored" data-anchor-id="median"><span class="header-section-number">2.6.4.2</span> Median</h4>
-<p>[We should add the definition]</p>
-<ul>
-<li>The <strong>middle value</strong> when data are sorted.</li>
-<li>More <strong>robust</strong> than the mean when data are skewed.</li>
-</ul>
-<p>function <code>median()</code></p>
-</section>
-<section id="mode" class="level4" data-number="2.6.4.3">
-<h4 data-number="2.6.4.3" class="anchored" data-anchor-id="mode"><span class="header-section-number">2.6.4.3</span> Mode</h4>
-<ul>
-<li>The <strong>most frequent value</strong> in the data.</li>
-<li>Conceptually useful, but hard to estimate in numeric data.</li>
-<li>Used more often for <strong>categorical variables</strong>.</li>
-</ul>
-</section>
-</section>
-<section id="dispersion" class="level3" data-number="2.6.5">
-<h3 data-number="2.6.5" class="anchored" data-anchor-id="dispersion"><span class="header-section-number">2.6.5</span> Dispersion</h3>
-<p><strong>Dispersion</strong> tells us how much values differ from one another. A dataset where all values are similar has <strong>low dispersion</strong>; one with a wide range of values has <strong>high dispersion</strong>.</p>
-<p>A <strong>measure of dispersion</strong> tells us <strong>how spread out</strong> the values of a variable are.</p>
-<p>Dispersion measures help us understand <strong>how much the data varies</strong> — whether most values are close together or far apart.</p>
-<p>If one distribution is <strong>more dispersed</strong> than another, it means it includes a <strong>wider range</strong> of values.</p>
-<p>There are many ways to measure dispersion, but the most common ones are:</p>
-<ul>
-<li><strong>Variance</strong> – how far values are from the mean (on average, squared)</li>
-<li><strong>Standard deviation</strong> – the square root of the variance, easier to interpret</li>
-<li><strong>Interquartile range (IQR)</strong> – the spread of the middle 50% of the values</li>
-</ul>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Each of these gives us a different way to understand <strong>how variable</strong> the data is.</p>
-</div>
-</div>
-<section id="variance" class="level4" data-number="2.6.5.1">
-<h4 data-number="2.6.5.1" class="anchored" data-anchor-id="variance"><span class="header-section-number">2.6.5.1</span> Variance</h4>
-<ul>
-<li>Measures the <strong>average squared distance</strong> from the mean.</li>
-<li>Hard to interpret because it’s in <strong>squared units</strong>.</li>
-</ul>
-<p>The <strong>sample variance</strong>, written as <code>s²</code>, is: <em>the average of the <strong>squared differences</strong> between each value and the mean.</em></p>
-<p>Key facts about variance:</p>
-<ul>
-<li>It is always <strong>non-negative</strong>.</li>
-<li>A <strong>larger variance</strong> means the data are more spread out.</li>
-<li>A variance of <strong>zero</strong> means all values are <strong>exactly the same</strong>.</li>
-</ul>
-<p>In R, we can calculate it using the <code>var()</code> function</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(penguins<span class="sc">$</span>body_mass_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<pre><code>## [1] 643131.1</code></pre>
-<p>That’s a large number — but what does it really tell us?</p>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Important
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>It’s hard to say if that number is “big” or “small.”<br>
-That’s because variance is in <strong>squared units</strong>, which are difficult to interpret directly.<br>
-For example, here it’s in <strong>grams squared</strong>, which is not easy to relate to actual body mass.</p>
-</div>
-</div>
-<p><strong>Why does variance matter?</strong></p>
-<p>Variance is an important quantity in statistics. Many <strong>statistical tests</strong> use changes in variance to compare groups or detect effects.</p>
-<p>But in <strong>EDA</strong>, we <strong>rarely use</strong> the variance.<br>
-Instead, we often prefer the <strong>standard deviation</strong>, because it is <strong>easier to understand</strong>.</p>
-<p>This is hard to interpret directly — that is why we usually prefer the <strong>standard deviation</strong>.</p>
-</section>
-<section id="standard-deviation" class="level4" data-number="2.6.5.2">
-<h4 data-number="2.6.5.2" class="anchored" data-anchor-id="standard-deviation"><span class="header-section-number">2.6.5.2</span> Standard Deviation</h4>
-<p>A more useful measure of dispersion is the <strong>standard deviation</strong>, usually written as <code>s</code>.</p>
-<p>The <strong>standard deviation</strong> is: <em>the <strong>square root</strong> of the variance.</em></p>
-<p>Because it is not squared, it has the <strong>same unit</strong> as the original data.<br>
-This makes it <strong>easier to interpret</strong> than the variance.</p>
-<ul>
-<li>Square root of the variance.</li>
-<li>Has the <strong>same unit</strong> as the variable.</li>
-<li>More interpretable than variance.</li>
-</ul>
-<p>Like the mean, the standard deviation is <strong>sensitive to outliers</strong>.</p>
-<p>In R, we use the <code>sd()</code> function:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(penguins<span class="sc">$</span>body_mass_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<pre><code>## [1] 801.9545</code></pre>
-<p>This tells us that most penguins have body mass values within about <strong>802 grams</strong> of the mean.</p>
-</section>
-</section>
-<section id="why-use-standard-deviation" class="level3" data-number="2.6.6">
-<h3 data-number="2.6.6" class="anchored" data-anchor-id="why-use-standard-deviation"><span class="header-section-number">2.6.6</span> Why use standard deviation?</h3>
-<ul>
-<li>It’s on the <strong>same scale</strong> as the variable (grams, not grams²).</li>
-<li>It gives us a <strong>sense of spread</strong> we can understand.</li>
-<li>It is more commonly used in <strong>EDA</strong> than variance.</li>
-</ul>
-<p><strong>But be careful:</strong> Like the <strong>mean</strong>, the standard deviation is sensitive to:</p>
-<ul>
-<li><p><strong>Skewed distributions</strong></p></li>
-<li><p><strong>Outliers</strong> (extreme values)</p></li>
-</ul>
-<section id="interquartile-range-iqr" class="level4" data-number="2.6.6.1">
-<h4 data-number="2.6.6.1" class="anchored" data-anchor-id="interquartile-range-iqr"><span class="header-section-number">2.6.6.1</span> Interquartile Range (IQR)</h4>
-<p>The <strong>interquartile range (IQR)</strong> is another measure of dispersion.</p>
-<p>It is especially useful in <strong>EDA</strong> because it is <strong>robust to outliers</strong> and skewed data.</p>
-<ul>
-<li>Measures the range of the <strong>middle 50%</strong> of the data.</li>
-<li><strong>Robust</strong> to outliers.</li>
-<li>Preferred in exploratory work.</li>
-</ul>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-What Are Quartiles?
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>To understand the IQR, we need to define <strong>quartiles</strong>:</p>
-<ul>
-<li><strong>Q1</strong> (1st quartile): 25% of values are below this point.</li>
-<li><strong>Q2</strong> (2nd quartile): The <strong>median</strong>, 50% below, 50% above.</li>
-<li><strong>Q3</strong> (3rd quartile): 75% of values are below this point.</li>
-</ul>
-</div>
-</div>
-<p>The IQR measures the <strong>spread of the middle 50%</strong> of the data. It is defined as:</p>
-<p><span class="math display">\[
-\text{IQR} = \text{Q3} - \text{Q1}
-\]</span></p>
-<p>where</p>
-<ul>
-<li><strong>Q1</strong> = first quartile = 25th percentile<br>
-</li>
-<li><strong>Q3</strong> = third quartile = 75th percentile</li>
-</ul>
-<p>So, the IQR is the <strong>range between the 25% and 75% marks</strong>.</p>
-<p>This range contains the <strong>middle half</strong> of the dataset.</p>
-<p>The IQR is used to build <strong>boxplots</strong> (a.k.a. “box-and-whisker plots”).</p>
-<p>The wider the IQR, the <strong>more spread out</strong> the middle values are.</p>
-<p>Why is the IQR useful?</p>
-<ul>
-<li>It does <strong>not depend</strong> on extreme values.</li>
-<li>It gives a good summary of the <strong>central spread</strong>.</li>
-<li>It is <strong>preferred</strong> in EDA for skewed or messy data.</li>
-</ul>
-<p>In R, we can calculate the IQR like this:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">IQR</span>(penguins<span class="sc">$</span>body_mass_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<pre><code>## [1] 1200</code></pre>
-<p>This means the middle 50% of penguins have body masses that differ by <strong>1200 grams</strong>.</p>
-<hr>
-</section>
-</section>
-<section id="the-boxplot-connection" class="level3" data-number="2.6.7">
-<h3 data-number="2.6.7" class="anchored" data-anchor-id="the-boxplot-connection"><span class="header-section-number">2.6.7</span> The Boxplot Connection</h3>
-<p>The <strong>boxplot</strong> (also called a “box-and-whisker plot”) is based on the IQR.</p>
-<ul>
-<li>The <strong>box</strong> shows Q1 to Q3.</li>
-<li>The <strong>line</strong> inside the box is the <strong>median (Q2)</strong>.</li>
-<li>The <strong>whiskers</strong> extend to show the general range of the data (excluding outliers).</li>
-</ul>
-<p><strong>What About Skewness?</strong></p>
-<p><strong>Skewness</strong> describes the <strong>asymmetry</strong> of a distribution:</p>
-<ul>
-<li><strong>Right-skewed</strong> (positive skew): Tail on the right.</li>
-<li><strong>Left-skewed</strong> (negative skew): Tail on the left.</li>
-<li><strong>Symmetric</strong>: Looks like a bell curve.</li>
-</ul>
-<p>What Are Quartiles?</p>
-<p>To understand the IQR, we need to define <strong>quartiles</strong>.</p>
-<p>Quartiles divide your data into <strong>four equal parts</strong>:</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Quartile</th>
-<th>Meaning</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><strong>Q1</strong></td>
-<td>First quartile (25%) — one quarter of the data is below this value</td>
-</tr>
-<tr class="even">
-<td><strong>Q2</strong></td>
-<td>Second quartile (50%) — this is the <strong>median</strong></td>
-</tr>
-<tr class="odd">
-<td><strong>Q3</strong></td>
-<td>Third quartile (75%) — three quarters of the data are below this value</td>
-</tr>
-</tbody>
-</table>
-<p>These values help summarize the distribution, especially for <strong>non-symmetric</strong> data.</p>
-<section id="categorical-variables-2" class="level4" data-number="2.6.7.1">
-<h4 data-number="2.6.7.1" class="anchored" data-anchor-id="categorical-variables-2"><span class="header-section-number">2.6.7.1</span> Categorical Variables</h4>
-<p>Descriptive statistics for <strong>categorical variables</strong> aim to answer: <em>“How often does each category occur?”</em></p>
-<p>Since categorical variables have a <strong>limited number of values</strong>, we can simply <strong>count</strong> how many times each category appears.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> <span class="fu">count</span>(species)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><strong>Central Tendency?</strong></p>
-<p>We can use the <strong>mode</strong> — the <strong>most common category</strong> — as a measure of central tendency for categorical variables.</p>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The <strong>median</strong> only makes sense for <strong>ordinal</strong> variables (e.g.&nbsp;“Low”, “Medium”, “High”), where there is a natural order.</p>
-</div>
-</div>
-<p><strong>Dispersion?</strong></p>
-<p>There are <strong>some measures of dispersion</strong> for categorical variables, but they are:</p>
-<ul>
-<li><p>Less intuitive</p></li>
-<li><p>Rarely used in EDA</p></li>
-</ul>
-<p>So, we usually <strong>don’t use</strong> them in exploratory analysis.</p>
-</section>
-<section id="associations-1" class="level4" data-number="2.6.7.2">
-<h4 data-number="2.6.7.2" class="anchored" data-anchor-id="associations-1"><span class="header-section-number">2.6.7.2</span> Associations</h4>
-<p>Statisticians have created different ways to <strong>quantify relationships</strong> between variables. These are often called <strong>measures of association</strong>.</p>
-<p>The most common type is a <strong>correlation coefficient</strong>, which gives a number that tells us: <em>How strong is the relationship between two variables?</em></p>
-<p><strong>Are “association” and “correlation” the same?</strong></p>
-<p>These terms are often used <strong>interchangeably</strong>, but they are <strong>not exactly the same</strong>.</p>
-<ul>
-<li><strong>Association</strong> is the general idea that <strong>two variables are related</strong> in some way.</li>
-<li><strong>Correlation</strong> is a <strong>specific, mathematical way</strong> to describe an association — using a <strong>correlation coefficient</strong>.</li>
-</ul>
-<p>So:</p>
-<blockquote class="blockquote">
-<p>All correlations are associations, but not all associations are correlations.</p>
-</blockquote>
-<p>In EDA, we often want to ask:</p>
-<blockquote class="blockquote">
-<p>“Is one variable associated with another?”</p>
-</blockquote>
-<p>This can be for:</p>
-<ul>
-<li><p>Two numeric variables</p></li>
-<li><p>Two categorical variables</p></li>
-<li><p>One numeric and one categorical</p></li>
-</ul>
-<p><strong>Pairs of Numeric Variables</strong></p>
-<p>The most common way to measure association between two numeric variables is:</p>
-<p><strong>Pearson’s Correlation Coefficient (r)</strong></p>
-<ul>
-<li>Measures <strong>strength</strong> and <strong>direction</strong> of a <strong>linear relationship</strong>.</li>
-<li>Values range from <strong>–1 to +1</strong>:
-<ul>
-<li><strong>+1</strong> → perfect positive linear association</li>
-<li><strong>–1</strong> → perfect negative linear association</li>
-<li><strong>0</strong> → no linear relationship</li>
-</ul></li>
-</ul>
-<p><strong>Important:</strong> Pearson’s r only measures <strong>linear</strong> relationships.<br>
-If the relationship is <strong>curved</strong>, <code>r</code> can be misleading.</p>
-<p>See <a href="https://en.wikipedia.org/wiki/Anscombe%27s_quartet"><strong>Anscombe’s Quartet</strong></a> for famous examples.</p>
-<p>Rank Correlations: For Non-linear Relationships</p>
-<p>If the relationship is not linear, use a <strong>rank correlation</strong>:</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Method</th>
-<th>Notes</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><strong>Spearman’s ρ</strong></td>
-<td>More sensitive to <strong>outliers</strong></td>
-</tr>
-<tr class="even">
-<td><strong>Kendall’s τ</strong></td>
-<td>Better for <strong>ordinal data</strong>, but slower</td>
-</tr>
-</tbody>
-</table>
-<p>These methods: - Convert data into <strong>ranks</strong> (1st, 2nd, 3rd, …) - Measure how well the ranks agree between two variables</p>
-<p><strong>Pairs of Categorical Variables</strong></p>
-<p>For two <strong>categorical variables</strong>, we ask:</p>
-<blockquote class="blockquote">
-<p>🔍 “Are certain combinations of categories more or less common than expected?”</p>
-</blockquote>
-<p>The most basic tool is the <strong>contingency table</strong>, created using <code>xtabs()</code>.</p>
-<p><strong>What about correlation?</strong></p>
-<p>Rank correlations like <strong>Spearman’s ρ</strong> and <strong>Kendall’s τ</strong> can also be used with <strong>ordinal variables</strong>.</p>
-<p>For <strong>nominal variables</strong>, specialized measures exist, like:</p>
-<ul>
-<li><strong>Cramér’s V</strong></li>
-<li><strong>Chi-square-based measures</strong></li>
-</ul>
-<p>But these are <strong>rarely used in EDA</strong>.<br>
-Most people rely on <strong>tables and plots</strong> (like <strong>mosaic plots</strong> or <strong>stacked bar charts</strong>) for categorical associations.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>For any data variable,</p>
-<ul>
-<li><p>check the meaning of the variable</p></li>
-<li><p>check expected data type, the expected set of values, the used units when applicable</p></li>
-<li><p>check the available information to find semantic relationship between variables</p>
-<ul>
-<li><p>Hierarchies (i.e.&nbsp;Year, Month, Day)</p></li>
-<li><p>Components of a whole (i.e.&nbsp;latitude and longitude)</p></li>
-</ul></li>
-<li><p>Number of the NULL values (and percentage)</p></li>
-<li><p>Number of Invalid values (and percentage)</p></li>
-<li><p>Number of valid values (and percentage)</p></li>
-</ul>
-</div>
-</div>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>For Nominal scales - Arbitrary number of values</p>
-<ul>
-<li><p>Number of distinct values</p></li>
-<li><p>number of distinct values / number of rows in the dataset</p>
-<ul>
-<li>Do they have the role of a key?</li>
-</ul></li>
-<li><p>Check if there is any known or visible structure in the values</p></li>
-<li><p>Check if they are meaningful or friendly</p></li>
-</ul>
-</div>
-</div>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>For Nominal Scales – Large number of categories</p>
-<ul>
-<li><p>Number of distinct values</p></li>
-<li><p>Frequency distributions (absolute and relative)</p></li>
-<li><p>Bar charts with the categories sorted by decreasing order of the frequency</p>
-<ul>
-<li>Top N</li>
-</ul></li>
-<li><p>Possibly create a new attribute</p></li>
-</ul>
-</div>
-</div>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
@@ -4955,8 +4129,6 @@ Tufte, Edward. 2006. <em>Beautiful Evidence</em>. Graphics Press LLC.
 Tukey, John Wilder. 1977. <em>Exploratory Data Analysis</em>. Addison-Wesley Publishing Company.
 </div>
 </div>
-</section>
-</section>
 </section>
 
 </main> <!-- /main -->
