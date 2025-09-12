@@ -882,6 +882,7 @@ In the dataset `mpg`,
 
 ### Solutions
 
+Do it yourself! :)
 <!--
 ::: {.solution exercise="ex_1"}
 ``` r
@@ -1085,9 +1086,9 @@ Common EDA plots include: - **Histograms** – show the shape and spread of a nu
 
 Graphs are **easier to understand** than tables of numbers. They help us and others **see what’s going on** in the data.
 
-::: {.callout-caution appearance="minimal"}
-<!--
 
+<!--
+::: {.callout-caution appearance="minimal"}
 nomial: What we can do:
 
 Count frequencies (e.g. how many students are from each city)
@@ -1113,9 +1114,9 @@ interval What we can do:
 calculate mean, standard deviation
 
 plot histograms or line charts
-
--->
 :::
+-->
+
 
 ##### Principles of Analytic Graphics
 
