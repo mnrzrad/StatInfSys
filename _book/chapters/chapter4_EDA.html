@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.42">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -91,10 +91,10 @@ div.csl-indent {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-08488171a94ec4690e95561e2c6b96d6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -422,7 +422,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"code":"library(ggplot2)\ndata(\"mpg\", package = \"ggplot2\")\n\ncolSums(is.na(mpg))","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"data(\"mpg\", package = \"ggplot2\")\n\nN <- nrow(mpg)\ncat('Total number of data is:', N)\nhead(mpg, 3)\n\n# Frequency table\ntab <- table(mpg$class)\n\n# Proportions and percentages\nprop <- prop.table(tab)\npercent <- round(100 * prop, 1)\n\n# Check totals\nsum(tab)      # should equal N\nsum(prop)     # should be 1","id":2,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"data(\"mpg\", package = \"ggplot2\")\n\n# variable 'hwy' (highway mpg)\nx <- mpg$hwy\nlength(x)\n\nmean(x)\nmean(x, na.rm = TRUE)","id":3,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-3","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"x <- mpg$hwy\n\nmedian(x)\nmedian(x, na.rm = TRUE)","id":4,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-4","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"tab_class <- table(mpg$class, useNA = \"ifany\")\ntab_class\n\ncat_mode <- names(tab_class)[tab_class == max(tab_class)]\ncat_mode","id":5,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-5","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"x <- mpg$hwy\nvar(x, na.rm = TRUE)         ","id":6,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-6","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"x <- mpg$hwy\nsd(x, na.rm = TRUE) ","id":7,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-7","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"x <- mpg$hwy\nIQR(x, na.rm = TRUE) ","id":8,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-8","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"x <- mpg$hwy\n\nlibrary(moments)\nmoments::skewness(x) \n\n# OR\n\nlibrary(e1071)\ne1071::skewness(x) ","id":9,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-9","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(moments)\nmoments::kurtosis(x) \n\n# OR\n\nlibrary(e1071)\ne1071::kurtosis(x) ","id":10,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-10","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"x <- mpg$hwy\n\nmin(x, na.rm = TRUE)\nmax(x, na.rm = TRUE)","id":11,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-11","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Tukey outliers using 1.5*IQR rule\nQ <- quantile(x, probs = c(.25, .75), na.rm = TRUE, names = FALSE)\niqr <- Q[2] - Q[1]\nlower <- Q[1] - 1.5 * iqr\nupper <- Q[2] + 1.5 * iqr\nc(lower = lower, upper = upper)\n\n# Values flagged as outliers by this rule\noutliers <- x[x < lower | x > upper]\noutliers","id":12,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-12","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"","id":13,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-13","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"","id":14,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-14","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"","id":15,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-15","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"","id":16,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-16","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"","id":17,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-17","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Data\ndata(\"mpg\", package = \"ggplot2\")\n\n# Two-way cross-tab: vehicle class (rows) by drive type (columns)\ntab <- table(mpg$class, mpg$drv)   # counts\ntab\naddmargins(tab)                    # add row/col totals\n\n# Percentages\ncell_pct <- round(100 * prop.table(tab), 1)   # over all cells\nrow_pct  <- round(100 * prop.table(tab, 1), 1) # within rows\ncol_pct  <- round(100 * prop.table(tab, 2), 1) # within columns\n\ncell_pct\nrow_pct\ncol_pct\n\n# Treat a quantitative-with-few-levels variable as categorical (e.g., cylinders)\ntab_cyl_drv <- table(factor(mpg$cyl), mpg$drv)\ntab_cyl_drv\nround(100 * prop.table(tab_cyl_drv, 1), 1)  # row %\n\n# Three-way cross-tab: class × drv by model year (1999 vs 2008)\ntab3 <- xtabs(~ class + drv + year, data = mpg)   # 3D table\nftable(tab3)                                      # flat view\n\n# Row % within each year\nby_year_rowpct <- lapply(split(mpg, mpg$year), function(d) {\n  round(100 * prop.table(table(d$class, d$drv), 1), 1)\n})\nby_year_rowpct$`1999`\nby_year_rowpct$`2008`","id":18,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-18","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"data(\"mtcars\")\nhead(mtcars)","id":19,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-19","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(ggplot2)\n\nggplot(mtcars, aes(x = wt, y = mpg)) + \n  geom_point(color = 'blue', size = 3) + \n  geom_smooth(method = 'lm', se = FALSE, color = 'red') + \n  labs(x = 'weight (1000 lbs)',\n       y = 'Miles per Gallon (MPG)') + \n  theme_minimal()","id":20,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-20","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"mtcars$cyl <- factor(mtcars$cyl)\n\nggplot(mtcars, aes(x = wt, y = mpg, color=cyl)) + \n  geom_point(size = 3) + \n  geom_smooth(method = 'lm', se = FALSE, aes(group = cyl)) + \n  labs(x = 'Weight (1000 lbs)',\n       y = 'Miles per Gallon (MPG)', \n       color = \"Number of cylinders\") + \n  theme_minimal()","id":21,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-21","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(mtcars, aes(x = wt, y = mpg)) + \n  geom_point() + \n  geom_smooth(method = 'lm', se = FALSE) +\n  facet_wrap(~ cyl) + \n  labs(title = 'MPG vs. Weight by Cylinder Group')","id":22,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-22","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Prepare the data\nmtcars$cyl <- factor(mtcars$cyl)  \nmtcars$am <- factor(mtcars$am, labels = c(\"Automatic\", \"Manual\"))  \n\nggplot(mtcars, aes(x = wt, y = mpg, color = cyl, shape = am)) +\n  geom_point(size = 3) +\n  geom_smooth(method = \"lm\", se = FALSE, aes(group = cyl), linetype = \"solid\") +\n  labs(\n    x = \"Weight (1000 lbs)\",\n    y = \"Miles per Gallon (MPG)\",\n    color = \"Cylinders\",\n    shape = \"Transmission\"\n  ) +\n  theme_minimal()","id":23,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-23","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"mtcars$cyl <- factor(mtcars$cyl)\nmtcars$am <- factor(mtcars$am, labels = c('Automatic', 'Manual')) \n\n\nggplot(mtcars, aes(x = wt, y = mpg, color = cyl)) + \n  geom_point(size = 3) + \n  geom_smooth(method = 'lm', se = TRUE, aes(group = cyl)) + \n  facet_wrap(~ am) + \n  labs(\n    x = 'Weight (1000 lbs)',\n    y = 'Miles per Gallon (MPG)',\n    color = 'Cylinders'\n  ) + \n  theme_minimal()","id":24,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-24","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"mtcars$cyl <- factor(mtcars$cyl)\nmtcars$am <- factor(mtcars$am, labels = c('Automatic', 'Manual'))\n\nggplot(mtcars, aes(x = wt, y = mpg)) + \n  geom_point(aes(color = cyl), size = 3) + \n  geom_smooth(method = 'lm', se = FALSE, color = 'black') +\n  facet_grid(am ~ cyl) + \n  labs(\n    x = 'Weight (1000 lbs)',\n    y = 'Miles per Gallon (MPG)',\n    color = 'Cylinders'\n  ) ","id":25,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-25","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"data(\"airquality\")\nairquality","id":26,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-26","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"dim(airquality)\n\n# or \nnrow(airquality)\nncol(airquality)","id":27,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-27","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"str(airquality)","id":28,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-28","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"head(airquality)","id":29,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-29","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"tail(airquality)","id":30,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-30","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"nrow(ozone)","id":31,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-31","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"colSums(is.na(ozone))","id":32,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-32","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(dplyr)\n\nairquality |> \n  summarise(across(everything(), ~sum(is.na(.))))","id":33,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-33","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"airquality |> \n  filter(Month == 7) |> nrow()","id":34,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-34","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"airquality |> \n  filter(Month == 8) |> \n  summarise(across(everything(), ~ sum(is.na(.))))","id":35,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-35","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"summary(airquality$Ozone)","id":36,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-36","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(dplyr)\n\nairquality |> \n  group_by(Month) |> \n  summarise(avg_ozone = mean(Ozone, na.rm = TRUE))","id":37,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-37","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(ggplot2)\n\nggplot(airquality, aes(x = factor(Month), y = Ozone)) + \n  geom_boxplot(fill = 'lightblue', color = 'black', na.rm = TRUE) +\n  scale_x_discrete(labels = c(\"May\", \"June\", \"July\", \"August\", \"September\")) +\n  labs(x = \"Month\",\n       y = 'Ozone (ppb)') + \n  theme_minimal()","id":38,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-38","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(ggplot2)\n\nggplot(airquality, aes(x = Temp, y = Ozone)) + \n  geom_point(color = 'darkgreen', alpha = 0.8) + \n  labs(x = 'Temperature (°F)',\n       y = 'Ozone (ppb)') + \n  theme_minimal()","id":39,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-39","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(airquality, aes(x = Wind, y = Ozone)) +\n  geom_point(color = \"darkblue\", alpha = 0.8) +\n  labs(title = \"Ozone vs Wind Speed\",\n       x = \"Wind Speed (mph)\",\n       y = \"Ozone (ppb)\") +\n  theme_minimal()","id":40,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-40","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"model <- lm(Ozone ~ Temp + Wind, data = airquality)\nsummary(model)","id":41,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-41","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"data(\"airquality\")","id":42,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-42","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"airquality  |>  \n  summarise(rows = n())  |>  \n  mutate(cols = ncol(airquality))","id":43,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-43","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"airquality |> \n  glimpse()","id":44,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-44","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"airquality |> \n  slice_head(n = 5)","id":45,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-45","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"airquality |> \n  slice_tail(n = 5)","id":46,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-46","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ozone_clean <- airquality |> \n  filter(!is.na(Ozone), !is.na(Temp), !is.na(Wind), !is.na(Solar.R))\n\nozone_clean |> \n  summarise(rows = n())","id":47,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-47","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ozone_clean |> \n  summarise(above_70 = sum(Ozone > 70), \n            total = n(), \n            percent = round(100 * sum(Ozone > 70) / n(), 1))","id":48,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-48","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ozone_clean |> \n  summarise(cor_temp = cor(Ozone, Temp),\n            cor_wind = cor(Ozone, Wind),\n            cor_solar = cor(Ozone, Solar.R))","id":49,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-49","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(ozone_clean, aes(x = Temp, y = Ozone)) + \n  geom_point(color = \"steelblue\") + \n  labs(x = \"Temperature (F)\",\n       y = \"Ozone (ppb)\") + \n  theme_minimal()","id":50,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-50","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(ozone_clean, aes(x = Wind, y = Ozone)) + \n  geom_point(color = 'darkgreen') + \n  labs(x = \"Wind (mph)\",\n       y = \"Ozone (ppb)\") + \n  theme_minimal()","id":51,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-51","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(ozone_clean, aes(x = Solar.R, y = Ozone)) + \n  geom_point(color = 'orange') + \n  labs(x = \"Solar Radiation (langley)\",\n       y = \"Ozone (ppb)\") + \n  theme_minimal()","id":52,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-52","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# install.packages(\"patchwork\")\nlibrary(patchwork)\n\np1 <- ggplot(ozone_clean, aes(Temp, Ozone)) + \n  geom_point(color = \"steelblue\") + \n  labs(title = \"Ozone vs Temp\", x = \"Temperature\", y = \"Ozone\") + \n  theme_minimal()\n\np2 <- ggplot(ozone_clean, aes(Wind, Ozone)) + \n  geom_point(color = \"darkgreen\") + \n  labs(title = \"Ozone vs Wind\", x = \"Wind Speed\", y = \"Ozone\") + \n  theme_minimal()\n\np3 <- ggplot(ozone_clean, aes(Solar.R, Ozone)) + \n  geom_point(color = \"orange\") + \n  labs(title = \"Ozone vs Solar Radiation\", x = \"Solar Radiation\", y = \"Ozone\") + \n  theme_minimal()\n\n(p1 | p2 | p3)","id":53,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-53","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"cor(ozone_clean)","id":54,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-54","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"pairs(ozone_clean, \n      main = \"Ozone vs. Weather Variables\",\n      col = 'darkred', pch = 19)","id":55,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-55","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"model <- ozone_clean  |> \n  lm(Ozone ~ Temp + Wind + Solar.R, data = .)\n\nsummary(model)","id":56,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-56","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
+globalThis.qwebrCellDetails = [{"code":"library(ggplot2)\ndata(mpg)\n\n# View the help page\n?mpg\nhelp(mpg)\n\n# Peek at the structure\nstr(mpg)\n\n# View the first few rows\nhead(mpg)\n\n# View the last 6 rows\ntail(mpg)","id":1,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-1","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"is.factor(mpg$drv)","id":2,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-2","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"levels(mpg$drv)","id":3,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-3","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"mpg$drv <- factor(mpg$drv)","id":4,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-4","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"is.numeric(mpg$displ)    # Is it numeric?\nis.integer(mpg$year)     # Is it stored as an integer?\nis.double(mpg$cty)       # Is it a floating point number?","id":5,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-5","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"mpg$year <- as.numeric(mpg$year)","id":6,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-6","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"library(ggplot2)\ndata(\"mpg\", package = \"ggplot2\")\n\n# Count how many missing values (NA) exist in each column\ncolSums(is.na(mpg))\n\n# Check if there are any missing values at all in the dataset\nanyNA(mpg) ","id":7,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-7","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"data(\"mpg\", package = \"ggplot2\")\n\nN <- nrow(mpg)\ncat('Total number of data is:', N, '\\n')\nhead(mpg, 3)\n\n# Frequency table\ntab <- table(mpg$class)\n\n# Proportions and percentages\nprop <- prop.table(tab)\npercent <- round(100 * prop, 1)\n\n# Check totals\nsum(tab)      # should equal N\nsum(prop)     # should be 1\nsum(percent)  # should be 100","id":8,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-8","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"data(\"mpg\", package = \"ggplot2\")\n\n# variable 'hwy' (highway mpg)\nx <- mpg$hwy\nlength(x)\n\nmean(x)\nmean(x, na.rm = TRUE)","id":9,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-9","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"x <- mpg$hwy\n\nmedian(x)\nmedian(x, na.rm = TRUE)","id":10,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-10","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"tab_class <- table(mpg$class, useNA = \"ifany\")\ntab_class\n\ncat_mode <- names(tab_class)[tab_class == max(tab_class)]\ncat_mode","id":11,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-11","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"x <- mpg$hwy\nvar(x, na.rm = TRUE)         ","id":12,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-12","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"x <- mpg$hwy\nsd(x, na.rm = TRUE) ","id":13,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-13","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"x <- mpg$hwy\nIQR(x, na.rm = TRUE) ","id":14,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-14","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"x <- mpg$hwy\n\nlibrary(moments)\nmoments::skewness(x) \n\n# OR\n\nlibrary(e1071)\ne1071::skewness(x) ","id":15,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-15","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"library(moments)\nmoments::kurtosis(x) \n\n# OR\n\nlibrary(e1071)\ne1071::kurtosis(x) ","id":16,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-16","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"x <- mpg$hwy\n\nmin(x, na.rm = TRUE)\nmax(x, na.rm = TRUE)","id":17,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-17","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"# Tukey outliers using 1.5*IQR rule\nQ <- quantile(x, probs = c(.25, .75), na.rm = TRUE, names = FALSE)\niqr <- Q[2] - Q[1]\nlower <- Q[1] - 1.5 * iqr\nupper <- Q[2] + 1.5 * iqr\nc(lower = lower, upper = upper)\n\n# Values flagged as outliers by this rule\noutliers <- x[x < lower | x > upper]\noutliers","id":18,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-18","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"","id":19,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-19","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"","id":20,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-20","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"","id":21,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-21","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"","id":22,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-22","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"","id":23,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-23","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"# Data\ndata(\"mpg\", package = \"ggplot2\")\n\n# Two-way cross-tab: vehicle class (rows) by drive type (columns)\ntab <- table(mpg$class, mpg$drv)   # counts\ntab\naddmargins(tab)                    # add row/col totals\n\n# Percentages\ncell_pct <- round(100 * prop.table(tab), 1)   # over all cells\nrow_pct  <- round(100 * prop.table(tab, 1), 1) # within rows\ncol_pct  <- round(100 * prop.table(tab, 2), 1) # within columns\n\ncell_pct\nrow_pct\ncol_pct\n\n# Treat a quantitative-with-few-levels variable as categorical (e.g., cylinders)\ntab_cyl_drv <- table(factor(mpg$cyl), mpg$drv)\ntab_cyl_drv\nround(100 * prop.table(tab_cyl_drv, 1), 1)  # row %\n\n# Three-way cross-tab: class × drv by model year (1999 vs 2008)\ntab3 <- xtabs(~ class + drv + year, data = mpg)   # 3D table\nftable(tab3)                                      # flat view\n\n# Row % within each year\nby_year_rowpct <- lapply(split(mpg, mpg$year), function(d) {\n  round(100 * prop.table(table(d$class, d$drv), 1), 1)\n})\nby_year_rowpct$`1999`\nby_year_rowpct$`2008`","id":24,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-24","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"","id":25,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-25","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"","id":26,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-26","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"","id":27,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-27","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"","id":28,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-28","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"","id":29,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-29","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"","id":30,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-30","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"","id":31,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-31","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"","id":32,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-32","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"","id":33,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-33","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"","id":34,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-34","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"","id":35,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-35","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"","id":36,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-36","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"","id":37,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-37","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"","id":38,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-38","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"data(\"mtcars\")\nhead(mtcars)","id":39,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-39","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"library(ggplot2)\n\nggplot(mtcars, aes(x = wt, y = mpg)) + \n  geom_point(color = 'blue', size = 3) + \n  geom_smooth(method = 'lm', se = FALSE, color = 'red') + \n  labs(x = 'weight (1000 lbs)',\n       y = 'Miles per Gallon (MPG)') + \n  theme_minimal()","id":40,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-40","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"mtcars$cyl <- factor(mtcars$cyl)\n\nggplot(mtcars, aes(x = wt, y = mpg, color=cyl)) + \n  geom_point(size = 3) + \n  geom_smooth(method = 'lm', se = FALSE, aes(group = cyl)) + \n  labs(x = 'Weight (1000 lbs)',\n       y = 'Miles per Gallon (MPG)', \n       color = \"Number of cylinders\") + \n  theme_minimal()","id":41,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-41","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"ggplot(mtcars, aes(x = wt, y = mpg)) + \n  geom_point() + \n  geom_smooth(method = 'lm', se = FALSE) +\n  facet_wrap(~ cyl) + \n  labs(title = 'MPG vs. Weight by Cylinder Group')","id":42,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-42","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"# Prepare the data\nmtcars$cyl <- factor(mtcars$cyl)  \nmtcars$am <- factor(mtcars$am, labels = c(\"Automatic\", \"Manual\"))  \n\nggplot(mtcars, aes(x = wt, y = mpg, color = cyl, shape = am)) +\n  geom_point(size = 3) +\n  geom_smooth(method = \"lm\", se = FALSE, aes(group = cyl), linetype = \"solid\") +\n  labs(\n    x = \"Weight (1000 lbs)\",\n    y = \"Miles per Gallon (MPG)\",\n    color = \"Cylinders\",\n    shape = \"Transmission\"\n  ) +\n  theme_minimal()","id":43,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-43","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"mtcars$cyl <- factor(mtcars$cyl)\nmtcars$am <- factor(mtcars$am, labels = c('Automatic', 'Manual')) \n\n\nggplot(mtcars, aes(x = wt, y = mpg, color = cyl)) + \n  geom_point(size = 3) + \n  geom_smooth(method = 'lm', se = TRUE, aes(group = cyl)) + \n  facet_wrap(~ am) + \n  labs(\n    x = 'Weight (1000 lbs)',\n    y = 'Miles per Gallon (MPG)',\n    color = 'Cylinders'\n  ) + \n  theme_minimal()","id":44,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-44","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"mtcars$cyl <- factor(mtcars$cyl)\nmtcars$am <- factor(mtcars$am, labels = c('Automatic', 'Manual'))\n\nggplot(mtcars, aes(x = wt, y = mpg)) + \n  geom_point(aes(color = cyl), size = 3) + \n  geom_smooth(method = 'lm', se = FALSE, color = 'black') +\n  facet_grid(am ~ cyl) + \n  labs(\n    x = 'Weight (1000 lbs)',\n    y = 'Miles per Gallon (MPG)',\n    color = 'Cylinders'\n  ) ","id":45,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-45","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"data(\"airquality\")\nairquality","id":46,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-46","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"dim(airquality)\n\n# or \nnrow(airquality)\nncol(airquality)","id":47,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-47","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"str(airquality)","id":48,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-48","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"head(airquality)","id":49,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-49","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"tail(airquality)","id":50,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-50","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"nrow(ozone)","id":51,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-51","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"colSums(is.na(ozone))","id":52,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-52","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"library(dplyr)\n\nairquality |> \n  summarise(across(everything(), ~sum(is.na(.))))","id":53,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-53","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"airquality |> \n  filter(Month == 7) |> nrow()","id":54,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-54","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"airquality |> \n  filter(Month == 8) |> \n  summarise(across(everything(), ~ sum(is.na(.))))","id":55,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-55","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"summary(airquality$Ozone)","id":56,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-56","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"library(dplyr)\n\nairquality |> \n  group_by(Month) |> \n  summarise(avg_ozone = mean(Ozone, na.rm = TRUE))","id":57,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-57","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"library(ggplot2)\n\nggplot(airquality, aes(x = factor(Month), y = Ozone)) + \n  geom_boxplot(fill = 'lightblue', color = 'black', na.rm = TRUE) +\n  scale_x_discrete(labels = c(\"May\", \"June\", \"July\", \"August\", \"September\")) +\n  labs(x = \"Month\",\n       y = 'Ozone (ppb)') + \n  theme_minimal()","id":58,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-58","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"library(ggplot2)\n\nggplot(airquality, aes(x = Temp, y = Ozone)) + \n  geom_point(color = 'darkgreen', alpha = 0.8) + \n  labs(x = 'Temperature (°F)',\n       y = 'Ozone (ppb)') + \n  theme_minimal()","id":59,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-59","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"ggplot(airquality, aes(x = Wind, y = Ozone)) +\n  geom_point(color = \"darkblue\", alpha = 0.8) +\n  labs(title = \"Ozone vs Wind Speed\",\n       x = \"Wind Speed (mph)\",\n       y = \"Ozone (ppb)\") +\n  theme_minimal()","id":60,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-60","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"model <- lm(Ozone ~ Temp + Wind, data = airquality)\nsummary(model)","id":61,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-61","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"data(\"airquality\")","id":62,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-62","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"airquality  |>  \n  summarise(rows = n())  |>  \n  mutate(cols = ncol(airquality))","id":63,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-63","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"airquality |> \n  glimpse()","id":64,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-64","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"airquality |> \n  slice_head(n = 5)","id":65,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-65","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"airquality |> \n  slice_tail(n = 5)","id":66,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-66","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"ozone_clean <- airquality |> \n  filter(!is.na(Ozone), !is.na(Temp), !is.na(Wind), !is.na(Solar.R))\n\nozone_clean |> \n  summarise(rows = n())","id":67,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-67","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"ozone_clean |> \n  summarise(above_70 = sum(Ozone > 70), \n            total = n(), \n            percent = round(100 * sum(Ozone > 70) / n(), 1))","id":68,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-68","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"ozone_clean |> \n  summarise(cor_temp = cor(Ozone, Temp),\n            cor_wind = cor(Ozone, Wind),\n            cor_solar = cor(Ozone, Solar.R))","id":69,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-69","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"ggplot(ozone_clean, aes(x = Temp, y = Ozone)) + \n  geom_point(color = \"steelblue\") + \n  labs(x = \"Temperature (F)\",\n       y = \"Ozone (ppb)\") + \n  theme_minimal()","id":70,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-70","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"ggplot(ozone_clean, aes(x = Wind, y = Ozone)) + \n  geom_point(color = 'darkgreen') + \n  labs(x = \"Wind (mph)\",\n       y = \"Ozone (ppb)\") + \n  theme_minimal()","id":71,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-71","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"ggplot(ozone_clean, aes(x = Solar.R, y = Ozone)) + \n  geom_point(color = 'orange') + \n  labs(x = \"Solar Radiation (langley)\",\n       y = \"Ozone (ppb)\") + \n  theme_minimal()","id":72,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-72","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"# install.packages(\"patchwork\")\nlibrary(patchwork)\n\np1 <- ggplot(ozone_clean, aes(Temp, Ozone)) + \n  geom_point(color = \"steelblue\") + \n  labs(title = \"Ozone vs Temp\", x = \"Temperature\", y = \"Ozone\") + \n  theme_minimal()\n\np2 <- ggplot(ozone_clean, aes(Wind, Ozone)) + \n  geom_point(color = \"darkgreen\") + \n  labs(title = \"Ozone vs Wind\", x = \"Wind Speed\", y = \"Ozone\") + \n  theme_minimal()\n\np3 <- ggplot(ozone_clean, aes(Solar.R, Ozone)) + \n  geom_point(color = \"orange\") + \n  labs(title = \"Ozone vs Solar Radiation\", x = \"Solar Radiation\", y = \"Ozone\") + \n  theme_minimal()\n\n(p1 | p2 | p3)","id":73,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-73","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"cor(ozone_clean)","id":74,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-74","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"pairs(ozone_clean, \n      main = \"Ozone vs. Weather Variables\",\n      col = 'darkred', pch = 19)","id":75,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-75","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}},{"code":"model <- ozone_clean  |> \n  lm(Ozone ~ Temp + Wind + Solar.R, data = .)\n\nsummary(model)","id":76,"options":{"output":"true","fig-cap":"","comment":"","out-height":"","out-width":"700px","classes":"","label":"unnamed-chunk-76","editor-font-scale":"1","editor-word-wrap":"true","read-only":"false","context":"interactive","editor-quick-suggestions":"false","fig-height":5,"fig-width":7,"results":"markup","message":"true","editor-max-height":"","autorun":"false","dpi":72,"warning":"true"}}];
 
 </script>
 <script type="module">
@@ -2158,20 +2158,20 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <svg width="672" height="480" viewbox="0.00 0.00 324.00 564.00" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none">
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 560)">
 <title>StatProcess</title>
-<g id="clust1" class="cluster">
-<title>cluster_problem</title>
-</g>
-<g id="clust5" class="cluster">
-<title>cluster_data</title>
-</g>
 <g id="clust9" class="cluster">
 <title>cluster_conclusion</title>
+</g>
+<g id="clust7" class="cluster">
+<title>cluster_analysis</title>
 </g>
 <g id="clust3" class="cluster">
 <title>cluster_plan</title>
 </g>
-<g id="clust7" class="cluster">
-<title>cluster_analysis</title>
+<g id="clust5" class="cluster">
+<title>cluster_data</title>
+</g>
+<g id="clust1" class="cluster">
+<title>cluster_problem</title>
 </g>
 <!-- P1 -->
 <g id="node1" class="node">
@@ -2183,12 +2183,12 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <g id="node2" class="node">
 <title>BOX1</title>
 <defs>
-<lineargradient id="l_45" gradientunits="userSpaceOnUse" x1="16" y1="-491" x2="232" y2="-491">
+<lineargradient id="l_50" gradientunits="userSpaceOnUse" x1="16" y1="-491" x2="232" y2="-491">
 <stop offset="0" style="stop-color:#e07b39;stop-opacity:1.;"></stop>
 <stop offset="1" style="stop-color:white;stop-opacity:1.;"></stop>
 </lineargradient>
 </defs>
-<path fill="url(#l_45)" stroke="#333333" stroke-width="2" d="M220,-540C220,-540 28,-540 28,-540 22,-540 16,-534 16,-528 16,-528 16,-454 16,-454 16,-448 22,-442 28,-442 28,-442 220,-442 220,-442 226,-442 232,-448 232,-454 232,-454 232,-528 232,-528 232,-534 226,-540 220,-540"></path>
+<path fill="url(#l_50)" stroke="#333333" stroke-width="2" d="M220,-540C220,-540 28,-540 28,-540 22,-540 16,-534 16,-528 16,-528 16,-454 16,-454 16,-448 22,-442 28,-442 28,-442 220,-442 220,-442 226,-442 232,-448 232,-454 232,-454 232,-528 232,-528 232,-534 226,-540 220,-540"></path>
 <text text-anchor="start" x="95.99" y="-520.4" font-family="Arial" font-weight="bold" font-size="14.00">Problem</text>
 <text text-anchor="start" x="31" y="-497.2" font-family="Arial" font-size="12.00">• Write down study objectives</text>
 <text text-anchor="start" x="30.61" y="-475.2" font-family="Arial" font-size="12.00">• Identify target/sample population</text>
@@ -2215,12 +2215,12 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <g id="node4" class="node">
 <title>BOX2</title>
 <defs>
-<lineargradient id="l_46" gradientunits="userSpaceOnUse" x1="16" y1="-357" x2="232" y2="-357">
+<lineargradient id="l_51" gradientunits="userSpaceOnUse" x1="16" y1="-357" x2="232" y2="-357">
 <stop offset="0" style="stop-color:#999999;stop-opacity:1.;"></stop>
 <stop offset="1" style="stop-color:white;stop-opacity:1.;"></stop>
 </lineargradient>
 </defs>
-<path fill="url(#l_46)" stroke="#333333" stroke-width="2" d="M220,-406C220,-406 28,-406 28,-406 22,-406 16,-400 16,-394 16,-394 16,-320 16,-320 16,-314 22,-308 28,-308 28,-308 220,-308 220,-308 226,-308 232,-314 232,-320 232,-320 232,-394 232,-394 232,-400 226,-406 220,-406"></path>
+<path fill="url(#l_51)" stroke="#333333" stroke-width="2" d="M220,-406C220,-406 28,-406 28,-406 22,-406 16,-400 16,-394 16,-394 16,-320 16,-320 16,-314 22,-308 28,-308 28,-308 220,-308 220,-308 226,-308 232,-314 232,-320 232,-320 232,-394 232,-394 232,-400 226,-406 220,-406"></path>
 <text text-anchor="start" x="109.22" y="-386.4" font-family="Arial" font-weight="bold" font-size="14.00">Plan</text>
 <text text-anchor="start" x="40.62" y="-363.2" font-family="Arial" font-size="12.00">• Plan data collection methods</text>
 <text text-anchor="start" x="41" y="-341.2" font-family="Arial" font-size="12.00">• Calculate sample size</text>
@@ -2247,12 +2247,12 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <g id="node6" class="node">
 <title>BOX3</title>
 <defs>
-<lineargradient id="l_47" gradientunits="userSpaceOnUse" x1="16" y1="-234" x2="232" y2="-234">
+<lineargradient id="l_52" gradientunits="userSpaceOnUse" x1="16" y1="-234" x2="232" y2="-234">
 <stop offset="0" style="stop-color:#f4d03f;stop-opacity:1.;"></stop>
 <stop offset="1" style="stop-color:white;stop-opacity:1.;"></stop>
 </lineargradient>
 </defs>
-<path fill="url(#l_47)" stroke="#333333" stroke-width="2" d="M220,-272C220,-272 28,-272 28,-272 22,-272 16,-266 16,-260 16,-260 16,-208 16,-208 16,-202 22,-196 28,-196 28,-196 220,-196 220,-196 226,-196 232,-202 232,-208 232,-208 232,-260 232,-260 232,-266 226,-272 220,-272"></path>
+<path fill="url(#l_52)" stroke="#333333" stroke-width="2" d="M220,-272C220,-272 28,-272 28,-272 22,-272 16,-266 16,-260 16,-260 16,-208 16,-208 16,-202 22,-196 28,-196 28,-196 220,-196 220,-196 226,-196 232,-202 232,-208 232,-208 232,-260 232,-260 232,-266 226,-272 220,-272"></path>
 <text text-anchor="start" x="109.33" y="-252.4" font-family="Arial" font-weight="bold" font-size="14.00">Data</text>
 <text text-anchor="start" x="62.8" y="-229.2" font-family="Arial" font-size="12.00">• Collect data per plan</text>
 <text text-anchor="start" x="63" y="-207.2" font-family="Arial" font-size="12.00">• Note any deviations</text>
@@ -2278,12 +2278,12 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <g id="node8" class="node">
 <title>BOX4</title>
 <defs>
-<lineargradient id="l_48" gradientunits="userSpaceOnUse" x1="16" y1="-133" x2="232" y2="-133">
+<lineargradient id="l_53" gradientunits="userSpaceOnUse" x1="16" y1="-133" x2="232" y2="-133">
 <stop offset="0" style="stop-color:#5dade2;stop-opacity:1.;"></stop>
 <stop offset="1" style="stop-color:white;stop-opacity:1.;"></stop>
 </lineargradient>
 </defs>
-<path fill="url(#l_48)" stroke="#333333" stroke-width="2" d="M220,-160C220,-160 28,-160 28,-160 22,-160 16,-154 16,-148 16,-148 16,-118 16,-118 16,-112 22,-106 28,-106 28,-106 220,-106 220,-106 226,-106 232,-112 232,-118 232,-118 232,-148 232,-148 232,-154 226,-160 220,-160"></path>
+<path fill="url(#l_53)" stroke="#333333" stroke-width="2" d="M220,-160C220,-160 28,-160 28,-160 22,-160 16,-154 16,-148 16,-148 16,-118 16,-118 16,-112 22,-106 28,-106 28,-106 220,-106 220,-106 226,-106 232,-112 232,-118 232,-118 232,-148 232,-148 232,-154 226,-160 220,-160"></path>
 <text text-anchor="start" x="95.71" y="-140.4" font-family="Arial" font-weight="bold" font-size="14.00">Analysis</text>
 <text text-anchor="start" x="59.79" y="-117.2" font-family="Arial" font-size="12.00">• Analyze data per plan</text>
 </g>
@@ -2308,12 +2308,12 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <g id="node10" class="node">
 <title>BOX5</title>
 <defs>
-<lineargradient id="l_49" gradientunits="userSpaceOnUse" x1="16" y1="-43" x2="232" y2="-43">
+<lineargradient id="l_54" gradientunits="userSpaceOnUse" x1="16" y1="-43" x2="232" y2="-43">
 <stop offset="0" style="stop-color:#82c341;stop-opacity:1.;"></stop>
 <stop offset="1" style="stop-color:white;stop-opacity:1.;"></stop>
 </lineargradient>
 </defs>
-<path fill="url(#l_49)" stroke="#333333" stroke-width="2" d="M220,-70C220,-70 28,-70 28,-70 22,-70 16,-64 16,-58 16,-58 16,-28 16,-28 16,-22 22,-16 28,-16 28,-16 220,-16 220,-16 226,-16 232,-22 232,-28 232,-28 232,-58 232,-58 232,-64 226,-70 220,-70"></path>
+<path fill="url(#l_54)" stroke="#333333" stroke-width="2" d="M220,-70C220,-70 28,-70 28,-70 22,-70 16,-64 16,-58 16,-58 16,-28 16,-28 16,-22 22,-16 28,-16 28,-16 220,-16 220,-16 226,-16 232,-22 232,-28 232,-28 232,-58 232,-58 232,-64 226,-70 220,-70"></path>
 <text text-anchor="start" x="85.89" y="-50.4" font-family="Arial" font-weight="bold" font-size="14.00">Conclusion</text>
 <text text-anchor="start" x="45.96" y="-27.2" font-family="Arial" font-size="12.00">• Draw conclusion in context</text>
 </g>
@@ -2429,10 +2429,10 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div class="quarto-layout-panel" data-layout-ncol="2">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 54.8%;justify-content: center;">
-<p><img src="../figs/EDA/Tukey.jpg" class="img-fluid" width="288"></p>
+<p><img src="..\figs/EDA/Tukey.jpg" class="img-fluid" width="288"></p>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 45.2%;justify-content: center;">
-<p><img src="../figs/EDA/book.jpg" class="img-fluid" width="238"></p>
+<p><img src="..\figs/EDA/book.jpg" class="img-fluid" width="238"></p>
 </div>
 </div>
 </div>
@@ -2491,7 +2491,7 @@ EDA Checklist
 <li><p><strong>Take a first look at the data:</strong> Check that the file type, structure, and layout are what you expected. Make sure everything is organized in a way that works for your analysis.</p></li>
 <li><p><strong>Use <code>str()</code> to Peek Inside the Dataset:</strong> In R, it will get a quick summary: number of observations (rows), number and names of variables (columns), variable types (e.g., numeric, character, factor), and a preview of the data values</p></li>
 <li><p><strong>Look at the Beginning and End of Your Data:</strong> Use functions such as <code>head()</code> and <code>tail()</code> to view the first and last few rows. This visual check can help to detect issues such as incorrect headers, blank rows, or unusual formatting.</p></li>
-<li><p><strong>Check the Number of Rows (“n”):</strong> Make sure to verify how many observations (rows) are in your dataset. Compare this to what you expected from the original. source. If the number is too high or too low, there may be missing values, duplicate entries, or extra rows (e.g.&nbsp;duplicates or blank lines).</p></li>
+<li><p><strong>Check the Number of Rows (“</strong><span class="math inline">\(n\)</span>“): Make sure to verify how many observations (rows) are in your dataset. Compare this to what you expected from the original. source. If the number is too high or too low, there may be missing values, duplicate entries, or extra rows (e.g.&nbsp;duplicates or blank lines).</p></li>
 <li><p><strong>Validate with an External Source:</strong> When possible, compare part of your dataset with a trusted external source, such as official statistics or published reports. This helps confirm the accuracy and reliability of your data.</p></li>
 <li><p><strong>Try the Simple Solution First:</strong> Start by basic methods–such as summaries, tables, or visualizations– to explore and answer your question. Simple tools can often reveal key patterns or issues. Use more complex techniques only of necessary.</p></li>
 <li><p><strong>Challenge Your Findings:</strong> Once you find a result, pause and ask yourself: <em>Does this make sense?</em> Check your assumptions and consider possible errors or missing information. Being critical helps make your results stronger and more trustworthy.</p></li>
@@ -2672,7 +2672,7 @@ Tip
 <p>Most datasets are organized in a rectangular format — like a spreadsheet — where each <strong>row</strong> represents one observation (e.g.&nbsp;a person, object, or experiment), and each <strong>column</strong> represents a variable (e.g.&nbsp;name, age, group, result).</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="../figs/EDA/datatable.png" class="img-fluid figure-img"></p>
+<p><img src="..\figs/EDA/datatable.png" class="img-fluid figure-img"></p>
 <figcaption>Adapted from Slides of ‘EDA Module I: A Bird’s Eye View’ by Dr.&nbsp;Mark Williamson</figcaption>
 </figure>
 </div>
@@ -2687,6 +2687,9 @@ EDA is the process of looking at data to understand it before using statistics o
 
 - What kind of summary or visualization is helpful?
 -->
+<p>As an example, let us explore the <code>mpg</code> dataset with a few simple commands in R:</p>
+<div id="qwebr-insertion-location-1"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <section id="types-of-variables" class="level3" data-number="2.4.1">
 <h3 data-number="2.4.1" class="anchored" data-anchor-id="types-of-variables"><span class="header-section-number">2.4.1</span> Types of Variables</h3>
 <p>Variables represent the information we collect in data analysis. They can be broadly divided into <strong>categorical</strong> and <strong>numeric</strong> types.</p>
@@ -2726,6 +2729,151 @@ Note
 <div class="callout-body-container callout-body">
 <p><strong>Avoid coding categories with numbers</strong> (e.g., Male = 1, Female = 2), as this may wrongly suggest order or allow meaningless calculations.</p>
 <p><strong>Tip:</strong> Use <strong>clear text labels</strong> like <code>"Male"</code> and <code>"Female"</code>.</p>
+</div>
+</div>
+<p>In R, <em>categorical variables</em> are usually stored as <strong>factors</strong>. But sometimes they might appear as <code>character</code> or even <code>numeric</code>, especially if the dataset is not clean or comes from an external file.</p>
+<p>You can check whether a variable is a factor using:</p>
+<div id="qwebr-insertion-location-2"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>To see the possible categories (called <strong>levels</strong>) of a factor, use:</p>
+<div id="qwebr-insertion-location-3"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>If a variable is not a factor but should be treated as one, you can convert it like this:</p>
+<div id="qwebr-insertion-location-4"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Sometimes, datasets are <strong>not ready</strong> for analysis and categorical variables may be incorrectly coded as numeric or character. Always check and <strong>convert them to <code>factor</code> if needed</strong> before analysis or plotting.</p>
+</div>
+</div>
+<p>You can use the following commands to help:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is.factor</span>(mpg<span class="sc">$</span>class)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(mpg<span class="sc">$</span>class)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>mpg<span class="sc">$</span>class <span class="ot">&lt;-</span> <span class="fu">factor</span>(mpg<span class="sc">$</span>class)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page">Exercise</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Hint</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false">Solutions</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<p>The <code>mpg</code> dataset contains information about different car models, including manufacturer, engine size, fuel efficiency, and more.</p>
+<p>Your task is to:</p>
+<ol type="1">
+<li><strong>List all the categorical variables</strong> in the dataset.</li>
+<li>Use <code>is.factor()</code> to check which variables are already treated as factors (categorical).</li>
+<li>If a variable is not a factor but should be (e.g., <code>class</code> or <code>trans</code>), convert it using <code>factor()</code>.</li>
+<li>Use <code>levels()</code> to inspect the categories.</li>
+<li>Finally, <strong>fill in the table</strong> to classify each categorical variable as <strong>nominal</strong> or <strong>ordinal</strong>.</li>
+</ol>
+<p>Fill Table to Complete</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 24%">
+<col style="width: 24%">
+<col style="width: 24%">
+<col style="width: 26%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Is it categorical? (Yes/No)</th>
+<th>Scale (Nominal / Ordinal)</th>
+<th>Justify your answer</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>manufacturer</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>model</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>trans</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>drv</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>fl</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>class</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>year</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>displ</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<ul>
+<li><p>Use `str(mpg)` to inspect all variable types.</p></li>
+<li><p>Use `is.factor()` to check factor status.</p></li>
+<li><p>Use `levels()` to explore categories.</p></li>
+<li><p>Variables like `class` and `fl` are good candidates for factors.</p></li>
+<li><p>Nominal= unordered categories; Ordinal= categories with a meaningful order.</p></li>
+</ul>
+<hr>
+</div>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
+<p>Do it yourself :)</p>
+<!--
+
+You can use the following commands to help:
+
+``` r
+is.factor(mpg$class)
+levels(mpg$class)
+mpg$class <- factor(mpg$class)
+```
+
+\| Variable \| Is it categorical? \| Scale \| Justification \|
+\|----------------\|--------------------\|---------\|--------------------------------------------------\|
+\| \`manufacturer\` \| Yes \| Nominal \| It's a brand name, no natural order \|
+\| \`model\` \| Yes \| Nominal \| Specific model name, not ordered \|
+\| \`trans\` \| Yes \| Nominal \| Transmission type (e.g., auto, manual) \|
+\| \`drv\` \| Yes \| Nominal \| Drive type (\`f\`, \`r\`, \`4\`) — no natural order \|
+\| \`fl\` \| Yes \| Nominal \| Fuel type — categories like \`p\`, \`d\`, \`e\` \|
+\| \`class\` \| Yes \| Nominal \| Vehicle class names (e.g., \`suv\`, \`compact\`) \|
+\| \`year\` \| No \| — \| Numeric year — treated as a number, not category \|
+\| \`displ\` \| No \| — \| Numeric — engine displacement \|
+-->
+</div>
 </div>
 </div>
 </section>
@@ -2818,10 +2966,75 @@ Tip
 </ul>
 </div>
 </div>
+<p>In R, <strong>numeric variables</strong> include both:</p>
+<ul>
+<li><strong>Integers</strong> (whole numbers, like 1, 2, 3), and</li>
+<li><strong>Doubles</strong> or <strong>floats</strong> (decimal values, like 3.14, 5.0)</li>
+</ul>
+<p>You can check a variable’s numeric type using:</p>
+<div id="qwebr-insertion-location-5"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>In R, most numeric data are stored as <code>double</code> even if they look like integers.</p>
+<p>You can convert to numeric explicitly if needed:</p>
+<div id="qwebr-insertion-location-6"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">Exercise</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">Hint</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-3" role="tab" aria-controls="tabset-2-3" aria-selected="false">Solutions</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
+<p>The <code>mpg</code> dataset includes several numeric variables related to fuel economy and engine size.</p>
+<p>Your task is to:</p>
+<ol type="1">
+<li>Identify the <strong>numeric variables</strong> in the dataset using <code>is.numeric()</code>.</li>
+<li>Check if the numeric variable is an <strong>integer</strong> (<code>is.integer()</code>) or a <strong>float</strong> (<code>is.double()</code>).</li>
+<li>Complete the table and classify each variable as:
+<ul>
+<li><strong>Discrete</strong> (countable values)</li>
+<li><strong>Continuous</strong> (can take any value within a range)</li>
+</ul></li>
+<li>Comment on any variables that could be treated as <strong>categorical</strong> instead, depending on context.</li>
+</ol>
+<hr>
+</div>
+<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
+<ul>
+<li>Use <code>str(mpg)</code> and <code>summary(mpg)</code> to explore data.</li>
+<li>Use <code>is.numeric()</code> to detect numeric variables.</li>
+<li>Use <code>is.integer()</code> and <code>is.double()</code> to check type.</li>
+<li>Discrete = exact counts; Continuous = measured values</li>
+</ul>
+<hr>
+</div>
+<div id="tabset-2-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-3-tab">
+<p>Do it yourself :)</p>
+<!--
+| Variable | Is numeric? | Type (Integer/Double) | Scale | Should it be categorical? | Justification |
+|-----------|-----------|-----------|-----------|-----------|-----------------|
+| `displ` | Yes | Double (`is.double()`) | Continuous | No | Engine size in litres, measured |
+| `cty` | Yes | Double | Discrete\* | No | City MPG, looks discrete but is measured |
+| `hwy` | Yes | Double | Discrete\* | No | Highway MPG, measured but in whole numbers |
+| `cyl` | Yes | Double | Discrete | Maybe | Cylinders are countable — could be categorical |
+| `year` | Yes | Integer | Discrete | Maybe | Only two years; may be better as factor |
+
+
+``` r
+is.numeric(mpg$cty)     # TRUE
+is.integer(mpg$year)    # FALSE (even though it's a year!)
+is.double(mpg$displ)    # TRUE
+```
+
+``` r
+mpg$cyl <- as.integer(mpg$cyl)
+mpg$year <- as.factor(mpg$year)   # if treating as categorical
+```
+-->
+</div>
+</div>
+</div>
 <p><strong>Summary of Variable Types</strong></p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="../figs/EDA/scales.png" class="img-fluid figure-img"></p>
+<p><img src="..\figs/EDA/scales.png" class="img-fluid figure-img"></p>
 <figcaption>Source: https://datatab.net/tutorial/level-of-measurement</figcaption>
 </figure>
 </div>
@@ -2957,7 +3170,7 @@ Important
 <p>Beyond the four cells of the cross-classification, EDA choices also depend on each variable’s <strong>role</strong> (outcome vs explanatory) and <strong>type</strong> (categorical vs quantitative)—and there is an element of art that grows with practice.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="../figs/EDA/art.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
+<p><img src="..\figs/EDA/art.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
 </figure>
 </div>
 <section id="descriptive-statistics" class="level4" data-number="2.4.2.1">
@@ -2978,8 +3191,32 @@ Note
 </div>
 <p>Descriptive statistics give <strong>numerical summaries</strong> of a dataset.</p>
 <p>Before diving into categorical and numerical summaries, first check for <strong>missing values</strong>. Missingness is part of the data story and can be informative: <strong>count</strong> missing values and look for <strong>patterns</strong> (are they concentrated in certain variables or groups?). In EDA, always <strong>report the number (and share) of missing values per variable</strong>. We will return to strategies for handling missingness later, since it merits more attention and advanced methods.</p>
-<div id="qwebr-insertion-location-1"></div>
+<div id="qwebr-insertion-location-7"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+R Tip: <code>any()</code>, <code>all()</code>, and <code>anyNA()</code>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><p><code>any(x)</code> returns <code>TRUE</code> if <strong>at least one value</strong> in <code>x</code> is <code>TRUE</code>.</p></li>
+<li><p><code>all(x)</code> returns <code>TRUE</code> only if <strong>every value</strong> in <code>x</code> is <code>TRUE</code>.</p></li>
+<li><p><code>anyNA(x)</code> is a shortcut to check if <strong>any value is <code>NA</code></strong> (missing) in a vector or data frame.</p></li>
+</ul>
+<p><strong>Examples</strong></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="cn">NA</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">any</span>(<span class="fu">is.na</span>(x))     <span class="co"># TRUE – there is at least one NA</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">all</span>(<span class="fu">is.na</span>(x))     <span class="co"># FALSE – not all are NA</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">anyNA</span>(x)          <span class="co"># TRUE – a fast way to check for NA, </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Use <code>any()</code> when you care <strong>if a problem exists</strong>, and <code>all()</code> when you want to know <strong>if everything passes a check</strong>.</p>
+</div>
+</div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -2999,7 +3236,7 @@ Note
 </ol>
 <p>For a categorical variable, the key features are the <strong>set of categories</strong> (the possible values) and <strong>how often each occurs</strong> (frequency or relative frequency).</p>
 <p>The primary tool is a <strong>frequency table</strong>: list each category with its <strong>count</strong> and <strong>proportion/percent</strong>. Always include the total <span class="math inline">\(N\)</span> (and any <strong>missing</strong>) to verify that every recruited subject is represented. As a quick quality check, proportions should sum to <span class="math inline">\(1.00\)</span> (or <span class="math inline">\(100\%\)</span>). Once you are comfortable, reporting either <strong>proportion</strong> <em>or</em> <strong>percent</strong> is sufficient—they are equivalent.</p>
-<div id="qwebr-insertion-location-2"></div>
+<div id="qwebr-insertion-location-8"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <ol start="2" type="1">
 <li><strong>Quantitative Data</strong></li>
@@ -3091,7 +3328,7 @@ Warning
 <p><strong>What to do instead:</strong> for skewed data, report the <strong>median</strong> (and <strong>IQR</strong>) or show both mean <em>and</em> median; consider <strong>trimmed/Winsorized means</strong>; always add a quick plot (histogram/boxplot).</p>
 </div>
 </div>
-<div id="qwebr-insertion-location-3"></div>
+<div id="qwebr-insertion-location-9"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>The <strong>median</strong> is another measure of central tendency. To find it, first sort the <span class="math inline">\(n\)</span> values from smallest to largest. If <span class="math inline">\(n\)</span> is <strong>odd</strong>, the median is the <strong>middle</strong> value; if <span class="math inline">\(n\)</span> is <strong>even</strong>, it is the <strong>average of the two middle</strong> values. When there are ties around the middle, statistical software applies standard rules so you still get a single number. (For some discrete variables there may not be a unique theoretical median, but software returns a conventional choice.)</p>
 <p>In the 2004 U.S. Census Bureau Economic Survey, the <strong>median family income</strong> was <strong>$43,318</strong>, meaning half of families earned less and half earned more. The <strong>mean (average)</strong> was <strong>$60,828</strong>, the amount each family would have if total income were split equally. The gap between these two numbers is large because a few very high incomes pull the <strong>mean</strong> upward.</p>
@@ -3109,10 +3346,10 @@ Tip
 <p>The <strong>median is robust</strong>, a few very large or very small values usually <strong>do not change it</strong>. You can move the highest or lowest observations far away and, as long as the middle order does not change, the median stays the same.</p>
 </div>
 </div>
-<div id="qwebr-insertion-location-4"></div>
+<div id="qwebr-insertion-location-10"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>The <strong>mode</strong> is the most frequent value. For quantitative data it is rarely a good “typical” summary because with continuous or rounded variables the result depends on binning/rounding, may be non-unique, and many samples have no repeated value. We mostly use <strong>mode</strong> as shape language—<strong>unimodal</strong> (one peak), <strong>bimodal</strong> (two), <strong>multimodal</strong> (many). In practice, it is conceptually useful but hard to estimate robustly for numeric variables, and is used more for <strong>categorical or discrete</strong> data.</p>
-<div id="qwebr-insertion-location-5"></div>
+<div id="qwebr-insertion-location-11"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -3199,7 +3436,7 @@ Note
 </div>
 </div>
 <p>Because we square deviations, the <strong>variance</strong> is always <strong>non-negative</strong> and its units are <strong>squared</strong>. That is why a temperature measured in degrees has variance in <strong>degrees²</strong>, and an area measured in km² would have variance in <strong>km⁴</strong>. This can feel odd, but it is also why we often report the <strong>standard deviation</strong> (the square root of variance) when we want a spread measure back in the original units.</p>
-<div id="qwebr-insertion-location-6"></div>
+<div id="qwebr-insertion-location-12"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <div class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -3248,7 +3485,7 @@ Warning
 <p><strong>When this happens:</strong> prefer median + IQR or MAD.</p>
 </div>
 </div>
-<div id="qwebr-insertion-location-7"></div>
+<div id="qwebr-insertion-location-13"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>To understand the <strong>interquantile range (IQR),</strong> first we define <strong>quartiles</strong>. Quartiles split the data into four equal parts: the first quartile (<strong>Q1</strong>) is the smallest value below which 25% of observations fall, the second quartile (<strong>Q2</strong>) is the median (50%), and the third quartile (<strong>Q3</strong>) marks 75%. These three cut points summarize where the lower quarter ends, where the middle lies, and where the upper quarter begins, which is especially helpful when the distribution is not symmetric.</p>
 <p>The <strong>interquartile range (IQR)</strong> is the distance between the third and first quartiles, ($ = Q3 - Q1$ ). It measures how spread out the <strong>middle 50%</strong> of the data are: a wider IQR means the central values are more dispersed, and a narrower IQR means they are more tightly clustered. Like the standard deviation, the IQR is expressed in the <strong>same units</strong> as the original data, but unlike the standard deviation it is <strong>robust</strong>—a few extreme highs or lows have little effect on it because it depends only on the central half of the distribution.</p>
@@ -3271,12 +3508,80 @@ Note
 </ul>
 </div>
 </div>
-<div id="qwebr-insertion-location-8"></div>
+<div id="qwebr-insertion-location-14"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p><strong>Shape (Skewness and kurtosis)</strong></p>
 <p><strong>Skewness</strong> describes <strong>asymmetry</strong>. A <strong>positive</strong> skew means a long <strong>right</strong> tail (very high values are more common than very low ones); a <strong>negative</strong> skew means a long <strong>left</strong> tail.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="..\figs/EDA/skew.png" class="img-fluid figure-img"></p>
+<figcaption>[source:https://towardsdatascience.com/skewness-kurtosis-simplified-1338e094fc85/]</figcaption>
+</figure>
+</div>
+<p>One common (sample-based) formula is<br>
+<span class="math display">\[
+\text{Skewness} = \frac{1}{n} \sum_{i=1}^n \left( \frac{x_i - \bar{x}}{s} \right)^3
+\]</span></p>
+<p>where <span class="math inline">\(\bar{x}\)</span> is sample mean, <span class="math inline">\(s\)</span> is sample standard deviations and <span class="math inline">\(n\)</span> is number of observations.</p>
+<p>Besides this formula, skewness can also be estimated using the mean, median, or mode, especially when full raw data are not available.</p>
+<p><span class="math display">\[
+\text{Skewness} = \frac{\bar{x} - \text{Mode}}{s}
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[
+\text{Skewness} = \frac{3(\bar{x} - \text{Median})}{s}
+\]</span></p>
+<p>While their numerical values may differ, they usually agree in the direction of skew.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>How to Interpret Skewness</strong></p>
+<ul>
+<li><strong>Skewness = 0</strong> → The distribution is <strong>symmetric</strong>.</li>
+<li><strong>Skewness &gt; 0</strong> → The distribution is <strong>right-skewed</strong> (long tail on the <strong>right</strong>).</li>
+<li><strong>Skewness &lt; 0</strong> → The distribution is <strong>left-skewed</strong> (long tail on the <strong>left</strong>).</li>
+</ul>
+</div>
+</div>
+<p>When we compute these from a sample, we get estimates with standard errors. As a rough rule: if an estimate is within about <span class="math inline">\(\pm 2\)</span> standard errors of zero, there is no strong evidence of skewness or extra tail weight; if it is more than <span class="math inline">\(2\)</span> standard errors away, that suggests positive/negative skew or heavier/lighter tails in that direction.</p>
+<p>In R, example is</p>
+<div id="qwebr-insertion-location-15"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p><strong>Kurtosis</strong> describes <strong>tail weight</strong> (and peak shape) <strong>relative to a Normal</strong> distribution. <strong>Positive</strong> kurtosis (“heavy tails”) means more extreme values and a sharper center peak; <strong>negative</strong> kurtosis (“light tails”) means fewer extremes and a flatter, broader peak.</p>
-<p>When we compute these from a <strong>sample</strong>, we get <strong>estimates</strong> with <strong>standard errors</strong>. As a rough rule: if an estimate is within about <span class="math inline">\(\pm 2\)</span> <strong>standard errors of zero</strong>, there is <strong>no strong evidence</strong> of skewness or extra tail weight; if it is <strong>more than</strong> <span class="math inline">\(2\)</span> <strong>standard errors</strong> away, that suggests <strong>positive/negative skew</strong> or <strong>heavier/lighter tails</strong> in that direction.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="..\figs/EDA/kurtosis.png" class="img-fluid figure-img"></p>
+<figcaption>[Source: https://towardsdatascience.com/skewness-kurtosis-simplified-1338e094fc85/]</figcaption>
+</figure>
+</div>
+<p>The most common formula used to calculate <strong>raw kurtosis</strong> is</p>
+<p><span class="math display">\[
+\text{Kurtosis} = \frac{1}{n} \sum_{i=1}^n \left( \frac{x_i - \bar{x}}{s} \right)^4
+\]</span></p>
+<p>A normal distribution has a kurtosis of 3. This value serves as a benchmark. To make comparisons easier, we often use a version called excess kurtosis, which is defined as:</p>
+<p><span class="math display">\[
+\text{Excess Kurtosis} = \text{Kurtosis} - 3
+\]</span></p>
+<p>This transformation re-centers the scale so that the normal distribution has excess kurtosis equal to 0.</p>
+<p>When excess kurtosis is <strong>positive</strong>, the distribution is called <strong>leptokurtic</strong>. This means the distribution has <strong>heavier tails</strong> and a <strong>sharper peak</strong> than a normal distribution—indicating that extreme values are more likely. When excess kurtosis is <strong>negative</strong>, the distribution is referred to as <strong>platykurtic</strong>, meaning it has <strong>lighter tails</strong> and a <strong>flatter peak</strong>, with fewer extreme values than a normal distribution.</p>
+<p>Thus, kurtosis tells us not just about the peak of the distribution, but more importantly, about how likely we are to observe values that are far from the mean.</p>
+<p>Examples in R are</p>
+<div id="qwebr-insertion-location-16"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>In short, skewness tells us whether a distribution is symmetric or lopsided, while kurtosis tells us whether the distribution has unusual peaks or heavy/light tails compared to a normal distribution.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="..\figs/EDA/both.png" class="img-fluid figure-img"></p>
+<figcaption>[Source: https://medium.com/@the_social_byte/why-should-we-care-about-skewness-and-kurtosis-in-data-analysis-bf6bff4b4ab6]</figcaption>
+</figure>
+</div>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -3291,56 +3596,39 @@ Warning
 <p><strong>Tip:</strong> Treat them as <strong>supporting evidence</strong>, and always pair with plots (histogram/density and a QQ-plot) before drawing conclusions.</p>
 </div>
 </div>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Some software reports <strong>“excess kurtosis”</strong> (Normal = 0), others report <strong>kurtosis</strong> (Normal = 3). Check which convention your output uses.</p>
-</div>
-</div>
-<div id="qwebr-insertion-location-9"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div id="qwebr-insertion-location-10"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>See this <a href="https://www.r-bloggers.com/2020/11/skewness-and-kurtosis-in-statistics/">link</a> for more examples in R about skewness and kurtosis.</p>
 <p><strong>Extremes and outliers</strong></p>
 <p><strong>Extremes</strong> are simply the <strong>minimum</strong> and <strong>maximum</strong> (and other high/low quantiles). They’re expected in any sample.</p>
-<div id="qwebr-insertion-location-11"></div>
+<div id="qwebr-insertion-location-17"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p><strong>Outliers</strong> are observations <strong>unusually far</strong> from the bulk <strong>relative to a rule or model</strong> (context matters).</p>
 <p><strong>Tukey’s rule</strong> flags an observation as a <strong>mild outlier</strong> if it lies below <strong>Q1 − 1.5×IQR</strong> or above <strong>Q3 + 1.5×IQR</strong>, and as an <strong>extreme outlier</strong> if it lies beyond <strong>Q1 − 3×IQR</strong> or <strong>Q3 + 3×IQR</strong>.</p>
-<div id="qwebr-insertion-location-12"></div>
+<div id="qwebr-insertion-location-18"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page">Exercise</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Solutions</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true">Exercise</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false">Solutions</a></li></ul>
 <div class="tab-content">
-<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
 <p>In the dataset <code>mpg</code>,</p>
 <ol type="1">
 <li><p>Compute the <strong>mean</strong> and <strong>median</strong> of <code>cty</code>. Which is larger? What does that suggest about skew?</p>
-<div id="qwebr-insertion-location-13"></div>
+<div id="qwebr-insertion-location-19"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript></li>
 <li><p>For <code>displ</code> (engine displacement), report <strong>SD</strong> and <strong>IQR</strong>. Which would you prefer if the distribution is skewed? Why?</p>
-<div id="qwebr-insertion-location-14"></div>
+<div id="qwebr-insertion-location-20"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript></li>
 <li><p>Find the modal category of <code>drv</code> (f/r/4). Also report proportions.</p>
-<div id="qwebr-insertion-location-15"></div>
+<div id="qwebr-insertion-location-21"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript></li>
 <li><p>Compute <strong>skewness</strong> and <strong>kurtosis</strong> for <code>hwy</code>, <code>cty</code>, and <code>displ</code>. Which looks most skewed? Which has the heaviest tails?</p>
-<div id="qwebr-insertion-location-16"></div>
+<div id="qwebr-insertion-location-22"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript></li>
 <li><p>For <code>cty</code>, compute <strong>min/max</strong> and identify outliers using the <strong>1.5×IQR</strong> rule. How many outliers?</p>
-<div id="qwebr-insertion-location-17"></div>
+<div id="qwebr-insertion-location-23"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript></li>
 </ol>
 </div>
-<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div id="tabset-3-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-2-tab">
 <p>Do it yourself! :) <!--
 ::: {.solution exercise="ex_1"}
 ``` r
@@ -3349,7 +3637,7 @@ mean(mpg$cty, na.rm = TRUE)
 median(mpg$cty, na.rm = TRUE)
 skewness(mpg$cty)
 
-#2 
+#2     zz
 sd(mpg$displ, na.rm = TRUE)
 IQR(mpg$displ, na.rm = TRUE)
 
@@ -3379,7 +3667,7 @@ length(which(x < lower | x > upper))
 </div>
 <p><strong>Multivariate Case</strong></p>
 <p><strong>Cross-tabulation</strong> is the basic non-graphical way to study the relationship between two (or more) variables. For two categorical variables, make a two-way table of <strong>counts</strong>, and (depending on your question) add <strong>row %</strong> (each row sums to 100), <strong>column %</strong> (each column sums to 100), and/or <strong>cell %</strong> (table sums to 100). You can extend this to a third variable by producing one two-way table <strong>at each level</strong> of the third variable (or by using a three-way contingency table).</p>
-<div id="qwebr-insertion-location-18"></div>
+<div id="qwebr-insertion-location-24"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p><strong>Associations</strong></p>
 <p>In EDA, we often want to ask <em>Is one variable associated with another?</em></p>
@@ -3615,15 +3903,150 @@ Imagine we observed <span class="math inline">\(344\)</span> penguins from three
 </tr>
 <tr class="even">
 <td>Gender vs Income</td>
-<td>ANOVA + Boxplot</td>
+<td>Eta</td>
 </tr>
 <tr class="odd">
 <td>Plant Type vs Size Category</td>
-<td>Cross-tab or Mosaic Plot</td>
+<td>Cross-tab</td>
 </tr>
 </tbody>
 </table>
 <p>These summaries help us compare groups and form initial impressions (for example, the mean suggests a “typical” value). <strong>But a few numbers can not tell the whole story</strong>—different datasets can share the same mean and spread yet look very different, so always pair numbers with plots and context.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true">Exercise</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-2" role="tab" aria-controls="tabset-4-2" aria-selected="false">Solutions</a></li></ul>
+<div class="tab-content">
+<div id="tabset-4-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-4-1-tab">
+<p>In the dataset <code>mtcars</code>,</p>
+<ol type="1">
+<li><p>Compute the <strong>Pearson correlation</strong> between <code>mpg</code> (miles per gallon) and <code>hp</code> (horsepower).</p>
+<div id="qwebr-insertion-location-25"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript></li>
+<li><p>Compute the <strong>Spearman correlation</strong> between the same two variables.</p>
+<div id="qwebr-insertion-location-26"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript></li>
+</ol>
+<p>Now, answer these questions:</p>
+<ul>
+<li><p>Is the relationship positive or negative?</p></li>
+<li><p>Do Pearson’s r and Spearman’s <span class="math inline">\(\rho\)</span> give similar results? Why or why not?</p></li>
+</ul>
+</div>
+<div id="tabset-4-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-2-tab">
+<p>Do it yourself! :)</p>
+</div>
+</div>
+</div>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-5-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-1" role="tab" aria-controls="tabset-5-1" aria-selected="true">Exercise</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-5-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-2" role="tab" aria-controls="tabset-5-2" aria-selected="false">Solutions</a></li></ul>
+<div class="tab-content">
+<div id="tabset-5-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-5-1-tab">
+<p>In the dataset <code>Titanic</code>,</p>
+<ol type="1">
+<li><p>Create a contingency table of passenger <code>Class</code> vs <code>Survived</code>.</p>
+<div id="qwebr-insertion-location-27"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript></li>
+<li><p>Compute appropriate bivariate association for this association</p>
+<div id="qwebr-insertion-location-28"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript></li>
+</ol>
+<p>Now, answer this question:</p>
+<ul>
+<li>How strong is the association according to the used coefficient?</li>
+</ul>
+</div>
+<div id="tabset-5-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-5-2-tab">
+<p>Do it yourself! :)</p>
+</div>
+</div>
+</div>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-6-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-1" role="tab" aria-controls="tabset-6-1" aria-selected="true">Exercise</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-6-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-2" role="tab" aria-controls="tabset-6-2" aria-selected="false">Solutions</a></li></ul>
+<div class="tab-content">
+<div id="tabset-6-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-6-1-tab">
+<p>In the dataset <code>palmerpenguins::penguins</code>,</p>
+<ol type="1">
+<li><p>Compute the correlation between <code>bill_length_mm</code> and <code>bill_depth_mm</code>.</p>
+<div id="qwebr-insertion-location-29"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript></li>
+<li><p>Build a contingency table of <code>species</code> and <code>island</code> and compute Cramér’s V.</p>
+<div id="qwebr-insertion-location-30"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript></li>
+</ol>
+</div>
+<div id="tabset-6-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-6-2-tab">
+<p>Do it yourself! :)</p>
+</div>
+</div>
+</div>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-7-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-1" role="tab" aria-controls="tabset-7-1" aria-selected="true">Exercise</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-7-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-2" role="tab" aria-controls="tabset-7-2" aria-selected="false">Solutions</a></li></ul>
+<div class="tab-content">
+<div id="tabset-7-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-7-1-tab">
+<p>In the dataset <code>iris</code>,</p>
+<p>Compute the appropriate coefficient of bi-variate association between <code>Sepal.Length</code> and <code>Species</code>.</p>
+<div id="qwebr-insertion-location-31"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+</div>
+<div id="tabset-7-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-7-2-tab">
+<p>Do it yourself! :)</p>
+</div>
+</div>
+</div>
+<p><strong>Comprehensive Exercise: Exploring the airquality Dataset</strong></p>
+<p>The dataset airquality (built into R) contains daily air quality measurements in New York, May–September 1973.</p>
+<p>Variables include:</p>
+<ul>
+<li><p><code>Ozone</code> (ppb),</p></li>
+<li><p><code>Solar.R</code> (solar radiation),</p></li>
+<li><p><code>Wind</code> (mph),</p></li>
+<li><p><code>Temp</code> (°F),</p></li>
+<li><p><code>Month</code> (5 = May, …, 9 = September),</p></li>
+<li><p><code>Day</code> (day of month).</p></li>
+</ul>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-8-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-1" role="tab" aria-controls="tabset-8-1" aria-selected="true">Descriptive Statistics</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-8-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-2" role="tab" aria-controls="tabset-8-2" aria-selected="false">Associations</a></li></ul>
+<div class="tab-content">
+<div id="tabset-8-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-8-1-tab">
+<ol type="1">
+<li>Inspect the dataset: How many rows and columns does it have? Are there missing values?</li>
+</ol>
+<div id="qwebr-insertion-location-32"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<ol start="2" type="1">
+<li>Compute the <strong>mean</strong>, <strong>median</strong>, and <strong>standard deviation</strong> of <code>Ozone</code>, <code>Wind</code>, and <code>Temp</code>.</li>
+</ol>
+<div id="qwebr-insertion-location-33"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<ol start="3" type="1">
+<li>For <code>Month</code>, create a frequency table. Which month has the most observations?</li>
+</ol>
+<div id="qwebr-insertion-location-34"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+</div>
+<div id="tabset-8-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-8-2-tab">
+<ol type="1">
+<li>Compute the Pearson correlation between <code>Ozone</code> and <code>Temp</code>.</li>
+</ol>
+<div id="qwebr-insertion-location-35"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<ol start="2" type="1">
+<li>Compute the Spearman correlation between<code>Ozone</code> and <code>Solar.R</code>.</li>
+</ol>
+<div id="qwebr-insertion-location-36"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<ol start="3" type="1">
+<li>Compute the correlation between <code>Ozone</code> and <code>Month</code></li>
+</ol>
+<div id="qwebr-insertion-location-37"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<ol start="4" type="1">
+<li>Which factor (Temp, Wind, Solar.R, or Month) seems most strongly associated with Ozone levels?</li>
+</ol>
+<div id="qwebr-insertion-location-38"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+</div>
+</div>
+</div>
 </section>
 <section id="graphical-summaries" class="level4" data-number="2.4.2.2">
 <h4 data-number="2.4.2.2" class="anchored" data-anchor-id="graphical-summaries"><span class="header-section-number">2.4.2.2</span> Graphical Summaries</h4>
@@ -3687,19 +4110,19 @@ plot histograms or line charts
 <p>For example, if we see that children with air cleaners had more symptom-free days, that sounds good. But how do we know the air cleaner made the difference? We only know that <strong>by comparing</strong> to another group of children who didn’t get the air cleaner. When we add that comparison, we can see that the control group didn’t improve — so the improvement likely came from the air cleaner.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="../figs/EDA/EDA-P1-a.png" class="img-fluid figure-img"></p>
+<p><img src="..\figs/EDA/EDA-P1-a.png" class="img-fluid figure-img"></p>
 <figcaption>Change in symptom-free days with air cleaner. Source: @Peng2012</figcaption>
 </figure>
 </div>
 <div id="figEDA1" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="../figs/EDA/EDA-P1-a.png" class="img-fluid figure-img"></p>
+<p><img src="..\figs/EDA/EDA-P1-a.png" class="img-fluid figure-img"></p>
 <figcaption>Change in symptom-free days with air cleaner. Source: @Peng2012</figcaption>
 </figure>
 </div>
 <div id="figEDA2" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="../figs/EDA/EDA-P1-b.png" class="img-fluid figure-img"></p>
+<p><img src="..\figs/EDA/EDA-P1-b.png" class="img-fluid figure-img"></p>
 <figcaption>Change in symptom-free days by treatment group. Source: @Peng2012</figcaption>
 </figure>
 </div>
@@ -3720,7 +4143,7 @@ plot histograms or line charts
 <p>For example, in <a href="#figEDA2">#figEDA2</a> we saw that children with an air cleaner had more symptom–free days. But that alone does not explain <strong>why</strong>. A good follow-up question is: “<em>Why did the air cleaner help?“</em> One possible reason is that air cleaners reduce <strong>fine particles</strong> in the air – especially in homes with smokers. Breathing in these particles can make asthma worse, so removing them might help children feel better. To show this, we can make a new plot.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="../figs/EDA/EDA-P2.png" class="img-fluid figure-img"></p>
+<p><img src="..\figs/EDA/EDA-P2.png" class="img-fluid figure-img"></p>
 <figcaption>Change in symptom-free days and change in PM2.5 levels in-home. Source: <span class="citation" data-cites="Peng2012">Peng (<a href="#ref-Peng2012" role="doc-biblioref">2012</a>)</span></figcaption>
 </figure>
 </div>
@@ -3745,14 +4168,14 @@ plot histograms or line charts
 <p>In real life, most problems involve <strong>more than one or two variables</strong>. We call this <strong>multivariate data</strong>. Good data graphics should try to show these multiple variables at the same time, instead of reducing everything to just one number or a simple trend.</p>
 <p>Let us look at an example.</p>
 <p>The <code>mtcars</code> dataset contains information about 32 car models from the 1970s. Each row is a car and each column is a variable. Some of these variables are: <code>mpg</code>: miles per gallon (fuel efficiency), <code>wt</code>: weight (in 1000 lbs), <code>cyl</code>: number of cylanders (engine size), <code>hp</code>: horse power, <code>qsec</code>: 1/4 mile time (acceleration), <code>am</code>: Transmission (0 = auto, 1 = manual). These variables help us to explore relationship between engin size, weight, fuel use, and more.</p>
-<div id="qwebr-insertion-location-19"></div>
+<div id="qwebr-insertion-location-39"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>We want to know how a car’s weight affects its fuel efficiency (miles per gallon). We look at a simple scatter plot of these two variables.</p>
-<div id="qwebr-insertion-location-20"></div>
+<div id="qwebr-insertion-location-40"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>Heavier cars tend to have lower fuel efficiency. But is weight the only thing affecting fuel use?</p>
 <p>Cars also have different engine sizes, measured by cylinders (<code>cyl</code>). This affects both weight and fuel efficiency. To understand the relationship better, we add <code>cyl</code> as a third variable by coloring points by the number of cylinders.</p>
-<div id="qwebr-insertion-location-21"></div>
+<div id="qwebr-insertion-location-41"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>Now, we see that cars with 4, 6, and 8 cylinders have different trends. The overall pattern changes once we include this third variable.</p>
 <div class="callout callout-style-default callout-caution callout-titled">
@@ -3769,7 +4192,7 @@ Caution
 </div>
 </div>
 <p>To understand how the number of cylinders changes the relationship between weight and fuel efficiency, we can make separate plots for each cylinder group. This is called <strong>faceting</strong>.</p>
-<div id="qwebr-insertion-location-22"></div>
+<div id="qwebr-insertion-location-42"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -3785,13 +4208,13 @@ Important
 </div>
 </div>
 <p>Even, we can add the variable transmission(<code>am</code>) as an additional variable by using shapes or facet.</p>
-<div id="qwebr-insertion-location-23"></div>
+<div id="qwebr-insertion-location-43"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div id="qwebr-insertion-location-24"></div>
+<div id="qwebr-insertion-location-44"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>Now, each panel shows either automatic automatic or manual cars. Within each panel, colors show the number of cylinders.</p>
 <p>Even we can use <code>facet_grid</code> that allows us to split the plot into rows and columns based on two categorical variables – perfect for showing how relationships vary across combinations. We will use <code>am</code> in rows and <code>cyl</code> in columns.</p>
-<div id="qwebr-insertion-location-25"></div>
+<div id="qwebr-insertion-location-45"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>This way, we can see how the relationship between weight and MPG changes in each group combination.</p>
 <p><strong>Principle 4: Integrate Evidence — Keep the message clear</strong></p>
@@ -3906,13 +4329,13 @@ Tip
 <p><strong>Step 1 –</strong> <em>How do ozone levels vary across different months in New York during the summer in 1973?</em></p>
 <p>This question is specific and focused: <em>One location (New York), One variable (ozone), one year and a defined time window (May to September)</em></p>
 <p><strong>Step 2 –</strong> The <code>airquality</code> dataset is built into R. Load it with:</p>
-<div id="qwebr-insertion-location-26"></div>
+<div id="qwebr-insertion-location-46"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p><strong>Step 3 –</strong> Check the size and dimension of the dataset</p>
-<div id="qwebr-insertion-location-27"></div>
+<div id="qwebr-insertion-location-47"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p><strong>Step 4 –</strong> run <code>str()</code></p>
-<div id="qwebr-insertion-location-28"></div>
+<div id="qwebr-insertion-location-48"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <div class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -3928,19 +4351,19 @@ Caution
 </div>
 </div>
 <p><strong>Step 5 –</strong></p>
-<div id="qwebr-insertion-location-29"></div>
+<div id="qwebr-insertion-location-49"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div id="qwebr-insertion-location-30"></div>
+<div id="qwebr-insertion-location-50"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p><strong>Step 6 –</strong></p>
 <p>First, we count how many rows (i.e., records or observations) are in the dataset.</p>
-<div id="qwebr-insertion-location-31"></div>
+<div id="qwebr-insertion-location-51"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>Missing values (denoted as <code>NA</code> in R) can lead to incorrect calculations or unexpected results. It is good practice to check how many missing values there are per variable.</p>
-<div id="qwebr-insertion-location-32"></div>
+<div id="qwebr-insertion-location-52"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p><strong>Using `dplyr`</strong></p>
-<div id="qwebr-insertion-location-33"></div>
+<div id="qwebr-insertion-location-53"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>This command uses <code>across()</code> to apply the same function to all columns, and <code>sum(is.na(.))</code> to count the number of missing values per column.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
@@ -3957,14 +4380,14 @@ Tip
 <p>The <code>~</code> introduces an <strong>anonymous function</strong> — a function written inline without a name.</p>
 <p>This</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="sc">~</span> <span class="fu">sum</span>(<span class="fu">is.na</span>(.))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="sc">~</span> <span class="fu">sum</span>(<span class="fu">is.na</span>(.))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>~sum(is.na(.))</code></pre>
 </div>
 </div>
 <p>is a shorthand for</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span>(x) <span class="fu">sum</span>(<span class="fu">is.na</span>(x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span>(x) <span class="fu">sum</span>(<span class="fu">is.na</span>(x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>function (x) 
 sum(is.na(x))</code></pre>
@@ -3973,77 +4396,77 @@ sum(is.na(x))</code></pre>
 </div>
 </div>
 <p>Or, we can check how many rows are from July:</p>
-<div id="qwebr-insertion-location-34"></div>
+<div id="qwebr-insertion-location-54"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>check how many missing values are just in August.</p>
-<div id="qwebr-insertion-location-35"></div>
+<div id="qwebr-insertion-location-55"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p><strong>Step 7 –</strong> According to the U.S. EPA, ozone levels above 70 parts per billion (ppb) may be considered unhealthy.</p>
-<div id="qwebr-insertion-location-36"></div>
+<div id="qwebr-insertion-location-56"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>Based on the output, many days have safe levels and some days have extremely high ozone levels.</p>
 <p><strong>Step 8 –</strong> Let us check the average ozone level by month:</p>
-<div id="qwebr-insertion-location-37"></div>
+<div id="qwebr-insertion-location-57"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>This gives a quick overview of how ozone levels change over the summer. Let visualize it:</p>
-<div id="qwebr-insertion-location-38"></div>
+<div id="qwebr-insertion-location-58"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>Based on the plot, we observe that July and August have the highest median ozone levels, showing that typical ozone concentrations were significantly higher during mid-summer. This suggests a seasonal pattern, likely driven by higher temperatures and increased sunlight, which promote the formation of ozone. The taller boxes and whiskers for these months reflect a greater variability in ozone levels, including several high outliers. In contrast, May and September show lower median values and less variation, possibly due to cooler temperatures and different atmospheric conditions. The median ozone level is June is slightly higher than in May but lower than in July, with a moderate level of variability. Overall, this seasonal trend is consistent with environmental science – <strong>ozone forms more easily in strong sunlight and warm conditions</strong>, which are more prevalent in July and August.</p>
 <p><strong>Step 9 –</strong> Let us examine whether temperature or wind speed might help explain ozone patterns.</p>
-<div id="qwebr-insertion-location-39"></div>
+<div id="qwebr-insertion-location-59"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div id="qwebr-insertion-location-40"></div>
+<div id="qwebr-insertion-location-60"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>You may observe that there is a <em>positive</em> relationship between temperature and ozone and a <em>negative</em> relationship between wind speed and ozone. These patterns support common environmental science findings.</p>
 <p><strong>Step 10 –</strong> Based on our findings, we might fit a simple regression model</p>
-<div id="qwebr-insertion-location-41"></div>
+<div id="qwebr-insertion-location-61"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>We might also refine our question: <em>On which days was the ozone level unusually high, and what were the weather conditions on those days?</em></p>
 <p>Alternative question</p>
 <p><strong><em>Step 1 – Which weather factor—temperature, wind, or solar radiation—has the strongest relationship with ozone levels during the summer of 1973 in New York?</em></strong></p>
 <p>This question is more analytical than descriptive, and focused on <strong>relationships</strong> between variables. So, we need to examine how ozone changes with respect to other variables.</p>
 <p><strong>Step 2 –</strong></p>
-<div id="qwebr-insertion-location-42"></div>
+<div id="qwebr-insertion-location-62"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p><strong>Step 3 –</strong></p>
-<div id="qwebr-insertion-location-43"></div>
+<div id="qwebr-insertion-location-63"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p><strong>Step 4 –</strong></p>
-<div id="qwebr-insertion-location-44"></div>
+<div id="qwebr-insertion-location-64"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p><strong>Step 5 –</strong></p>
-<div id="qwebr-insertion-location-45"></div>
+<div id="qwebr-insertion-location-65"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div id="qwebr-insertion-location-46"></div>
+<div id="qwebr-insertion-location-66"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p><strong>Step 6 –</strong></p>
-<div id="qwebr-insertion-location-47"></div>
+<div id="qwebr-insertion-location-67"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p><strong>Step 7 –</strong></p>
 <p>Check how often ozone exceeds EPA’s 70 ppb guideline:</p>
-<div id="qwebr-insertion-location-48"></div>
+<div id="qwebr-insertion-location-68"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p><strong>Step 8 –</strong></p>
 <p>Since <code>dplyr</code> does not include a <code>cor()</code> function, we will compute correlations manually using <code>summarise()</code> and <code>cor()</code> from base R, keeping within tidy pipelines:</p>
-<div id="qwebr-insertion-location-49"></div>
+<div id="qwebr-insertion-location-69"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div id="qwebr-insertion-location-50"></div>
+<div id="qwebr-insertion-location-70"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div id="qwebr-insertion-location-51"></div>
+<div id="qwebr-insertion-location-71"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div id="qwebr-insertion-location-52"></div>
+<div id="qwebr-insertion-location-72"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p><strong>More advanced:</strong></p>
-<div id="qwebr-insertion-location-53"></div>
+<div id="qwebr-insertion-location-73"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>But sometimes, a simple code gives the more informative output:</p>
-<div id="qwebr-insertion-location-54"></div>
+<div id="qwebr-insertion-location-74"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>visualize the relationships:</p>
-<div id="qwebr-insertion-location-55"></div>
+<div id="qwebr-insertion-location-75"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p><strong>Step 9 –</strong></p>
-<div id="qwebr-insertion-location-56"></div>
+<div id="qwebr-insertion-location-76"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>When we check p-values and coefficients, we see <code>Temp</code> has strong and significant positive effect, <code>Wind</code> has strong and significant negative effect, and <code>Solar.R</code> has weaker effect but still contributes.</p>
 <p><strong>Step 10 –</strong></p>
@@ -4220,6 +4643,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -4330,6 +4755,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
+      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {

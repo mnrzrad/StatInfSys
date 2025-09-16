@@ -440,7 +440,7 @@ Your task is to:
 Fill Table to Complete
 
 | Variable | Is it categorical? (Yes/No) | Scale (Nominal / Ordinal) | Justify your answer |
-|------------------|------------------|------------------|--------------------|
+|------------------|------------------|------------------|-------------------|
 | `manufacturer` |  |  |  |
 | `model` |  |  |  |
 | `trans` |  |  |  |
@@ -1349,15 +1349,175 @@ This table shows which association or correlation measure to use depending on th
 
 **Example: What Should You Use?**
 
-| Situation                       | Use                      |
-|---------------------------------|--------------------------|
-| Height vs Weight                | Pearson’s r              |
-| Exam Rank vs Satisfaction Level | Kendall’s τ              |
-| Eye Color vs Blood Type         | Cramér’s V               |
-| Gender vs Income                | ANOVA + Boxplot          |
-| Plant Type vs Size Category     | Cross-tab or Mosaic Plot |
+| Situation                       | Use         |
+|---------------------------------|-------------|
+| Height vs Weight                | Pearson’s r |
+| Exam Rank vs Satisfaction Level | Kendall’s τ |
+| Eye Color vs Blood Type         | Cramér’s V  |
+| Gender vs Income                | Eta         |
+| Plant Type vs Size Category     | Cross-tab   |
 
 These summaries help us compare groups and form initial impressions (for example, the mean suggests a “typical” value). **But a few numbers can not tell the whole story**—different datasets can share the same mean and spread yet look very different, so always pair numbers with plots and context.
+
+::: panel-tabset
+### Exercise
+
+In the dataset `mtcars`,
+
+1.  Compute the **Pearson correlation** between `mpg` (miles per gallon) and `hp` (horsepower).
+
+    ```{webr-r}
+
+    ```
+
+2.  Compute the **Spearman correlation** between the same two variables.
+
+    ```{webr-r}
+
+    ```
+
+Now, answer these questions: 
+
+- Is the relationship positive or negative?
+
+- Do Pearson's r and Spearman's $\rho$ give similar results? Why or why not?
+
+### Solutions
+
+Do it yourself! :)
+:::
+
+::: panel-tabset
+### Exercise
+
+In the dataset `Titanic`,
+
+1.  Create a contingency table of passenger `Class` vs `Survived`.
+
+    ```{webr-r}
+
+    ```
+
+2.  Compute appropriate bivariate association for this association
+
+    ```{webr-r}
+
+    ```
+
+Now, answer this question: 
+
+- How strong is the association according to the used coefficient?
+
+### Solutions
+
+Do it yourself! :)
+:::
+
+::: panel-tabset
+### Exercise
+
+In the dataset `palmerpenguins::penguins`,
+
+1.  Compute the correlation between `bill_length_mm` and `bill_depth_mm`.
+
+    ```{webr-r}
+
+    ```
+
+2.  Build a contingency table of `species` and `island` and compute Cramér’s V.
+
+    ```{webr-r}
+
+    ```
+
+### Solutions
+
+Do it yourself! :)
+:::
+
+::: panel-tabset
+### Exercise
+
+In the dataset `iris`,
+
+Compute the appropriate coefficient of bi-variate association between `Sepal.Length` and `Species`.
+
+```{webr-r}
+
+```
+
+### Solutions
+
+Do it yourself! :)
+:::
+
+
+**Comprehensive Exercise: Exploring the airquality Dataset**
+
+The dataset airquality (built into R) contains daily air quality measurements in New York, May–September 1973. 
+
+Variables include:
+
+- `Ozone` (ppb),
+
+- `Solar.R` (solar radiation),
+
+-  `Wind` (mph),
+
+- `Temp` (°F),
+
+- `Month` (5 = May, …, 9 = September),
+
+- `Day` (day of month).
+
+::: panel-tabset
+### Descriptive Statistics
+
+1. Inspect the dataset: How many rows and columns does it have? Are there missing values?
+
+```{webr-r}
+
+```
+
+2. Compute the **mean**, **median**, and **standard deviation** of `Ozone`, `Wind`, and `Temp`.
+
+```{webr-r}
+
+```
+
+3. For `Month`, create a frequency table. Which month has the most observations?
+
+```{webr-r}
+
+```
+
+### Associations 
+
+1. Compute the Pearson correlation between `Ozone` and `Temp`.
+```{webr-r}
+
+```
+
+
+2. Compute the Spearman correlation between`Ozone` and `Solar.R`.
+```{webr-r}
+
+```
+
+
+3. Compute the correlation between `Ozone` and `Month`
+```{webr-r}
+
+```
+
+4. Which factor (Temp, Wind, Solar.R, or Month) seems most strongly associated with Ozone levels?
+
+```{webr-r}
+
+```
+:::
+
+
 
 #### Graphical Summaries
 
