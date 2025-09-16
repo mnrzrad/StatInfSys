@@ -249,7 +249,7 @@ Roger D. Peng in his book [@Peng2012] provide this checklist for conducting EDA.
 
 5.  **Look at the Beginning and End of Your Data:** Use functions such as `head()` and `tail()` to view the first and last few rows. This visual check can help to detect issues such as incorrect headers, blank rows, or unusual formatting.
 
-6.  **Check the Number of Rows ("n"):** Make sure to verify how many observations (rows) are in your dataset. Compare this to what you expected from the original. source. If the number is too high or too low, there may be missing values, duplicate entries, or extra rows (e.g. duplicates or blank lines).
+6.  **Check the Number of Rows ("**$n$"): Make sure to verify how many observations (rows) are in your dataset. Compare this to what you expected from the original. source. If the number is too high or too low, there may be missing values, duplicate entries, or extra rows (e.g. duplicates or blank lines).
 
 7.  **Validate with an External Source:** When possible, compare part of your dataset with a trusted external source, such as official statistics or published reports. This helps confirm the accuracy and reliability of your data.
 
@@ -322,6 +322,7 @@ Most datasets are organized in a rectangular format — like a spreadsheet — w
 
 ![Adapted from Slides of 'EDA Module I: A Bird's Eye View' by Dr. Mark Williamson](/figs/EDA/datatable.png){fig-align="center"}
 
+```{=html}
 <!-- 
 EDA is the process of looking at data to understand it before using statistics or models. It helps us to answer questions like: 
 
@@ -333,7 +334,27 @@ EDA is the process of looking at data to understand it before using statistics o
 
 - What kind of summary or visualization is helpful?
 -->
+```
 
+As an example, let us explore the `mpg` dataset with a few simple commands in R:
+
+```{webr-r}
+library(ggplot2)
+data(mpg)
+
+# View the help page
+?mpg
+help(mpg)
+
+# Peek at the structure
+str(mpg)
+
+# View the first few rows
+head(mpg)
+
+# View the last 6 rows
+tail(mpg)
+```
 
 ### Types of Variables
 
@@ -369,6 +390,109 @@ For example, *Satisfaction* (low, medium, high), *education* (primary, secondary
 **Avoid coding categories with numbers** (e.g., Male = 1, Female = 2), as this may wrongly suggest order or allow meaningless calculations.
 
 **Tip:** Use **clear text labels** like `"Male"` and `"Female"`.
+:::
+
+In R, *categorical variables* are usually stored as **factors**. But sometimes they might appear as `character` or even `numeric`, especially if the dataset is not clean or comes from an external file.
+
+You can check whether a variable is a factor using:
+
+```{webr-r}
+is.factor(mpg$drv)
+```
+
+To see the possible categories (called **levels**) of a factor, use:
+
+```{webr-r}
+levels(mpg$drv)
+```
+
+If a variable is not a factor but should be treated as one, you can convert it like this:
+
+```{webr-r}
+mpg$drv <- factor(mpg$drv)
+```
+
+::: callout-tip
+Sometimes, datasets are **not ready** for analysis and categorical variables may be incorrectly coded as numeric or character. Always check and **convert them to `factor` if needed** before analysis or plotting.
+:::
+
+You can use the following commands to help:
+
+``` r
+is.factor(mpg$class)
+levels(mpg$class)
+mpg$class <- factor(mpg$class)
+```
+
+::: panel-tabset
+### Exercise
+
+The `mpg` dataset contains information about different car models, including manufacturer, engine size, fuel efficiency, and more.
+
+Your task is to:
+
+1.  **List all the categorical variables** in the dataset.
+2.  Use `is.factor()` to check which variables are already treated as factors (categorical).
+3.  If a variable is not a factor but should be (e.g., `class` or `trans`), convert it using `factor()`.
+4.  Use `levels()` to inspect the categories.
+5.  Finally, **fill in the table** to classify each categorical variable as **nominal** or **ordinal**.
+
+Fill Table to Complete
+
+| Variable | Is it categorical? (Yes/No) | Scale (Nominal / Ordinal) | Justify your answer |
+|------------------|------------------|------------------|--------------------|
+| `manufacturer` |  |  |  |
+| `model` |  |  |  |
+| `trans` |  |  |  |
+| `drv` |  |  |  |
+| `fl` |  |  |  |
+| `class` |  |  |  |
+| `year` |  |  |  |
+| `displ` |  |  |  |
+
+------------------------------------------------------------------------
+
+### Hint
+
+-   Use \`str(mpg)\` to inspect all variable types.
+
+-   Use \`is.factor()\` to check factor status.
+
+-   Use \`levels()\` to explore categories.
+
+-   Variables like \`class\` and \`fl\` are good candidates for factors.
+
+-   Nominal= unordered categories; Ordinal= categories with a meaningful order.
+
+------------------------------------------------------------------------
+
+### Solutions
+
+Do it yourself :)
+
+````{=html}
+<!--
+
+You can use the following commands to help:
+
+``` r
+is.factor(mpg$class)
+levels(mpg$class)
+mpg$class <- factor(mpg$class)
+```
+
+\| Variable \| Is it categorical? \| Scale \| Justification \|
+\|----------------\|--------------------\|---------\|--------------------------------------------------\|
+\| \`manufacturer\` \| Yes \| Nominal \| It's a brand name, no natural order \|
+\| \`model\` \| Yes \| Nominal \| Specific model name, not ordered \|
+\| \`trans\` \| Yes \| Nominal \| Transmission type (e.g., auto, manual) \|
+\| \`drv\` \| Yes \| Nominal \| Drive type (\`f\`, \`r\`, \`4\`) — no natural order \|
+\| \`fl\` \| Yes \| Nominal \| Fuel type — categories like \`p\`, \`d\`, \`e\` \|
+\| \`class\` \| Yes \| Nominal \| Vehicle class names (e.g., \`suv\`, \`compact\`) \|
+\| \`year\` \| No \| — \| Numeric year — treated as a number, not category \|
+\| \`displ\` \| No \| — \| Numeric — engine displacement \|
+-->
+````
 :::
 
 #### Numerical variables
@@ -459,6 +583,81 @@ Example: **Age**
 -   If recorded in categories (e.g., \<20, 21–25, 80+), it is a **categorical variable**.
 :::
 
+In R, **numeric variables** include both:
+
+-   **Integers** (whole numbers, like 1, 2, 3), and
+-   **Doubles** or **floats** (decimal values, like 3.14, 5.0)
+
+You can check a variable's numeric type using:
+
+```{webr-r}
+is.numeric(mpg$displ)    # Is it numeric?
+is.integer(mpg$year)     # Is it stored as an integer?
+is.double(mpg$cty)       # Is it a floating point number?
+```
+
+In R, most numeric data are stored as `double` even if they look like integers.
+
+You can convert to numeric explicitly if needed:
+
+```{webr-r}
+mpg$year <- as.numeric(mpg$year)
+```
+
+::: panel-tabset
+### Exercise
+
+The `mpg` dataset includes several numeric variables related to fuel economy and engine size.
+
+Your task is to:
+
+1.  Identify the **numeric variables** in the dataset using `is.numeric()`.
+2.  Check if the numeric variable is an **integer** (`is.integer()`) or a **float** (`is.double()`).
+3.  Complete the table and classify each variable as:
+    -   **Discrete** (countable values)
+    -   **Continuous** (can take any value within a range)
+4.  Comment on any variables that could be treated as **categorical** instead, depending on context.
+
+------------------------------------------------------------------------
+
+### Hint
+
+-   Use `str(mpg)` and `summary(mpg)` to explore data.
+-   Use `is.numeric()` to detect numeric variables.
+-   Use `is.integer()` and `is.double()` to check type.
+-   Discrete = exact counts; Continuous = measured values
+
+------------------------------------------------------------------------
+
+### Solutions
+
+Do it yourself :)
+
+````{=html}
+<!--
+| Variable | Is numeric? | Type (Integer/Double) | Scale | Should it be categorical? | Justification |
+|-----------|-----------|-----------|-----------|-----------|-----------------|
+| `displ` | Yes | Double (`is.double()`) | Continuous | No | Engine size in litres, measured |
+| `cty` | Yes | Double | Discrete\* | No | City MPG, looks discrete but is measured |
+| `hwy` | Yes | Double | Discrete\* | No | Highway MPG, measured but in whole numbers |
+| `cyl` | Yes | Double | Discrete | Maybe | Cylinders are countable — could be categorical |
+| `year` | Yes | Integer | Discrete | Maybe | Only two years; may be better as factor |
+
+
+``` r
+is.numeric(mpg$cty)     # TRUE
+is.integer(mpg$year)    # FALSE (even though it's a year!)
+is.double(mpg$displ)    # TRUE
+```
+
+``` r
+mpg$cyl <- as.integer(mpg$cyl)
+mpg$year <- as.factor(mpg$year)   # if treating as categorical
+```
+-->
+````
+:::
+
 **Summary of Variable Types**
 
 ![Source: https://datatab.net/tutorial/level-of-measurement](/figs/EDA/scales.png){fig-align="center"}
@@ -527,8 +726,34 @@ Before diving into categorical and numerical summaries, first check for **missin
 library(ggplot2)
 data("mpg", package = "ggplot2")
 
+# Count how many missing values (NA) exist in each column
 colSums(is.na(mpg))
+
+# Check if there are any missing values at all in the dataset
+anyNA(mpg) 
 ```
+
+::: callout-tip
+### R Tip: `any()`, `all()`, and `anyNA()`
+
+-   `any(x)` returns `TRUE` if **at least one value** in `x` is `TRUE`.
+
+-   `all(x)` returns `TRUE` only if **every value** in `x` is `TRUE`.
+
+-   `anyNA(x)` is a shortcut to check if **any value is `NA`** (missing) in a vector or data frame.
+
+**Examples**
+
+``` r
+x <- c(1, 2, 3, NA)
+
+any(is.na(x))     # TRUE – there is at least one NA
+all(is.na(x))     # FALSE – not all are NA
+anyNA(x)          # TRUE – a fast way to check for NA, 
+```
+
+Use `any()` when you care **if a problem exists**, and `all()` when you want to know **if everything passes a check**.
+:::
 
 ::: callout-note
 summaries like mean/SD ignore `NA` by default only if you set `na.rm = TRUE`; silently dropping cases can bias results.
@@ -546,7 +771,7 @@ The primary tool is a **frequency table**: list each category with its **count**
 data("mpg", package = "ggplot2")
 
 N <- nrow(mpg)
-cat('Total number of data is:', N)
+cat('Total number of data is:', N, '\n')
 head(mpg, 3)
 
 # Frequency table
@@ -559,6 +784,7 @@ percent <- round(100 * prop, 1)
 # Check totals
 sum(tab)      # should equal N
 sum(prop)     # should be 1
+sum(percent)  # should be 100
 ```
 
 2.  **Quantitative Data**
@@ -699,6 +925,7 @@ $$
 s^2 = \frac{1}{n-1}\sum_{i=1}^n (x_i - \bar{x})^2
 $$As a **sample statistic**, ($s^2$) varies from sample to sample; we use it to **estimate** the single, fixed **population variance** ($\sigma^2$). The $(n-1)$ in the denominator ensures *unbiasedness*: across many random samples, the average of $s^2$ equals $\sigma^2$.
 
+```{=html}
 <!-- 
 
 Another (equivalent) way to write the variance is
@@ -710,6 +937,7 @@ $$
 where $SS$ is the **sum of squared deviations** (often just “sum of squares”), i.e., $SS = \sum_{i=1}^n (x_i-\bar{x})^2$, and $df$ is the **degrees of freedom**. For a single sample variance, $df = n-1$.
 
 -->
+```
 
 ::: callout-note
 **Why does variance matter?**
@@ -755,7 +983,7 @@ sd(x, na.rm = TRUE)
 
 To understand the **interquantile range (IQR),** first we define **quartiles**. Quartiles split the data into four equal parts: the first quartile (**Q1**) is the smallest value below which 25% of observations fall, the second quartile (**Q2**) is the median (50%), and the third quartile (**Q3**) marks 75%. These three cut points summarize where the lower quarter ends, where the middle lies, and where the upper quarter begins, which is especially helpful when the distribution is not symmetric.
 
-The **interquartile range (IQR)** is the distance between the third and first quartiles, ($ \mathrm{IQR} = Q3 - Q1$ ). It measures how spread out the **middle 50%** of the data are: a wider IQR means the central values are more dispersed, and a narrower IQR means they are more tightly clustered. Like the standard deviation, the IQR is expressed in the **same units** as the original data, but unlike the standard deviation it is **robust**—a few extreme highs or lows have little effect on it because it depends only on the central half of the distribution.
+The **interquartile range (IQR)** is the distance between the third and first quartiles, (\$ \mathrm{IQR} = Q3 - Q1\$ ). It measures how spread out the **middle 50%** of the data are: a wider IQR means the central values are more dispersed, and a narrower IQR means they are more tightly clustered. Like the standard deviation, the IQR is expressed in the **same units** as the original data, but unlike the standard deviation it is **robust**—a few extreme highs or lows have little effect on it because it depends only on the central half of the distribution.
 
 In contrast, the **range** (maximum minus minimum) is very sensitive to outliers and can change dramatically from sample to sample; it is useful for quick checks and for spotting obvious data-entry errors when you know plausible bounds, but it is not a stable measure of spread. By comparison, the variance/standard deviation fluctuate less than the range, and the IQR fluctuates less than either of them.
 
@@ -778,19 +1006,40 @@ IQR(x, na.rm = TRUE)
 
 **Skewness** describes **asymmetry**. A **positive** skew means a long **right** tail (very high values are more common than very low ones); a **negative** skew means a long **left** tail.
 
-**Kurtosis** describes **tail weight** (and peak shape) **relative to a Normal** distribution. **Positive** kurtosis (“heavy tails”) means more extreme values and a sharper center peak; **negative** kurtosis (“light tails”) means fewer extremes and a flatter, broader peak.
+![\[source:https://towardsdatascience.com/skewness-kurtosis-simplified-1338e094fc85/\]](/figs/EDA/skew.png){fig-align="center"}
 
-When we compute these from a **sample**, we get **estimates** with **standard errors**. As a rough rule: if an estimate is within about $\pm 2$ **standard errors of zero**, there is **no strong evidence** of skewness or extra tail weight; if it is **more than** $2$ **standard errors** away, that suggests **positive/negative skew** or **heavier/lighter tails** in that direction.
+One common (sample-based) formula is\
+$$
+\text{Skewness} = \frac{1}{n} \sum_{i=1}^n \left( \frac{x_i - \bar{x}}{s} \right)^3
+$$
 
-::: callout-warning
-**Use with care.** Skewness and kurtosis are **sensitive to outliers** and can be unstable in **small samples**.
+where $\bar{x}$ is sample mean, $s$ is sample standard deviations and $n$ is number of observations.
 
-**Tip:** Treat them as **supporting evidence**, and always pair with plots (histogram/density and a QQ-plot) before drawing conclusions.
-:::
+Besides this formula, skewness can also be estimated using the mean, median, or mode, especially when full raw data are not available.
+
+$$
+\text{Skewness} = \frac{\bar{x} - \text{Mode}}{s}
+$$
+
+and
+
+$$
+\text{Skewness} = \frac{3(\bar{x} - \text{Median})}{s}
+$$
+
+While their numerical values may differ, they usually agree in the direction of skew.
 
 ::: callout-note
-Some software reports **“excess kurtosis”** (Normal = 0), others report **kurtosis** (Normal = 3). Check which convention your output uses.
+**How to Interpret Skewness**
+
+-   **Skewness = 0** → The distribution is **symmetric**.
+-   **Skewness \> 0** → The distribution is **right-skewed** (long tail on the **right**).
+-   **Skewness \< 0** → The distribution is **left-skewed** (long tail on the **left**).
 :::
+
+When we compute these from a sample, we get estimates with standard errors. As a rough rule: if an estimate is within about $\pm 2$ standard errors of zero, there is no strong evidence of skewness or extra tail weight; if it is more than $2$ standard errors away, that suggests positive/negative skew or heavier/lighter tails in that direction.
+
+In R, example is
 
 ```{webr-r}
 x <- mpg$hwy
@@ -804,6 +1053,30 @@ library(e1071)
 e1071::skewness(x) 
 ```
 
+**Kurtosis** describes **tail weight** (and peak shape) **relative to a Normal** distribution. **Positive** kurtosis (“heavy tails”) means more extreme values and a sharper center peak; **negative** kurtosis (“light tails”) means fewer extremes and a flatter, broader peak.
+
+![\[Source: https://towardsdatascience.com/skewness-kurtosis-simplified-1338e094fc85/\]](/figs/EDA/kurtosis.png){fig-align="center"}
+
+The most common formula used to calculate **raw kurtosis** is
+
+$$
+\text{Kurtosis} = \frac{1}{n} \sum_{i=1}^n \left( \frac{x_i - \bar{x}}{s} \right)^4
+$$
+
+A normal distribution has a kurtosis of 3. This value serves as a benchmark. To make comparisons easier, we often use a version called excess kurtosis, which is defined as:
+
+$$
+\text{Excess Kurtosis} = \text{Kurtosis} - 3
+$$
+
+This transformation re-centers the scale so that the normal distribution has excess kurtosis equal to 0.
+
+When excess kurtosis is **positive**, the distribution is called **leptokurtic**. This means the distribution has **heavier tails** and a **sharper peak** than a normal distribution—indicating that extreme values are more likely. When excess kurtosis is **negative**, the distribution is referred to as **platykurtic**, meaning it has **lighter tails** and a **flatter peak**, with fewer extreme values than a normal distribution.
+
+Thus, kurtosis tells us not just about the peak of the distribution, but more importantly, about how likely we are to observe values that are far from the mean.
+
+Examples in R are
+
 ```{webr-r}
 library(moments)
 moments::kurtosis(x) 
@@ -813,6 +1086,16 @@ moments::kurtosis(x)
 library(e1071)
 e1071::kurtosis(x) 
 ```
+
+In short, skewness tells us whether a distribution is symmetric or lopsided, while kurtosis tells us whether the distribution has unusual peaks or heavy/light tails compared to a normal distribution.
+
+![\[Source: https://medium.com/\@the_social_byte/why-should-we-care-about-skewness-and-kurtosis-in-data-analysis-bf6bff4b4ab6\]](/figs/EDA/both.png)
+
+::: callout-warning
+**Use with care.** Skewness and kurtosis are **sensitive to outliers** and can be unstable in **small samples**.
+
+**Tip:** Treat them as **supporting evidence**, and always pair with plots (histogram/density and a QQ-plot) before drawing conclusions.
+:::
 
 See this [link](https://www.r-bloggers.com/2020/11/skewness-and-kurtosis-in-statistics/) for more examples in R about skewness and kurtosis.
 
@@ -844,7 +1127,7 @@ outliers <- x[x < lower | x > upper]
 outliers
 ```
 
-:::: panel-tabset
+::: panel-tabset
 ### Exercise
 
 In the dataset `mpg`,
@@ -879,11 +1162,9 @@ In the dataset `mpg`,
 
     ```
 
-
 ### Solutions
 
-Do it yourself! :)
-<!--
+Do it yourself! :) <!--
 ::: {.solution exercise="ex_1"}
 ``` r
 # 1
@@ -891,7 +1172,7 @@ mean(mpg$cty, na.rm = TRUE)
 median(mpg$cty, na.rm = TRUE)
 skewness(mpg$cty)
 
-#2 
+#2     zz
 sd(mpg$displ, na.rm = TRUE)
 IQR(mpg$displ, na.rm = TRUE)
 
@@ -916,7 +1197,7 @@ length(which(x < lower | x > upper))
 ```
 :::
 -->
-::::
+:::
 
 **Multivariate Case**
 
@@ -1086,7 +1367,7 @@ Common EDA plots include: - **Histograms** – show the shape and spread of a nu
 
 Graphs are **easier to understand** than tables of numbers. They help us and others **see what’s going on** in the data.
 
-
+```{=html}
 <!--
 ::: {.callout-caution appearance="minimal"}
 nomial: What we can do:
@@ -1116,7 +1397,7 @@ calculate mean, standard deviation
 plot histograms or line charts
 :::
 -->
-
+```
 
 ##### Principles of Analytic Graphics
 
