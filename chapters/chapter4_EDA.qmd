@@ -1004,6 +1004,12 @@ IQR(x, na.rm = TRUE)
 
 **Shape (Skewness and kurtosis)**
 
+The **normal distribution** is a foundational concept in statistics. It is perfectly **symmetric**: the left and right sides of its bell-shaped curve are mirror images. This means the **mean**, **median**, and **mode** of a normal distribution are all equal.
+
+![](/figs/EDA/normal.jpg){fig-align="center"}
+
+But real-world data rarely follow perfect symmetry. That’s where **skewness** comes in.
+
 **Skewness** describes **asymmetry**. A **positive** skew means a long **right** tail (very high values are more common than very low ones); a **negative** skew means a long **left** tail.
 
 ![\[source:https://towardsdatascience.com/skewness-kurtosis-simplified-1338e094fc85/\]](/figs/EDA/skew.png){fig-align="center"}
@@ -1015,19 +1021,21 @@ $$
 
 where $\bar{x}$ is sample mean, $s$ is sample standard deviations and $n$ is number of observations.
 
-Besides this formula, skewness can also be estimated using the mean, median, or mode, especially when full raw data are not available.
+When you don’t have access to the full dataset but know summary values like the **mean**, **median**, or **mode**, skewness can be approximated using
+
+-   **Pearson's First Coefficient**:
 
 $$
 \text{Skewness} = \frac{\bar{x} - \text{Mode}}{s}
 $$
 
-and
+-   **Pearson's Second Coefficient**:
 
 $$
 \text{Skewness} = \frac{3(\bar{x} - \text{Median})}{s}
 $$
 
-While their numerical values may differ, they usually agree in the direction of skew.
+These are easier to compute and often agree on the **direction** (sign) of skew, even if the magnitude differs.
 
 ::: callout-note
 **How to Interpret Skewness**
@@ -1275,6 +1283,76 @@ Person's $r$ only measures **linear** relationships.
 If the relationship is **curved**, $r$ can be misleading. See [Anscombe’s Quartet](https://en.wikipedia.org/wiki/Anscombe%27s_quartet) for famous examples.
 :::
 
+```{webr-r}
+## Anscombe's quartet (typed in)
+dataset1 <- data.frame(
+  x = c(10, 8, 13, 9, 11, 14, 6, 4, 12, 7, 5),
+  y = c(8.04, 6.95, 7.58, 8.81, 8.33, 9.96, 7.24, 4.26, 10.84, 4.82, 5.68)
+)
+
+dataset2 <- data.frame(
+  x = c(10, 8, 13, 9, 11, 14, 6, 4, 12, 7, 5),
+  y = c(9.14, 8.14, 8.74, 8.77, 9.26, 8.10, 6.13, 3.10, 9.13, 7.26, 4.74)
+)
+
+dataset3 <- data.frame(
+  x = c(10, 8, 13, 9, 11, 14, 6, 4, 12, 7, 5),
+  y = c(7.46, 6.77, 12.74, 7.11, 7.81, 8.84, 6.08, 5.39, 8.15, 6.42, 5.73)
+)
+
+dataset4 <- data.frame(
+  x = c(8, 8, 8, 8, 8, 8, 8, 19, 8, 8, 8),
+  y = c(6.58, 5.76, 7.71, 8.84, 8.47, 7.04, 5.25, 12.50, 5.56, 7.91, 6.89)
+)
+
+## 2x2 plots
+par(mfrow = c(2, 2))  # (not mfrom)
+
+plot(dataset1$x, dataset1$y, xlim = c(4, 19), ylim = c(3, 13),
+     pch = 19, main = "Dataset I", xlab = "x", ylab = "y")
+# abline(lm(y ~ x, data = dataset1), lty = 2)  # optional
+
+plot(dataset2$x, dataset2$y, xlim = c(4, 19), ylim = c(3, 13),
+     pch = 19, main = "Dataset II", xlab = "x", ylab = "y")
+# abline(lm(y ~ x, data = dataset2), lty = 2)
+
+plot(dataset3$x, dataset3$y, xlim = c(4, 19), ylim = c(3, 13),
+     pch = 19, main = "Dataset III", xlab = "x", ylab = "y")
+# abline(lm(y ~ x, data = dataset3), lty = 2)
+
+plot(dataset4$x, dataset4$y, xlim = c(4, 19), ylim = c(3, 13),
+     pch = 19, main = "Dataset IV", xlab = "x", ylab = "y")
+# abline(lm(y ~ x, data = dataset4), lty = 2)
+```
+
+This figure is Anscombe’s quartet—four tiny datasets that share (nearly) the same summary statistics (means of $x$ and $y$, variances, Pearson correlation) but look very different once you plot them.
+
+-   **Dataset I (top-left):** A textbook linear relationship with ordinary scatter around the line. Here a linear model is sensible.
+
+-   **Dataset II (top-right):** A clear curved (non-linear) pattern. The fitted straight line and the correlation suggest “strong linearity,” but that’s misleading—a linear model is inappropriate.
+
+-   **Dataset III (bottom-left):** Almost perfectly linear except for one outlier in $y$. That single point inflates the correlation and affects the fit; without it the pattern is very regular.
+
+-   **Dataset IV (bottom-right):** Most $x$ values are the same (a vertical stack); a single high-leverage point at large $x$ drags the regression line to create a high correlation/“good” fit. The model is being driven by one point.
+
+::: callout-tip
+Numbers alone can fool you. Correlation, means, and regression coefficients can look “good” even when the relationship is non-linear or dominated by outliers/high-leverage points. **Always plot your data**, and follow up with diagnostics (residual plots, leverage/Cook’s distance) before trusting a model.
+:::
+
+The population correlation ($\rho$) is defined as
+
+$$
+\rho = \frac{Cov(X, Y)}{\sqrt{\sigma_X \sigma_Y}} =\frac{E[(X - \mu_X)(Y - \mu_Y)]}{\sqrt{E[(X - \mu_X)^2E[(Y - \mu_Y)^2}}
+$$
+
+where $\mu_X$ and $\mu_Y$ are the population means, $\sigma_X$ and $\sigma_Y$ are the population standard deviations.
+
+In practical, we do not know $\mu$ or $\sigma$ , so we replace them with their sample counterparts and compute the Pearson's $r$ (sample) as
+
+$$
+r=\frac{\sum_{i=1}^n(x_i-\bar{x})(y_i-\bar{y})}{\sqrt{\sum_{i=1}^n (x_i-\bar{x})^2}\sqrt{\sum_{i=1}^n (y_i-\bar{y})^2}}
+$$
+
 **Rank Correlations: For Non-linear Relationships**
 
 If the relationship is not linear, use a **rank correlation**:
@@ -1318,7 +1396,7 @@ Imagine we observed $344$ penguins from three species on three islands. We recor
 | **Gentoo**    | 124        | 0         | 0             | 124       |
 | **Total**     | 168        | 124       | 52            | 344       |
 
-This table tells us:
+The formula
 
 **Summary of Correlation and Association Measures in R**
 
@@ -1376,11 +1454,11 @@ In the dataset `mtcars`,
 
     ```
 
-Now, answer these questions: 
+Now, answer these questions:
 
-- Is the relationship positive or negative?
+-   Is the relationship positive or negative?
 
-- Do Pearson's r and Spearman's $\rho$ give similar results? Why or why not?
+-   Do Pearson's r and Spearman's $\rho$ give similar results? Why or why not?
 
 ### Solutions
 
@@ -1404,9 +1482,9 @@ In the dataset `Titanic`,
 
     ```
 
-Now, answer this question: 
+Now, answer this question:
 
-- How strong is the association according to the used coefficient?
+-   How strong is the association according to the used coefficient?
 
 ### Solutions
 
@@ -1451,73 +1529,71 @@ Compute the appropriate coefficient of bi-variate association between `Sepal.Len
 Do it yourself! :)
 :::
 
-
 **Comprehensive Exercise: Exploring the airquality Dataset**
 
-The dataset airquality (built into R) contains daily air quality measurements in New York, May–September 1973. 
+The dataset airquality (built into R) contains daily air quality measurements in New York, May–September 1973.
 
 Variables include:
 
-- `Ozone` (ppb),
+-   `Ozone` (ppb),
 
-- `Solar.R` (solar radiation),
+-   `Solar.R` (solar radiation),
 
--  `Wind` (mph),
+-   `Wind` (mph),
 
-- `Temp` (°F),
+-   `Temp` (°F),
 
-- `Month` (5 = May, …, 9 = September),
+-   `Month` (5 = May, …, 9 = September),
 
-- `Day` (day of month).
+-   `Day` (day of month).
 
 ::: panel-tabset
 ### Descriptive Statistics
 
-1. Inspect the dataset: How many rows and columns does it have? Are there missing values?
+1.  Inspect the dataset: How many rows and columns does it have? Are there missing values?
 
 ```{webr-r}
 
 ```
 
-2. Compute the **mean**, **median**, and **standard deviation** of `Ozone`, `Wind`, and `Temp`.
+2.  Compute the **mean**, **median**, and **standard deviation** of `Ozone`, `Wind`, and `Temp`.
 
 ```{webr-r}
 
 ```
 
-3. For `Month`, create a frequency table. Which month has the most observations?
+3.  For `Month`, create a frequency table. Which month has the most observations?
 
 ```{webr-r}
 
 ```
 
-### Associations 
+### Associations
 
-1. Compute the Pearson correlation between `Ozone` and `Temp`.
+1.  Compute the Pearson correlation between `Ozone` and `Temp`.
+
 ```{webr-r}
 
 ```
 
+2.  Compute the Spearman correlation between`Ozone` and `Solar.R`.
 
-2. Compute the Spearman correlation between`Ozone` and `Solar.R`.
 ```{webr-r}
 
 ```
 
+3.  Compute the correlation between `Ozone` and `Month`
 
-3. Compute the correlation between `Ozone` and `Month`
 ```{webr-r}
 
 ```
 
-4. Which factor (Temp, Wind, Solar.R, or Month) seems most strongly associated with Ozone levels?
+4.  Which factor (Temp, Wind, Solar.R, or Month) seems most strongly associated with Ozone levels?
 
 ```{webr-r}
 
 ```
 :::
-
-
 
 #### Graphical Summaries
 
