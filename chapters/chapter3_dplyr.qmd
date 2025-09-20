@@ -6,6 +6,7 @@ filters:
 ```{r}
 #| echo: false
 #| warning: false
+#| context: setup
 library(tidyverse)
 library(dplyr)
 ```
