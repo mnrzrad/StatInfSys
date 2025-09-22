@@ -715,3 +715,31 @@ data(mtcars)
 corr <- cor(mtcars)
 corrplot(corr, tl.col = "brown", tl.srt = 30, bg = "white", type = "full")
 ```
+
+
+::: panel-tabset
+
+## Exercises
+
+For the following datasets (data description: [DataDescriptions.pdf](https://instruction.bus.wisc.edu/jfrees/jfreesbooks/regression%20modeling/bookwebdec2010/DataDescriptions.pdf)):
+
+- [CeoCompensation](https://instruction.bus.wisc.edu/jfrees/jfreesbooks/regression%20modeling/bookwebdec2010/CSVData/CeoCompensation.csv)
+- [MassBodilyInjury](https://instruction.bus.wisc.edu/jfrees/jfreesbooks/regression%20modeling/bookwebdec2010/CSVData/MassBodilyInjury.csv)
+- [Refrigerator](https://instruction.bus.wisc.edu/jfrees/jfreesbooks/regression%20modeling/bookwebdec2010/CSVData/Refrigerator.csv)
+
+Perform an exploratory data analysis:
+
+a. Univariate analysis
+b. Bivariate analysis
+c. Outlier analysis
+
+Report any conclusions using appropriate descriptive statistics and graphical visualizations.
+
+## Hints
+
+- Consider the distribution of each variable in the univariate analysis.
+- In the bivariate analysis, look for relationships between pairs of variables.
+- For outlier analysis, identify any unusual observations that may affect your results.
+ scatter plots to visualize potential outliers.
+
+:::
