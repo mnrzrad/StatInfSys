@@ -1,0 +1,38 @@
+# Project
+
+## Exercise 1
+
+Please copy this R code into your computer and try to solve it.
+
+
+```{r, eval=FALSE}
+download.file(
+  url = "https://raw.githubusercontent.com/mnrzrad/SIE/main/exercises/Exercise_EDA.Rmd",
+  destfile = "Exercise_EDA.Rmd",
+  method = "curl"
+)
+```
+
+This code saves the file into your current working directory.
+
+After, chech where the file was saved using the code
+
+```{r, eval=FALSE}
+getwd()
+
+```
+
+This code tells you the working directory (the folder where R is looking and saving files).
+
+Then, you can list files in that folder to confirm.
+```{r, eval=FALSE}
+list.files()
+```
+
+Now, open it in R studio.
+
+- In RStudio, go to **File** → **Open File**
+
+- Navigate to the folder shown by **getwd()**
+
+- Select Exercise_EDA.Rmd → *Open*

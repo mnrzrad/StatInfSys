@@ -5,3 +5,11 @@ filters:
 
 # Note 
 This interactive book is designed as a companion to the course **Systems Information and Statistics**, taught at the **NOVA School of Science and Technology (NOVA FCT)** in Lisbon, Portugal.
+
+## Emails
+
+[Mina Norouzirad](mailto:m.norouzirad@fct.unl.pt)  
+ 
+[Miguel Fonseca](mailto:fmig@fct.unl.pt)  
+
+[Gracinda Guerreiro](mailto:grg@fct.unl.pt)

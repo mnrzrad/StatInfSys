@@ -1,0 +1,156 @@
+---
+title: "EDA Adventure: Meet the Employees"
+author: "Add your gourps name here"
+output: html_document
+date: "2025-09-25"
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+<!-- When you finish, please send it tou our emails: fmig@fct.unl.pt and m.norouzirad@fct.unl.pt -->
+
+## Welcome to the Employee Data Adventure
+
+Today, you are data detectives️
+
+You have just received a secret dataset from a mysterious company.
+
+Your job: uncover the hidden stories about the people who work there.
+
+```{r}
+# Simple code
+url <- "https://raw.githubusercontent.com/mnrzrad/SIE/main/data/EmployeeData.csv"
+df <- read.csv(url, stringsAsFactors = FALSE)
+
+# Advanced R - using package "readr" (tidyverse)
+# library(readr)
+# df <- read_csv(url)
+```
+
+### Level 1: Is data here?
+
+The dataset has just arrived in your R session.
+
+-   Open it and check if it’s ready.
+
+-   Peek inside the data — do you see rows and columns?
+
+-   Explore it a little: what stands out first?
+
+```{r}
+
+```
+
+### Level 2: Meet the data
+
+Imagine walking into the company lobby for the first time and you are
+meeting a new group of people. Take a look at the dataset as if you are
+greeting them.
+
+-   Notice how many people are in the room. Who is here?
+
+-   Look at the kinds of information each person carries with them.
+    Which information? What type of Information?
+
+```{r}
+
+
+```
+
+**Dataset columns:**
+
+-   **Employee_ID** – unique identifier for each employee •
+
+-   **Name** – employee name
+
+-   **Age** – employee age
+
+-   **Gender** – Male/Female
+
+-   **Department** – employee department (e.g., HR, Sales, Engineering,
+    Finance)
+
+-   **Job_Title** – job title (e.g., Analyst, Engineer, Executive,
+    Intern)
+
+-   **Experience_Years** – years of professional experience
+
+-   **Education_Level** – highest education attained (Bachelor, Master,
+    etc.)
+
+-   **Location** – city of employment (Austin, Seattle, New York, etc.)
+
+-   **Salary** – annual salary in USD
+
+## Level 3: Discover the groups
+
+Walk among the employees. Notice patterns.
+
+Some employees belong to the same department. Some have the same job
+title.
+
+-   Look for groups and see which ones are large or small.
+
+-   Which departments have the most people? Which have few?
+
+-   Are some job titles more common than others?
+
+-   Can you describe groups of employees who are similar?
+
+```{r}
+
+
+```
+
+## Level 4: Follow the money
+
+Salaries are hidden treasures.
+
+-   Who earns a lot? Who earns less?
+
+-   Do some departments pay more than others?
+
+-   Do some job titles or education levels get higher salaries?
+
+```{r}
+
+
+```
+
+## Level 5: Find hidden patterns
+
+Some secrets are not obvious at first.
+
+-   Does age relate to salary?
+
+-   Does gender make a difference in pay?
+
+-   Are there other interesting patterns you can find?
+
+-   Can you visualize patterns?
+
+```{r}
+
+
+```
+
+## Final Step: Your own exploration
+
+Now the adventure is yours.
+
+-   Ask your own questions.
+
+-   Explore freely.
+
+-   Find one story, one pattern, or one surprise in the data and share
+    it with the class.
+
+```{r}
+
+
+```
