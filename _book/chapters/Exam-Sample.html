@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>7&nbsp; Logistic Regression – Statistics and Information Systems</title>
+<title>6&nbsp; Sample of Questions – Statistics and Information Systems</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,8 +30,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../chapters/chapter1_data_ethics.html" rel="next">
-<link href="../chapters/Exam-Sample.html" rel="prev">
+<link href="../chapters/chapter5_logistic_regression.html" rel="next">
+<link href="../chapters/project.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -370,7 +370,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"code":"library(tidyverse)","id":1,"options":{"autorun":"true","classes":"","comment":"","context":"setup","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"n <- 20\nx <- rbeta(n, 0.2, 0.4)\ny <- rbinom(n, 1, x)\nggplot(tibble(x, y), aes(x, y)) +\n  geom_point() +\n  geom_smooth(method = \"lm\", se = FALSE) +\n  labs(title = \"\",\n       x = \"x\",\n       y = \"y\")","id":2,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(tibble(x, y), aes(x, y)) +\n  geom_point() +\n  geom_smooth(method = \"glm\", \n       method.args = list(family = \"binomial\"), \n       se = FALSE) +\n  labs(title = \"\",\n       x = \"x\",\n       y = \"y\")\n  ","id":3,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-3","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"odds <- function(p) p / (1 - p)\np <- seq(0.1, 0.9, length.out = 90)\ntibble(p, odds = odds(p)) %>%\n  ggplot(aes(p, odds)) +\n  geom_line() +\n  geom_vline(xintercept = 0.5, color = \"red\", linetype = \"dashed\") +\n  geom_hline(yintercept = 1, color = \"blue\", linetype = \"dashed\") +\n  annotate(\"text\", x = 0.52, y = max(odds(p))*0.8, label = \"x = 0.5\", color = \"red\", hjust = 0) +\n  annotate(\"text\", x = 0.8, y = 1.05, label = \"y = 1\", color = \"blue\", vjust = 0) +\n  labs(title = \"Odds as a function of probability\",\n       x = \"Probability\",\n       y = \"Odds\")","id":4,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-4","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"logit <- function(p) log(p / (1 - p))\nprob <- seq(0.01, 0.99, length.out = 99)\ntibble(prob, logit = logit(prob)) %>%\n  ggplot(aes(prob, logit)) +\n  geom_line() +\n  geom_vline(xintercept = 0.5, color = \"red\", linetype = \"dashed\") +\n  geom_hline(yintercept = 0, color = \"blue\", linetype = \"dashed\") +\n  annotate(\"text\", x = 0.52, y = max(logit(prob))*0.8, label = \"x = 0.5\", color = \"red\", hjust = 0) +\n  annotate(\"text\", x = 0.8, y = 0.05, label = \"y = 0\", color = \"blue\", vjust = 0) +\n  labs(title = \"Logit as a function of probability\",\n       x = \"Probability\",\n       y = \"Logit\")","id":5,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-5","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
+globalThis.qwebrCellDetails = [{"code":"library(palmerpenguins)\nlibrary(dplyr)\nlibrary(ggplot2)","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"dim(penguins)\nstr(penguins)\ncolSums(is.na(penguins))","id":2,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"summary(penguins$body_mass_g)\nsd(penguins$body_mass_g, na.rm=TRUE)\nIQR(penguins$body_mass_g, na.rm=TRUE)","id":3,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-3","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(penguins, aes(x=species, y=body_mass_g, fill=species)) +\n  geom_boxplot() +\n  labs(title=\"Penguin Body Mass by Species\",\n       x=\"Species\", y=\"Body Mass (g)\") +\n  theme_minimal()","id":4,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-4","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(penguins, aes(x=flipper_length_mm, y=body_mass_g, color=species)) +\n  geom_point() +\n  labs(title=\"Body Mass vs. Flipper Length\",\n       x=\"Flipper Length (mm)\", y=\"Body Mass (g)\") +\n  theme_minimal()","id":5,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-5","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"colSums(is.na(penguins))","id":6,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-6","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(dplyr)\nlibrary(ggplot2)\n\ndata(mtcars)","id":7,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-7","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"dim(mtcars)\nstr(mtcars)\nhead(mtcars, 3)\nhelp(mtcars)","id":8,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-8","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"summary(mtcars$mpg)\nsd(mtcars$mpg)\nIQR(mtcars$mpg)","id":9,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-9","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"table(mtcars$cyl)","id":10,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-10","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(mtcars, aes(x=factor(cyl), y=mpg, fill=factor(cyl))) +\n  geom_boxplot() +\n  labs(title=\"Miles per Gallon by Cylinders\",\n       x=\"Cylinders\", y=\"Miles per Gallon\") ","id":11,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-11","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(mtcars, aes(x=hp, y=mpg, color=factor(am))) +\n  geom_point(size=3) +\n  labs(title=\"Horsepower vs. MPG by Transmission\",\n       x=\"Horsepower\", y=\"Miles per Gallon\", color=\"Transmission\") +\n  theme_minimal()","id":12,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-12","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"cor(mtcars$hp, mtcars$mpg)","id":13,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-13","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
 
 </script>
 <script type="module">
@@ -1666,7 +1666,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter5_logistic_regression.html">Logistic Regression</a></li><li class="breadcrumb-item"><a href="../chapters/chapter5_logistic_regression.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Logistic Regression</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter4_EDA.html">Explanatory Data Analysis</a></li><li class="breadcrumb-item"><a href="../chapters/Exam-Sample.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Sample of Questions</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -1734,7 +1734,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/Exam-Sample.html" class="sidebar-item-text sidebar-link">
+  <a href="../chapters/Exam-Sample.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Sample of Questions</span></span></a>
   </div>
 </li>
@@ -1751,7 +1751,7 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/chapter5_logistic_regression.html" class="sidebar-item-text sidebar-link active">
+  <a href="../chapters/chapter5_logistic_regression.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Logistic Regression</span></span></a>
   </div>
 </li>
@@ -1784,9 +1784,8 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#modelling-probabilities" id="toc-modelling-probabilities" class="nav-link active" data-scroll-target="#modelling-probabilities"><span class="header-section-number">7.1</span> Modelling Probabilities</a></li>
-  <li><a href="#sigmoid-functions" id="toc-sigmoid-functions" class="nav-link" data-scroll-target="#sigmoid-functions"><span class="header-section-number">7.2</span> Sigmoid Functions</a></li>
-  <li><a href="#logistic-model" id="toc-logistic-model" class="nav-link" data-scroll-target="#logistic-model"><span class="header-section-number">7.3</span> Logistic Model</a></li>
+  <li><a href="#sample-1" id="toc-sample-1" class="nav-link active" data-scroll-target="#sample-1"><span class="header-section-number">6.1</span> Sample 1</a></li>
+  <li><a href="#sample-2" id="toc-sample-2" class="nav-link" data-scroll-target="#sample-2"><span class="header-section-number">6.2</span> Sample 2</a></li>
   </ul>
 </nav>
     </div>
@@ -2077,9 +2076,9 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 }
 </script>
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter5_logistic_regression.html">Logistic Regression</a></li><li class="breadcrumb-item"><a href="../chapters/chapter5_logistic_regression.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Logistic Regression</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter4_EDA.html">Explanatory Data Analysis</a></li><li class="breadcrumb-item"><a href="../chapters/Exam-Sample.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Sample of Questions</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Logistic Regression</span></h1>
+<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Sample of Questions</span></h1>
 </div>
 
 
@@ -2096,111 +2095,127 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </header>
 
 
+<section id="sample-1" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="sample-1"><span class="header-section-number">6.1</span> Sample 1</h2>
+<p><strong>Introduction</strong></p>
 <div id="qwebr-insertion-location-1"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>A binary classification problem is one where the outcome variable can take on only two possible values. For example:</p>
-<ul>
-<li>will a loaner enter default or not, based on their credit score and income;</li>
-<li>will a driver be involved in an accident or not, based on their age, automobile age and driving history;</li>
-<li>will a patient have a heart attack or not, based on their cholesterol level and blood pressure, and other health indicators.</li>
-</ul>
-<p>For this kind of problem, the dataset used to fit the model is composed of observations <span class="math inline">\((\mathbf{x}_1, y_1)\)</span>, <span class="math inline">\((\mathbf{x}_2, y_2)\)</span>, …, <span class="math inline">\((\mathbf{x}_n, y_n)\)</span> where each <span class="math inline">\(y_i\)</span> is usually labelled 0 (failure, no event, …) or 1 (success, event, …) and <span class="math inline">\(\mathbf{x}_i\)</span> is a vector of input variables.</p>
-<p>The task at hand is to build a model that, given an arbitrary <span class="math inline">\(\mathbf{x}\)</span>, will predict the probability that <span class="math inline">\(y = 1\)</span>.</p>
-<section id="modelling-probabilities" class="level2" data-number="7.1">
-<h2 data-number="7.1" class="anchored" data-anchor-id="modelling-probabilities"><span class="header-section-number">7.1</span> Modelling Probabilities</h2>
-<p>Why not use a linear regression model to predict the probability that <span class="math inline">\(y = 1\)</span>? After all, linear regression is a well-known and widely used method.</p>
+<p>In this exercise, we will perform Exploratory Data Analysis (EDA) using the penguins dataset from the <code>palmerpenguins</code> package.</p>
+<p>At each step, you will find a question to test your understanding.</p>
+<p><strong>Step 1: First Look</strong></p>
 <div id="qwebr-insertion-location-2"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>There are some problems with this approach:</p>
-<ul>
-<li>the output values are never (with probability 1) exactly 0 or 1, the values that are taken by <span class="math inline">\(y\)</span>;</li>
-<li>even considering a threshold (e.g.&nbsp;0.5) to classify the predicted values into 0 or 1, this would be mostly an arbitrary chosen value.</li>
-</ul>
-</section>
-<section id="sigmoid-functions" class="level2" data-number="7.2">
-<h2 data-number="7.2" class="anchored" data-anchor-id="sigmoid-functions"><span class="header-section-number">7.2</span> Sigmoid Functions</h2>
-<p>Instead of a linear function, we can opt to model the <em>probability</em> of success of the event described by <span class="math inline">\(y\)</span>, i.e <span class="math inline">\(\operatorname{P}(Y=1)\)</span>. This is a more sound and natural way to model the prediction of a random binary event. In order to do this, we can use <strong>sigmoid functions</strong>. A sigmoid function <span class="math inline">\(f(x)\)</span> is a function having an “S” shaped curve (sigmoid curve) with the following properties:</p>
-<ul>
-<li><span class="math inline">\(0&lt;f(x)&lt;1\)</span>;</li>
-<li><span class="math inline">\(\displaystyle \lim_{x \to -\infty} f(x) = 0\)</span>, <span class="math inline">\(\displaystyle \lim_{x \to +\infty} f(x) = 1\)</span>;</li>
-<li><span class="math inline">\(f'(x)&gt;0\)</span>.</li>
-</ul>
-<p>A common sigmoid function is the logistic function, defined as:</p>
-<p><span class="math display">\[
-f(x) = \frac{e^x}{1 + e^x} = \frac{1}{1 + e^{-x}}.
-\]</span></p>
-<p>A logistic function can be used to model the probability that <span class="math inline">\(y = 1\)</span> given <span class="math inline">\(\mathbf{x}\)</span>.</p>
+<p>The dataset has 344 rows and 8 variables. Some values are missing.</p>
+<p><strong>Question 1.</strong> How many variables are categorical? <span class="math inline">\(\qquad\)</span> A) 2 <span class="math inline">\(\qquad\)</span> B) 3 <span class="math inline">\(\qquad\)</span> C) 4 <span class="math inline">\(\qquad\)</span> D) 5</p>
+<p><strong>Correct Answer:</strong> B</p>
+<p><strong>Step 2. Numerical Summaries</strong></p>
 <div id="qwebr-insertion-location-3"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>This function will play a central row in the logistic regression model, as we will see briefly.</p>
-</section>
-<section id="logistic-model" class="level2" data-number="7.3">
-<h2 data-number="7.3" class="anchored" data-anchor-id="logistic-model"><span class="header-section-number">7.3</span> Logistic Model</h2>
-<p>The first random variable that comes to mind in order to model a random binary event is the <strong>Bernoulli random variable</strong>, which is a discrete random variable that takes value 1 with probability <span class="math inline">\(p\)</span> and value 0 with probability <span class="math inline">\(1-p\)</span>. The parameter <span class="math inline">\(p\)</span> is the probability of success of the event described by the random variable, and it’s probability function is</p>
-<p><span class="math display">\[
-p(y) = p^y (1-p)^{1-y}, \quad y \in \{0, 1\}.
-\]</span> The expected value of a Bernoulli random variable is <span class="math inline">\(\operatorname{E}[Y] = p\)</span> and it’s variance is <span class="math inline">\(\operatorname{V}(Y) = p(1-p)\)</span>.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>A natural extension is the <strong>Binomial random variable</strong>, which is the sum of <span class="math inline">\(n\)</span> independent Bernoulli random variables with the same parameter <span class="math inline">\(p\)</span>. The parameter <span class="math inline">\(p\)</span> is again the probability of success of the event described by the random variable, and it’s probability function is</p>
-<p><span class="math display">\[
-p(y) = \binom{n}{y} p^y (1-p)^{n-y}, \quad y \in \{0, 1, ..., n\}.
-\]</span></p>
-</div>
-</div>
-<p>Another way of expressing the probability of an event is through the <strong>odds</strong> of the event, defined as the ratio between the probability of the event and the probability of it’s complementary event:</p>
-<p><span class="math display">\[
-\operatorname{odds} = \frac{p}{1-p} = \frac{1}{1-p^{-1}}, \quad p \in ]0, 1[.
-\]</span></p>
-<p>The odds are a number between 0 and <span class="math inline">\(+\infty\)</span>. If the odds are equal to 1, then the event and it’s complementary are equally likely. If the odds are greater than 1, then the event is more likely than it’s complementary event, and vice versa. It’s easy to see that odds are monotonically increasing with respect to <span class="math inline">\(p\)</span>:</p>
-<p><span class="math display">\[
-{(\operatorname{odds})}' = \frac{1}{(1-p)^2} &gt; 0.
-\]</span></p>
+<p>The body mass ranges from about 2700g to 6300g.</p>
+<p><strong>Question 2.</strong> Which measure is most robust to outliers?</p>
+<ol type="A">
+<li>Mean <span class="math inline">\(\qquad\)</span> B) Standard deviation <span class="math inline">\(\qquad\)</span> C) Interquartile Range (IQR) <span class="math inline">\(\qquad\)</span> D) Variance</li>
+</ol>
+<p><strong>Correct Answer:</strong> C</p>
+<p><strong>Step 3: Visualization – Boxplot</strong></p>
 <div id="qwebr-insertion-location-4"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>Odds are an alternative way of expressing probabilities, still being relatively intuitive concerning interpretation. Nevertheless, they are still confined to the interval <span class="math inline">\(]0, +\infty[\)</span>, because</p>
-<p><span class="math display">\[
-\lim_{p \to 0^+} \frac{1}{1-p^{-1}} = 0, \quad \lim_{p \to 1^-} \frac{1}{1-p^{-1}} = +\infty.
-\]</span></p>
-<p>If we want to have a represantation of probabilities that spans the whole real line, we can use the <strong>log-odds</strong>, also called <strong>logit</strong> function, defined as</p>
-<p><span class="math display">\[
-\operatorname{logit}(p) = \log\left(\frac{p}{1-p}\right), \quad p \in ]0, 1[.
-\]</span></p>
-<p>This creates a one-to-one mapping between the interval <span class="math inline">\(]0, 1[\)</span> and the whole real line <span class="math inline">\(\mathbb{R}\)</span>.</p>
+<p>Gentoo penguins appear heavier than Adelie and Chinstrap.</p>
+<p><strong>Question 3.</strong> What does each box in the boxplot represent?</p>
+<ol type="A">
+<li><p>The entire dataset &nbsp;&nbsp;&nbsp;</p></li>
+<li><p>Distribution of body mass for one species</p></li>
+<li><p>Only the mean of each species &nbsp;&nbsp;&nbsp;</p></li>
+<li><p>Outliers only</p></li>
+</ol>
+<p><strong>Correct Answer:</strong> C</p>
+<p><strong>Step 4: Relationships Between Variables</strong></p>
 <div id="qwebr-insertion-location-5"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>The logit function is also monotonically increasing with respect to <span class="math inline">\(p\)</span>:</p>
-<p><span class="math display">\[
-{\big(\operatorname{logit}(p)\big)}' = \frac{1}{p(1-p)} &gt; 0.
-\]</span></p>
-<p>This representation of probabilities is well suited to be used in a regression model, because it spans the whole real line. In fact, in a logistic regression model, we assume that the log-odds of the probability that <span class="math inline">\(y = 1\)</span> is a linear combination of the input variables: <span class="math display">\[
-\operatorname{logit}\big(\operatorname{P}(Y=1|\mathbf{x})\big) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + ... + \beta_p x_p = \mathbf{x}^T \boldsymbol{\beta} = \eta (\mathbf{x}),
-\]</span> where <span class="math inline">\(\boldsymbol{\beta} = (\beta_0, \beta_1, ..., \beta_p)^T\)</span> is the vector of parameters to be estimated.</p>
-<p>Note that the logit function is the inverse of the logistic function! Hence, we can rewrite <span class="math inline">\(\operatorname{P}(Y=1|\mathbf{X}=\mathbf{x})\)</span> as</p>
-<p><span id="eq-logit"><span class="math display">\[
-\operatorname{P}(Y=1|\mathbf{x}) = \frac{e^{\eta(\mathbf{x})}}{1 + e^{\eta(\mathbf{x})}} = \frac{1}{1 + e^{-\eta(\mathbf{x})}}.
-\tag{7.1}\]</span></span></p>
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Warning
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><a href="#eq-logit" class="quarto-xref">Equation&nbsp;<span>7.1</span></a> describes a model for the expected value of the random variable <span class="math inline">\(Y\)</span> given <span class="math inline">\(\mathbf{x}\)</span>, that follows a Bernoulli distribution with parameter <span class="math inline">\(p = \operatorname{P}(Y=1|\mathbf{x})\)</span>. It does <strong>not</strong> describe a model for <span class="math inline">\(Y\)</span> itself, which is a discrete random variable taking values 0 or 1.</p>
-</div>
-</div>
+<p>Flipper length and body mass are positively related.</p>
+<p><strong>Question 4.</strong> What does a positive relationship mean here?</p>
+<ol type="A">
+<li><p>Larger flipper length tends to go with higher body mass</p></li>
+<li><p>Flipper length causes body mass</p></li>
+<li><p>There is no association</p></li>
+<li><p>Outliers explain the pattern</p></li>
+</ol>
+<p><strong>Correct Answer:</strong> A</p>
+<p><strong>Step 5: Missing Data</strong></p>
+<div id="qwebr-insertion-location-6"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>The variable <code>sex</code> has missing values.</p>
+<p><strong>Question 5.</strong> Which R function checks if any missing values exist in the dataset?</p>
+<ol type="A">
+<li><code>is.na()</code> <span class="math inline">\(\qquad\)</span> B) <code>anyNA()</code> <span class="math inline">\(\qquad\)</span> &nbsp;C) <code>all()</code> <span class="math inline">\(\qquad\)</span> D) <code>na.rm()</code></li>
+</ol>
+<p><strong>Correct Answer:</strong> B</p>
+</section>
+<section id="sample-2" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="sample-2"><span class="header-section-number">6.2</span> Sample 2</h2>
+<div id="qwebr-insertion-location-7"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>we will explore the <code>mtcars</code> dataset, which contains fuel consumption and performance information about <span class="math inline">\(32\)</span> car models from 1974.</p>
+<p>We will perform EDA and answer questions along the way.</p>
+<p><strong>Step 1. First Look</strong></p>
+<div id="qwebr-insertion-location-8"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>The dataset has <span class="math inline">\(32\)</span> observations and <span class="math inline">\(11\)</span> variables.</p>
+<p><strong>Question 1.</strong> How many variables are numeric?</p>
+<ol type="A">
+<li>8 <span class="math inline">\(\qquad\)</span> B) 9 <span class="math inline">\(\qquad\)</span> C) 10 <span class="math inline">\(\qquad\)</span> D) 11</li>
+</ol>
+<p><strong>Correct Answer:</strong> B</p>
+<p><strong>Step 2: Descriptive Statistics</strong></p>
+<div id="qwebr-insertion-location-9"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>The miles-per-gallon (mpg) ranges from <span class="math inline">\(10.4\)</span> to <span class="math inline">\(33.9\)</span>.</p>
+<p><strong>Question 2.</strong> Which value best describes the typical <code>mpg</code> while being robust to outliers?</p>
+<ol type="A">
+<li><span class="math inline">\(20.9\)</span> &nbsp;&nbsp;<span class="math inline">\(\qquad\)</span>&nbsp;&nbsp; B) <span class="math inline">\(19.20\)</span>&nbsp;&nbsp;<span class="math inline">\(\qquad\)</span> &nbsp;&nbsp; C) <span class="math inline">\(7.375\)</span> &nbsp;&nbsp;<span class="math inline">\(\qquad\)</span> &nbsp;&nbsp; D) <span class="math inline">\(6.026948\)</span></li>
+</ol>
+<p><strong>Correct Answer:</strong> B</p>
+<p><strong>Step 3: Categorical Variable – Cylinders</strong></p>
+<div id="qwebr-insertion-location-10"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>Cars come with <span class="math inline">\(4\)</span>, <span class="math inline">\(6\)</span>, or <span class="math inline">\(8\)</span> cylinders.</p>
+<p><strong>Question 3.</strong> Which cylinder type is most common in the dataset?</p>
+<ol type="A">
+<li>4 cylinders <span class="math inline">\(\qquad\)</span> B) 6 cylinders <span class="math inline">\(\qquad\)</span> C) 8 cylinders <span class="math inline">\(\qquad\)</span> D) All equally common</li>
+</ol>
+<p><strong>Step 4: Visualization – Boxplot</strong></p>
+<div id="qwebr-insertion-location-11"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Question 4.</strong> What does the plot suggest?</p>
+<ol type="A">
+<li><p>Cars with more cylinders have higher <code>mpg</code></p></li>
+<li><p>Cars with more cylinders have lower <code>mpg</code></p></li>
+<li><p>Cars with more cylinders have identical <code>mpg</code></p></li>
+<li><p>No relationship is visible</p></li>
+</ol>
+<p><strong>Correct Answer:</strong> B</p>
+<p><strong>Step 5: Relationship Between Variables</strong></p>
+<div id="qwebr-insertion-location-12"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Question 5.</strong> What trend do we see between horsepower (<code>hp</code>) and miles per gallon (<code>mpg</code>)?</p>
+<ol type="A">
+<li><p>Higher horsepower cars tend to have lower <code>mpg</code></p></li>
+<li><p>Higher horsepower cars tend to have higher <code>mpg</code></p></li>
+<li><p>No relationship</p></li>
+<li><p>Only automatic cars follow this trend</p></li>
+</ol>
+<p><strong>Correct Answer:</strong> A</p>
+<p><strong>Step 6: Correlation</strong></p>
+<div id="qwebr-insertion-location-13"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Question 6.</strong> What does the correlation between <code>hp</code> and <code>mpg</code> mean?</p>
+<ol type="A">
+<li><p>Strong positive relationship</p></li>
+<li><p>Strong negative relationship</p></li>
+<li><p>Weak negative relationship</p></li>
+<li><p>No relationship</p></li>
+</ol>
+<p><strong>Correct Answer:</strong> B</p>
 
 
 </section>
@@ -2608,13 +2623,13 @@ Warning
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../chapters/Exam-Sample.html" class="pagination-link" aria-label="Sample of Questions">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Sample of Questions</span></span>
+      <a href="../chapters/project.html" class="pagination-link" aria-label="Project">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Project</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../chapters/chapter1_data_ethics.html" class="pagination-link" aria-label="Data Ethics">
-        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Data Ethics</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../chapters/chapter5_logistic_regression.html" class="pagination-link" aria-label="Logistic Regression">
+        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Logistic Regression</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

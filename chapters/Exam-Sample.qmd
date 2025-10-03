@@ -1,0 +1,221 @@
+---
+engine: knitr
+filters: 
+  - webr
+---
+
+# Sample of Questions
+
+## Sample 1
+
+**Introduction**
+```{webr-r}
+library(palmerpenguins)
+library(dplyr)
+library(ggplot2)
+```
+
+In this exercise, we will perform Exploratory Data Analysis (EDA) using the penguins dataset from the `palmerpenguins` package.
+
+At each step, you will find a question to test your understanding.
+
+**Step 1: First Look**
+
+```{webr-r}
+dim(penguins)
+str(penguins)
+colSums(is.na(penguins))
+```
+
+The dataset has 344 rows and 8 variables. Some values are missing.
+
+**Question 1.** How many variables are categorical? $\qquad$ A) 2 $\qquad$ B) 3 $\qquad$ C) 4 $\qquad$ D) 5
+
+**Correct Answer:** B
+
+**Step 2. Numerical Summaries**
+
+```{webr-r}
+summary(penguins$body_mass_g)
+sd(penguins$body_mass_g, na.rm=TRUE)
+IQR(penguins$body_mass_g, na.rm=TRUE)
+```
+The body mass ranges from about 2700g to 6300g.
+
+**Question 2.** Which measure is most robust to outliers?
+
+A) Mean $\qquad$ B) Standard deviation $\qquad$ C) Interquartile Range (IQR) $\qquad$ D) Variance
+
+**Correct Answer:** C
+
+**Step 3: Visualization – Boxplot**
+```{webr-r}
+ggplot(penguins, aes(x=species, y=body_mass_g, fill=species)) +
+  geom_boxplot() +
+  labs(title="Penguin Body Mass by Species",
+       x="Species", y="Body Mass (g)") +
+  theme_minimal()
+```
+Gentoo penguins appear heavier than Adelie and Chinstrap.
+
+**Question 3.** What does each box in the boxplot represent?
+
+A) The entire dataset    
+
+B) Distribution of body mass for one species
+
+C) Only the mean of each species    
+
+D) Outliers only
+
+**Correct Answer:** C
+
+**Step 4: Relationships Between Variables**
+
+```{webr-r}
+ggplot(penguins, aes(x=flipper_length_mm, y=body_mass_g, color=species)) +
+  geom_point() +
+  labs(title="Body Mass vs. Flipper Length",
+       x="Flipper Length (mm)", y="Body Mass (g)") +
+  theme_minimal()
+```
+
+Flipper length and body mass are positively related.
+
+**Question 4.** What does a positive relationship mean here?
+
+A) Larger flipper length tends to go with higher body mass 
+
+B) Flipper length causes body mass
+
+C) There is no association
+
+D) Outliers explain the pattern
+
+**Correct Answer:** A 
+
+**Step 5: Missing Data**
+
+```{webr-r}
+colSums(is.na(penguins))
+```
+The variable `sex` has missing values.
+
+**Question 5.** Which R function checks if any missing values exist in the dataset?
+
+A) `is.na()`  $\qquad$ B) `anyNA()` $\qquad$  C) `all()` $\qquad$ D) `na.rm()`
+
+**Correct Answer:** B 
+
+## Sample 2
+```{webr-r}
+library(dplyr)
+library(ggplot2)
+
+data(mtcars)
+```
+we will explore the `mtcars` dataset, which contains fuel consumption and performance information about $32$ car models from 1974.
+
+We will perform EDA and answer questions along the way.
+
+**Step 1. First Look**
+```{webr-r}
+dim(mtcars)
+str(mtcars)
+head(mtcars, 3)
+help(mtcars)
+```
+The dataset has $32$ observations and $11$ variables.
+
+**Question 1.** How many variables are numeric?
+
+A) 8 $\qquad$ B) 9 $\qquad$ C) 10 $\qquad$ D) 11
+
+**Correct Answer:** B 
+
+**Step 2: Descriptive Statistics**
+
+```{webr-r}
+summary(mtcars$mpg)
+sd(mtcars$mpg)
+IQR(mtcars$mpg)
+```
+The miles-per-gallon (mpg) ranges from $10.4$ to $33.9$.
+
+**Question 2.** Which value best describes the typical `mpg` while being robust to outliers?
+
+A) $20.9$   $\qquad$   B) $19.20$  $\qquad$    C) $7.375$   $\qquad$    D) $6.026948$
+
+**Correct Answer:** B 
+
+
+**Step 3: Categorical Variable – Cylinders**
+
+```{webr-r}
+table(mtcars$cyl)
+```
+
+Cars come with $4$, $6$, or $8$ cylinders.
+
+**Question 3.** Which cylinder type is most common in the dataset?
+
+A) 4 cylinders $\qquad$ B) 6 cylinders $\qquad$ C) 8 cylinders $\qquad$ D) All equally common
+
+
+**Step 4: Visualization – Boxplot**
+```{webr-r}
+ggplot(mtcars, aes(x=factor(cyl), y=mpg, fill=factor(cyl))) +
+  geom_boxplot() +
+  labs(title="Miles per Gallon by Cylinders",
+       x="Cylinders", y="Miles per Gallon") 
+```
+**Question 4.** What does the plot suggest?
+
+A) Cars with more cylinders have higher `mpg`
+
+B) Cars with more cylinders have lower `mpg` 
+
+C) Cars with more cylinders have identical `mpg`
+
+D) No relationship is visible
+
+**Correct Answer:** B
+
+**Step 5: Relationship Between Variables**
+
+```{webr-r}
+ggplot(mtcars, aes(x=hp, y=mpg, color=factor(am))) +
+  geom_point(size=3) +
+  labs(title="Horsepower vs. MPG by Transmission",
+       x="Horsepower", y="Miles per Gallon", color="Transmission") +
+  theme_minimal()
+```
+
+**Question 5.** What trend do we see between horsepower (`hp`) and miles per gallon (`mpg`)?
+
+A) Higher horsepower cars tend to have lower `mpg`
+
+B) Higher horsepower cars tend to have higher `mpg`
+
+C) No relationship
+
+D) Only automatic cars follow this trend
+
+**Correct Answer:** A
+
+**Step 6: Correlation**
+```{webr-r}
+cor(mtcars$hp, mtcars$mpg)
+```
+
+**Question 6.** What does the correlation between `hp` and `mpg` mean?
+
+A) Strong positive relationship 
+
+B) Strong negative relationship 
+
+C) Weak negative relationship 
+
+D) No relationship
+
+**Correct Answer:** B
