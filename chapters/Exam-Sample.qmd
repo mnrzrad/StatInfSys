@@ -29,7 +29,12 @@ colSums(is.na(penguins))
 
 The dataset has 344 rows and 8 variables. Some values are missing.
 
-**Question 1.** How many variables are categorical? $\qquad$ A) 2 $\qquad$ B) 3 $\qquad$ C) 4 $\qquad$ D) 5
+**Question 1.** How many variables are categorical? 
+
+A) 2
+B) 3 
+C) 4 
+D) 5
 
 **Correct Answer:** B
 
@@ -44,7 +49,10 @@ The body mass ranges from about 2700g to 6300g.
 
 **Question 2.** Which measure is most robust to outliers?
 
-A) Mean $\qquad$ B) Standard deviation $\qquad$ C) Interquartile Range (IQR) $\qquad$ D) Variance
+A) Mean
+B) Standard deviation
+C) Interquartile Range (IQR) 
+D) Variance
 
 **Correct Answer:** C
 
@@ -61,11 +69,8 @@ Gentoo penguins appear heavier than Adelie and Chinstrap.
 **Question 3.** What does each box in the boxplot represent?
 
 A) The entire dataset    
-
 B) Distribution of body mass for one species
-
 C) Only the mean of each species    
-
 D) Outliers only
 
 **Correct Answer:** C
@@ -103,7 +108,10 @@ The variable `sex` has missing values.
 
 **Question 5.** Which R function checks if any missing values exist in the dataset?
 
-A) `is.na()`  $\qquad$ B) `anyNA()` $\qquad$  C) `all()` $\qquad$ D) `na.rm()`
+A) `is.na()`  
+B) `anyNA()` 
+C) `all()` 
+D) `na.rm()`
 
 **Correct Answer:** B 
 
@@ -129,7 +137,10 @@ The dataset has $32$ observations and $11$ variables.
 
 **Question 1.** How many variables are numeric?
 
-A) 8 $\qquad$ B) 9 $\qquad$ C) 10 $\qquad$ D) 11
+A) 8 
+B) 9 
+C) 10 
+D) 11
 
 **Correct Answer:** B 
 
@@ -144,7 +155,10 @@ The miles-per-gallon (mpg) ranges from $10.4$ to $33.9$.
 
 **Question 2.** Which value best describes the typical `mpg` while being robust to outliers?
 
-A) $20.9$   $\qquad$   B) $19.20$  $\qquad$    C) $7.375$   $\qquad$    D) $6.026948$
+A) $20.9$
+B) $19.20$  
+C) $7.375$   
+D) $6.026948$
 
 **Correct Answer:** B 
 
@@ -159,7 +173,10 @@ Cars come with $4$, $6$, or $8$ cylinders.
 
 **Question 3.** Which cylinder type is most common in the dataset?
 
-A) 4 cylinders $\qquad$ B) 6 cylinders $\qquad$ C) 8 cylinders $\qquad$ D) All equally common
+A) 4 cylinders
+B) 6 cylinders
+C) 8 cylinders  
+D) All equally common
 
 
 **Step 4: Visualization – Boxplot**
@@ -172,10 +189,8 @@ ggplot(mtcars, aes(x=factor(cyl), y=mpg, fill=factor(cyl))) +
 **Question 4.** What does the plot suggest?
 
 A) Cars with more cylinders have higher `mpg`
-
 B) Cars with more cylinders have lower `mpg` 
 C) Cars with more cylinders have identical `mpg`
-
 D) No relationship is visible
 
 **Correct Answer:** B
@@ -193,11 +208,8 @@ ggplot(mtcars, aes(x=hp, y=mpg, color=factor(am))) +
 **Question 5.** What trend do we see between horsepower (`hp`) and miles per gallon (`mpg`)?
 
 A) Higher horsepower cars tend to have lower `mpg`
-
 B) Higher horsepower cars tend to have higher `mpg`
-
 C) No relationship
-
 D) Only automatic cars follow this trend
 
 **Correct Answer:** A
@@ -210,11 +222,8 @@ cor(mtcars$hp, mtcars$mpg)
 **Question 6.** What does the correlation between `hp` and `mpg` mean?
 
 A) Strong positive relationship 
-
 B) Strong negative relationship 
-
 C) Weak negative relationship 
-
 D) No relationship
 
 **Correct Answer:** B
