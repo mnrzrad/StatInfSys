@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.25">
+<meta name="generator" content="quarto-1.7.32">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -89,15 +89,14 @@ div.csl-indent {
 <link href="../index.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-5be42eef0afc690a1ac28f95232477da.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-364982630eef5352dd1537128a8ed5cb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -1693,7 +1692,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+      if (mathElements[i].tagName == "SPAN") {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -1734,9 +1733,7 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
-      <a href="../index.html" class="sidebar-logo-link">
-      </a>
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="../">Statistics and Information Systems</a> 
     </div>
@@ -1793,6 +1790,12 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Sample of Questions</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/Outlier_Detection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Outlier Detection: Understading and Handling</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -1807,7 +1810,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/chapter5_logistic_regression.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Logistic Regression</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Logistic Regression</span></span></a>
   </div>
 </li>
       </ul>
@@ -1824,7 +1827,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/chapter1_data_ethics.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Data Ethics</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Data Ethics</span></span></a>
   </div>
 </li>
       </ul>
@@ -2175,8 +2178,8 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <svg width="672" height="480" viewbox="0.00 0.00 324.00 564.00" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none">
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 560)">
 <title>StatProcess</title>
-<g id="clust1" class="cluster">
-<title>cluster_problem</title>
+<g id="clust9" class="cluster">
+<title>cluster_conclusion</title>
 </g>
 <g id="clust3" class="cluster">
 <title>cluster_plan</title>
@@ -2187,8 +2190,8 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <g id="clust7" class="cluster">
 <title>cluster_analysis</title>
 </g>
-<g id="clust9" class="cluster">
-<title>cluster_conclusion</title>
+<g id="clust1" class="cluster">
+<title>cluster_problem</title>
 </g>
 <!-- P1 -->
 <g id="node1" class="node">
@@ -2200,12 +2203,12 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <g id="node2" class="node">
 <title>BOX1</title>
 <defs>
-<lineargradient id="l_0" gradientunits="userSpaceOnUse" x1="16" y1="-491" x2="232" y2="-491">
+<lineargradient id="l_10" gradientunits="userSpaceOnUse" x1="16" y1="-491" x2="232" y2="-491">
 <stop offset="0" style="stop-color:#e07b39;stop-opacity:1.;"></stop>
 <stop offset="1" style="stop-color:white;stop-opacity:1.;"></stop>
 </lineargradient>
 </defs>
-<path fill="url(#l_0)" stroke="#333333" stroke-width="2" d="M220,-540C220,-540 28,-540 28,-540 22,-540 16,-534 16,-528 16,-528 16,-454 16,-454 16,-448 22,-442 28,-442 28,-442 220,-442 220,-442 226,-442 232,-448 232,-454 232,-454 232,-528 232,-528 232,-534 226,-540 220,-540"></path>
+<path fill="url(#l_10)" stroke="#333333" stroke-width="2" d="M220,-540C220,-540 28,-540 28,-540 22,-540 16,-534 16,-528 16,-528 16,-454 16,-454 16,-448 22,-442 28,-442 28,-442 220,-442 220,-442 226,-442 232,-448 232,-454 232,-454 232,-528 232,-528 232,-534 226,-540 220,-540"></path>
 <text text-anchor="start" x="95.99" y="-520.4" font-family="Arial" font-weight="bold" font-size="14.00">Problem</text>
 <text text-anchor="start" x="31" y="-497.2" font-family="Arial" font-size="12.00">• Write down study objectives</text>
 <text text-anchor="start" x="30.61" y="-475.2" font-family="Arial" font-size="12.00">• Identify target/sample population</text>
@@ -2232,12 +2235,12 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <g id="node4" class="node">
 <title>BOX2</title>
 <defs>
-<lineargradient id="l_1" gradientunits="userSpaceOnUse" x1="16" y1="-357" x2="232" y2="-357">
+<lineargradient id="l_11" gradientunits="userSpaceOnUse" x1="16" y1="-357" x2="232" y2="-357">
 <stop offset="0" style="stop-color:#999999;stop-opacity:1.;"></stop>
 <stop offset="1" style="stop-color:white;stop-opacity:1.;"></stop>
 </lineargradient>
 </defs>
-<path fill="url(#l_1)" stroke="#333333" stroke-width="2" d="M220,-406C220,-406 28,-406 28,-406 22,-406 16,-400 16,-394 16,-394 16,-320 16,-320 16,-314 22,-308 28,-308 28,-308 220,-308 220,-308 226,-308 232,-314 232,-320 232,-320 232,-394 232,-394 232,-400 226,-406 220,-406"></path>
+<path fill="url(#l_11)" stroke="#333333" stroke-width="2" d="M220,-406C220,-406 28,-406 28,-406 22,-406 16,-400 16,-394 16,-394 16,-320 16,-320 16,-314 22,-308 28,-308 28,-308 220,-308 220,-308 226,-308 232,-314 232,-320 232,-320 232,-394 232,-394 232,-400 226,-406 220,-406"></path>
 <text text-anchor="start" x="109.22" y="-386.4" font-family="Arial" font-weight="bold" font-size="14.00">Plan</text>
 <text text-anchor="start" x="40.62" y="-363.2" font-family="Arial" font-size="12.00">• Plan data collection methods</text>
 <text text-anchor="start" x="41" y="-341.2" font-family="Arial" font-size="12.00">• Calculate sample size</text>
@@ -2264,12 +2267,12 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <g id="node6" class="node">
 <title>BOX3</title>
 <defs>
-<lineargradient id="l_2" gradientunits="userSpaceOnUse" x1="16" y1="-234" x2="232" y2="-234">
+<lineargradient id="l_12" gradientunits="userSpaceOnUse" x1="16" y1="-234" x2="232" y2="-234">
 <stop offset="0" style="stop-color:#f4d03f;stop-opacity:1.;"></stop>
 <stop offset="1" style="stop-color:white;stop-opacity:1.;"></stop>
 </lineargradient>
 </defs>
-<path fill="url(#l_2)" stroke="#333333" stroke-width="2" d="M220,-272C220,-272 28,-272 28,-272 22,-272 16,-266 16,-260 16,-260 16,-208 16,-208 16,-202 22,-196 28,-196 28,-196 220,-196 220,-196 226,-196 232,-202 232,-208 232,-208 232,-260 232,-260 232,-266 226,-272 220,-272"></path>
+<path fill="url(#l_12)" stroke="#333333" stroke-width="2" d="M220,-272C220,-272 28,-272 28,-272 22,-272 16,-266 16,-260 16,-260 16,-208 16,-208 16,-202 22,-196 28,-196 28,-196 220,-196 220,-196 226,-196 232,-202 232,-208 232,-208 232,-260 232,-260 232,-266 226,-272 220,-272"></path>
 <text text-anchor="start" x="109.33" y="-252.4" font-family="Arial" font-weight="bold" font-size="14.00">Data</text>
 <text text-anchor="start" x="62.8" y="-229.2" font-family="Arial" font-size="12.00">• Collect data per plan</text>
 <text text-anchor="start" x="63" y="-207.2" font-family="Arial" font-size="12.00">• Note any deviations</text>
@@ -2295,12 +2298,12 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <g id="node8" class="node">
 <title>BOX4</title>
 <defs>
-<lineargradient id="l_3" gradientunits="userSpaceOnUse" x1="16" y1="-133" x2="232" y2="-133">
+<lineargradient id="l_13" gradientunits="userSpaceOnUse" x1="16" y1="-133" x2="232" y2="-133">
 <stop offset="0" style="stop-color:#5dade2;stop-opacity:1.;"></stop>
 <stop offset="1" style="stop-color:white;stop-opacity:1.;"></stop>
 </lineargradient>
 </defs>
-<path fill="url(#l_3)" stroke="#333333" stroke-width="2" d="M220,-160C220,-160 28,-160 28,-160 22,-160 16,-154 16,-148 16,-148 16,-118 16,-118 16,-112 22,-106 28,-106 28,-106 220,-106 220,-106 226,-106 232,-112 232,-118 232,-118 232,-148 232,-148 232,-154 226,-160 220,-160"></path>
+<path fill="url(#l_13)" stroke="#333333" stroke-width="2" d="M220,-160C220,-160 28,-160 28,-160 22,-160 16,-154 16,-148 16,-148 16,-118 16,-118 16,-112 22,-106 28,-106 28,-106 220,-106 220,-106 226,-106 232,-112 232,-118 232,-118 232,-148 232,-148 232,-154 226,-160 220,-160"></path>
 <text text-anchor="start" x="95.71" y="-140.4" font-family="Arial" font-weight="bold" font-size="14.00">Analysis</text>
 <text text-anchor="start" x="59.79" y="-117.2" font-family="Arial" font-size="12.00">• Analyze data per plan</text>
 </g>
@@ -2325,12 +2328,12 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <g id="node10" class="node">
 <title>BOX5</title>
 <defs>
-<lineargradient id="l_4" gradientunits="userSpaceOnUse" x1="16" y1="-43" x2="232" y2="-43">
+<lineargradient id="l_14" gradientunits="userSpaceOnUse" x1="16" y1="-43" x2="232" y2="-43">
 <stop offset="0" style="stop-color:#82c341;stop-opacity:1.;"></stop>
 <stop offset="1" style="stop-color:white;stop-opacity:1.;"></stop>
 </lineargradient>
 </defs>
-<path fill="url(#l_4)" stroke="#333333" stroke-width="2" d="M220,-70C220,-70 28,-70 28,-70 22,-70 16,-64 16,-58 16,-58 16,-28 16,-28 16,-22 22,-16 28,-16 28,-16 220,-16 220,-16 226,-16 232,-22 232,-28 232,-28 232,-58 232,-58 232,-64 226,-70 220,-70"></path>
+<path fill="url(#l_14)" stroke="#333333" stroke-width="2" d="M220,-70C220,-70 28,-70 28,-70 22,-70 16,-64 16,-58 16,-58 16,-28 16,-28 16,-22 22,-16 28,-16 28,-16 220,-16 220,-16 226,-16 232,-22 232,-28 232,-28 232,-58 232,-58 232,-64 226,-70 220,-70"></path>
 <text text-anchor="start" x="85.89" y="-50.4" font-family="Arial" font-weight="bold" font-size="14.00">Conclusion</text>
 <text text-anchor="start" x="45.96" y="-27.2" font-family="Arial" font-size="12.00">• Draw conclusion in context</text>
 </g>
@@ -2443,10 +2446,10 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div class="quarto-layout-panel" data-layout-ncol="2">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 54.8%;justify-content: center;">
-<p><img src="../figs/EDA/Tukey.jpg" class="img-fluid" width="288"></p>
+<p><img src="..\figs/EDA/Tukey.jpg" class="img-fluid" width="288"></p>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 45.2%;justify-content: center;">
-<p><img src="../figs/EDA/book.jpg" class="img-fluid" width="238"></p>
+<p><img src="..\figs/EDA/book.jpg" class="img-fluid" width="238"></p>
 </div>
 </div>
 </div>
@@ -2494,7 +2497,7 @@ Note
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>EDA Checklist
+EDA Checklist
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -2686,7 +2689,7 @@ Tip
 <p>Most datasets are organized in a rectangular format — like a spreadsheet — where each <strong>row</strong> represents one observation (e.g.&nbsp;a person, object, or experiment), and each <strong>column</strong> represents a variable (e.g.&nbsp;name, age, group, result).</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="../figs/EDA/datatable.png" class="img-fluid figure-img"></p>
+<p><img src="..\figs/EDA/datatable.png" class="img-fluid figure-img"></p>
 <figcaption>Adapted from Slides of ‘EDA Module I: A Bird’s Eye View’ by Dr.&nbsp;Mark Williamson</figcaption>
 </figure>
 </div>
@@ -2769,11 +2772,11 @@ Tip
 </div>
 </div>
 <p>You can use the following commands to help:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is.factor</span>(mpg<span class="sc">$</span>class)</span>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is.factor</span>(mpg<span class="sc">$</span>class)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(mpg<span class="sc">$</span>class)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>mpg<span class="sc">$</span>class <span class="ot">&lt;-</span> <span class="fu">factor</span>(mpg<span class="sc">$</span>class)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>mpg<span class="sc">$</span>class <span class="ot">&lt;-</span> <span class="fu">factor</span>(mpg<span class="sc">$</span>class)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Exercise</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Hint</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href="">Solutions</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page">Exercise</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Hint</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false">Solutions</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
 <p>The <code>mpg</code> dataset contains information about different car models, including manufacturer, engine size, fuel efficiency, and more.</p>
@@ -2993,7 +2996,7 @@ Tip
 <div id="qwebr-insertion-location-6"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true" href="">Exercise</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false" href="">Hint</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-3" role="tab" aria-controls="tabset-2-3" aria-selected="false" href="">Solutions</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">Exercise</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">Hint</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-3" role="tab" aria-controls="tabset-2-3" aria-selected="false">Solutions</a></li></ul>
 <div class="tab-content">
 <div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
 <p>The <code>mpg</code> dataset includes several numeric variables related to fuel economy and engine size.</p>
@@ -3048,7 +3051,7 @@ mpg$year <- as.factor(mpg$year)   # if treating as categorical
 <p><strong>Summary of Variable Types</strong></p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="../figs/EDA/scales.png" class="img-fluid figure-img"></p>
+<p><img src="..\figs/EDA/scales.png" class="img-fluid figure-img"></p>
 <figcaption>Source: https://datatab.net/tutorial/level-of-measurement</figcaption>
 </figure>
 </div>
@@ -3184,7 +3187,7 @@ Important
 <p>Beyond the four cells of the cross-classification, EDA choices also depend on each variable’s <strong>role</strong> (outcome vs explanatory) and <strong>type</strong> (categorical vs quantitative)—and there is an element of art that grows with practice.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="../figs/EDA/art.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
+<p><img src="..\figs/EDA/art.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
 </figure>
 </div>
 <section id="descriptive-statistics" class="level4" data-number="2.4.2.1">
@@ -3213,7 +3216,7 @@ Note
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>R Tip: <code>any()</code>, <code>all()</code>, and <code>anyNA()</code>
+R Tip: <code>any()</code>, <code>all()</code>, and <code>anyNA()</code>
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -3223,11 +3226,11 @@ Note
 <li><p><code>anyNA(x)</code> is a shortcut to check if <strong>any value is <code>NA</code></strong> (missing) in a vector or data frame.</p></li>
 </ul>
 <p><strong>Examples</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="cn">NA</span>)</span>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="cn">NA</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">any</span>(<span class="fu">is.na</span>(x))     <span class="co"># TRUE – there is at least one NA</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">all</span>(<span class="fu">is.na</span>(x))     <span class="co"># FALSE – not all are NA</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">anyNA</span>(x)          <span class="co"># TRUE – a fast way to check for NA, </span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">anyNA</span>(x)          <span class="co"># TRUE – a fast way to check for NA, </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Use <code>any()</code> when you care <strong>if a problem exists</strong>, and <code>all()</code> when you want to know <strong>if everything passes a check</strong>.</p>
 </div>
 </div>
@@ -3528,14 +3531,14 @@ Note
 <p>The <strong>normal distribution</strong> is a foundational concept in statistics. It is perfectly <strong>symmetric</strong>: the left and right sides of its bell-shaped curve are mirror images. This means the <strong>mean</strong>, <strong>median</strong>, and <strong>mode</strong> of a normal distribution are all equal.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="../figs/EDA/normal.jpg" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
+<p><img src="..\figs/EDA/normal.jpg" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
 </figure>
 </div>
 <p>But real-world data rarely follow perfect symmetry. That’s where <strong>skewness</strong> comes in.</p>
 <p><strong>Skewness</strong> describes <strong>asymmetry</strong>. A <strong>positive</strong> skew means a long <strong>right</strong> tail (very high values are more common than very low ones); a <strong>negative</strong> skew means a long <strong>left</strong> tail.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="../figs/EDA/skew.png" class="img-fluid figure-img"></p>
+<p><img src="..\figs/EDA/skew.png" class="img-fluid figure-img"></p>
 <figcaption>[source:https://towardsdatascience.com/skewness-kurtosis-simplified-1338e094fc85/]</figcaption>
 </figure>
 </div>
@@ -3583,7 +3586,7 @@ Note
 <p><strong>Kurtosis</strong> describes <strong>tail weight</strong> (and peak shape) <strong>relative to a Normal</strong> distribution. <strong>Positive</strong> kurtosis (“heavy tails”) means more extreme values and a sharper center peak; <strong>negative</strong> kurtosis (“light tails”) means fewer extremes and a flatter, broader peak.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="../figs/EDA/kurtosis.png" class="img-fluid figure-img"></p>
+<p><img src="..\figs/EDA/kurtosis.png" class="img-fluid figure-img"></p>
 <figcaption>[Source: https://towardsdatascience.com/skewness-kurtosis-simplified-1338e094fc85/]</figcaption>
 </figure>
 </div>
@@ -3604,7 +3607,7 @@ Note
 <p>In short, skewness tells us whether a distribution is symmetric or lopsided, while kurtosis tells us whether the distribution has unusual peaks or heavy/light tails compared to a normal distribution.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="../figs/EDA/both.png" class="img-fluid figure-img"></p>
+<p><img src="..\figs/EDA/both.png" class="img-fluid figure-img"></p>
 <figcaption>[Source: https://medium.com/@the_social_byte/why-should-we-care-about-skewness-and-kurtosis-in-data-analysis-bf6bff4b4ab6]</figcaption>
 </figure>
 </div>
@@ -3632,7 +3635,7 @@ Warning
 <div id="qwebr-insertion-location-18"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true" href="">Exercise</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false" href="">Solutions</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true">Exercise</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false">Solutions</a></li></ul>
 <div class="tab-content">
 <div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
 <p>In the dataset <code>mpg</code>,</p>
@@ -3970,7 +3973,7 @@ Imagine we observed <span class="math inline">\(344\)</span> penguins from three
 </table>
 <p>These summaries help us compare groups and form initial impressions (for example, the mean suggests a “typical” value). <strong>But a few numbers can not tell the whole story</strong>—different datasets can share the same mean and spread yet look very different, so always pair numbers with plots and context.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true" href="">Exercise</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-2" role="tab" aria-controls="tabset-4-2" aria-selected="false" href="">Solutions</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true">Exercise</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-2" role="tab" aria-controls="tabset-4-2" aria-selected="false">Solutions</a></li></ul>
 <div class="tab-content">
 <div id="tabset-4-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-4-1-tab">
 <p>In the dataset <code>mtcars</code>,</p>
@@ -3994,7 +3997,7 @@ Imagine we observed <span class="math inline">\(344\)</span> penguins from three
 </div>
 </div>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-5-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-1" role="tab" aria-controls="tabset-5-1" aria-selected="true" href="">Exercise</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-5-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-2" role="tab" aria-controls="tabset-5-2" aria-selected="false" href="">Solutions</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-5-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-1" role="tab" aria-controls="tabset-5-1" aria-selected="true">Exercise</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-5-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-2" role="tab" aria-controls="tabset-5-2" aria-selected="false">Solutions</a></li></ul>
 <div class="tab-content">
 <div id="tabset-5-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-5-1-tab">
 <p>In the dataset <code>Titanic</code>,</p>
@@ -4017,7 +4020,7 @@ Imagine we observed <span class="math inline">\(344\)</span> penguins from three
 </div>
 </div>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-6-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-1" role="tab" aria-controls="tabset-6-1" aria-selected="true" href="">Exercise</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-6-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-2" role="tab" aria-controls="tabset-6-2" aria-selected="false" href="">Solutions</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-6-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-1" role="tab" aria-controls="tabset-6-1" aria-selected="true">Exercise</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-6-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-2" role="tab" aria-controls="tabset-6-2" aria-selected="false">Solutions</a></li></ul>
 <div class="tab-content">
 <div id="tabset-6-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-6-1-tab">
 <p>In the dataset <code>palmerpenguins::penguins</code>,</p>
@@ -4036,7 +4039,7 @@ Imagine we observed <span class="math inline">\(344\)</span> penguins from three
 </div>
 </div>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-7-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-1" role="tab" aria-controls="tabset-7-1" aria-selected="true" href="">Exercise</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-7-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-2" role="tab" aria-controls="tabset-7-2" aria-selected="false" href="">Solutions</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-7-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-1" role="tab" aria-controls="tabset-7-1" aria-selected="true">Exercise</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-7-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-2" role="tab" aria-controls="tabset-7-2" aria-selected="false">Solutions</a></li></ul>
 <div class="tab-content">
 <div id="tabset-7-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-7-1-tab">
 <p>In the dataset <code>iris</code>,</p>
@@ -4061,7 +4064,7 @@ Imagine we observed <span class="math inline">\(344\)</span> penguins from three
 <li><p><code>Day</code> (day of month).</p></li>
 </ul>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-8-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-1" role="tab" aria-controls="tabset-8-1" aria-selected="true" href="">Descriptive Statistics</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-8-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-2" role="tab" aria-controls="tabset-8-2" aria-selected="false" href="">Associations</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-8-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-1" role="tab" aria-controls="tabset-8-1" aria-selected="true">Descriptive Statistics</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-8-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-2" role="tab" aria-controls="tabset-8-2" aria-selected="false">Associations</a></li></ul>
 <div class="tab-content">
 <div id="tabset-8-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-8-1-tab">
 <ol type="1">
@@ -4167,19 +4170,19 @@ plot histograms or line charts
 <p>For example, if we see that children with air cleaners had more symptom-free days, that sounds good. But how do we know the air cleaner made the difference? We only know that <strong>by comparing</strong> to another group of children who didn’t get the air cleaner. When we add that comparison, we can see that the control group didn’t improve — so the improvement likely came from the air cleaner.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="../figs/EDA/EDA-P1-a.png" class="img-fluid figure-img"></p>
+<p><img src="..\figs/EDA/EDA-P1-a.png" class="img-fluid figure-img"></p>
 <figcaption>Change in symptom-free days with air cleaner. Source: @Peng2012</figcaption>
 </figure>
 </div>
 <div id="figEDA1" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="../figs/EDA/EDA-P1-a.png" class="img-fluid figure-img"></p>
+<p><img src="..\figs/EDA/EDA-P1-a.png" class="img-fluid figure-img"></p>
 <figcaption>Change in symptom-free days with air cleaner. Source: @Peng2012</figcaption>
 </figure>
 </div>
 <div id="figEDA2" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="../figs/EDA/EDA-P1-b.png" class="img-fluid figure-img"></p>
+<p><img src="..\figs/EDA/EDA-P1-b.png" class="img-fluid figure-img"></p>
 <figcaption>Change in symptom-free days by treatment group. Source: @Peng2012</figcaption>
 </figure>
 </div>
@@ -4200,7 +4203,7 @@ plot histograms or line charts
 <p>For example, in <a href="#figEDA2">#figEDA2</a> we saw that children with an air cleaner had more symptom–free days. But that alone does not explain <strong>why</strong>. A good follow-up question is: “<em>Why did the air cleaner help?“</em> One possible reason is that air cleaners reduce <strong>fine particles</strong> in the air – especially in homes with smokers. Breathing in these particles can make asthma worse, so removing them might help children feel better. To show this, we can make a new plot.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="../figs/EDA/EDA-P2.png" class="img-fluid figure-img"></p>
+<p><img src="..\figs/EDA/EDA-P2.png" class="img-fluid figure-img"></p>
 <figcaption>Change in symptom-free days and change in PM2.5 levels in-home. Source: <span class="citation" data-cites="Peng2012">Peng (<a href="#ref-Peng2012" role="doc-biblioref">2012</a>)</span></figcaption>
 </figure>
 </div>
@@ -4437,14 +4440,14 @@ Tip
 <p>The <code>~</code> introduces an <strong>anonymous function</strong> — a function written inline without a name.</p>
 <p>This</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="sc">~</span> <span class="fu">sum</span>(<span class="fu">is.na</span>(.))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="sc">~</span> <span class="fu">sum</span>(<span class="fu">is.na</span>(.))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>~sum(is.na(.))</code></pre>
 </div>
 </div>
 <p>is a shorthand for</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span>(x) <span class="fu">sum</span>(<span class="fu">is.na</span>(x))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span>(x) <span class="fu">sum</span>(<span class="fu">is.na</span>(x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>function (x) 
 sum(is.na(x))</code></pre>
@@ -4669,14 +4672,13 @@ Tukey, John Wilder. 1977. <em>Exploratory Data Analysis</em>. Addison-Wesley Pub
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-      const outerScaffold = trigger.parentElement.cloneNode(true);
-      const codeEl = outerScaffold.querySelector('code');
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
         }
-      }
-      return codeEl.innerText;
+        return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

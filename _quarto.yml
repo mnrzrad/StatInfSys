@@ -14,6 +14,7 @@ book:
         - chapters/chapter2_data_visualization.qmd
         - chapters/project.qmd
         - chapters/Exam-Sample.qmd
+        - chapters/Outlier_Detection.qmd
     - part: "Logistic Regression"
       chapters:
         - chapters/chapter5_logistic_regression.qmd

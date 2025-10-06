@@ -1,0 +1,646 @@
+---
+engine: knitr
+filters: 
+  - webr
+---
+
+```{webr-r}
+#| context: setup
+library(tidyverse)
+```
+
+# Outlier Detection: Understading and Handling 
+
+## Definition and Causes of Outliers
+
+### What are outliers?
+
+An **outlier** is an observation that differs significantly from other observations. 
+
+Outliers may appear as unusually large or small values and are sometimes referred to as **anomalies**.
+
+The ouliers can represent important, rare, or faulty observations. Therefore, detecting and interpreting outliers should always involve *contextual and domain-specific judgment* — not just automated rules.
+
+::: callout-note
+An observation must always be compared to other observations made on the same phenomenon before actually calling it an outlier. Indeed, someone who is 2 meters tall will most likely be considered an outlier compared to the general population, but that same person may not be considered an outlier if we measured the height of basketball players.
+:::
+
+### Common Causes of Outliers
+
+Outliers can arise for many reasons, including:
+
+-   **Measurement or data entry errors** – inaccurate recordings or manual input mistakes.
+
+-   **Data corruption** – issues during data transmission or storage.
+
+-   **Experimental anomalies** – unexpected events or conditions during data collection.
+
+-   **True but rare events** – legitimate observations that occur infrequently.
+
+-   **Sampling from different populations** – combining heterogeneous data sources.
+
+For example, it is often the case that there are outliers when collecting data on salaries, as some people make much more money than the rest.
+
+Outliers can also arise due to an experimental, measurement, or encoding error. For instance, a human weighing 786 kg is clearly an error when encoding the weight of the subject. Her or his weight is most probably 78.6 kg (173 pounds) or 7.86 kg, depending on whether the weights of adults or babies have been measured.
+
+For this reason, it sometimes makes sense to formally distinguish two classes of outliers: (i) extreme values and (ii) mistakes. Extreme values are statistically and philosophically more interesting, because they are possible but unlikely responses.
+
+## Methods
+
+### Minimum and Maximum
+
+The first step to detect outliers is to start with some descriptive statistics. In particular, with the *minimum* and *maximum*.
+‍‍
+Some clear mistake like a weight of $786$kg for a human will already be easily detected by this simple technique. 
+
+```{webr-r}
+#| warnings: false
+#| autorun: true
+
+library(ggplot2)
+data(mpg, package = "ggplot2")
+summary(mpg$hwy)
+```
+
+```{webr-r}
+#| autorun: true
+cat("Min:", min(mpg$hwy))
+cat("Max:", max(mpg$hwy))
+cat("Min and Max:", range(mpg$hwy))
+```
+
+### Check the summary statistics
+
+Outliers can drastically affect the results of data analysis and statistical modeling. They can distort summary statistics, such as the mean and standard deviation, leading to misleading conclusions.
+
+Let’s look at a simple example:
+
+```{r}
+#| eval: true
+#| echo: true
+#| warning: false
+
+library(dplyr)
+
+# Data
+# Without outliers
+set1 <- c(4,4,5,5,5,5,6,6,6,7,7)
+# With outliers
+set2 <- c(4,4,5,5,5,5,6,6,6,7,7,300)
+
+# Function to compute summary statistics
+summary_stats <- function(x) {
+  tibble(
+    Mean = mean(x),
+    Median = median(x),
+    Mode = as.numeric(names(which.max(table(x)))),
+    SD = sd(x)
+  )
+}
+
+# Apply to both sets and combine results
+results <- bind_rows(
+  summary_stats(set1) %>% mutate(Dataset = "Set 1"),
+  summary_stats(set2) %>% mutate(Dataset = "Set 2")
+) %>%
+  select(Dataset, Mean, Median, Mode, SD)
+
+# Display results
+results
+```
+Based on the output, you will notice that the mean and standard deviation of the dataset containing outlier are much larger than those of the dataset without outlier. Here, the average increases from $5.45$ in the dataset without outliers to $30$ when outlier is included -- completley changing the estimate.
+
+You can also see the difference between the  standard deviation values in the two datasets. standard deviation can be a warning sign that outliers may be present. 
+
+::: callout-tip
+Always compare **mean vs. median** and check the **standard deviation** -- sudden jumps in these values may indicate the presence of outliers.
+:::
+
+Another simple way to detect ouliers is by plotting a histogram of the data. This allows you to visualize the overall distribution and spot unusually high or low values.
+
+::: callout-tip
+A good rule of thumb for the number of bins is to set it to the square root of the number of observations. 
+:::
+
+We can create a histogram using *base R* or *ggplot2*:
+```{webr-r}
+#| autorun: true
+#| out-width: "60%"
+#| fig-align: "center"#| out-width: "60%"
+#| fig-align: "center"
+hist(mpg$hwy, xlab = "hwy", main = "Histogram of hwy", breaks = sqrt(nrow(mpg)))
+```
+
+```{webr-r}
+#| autorun: true
+#| out-width: "60%"
+#| fig-align: "center"
+ggplot(data = mpg,
+       mapping = aes(x = hwy)) + 
+       geom_histogram(bins = floor(sqrt(nrow(mpg))))
+```
+
+From the histogram, we can see a few observations that are noticeably higher than the rest -- indicated by the bar on the far right side of the plot. 
+
+In addition to histogram, *boxplots* are also useful to detect potential outliers. 
+
+```{webr-r}
+#| autorun:true
+#| fig-align: "center"
+#| out-width: "60%"
+boxplot(mpg$hwy, yalb = 'hwy')
+```
+
+```{webr-r}
+#| autorun: true
+#| out-width: "60%"
+#| fig-align: "center"
+ggplot(mpg, aes(x = "", y = hwy)) +
+  geom_boxplot(outlier.shape = NA) + 
+  geom_jitter(width = 0.2, color = "blue") 
+```
+
+As we discussed previously, a boxplot shows the distribution of a numerical variable using five key values -- the minimum, first quantile ($Q_1$), median, third quantile ($Q_3$), and maximum -- and highlights any suspected outliers based on the interquartile range ($\text{IQR} = Q_3 - Q1$) rule. 
+
+![](../figs/outliers/boxplot.png)
+
+### Tukey's IQR Rule
+
+Tukey defined outliers as  points that fall below $Q_1 - 1.5 * \text{IQR}$ or above $Q_3 + 1.5 * \text{IQR}$, providing a simple quantitative rule for detecting values that differ significantly from the main body of the data.
+
+::: callout-tip
+The coefficient $1.5$ is not fixed -- it can be adjusted depending on the context and assumptions. However, in practice, the $1.5$ rule is the most commonly used standard. 
+:::
+
+We can define a function in R to find outliers based on the IQR rule:
+
+```{webr-r}
+#| autorun: true
+library(dplyr)
+
+IQR_method <- function(x) {
+  # Tukey's rule for outliers (univariate, simple dplyr version)
+  
+  stats <- tibble(value = x) %>%
+    summarise(
+      Q1 = quantile(value, 0.25, na.rm = TRUE),
+      Q3 = quantile(value, 0.75, na.rm = TRUE),
+      IQR_value = Q3 - Q1,
+      lower = Q1 - 1.5 * IQR_value,
+      upper = Q3 + 1.5 * IQR_value
+    )
+  
+  # Extract numeric bounds
+  lower <- stats$lower
+  upper <- stats$upper
+  
+  # Identify outliers
+  outliers <- x[x < lower | x > upper]
+  
+  cat("Lower bound:", lower, "\n")
+  cat("Upper bound:", upper, "\n")
+  cat("Total number of outliers:", length(outliers), "\n")
+  
+  return(outliers)
+}
+
+# Example
+x <- c(4, 5, 6, 6, 5, 4, 5, 100)
+IQR_method(x)
+```
+Instead of creating a separate function, we can directly extract potential outliers using R’s built-in `boxplot.stats()$out` function, which applies Tukey’s IQR rule automatically.
+```{webr-r}
+#| autorun: true
+IQR_method(mpg$hwy)
+cat("--------------------------\n")
+boxplot.stats(mpg$hwy)$out
+```
+As you can see, there are three potential outliers: two observations with a value of 44 and one with a value of 41.
+
+We can easily find their row numbers in the dataset using the `which()` function.
+```{webr-r}
+#| autorun: true
+out <- boxplot.stats(mpg$hwy)$out
+out_ind <- which(mpg$hwy %in% c(out))
+out_ind
+```
+With this information, you can now easily return to the corresponding rows in the dataset to verify them or review all variables for those observations.
+```{webr-r}
+#| autorun: true
+mpg[out_ind, ]
+```
+::: callout-tip
+This step helps verify whether these unusual observations are data entry errors or genuine extreme cases that may need special attention.
+:::
+
+::: callout-tip
+Another method to display these specific rows is with the `identify_outliers()` function from the `{rstatix}` package:
+
+```{webr-r}
+#| autorun: true
+library(rstatix)
+
+identify_outliers(data = mpg, variable = "hwy")
+```
+:::
+
+```{webr-r}
+#| autorun: true
+#| out-width: "70%"
+#| fig-align: "center"
+
+bounds <- tibble(value = mpg$hwy) %>%
+    summarise(
+      Q1 = quantile(value, 0.25, na.rm = TRUE),
+      Q3 = quantile(value, 0.75, na.rm = TRUE),
+      IQR_value = Q3 - Q1,
+      lower = Q1 - 1.5 * IQR_value,
+      upper = Q3 + 1.5 * IQR_value
+    )
+
+data_plot <- mpg %>%
+  mutate(
+    index = row_number(),
+    is_outlier = hwy < bounds$lower | hwy > bounds$upper
+  )
+
+ggplot(data_plot, aes(x = index, y = hwy)) +
+  geom_point(aes(color = is_outlier), size = 3) +
+  scale_color_manual(values = c("black", "red")) +
+  geom_hline(yintercept = bounds$lower, linetype = "dashed", color = "red") +
+  geom_hline(yintercept = bounds$upper, linetype = "dashed", color = "red") +
+  labs(
+    title = "Highway Mileage (mpg) – Outliers Highlighted",
+    x = "Observation Index",
+    y = "Highway Miles per Gallon",
+    color = "Outlier"
+  ) +
+  theme_minimal()
+```
+
+### Standard deviation method
+
+If the data follows a roughly **normal (bell-shaped)** distribution, we can use the *standard deviation (SD)* to identify outliers.
+
+The standard deviation measures how far the data values are spread from the mean.
+
+For a normal distribution:
+
+- $68\%$ of data lies within $\pm 1$ SD
+- 
+- $69\%$ of data lies within $\pm 2$ SD
+- 
+- $99.7\%$ of data lies within $\pm 3$ SD
+
+Values that lie more than 2 or 3 SDs away from the mean are often considered potential outliers.
+
+![](../figs/outliers/SD.png)
+
+::: callout-note
+This method can sometimes miss outliers because extreme values make the standard deviation larger.
+:::
+
+```{webr-r}
+#| autorun: true
+SD_outliers <- function(x, multiplier = 2) {
+  mean_x <- mean(x, na.rm = TRUE)
+  sd_x <- sd(x, na.rm = TRUE)
+  
+  lower <- mean_x - multiplier * sd_x
+  upper <- mean_x + multiplier * sd_x
+  
+  outliers <- x[x < lower | x > upper]
+  
+  cat("Mean:", round(mean_x, 2), "\n")
+  cat("Standard Deviation:", round(sd_x, 2), "\n")
+  cat("Lower bound:", round(lower, 2), "\n")
+  cat("Upper bound:", round(upper, 2), "\n")
+  cat("Total outliers:", length(outliers), "\n\n")
+  
+  return(outliers)
+}
+SD_outliers(mpg$hwy, multiplier = 2)
+```
+
+```{webr-r}
+#| autorun: true
+#| out-width: "70%"
+#| fig-align: "center"
+
+library(ggplot2)
+library(dplyr)
+
+mean_val <- mean(mpg$hwy, na.rm = TRUE)
+sd_val <- sd(mpg$hwy, na.rm = TRUE)
+multiplier <- 3  # can be 2 
+
+lower <- mean_val - multiplier * sd_val
+upper <- mean_val + multiplier * sd_val
+
+df <- tibble(value = mpg$hwy)
+
+ggplot(df, aes(x = value)) +
+  geom_histogram(bins = floor(sqrt(nrow(mpg)))) +
+  geom_rect(aes(xmin = -Inf, xmax = lower, ymin = 0, ymax = Inf),
+            fill = "red", alpha = 0.1) +
+  geom_rect(aes(xmin = upper, xmax = Inf, ymin = 0, ymax = Inf),
+            fill = "red", alpha = 0.1) +
+  geom_vline(xintercept = mean_val, color = "blue", linetype = "dashed") +
+  labs(
+    title = "Outlier Detection Using Standard Deviation",
+    subtitle = paste0("Shaded areas: values beyond ±", multiplier, " SD"),
+    x = "Highway Mileage (hwy)",
+    y = "Count"
+  ) 
+```
+
+### $Z$-score method
+
+If the dataset follows a normal distribution, instead of the standard deviation method, we can *transform* the data into *standard scores* (or *$Z$-scores*) so that the mean becomes $0$ and the standard deviation becomes $1$.
+
+This transformation gives us the $Z$-score for each observation, which indicates how many standard deviations an observation is from the mean. It can be done with the `scale()` function in R. 
+
+According to the empirical rule, observations with a $Z$-score greater than $3$ or less than $-3$ are considered as outliers (extremly rare). Values bewtween $|Z| = 2$ and $|Z| = 3$ are often described as "moderatly unusal" or rare.
+
+![](../figs/outliers/zscore.png)
+
+::: callout-tip
+Some analysts use a slightly stricter rule — considering values with $Z < −3.29$ or $Z > 3.29$ as outliers.
+
+**Why?** The $Z = \pm 3$ rule comes from the empirical ($68$-$95$-$99.7$) rule, which is an *approximately* for normal distribution. It says that about $99.7\%$ of the data lies within $3$ standard deviations from the mean. That means roughly $0.3\%$ (or 3 in 1000) of observations would lie outside this range. However, if we calculate it more precisely from standard normal distribution, we find the $Z$-value that cuts off exactly $0.1\%$ in each tail (so that only %0.2\%$ total or 2 in 1000 of obeservations lie beyond this point) is approximately $3.29$. So, $|Z| > 3$ means roughly $0.3\%$ of data, while $|Z| > 3.29$ means exactly $0.1\%$ per tail.
+:::
+
+```{webr-r}
+#| autorun: true
+#| warning: false
+
+z_score_method <- function(x, threshold = 3) {
+  # Z-score method for univariate data
+  
+  mean_x <- mean(x, na.rm = TRUE)
+  sd_x <- sd(x, na.rm = TRUE)
+  
+  # Compute z-scores
+  z_scores <- abs((x - mean_x) / sd_x)
+  
+  # Identify outliers
+  outliers <- x[z_scores > threshold]
+  
+  cat("Mean:", round(mean_x, 2), "\n")
+  cat("Standard deviation:", round(sd_x, 2), "\n")
+  cat("Threshold (|Z| >", threshold, ")\n")
+  cat("Total number of outliers:", length(outliers), "\n\n")
+  
+  return(outliers)
+}
+
+z_score_method(mpg$hwy, threshold = 3)
+```
+
+```{webr-r}
+#| autorun: true
+#| out-width: "70%"
+#| fig-align: "center"
+mpg <- mpg %>%
+        mutate(z_hwy = scale(mpg$hwy)) 
+
+ggplot(mpg, aes(x=z_hwy)) +
+  geom_histogram(bins = floor(sqrt(nrow(mpg)))) +
+  geom_rect(aes(xmin = -Inf, xmax = -3, ymin = 0, ymax = Inf),
+            fill = "red", alpha = 0.1) +
+  geom_rect(aes(xmin = 3, xmax = Inf, ymin = 0, ymax = Inf),
+            fill = "red", alpha = 0.1) +
+  geom_vline(xintercept = 0, color = "blue", linetype = "dashed") +
+  labs(
+    title = "Outlier Detection Using Z-scores",
+    x = "Z-scores of Highway Mileage (hwy)",
+    y = "Count"
+  )
+
+which(abs(mpg$z_hwy) > 3)
+```
+
+### Modified $Z$-score method
+The $Z$-score can be strongly affected by extreme 
+values since it relies on the *mean* and *standard deviation*. 
+
+To make the method more robust, we use the modified $Z$-score, which is based on the *median* and *median absolute deviation (MAD)* instead.
+
+The formula is:
+$$
+\text{Modified $Z$-Score} = \frac{0.6745 (x_i - \text{Median})}{\text{MAD}}
+$$
+where $x_i$ is individual observation, and $\text{MAD}=\text{median}(|x_i - \text{median}(x_i)|)$. 
+
+::: callout-tip
+The constant 0.6745 scales the MAD so that, under normality, the median absolute deviation estimates the standard deviation.
+:::
+
+The MAD messures the spread of the data using the median instead of the mean, making it less sensitive to outliers than the standard deviation.
+
+If the data are normally distributed, the standard deviation is typically preferref but for **non-normal data**, the MAD provides a more reliable measure of variablilty. 
+
+The outliers are identifed by 
+$$
+|\text{Modified $Z$-Score}| > 3.5
+$$
+The value of $3.5$ was suggested by Iglewicz and Hoaglin (1993) in “[How to Detect and Handle Outliers](https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://hwbdocs.env.nm.gov/Los%2520Alamos%2520National%2520Labs/TA%252054/11587.pdf&ved=2ahUKEwiJqdW7uJCQAxWqU6QEHdpnGUAQFnoECB8QAQ&usg=AOvVaw3QMvIEeALKIH7PgisbywOb)”,
+and is widely used because it balances sensitivity (detecting real anomalies) with robustness (avoiding false positives).
+
+```{webr-r}
+#| autorun: true
+modified_z_score_method <- function(x, threshold = 3.5) {
+  # Modified Z-score method for univariate data
+  
+  median_x <- median(x, na.rm = TRUE)
+  MAD_x <- median(abs(x - median_x), na.rm = TRUE)
+  
+  # Compute modified z-scores
+  mod_z_scores <- 0.6745 * (x - median_x) / MAD_x
+  
+  # Identify outliers
+  outliers <- x[abs(mod_z_scores) > threshold]
+  
+  cat("Median:", round(median_x, 2), "\n")
+  cat("MAD:", round(MAD_x, 2), "\n")
+  cat("Threshold (|Modified Z| >", threshold, ")\n")
+  cat("Total number of outliers:", length(outliers), "\n\n")
+  
+  return(outliers)
+}
+
+modified_z_score_method(mpg$hwy, threshold = 3.5)
+```
+
+### Hampel Filte
+
+The Hample filter is an  bust outlier detection method based on the *median* and the MAD -- just like the modified $Z$-score method.
+
+Instead of using the mean and standard deviation, it defines an interval around the median and flags as outliers any observations that fall outside this interval.
+
+The interval is defined as:
+$$
+I = [\text{Median} - k * \text{MAD}, \text{Median} + k * \text{MAD}]
+$$
+where $k$ is typically $3$.
+
+This method is particularly useful for data that may not be normally distributed or when the dataset contains extreme values that could skew the mean and standard deviation.
+
+```{webr-r} 
+#| autorun: true
+#| warning: false
+
+hampel_filter <- function(x, k = 3) {
+  median_x <- median(x, na.rm = TRUE)
+  MAD_x <- median(abs(x - median_x), na.rm = TRUE)
+  
+  lower <- median_x - k * MAD_x
+  upper <- median_x + k * MAD_x
+  
+  outliers <- x[x < lower | x > upper]
+  
+  cat("Median:", round(median_x, 2), "\n")
+  cat("MAD:", round(MAD_x, 2), "\n")
+  cat("Lower bound:", round(lower, 2), "\n")
+  cat("Upper bound:", round(upper, 2), "\n")
+  cat("Total number of outliers:", length(outliers), "\n\n")
+  
+  return(outliers)
+}
+
+hampel_filter(mpg$hwy, k = 3)
+```
+
+### Percentiles
+
+The percentile method detects outliers by defining an interval that includes most of the data, based on selected percentiles.
+Any observations outside this interval are considered potential outliers.
+
+The most common choice is to use the $2.5$th and $97.5$th percentiles,
+which corresponds to keeping $95\%$ of the central data and treating the remaining $5\%$ as potential outliers.
+
+Other cutoff points, such as $1$st and $99$th or $5$th and $95$th percentiles, can also be used depending on how strict you want the detection to be.
+
+```{webr-r}
+#| autorun: true
+#| warning: false
+#| 
+percentile_method <- function(x, lower_p = 0.025, upper_p = 0.975) {
+ 
+  lower_bound <- quantile(x, lower_p, na.rm = TRUE)
+  upper_bound <- quantile(x, upper_p, na.rm = TRUE)
+  
+  # Identify outliers
+  outlier_index <- which(x < lower_bound | x > upper_bound)
+  outlier_values <- x[outlier_index]
+  
+  # Display summary
+  cat("Lower percentile (", lower_p * 100, "%):", round(lower_bound, 2), "\n")
+  cat("Upper percentile (", upper_p * 100, "%):", round(upper_bound, 2), "\n")
+  cat("Total number of outliers:", length(outlier_index), "\n\n")
+  
+  return(outliers)
+}
+
+percentile_method(mpg$hwy, lower_p = 0.025, upper_p = 0.975)
+```
+
+## What to Do After Detecting Outliers
+
+Detecting outliers is only *the first step* — the most important part is deciding how to handle them. Outliers are not always "bad data" — they can be errors, rare but real events, or important signals.
+
+The correct action depends on **context** and **domain knowledge**.
+
+### Verify and Investigate
+
+Before taking any decision:
+
+- **Check for data entry errors**, unit mismatches, or measurement problems.
+
+- **Plot the data** again with and without outliers — see how much they influence the result.
+
+- **Compare summaries** (mean, median, variance) before and after removing outliers.
+
+### Keep the Outliers (if they are valid)
+
+If the outliers represent real, meaningful phenomena, they should remain in the dataset. For example, 
+
+- extremely high incomes in economics data
+
+- Rare but valid sensor readings in engineering.
+
+- Exceptional performance in experiments.
+
+In such cases, you may use robust statistical methods (e.g. median, MAD) that are less sensitive to extreme values.
+
+### Remove or Winsorize (if they are incorrect)
+If you find that the outliers come from a typographical or sensor errors, sampling issues, or wrong data units (e.g., °C vs. °F), then it’s reasonable to:
+
+- **Remove them**, or
+- **Winsorize them** — i.e., replace extreme values with the nearest valid percentile (e.g. 1st or 99th).
+
+This keeps the data’s overall structure but limits the impact of extreme points.
+
+### Analyze With and Without Outliers
+A good analytical habit is to perform the analysis both ways: once with all data and once excluding outliers. This helps assess how much the outliers influence the results and conclusions. If the results differ greatly, the outliers deserve closer attention.
+
+### Report Your Decision
+Always document your reasoning:
+
+- Which method you used for detection,
+
+- How many outliers were found,
+
+- What you decided to do, and why.
+
+Transparency ensures your analysis remains reproducible and credible.
+
+
+## Exercise 
+You are given the following dataset:
+```{r}
+data <- c(
+  47.19, 48.84, 57.79, 50.35, 50.64, 58.57, 52.30,
+  43.67, 46.56, 47.77, 56.12, 51.79, 52.00, 50.55,
+  47.22, 58.93, 52.48, 40.16, 53.50, 47.63, 44.66,
+  48.91, 44.86, 46.35, 46.87, 41.56, 54.18, 50.76,
+  44.30, 56.26, 52.13, 48.52, 54.47, 54.39, 54.10,
+  53.44, 52.76, 49.69, 48.47, 48.09, 46.52, 48.96,
+  43.67, 60.84, 56.03, 44.38, 47.98, 47.66, 53.89,
+  49.58, 51.26, 49.85, 49.78, 56.84, 48.87, 57.58,
+  42.25, 52.92, 50.61, 51.07, 51.89, 47.48, 48.33,
+  44.90, 44.64, 51.51, 52.24, 50.26, 54.61, 60.25,
+  47.54, 38.45, 55.02, 46.45, 46.55, 55.12, 48.57,
+  43.89, 50.90, 49.30, 50.02, 51.92, 48.14, 53.22,
+  48.89, 51.65, 55.48, 52.17, 48.37, 55.74, 54.96,
+  52.74, 51.19, 46.86, 56.80, 46.99, 60.93, 57.66,
+  48.82, 44.86, 100.58, 95.47, 81.32, 10.11, -1.87,
+  -25.52, -34.14, -6.05, 20.78, 0.01
+)
+```
+
+### Part 1 — Using Tukey’s IQR Rule
+1. Compute the first quartile (Q1), third quartile (Q3), and interquartile range (IQR).
+2. Identify outliers using the standard $1.5 \times IQR$ rule.
+3. Highlight them in a scatter plot.
+4. How many potential outliers are there, and where are they located?
+
+### Part 2 — Using the Standard Deviation Method
+1. Calculate the mean and standard deviation of the dataset.
+2. Identify outliers as points that lie more than 2 standard deviations away from the mean.
+3. Highlight them in a scatter plot.
+  
+### Part 3 — Using the Z-score Method
+1. Compute the Z-score for each observation (standardize the data).
+2. Mark as outliers the values with $|Z| > 3$ (or $|Z| > 3.29$ for a stricter rule).
+3. Compare your list of outliers with the ones found using the IQR method.
+4. Plot both methods’ results — do they detect the same observations?
+
+### Part 4 -- Discussion
+1. Which method  detected more outliers?
+2. Are there points that one method flagged as outliers but not the other?
+3. Which method do you think is more reliable for this dataset — and why?
+
+### Optional Challenge
+Apply the Modified Z-score method or Percentile method (1%–99%) to the same dataset.
+Do the results change? What does that tell you about the robustness of different detection methods?

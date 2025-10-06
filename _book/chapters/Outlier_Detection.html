@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>8&nbsp; Logistic Regression – Statistics and Information Systems</title>
+<title>7&nbsp; Outlier Detection: Understading and Handling – Statistics and Information Systems</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -30,8 +65,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../chapters/chapter1_data_ethics.html" rel="next">
-<link href="../chapters/Outlier_Detection.html" rel="prev">
+<link href="../chapters/chapter5_logistic_regression.html" rel="next">
+<link href="../chapters/Exam-Sample.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -369,7 +404,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"code":"library(tidyverse)","id":1,"options":{"autorun":"true","classes":"","comment":"","context":"setup","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"n <- 20\nx <- rbeta(n, 0.2, 0.4)\ny <- rbinom(n, 1, x)\nggplot(tibble(x, y), aes(x, y)) +\n  geom_point() +\n  geom_smooth(method = \"lm\", se = FALSE) +\n  labs(title = \"\",\n       x = \"x\",\n       y = \"y\")","id":2,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(tibble(x, y), aes(x, y)) +\n  geom_point() +\n  geom_smooth(method = \"glm\", \n       method.args = list(family = \"binomial\"), \n       se = FALSE) +\n  labs(title = \"\",\n       x = \"x\",\n       y = \"y\")\n  ","id":3,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-3","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"odds <- function(p) p / (1 - p)\np <- seq(0.1, 0.9, length.out = 90)\ntibble(p, odds = odds(p)) %>%\n  ggplot(aes(p, odds)) +\n  geom_line() +\n  geom_vline(xintercept = 0.5, color = \"red\", linetype = \"dashed\") +\n  geom_hline(yintercept = 1, color = \"blue\", linetype = \"dashed\") +\n  annotate(\"text\", x = 0.52, y = max(odds(p))*0.8, label = \"x = 0.5\", color = \"red\", hjust = 0) +\n  annotate(\"text\", x = 0.8, y = 1.05, label = \"y = 1\", color = \"blue\", vjust = 0) +\n  labs(title = \"Odds as a function of probability\",\n       x = \"Probability\",\n       y = \"Odds\")","id":4,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-4","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"logit <- function(p) log(p / (1 - p))\nprob <- seq(0.01, 0.99, length.out = 99)\ntibble(prob, logit = logit(prob)) %>%\n  ggplot(aes(prob, logit)) +\n  geom_line() +\n  geom_vline(xintercept = 0.5, color = \"red\", linetype = \"dashed\") +\n  geom_hline(yintercept = 0, color = \"blue\", linetype = \"dashed\") +\n  annotate(\"text\", x = 0.52, y = max(logit(prob))*0.8, label = \"x = 0.5\", color = \"red\", hjust = 0) +\n  annotate(\"text\", x = 0.8, y = 0.05, label = \"y = 0\", color = \"blue\", vjust = 0) +\n  labs(title = \"Logit as a function of probability\",\n       x = \"Probability\",\n       y = \"Logit\")","id":5,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-5","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
+globalThis.qwebrCellDetails = [{"code":"library(tidyverse)","id":1,"options":{"autorun":"true","classes":"","comment":"","context":"setup","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(ggplot2)\ndata(mpg, package = \"ggplot2\")\nsummary(mpg$hwy)","id":2,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true","warnings":"false"}},{"code":"cat(\"Min:\", min(mpg$hwy))\ncat(\"Max:\", max(mpg$hwy))\ncat(\"Min and Max:\", range(mpg$hwy))","id":3,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-3","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"hist(mpg$hwy, xlab = \"hwy\", main = \"Histogram of hwy\", breaks = sqrt(nrow(mpg)))","id":4,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-align":"center","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-4","message":"true","out-height":"","out-width":"60%","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(data = mpg,\n       mapping = aes(x = hwy)) + \n       geom_histogram(bins = floor(sqrt(nrow(mpg))))","id":5,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-align":"center","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-5","message":"true","out-height":"","out-width":"60%","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"boxplot(mpg$hwy, yalb = 'hwy')","id":6,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-align":"center","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-6","message":"true","out-height":"","out-width":"60%","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(mpg, aes(x = \"\", y = hwy)) +\n  geom_boxplot(outlier.shape = NA) + \n  geom_jitter(width = 0.2, color = \"blue\") ","id":7,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-align":"center","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-7","message":"true","out-height":"","out-width":"60%","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(dplyr)\n\nIQR_method <- function(x) {\n  # Tukey's rule for outliers (univariate, simple dplyr version)\n  \n  stats <- tibble(value = x) %>%\n    summarise(\n      Q1 = quantile(value, 0.25, na.rm = TRUE),\n      Q3 = quantile(value, 0.75, na.rm = TRUE),\n      IQR_value = Q3 - Q1,\n      lower = Q1 - 1.5 * IQR_value,\n      upper = Q3 + 1.5 * IQR_value\n    )\n  \n  # Extract numeric bounds\n  lower <- stats$lower\n  upper <- stats$upper\n  \n  # Identify outliers\n  outliers <- x[x < lower | x > upper]\n  \n  cat(\"Lower bound:\", lower, \"\\n\")\n  cat(\"Upper bound:\", upper, \"\\n\")\n  cat(\"Total number of outliers:\", length(outliers), \"\\n\")\n  \n  return(outliers)\n}\n\n# Example\nx <- c(4, 5, 6, 6, 5, 4, 5, 100)\nIQR_method(x)","id":8,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-8","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"IQR_method(mpg$hwy)\ncat(\"--------------------------\\n\")\nboxplot.stats(mpg$hwy)$out","id":9,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-9","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"out <- boxplot.stats(mpg$hwy)$out\nout_ind <- which(mpg$hwy %in% c(out))\nout_ind","id":10,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-10","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"mpg[out_ind, ]","id":11,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-11","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(rstatix)\n\nidentify_outliers(data = mpg, variable = \"hwy\")","id":12,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-12","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"bounds <- tibble(value = mpg$hwy) %>%\n    summarise(\n      Q1 = quantile(value, 0.25, na.rm = TRUE),\n      Q3 = quantile(value, 0.75, na.rm = TRUE),\n      IQR_value = Q3 - Q1,\n      lower = Q1 - 1.5 * IQR_value,\n      upper = Q3 + 1.5 * IQR_value\n    )\n\ndata_plot <- mpg %>%\n  mutate(\n    index = row_number(),\n    is_outlier = hwy < bounds$lower | hwy > bounds$upper\n  )\n\nggplot(data_plot, aes(x = index, y = hwy)) +\n  geom_point(aes(color = is_outlier), size = 3) +\n  scale_color_manual(values = c(\"black\", \"red\")) +\n  geom_hline(yintercept = bounds$lower, linetype = \"dashed\", color = \"red\") +\n  geom_hline(yintercept = bounds$upper, linetype = \"dashed\", color = \"red\") +\n  labs(\n    title = \"Highway Mileage (mpg) – Outliers Highlighted\",\n    x = \"Observation Index\",\n    y = \"Highway Miles per Gallon\",\n    color = \"Outlier\"\n  ) +\n  theme_minimal()","id":13,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-align":"center","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-13","message":"true","out-height":"","out-width":"70%","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"SD_outliers <- function(x, multiplier = 2) {\n  mean_x <- mean(x, na.rm = TRUE)\n  sd_x <- sd(x, na.rm = TRUE)\n  \n  lower <- mean_x - multiplier * sd_x\n  upper <- mean_x + multiplier * sd_x\n  \n  outliers <- x[x < lower | x > upper]\n  \n  cat(\"Mean:\", round(mean_x, 2), \"\\n\")\n  cat(\"Standard Deviation:\", round(sd_x, 2), \"\\n\")\n  cat(\"Lower bound:\", round(lower, 2), \"\\n\")\n  cat(\"Upper bound:\", round(upper, 2), \"\\n\")\n  cat(\"Total outliers:\", length(outliers), \"\\n\\n\")\n  \n  return(outliers)\n}\nSD_outliers(mpg$hwy, multiplier = 2)","id":14,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-14","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(ggplot2)\nlibrary(dplyr)\n\nmean_val <- mean(mpg$hwy, na.rm = TRUE)\nsd_val <- sd(mpg$hwy, na.rm = TRUE)\nmultiplier <- 3  # can be 2 \n\nlower <- mean_val - multiplier * sd_val\nupper <- mean_val + multiplier * sd_val\n\ndf <- tibble(value = mpg$hwy)\n\nggplot(df, aes(x = value)) +\n  geom_histogram(bins = floor(sqrt(nrow(mpg)))) +\n  geom_rect(aes(xmin = -Inf, xmax = lower, ymin = 0, ymax = Inf),\n            fill = \"red\", alpha = 0.1) +\n  geom_rect(aes(xmin = upper, xmax = Inf, ymin = 0, ymax = Inf),\n            fill = \"red\", alpha = 0.1) +\n  geom_vline(xintercept = mean_val, color = \"blue\", linetype = \"dashed\") +\n  labs(\n    title = \"Outlier Detection Using Standard Deviation\",\n    subtitle = paste0(\"Shaded areas: values beyond ±\", multiplier, \" SD\"),\n    x = \"Highway Mileage (hwy)\",\n    y = \"Count\"\n  ) ","id":15,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-align":"center","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-15","message":"true","out-height":"","out-width":"70%","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"z_score_method <- function(x, threshold = 3) {\n  # Z-score method for univariate data\n  \n  mean_x <- mean(x, na.rm = TRUE)\n  sd_x <- sd(x, na.rm = TRUE)\n  \n  # Compute z-scores\n  z_scores <- abs((x - mean_x) / sd_x)\n  \n  # Identify outliers\n  outliers <- x[z_scores > threshold]\n  \n  cat(\"Mean:\", round(mean_x, 2), \"\\n\")\n  cat(\"Standard deviation:\", round(sd_x, 2), \"\\n\")\n  cat(\"Threshold (|Z| >\", threshold, \")\\n\")\n  cat(\"Total number of outliers:\", length(outliers), \"\\n\\n\")\n  \n  return(outliers)\n}\n\nz_score_method(mpg$hwy, threshold = 3)","id":16,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-16","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"mpg <- mpg %>%\n        mutate(z_hwy = scale(mpg$hwy)) \n\nggplot(mpg, aes(x=z_hwy)) +\n  geom_histogram(bins = floor(sqrt(nrow(mpg)))) +\n  geom_rect(aes(xmin = -Inf, xmax = -3, ymin = 0, ymax = Inf),\n            fill = \"red\", alpha = 0.1) +\n  geom_rect(aes(xmin = 3, xmax = Inf, ymin = 0, ymax = Inf),\n            fill = \"red\", alpha = 0.1) +\n  geom_vline(xintercept = 0, color = \"blue\", linetype = \"dashed\") +\n  labs(\n    title = \"Outlier Detection Using Z-scores\",\n    x = \"Z-scores of Highway Mileage (hwy)\",\n    y = \"Count\"\n  )\n\nwhich(abs(mpg$z_hwy) > 3)","id":17,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-align":"center","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-17","message":"true","out-height":"","out-width":"70%","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"modified_z_score_method <- function(x, threshold = 3.5) {\n  # Modified Z-score method for univariate data\n  \n  median_x <- median(x, na.rm = TRUE)\n  MAD_x <- median(abs(x - median_x), na.rm = TRUE)\n  \n  # Compute modified z-scores\n  mod_z_scores <- 0.6745 * (x - median_x) / MAD_x\n  \n  # Identify outliers\n  outliers <- x[abs(mod_z_scores) > threshold]\n  \n  cat(\"Median:\", round(median_x, 2), \"\\n\")\n  cat(\"MAD:\", round(MAD_x, 2), \"\\n\")\n  cat(\"Threshold (|Modified Z| >\", threshold, \")\\n\")\n  cat(\"Total number of outliers:\", length(outliers), \"\\n\\n\")\n  \n  return(outliers)\n}\n\nmodified_z_score_method(mpg$hwy, threshold = 3.5)","id":18,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-18","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"hampel_filter <- function(x, k = 3) {\n  median_x <- median(x, na.rm = TRUE)\n  MAD_x <- median(abs(x - median_x), na.rm = TRUE)\n  \n  lower <- median_x - k * MAD_x\n  upper <- median_x + k * MAD_x\n  \n  outliers <- x[x < lower | x > upper]\n  \n  cat(\"Median:\", round(median_x, 2), \"\\n\")\n  cat(\"MAD:\", round(MAD_x, 2), \"\\n\")\n  cat(\"Lower bound:\", round(lower, 2), \"\\n\")\n  cat(\"Upper bound:\", round(upper, 2), \"\\n\")\n  cat(\"Total number of outliers:\", length(outliers), \"\\n\\n\")\n  \n  return(outliers)\n}\n\nhampel_filter(mpg$hwy, k = 3)","id":19,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-19","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"#| \npercentile_method <- function(x, lower_p = 0.025, upper_p = 0.975) {\n \n  lower_bound <- quantile(x, lower_p, na.rm = TRUE)\n  upper_bound <- quantile(x, upper_p, na.rm = TRUE)\n  \n  # Identify outliers\n  outlier_index <- which(x < lower_bound | x > upper_bound)\n  outlier_values <- x[outlier_index]\n  \n  # Display summary\n  cat(\"Lower percentile (\", lower_p * 100, \"%):\", round(lower_bound, 2), \"\\n\")\n  cat(\"Upper percentile (\", upper_p * 100, \"%):\", round(upper_bound, 2), \"\\n\")\n  cat(\"Total number of outliers:\", length(outlier_index), \"\\n\\n\")\n  \n  return(outliers)\n}\n\npercentile_method(mpg$hwy, lower_p = 0.025, upper_p = 0.975)","id":20,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-20","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}}];
 
 </script>
 <script type="module">
@@ -1665,7 +1700,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter5_logistic_regression.html">Logistic Regression</a></li><li class="breadcrumb-item"><a href="../chapters/chapter5_logistic_regression.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Logistic Regression</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter4_EDA.html">Explanatory Data Analysis</a></li><li class="breadcrumb-item"><a href="../chapters/Outlier_Detection.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Outlier Detection: Understading and Handling</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -1737,7 +1772,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/Outlier_Detection.html" class="sidebar-item-text sidebar-link">
+  <a href="../chapters/Outlier_Detection.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Outlier Detection: Understading and Handling</span></span></a>
   </div>
 </li>
@@ -1754,7 +1789,7 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/chapter5_logistic_regression.html" class="sidebar-item-text sidebar-link active">
+  <a href="../chapters/chapter5_logistic_regression.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Logistic Regression</span></span></a>
   </div>
 </li>
@@ -1787,9 +1822,38 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#modelling-probabilities" id="toc-modelling-probabilities" class="nav-link active" data-scroll-target="#modelling-probabilities"><span class="header-section-number">8.1</span> Modelling Probabilities</a></li>
-  <li><a href="#sigmoid-functions" id="toc-sigmoid-functions" class="nav-link" data-scroll-target="#sigmoid-functions"><span class="header-section-number">8.2</span> Sigmoid Functions</a></li>
-  <li><a href="#logistic-model" id="toc-logistic-model" class="nav-link" data-scroll-target="#logistic-model"><span class="header-section-number">8.3</span> Logistic Model</a></li>
+  <li><a href="#definition-and-causes-of-outliers" id="toc-definition-and-causes-of-outliers" class="nav-link active" data-scroll-target="#definition-and-causes-of-outliers"><span class="header-section-number">7.1</span> Definition and Causes of Outliers</a>
+  <ul>
+  <li><a href="#what-are-outliers" id="toc-what-are-outliers" class="nav-link" data-scroll-target="#what-are-outliers"><span class="header-section-number">7.1.1</span> What are outliers?</a></li>
+  <li><a href="#common-causes-of-outliers" id="toc-common-causes-of-outliers" class="nav-link" data-scroll-target="#common-causes-of-outliers"><span class="header-section-number">7.1.2</span> Common Causes of Outliers</a></li>
+  </ul></li>
+  <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods"><span class="header-section-number">7.2</span> Methods</a>
+  <ul>
+  <li><a href="#minimum-and-maximum" id="toc-minimum-and-maximum" class="nav-link" data-scroll-target="#minimum-and-maximum"><span class="header-section-number">7.2.1</span> Minimum and Maximum</a></li>
+  <li><a href="#check-the-summary-statistics" id="toc-check-the-summary-statistics" class="nav-link" data-scroll-target="#check-the-summary-statistics"><span class="header-section-number">7.2.2</span> Check the summary statistics</a></li>
+  <li><a href="#tukeys-iqr-rule" id="toc-tukeys-iqr-rule" class="nav-link" data-scroll-target="#tukeys-iqr-rule"><span class="header-section-number">7.2.3</span> Tukey’s IQR Rule</a></li>
+  <li><a href="#standard-deviation-method" id="toc-standard-deviation-method" class="nav-link" data-scroll-target="#standard-deviation-method"><span class="header-section-number">7.2.4</span> Standard deviation method</a></li>
+  <li><a href="#z-score-method" id="toc-z-score-method" class="nav-link" data-scroll-target="#z-score-method"><span class="header-section-number">7.2.5</span> <span class="math inline">\(Z\)</span>-score method</a></li>
+  <li><a href="#modified-z-score-method" id="toc-modified-z-score-method" class="nav-link" data-scroll-target="#modified-z-score-method"><span class="header-section-number">7.2.6</span> Modified <span class="math inline">\(Z\)</span>-score method</a></li>
+  <li><a href="#hampel-filte" id="toc-hampel-filte" class="nav-link" data-scroll-target="#hampel-filte"><span class="header-section-number">7.2.7</span> Hampel Filte</a></li>
+  <li><a href="#percentiles" id="toc-percentiles" class="nav-link" data-scroll-target="#percentiles"><span class="header-section-number">7.2.8</span> Percentiles</a></li>
+  </ul></li>
+  <li><a href="#what-to-do-after-detecting-outliers" id="toc-what-to-do-after-detecting-outliers" class="nav-link" data-scroll-target="#what-to-do-after-detecting-outliers"><span class="header-section-number">7.3</span> What to Do After Detecting Outliers</a>
+  <ul>
+  <li><a href="#verify-and-investigate" id="toc-verify-and-investigate" class="nav-link" data-scroll-target="#verify-and-investigate"><span class="header-section-number">7.3.1</span> Verify and Investigate</a></li>
+  <li><a href="#keep-the-outliers-if-they-are-valid" id="toc-keep-the-outliers-if-they-are-valid" class="nav-link" data-scroll-target="#keep-the-outliers-if-they-are-valid"><span class="header-section-number">7.3.2</span> Keep the Outliers (if they are valid)</a></li>
+  <li><a href="#remove-or-winsorize-if-they-are-incorrect" id="toc-remove-or-winsorize-if-they-are-incorrect" class="nav-link" data-scroll-target="#remove-or-winsorize-if-they-are-incorrect"><span class="header-section-number">7.3.3</span> Remove or Winsorize (if they are incorrect)</a></li>
+  <li><a href="#analyze-with-and-without-outliers" id="toc-analyze-with-and-without-outliers" class="nav-link" data-scroll-target="#analyze-with-and-without-outliers"><span class="header-section-number">7.3.4</span> Analyze With and Without Outliers</a></li>
+  <li><a href="#report-your-decision" id="toc-report-your-decision" class="nav-link" data-scroll-target="#report-your-decision"><span class="header-section-number">7.3.5</span> Report Your Decision</a></li>
+  </ul></li>
+  <li><a href="#exercise" id="toc-exercise" class="nav-link" data-scroll-target="#exercise"><span class="header-section-number">7.4</span> Exercise</a>
+  <ul>
+  <li><a href="#part-1-using-tukeys-iqr-rule" id="toc-part-1-using-tukeys-iqr-rule" class="nav-link" data-scroll-target="#part-1-using-tukeys-iqr-rule"><span class="header-section-number">7.4.1</span> Part 1 — Using Tukey’s IQR Rule</a></li>
+  <li><a href="#part-2-using-the-standard-deviation-method" id="toc-part-2-using-the-standard-deviation-method" class="nav-link" data-scroll-target="#part-2-using-the-standard-deviation-method"><span class="header-section-number">7.4.2</span> Part 2 — Using the Standard Deviation Method</a></li>
+  <li><a href="#part-3-using-the-z-score-method" id="toc-part-3-using-the-z-score-method" class="nav-link" data-scroll-target="#part-3-using-the-z-score-method"><span class="header-section-number">7.4.3</span> Part 3 — Using the Z-score Method</a></li>
+  <li><a href="#part-4-discussion" id="toc-part-4-discussion" class="nav-link" data-scroll-target="#part-4-discussion"><span class="header-section-number">7.4.4</span> Part 4 – Discussion</a></li>
+  <li><a href="#optional-challenge" id="toc-optional-challenge" class="nav-link" data-scroll-target="#optional-challenge"><span class="header-section-number">7.4.5</span> Optional Challenge</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -2080,9 +2144,9 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 }
 </script>
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter5_logistic_regression.html">Logistic Regression</a></li><li class="breadcrumb-item"><a href="../chapters/chapter5_logistic_regression.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Logistic Regression</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter4_EDA.html">Explanatory Data Analysis</a></li><li class="breadcrumb-item"><a href="../chapters/Outlier_Detection.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Outlier Detection: Understading and Handling</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Logistic Regression</span></h1>
+<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Outlier Detection: Understading and Handling</span></h1>
 </div>
 
 
@@ -2101,48 +2165,13 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 
 <div id="qwebr-insertion-location-1"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>A binary classification problem is one where the outcome variable can take on only two possible values. For example:</p>
-<ul>
-<li>will a loaner enter default or not, based on their credit score and income;</li>
-<li>will a driver be involved in an accident or not, based on their age, automobile age and driving history;</li>
-<li>will a patient have a heart attack or not, based on their cholesterol level and blood pressure, and other health indicators.</li>
-</ul>
-<p>For this kind of problem, the dataset used to fit the model is composed of observations <span class="math inline">\((\mathbf{x}_1, y_1)\)</span>, <span class="math inline">\((\mathbf{x}_2, y_2)\)</span>, …, <span class="math inline">\((\mathbf{x}_n, y_n)\)</span> where each <span class="math inline">\(y_i\)</span> is usually labelled 0 (failure, no event, …) or 1 (success, event, …) and <span class="math inline">\(\mathbf{x}_i\)</span> is a vector of input variables.</p>
-<p>The task at hand is to build a model that, given an arbitrary <span class="math inline">\(\mathbf{x}\)</span>, will predict the probability that <span class="math inline">\(y = 1\)</span>.</p>
-<section id="modelling-probabilities" class="level2" data-number="8.1">
-<h2 data-number="8.1" class="anchored" data-anchor-id="modelling-probabilities"><span class="header-section-number">8.1</span> Modelling Probabilities</h2>
-<p>Why not use a linear regression model to predict the probability that <span class="math inline">\(y = 1\)</span>? After all, linear regression is a well-known and widely used method.</p>
-<div id="qwebr-insertion-location-2"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>There are some problems with this approach:</p>
-<ul>
-<li>the output values are never (with probability 1) exactly 0 or 1, the values that are taken by <span class="math inline">\(y\)</span>;</li>
-<li>even considering a threshold (e.g.&nbsp;0.5) to classify the predicted values into 0 or 1, this would be mostly an arbitrary chosen value.</li>
-</ul>
-</section>
-<section id="sigmoid-functions" class="level2" data-number="8.2">
-<h2 data-number="8.2" class="anchored" data-anchor-id="sigmoid-functions"><span class="header-section-number">8.2</span> Sigmoid Functions</h2>
-<p>Instead of a linear function, we can opt to model the <em>probability</em> of success of the event described by <span class="math inline">\(y\)</span>, i.e <span class="math inline">\(\operatorname{P}(Y=1)\)</span>. This is a more sound and natural way to model the prediction of a random binary event. In order to do this, we can use <strong>sigmoid functions</strong>. A sigmoid function <span class="math inline">\(f(x)\)</span> is a function having an “S” shaped curve (sigmoid curve) with the following properties:</p>
-<ul>
-<li><span class="math inline">\(0&lt;f(x)&lt;1\)</span>;</li>
-<li><span class="math inline">\(\displaystyle \lim_{x \to -\infty} f(x) = 0\)</span>, <span class="math inline">\(\displaystyle \lim_{x \to +\infty} f(x) = 1\)</span>;</li>
-<li><span class="math inline">\(f'(x)&gt;0\)</span>.</li>
-</ul>
-<p>A common sigmoid function is the logistic function, defined as:</p>
-<p><span class="math display">\[
-f(x) = \frac{e^x}{1 + e^x} = \frac{1}{1 + e^{-x}}.
-\]</span></p>
-<p>A logistic function can be used to model the probability that <span class="math inline">\(y = 1\)</span> given <span class="math inline">\(\mathbf{x}\)</span>.</p>
-<div id="qwebr-insertion-location-3"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>This function will play a central row in the logistic regression model, as we will see briefly.</p>
-</section>
-<section id="logistic-model" class="level2" data-number="8.3">
-<h2 data-number="8.3" class="anchored" data-anchor-id="logistic-model"><span class="header-section-number">8.3</span> Logistic Model</h2>
-<p>The first random variable that comes to mind in order to model a random binary event is the <strong>Bernoulli random variable</strong>, which is a discrete random variable that takes value 1 with probability <span class="math inline">\(p\)</span> and value 0 with probability <span class="math inline">\(1-p\)</span>. The parameter <span class="math inline">\(p\)</span> is the probability of success of the event described by the random variable, and it’s probability function is</p>
-<p><span class="math display">\[
-p(y) = p^y (1-p)^{1-y}, \quad y \in \{0, 1\}.
-\]</span> The expected value of a Bernoulli random variable is <span class="math inline">\(\operatorname{E}[Y] = p\)</span> and it’s variance is <span class="math inline">\(\operatorname{V}(Y) = p(1-p)\)</span>.</p>
+<section id="definition-and-causes-of-outliers" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="definition-and-causes-of-outliers"><span class="header-section-number">7.1</span> Definition and Causes of Outliers</h2>
+<section id="what-are-outliers" class="level3" data-number="7.1.1">
+<h3 data-number="7.1.1" class="anchored" data-anchor-id="what-are-outliers"><span class="header-section-number">7.1.1</span> What are outliers?</h3>
+<p>An <strong>outlier</strong> is an observation that differs significantly from other observations.</p>
+<p>Outliers may appear as unusually large or small values and are sometimes referred to as <strong>anomalies</strong>.</p>
+<p>The ouliers can represent important, rare, or faulty observations. Therefore, detecting and interpreting outliers should always involve <em>contextual and domain-specific judgment</em> — not just automated rules.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -2153,59 +2182,393 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>A natural extension is the <strong>Binomial random variable</strong>, which is the sum of <span class="math inline">\(n\)</span> independent Bernoulli random variables with the same parameter <span class="math inline">\(p\)</span>. The parameter <span class="math inline">\(p\)</span> is again the probability of success of the event described by the random variable, and it’s probability function is</p>
-<p><span class="math display">\[
-p(y) = \binom{n}{y} p^y (1-p)^{n-y}, \quad y \in \{0, 1, ..., n\}.
-\]</span></p>
+<p>An observation must always be compared to other observations made on the same phenomenon before actually calling it an outlier. Indeed, someone who is 2 meters tall will most likely be considered an outlier compared to the general population, but that same person may not be considered an outlier if we measured the height of basketball players.</p>
 </div>
 </div>
-<p>Another way of expressing the probability of an event is through the <strong>odds</strong> of the event, defined as the ratio between the probability of the event and the probability of it’s complementary event:</p>
-<p><span class="math display">\[
-\operatorname{odds} = \frac{p}{1-p} = \frac{1}{1-p^{-1}}, \quad p \in ]0, 1[.
-\]</span></p>
-<p>The odds are a number between 0 and <span class="math inline">\(+\infty\)</span>. If the odds are equal to 1, then the event and it’s complementary are equally likely. If the odds are greater than 1, then the event is more likely than it’s complementary event, and vice versa. It’s easy to see that odds are monotonically increasing with respect to <span class="math inline">\(p\)</span>:</p>
-<p><span class="math display">\[
-{(\operatorname{odds})}' = \frac{1}{(1-p)^2} &gt; 0.
-\]</span></p>
-<div id="qwebr-insertion-location-4"></div>
+</section>
+<section id="common-causes-of-outliers" class="level3" data-number="7.1.2">
+<h3 data-number="7.1.2" class="anchored" data-anchor-id="common-causes-of-outliers"><span class="header-section-number">7.1.2</span> Common Causes of Outliers</h3>
+<p>Outliers can arise for many reasons, including:</p>
+<ul>
+<li><p><strong>Measurement or data entry errors</strong> – inaccurate recordings or manual input mistakes.</p></li>
+<li><p><strong>Data corruption</strong> – issues during data transmission or storage.</p></li>
+<li><p><strong>Experimental anomalies</strong> – unexpected events or conditions during data collection.</p></li>
+<li><p><strong>True but rare events</strong> – legitimate observations that occur infrequently.</p></li>
+<li><p><strong>Sampling from different populations</strong> – combining heterogeneous data sources.</p></li>
+</ul>
+<p>For example, it is often the case that there are outliers when collecting data on salaries, as some people make much more money than the rest.</p>
+<p>Outliers can also arise due to an experimental, measurement, or encoding error. For instance, a human weighing 786 kg is clearly an error when encoding the weight of the subject. Her or his weight is most probably 78.6 kg (173 pounds) or 7.86 kg, depending on whether the weights of adults or babies have been measured.</p>
+<p>For this reason, it sometimes makes sense to formally distinguish two classes of outliers: (i) extreme values and (ii) mistakes. Extreme values are statistically and philosophically more interesting, because they are possible but unlikely responses.</p>
+</section>
+</section>
+<section id="methods" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="methods"><span class="header-section-number">7.2</span> Methods</h2>
+<section id="minimum-and-maximum" class="level3" data-number="7.2.1">
+<h3 data-number="7.2.1" class="anchored" data-anchor-id="minimum-and-maximum"><span class="header-section-number">7.2.1</span> Minimum and Maximum</h3>
+<p>The first step to detect outliers is to start with some descriptive statistics. In particular, with the <em>minimum</em> and <em>maximum</em>. ‍‍ Some clear mistake like a weight of <span class="math inline">\(786\)</span>kg for a human will already be easily detected by this simple technique.</p>
+<div id="qwebr-insertion-location-2"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>Odds are an alternative way of expressing probabilities, still being relatively intuitive concerning interpretation. Nevertheless, they are still confined to the interval <span class="math inline">\(]0, +\infty[\)</span>, because</p>
-<p><span class="math display">\[
-\lim_{p \to 0^+} \frac{1}{1-p^{-1}} = 0, \quad \lim_{p \to 1^-} \frac{1}{1-p^{-1}} = +\infty.
-\]</span></p>
-<p>If we want to have a represantation of probabilities that spans the whole real line, we can use the <strong>log-odds</strong>, also called <strong>logit</strong> function, defined as</p>
-<p><span class="math display">\[
-\operatorname{logit}(p) = \log\left(\frac{p}{1-p}\right), \quad p \in ]0, 1[.
-\]</span></p>
-<p>This creates a one-to-one mapping between the interval <span class="math inline">\(]0, 1[\)</span> and the whole real line <span class="math inline">\(\mathbb{R}\)</span>.</p>
-<div id="qwebr-insertion-location-5"></div>
+<div id="qwebr-insertion-location-3"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>The logit function is also monotonically increasing with respect to <span class="math inline">\(p\)</span>:</p>
-<p><span class="math display">\[
-{\big(\operatorname{logit}(p)\big)}' = \frac{1}{p(1-p)} &gt; 0.
-\]</span></p>
-<p>This representation of probabilities is well suited to be used in a regression model, because it spans the whole real line. In fact, in a logistic regression model, we assume that the log-odds of the probability that <span class="math inline">\(y = 1\)</span> is a linear combination of the input variables: <span class="math display">\[
-\operatorname{logit}\big(\operatorname{P}(Y=1|\mathbf{x})\big) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + ... + \beta_p x_p = \mathbf{x}^T \boldsymbol{\beta} = \eta (\mathbf{x}),
-\]</span> where <span class="math inline">\(\boldsymbol{\beta} = (\beta_0, \beta_1, ..., \beta_p)^T\)</span> is the vector of parameters to be estimated.</p>
-<p>Note that the logit function is the inverse of the logistic function! Hence, we can rewrite <span class="math inline">\(\operatorname{P}(Y=1|\mathbf{X}=\mathbf{x})\)</span> as</p>
-<p><span id="eq-logit"><span class="math display">\[
-\operatorname{P}(Y=1|\mathbf{x}) = \frac{e^{\eta(\mathbf{x})}}{1 + e^{\eta(\mathbf{x})}} = \frac{1}{1 + e^{-\eta(\mathbf{x})}}.
-\tag{8.1}\]</span></span></p>
-<div class="callout callout-style-default callout-warning callout-titled">
+</section>
+<section id="check-the-summary-statistics" class="level3" data-number="7.2.2">
+<h3 data-number="7.2.2" class="anchored" data-anchor-id="check-the-summary-statistics"><span class="header-section-number">7.2.2</span> Check the summary statistics</h3>
+<p>Outliers can drastically affect the results of data analysis and statistical modeling. They can distort summary statistics, such as the mean and standard deviation, leading to misleading conclusions.</p>
+<p>Let’s look at a simple example:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Data</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Without outliers</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>set1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">6</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">7</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># With outliers</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>set2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">6</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">7</span>,<span class="dv">300</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to compute summary statistics</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>summary_stats <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">Mean =</span> <span class="fu">mean</span>(x),</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">Median =</span> <span class="fu">median</span>(x),</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">Mode =</span> <span class="fu">as.numeric</span>(<span class="fu">names</span>(<span class="fu">which.max</span>(<span class="fu">table</span>(x)))),</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">SD =</span> <span class="fu">sd</span>(x)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply to both sets and combine results</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summary_stats</span>(set1) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Dataset =</span> <span class="st">"Set 1"</span>),</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summary_stats</span>(set2) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Dataset =</span> <span class="st">"Set 2"</span>)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Dataset, Mean, Median, Mode, SD)</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Display results</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 5
+  Dataset  Mean Median  Mode    SD
+  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 Set 1    5.45    5       5  1.04
+2 Set 2   30       5.5     5 85.0 </code></pre>
+</div>
+</div>
+<p>Based on the output, you will notice that the mean and standard deviation of the dataset containing outlier are much larger than those of the dataset without outlier. Here, the average increases from <span class="math inline">\(5.45\)</span> in the dataset without outliers to <span class="math inline">\(30\)</span> when outlier is included – completley changing the estimate.</p>
+<p>You can also see the difference between the standard deviation values in the two datasets. standard deviation can be a warning sign that outliers may be present.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Warning
+Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><a href="#eq-logit" class="quarto-xref">Equation&nbsp;<span>8.1</span></a> describes a model for the expected value of the random variable <span class="math inline">\(Y\)</span> given <span class="math inline">\(\mathbf{x}\)</span>, that follows a Bernoulli distribution with parameter <span class="math inline">\(p = \operatorname{P}(Y=1|\mathbf{x})\)</span>. It does <strong>not</strong> describe a model for <span class="math inline">\(Y\)</span> itself, which is a discrete random variable taking values 0 or 1.</p>
+<p>Always compare <strong>mean vs.&nbsp;median</strong> and check the <strong>standard deviation</strong> – sudden jumps in these values may indicate the presence of outliers.</p>
 </div>
 </div>
+<p>Another simple way to detect ouliers is by plotting a histogram of the data. This allows you to visualize the overall distribution and spot unusually high or low values.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A good rule of thumb for the number of bins is to set it to the square root of the number of observations.</p>
+</div>
+</div>
+<p>We can create a histogram using <em>base R</em> or <em>ggplot2</em>:</p>
+<div id="qwebr-insertion-location-4"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="qwebr-insertion-location-5"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>From the histogram, we can see a few observations that are noticeably higher than the rest – indicated by the bar on the far right side of the plot.</p>
+<p>In addition to histogram, <em>boxplots</em> are also useful to detect potential outliers.</p>
+<div id="qwebr-insertion-location-6"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="qwebr-insertion-location-7"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>As we discussed previously, a boxplot shows the distribution of a numerical variable using five key values – the minimum, first quantile (<span class="math inline">\(Q_1\)</span>), median, third quantile (<span class="math inline">\(Q_3\)</span>), and maximum – and highlights any suspected outliers based on the interquartile range (<span class="math inline">\(\text{IQR} = Q_3 - Q1\)</span>) rule.</p>
+<p><img src="../figs/outliers/boxplot.png" class="img-fluid"></p>
+</section>
+<section id="tukeys-iqr-rule" class="level3" data-number="7.2.3">
+<h3 data-number="7.2.3" class="anchored" data-anchor-id="tukeys-iqr-rule"><span class="header-section-number">7.2.3</span> Tukey’s IQR Rule</h3>
+<p>Tukey defined outliers as points that fall below <span class="math inline">\(Q_1 - 1.5 * \text{IQR}\)</span> or above <span class="math inline">\(Q_3 + 1.5 * \text{IQR}\)</span>, providing a simple quantitative rule for detecting values that differ significantly from the main body of the data.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The coefficient <span class="math inline">\(1.5\)</span> is not fixed – it can be adjusted depending on the context and assumptions. However, in practice, the <span class="math inline">\(1.5\)</span> rule is the most commonly used standard.</p>
+</div>
+</div>
+<p>We can define a function in R to find outliers based on the IQR rule:</p>
+<div id="qwebr-insertion-location-8"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>Instead of creating a separate function, we can directly extract potential outliers using R’s built-in <code>boxplot.stats()$out</code> function, which applies Tukey’s IQR rule automatically.</p>
+<div id="qwebr-insertion-location-9"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>As you can see, there are three potential outliers: two observations with a value of 44 and one with a value of 41.</p>
+<p>We can easily find their row numbers in the dataset using the <code>which()</code> function.</p>
+<div id="qwebr-insertion-location-10"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>With this information, you can now easily return to the corresponding rows in the dataset to verify them or review all variables for those observations.</p>
+<div id="qwebr-insertion-location-11"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This step helps verify whether these unusual observations are data entry errors or genuine extreme cases that may need special attention.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Another method to display these specific rows is with the <code>identify_outliers()</code> function from the <code>{rstatix}</code> package:</p>
+<div id="qwebr-insertion-location-12"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+</div>
+</div>
+<div id="qwebr-insertion-location-13"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+</section>
+<section id="standard-deviation-method" class="level3" data-number="7.2.4">
+<h3 data-number="7.2.4" class="anchored" data-anchor-id="standard-deviation-method"><span class="header-section-number">7.2.4</span> Standard deviation method</h3>
+<p>If the data follows a roughly <strong>normal (bell-shaped)</strong> distribution, we can use the <em>standard deviation (SD)</em> to identify outliers.</p>
+<p>The standard deviation measures how far the data values are spread from the mean.</p>
+<p>For a normal distribution:</p>
+<ul>
+<li><span class="math inline">\(68\%\)</span> of data lies within <span class="math inline">\(\pm 1\)</span> SD</li>
+<li></li>
+<li><span class="math inline">\(69\%\)</span> of data lies within <span class="math inline">\(\pm 2\)</span> SD</li>
+<li></li>
+<li><span class="math inline">\(99.7\%\)</span> of data lies within <span class="math inline">\(\pm 3\)</span> SD</li>
+</ul>
+<p>Values that lie more than 2 or 3 SDs away from the mean are often considered potential outliers.</p>
+<p><img src="../figs/outliers/SD.png" class="img-fluid"></p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This method can sometimes miss outliers because extreme values make the standard deviation larger.</p>
+</div>
+</div>
+<div id="qwebr-insertion-location-14"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="qwebr-insertion-location-15"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+</section>
+<section id="z-score-method" class="level3" data-number="7.2.5">
+<h3 data-number="7.2.5" class="anchored" data-anchor-id="z-score-method"><span class="header-section-number">7.2.5</span> <span class="math inline">\(Z\)</span>-score method</h3>
+<p>If the dataset follows a normal distribution, instead of the standard deviation method, we can <em>transform</em> the data into <em>standard scores</em> (or <em><span class="math inline">\(Z\)</span>-scores</em>) so that the mean becomes <span class="math inline">\(0\)</span> and the standard deviation becomes <span class="math inline">\(1\)</span>.</p>
+<p>This transformation gives us the <span class="math inline">\(Z\)</span>-score for each observation, which indicates how many standard deviations an observation is from the mean. It can be done with the <code>scale()</code> function in R.</p>
+<p>According to the empirical rule, observations with a <span class="math inline">\(Z\)</span>-score greater than <span class="math inline">\(3\)</span> or less than <span class="math inline">\(-3\)</span> are considered as outliers (extremly rare). Values bewtween <span class="math inline">\(|Z| = 2\)</span> and <span class="math inline">\(|Z| = 3\)</span> are often described as “moderatly unusal” or rare.</p>
+<p><img src="../figs/outliers/zscore.png" class="img-fluid"></p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Some analysts use a slightly stricter rule — considering values with <span class="math inline">\(Z &lt; −3.29\)</span> or <span class="math inline">\(Z &gt; 3.29\)</span> as outliers.</p>
+<p><strong>Why?</strong> The <span class="math inline">\(Z = \pm 3\)</span> rule comes from the empirical (<span class="math inline">\(68\)</span>-<span class="math inline">\(95\)</span>-<span class="math inline">\(99.7\)</span>) rule, which is an <em>approximately</em> for normal distribution. It says that about <span class="math inline">\(99.7\%\)</span> of the data lies within <span class="math inline">\(3\)</span> standard deviations from the mean. That means roughly <span class="math inline">\(0.3\%\)</span> (or 3 in 1000) of observations would lie outside this range. However, if we calculate it more precisely from standard normal distribution, we find the <span class="math inline">\(Z\)</span>-value that cuts off exactly <span class="math inline">\(0.1\%\)</span> in each tail (so that only %0.2%$ total or 2 in 1000 of obeservations lie beyond this point) is approximately <span class="math inline">\(3.29\)</span>. So, <span class="math inline">\(|Z| &gt; 3\)</span> means roughly <span class="math inline">\(0.3\%\)</span> of data, while <span class="math inline">\(|Z| &gt; 3.29\)</span> means exactly <span class="math inline">\(0.1\%\)</span> per tail.</p>
+</div>
+</div>
+<div id="qwebr-insertion-location-16"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="qwebr-insertion-location-17"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+</section>
+<section id="modified-z-score-method" class="level3" data-number="7.2.6">
+<h3 data-number="7.2.6" class="anchored" data-anchor-id="modified-z-score-method"><span class="header-section-number">7.2.6</span> Modified <span class="math inline">\(Z\)</span>-score method</h3>
+<p>The <span class="math inline">\(Z\)</span>-score can be strongly affected by extreme values since it relies on the <em>mean</em> and <em>standard deviation</em>.</p>
+<p>To make the method more robust, we use the modified <span class="math inline">\(Z\)</span>-score, which is based on the <em>median</em> and <em>median absolute deviation (MAD)</em> instead.</p>
+<p>The formula is: <span class="math display">\[
+\text{Modified $Z$-Score} = \frac{0.6745 (x_i - \text{Median})}{\text{MAD}}
+\]</span> where <span class="math inline">\(x_i\)</span> is individual observation, and <span class="math inline">\(\text{MAD}=\text{median}(|x_i - \text{median}(x_i)|)\)</span>.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The constant 0.6745 scales the MAD so that, under normality, the median absolute deviation estimates the standard deviation.</p>
+</div>
+</div>
+<p>The MAD messures the spread of the data using the median instead of the mean, making it less sensitive to outliers than the standard deviation.</p>
+<p>If the data are normally distributed, the standard deviation is typically preferref but for <strong>non-normal data</strong>, the MAD provides a more reliable measure of variablilty.</p>
+<p>The outliers are identifed by <span class="math display">\[
+|\text{Modified $Z$-Score}| &gt; 3.5
+\]</span> The value of <span class="math inline">\(3.5\)</span> was suggested by Iglewicz and Hoaglin (1993) in “<a href="https://www.google.com/url?sa=t&amp;source=web&amp;rct=j&amp;opi=89978449&amp;url=https://hwbdocs.env.nm.gov/Los%2520Alamos%2520National%2520Labs/TA%252054/11587.pdf&amp;ved=2ahUKEwiJqdW7uJCQAxWqU6QEHdpnGUAQFnoECB8QAQ&amp;usg=AOvVaw3QMvIEeALKIH7PgisbywOb">How to Detect and Handle Outliers</a>”, and is widely used because it balances sensitivity (detecting real anomalies) with robustness (avoiding false positives).</p>
+<div id="qwebr-insertion-location-18"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+</section>
+<section id="hampel-filte" class="level3" data-number="7.2.7">
+<h3 data-number="7.2.7" class="anchored" data-anchor-id="hampel-filte"><span class="header-section-number">7.2.7</span> Hampel Filte</h3>
+<p>The Hample filter is an bust outlier detection method based on the <em>median</em> and the MAD – just like the modified <span class="math inline">\(Z\)</span>-score method.</p>
+<p>Instead of using the mean and standard deviation, it defines an interval around the median and flags as outliers any observations that fall outside this interval.</p>
+<p>The interval is defined as: <span class="math display">\[
+I = [\text{Median} - k * \text{MAD}, \text{Median} + k * \text{MAD}]
+\]</span> where <span class="math inline">\(k\)</span> is typically <span class="math inline">\(3\)</span>.</p>
+<p>This method is particularly useful for data that may not be normally distributed or when the dataset contains extreme values that could skew the mean and standard deviation.</p>
+<div id="qwebr-insertion-location-19"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+</section>
+<section id="percentiles" class="level3" data-number="7.2.8">
+<h3 data-number="7.2.8" class="anchored" data-anchor-id="percentiles"><span class="header-section-number">7.2.8</span> Percentiles</h3>
+<p>The percentile method detects outliers by defining an interval that includes most of the data, based on selected percentiles. Any observations outside this interval are considered potential outliers.</p>
+<p>The most common choice is to use the <span class="math inline">\(2.5\)</span>th and <span class="math inline">\(97.5\)</span>th percentiles, which corresponds to keeping <span class="math inline">\(95\%\)</span> of the central data and treating the remaining <span class="math inline">\(5\%\)</span> as potential outliers.</p>
+<p>Other cutoff points, such as <span class="math inline">\(1\)</span>st and <span class="math inline">\(99\)</span>th or <span class="math inline">\(5\)</span>th and <span class="math inline">\(95\)</span>th percentiles, can also be used depending on how strict you want the detection to be.</p>
+<div id="qwebr-insertion-location-20"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+</section>
+</section>
+<section id="what-to-do-after-detecting-outliers" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="what-to-do-after-detecting-outliers"><span class="header-section-number">7.3</span> What to Do After Detecting Outliers</h2>
+<p>Detecting outliers is only <em>the first step</em> — the most important part is deciding how to handle them. Outliers are not always “bad data” — they can be errors, rare but real events, or important signals.</p>
+<p>The correct action depends on <strong>context</strong> and <strong>domain knowledge</strong>.</p>
+<section id="verify-and-investigate" class="level3" data-number="7.3.1">
+<h3 data-number="7.3.1" class="anchored" data-anchor-id="verify-and-investigate"><span class="header-section-number">7.3.1</span> Verify and Investigate</h3>
+<p>Before taking any decision:</p>
+<ul>
+<li><p><strong>Check for data entry errors</strong>, unit mismatches, or measurement problems.</p></li>
+<li><p><strong>Plot the data</strong> again with and without outliers — see how much they influence the result.</p></li>
+<li><p><strong>Compare summaries</strong> (mean, median, variance) before and after removing outliers.</p></li>
+</ul>
+</section>
+<section id="keep-the-outliers-if-they-are-valid" class="level3" data-number="7.3.2">
+<h3 data-number="7.3.2" class="anchored" data-anchor-id="keep-the-outliers-if-they-are-valid"><span class="header-section-number">7.3.2</span> Keep the Outliers (if they are valid)</h3>
+<p>If the outliers represent real, meaningful phenomena, they should remain in the dataset. For example,</p>
+<ul>
+<li><p>extremely high incomes in economics data</p></li>
+<li><p>Rare but valid sensor readings in engineering.</p></li>
+<li><p>Exceptional performance in experiments.</p></li>
+</ul>
+<p>In such cases, you may use robust statistical methods (e.g.&nbsp;median, MAD) that are less sensitive to extreme values.</p>
+</section>
+<section id="remove-or-winsorize-if-they-are-incorrect" class="level3" data-number="7.3.3">
+<h3 data-number="7.3.3" class="anchored" data-anchor-id="remove-or-winsorize-if-they-are-incorrect"><span class="header-section-number">7.3.3</span> Remove or Winsorize (if they are incorrect)</h3>
+<p>If you find that the outliers come from a typographical or sensor errors, sampling issues, or wrong data units (e.g., °C vs.&nbsp;°F), then it’s reasonable to:</p>
+<ul>
+<li><strong>Remove them</strong>, or</li>
+<li><strong>Winsorize them</strong> — i.e., replace extreme values with the nearest valid percentile (e.g.&nbsp;1st or 99th).</li>
+</ul>
+<p>This keeps the data’s overall structure but limits the impact of extreme points.</p>
+</section>
+<section id="analyze-with-and-without-outliers" class="level3" data-number="7.3.4">
+<h3 data-number="7.3.4" class="anchored" data-anchor-id="analyze-with-and-without-outliers"><span class="header-section-number">7.3.4</span> Analyze With and Without Outliers</h3>
+<p>A good analytical habit is to perform the analysis both ways: once with all data and once excluding outliers. This helps assess how much the outliers influence the results and conclusions. If the results differ greatly, the outliers deserve closer attention.</p>
+</section>
+<section id="report-your-decision" class="level3" data-number="7.3.5">
+<h3 data-number="7.3.5" class="anchored" data-anchor-id="report-your-decision"><span class="header-section-number">7.3.5</span> Report Your Decision</h3>
+<p>Always document your reasoning:</p>
+<ul>
+<li><p>Which method you used for detection,</p></li>
+<li><p>How many outliers were found,</p></li>
+<li><p>What you decided to do, and why.</p></li>
+</ul>
+<p>Transparency ensures your analysis remains reproducible and credible.</p>
+</section>
+</section>
+<section id="exercise" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="exercise"><span class="header-section-number">7.4</span> Exercise</h2>
+<p>You are given the following dataset:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fl">47.19</span>, <span class="fl">48.84</span>, <span class="fl">57.79</span>, <span class="fl">50.35</span>, <span class="fl">50.64</span>, <span class="fl">58.57</span>, <span class="fl">52.30</span>,</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fl">43.67</span>, <span class="fl">46.56</span>, <span class="fl">47.77</span>, <span class="fl">56.12</span>, <span class="fl">51.79</span>, <span class="fl">52.00</span>, <span class="fl">50.55</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fl">47.22</span>, <span class="fl">58.93</span>, <span class="fl">52.48</span>, <span class="fl">40.16</span>, <span class="fl">53.50</span>, <span class="fl">47.63</span>, <span class="fl">44.66</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fl">48.91</span>, <span class="fl">44.86</span>, <span class="fl">46.35</span>, <span class="fl">46.87</span>, <span class="fl">41.56</span>, <span class="fl">54.18</span>, <span class="fl">50.76</span>,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fl">44.30</span>, <span class="fl">56.26</span>, <span class="fl">52.13</span>, <span class="fl">48.52</span>, <span class="fl">54.47</span>, <span class="fl">54.39</span>, <span class="fl">54.10</span>,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fl">53.44</span>, <span class="fl">52.76</span>, <span class="fl">49.69</span>, <span class="fl">48.47</span>, <span class="fl">48.09</span>, <span class="fl">46.52</span>, <span class="fl">48.96</span>,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fl">43.67</span>, <span class="fl">60.84</span>, <span class="fl">56.03</span>, <span class="fl">44.38</span>, <span class="fl">47.98</span>, <span class="fl">47.66</span>, <span class="fl">53.89</span>,</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fl">49.58</span>, <span class="fl">51.26</span>, <span class="fl">49.85</span>, <span class="fl">49.78</span>, <span class="fl">56.84</span>, <span class="fl">48.87</span>, <span class="fl">57.58</span>,</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="fl">42.25</span>, <span class="fl">52.92</span>, <span class="fl">50.61</span>, <span class="fl">51.07</span>, <span class="fl">51.89</span>, <span class="fl">47.48</span>, <span class="fl">48.33</span>,</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="fl">44.90</span>, <span class="fl">44.64</span>, <span class="fl">51.51</span>, <span class="fl">52.24</span>, <span class="fl">50.26</span>, <span class="fl">54.61</span>, <span class="fl">60.25</span>,</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="fl">47.54</span>, <span class="fl">38.45</span>, <span class="fl">55.02</span>, <span class="fl">46.45</span>, <span class="fl">46.55</span>, <span class="fl">55.12</span>, <span class="fl">48.57</span>,</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="fl">43.89</span>, <span class="fl">50.90</span>, <span class="fl">49.30</span>, <span class="fl">50.02</span>, <span class="fl">51.92</span>, <span class="fl">48.14</span>, <span class="fl">53.22</span>,</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="fl">48.89</span>, <span class="fl">51.65</span>, <span class="fl">55.48</span>, <span class="fl">52.17</span>, <span class="fl">48.37</span>, <span class="fl">55.74</span>, <span class="fl">54.96</span>,</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="fl">52.74</span>, <span class="fl">51.19</span>, <span class="fl">46.86</span>, <span class="fl">56.80</span>, <span class="fl">46.99</span>, <span class="fl">60.93</span>, <span class="fl">57.66</span>,</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  <span class="fl">48.82</span>, <span class="fl">44.86</span>, <span class="fl">100.58</span>, <span class="fl">95.47</span>, <span class="fl">81.32</span>, <span class="fl">10.11</span>, <span class="sc">-</span><span class="fl">1.87</span>,</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>  <span class="sc">-</span><span class="fl">25.52</span>, <span class="sc">-</span><span class="fl">34.14</span>, <span class="sc">-</span><span class="fl">6.05</span>, <span class="fl">20.78</span>, <span class="fl">0.01</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="part-1-using-tukeys-iqr-rule" class="level3" data-number="7.4.1">
+<h3 data-number="7.4.1" class="anchored" data-anchor-id="part-1-using-tukeys-iqr-rule"><span class="header-section-number">7.4.1</span> Part 1 — Using Tukey’s IQR Rule</h3>
+<ol type="1">
+<li>Compute the first quartile (Q1), third quartile (Q3), and interquartile range (IQR).</li>
+<li>Identify outliers using the standard <span class="math inline">\(1.5 \times IQR\)</span> rule.</li>
+<li>Highlight them in a scatter plot.</li>
+<li>How many potential outliers are there, and where are they located?</li>
+</ol>
+</section>
+<section id="part-2-using-the-standard-deviation-method" class="level3" data-number="7.4.2">
+<h3 data-number="7.4.2" class="anchored" data-anchor-id="part-2-using-the-standard-deviation-method"><span class="header-section-number">7.4.2</span> Part 2 — Using the Standard Deviation Method</h3>
+<ol type="1">
+<li>Calculate the mean and standard deviation of the dataset.</li>
+<li>Identify outliers as points that lie more than 2 standard deviations away from the mean.</li>
+<li>Highlight them in a scatter plot.</li>
+</ol>
+</section>
+<section id="part-3-using-the-z-score-method" class="level3" data-number="7.4.3">
+<h3 data-number="7.4.3" class="anchored" data-anchor-id="part-3-using-the-z-score-method"><span class="header-section-number">7.4.3</span> Part 3 — Using the Z-score Method</h3>
+<ol type="1">
+<li>Compute the Z-score for each observation (standardize the data).</li>
+<li>Mark as outliers the values with <span class="math inline">\(|Z| &gt; 3\)</span> (or <span class="math inline">\(|Z| &gt; 3.29\)</span> for a stricter rule).</li>
+<li>Compare your list of outliers with the ones found using the IQR method.</li>
+<li>Plot both methods’ results — do they detect the same observations?</li>
+</ol>
+</section>
+<section id="part-4-discussion" class="level3" data-number="7.4.4">
+<h3 data-number="7.4.4" class="anchored" data-anchor-id="part-4-discussion"><span class="header-section-number">7.4.4</span> Part 4 – Discussion</h3>
+<ol type="1">
+<li>Which method detected more outliers?</li>
+<li>Are there points that one method flagged as outliers but not the other?</li>
+<li>Which method do you think is more reliable for this dataset — and why?</li>
+</ol>
+</section>
+<section id="optional-challenge" class="level3" data-number="7.4.5">
+<h3 data-number="7.4.5" class="anchored" data-anchor-id="optional-challenge"><span class="header-section-number">7.4.5</span> Optional Challenge</h3>
+<p>Apply the Modified Z-score method or Percentile method (1%–99%) to the same dataset. Do the results change? What does that tell you about the robustness of different detection methods?</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -2610,13 +2973,13 @@ Warning
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../chapters/Outlier_Detection.html" class="pagination-link" aria-label="Outlier Detection: Understading and Handling">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Outlier Detection: Understading and Handling</span></span>
+      <a href="../chapters/Exam-Sample.html" class="pagination-link" aria-label="Sample of Questions">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Sample of Questions</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../chapters/chapter1_data_ethics.html" class="pagination-link" aria-label="Data Ethics">
-        <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Data Ethics</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../chapters/chapter5_logistic_regression.html" class="pagination-link" aria-label="Logistic Regression">
+        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Logistic Regression</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
