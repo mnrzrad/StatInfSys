@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>4&nbsp; Data Visualization – Statistics and Information Systems</title>
+<title>7&nbsp; Outlier Detection: Understading and Handling – Statistics and Information Systems</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -55,27 +55,7 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-/* CSS for citations */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-  margin-bottom: 0em;
-}
-.hanging-indent div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}</style>
+</style>
 
 
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -85,8 +65,8 @@ div.csl-indent {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../chapters/project.html" rel="next">
-<link href="../chapters/chapter3_dplyr.html" rel="prev">
+<link href="../chapters/chapter5_logistic_regression.html" rel="next">
+<link href="../chapters/Exam-Sample.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -425,7 +405,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"code":"library(ggplot2)","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"#load package\nlibrary(ggplot2)\n\n#load dataset \ndata(mpg)\n\nggplot(data = mpg)","id":2,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(data = mpg, mapping = aes(x = cty, y = hwy))","id":3,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-3","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + \n  geom_point() + # scatter plot: each point shows (cty, hwy)\n  geom_smooth(formula = y ~ x, method = 'lm') #adds a trend line","id":4,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-4","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(data = mpg, mapping = aes(x = cty, y = hwy, colour = class)) +\n  geom_point() + \n  scale_colour_viridis_d()","id":5,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-5","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +\n  geom_point() +\n  facet_grid(year ~ drv)","id":6,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-6","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + \n  geom_point() + \n  coord_fixed()","id":7,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-7","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(data = mpg, mapping = aes(x = cty, y = hwy, colour = class)) +\n  geom_point() + \n  theme_minimal() + # Apply a clean, minimal background\n  theme(\n    # Move the legend to the top\n    legend.position = \"top\", \n    # Set the thickness of both axis lines\n    axis.line = element_line(linewidth = 0.75), \n    # Make the bottom x-axis line blue\n    axis.line.x.bottom = element_line(colour = \"blue\")\n  )","id":8,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-8","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Start with data and main mapping\nggplot(mpg, aes(cty, hwy)) + \n  # Add points, colored by engine size\n  geom_point(mapping = aes(colour = displ)) +\n  # Add a linear trend line \n  geom_smooth(formula = y ~ x, method = \"lm\") +\n  # Use a color scale for displ\n  scale_colour_viridis_c() + \n  # Create small plots by year and drive type\n  facet_grid(year ~ drv) +\n  # Fix aspect ratio (1 unit = 1 unit)\n  coord_fixed() + \n  # Apply a clean theme\n  theme_minimal() + \n  # REmove minor grid line for clarity\n  theme(panel.grid.minor = element_blank())","id":9,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-9","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# install.packages('gcookbook')\n\nlibrary(gcookbook) # for loading the dataset heightweight\n\nggplot(heightweight, aes(x = ageYear, y = heightIn)) + \n  geom_point()","id":10,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-10","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(heightweight, aes(ageYear, heightIn)) + \n  geom_point(size = 3)","id":11,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-11","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(heightweight, aes(x = ageYear, y = heightIn, shape = sex, colour = sex)) + \n  geom_point()","id":12,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-12","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(heightweight, aes(x = ageYear, y = heightIn, shape = sex, colour = sex)) +\n  geom_point() +\n  scale_shape_manual(values = c(1,2)) +\n  scale_color_brewer(palette = 'Set1')","id":13,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-13","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(heightweight, aes(x = ageYear, y = heightIn, size = weightLb)) + \n  geom_point()","id":14,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-14","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(heightweight, aes(x = ageYear, y = heightIn, colour = weightLb)) + \n  geom_point()","id":15,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-15","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(heightweight, aes(x = ageYear, y = heightIn, colour = sex, size = weightLb)) + \n  geom_point()","id":16,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-16","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(gcookbook)\nlibrary(ggplot2)\n\ndata(\"heightweight\")\n\n______","id":17,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","exercise":"ex_1","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-17","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(economics, aes(x = date, y = unemploy)) +\n  geom_line()","id":18,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-18","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(mpg, aes(x = class)) + \n  geom_bar()","id":19,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-19","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(dplyr)\nmpg_summary <- mpg %>%\n  group_by(class) %>%\n  summarise(mean_hwy = mean(hwy))\n\nggplot(mpg_summary, aes(x = class, y = mean_hwy)) +\n  geom_col()","id":20,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-20","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(mpg, aes(x = hwy)) + \n  geom_histogram(binwidth = 2)","id":21,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-21","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(MASS)\nlibrary(dplyr)\n\ndata(\"birthwt\")\n\n#Make a copy of data\nbirthwt1 <- birthwt\n\n#Convert Smoke to a factor \nbirthwt1$smoke <- factor(birthwt1$smoke)\n# levels(birthwt1$smoke)\n\nbirthwt1$smoke <- recode(birthwt1$smoke, \"0\" = \"No Smoke\", '1' = \"Smoke\")\n\nggplot(birthwt1, aes(x = bwt)) + \n  geom_histogram(fill = \"white\", colour = \"black\", bins = 30) + \n  facet_grid(smoke ~ .) ","id":22,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-22","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(birthwt1, aes(x = bwt, fill = smoke)) +\n  geom_histogram(position = 'identity', alpha = 0.4, bins = 30) ","id":23,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-23","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(mpg, aes(x = hwy)) + \n  geom_boxplot()","id":24,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-24","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(mpg, aes(x = class, y = hwy)) + \n  geom_boxplot()","id":25,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-25","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(MASS)\ndata(birthwt) \n\nggplot(birthwt, aes(x = factor(race), y = bwt)) + \n  geom_boxplot(width = 0.5)","id":26,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-26","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(birthwt, aes(x = factor(race), y = bwt)) + \n  geom_boxplot(outlier.size = 1.5, outlier.shape = 21)","id":27,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-27","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(birthwt, aes(factor(race), bwt)) + \n  geom_boxplot() + \n  stat_summary(fun = \"mean\", geom = \"point\", shape = 23, size = 3, fill = \"white\")","id":28,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-28","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(mpg, aes(x = class, y = hwy)) + \n  geom_violin()","id":29,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-29","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(mpg, aes(x = class, y = hwy)) + \n  geom_violin(trim = FALSE, fill = 'lightblue') + \n  geom_boxplot(width = 0.1, outlier.colour = 'red')","id":30,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-30","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"plot <- ggplot(heightweight, aes(x = sex, y = heightIn))\nplot + geom_violin()","id":31,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-31","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"plot + geom_violin() + geom_boxplot(width = .1, fill = \"black\", outlier.colour = NA) +\nstat_summary(fun = median, geom = \"point\", fill = \"white\", shape = 21, size = 2.5)","id":32,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-32","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(mpg, aes(x = hwy)) + \n  geom_dotplot(binwidth = 1)","id":33,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-33","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(mpg, aes(x = hwy)) + \n  geom_density(fill = 'lightblue', alpha = 0.4)","id":34,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-34","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(mpg, aes(x = hwy)) +\n  geom_histogram(aes(y = after_stat(density)), binwidth = 2, fill = \"lightblue\", color = \"white\") +\n  geom_density(color = \"red\", linewidth = 1)","id":35,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-35","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Store the values in a simple vector\nw <- faithful$waiting\n\nggplot(NULL, aes(x = w)) + \n  geom_density()","id":36,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-36","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(NULL, aes(x = w)) + \n  geom_density() + \n  geom_line(stat = 'density', adjust = 0.25, colour = 'red') + \n  geom_line(stat = 'density') + \n  geom_line(stat = 'density', adjust = 2, colour = 'blue')","id":37,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-37","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(MASS)\n\ndata(\"birthwt\")\n\n#Make a copy of data\nbirthwt1 <- birthwt\n\n#Convert Smoke to a factor \nbirthwt1$smoke <- factor(birthwt1$smoke)\n\n# Map smoke to color\nggplot(birthwt1, aes(x = bwt, colour = smoke)) + \n  geom_density()\n\n# Map smoke to fill and make the fill semitransparent by setting alpha\nggplot(birthwt1, aes(x = bwt, fill = smoke)) + \n  geom_density(alpha = 0.3)","id":38,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-38","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(faithful, aes(x = waiting, y = after_stat(density))) +\ngeom_histogram(fill = \"cornsilk\", colour = \"grey60\", linewidth = .2, bins = 30) +\ngeom_density() +\ncoord_cartesian(xlim = c(35, 105)) ","id":39,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-39","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"df <- data.frame(\n  category = c(\"A\", \"B\", \"C\"),\n  count = c(10, 20, 35)\n)\n\nggplot(df, aes(x = \"\", y = count, fill = category)) +\n  geom_col(width = 1) +\n  coord_polar(theta = \"y\") +\n  theme_void()","id":40,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-40","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(faithful, aes(x = eruptions, y = waiting)) + \n  geom_density_2d()","id":41,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-41","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(faithful, aes(x = eruptions, y = waiting)) +\n  geom_density_2d(aes(colour = after_stat(level))) +\n  scale_colour_viridis_c()","id":42,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-42","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"p <- ggplot(faithful, aes(x = eruptions, y = waiting))\np + geom_point() + stat_density2d()\n# Contour lines, with \"height\" mapped to colo\np + stat_density2d(aes(colour = after_stat(level)))\n# Map density estimate to fill color\np + stat_density2d(aes(fill = after_stat(density)), geom = \"raster\", contour = FALSE)\n# With points, and map density estimate to alpha\np + geom_point() + \n  stat_density2d(aes(alpha = after_stat(density)), geom = \"tile\", contour = FALSE)\np + stat_density2d(aes(fill = after_stat(density)), geom = \"raster\",\ncontour = FALSE, h = c(.5,5))","id":43,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-43","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(diamonds, aes(x = carat, y = price)) +\n  stat_bin2d(bins = 50) +\n  scale_fill_gradient(low = \"lightblue\", high = \"red\")","id":44,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-44","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(faithful, aes(x = waiting)) + \n  geom_freqpoly(binwidth = 4) \n\nbinsize <- diff(range(faithful$waiting)) / 15\nggplot(faithful, aes(x = waiting)) + \n  geom_freqpoly(binwidth = binsize) ","id":45,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-45","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(mpg, aes(x = hwy, colour = class)) + \n  geom_freqpoly(binwidth = 2, size = 1)","id":46,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-46","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# install.packages('ggcorrplot')\n\nlibrary(ggcorrplot)\n\nmpg_num <- mpg[, c('displ', 'hwy', 'cty')]\n\ncorr <- cor(mpg_num)\nggcorrplot(corr, lab = TRUE)","id":47,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-47","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# install.packages('corrplot')\nlibrary(corrplot)\n\ndata(mtcars)\ncorr <- cor(mtcars)\ncorrplot(corr, tl.col = \"brown\", tl.srt = 30, bg = \"white\", type = \"full\")","id":48,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-48","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
+globalThis.qwebrCellDetails = [{"code":"library(tidyverse)","id":1,"options":{"autorun":"true","classes":"","comment":"","context":"setup","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(ggplot2)\ndata(mpg, package = \"ggplot2\")\nsummary(mpg$hwy)","id":2,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true","warnings":"false"}},{"code":"cat(\"Min:\", min(mpg$hwy))\ncat(\"Max:\", max(mpg$hwy))\ncat(\"Min and Max:\", range(mpg$hwy))","id":3,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-3","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"hist(mpg$hwy, xlab = \"hwy\", main = \"Histogram of hwy\", breaks = sqrt(nrow(mpg)))","id":4,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-align":"center","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-4","message":"true","out-height":"","out-width":"60%","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(data = mpg,\n       mapping = aes(x = hwy)) + \n       geom_histogram(bins = floor(sqrt(nrow(mpg))))","id":5,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-align":"center","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-5","message":"true","out-height":"","out-width":"60%","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"boxplot(mpg$hwy, yalb = 'hwy')","id":6,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-align":"center","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-6","message":"true","out-height":"","out-width":"60%","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(mpg, aes(x = \"\", y = hwy)) +\n  geom_boxplot(outlier.shape = NA) + \n  geom_jitter(width = 0.2, color = \"blue\") ","id":7,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-align":"center","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-7","message":"true","out-height":"","out-width":"60%","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(dplyr)\n\nIQR_method <- function(x) {\n  # Tukey's rule for outliers (univariate, simple dplyr version)\n  \n  stats <- tibble(value = x) %>%\n    summarise(\n      Q1 = quantile(value, 0.25, na.rm = TRUE),\n      Q3 = quantile(value, 0.75, na.rm = TRUE),\n      IQR_value = Q3 - Q1,\n      lower = Q1 - 1.5 * IQR_value,\n      upper = Q3 + 1.5 * IQR_value\n    )\n  \n  # Extract numeric bounds\n  lower <- stats$lower\n  upper <- stats$upper\n  \n  # Identify outliers\n  outliers <- x[x < lower | x > upper]\n  \n  cat(\"Lower bound:\", lower, \"\\n\")\n  cat(\"Upper bound:\", upper, \"\\n\")\n  cat(\"Total number of outliers:\", length(outliers), \"\\n\")\n  \n  return(outliers)\n}\n\n# Example\nx <- c(4, 5, 6, 6, 5, 4, 5, 100)\nIQR_method(x)","id":8,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-8","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"IQR_method(mpg$hwy)\ncat(\"--------------------------\\n\")\nboxplot.stats(mpg$hwy)$out","id":9,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-9","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"out <- boxplot.stats(mpg$hwy)$out\nout_ind <- which(mpg$hwy %in% c(out))\nout_ind","id":10,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-10","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"mpg[out_ind, ]","id":11,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-11","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(rstatix)\n\nidentify_outliers(data = mpg, variable = \"hwy\")","id":12,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-12","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"bounds <- tibble(value = mpg$hwy) %>%\n    summarise(\n      Q1 = quantile(value, 0.25, na.rm = TRUE),\n      Q3 = quantile(value, 0.75, na.rm = TRUE),\n      IQR_value = Q3 - Q1,\n      lower = Q1 - 1.5 * IQR_value,\n      upper = Q3 + 1.5 * IQR_value\n    )\n\ndata_plot <- mpg %>%\n  mutate(\n    index = row_number(),\n    is_outlier = hwy < bounds$lower | hwy > bounds$upper\n  )\n\nggplot(data_plot, aes(x = index, y = hwy)) +\n  geom_point(aes(color = is_outlier), size = 3) +\n  scale_color_manual(values = c(\"black\", \"red\")) +\n  geom_hline(yintercept = bounds$lower, linetype = \"dashed\", color = \"red\") +\n  geom_hline(yintercept = bounds$upper, linetype = \"dashed\", color = \"red\") +\n  labs(\n    title = \"Highway Mileage (mpg) – Outliers Highlighted\",\n    x = \"Observation Index\",\n    y = \"Highway Miles per Gallon\",\n    color = \"Outlier\"\n  ) +\n  theme_minimal()","id":13,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-align":"center","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-13","message":"true","out-height":"","out-width":"70%","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"SD_outliers <- function(x, multiplier = 2) {\n  mean_x <- mean(x, na.rm = TRUE)\n  sd_x <- sd(x, na.rm = TRUE)\n  \n  lower <- mean_x - multiplier * sd_x\n  upper <- mean_x + multiplier * sd_x\n  \n  outliers <- x[x < lower | x > upper]\n  \n  cat(\"Mean:\", round(mean_x, 2), \"\\n\")\n  cat(\"Standard Deviation:\", round(sd_x, 2), \"\\n\")\n  cat(\"Lower bound:\", round(lower, 2), \"\\n\")\n  cat(\"Upper bound:\", round(upper, 2), \"\\n\")\n  cat(\"Total outliers:\", length(outliers), \"\\n\\n\")\n  \n  return(outliers)\n}\nSD_outliers(mpg$hwy, multiplier = 2)","id":14,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-14","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(ggplot2)\nlibrary(dplyr)\n\nmean_val <- mean(mpg$hwy, na.rm = TRUE)\nsd_val <- sd(mpg$hwy, na.rm = TRUE)\nmultiplier <- 3  # can be 2 \n\nlower <- mean_val - multiplier * sd_val\nupper <- mean_val + multiplier * sd_val\n\ndf <- tibble(value = mpg$hwy)\n\nggplot(df, aes(x = value)) +\n  geom_histogram(bins = floor(sqrt(nrow(mpg)))) +\n  geom_rect(aes(xmin = -Inf, xmax = lower, ymin = 0, ymax = Inf),\n            fill = \"red\", alpha = 0.1) +\n  geom_rect(aes(xmin = upper, xmax = Inf, ymin = 0, ymax = Inf),\n            fill = \"red\", alpha = 0.1) +\n  geom_vline(xintercept = mean_val, color = \"blue\", linetype = \"dashed\") +\n  labs(\n    title = \"Outlier Detection Using Standard Deviation\",\n    subtitle = paste0(\"Shaded areas: values beyond ±\", multiplier, \" SD\"),\n    x = \"Highway Mileage (hwy)\",\n    y = \"Count\"\n  ) ","id":15,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-align":"center","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-15","message":"true","out-height":"","out-width":"70%","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"z_score_method <- function(x, threshold = 3) {\n  # Z-score method for univariate data\n  \n  mean_x <- mean(x, na.rm = TRUE)\n  sd_x <- sd(x, na.rm = TRUE)\n  \n  # Compute z-scores\n  z_scores <- abs((x - mean_x) / sd_x)\n  \n  # Identify outliers\n  outliers <- x[z_scores > threshold]\n  \n  cat(\"Mean:\", round(mean_x, 2), \"\\n\")\n  cat(\"Standard deviation:\", round(sd_x, 2), \"\\n\")\n  cat(\"Threshold (|Z| >\", threshold, \")\\n\")\n  cat(\"Total number of outliers:\", length(outliers), \"\\n\\n\")\n  \n  return(outliers)\n}\n\nz_score_method(mpg$hwy, threshold = 3)","id":16,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-16","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"mpg <- mpg %>%\n        mutate(z_hwy = scale(mpg$hwy)) \n\nggplot(mpg, aes(x=z_hwy)) +\n  geom_histogram(bins = floor(sqrt(nrow(mpg)))) +\n  geom_rect(aes(xmin = -Inf, xmax = -3, ymin = 0, ymax = Inf),\n            fill = \"red\", alpha = 0.1) +\n  geom_rect(aes(xmin = 3, xmax = Inf, ymin = 0, ymax = Inf),\n            fill = \"red\", alpha = 0.1) +\n  geom_vline(xintercept = 0, color = \"blue\", linetype = \"dashed\") +\n  labs(\n    title = \"Outlier Detection Using Z-scores\",\n    x = \"Z-scores of Highway Mileage (hwy)\",\n    y = \"Count\"\n  )\n\nwhich(abs(mpg$z_hwy) > 3)","id":17,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-align":"center","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-17","message":"true","out-height":"","out-width":"70%","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"modified_z_score_method <- function(x, threshold = 3.5) {\n  # Modified Z-score method for univariate data\n  \n  median_x <- median(x, na.rm = TRUE)\n  MAD_x <- median(abs(x - median_x), na.rm = TRUE)\n  \n  # Compute modified z-scores\n  mod_z_scores <- 0.6745 * (x - median_x) / MAD_x\n  \n  # Identify outliers\n  outliers <- x[abs(mod_z_scores) > threshold]\n  \n  cat(\"Median:\", round(median_x, 2), \"\\n\")\n  cat(\"MAD:\", round(MAD_x, 2), \"\\n\")\n  cat(\"Threshold (|Modified Z| >\", threshold, \")\\n\")\n  cat(\"Total number of outliers:\", length(outliers), \"\\n\\n\")\n  \n  return(outliers)\n}\n\nmodified_z_score_method(mpg$hwy, threshold = 3.5)","id":18,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-18","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"hampel_filter <- function(x, k = 3) {\n  median_x <- median(x, na.rm = TRUE)\n  MAD_x <- median(abs(x - median_x), na.rm = TRUE)\n  \n  lower <- median_x - k * MAD_x\n  upper <- median_x + k * MAD_x\n  \n  outliers <- x[x < lower | x > upper]\n  \n  cat(\"Median:\", round(median_x, 2), \"\\n\")\n  cat(\"MAD:\", round(MAD_x, 2), \"\\n\")\n  cat(\"Lower bound:\", round(lower, 2), \"\\n\")\n  cat(\"Upper bound:\", round(upper, 2), \"\\n\")\n  cat(\"Total number of outliers:\", length(outliers), \"\\n\\n\")\n  \n  return(outliers)\n}\n\nhampel_filter(mpg$hwy, k = 3)","id":19,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-19","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"#| \npercentile_method <- function(x, lower_p = 0.025, upper_p = 0.975) {\n \n  lower_bound <- quantile(x, lower_p, na.rm = TRUE)\n  upper_bound <- quantile(x, upper_p, na.rm = TRUE)\n  \n  # Identify outliers\n  outlier_index <- which(x < lower_bound | x > upper_bound)\n  outlier_values <- x[outlier_index]\n  \n  # Display summary\n  cat(\"Lower percentile (\", lower_p * 100, \"%):\", round(lower_bound, 2), \"\\n\")\n  cat(\"Upper percentile (\", upper_p * 100, \"%):\", round(upper_bound, 2), \"\\n\")\n  cat(\"Total number of outliers:\", length(outlier_index), \"\\n\\n\")\n  \n  return(outliers)\n}\n\npercentile_method(mpg$hwy, lower_p = 0.025, upper_p = 0.975)","id":20,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-20","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}}];
 
 </script>
 <script type="module">
@@ -1721,7 +1701,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter4_EDA.html">Explanatory Data Analysis</a></li><li class="breadcrumb-item"><a href="../chapters/chapter2_data_visualization.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Data Visualization</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter4_EDA.html">Explanatory Data Analysis</a></li><li class="breadcrumb-item"><a href="../chapters/Outlier_Detection.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Outlier Detection: Understading and Handling</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -1777,7 +1757,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/chapter2_data_visualization.html" class="sidebar-item-text sidebar-link active">
+  <a href="../chapters/chapter2_data_visualization.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Data Visualization</span></span></a>
   </div>
 </li>
@@ -1795,7 +1775,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/Outlier_Detection.html" class="sidebar-item-text sidebar-link">
+  <a href="../chapters/Outlier_Detection.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Outlier Detection: Understading and Handling</span></span></a>
   </div>
 </li>
@@ -1845,28 +1825,37 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#data" id="toc-data" class="nav-link active" data-scroll-target="#data"><span class="header-section-number">4.1</span> Data</a></li>
-  <li><a href="#mapping" id="toc-mapping" class="nav-link" data-scroll-target="#mapping"><span class="header-section-number">4.2</span> Mapping</a></li>
-  <li><a href="#layers" id="toc-layers" class="nav-link" data-scroll-target="#layers"><span class="header-section-number">4.3</span> Layers</a></li>
-  <li><a href="#scales" id="toc-scales" class="nav-link" data-scroll-target="#scales"><span class="header-section-number">4.4</span> Scales</a></li>
-  <li><a href="#facets" id="toc-facets" class="nav-link" data-scroll-target="#facets"><span class="header-section-number">4.5</span> Facets</a></li>
-  <li><a href="#coordinates" id="toc-coordinates" class="nav-link" data-scroll-target="#coordinates"><span class="header-section-number">4.6</span> Coordinates</a></li>
-  <li><a href="#theme" id="toc-theme" class="nav-link" data-scroll-target="#theme"><span class="header-section-number">4.7</span> Theme</a></li>
-  <li><a href="#mastering-plot-layers-guided-examples-and-student-activities" id="toc-mastering-plot-layers-guided-examples-and-student-activities" class="nav-link" data-scroll-target="#mastering-plot-layers-guided-examples-and-student-activities"><span class="header-section-number">4.8</span> Mastering Plot Layers: Guided Examples and Student Activities</a>
+  <li><a href="#definition-and-causes-of-outliers" id="toc-definition-and-causes-of-outliers" class="nav-link active" data-scroll-target="#definition-and-causes-of-outliers"><span class="header-section-number">7.1</span> Definition and Causes of Outliers</a>
   <ul>
-  <li><a href="#scatter-plot-geom_point" id="toc-scatter-plot-geom_point" class="nav-link" data-scroll-target="#scatter-plot-geom_point"><span class="header-section-number">4.8.1</span> Scatter Plot – <code>geom_point()</code></a></li>
-  <li><a href="#line-plot-geom_line" id="toc-line-plot-geom_line" class="nav-link" data-scroll-target="#line-plot-geom_line"><span class="header-section-number">4.8.2</span> Line Plot – <code>geom_line()</code></a></li>
-  <li><a href="#barplot-geom_bar-and-geom_col" id="toc-barplot-geom_bar-and-geom_col" class="nav-link" data-scroll-target="#barplot-geom_bar-and-geom_col"><span class="header-section-number">4.8.3</span> Barplot – <code>geom_bar()</code> and <code>geom_col()</code></a></li>
-  <li><a href="#histogram-geom_histogram" id="toc-histogram-geom_histogram" class="nav-link" data-scroll-target="#histogram-geom_histogram"><span class="header-section-number">4.8.4</span> Histogram – <code>geom_histogram()</code></a></li>
-  <li><a href="#boxplot-geom_boxplot" id="toc-boxplot-geom_boxplot" class="nav-link" data-scroll-target="#boxplot-geom_boxplot"><span class="header-section-number">4.8.5</span> Boxplot – <code>geom_boxplot()</code></a></li>
-  <li><a href="#violin-plot-geom_violin" id="toc-violin-plot-geom_violin" class="nav-link" data-scroll-target="#violin-plot-geom_violin"><span class="header-section-number">4.8.6</span> Violin Plot – geom_violin()</a></li>
-  <li><a href="#dot-plot-geom_dotplot" id="toc-dot-plot-geom_dotplot" class="nav-link" data-scroll-target="#dot-plot-geom_dotplot"><span class="header-section-number">4.8.7</span> Dot plot – <code>geom_dotplot()</code></a></li>
-  <li><a href="#density-plot-geom_density" id="toc-density-plot-geom_density" class="nav-link" data-scroll-target="#density-plot-geom_density"><span class="header-section-number">4.8.8</span> Density Plot – <code>geom_density()</code></a></li>
-  <li><a href="#pie-chart-using-polar-coordinates" id="toc-pie-chart-using-polar-coordinates" class="nav-link" data-scroll-target="#pie-chart-using-polar-coordinates"><span class="header-section-number">4.8.9</span> Pie Chart (using Polar Coordinates)</a></li>
-  <li><a href="#d-density-plot" id="toc-d-density-plot" class="nav-link" data-scroll-target="#d-density-plot"><span class="header-section-number">4.8.10</span> 2D Density Plot</a></li>
-  <li><a href="#d-binned-plot-for-big-data-stat_bin2d" id="toc-d-binned-plot-for-big-data-stat_bin2d" class="nav-link" data-scroll-target="#d-binned-plot-for-big-data-stat_bin2d"><span class="header-section-number">4.8.11</span> 2D Binned Plot for Big Data – <code>stat_bin2d()</code></a></li>
-  <li><a href="#frequency-polygon-geom_freqpoly" id="toc-frequency-polygon-geom_freqpoly" class="nav-link" data-scroll-target="#frequency-polygon-geom_freqpoly"><span class="header-section-number">4.8.12</span> Frequency Polygon – <code>geom_freqpoly()</code></a></li>
-  <li><a href="#correlation-plot-cor-plot" id="toc-correlation-plot-cor-plot" class="nav-link" data-scroll-target="#correlation-plot-cor-plot"><span class="header-section-number">4.8.13</span> Correlation Plot (Cor plot)</a></li>
+  <li><a href="#what-are-outliers" id="toc-what-are-outliers" class="nav-link" data-scroll-target="#what-are-outliers"><span class="header-section-number">7.1.1</span> What are outliers?</a></li>
+  <li><a href="#common-causes-of-outliers" id="toc-common-causes-of-outliers" class="nav-link" data-scroll-target="#common-causes-of-outliers"><span class="header-section-number">7.1.2</span> Common Causes of Outliers</a></li>
+  </ul></li>
+  <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods"><span class="header-section-number">7.2</span> Methods</a>
+  <ul>
+  <li><a href="#minimum-and-maximum" id="toc-minimum-and-maximum" class="nav-link" data-scroll-target="#minimum-and-maximum"><span class="header-section-number">7.2.1</span> Minimum and Maximum</a></li>
+  <li><a href="#check-the-summary-statistics" id="toc-check-the-summary-statistics" class="nav-link" data-scroll-target="#check-the-summary-statistics"><span class="header-section-number">7.2.2</span> Check the summary statistics</a></li>
+  <li><a href="#tukeys-iqr-rule" id="toc-tukeys-iqr-rule" class="nav-link" data-scroll-target="#tukeys-iqr-rule"><span class="header-section-number">7.2.3</span> Tukey’s IQR Rule</a></li>
+  <li><a href="#standard-deviation-method" id="toc-standard-deviation-method" class="nav-link" data-scroll-target="#standard-deviation-method"><span class="header-section-number">7.2.4</span> Standard deviation method</a></li>
+  <li><a href="#z-score-method" id="toc-z-score-method" class="nav-link" data-scroll-target="#z-score-method"><span class="header-section-number">7.2.5</span> <span class="math inline">\(Z\)</span>-score method</a></li>
+  <li><a href="#modified-z-score-method" id="toc-modified-z-score-method" class="nav-link" data-scroll-target="#modified-z-score-method"><span class="header-section-number">7.2.6</span> Modified <span class="math inline">\(Z\)</span>-score method</a></li>
+  <li><a href="#hampel-filte" id="toc-hampel-filte" class="nav-link" data-scroll-target="#hampel-filte"><span class="header-section-number">7.2.7</span> Hampel Filte</a></li>
+  <li><a href="#percentiles" id="toc-percentiles" class="nav-link" data-scroll-target="#percentiles"><span class="header-section-number">7.2.8</span> Percentiles</a></li>
+  </ul></li>
+  <li><a href="#what-to-do-after-detecting-outliers" id="toc-what-to-do-after-detecting-outliers" class="nav-link" data-scroll-target="#what-to-do-after-detecting-outliers"><span class="header-section-number">7.3</span> What to Do After Detecting Outliers</a>
+  <ul>
+  <li><a href="#verify-and-investigate" id="toc-verify-and-investigate" class="nav-link" data-scroll-target="#verify-and-investigate"><span class="header-section-number">7.3.1</span> Verify and Investigate</a></li>
+  <li><a href="#keep-the-outliers-if-they-are-valid" id="toc-keep-the-outliers-if-they-are-valid" class="nav-link" data-scroll-target="#keep-the-outliers-if-they-are-valid"><span class="header-section-number">7.3.2</span> Keep the Outliers (if they are valid)</a></li>
+  <li><a href="#remove-or-winsorize-if-they-are-incorrect" id="toc-remove-or-winsorize-if-they-are-incorrect" class="nav-link" data-scroll-target="#remove-or-winsorize-if-they-are-incorrect"><span class="header-section-number">7.3.3</span> Remove or Winsorize (if they are incorrect)</a></li>
+  <li><a href="#analyze-with-and-without-outliers" id="toc-analyze-with-and-without-outliers" class="nav-link" data-scroll-target="#analyze-with-and-without-outliers"><span class="header-section-number">7.3.4</span> Analyze With and Without Outliers</a></li>
+  <li><a href="#report-your-decision" id="toc-report-your-decision" class="nav-link" data-scroll-target="#report-your-decision"><span class="header-section-number">7.3.5</span> Report Your Decision</a></li>
+  </ul></li>
+  <li><a href="#exercise" id="toc-exercise" class="nav-link" data-scroll-target="#exercise"><span class="header-section-number">7.4</span> Exercise</a>
+  <ul>
+  <li><a href="#part-1-using-tukeys-iqr-rule" id="toc-part-1-using-tukeys-iqr-rule" class="nav-link" data-scroll-target="#part-1-using-tukeys-iqr-rule"><span class="header-section-number">7.4.1</span> Part 1 — Using Tukey’s IQR Rule</a></li>
+  <li><a href="#part-2-using-the-standard-deviation-method" id="toc-part-2-using-the-standard-deviation-method" class="nav-link" data-scroll-target="#part-2-using-the-standard-deviation-method"><span class="header-section-number">7.4.2</span> Part 2 — Using the Standard Deviation Method</a></li>
+  <li><a href="#part-3-using-the-z-score-method" id="toc-part-3-using-the-z-score-method" class="nav-link" data-scroll-target="#part-3-using-the-z-score-method"><span class="header-section-number">7.4.3</span> Part 3 — Using the Z-score Method</a></li>
+  <li><a href="#part-4-discussion" id="toc-part-4-discussion" class="nav-link" data-scroll-target="#part-4-discussion"><span class="header-section-number">7.4.4</span> Part 4 – Discussion</a></li>
+  <li><a href="#optional-challenge" id="toc-optional-challenge" class="nav-link" data-scroll-target="#optional-challenge"><span class="header-section-number">7.4.5</span> Optional Challenge</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -2158,9 +2147,9 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 }
 </script>
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter4_EDA.html">Explanatory Data Analysis</a></li><li class="breadcrumb-item"><a href="../chapters/chapter2_data_visualization.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Data Visualization</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter4_EDA.html">Explanatory Data Analysis</a></li><li class="breadcrumb-item"><a href="../chapters/Outlier_Detection.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Outlier Detection: Understading and Handling</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Data Visualization</span></h1>
+<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Outlier Detection: Understading and Handling</span></h1>
 </div>
 
 
@@ -2177,161 +2166,96 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </header>
 
 
-<p>The most famous package in R that is used for visualizing of data is <strong>ggplot2</strong> that is based on the grammar <em>of graphics</em>. It allows you to `speak’ a graph from composable elements, instead of being limited to a predefined set of charts.</p>
-<p>Before using <em>ggplot2</em>, a user must first install the package and then load it into their R session. Installation is done <strong>only</strong> using the command <code>install.packages('ggplot2')</code>. Alternatively, the following code can be used to install if only if the package is not already installed on the computer.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(<span class="st">'ggplot2'</span>)) {</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">install.packages</span>(<span class="st">'ggplot2'</span>)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>which downloads the package from CRAN (the Comprehensive R Archive Network). After installation, the package needs to be loaded each time R is restarted. This is done with the following command:</p>
 <div id="qwebr-insertion-location-1"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>A brief overview about using this package is available at this <a href="https://ggplot2.tidyverse.org/articles/ggplot2.html">website</a> and more complete information about how to use ggplot2 can be found in <span class="citation" data-cites="Wickham2019">Wickham, Navarro, and Pederson (<a href="#ref-Wickham2019" role="doc-biblioref">2019</a>)</span>.</p>
-<p>The structure of the package includes 7 composable parts that come together as a set of instructions on how to draw a chart.</p>
-<p><img src="../figs/ggplot2/overview_graphic-1.png" class="img-fluid"></p>
-<p>The package <em>ggplot2</em> requires a minimum of three main components to create a chart: <strong>data</strong>, <strong>mapping</strong>, and <strong>a layer</strong>. Other components – like <strong>scales</strong>, <strong>facets</strong>, <strong>coordinates</strong>, and <strong>themes</strong> – are optional because <em>ggplot2</em> gives them <strong>automatic settings</strong> that usually work well, so you do not need to adjust them too much.</p>
-<p>In the following, we briefly describe these components:</p>
-<section id="data" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="data"><span class="header-section-number">4.1</span> Data</h2>
-<p>Every plot made with <em>ggplot2</em> starts with <strong>data</strong>. This data should be in a <a href="https://tidyr.tidyverse.org/articles/tidy-data.html">tidy</a> format that means the data is in a <strong>table</strong> (called a rectangular <em>data frame</em>) where:</p>
-<ul>
-<li><p>Each <strong>row</strong> is one <strong>observation</strong>.</p></li>
-<li><p>Each <strong>column</strong> is one <strong>variable</strong>.</p></li>
-</ul>
-<p>The first step to create a plot with <em>ggplot2</em> is to pass this data to the <code>ggplot()</code> function, which stores the data to be used later by other parts of the plot.</p>
-<p>For example, if we want to make a plot using the <code>mpg</code> dataset, we begin like this:</p>
-<div id="qwebr-insertion-location-2"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div class="callout callout-style-default callout-note callout-empty-content callout-titled">
+<section id="definition-and-causes-of-outliers" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="definition-and-causes-of-outliers"><span class="header-section-number">7.1</span> Definition and Causes of Outliers</h2>
+<section id="what-are-outliers" class="level3" data-number="7.1.1">
+<h3 data-number="7.1.1" class="anchored" data-anchor-id="what-are-outliers"><span class="header-section-number">7.1.1</span> What are outliers?</h3>
+<p>An <strong>outlier</strong> is an observation that differs significantly from other observations.</p>
+<p>Outliers may appear as unusually large or small values and are sometimes referred to as <strong>anomalies</strong>.</p>
+<p>The ouliers can represent important, rare, or faulty observations. Therefore, detecting and interpreting outliers should always involve <em>contextual and domain-specific judgment</em> — not just automated rules.</p>
+<div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>You should see an empty plot. It is <strong>correct</strong>. Can you explain why the plot is empty?
+Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-
+<p>An observation must always be compared to other observations made on the same phenomenon before actually calling it an outlier. Indeed, someone who is 2 meters tall will most likely be considered an outlier compared to the general population, but that same person may not be considered an outlier if we measured the height of basketball players.</p>
 </div>
 </div>
 </section>
-<section id="mapping" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="mapping"><span class="header-section-number">4.2</span> Mapping</h2>
-<p>In <em>ggplot2</em> package, <em>mapping</em> means telling the system how to connect parts of the data to <strong>aesthetic</strong> properties of the plot.</p>
-<p><strong>Aesthetic</strong> (say: es-THE-ik) is a word that describes how something <strong>looks</strong> – its <strong>style</strong>, <strong>color</strong>, <strong>shape</strong>, and <strong>beauty</strong>. In <em>ggplot2</em>, an aesthetic is a visual feature of a plot like:</p>
+<section id="common-causes-of-outliers" class="level3" data-number="7.1.2">
+<h3 data-number="7.1.2" class="anchored" data-anchor-id="common-causes-of-outliers"><span class="header-section-number">7.1.2</span> Common Causes of Outliers</h3>
+<p>Outliers can arise for many reasons, including:</p>
 <ul>
-<li><svg aria-hidden="true" role="img" viewbox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M200 32H56C42.7 32 32 42.7 32 56V200c0 9.7 5.8 18.5 14.8 22.2s19.3 1.7 26.2-5.2l40-40 79 79-79 79L73 295c-6.9-6.9-17.2-8.9-26.2-5.2S32 302.3 32 312V456c0 13.3 10.7 24 24 24H200c9.7 0 18.5-5.8 22.2-14.8s1.7-19.3-5.2-26.2l-40-40 79-79 79 79-40 40c-6.9 6.9-8.9 17.2-5.2 26.2s12.5 14.8 22.2 14.8H456c13.3 0 24-10.7 24-24V312c0-9.7-5.8-18.5-14.8-22.2s-19.3-1.7-26.2 5.2l-40 40-79-79 79-79 40 40c6.9 6.9 17.2 8.9 26.2 5.2s14.8-12.5 14.8-22.2V56c0-13.3-10.7-24-24-24H312c-9.7 0-18.5 5.8-22.2 14.8s-1.7 19.3 5.2 26.2l40 40-79 79-79-79 40-40c6.9-6.9 8.9-17.2 5.2-26.2S209.7 32 200 32z"></path></svg> <strong>Position (x and y)</strong> – controls where data appears on the plot<br>
-</li>
-<li><svg aria-hidden="true" role="img" viewbox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M512 256c0 .9 0 1.8 0 2.7c-.4 36.5-33.6 61.3-70.1 61.3H344c-26.5 0-48 21.5-48 48c0 3.4 .4 6.7 1 9.9c2.1 10.2 6.5 20 10.8 29.9c6.1 13.8 12.1 27.5 12.1 42c0 31.8-21.6 60.7-53.4 62c-3.5 .1-7 .2-10.6 .2C114.6 512 0 397.4 0 256S114.6 0 256 0S512 114.6 512 256zM128 288a32 32 0 1 0 -64 0 32 32 0 1 0 64 0zm0-96a32 32 0 1 0 0-64 32 32 0 1 0 0 64zM288 96a32 32 0 1 0 -64 0 32 32 0 1 0 64 0zm96 96a32 32 0 1 0 0-64 32 32 0 1 0 0 64z"></path></svg> <strong>Color</strong> – changes color based on data values<br>
-</li>
-<li><svg aria-hidden="true" role="img" viewbox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M464 256A208 208 0 1 0 48 256a208 208 0 1 0 416 0zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256z"></path></svg> <strong>Size</strong> – adjusts the size of points<br>
-</li>
-<li><svg aria-hidden="true" role="img" viewbox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M315.4 15.5C309.7 5.9 299.2 0 288 0s-21.7 5.9-27.4 15.5l-96 160c-5.9 9.9-6.1 22.2-.4 32.2s16.3 16.2 27.8 16.2H384c11.5 0 22.2-6.2 27.8-16.2s5.5-22.3-.4-32.2l-96-160zM288 312V456c0 22.1 17.9 40 40 40H472c22.1 0 40-17.9 40-40V312c0-22.1-17.9-40-40-40H328c-22.1 0-40 17.9-40 40zM128 512a128 128 0 1 0 0-256 128 128 0 1 0 0 256z"></path></svg> <strong>Shape</strong> – uses different shapes for different categories</li>
+<li><p><strong>Measurement or data entry errors</strong> – inaccurate recordings or manual input mistakes.</p></li>
+<li><p><strong>Data corruption</strong> – issues during data transmission or storage.</p></li>
+<li><p><strong>Experimental anomalies</strong> – unexpected events or conditions during data collection.</p></li>
+<li><p><strong>True but rare events</strong> – legitimate observations that occur infrequently.</p></li>
+<li><p><strong>Sampling from different populations</strong> – combining heterogeneous data sources.</p></li>
 </ul>
-<p>These help us turn numbers into pictures. It is how we ’’<em>dress up</em>” the data so it speaks to our eyes.</p>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Memory tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Just like fashion has aesthetic styles (like modern, classic, or colorful), plots also have <em>aesthetics</em> – they decide how the data looks!</p>
-</div>
-</div>
-<p>A mapping can be made by using <code>aes()</code> function to make pairs of graphical attributes and parts of the data. Inside <code>aes()</code>, we match parts of the data (like column names) with visual elements (like <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> position).</p>
-<p>For the dataset <code>mpg</code>, if we want to show <code>cty</code> (city miles per gallon) on the <span class="math inline">\(x\)</span>-axis and <code>hwy</code> (highway miles per gallon) on the <span class="math inline">\(y\)</span>-axis, we write</p>
+<p>For example, it is often the case that there are outliers when collecting data on salaries, as some people make much more money than the rest.</p>
+<p>Outliers can also arise due to an experimental, measurement, or encoding error. For instance, a human weighing 786 kg is clearly an error when encoding the weight of the subject. Her or his weight is most probably 78.6 kg (173 pounds) or 7.86 kg, depending on whether the weights of adults or babies have been measured.</p>
+<p>For this reason, it sometimes makes sense to formally distinguish two classes of outliers: (i) extreme values and (ii) mistakes. Extreme values are statistically and philosophically more interesting, because they are possible but unlikely responses.</p>
+</section>
+</section>
+<section id="methods" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="methods"><span class="header-section-number">7.2</span> Methods</h2>
+<section id="minimum-and-maximum" class="level3" data-number="7.2.1">
+<h3 data-number="7.2.1" class="anchored" data-anchor-id="minimum-and-maximum"><span class="header-section-number">7.2.1</span> Minimum and Maximum</h3>
+<p>The first step to detect outliers is to start with some descriptive statistics. In particular, with the <em>minimum</em> and <em>maximum</em>. ‍‍ Some clear mistake like a weight of <span class="math inline">\(786\)</span>kg for a human will already be easily detected by this simple technique.</p>
+<div id="qwebr-insertion-location-2"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <div id="qwebr-insertion-location-3"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
-<section id="layers" class="level2" data-number="4.3">
-<h2 data-number="4.3" class="anchored" data-anchor-id="layers"><span class="header-section-number">4.3</span> Layers</h2>
-<p>The <em>layer</em> is the <strong>heart</strong> of any plot in <em>ggplot2</em>. A layer takes the mapped data and turns it into something that a human can see and understand – like points, lines, or bars.</p>
-<p>Each layer has three main parts: 1. <strong>Geometry</strong> – decides <em>how</em> the data is shown (for example: points, lines, bars) 2. <strong>Statistical transformation</strong> – can create <em>new values</em> from the data (like averages or smooth curves). 3. <strong>Position adjustment</strong> – controls <em>where</em> each part of the plot appears, especially when things overlap.</p>
-<p>A layer can be constructed using functions that start with <code>geom_</code> (for geometry) and <code>stat_</code> (for statistics). These function help us choose how the data looks and what to display.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The <code>geom_*()</code> and <code>stat_*()</code> functions usually control <strong>one</strong> part of the layer – like the geometry or the statistics – but you can still <strong>manullay</strong> choose the other two parts if you want.</p>
-</div>
-</div>
-<p>The code below shows how to make a <em>scatter plot</em> with a <em>trend line</em> using two layers:</p>
-<div id="qwebr-insertion-location-4"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-</section>
-<section id="scales" class="level2" data-number="4.4">
-<h2 data-number="4.4" class="anchored" data-anchor-id="scales"><span class="header-section-number">4.4</span> Scales</h2>
-<p>A <em>scale</em> translates what we see on the plot into something we can understand from the data – like showing how far, how big, or what category a point represents.</p>
-<p>Each scale is connected to an aesthetic – for example, the <span class="math inline">\(x\)</span>-axis, <span class="math inline">\(y\)</span>-axis, color, or size – and it controls things like - The <strong>limits</strong> of the plot (minimum and maximum values) - The <strong>breaks</strong> (where ticks or labels appear) - The <strong>format</strong> of the labels (like numbers or percentages) - Any <strong>transformation</strong> (like logarithmic scale)</p>
-<p><em>Scales</em> also create <strong>guides</strong> for the reader – like <strong>axes</strong> or <strong>legend</strong> – so we can better understand the meaning of the plot.</p>
-<p>Scale functions in <em>ggplot2</em> usually follow the format <code>scale_[aesthetic]_[type]()</code>, where <code>{aesthetic}</code> is one of the pairing made in the mapping part of a plot. For example, <code>scale_x_continuous()</code> – for a numeric <span class="math inline">\(x\)</span>-axis; <code>scale_colour_viridis_d()</code> – for discrete color with the Viridis palette.</p>
-<p>Here is how to use a custom color scale for the <code>class</code> variable in the <code>mpg</code> dataset:</p>
-<div id="qwebr-insertion-location-5"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>This tells <em>ggplot2</em> to use <strong>Viridis colors</strong> for the different car classes – making the plot easier to read and more accessible.</p>
-</section>
-<section id="facets" class="level2" data-number="4.5">
-<h2 data-number="4.5" class="anchored" data-anchor-id="facets"><span class="header-section-number">4.5</span> Facets</h2>
-<p><em>Facets</em> are used to split a plot into <strong>smaller subplots</strong>, each showing a <em>subet of the data</em>. This is helpful when you want to compare groups – for example, different years, categories, or types – in separate panels.</p>
-<p><em>Facets</em> are a powerful way to quickly see <strong>patterns</strong>, <strong>trends</strong>, or even <strong>no patterns</strong> in different parts of the data.</p>
-<p><em>Facets</em> have their own mapping, written as a formula.</p>
-<p>The following code creates one scatter plot of two variables <code>cty</code> and <code>hwy</code> of the dataset <code>mpg</code> for each combination of <code>year</code> and <code>drv</code> (driver type) in different panels; so, you can compare them side by side.</p>
-<div id="qwebr-insertion-location-6"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>In <code>facet_grid(year ~ drv)</code>, the <em>rows</em> are based on <code>year</code> and the <em>columns</em> are based on <code>drv</code>. As you see, this creates a grid of plots that makes it easy to explore how variables interact.</p>
-</section>
-<section id="coordinates" class="level2" data-number="4.6">
-<h2 data-number="4.6" class="anchored" data-anchor-id="coordinates"><span class="header-section-number">4.6</span> Coordinates</h2>
-<p>The <em>coordinates</em> is the part if the plot that controls <em>how position aesthetics</em> (like <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>) are shown. You can think of it as the <strong>interpreter</strong> that tells the plot where to place things.</p>
-<p>Most <em>ggplot2</em> plots use <strong>Cartesian coordinates</strong>, where data is shown on regular <span class="math inline">\(x\)</span>-<span class="math inline">\(y\)</span> grid. But you can also use other systems, like: <strong>Polar cooridinate</strong> (for circular plots) and <strong>Map projections</strong> (for geographic data).</p>
-<p>You can also use coordinates to make sure that one unit on the <span class="math inline">\(x\)</span>-axis is the same size as one unit on the <span class="math inline">\(y\)</span>-axis. This is called a <strong>fixed aspect ratio</strong>. The function <code>coord_fixed()</code> does this ratio automatically.</p>
-<div id="qwebr-insertion-location-7"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-</section>
-<section id="theme" class="level2" data-number="4.7">
-<h2 data-number="4.7" class="anchored" data-anchor-id="theme"><span class="header-section-number">4.7</span> Theme</h2>
-<p>The <em>theme</em> controls parts of the plot that are <strong>not related to the data</strong>, such as background, text, grid, and legend position. It helps define the <strong>overall look and feel</strong> of the plot.</p>
-<p>For instance, you can use the <em>theme</em> to: - Move or hide the <strong>legend</strong> - Change <strong>font size</strong> or <strong>colors</strong> - Set a new <strong>background style</strong> - Adjust the <strong>axes</strong> or <strong>grid lines</strong></p>
-<p>Some them settings are <strong>hierarchical</strong>, meaning that if you change the general axis style, it also changes both the <span class="math inline">\(x\)</span>-axis and <span class="math inline">\(y\)</span>-axis unless you set them separately.</p>
-<p>To change the appearance of a plot, you can use the built-in <code>theme_*()</code> functions (like <code>theme_minimal()</code>, <code>theme_classic()</code>, or <code>theme_light()</code>), or you can customize specific details using the <code>theme()</code> function. With <code>element_*()</code> functions (e.g.&nbsp;<code>element_line()</code>, <code>element_text()</code>) let you adjust the <strong>visual style</strong> of theme parts, such as lines, texts, or backgrounds.</p>
-<p>The following code creates a scatter plot and applies a minimal theme. It also moves the legend to the top, makes axis lines thicker, and colors the bottom <span class="math inline">\(x\)</span>-axis blue.</p>
-<div id="qwebr-insertion-location-8"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-</section>
-<section id="mastering-plot-layers-guided-examples-and-student-activities" class="level2" data-number="4.8">
-<h2 data-number="4.8" class="anchored" data-anchor-id="mastering-plot-layers-guided-examples-and-student-activities"><span class="header-section-number">4.8</span> Mastering Plot Layers: Guided Examples and Student Activities</h2>
-<p>As we mentioned before, a <em>ggplot2</em> is made by <strong>layering different parts</strong>. You can combine <em>data</em>, <em>mapping</em>, <em>geoms</em>, <em>scales</em>, <em>facets</em>, <em>coordinates</em>, and <em>themes</em> to build a fully customized plot.</p>
-<p>Below is an example that brings everything together:</p>
-<div id="qwebr-insertion-location-9"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
+<section id="check-the-summary-statistics" class="level3" data-number="7.2.2">
+<h3 data-number="7.2.2" class="anchored" data-anchor-id="check-the-summary-statistics"><span class="header-section-number">7.2.2</span> Check the summary statistics</h3>
+<p>Outliers can drastically affect the results of data analysis and statistical modeling. They can distort summary statistics, such as the mean and standard deviation, leading to misleading conclusions.</p>
+<p>Let’s look at a simple example:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Data</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Without outliers</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>set1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">6</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">7</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># With outliers</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>set2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">6</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">7</span>,<span class="dv">300</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to compute summary statistics</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>summary_stats <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">Mean =</span> <span class="fu">mean</span>(x),</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">Median =</span> <span class="fu">median</span>(x),</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">Mode =</span> <span class="fu">as.numeric</span>(<span class="fu">names</span>(<span class="fu">which.max</span>(<span class="fu">table</span>(x)))),</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">SD =</span> <span class="fu">sd</span>(x)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply to both sets and combine results</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summary_stats</span>(set1) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Dataset =</span> <span class="st">"Set 1"</span>),</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summary_stats</span>(set2) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Dataset =</span> <span class="st">"Set 2"</span>)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Dataset, Mean, Median, Mode, SD)</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Display results</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>results</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 5
+  Dataset  Mean Median  Mode    SD
+  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 Set 1    5.45    5       5  1.04
+2 Set 2   30       5.5     5 85.0 </code></pre>
 </div>
 </div>
-<div class="callout-body-container callout-body">
-<p>There is no need to type argumants.</p>
-</div>
-</div>
-<section id="scatter-plot-geom_point" class="level3" data-number="4.8.1">
-<h3 data-number="4.8.1" class="anchored" data-anchor-id="scatter-plot-geom_point"><span class="header-section-number">4.8.1</span> Scatter Plot – <code>geom_point()</code></h3>
-<p>A <em>scatter plot</em> shows the <strong>relationship between two numeric variables</strong>. each point on the plot represents one observation.</p>
+<p>Based on the output, you will notice that the mean and standard deviation of the dataset containing outlier are much larger than those of the dataset without outlier. Here, the average increases from <span class="math inline">\(5.45\)</span> in the dataset without outliers to <span class="math inline">\(30\)</span> when outlier is included – completley changing the estimate.</p>
+<p>You can also see the difference between the standard deviation values in the two datasets. standard deviation can be a warning sign that outliers may be present.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -2342,299 +2266,311 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Scatter plots are useful for seeing patterns, trends, or outliers in data.</p>
+<p>Always compare <strong>mean vs.&nbsp;median</strong> and check the <strong>standard deviation</strong> – sudden jumps in these values may indicate the presence of outliers.</p>
 </div>
 </div>
-<p>An example for seeing the basic scatter plot is showing how <em>height</em> (in inches) changes with <em>age</em> (in years) for each person in the dataset <em>heightweight</em>.</p>
+<p>Another simple way to detect ouliers is by plotting a histogram of the data. This allows you to visualize the overall distribution and spot unusually high or low values.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A good rule of thumb for the number of bins is to set it to the square root of the number of observations.</p>
+</div>
+</div>
+<p>We can create a histogram using <em>base R</em> or <em>ggplot2</em>:</p>
+<div id="qwebr-insertion-location-4"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="qwebr-insertion-location-5"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>From the histogram, we can see a few observations that are noticeably higher than the rest – indicated by the bar on the far right side of the plot.</p>
+<p>In addition to histogram, <em>boxplots</em> are also useful to detect potential outliers.</p>
+<div id="qwebr-insertion-location-6"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="qwebr-insertion-location-7"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>As we discussed previously, a boxplot shows the distribution of a numerical variable using five key values – the minimum, first quantile (<span class="math inline">\(Q_1\)</span>), median, third quantile (<span class="math inline">\(Q_3\)</span>), and maximum – and highlights any suspected outliers based on the interquartile range (<span class="math inline">\(\text{IQR} = Q_3 - Q1\)</span>) rule.</p>
+<p><img src="../figs/outliers/boxplot.png" class="img-fluid"></p>
+</section>
+<section id="tukeys-iqr-rule" class="level3" data-number="7.2.3">
+<h3 data-number="7.2.3" class="anchored" data-anchor-id="tukeys-iqr-rule"><span class="header-section-number">7.2.3</span> Tukey’s IQR Rule</h3>
+<p>Tukey defined outliers as points that fall below <span class="math inline">\(Q_1 - 1.5 * \text{IQR}\)</span> or above <span class="math inline">\(Q_3 + 1.5 * \text{IQR}\)</span>, providing a simple quantitative rule for detecting values that differ significantly from the main body of the data.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The coefficient <span class="math inline">\(1.5\)</span> is not fixed – it can be adjusted depending on the context and assumptions. However, in practice, the <span class="math inline">\(1.5\)</span> rule is the most commonly used standard.</p>
+</div>
+</div>
+<p>We can define a function in R to find outliers based on the IQR rule:</p>
+<div id="qwebr-insertion-location-8"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>Instead of creating a separate function, we can directly extract potential outliers using R’s built-in <code>boxplot.stats()$out</code> function, which applies Tukey’s IQR rule automatically.</p>
+<div id="qwebr-insertion-location-9"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>As you can see, there are three potential outliers: two observations with a value of 44 and one with a value of 41.</p>
+<p>We can easily find their row numbers in the dataset using the <code>which()</code> function.</p>
 <div id="qwebr-insertion-location-10"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>we can customize the size of points by adding <code>size = 1.5</code> to the function <code>geom_point()</code>.</p>
+<p>With this information, you can now easily return to the corresponding rows in the dataset to verify them or review all variables for those observations.</p>
 <div id="qwebr-insertion-location-11"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>Now, we can add two aesthetics: <code>shape</code> and <code>color</code>, based on the <em>sex</em> variable.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This step helps verify whether these unusual observations are data entry errors or genuine extreme cases that may need special attention.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Another method to display these specific rows is with the <code>identify_outliers()</code> function from the <code>{rstatix}</code> package:</p>
 <div id="qwebr-insertion-location-12"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+</div>
+</div>
 <div id="qwebr-insertion-location-13"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>Now, we are mapping <code>colour</code> or <code>size</code> to a numeric variable (e.g.&nbsp;<em>weightLb</em>)</p>
-<div id="qwebr-insertion-location-14"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div id="qwebr-insertion-location-15"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>These plots show how weight varies with <em>age</em> and <em>height</em> using <code>color</code> or <code>size</code>.</p>
-<p>Now, we are mapping <code>colour</code> to the variable <code>sex</code> and <code>size</code> to a numeric variable <em>weightLb</em></p>
-<div id="qwebr-insertion-location-16"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Exercise</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Hints</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href="">Solution</a></li></ul>
-<div class="tab-content">
-<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<p>Using the <em>heightweight</em> dataset, make a scatter plot to explore the relationship between <em>heightIn</em> and <em>weightLb</em> variables. Your tasks are:</p>
+</section>
+<section id="standard-deviation-method" class="level3" data-number="7.2.4">
+<h3 data-number="7.2.4" class="anchored" data-anchor-id="standard-deviation-method"><span class="header-section-number">7.2.4</span> Standard deviation method</h3>
+<p>If the data follows a roughly <strong>normal (bell-shaped)</strong> distribution, we can use the <em>standard deviation (SD)</em> to identify outliers.</p>
+<p>The standard deviation measures how far the data values are spread from the mean.</p>
+<p>For a normal distribution:</p>
 <ul>
-<li><p>Use <strong>points</strong> to represent the data.</p></li>
-<li><p>Show the variable <em>sex</em> using <code>color</code> so that we can see the difference between males and females.</p></li>
-<li><p>Make the points <strong>larger than usual</strong>, with a size of <span class="math inline">\(2.5\)</span>.</p></li>
-<li><p>Finally, give your plot a <strong>title</strong> that describes what it shows, The title should be: “Height vs, Weight by Sex”</p></li>
+<li><span class="math inline">\(68\%\)</span> of data lies within <span class="math inline">\(\pm 1\)</span> SD</li>
+<li></li>
+<li><span class="math inline">\(69\%\)</span> of data lies within <span class="math inline">\(\pm 2\)</span> SD</li>
+<li></li>
+<li><span class="math inline">\(99.7\%\)</span> of data lies within <span class="math inline">\(\pm 3\)</span> SD</li>
 </ul>
-<div id="qwebr-insertion-location-17"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-</div>
-<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
-<div class="hint" data-exercise="ex_1">
-<p>You will need</p>
-<ul>
-<li><p><code>aes(x = ______, y = ______, colour = ______)</code> -</p></li>
-<li><p><code>geom_point(size = ______)</code></p></li>
-<li><p><code>ggtitle(______)</code></p></li>
-</ul>
-</div>
-</div>
-<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
-<div class="proof solution" data-exercise="ex_1">
-<p><span class="proof-title"><em>Solution</em>. </span></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(heightweight, <span class="fu">aes</span>(<span class="at">x =</span> weightLb, <span class="at">y =</span> heightIn, <span class="at">colour =</span> sex)) <span class="sc">+</span> </span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">2.5</span>) <span class="sc">+</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Height vs. Weight by Sex"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</div>
-</div>
-</div>
-</section>
-<section id="line-plot-geom_line" class="level3" data-number="4.8.2">
-<h3 data-number="4.8.2" class="anchored" data-anchor-id="line-plot-geom_line"><span class="header-section-number">4.8.2</span> Line Plot – <code>geom_line()</code></h3>
-<p><strong>Use when</strong>: You want to show how a variable changes over time or another ordered variable (like day, year, index)</p>
-<p><strong>What is shows</strong>: Trends, increases or decreases, cycles over time</p>
-<p><strong>Example</strong></p>
-<div id="qwebr-insertion-location-18"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>This plot shows how unemployment has changed over time.</p>
-</section>
-<section id="barplot-geom_bar-and-geom_col" class="level3" data-number="4.8.3">
-<h3 data-number="4.8.3" class="anchored" data-anchor-id="barplot-geom_bar-and-geom_col"><span class="header-section-number">4.8.3</span> Barplot – <code>geom_bar()</code> and <code>geom_col()</code></h3>
-<p><strong>Use when</strong>: You want to compare <strong>counts</strong> or <strong>values</strong> between <strong>categories</strong>.</p>
-<ul>
-<li><p><code>geom_bar()</code> counts how many times each category appears.</p></li>
-<li><p><code>geom_col()</code> shows values you provided directly.</p></li>
-</ul>
-<p><strong>What it shows</strong>: Frequencies or values across different categories.</p>
-<p><strong>Example</strong></p>
-<div id="qwebr-insertion-location-19"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div id="qwebr-insertion-location-20"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-</section>
-<section id="histogram-geom_histogram" class="level3" data-number="4.8.4">
-<h3 data-number="4.8.4" class="anchored" data-anchor-id="histogram-geom_histogram"><span class="header-section-number">4.8.4</span> Histogram – <code>geom_histogram()</code></h3>
-<p><strong>Use when</strong> : You want to see the <strong>distribution</strong> of a numeric variable.</p>
-<p><strong>What is shows</strong> : How values are spread across intervals (called “bins”).</p>
-<p><strong>Example</strong></p>
-<div id="qwebr-insertion-location-21"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>This plot shows many cars fall into different highway mpg ranges.</p>
-<div id="qwebr-insertion-location-22"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div id="qwebr-insertion-location-23"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-</section>
-<section id="boxplot-geom_boxplot" class="level3" data-number="4.8.5">
-<h3 data-number="4.8.5" class="anchored" data-anchor-id="boxplot-geom_boxplot"><span class="header-section-number">4.8.5</span> Boxplot – <code>geom_boxplot()</code></h3>
-<p><strong>Use when</strong>: You want to compare <strong>summary statistics</strong> (like median, quartiles, ouliers) across different groups.</p>
-<p><strong>What it shows</strong> : Median, spread, and outliers for each group.</p>
-<p><strong>Example</strong></p>
-<div id="qwebr-insertion-location-24"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div id="qwebr-insertion-location-25"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>This plot compare highway mpg for different type of vehicles.</p>
-<div id="qwebr-insertion-location-26"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div id="qwebr-insertion-location-27"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div id="qwebr-insertion-location-28"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-</section>
-<section id="violin-plot-geom_violin" class="level3" data-number="4.8.6">
-<h3 data-number="4.8.6" class="anchored" data-anchor-id="violin-plot-geom_violin"><span class="header-section-number">4.8.6</span> Violin Plot – geom_violin()</h3>
-<p><strong>Use when</strong>: You want to see the <strong>distribution shape</strong> plus summary info for groups.</p>
-<p><strong>What it shows</strong>: Like a boxplot, but with a mirrored density curve – great for showing the full distribution and comparison across groups.</p>
-<p><strong>Example</strong></p>
-<div id="qwebr-insertion-location-29"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>You can also add <strong>add points or boxplots</strong> inside the violins:</p>
-<div id="qwebr-insertion-location-30"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div id="qwebr-insertion-location-31"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div id="qwebr-insertion-location-32"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-</section>
-<section id="dot-plot-geom_dotplot" class="level3" data-number="4.8.7">
-<h3 data-number="4.8.7" class="anchored" data-anchor-id="dot-plot-geom_dotplot"><span class="header-section-number">4.8.7</span> Dot plot – <code>geom_dotplot()</code></h3>
-<p><strong>Use when</strong>: You want to show <strong>individual values</strong>, especially for small datasets.</p>
-<p><strong>Example</strong></p>
-<div id="qwebr-insertion-location-33"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-</section>
-<section id="density-plot-geom_density" class="level3" data-number="4.8.8">
-<h3 data-number="4.8.8" class="anchored" data-anchor-id="density-plot-geom_density"><span class="header-section-number">4.8.8</span> Density Plot – <code>geom_density()</code></h3>
-<p><strong>Use when</strong>: You want a <strong>smoothed version</strong> of a histogram.</p>
-<p><strong>What is shows</strong>: Estimate of the data’s distribution, good for seeing shapes or peaks.</p>
-<p><strong>Example</strong></p>
-<div id="qwebr-insertion-location-34"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>We can combine the histogram and density plot to show exact counts (histogram) and smooth distribution (density) in one plot.</p>
-<p><strong>Example</strong></p>
-<div id="qwebr-insertion-location-35"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>Values that lie more than 2 or 3 SDs away from the mean are often considered potential outliers.</p>
+<p><img src="../figs/outliers/SD.png" class="img-fluid"></p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>What is <code>after_stat(density)</code>?
+Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>In <em>ggplot2</em>, when you use <code>geom_histogram()</code>, the default <span class="math inline">\(y\)</span>-axis is <strong>count</strong> (how many observations fall in each bin). But if you write <code>aes(y = after_stat(density))</code>, you are asking <em>ggplot2</em> to scale the height of the bars so they represent probability density instead of raw counts. This allows you to compare this histogram with a density curve (like the one from <code>geom_density()</code>), which also shows density.</p>
+<p>This method can sometimes miss outliers because extreme values make the standard deviation larger.</p>
 </div>
 </div>
-<p>This shows both <strong>frequency</strong> and <strong>smoothed distribution</strong> of highway mpg.</p>
-<div id="qwebr-insertion-location-36"></div>
+<div id="qwebr-insertion-location-14"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div id="qwebr-insertion-location-37"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div id="qwebr-insertion-location-38"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div id="qwebr-insertion-location-39"></div>
+<div id="qwebr-insertion-location-15"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
-<section id="pie-chart-using-polar-coordinates" class="level3" data-number="4.8.9">
-<h3 data-number="4.8.9" class="anchored" data-anchor-id="pie-chart-using-polar-coordinates"><span class="header-section-number">4.8.9</span> Pie Chart (using Polar Coordinates)</h3>
-<p><strong>Use when</strong>: You want to show <strong>parts of a whole</strong>, but use with caution – bar plots are often easier to read.</p>
-<p><strong>Example</strong></p>
-<div id="qwebr-insertion-location-40"></div>
+<section id="z-score-method" class="level3" data-number="7.2.5">
+<h3 data-number="7.2.5" class="anchored" data-anchor-id="z-score-method"><span class="header-section-number">7.2.5</span> <span class="math inline">\(Z\)</span>-score method</h3>
+<p>If the dataset follows a normal distribution, instead of the standard deviation method, we can <em>transform</em> the data into <em>standard scores</em> (or <em><span class="math inline">\(Z\)</span>-scores</em>) so that the mean becomes <span class="math inline">\(0\)</span> and the standard deviation becomes <span class="math inline">\(1\)</span>.</p>
+<p>This transformation gives us the <span class="math inline">\(Z\)</span>-score for each observation, which indicates how many standard deviations an observation is from the mean. It can be done with the <code>scale()</code> function in R.</p>
+<p>According to the empirical rule, observations with a <span class="math inline">\(Z\)</span>-score greater than <span class="math inline">\(3\)</span> or less than <span class="math inline">\(-3\)</span> are considered as outliers (extremly rare). Values bewtween <span class="math inline">\(|Z| = 2\)</span> and <span class="math inline">\(|Z| = 3\)</span> are often described as “moderatly unusal” or rare.</p>
+<p><img src="../figs/outliers/zscore.png" class="img-fluid"></p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Some analysts use a slightly stricter rule — considering values with <span class="math inline">\(Z &lt; −3.29\)</span> or <span class="math inline">\(Z &gt; 3.29\)</span> as outliers.</p>
+<p><strong>Why?</strong> The <span class="math inline">\(Z = \pm 3\)</span> rule comes from the empirical (<span class="math inline">\(68\)</span>-<span class="math inline">\(95\)</span>-<span class="math inline">\(99.7\)</span>) rule, which is an <em>approximately</em> for normal distribution. It says that about <span class="math inline">\(99.7\%\)</span> of the data lies within <span class="math inline">\(3\)</span> standard deviations from the mean. That means roughly <span class="math inline">\(0.3\%\)</span> (or 3 in 1000) of observations would lie outside this range. However, if we calculate it more precisely from standard normal distribution, we find the <span class="math inline">\(Z\)</span>-value that cuts off exactly <span class="math inline">\(0.1\%\)</span> in each tail (so that only %0.2%$ total or 2 in 1000 of obeservations lie beyond this point) is approximately <span class="math inline">\(3.29\)</span>. So, <span class="math inline">\(|Z| &gt; 3\)</span> means roughly <span class="math inline">\(0.3\%\)</span> of data, while <span class="math inline">\(|Z| &gt; 3.29\)</span> means exactly <span class="math inline">\(0.1\%\)</span> per tail.</p>
+</div>
+</div>
+<div id="qwebr-insertion-location-16"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="qwebr-insertion-location-17"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
-<section id="d-density-plot" class="level3" data-number="4.8.10">
-<h3 data-number="4.8.10" class="anchored" data-anchor-id="d-density-plot"><span class="header-section-number">4.8.10</span> 2D Density Plot</h3>
-<p>A <em>2D density plot</em> is used to show the distribution of two numeric variables. Instead of plotting each point (like in a scatter plot), it shows where points are concentrated using <strong>contour lines</strong> (<code>geom_density_2d()</code>) and <strong>filled contour areas</strong> (<code>geom_density_2d_filled()</code>).</p>
-<p><strong>Use when</strong>: you have many overlapping points (overlapping) in a scatter plot and you want to highlight patterns or clusters in two numeric variables and see a smoother version of the joint distribution.</p>
-<p><strong>Example</strong></p>
-<div id="qwebr-insertion-location-41"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>Adding points makes it easier to see what the contours represent.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(faithful, <span class="fu">aes</span>(<span class="at">x =</span> waiting, <span class="at">y =</span> eruptions)) <span class="sc">+</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Add Data Points for Context</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density_2d</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="chapter2_data_visualization_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
+<section id="modified-z-score-method" class="level3" data-number="7.2.6">
+<h3 data-number="7.2.6" class="anchored" data-anchor-id="modified-z-score-method"><span class="header-section-number">7.2.6</span> Modified <span class="math inline">\(Z\)</span>-score method</h3>
+<p>The <span class="math inline">\(Z\)</span>-score can be strongly affected by extreme values since it relies on the <em>mean</em> and <em>standard deviation</em>.</p>
+<p>To make the method more robust, we use the modified <span class="math inline">\(Z\)</span>-score, which is based on the <em>median</em> and <em>median absolute deviation (MAD)</em> instead.</p>
+<p>The formula is: <span class="math display">\[
+\text{Modified $Z$-Score} = \frac{0.6745 (x_i - \text{Median})}{\text{MAD}}
+\]</span> where <span class="math inline">\(x_i\)</span> is individual observation, and <span class="math inline">\(\text{MAD}=\text{median}(|x_i - \text{median}(x_i)|)\)</span>.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
 </div>
 </div>
-</div>
-<p>The following code results in a plot that shows filled bands of density that it is great for visual impact.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(faithful, <span class="fu">aes</span>(<span class="at">x =</span> eruptions, <span class="at">y =</span> waiting)) <span class="sc">+</span> </span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density_2d_filled</span>(<span class="at">alpha =</span> <span class="fl">0.6</span>) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="chapter2_data_visualization_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
+<div class="callout-body-container callout-body">
+<p>The constant 0.6745 scales the MAD so that, under normality, the median absolute deviation estimates the standard deviation.</p>
 </div>
 </div>
-</div>
-<p>Combining points and filled contours gives both <strong>precision</strong> and <strong>overview</strong>.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(faithful, <span class="fu">aes</span>(<span class="at">x =</span> eruptions, <span class="at">y =</span> waiting)) <span class="sc">+</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density_2d_filled</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="chapter2_data_visualization_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>You can map density levels to <strong>color</strong> using <code>after_stat(level)</code></p>
-<div id="qwebr-insertion-location-42"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>You can also different code to produce the plot.</p>
-<div id="qwebr-insertion-location-43"></div>
+<p>The MAD messures the spread of the data using the median instead of the mean, making it less sensitive to outliers than the standard deviation.</p>
+<p>If the data are normally distributed, the standard deviation is typically preferref but for <strong>non-normal data</strong>, the MAD provides a more reliable measure of variablilty.</p>
+<p>The outliers are identifed by <span class="math display">\[
+|\text{Modified $Z$-Score}| &gt; 3.5
+\]</span> The value of <span class="math inline">\(3.5\)</span> was suggested by Iglewicz and Hoaglin (1993) in “<a href="https://www.google.com/url?sa=t&amp;source=web&amp;rct=j&amp;opi=89978449&amp;url=https://hwbdocs.env.nm.gov/Los%2520Alamos%2520National%2520Labs/TA%252054/11587.pdf&amp;ved=2ahUKEwiJqdW7uJCQAxWqU6QEHdpnGUAQFnoECB8QAQ&amp;usg=AOvVaw3QMvIEeALKIH7PgisbywOb">How to Detect and Handle Outliers</a>”, and is widely used because it balances sensitivity (detecting real anomalies) with robustness (avoiding false positives).</p>
+<div id="qwebr-insertion-location-18"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
-<section id="d-binned-plot-for-big-data-stat_bin2d" class="level3" data-number="4.8.11">
-<h3 data-number="4.8.11" class="anchored" data-anchor-id="d-binned-plot-for-big-data-stat_bin2d"><span class="header-section-number">4.8.11</span> 2D Binned Plot for Big Data – <code>stat_bin2d()</code></h3>
-<p><strong>Use when</strong>: You have a lot of points and scatter plots are too dense.</p>
-<p><strong>Example</strong></p>
-<div id="qwebr-insertion-location-44"></div>
+<section id="hampel-filte" class="level3" data-number="7.2.7">
+<h3 data-number="7.2.7" class="anchored" data-anchor-id="hampel-filte"><span class="header-section-number">7.2.7</span> Hampel Filte</h3>
+<p>The Hample filter is an bust outlier detection method based on the <em>median</em> and the MAD – just like the modified <span class="math inline">\(Z\)</span>-score method.</p>
+<p>Instead of using the mean and standard deviation, it defines an interval around the median and flags as outliers any observations that fall outside this interval.</p>
+<p>The interval is defined as: <span class="math display">\[
+I = [\text{Median} - k * \text{MAD}, \text{Median} + k * \text{MAD}]
+\]</span> where <span class="math inline">\(k\)</span> is typically <span class="math inline">\(3\)</span>.</p>
+<p>This method is particularly useful for data that may not be normally distributed or when the dataset contains extreme values that could skew the mean and standard deviation.</p>
+<div id="qwebr-insertion-location-19"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
-<section id="frequency-polygon-geom_freqpoly" class="level3" data-number="4.8.12">
-<h3 data-number="4.8.12" class="anchored" data-anchor-id="frequency-polygon-geom_freqpoly"><span class="header-section-number">4.8.12</span> Frequency Polygon – <code>geom_freqpoly()</code></h3>
-<p>A <em>frequency plot</em> is similar to a histogram, but it uses <strong>lines instead of bars</strong> to show how a variable is distributed. It is especially useful when you want to <strong>compare distributions across groups</strong>.</p>
-<p><strong>Use when</strong>: You want to show the shape of a distribution and also compare multiple groups using lines (which may be easier to read than overlapping histograms).</p>
-<p><strong>Examples</strong></p>
-<div id="qwebr-insertion-location-45"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div id="qwebr-insertion-location-46"></div>
+<section id="percentiles" class="level3" data-number="7.2.8">
+<h3 data-number="7.2.8" class="anchored" data-anchor-id="percentiles"><span class="header-section-number">7.2.8</span> Percentiles</h3>
+<p>The percentile method detects outliers by defining an interval that includes most of the data, based on selected percentiles. Any observations outside this interval are considered potential outliers.</p>
+<p>The most common choice is to use the <span class="math inline">\(2.5\)</span>th and <span class="math inline">\(97.5\)</span>th percentiles, which corresponds to keeping <span class="math inline">\(95\%\)</span> of the central data and treating the remaining <span class="math inline">\(5\%\)</span> as potential outliers.</p>
+<p>Other cutoff points, such as <span class="math inline">\(1\)</span>st and <span class="math inline">\(99\)</span>th or <span class="math inline">\(5\)</span>th and <span class="math inline">\(95\)</span>th percentiles, can also be used depending on how strict you want the detection to be.</p>
+<div id="qwebr-insertion-location-20"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
-<section id="correlation-plot-cor-plot" class="level3" data-number="4.8.13">
-<h3 data-number="4.8.13" class="anchored" data-anchor-id="correlation-plot-cor-plot"><span class="header-section-number">4.8.13</span> Correlation Plot (Cor plot)</h3>
-<p>A <em>correlation plot</em> (or <em>cor plot</em>) is a visual way to show how strongly variables are related to each other. Correlation values range from <span class="math inline">\(-1\)</span> to <span class="math inline">\(1\)</span>, and the plot helps you quickly see positive, negative, or no relationships.</p>
-<p>This is not built into <em>ggplot2</em>, but we can use it together with</p>
+</section>
+<section id="what-to-do-after-detecting-outliers" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="what-to-do-after-detecting-outliers"><span class="header-section-number">7.3</span> What to Do After Detecting Outliers</h2>
+<p>Detecting outliers is only <em>the first step</em> — the most important part is deciding how to handle them. Outliers are not always “bad data” — they can be errors, rare but real events, or important signals.</p>
+<p>The correct action depends on <strong>context</strong> and <strong>domain knowledge</strong>.</p>
+<section id="verify-and-investigate" class="level3" data-number="7.3.1">
+<h3 data-number="7.3.1" class="anchored" data-anchor-id="verify-and-investigate"><span class="header-section-number">7.3.1</span> Verify and Investigate</h3>
+<p>Before taking any decision:</p>
 <ul>
-<li><p>The <code>cor()</code> function to compute correlation</p></li>
-<li><p>The <code>corrplot</code> or <code>ggcorrplot</code> package to visualize it.</p></li>
+<li><p><strong>Check for data entry errors</strong>, unit mismatches, or measurement problems.</p></li>
+<li><p><strong>Plot the data</strong> again with and without outliers — see how much they influence the result.</p></li>
+<li><p><strong>Compare summaries</strong> (mean, median, variance) before and after removing outliers.</p></li>
 </ul>
-<p><strong>Example using <code>ggcorrplot</code></strong></p>
-<div id="qwebr-insertion-location-47"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p><strong>Example using <code>corrplot</code></strong></p>
-<div id="qwebr-insertion-location-48"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true" href="">Exercises</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false" href="">Hints</a></li></ul>
-<div class="tab-content">
-<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
-<p>For the following datasets (data description: <a href="https://instruction.bus.wisc.edu/jfrees/jfreesbooks/regression%20modeling/bookwebdec2010/DataDescriptions.pdf">DataDescriptions.pdf</a>):</p>
+</section>
+<section id="keep-the-outliers-if-they-are-valid" class="level3" data-number="7.3.2">
+<h3 data-number="7.3.2" class="anchored" data-anchor-id="keep-the-outliers-if-they-are-valid"><span class="header-section-number">7.3.2</span> Keep the Outliers (if they are valid)</h3>
+<p>If the outliers represent real, meaningful phenomena, they should remain in the dataset. For example,</p>
 <ul>
-<li><a href="https://instruction.bus.wisc.edu/jfrees/jfreesbooks/regression%20modeling/bookwebdec2010/CSVData/CeoCompensation.csv">CeoCompensation</a></li>
-<li><a href="https://instruction.bus.wisc.edu/jfrees/jfreesbooks/regression%20modeling/bookwebdec2010/CSVData/MassBodilyInjury.csv">MassBodilyInjury</a></li>
-<li><a href="https://instruction.bus.wisc.edu/jfrees/jfreesbooks/regression%20modeling/bookwebdec2010/CSVData/Refrigerator.csv">Refrigerator</a></li>
+<li><p>extremely high incomes in economics data</p></li>
+<li><p>Rare but valid sensor readings in engineering.</p></li>
+<li><p>Exceptional performance in experiments.</p></li>
 </ul>
-<p>Perform an exploratory data analysis:</p>
-<ol type="a">
-<li>Univariate analysis</li>
-<li>Bivariate analysis</li>
-<li>Outlier analysis</li>
+<p>In such cases, you may use robust statistical methods (e.g.&nbsp;median, MAD) that are less sensitive to extreme values.</p>
+</section>
+<section id="remove-or-winsorize-if-they-are-incorrect" class="level3" data-number="7.3.3">
+<h3 data-number="7.3.3" class="anchored" data-anchor-id="remove-or-winsorize-if-they-are-incorrect"><span class="header-section-number">7.3.3</span> Remove or Winsorize (if they are incorrect)</h3>
+<p>If you find that the outliers come from a typographical or sensor errors, sampling issues, or wrong data units (e.g., °C vs.&nbsp;°F), then it’s reasonable to:</p>
+<ul>
+<li><strong>Remove them</strong>, or</li>
+<li><strong>Winsorize them</strong> — i.e., replace extreme values with the nearest valid percentile (e.g.&nbsp;1st or 99th).</li>
+</ul>
+<p>This keeps the data’s overall structure but limits the impact of extreme points.</p>
+</section>
+<section id="analyze-with-and-without-outliers" class="level3" data-number="7.3.4">
+<h3 data-number="7.3.4" class="anchored" data-anchor-id="analyze-with-and-without-outliers"><span class="header-section-number">7.3.4</span> Analyze With and Without Outliers</h3>
+<p>A good analytical habit is to perform the analysis both ways: once with all data and once excluding outliers. This helps assess how much the outliers influence the results and conclusions. If the results differ greatly, the outliers deserve closer attention.</p>
+</section>
+<section id="report-your-decision" class="level3" data-number="7.3.5">
+<h3 data-number="7.3.5" class="anchored" data-anchor-id="report-your-decision"><span class="header-section-number">7.3.5</span> Report Your Decision</h3>
+<p>Always document your reasoning:</p>
+<ul>
+<li><p>Which method you used for detection,</p></li>
+<li><p>How many outliers were found,</p></li>
+<li><p>What you decided to do, and why.</p></li>
+</ul>
+<p>Transparency ensures your analysis remains reproducible and credible.</p>
+</section>
+</section>
+<section id="exercise" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="exercise"><span class="header-section-number">7.4</span> Exercise</h2>
+<p>You are given the following dataset:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fl">47.19</span>, <span class="fl">48.84</span>, <span class="fl">57.79</span>, <span class="fl">50.35</span>, <span class="fl">50.64</span>, <span class="fl">58.57</span>, <span class="fl">52.30</span>,</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fl">43.67</span>, <span class="fl">46.56</span>, <span class="fl">47.77</span>, <span class="fl">56.12</span>, <span class="fl">51.79</span>, <span class="fl">52.00</span>, <span class="fl">50.55</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fl">47.22</span>, <span class="fl">58.93</span>, <span class="fl">52.48</span>, <span class="fl">40.16</span>, <span class="fl">53.50</span>, <span class="fl">47.63</span>, <span class="fl">44.66</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fl">48.91</span>, <span class="fl">44.86</span>, <span class="fl">46.35</span>, <span class="fl">46.87</span>, <span class="fl">41.56</span>, <span class="fl">54.18</span>, <span class="fl">50.76</span>,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fl">44.30</span>, <span class="fl">56.26</span>, <span class="fl">52.13</span>, <span class="fl">48.52</span>, <span class="fl">54.47</span>, <span class="fl">54.39</span>, <span class="fl">54.10</span>,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fl">53.44</span>, <span class="fl">52.76</span>, <span class="fl">49.69</span>, <span class="fl">48.47</span>, <span class="fl">48.09</span>, <span class="fl">46.52</span>, <span class="fl">48.96</span>,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fl">43.67</span>, <span class="fl">60.84</span>, <span class="fl">56.03</span>, <span class="fl">44.38</span>, <span class="fl">47.98</span>, <span class="fl">47.66</span>, <span class="fl">53.89</span>,</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fl">49.58</span>, <span class="fl">51.26</span>, <span class="fl">49.85</span>, <span class="fl">49.78</span>, <span class="fl">56.84</span>, <span class="fl">48.87</span>, <span class="fl">57.58</span>,</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="fl">42.25</span>, <span class="fl">52.92</span>, <span class="fl">50.61</span>, <span class="fl">51.07</span>, <span class="fl">51.89</span>, <span class="fl">47.48</span>, <span class="fl">48.33</span>,</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="fl">44.90</span>, <span class="fl">44.64</span>, <span class="fl">51.51</span>, <span class="fl">52.24</span>, <span class="fl">50.26</span>, <span class="fl">54.61</span>, <span class="fl">60.25</span>,</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="fl">47.54</span>, <span class="fl">38.45</span>, <span class="fl">55.02</span>, <span class="fl">46.45</span>, <span class="fl">46.55</span>, <span class="fl">55.12</span>, <span class="fl">48.57</span>,</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="fl">43.89</span>, <span class="fl">50.90</span>, <span class="fl">49.30</span>, <span class="fl">50.02</span>, <span class="fl">51.92</span>, <span class="fl">48.14</span>, <span class="fl">53.22</span>,</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="fl">48.89</span>, <span class="fl">51.65</span>, <span class="fl">55.48</span>, <span class="fl">52.17</span>, <span class="fl">48.37</span>, <span class="fl">55.74</span>, <span class="fl">54.96</span>,</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="fl">52.74</span>, <span class="fl">51.19</span>, <span class="fl">46.86</span>, <span class="fl">56.80</span>, <span class="fl">46.99</span>, <span class="fl">60.93</span>, <span class="fl">57.66</span>,</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  <span class="fl">48.82</span>, <span class="fl">44.86</span>, <span class="fl">100.58</span>, <span class="fl">95.47</span>, <span class="fl">81.32</span>, <span class="fl">10.11</span>, <span class="sc">-</span><span class="fl">1.87</span>,</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>  <span class="sc">-</span><span class="fl">25.52</span>, <span class="sc">-</span><span class="fl">34.14</span>, <span class="sc">-</span><span class="fl">6.05</span>, <span class="fl">20.78</span>, <span class="fl">0.01</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="part-1-using-tukeys-iqr-rule" class="level3" data-number="7.4.1">
+<h3 data-number="7.4.1" class="anchored" data-anchor-id="part-1-using-tukeys-iqr-rule"><span class="header-section-number">7.4.1</span> Part 1 — Using Tukey’s IQR Rule</h3>
+<ol type="1">
+<li>Compute the first quartile (Q1), third quartile (Q3), and interquartile range (IQR).</li>
+<li>Identify outliers using the standard <span class="math inline">\(1.5 \times IQR\)</span> rule.</li>
+<li>Highlight them in a scatter plot.</li>
+<li>How many potential outliers are there, and where are they located?</li>
 </ol>
-<p>Report any conclusions using appropriate descriptive statistics and graphical visualizations.</p>
-</div>
-<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
-<ul>
-<li>Consider the distribution of each variable in the univariate analysis.</li>
-<li>In the bivariate analysis, look for relationships between pairs of variables.</li>
-<li>For outlier analysis, identify any unusual observations that may affect your results. scatter plots to visualize potential outliers.</li>
-</ul>
-</div>
-</div>
-</div>
+</section>
+<section id="part-2-using-the-standard-deviation-method" class="level3" data-number="7.4.2">
+<h3 data-number="7.4.2" class="anchored" data-anchor-id="part-2-using-the-standard-deviation-method"><span class="header-section-number">7.4.2</span> Part 2 — Using the Standard Deviation Method</h3>
+<ol type="1">
+<li>Calculate the mean and standard deviation of the dataset.</li>
+<li>Identify outliers as points that lie more than 2 standard deviations away from the mean.</li>
+<li>Highlight them in a scatter plot.</li>
+</ol>
+</section>
+<section id="part-3-using-the-z-score-method" class="level3" data-number="7.4.3">
+<h3 data-number="7.4.3" class="anchored" data-anchor-id="part-3-using-the-z-score-method"><span class="header-section-number">7.4.3</span> Part 3 — Using the Z-score Method</h3>
+<ol type="1">
+<li>Compute the Z-score for each observation (standardize the data).</li>
+<li>Mark as outliers the values with <span class="math inline">\(|Z| &gt; 3\)</span> (or <span class="math inline">\(|Z| &gt; 3.29\)</span> for a stricter rule).</li>
+<li>Compare your list of outliers with the ones found using the IQR method.</li>
+<li>Plot both methods’ results — do they detect the same observations?</li>
+</ol>
+</section>
+<section id="part-4-discussion" class="level3" data-number="7.4.4">
+<h3 data-number="7.4.4" class="anchored" data-anchor-id="part-4-discussion"><span class="header-section-number">7.4.4</span> Part 4 – Discussion</h3>
+<ol type="1">
+<li>Which method detected more outliers?</li>
+<li>Are there points that one method flagged as outliers but not the other?</li>
+<li>Which method do you think is more reliable for this dataset — and why?</li>
+</ol>
+</section>
+<section id="optional-challenge" class="level3" data-number="7.4.5">
+<h3 data-number="7.4.5" class="anchored" data-anchor-id="optional-challenge"><span class="header-section-number">7.4.5</span> Optional Challenge</h3>
+<p>Apply the Modified Z-score method or Percentile method (1%–99%) to the same dataset. Do the results change? What does that tell you about the robustness of different detection methods?</p>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
-<div id="ref-Wickham2019" class="csl-entry" role="listitem">
-Wickham, Hadley, Danielle Navarro, and Thomas Lin Pederson. 2019. <em>Ggplot2: Elegant Graphics for Data Analysis</em>. 3rd ed. <a href="https://ggplot2-book.org/">https://ggplot2-book.org/</a>.
-</div>
-</div>
 </section>
 </section>
 
@@ -3041,13 +2977,13 @@ Wickham, Hadley, Danielle Navarro, and Thomas Lin Pederson. 2019. <em>Ggplot2: E
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../chapters/chapter3_dplyr.html" class="pagination-link" aria-label="Data Wrangling">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Data Wrangling</span></span>
+      <a href="../chapters/Exam-Sample.html" class="pagination-link" aria-label="Sample of Questions">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Sample of Questions</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../chapters/project.html" class="pagination-link" aria-label="Project">
-        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Project</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../chapters/chapter5_logistic_regression.html" class="pagination-link" aria-label="Logistic Regression">
+        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Logistic Regression</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
