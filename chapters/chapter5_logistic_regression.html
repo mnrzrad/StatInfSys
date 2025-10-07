@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>8&nbsp; Logistic Regression – Statistics and Information Systems</title>
+<title>9&nbsp; Logistic Regression – Statistics and Information Systems</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -31,7 +31,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
 <link href="../chapters/chapter1_data_ethics.html" rel="next">
-<link href="../chapters/Outlier_Detection.html" rel="prev">
+<link href="../chapters/missing_values.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -1666,7 +1666,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter5_logistic_regression.html">Logistic Regression</a></li><li class="breadcrumb-item"><a href="../chapters/chapter5_logistic_regression.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Logistic Regression</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter5_logistic_regression.html">Logistic Regression</a></li><li class="breadcrumb-item"><a href="../chapters/chapter5_logistic_regression.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Logistic Regression</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -1744,6 +1744,12 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Outlier Detection: Understading and Handling</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/missing_values.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Missing Values</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -1758,7 +1764,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/chapter5_logistic_regression.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Logistic Regression</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Logistic Regression</span></span></a>
   </div>
 </li>
       </ul>
@@ -1775,7 +1781,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/chapter1_data_ethics.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Data Ethics</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Data Ethics</span></span></a>
   </div>
 </li>
       </ul>
@@ -1790,9 +1796,9 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#modelling-probabilities" id="toc-modelling-probabilities" class="nav-link active" data-scroll-target="#modelling-probabilities"><span class="header-section-number">8.1</span> Modelling Probabilities</a></li>
-  <li><a href="#sigmoid-functions" id="toc-sigmoid-functions" class="nav-link" data-scroll-target="#sigmoid-functions"><span class="header-section-number">8.2</span> Sigmoid Functions</a></li>
-  <li><a href="#logistic-model" id="toc-logistic-model" class="nav-link" data-scroll-target="#logistic-model"><span class="header-section-number">8.3</span> Logistic Model</a></li>
+  <li><a href="#modelling-probabilities" id="toc-modelling-probabilities" class="nav-link active" data-scroll-target="#modelling-probabilities"><span class="header-section-number">9.1</span> Modelling Probabilities</a></li>
+  <li><a href="#sigmoid-functions" id="toc-sigmoid-functions" class="nav-link" data-scroll-target="#sigmoid-functions"><span class="header-section-number">9.2</span> Sigmoid Functions</a></li>
+  <li><a href="#logistic-model" id="toc-logistic-model" class="nav-link" data-scroll-target="#logistic-model"><span class="header-section-number">9.3</span> Logistic Model</a></li>
   </ul>
 </nav>
     </div>
@@ -2083,9 +2089,9 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 }
 </script>
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter5_logistic_regression.html">Logistic Regression</a></li><li class="breadcrumb-item"><a href="../chapters/chapter5_logistic_regression.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Logistic Regression</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter5_logistic_regression.html">Logistic Regression</a></li><li class="breadcrumb-item"><a href="../chapters/chapter5_logistic_regression.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Logistic Regression</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Logistic Regression</span></h1>
+<h1 class="title"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Logistic Regression</span></h1>
 </div>
 
 
@@ -2112,8 +2118,8 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </ul>
 <p>For this kind of problem, the dataset used to fit the model is composed of observations <span class="math inline">\((\mathbf{x}_1, y_1)\)</span>, <span class="math inline">\((\mathbf{x}_2, y_2)\)</span>, …, <span class="math inline">\((\mathbf{x}_n, y_n)\)</span> where each <span class="math inline">\(y_i\)</span> is usually labelled 0 (failure, no event, …) or 1 (success, event, …) and <span class="math inline">\(\mathbf{x}_i\)</span> is a vector of input variables.</p>
 <p>The task at hand is to build a model that, given an arbitrary <span class="math inline">\(\mathbf{x}\)</span>, will predict the probability that <span class="math inline">\(y = 1\)</span>.</p>
-<section id="modelling-probabilities" class="level2" data-number="8.1">
-<h2 data-number="8.1" class="anchored" data-anchor-id="modelling-probabilities"><span class="header-section-number">8.1</span> Modelling Probabilities</h2>
+<section id="modelling-probabilities" class="level2" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="modelling-probabilities"><span class="header-section-number">9.1</span> Modelling Probabilities</h2>
 <p>Why not use a linear regression model to predict the probability that <span class="math inline">\(y = 1\)</span>? After all, linear regression is a well-known and widely used method.</p>
 <div id="qwebr-insertion-location-2"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
@@ -2123,8 +2129,8 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <li>even considering a threshold (e.g.&nbsp;0.5) to classify the predicted values into 0 or 1, this would be mostly an arbitrary chosen value.</li>
 </ul>
 </section>
-<section id="sigmoid-functions" class="level2" data-number="8.2">
-<h2 data-number="8.2" class="anchored" data-anchor-id="sigmoid-functions"><span class="header-section-number">8.2</span> Sigmoid Functions</h2>
+<section id="sigmoid-functions" class="level2" data-number="9.2">
+<h2 data-number="9.2" class="anchored" data-anchor-id="sigmoid-functions"><span class="header-section-number">9.2</span> Sigmoid Functions</h2>
 <p>Instead of a linear function, we can opt to model the <em>probability</em> of success of the event described by <span class="math inline">\(y\)</span>, i.e <span class="math inline">\(\operatorname{P}(Y=1)\)</span>. This is a more sound and natural way to model the prediction of a random binary event. In order to do this, we can use <strong>sigmoid functions</strong>. A sigmoid function <span class="math inline">\(f(x)\)</span> is a function having an “S” shaped curve (sigmoid curve) with the following properties:</p>
 <ul>
 <li><span class="math inline">\(0&lt;f(x)&lt;1\)</span>;</li>
@@ -2140,8 +2146,8 @@ f(x) = \frac{e^x}{1 + e^x} = \frac{1}{1 + e^{-x}}.
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>This function will play a central row in the logistic regression model, as we will see briefly.</p>
 </section>
-<section id="logistic-model" class="level2" data-number="8.3">
-<h2 data-number="8.3" class="anchored" data-anchor-id="logistic-model"><span class="header-section-number">8.3</span> Logistic Model</h2>
+<section id="logistic-model" class="level2" data-number="9.3">
+<h2 data-number="9.3" class="anchored" data-anchor-id="logistic-model"><span class="header-section-number">9.3</span> Logistic Model</h2>
 <p>The first random variable that comes to mind in order to model a random binary event is the <strong>Bernoulli random variable</strong>, which is a discrete random variable that takes value 1 with probability <span class="math inline">\(p\)</span> and value 0 with probability <span class="math inline">\(1-p\)</span>. The parameter <span class="math inline">\(p\)</span> is the probability of success of the event described by the random variable, and it’s probability function is</p>
 <p><span class="math display">\[
 p(y) = p^y (1-p)^{1-y}, \quad y \in \{0, 1\}.
@@ -2193,7 +2199,7 @@ p(y) = \binom{n}{y} p^y (1-p)^{n-y}, \quad y \in \{0, 1, ..., n\}.
 <p>Note that the logit function is the inverse of the logistic function! Hence, we can rewrite <span class="math inline">\(\operatorname{P}(Y=1|\mathbf{X}=\mathbf{x})\)</span> as</p>
 <p><span id="eq-logit"><span class="math display">\[
 \operatorname{P}(Y=1|\mathbf{x}) = \frac{e^{\eta(\mathbf{x})}}{1 + e^{\eta(\mathbf{x})}} = \frac{1}{1 + e^{-\eta(\mathbf{x})}}.
-\tag{8.1}\]</span></span></p>
+\tag{9.1}\]</span></span></p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -2204,7 +2210,7 @@ Warning
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><a href="#eq-logit" class="quarto-xref">Equation&nbsp;<span>8.1</span></a> describes a model for the expected value of the random variable <span class="math inline">\(Y\)</span> given <span class="math inline">\(\mathbf{x}\)</span>, that follows a Bernoulli distribution with parameter <span class="math inline">\(p = \operatorname{P}(Y=1|\mathbf{x})\)</span>. It does <strong>not</strong> describe a model for <span class="math inline">\(Y\)</span> itself, which is a discrete random variable taking values 0 or 1.</p>
+<p><a href="#eq-logit" class="quarto-xref">Equation&nbsp;<span>9.1</span></a> describes a model for the expected value of the random variable <span class="math inline">\(Y\)</span> given <span class="math inline">\(\mathbf{x}\)</span>, that follows a Bernoulli distribution with parameter <span class="math inline">\(p = \operatorname{P}(Y=1|\mathbf{x})\)</span>. It does <strong>not</strong> describe a model for <span class="math inline">\(Y\)</span> itself, which is a discrete random variable taking values 0 or 1.</p>
 </div>
 </div>
 
@@ -2614,13 +2620,13 @@ Warning
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../chapters/Outlier_Detection.html" class="pagination-link" aria-label="Outlier Detection: Understading and Handling">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Outlier Detection: Understading and Handling</span></span>
+      <a href="../chapters/missing_values.html" class="pagination-link" aria-label="Missing Values">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Missing Values</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="../chapters/chapter1_data_ethics.html" class="pagination-link" aria-label="Data Ethics">
-        <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Data Ethics</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Data Ethics</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
