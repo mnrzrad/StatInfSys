@@ -1838,7 +1838,7 @@ window.Quarto = {
   <li><a href="#standard-deviation-method" id="toc-standard-deviation-method" class="nav-link" data-scroll-target="#standard-deviation-method"><span class="header-section-number">7.2.4</span> Standard deviation method</a></li>
   <li><a href="#z-score-method" id="toc-z-score-method" class="nav-link" data-scroll-target="#z-score-method"><span class="header-section-number">7.2.5</span> <span class="math inline">\(Z\)</span>-score method</a></li>
   <li><a href="#modified-z-score-method" id="toc-modified-z-score-method" class="nav-link" data-scroll-target="#modified-z-score-method"><span class="header-section-number">7.2.6</span> Modified <span class="math inline">\(Z\)</span>-score method</a></li>
-  <li><a href="#hampel-filte" id="toc-hampel-filte" class="nav-link" data-scroll-target="#hampel-filte"><span class="header-section-number">7.2.7</span> Hampel Filte</a></li>
+  <li><a href="#hampel-filter" id="toc-hampel-filter" class="nav-link" data-scroll-target="#hampel-filter"><span class="header-section-number">7.2.7</span> Hampel Filter</a></li>
   <li><a href="#percentiles" id="toc-percentiles" class="nav-link" data-scroll-target="#percentiles"><span class="header-section-number">7.2.8</span> Percentiles</a></li>
   </ul></li>
   <li><a href="#what-to-do-after-detecting-outliers" id="toc-what-to-do-after-detecting-outliers" class="nav-link" data-scroll-target="#what-to-do-after-detecting-outliers"><span class="header-section-number">7.3</span> What to Do After Detecting Outliers</a>
@@ -2442,9 +2442,9 @@ Tip
 <div id="qwebr-insertion-location-18"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
-<section id="hampel-filte" class="level3" data-number="7.2.7">
-<h3 data-number="7.2.7" class="anchored" data-anchor-id="hampel-filte"><span class="header-section-number">7.2.7</span> Hampel Filte</h3>
-<p>The Hample filter is an bust outlier detection method based on the <em>median</em> and the MAD – just like the modified <span class="math inline">\(Z\)</span>-score method.</p>
+<section id="hampel-filter" class="level3" data-number="7.2.7">
+<h3 data-number="7.2.7" class="anchored" data-anchor-id="hampel-filter"><span class="header-section-number">7.2.7</span> Hampel Filter</h3>
+<p>The Hampel filter is a robust outlier detection method based on the <em>median</em> and the MAD – just like the modified <span class="math inline">\(Z\)</span>-score method.</p>
 <p>Instead of using the mean and standard deviation, it defines an interval around the median and flags as outliers any observations that fall outside this interval.</p>
 <p>The interval is defined as: <span class="math display">\[
 I = [\text{Median} - k * \text{MAD}, \text{Median} + k * \text{MAD}]
