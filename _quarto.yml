@@ -15,6 +15,7 @@ book:
         - chapters/project.qmd
         - chapters/Exam-Sample.qmd
         - chapters/Outlier_Detection.qmd
+        - chapters/missing_values.qmd
     - part: "Logistic Regression"
       chapters:
         - chapters/chapter5_logistic_regression.qmd

@@ -557,5 +557,38 @@
       "Explanatory Data Analysis",
       "<span class='chapter-number'>7</span>  <span class='chapter-title'>Outlier Detection: Understading and Handling</span>"
     ]
+  },
+  {
+    "objectID": "chapters/missing_values.html",
+    "href": "chapters/missing_values.html",
+    "title": "8  Missing Values",
+    "section": "",
+    "text": "8.1 Importance of Handling Missing Values\nMissing values happen when data for an observation is not recorded. This can occur if, for example, a participant drops out of a study, a machine fails, someone skips a survey question, or a recording error is made.\nMissing data are usually shown as an empty cell, a \\(.\\) (dot), or a \\(*\\) (asterisk). Invalid entries – like text in a numeric column or a N/A error – are also treated as missing.\nHandeling missing values is essential for accurate and reliable analysis. Key reasons include: - Better Model Accuracy: Fixing missing data improves predictions and model performance. - Maintained Sample Size: Imputation or careful removal keeps more data available for analysis. - Reduced Bias: Proper handeling prevents distorted or misleading results. - Stronger Decisions: Clean data leads to more confident and trustworthy conclusions.",
+    "crumbs": [
+      "Explanatory Data Analysis",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Missing Values</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/missing_values.html#challenges-caused-by-missing-values",
+    "href": "chapters/missing_values.html#challenges-caused-by-missing-values",
+    "title": "8  Missing Values",
+    "section": "8.2 Challenges Caused by Missing Values",
+    "text": "8.2 Challenges Caused by Missing Values\nMissing data can create problems such as - Smaller Sample Size: Removing rows with missing values reduces data and reliability. - Biased Results: Non-random missing data can lead to false conclusions. - Limited Analysis: Many methods can not handle missing data, restricting analysis options.",
+    "crumbs": [
+      "Explanatory Data Analysis",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Missing Values</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/missing_values.html#common-reasons-for-missing-data",
+    "href": "chapters/missing_values.html#common-reasons-for-missing-data",
+    "title": "8  Missing Values",
+    "section": "8.3 Common Reasons for Missing Data",
+    "text": "8.3 Common Reasons for Missing Data\nData may be missing due to: - Technical issues: Equipment failure or data transfer errors. - Human errors: Mistakes in entry or recording. - Privacy concerns: Withholding sensitice information. - Processing problems: Errors during data preparation or transformation.\nUnderstanding why data is missing helps decide whether to impute, remove, or otherwise adjust it to bias and preserve analysis quality.",
+    "crumbs": [
+      "Explanatory Data Analysis",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Missing Values</span>"
+    ]
   }
 ]

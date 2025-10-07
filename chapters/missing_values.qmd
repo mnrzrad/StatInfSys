@@ -1,0 +1,65 @@
+---
+engine: knitr
+filters: 
+  - webr
+---
+
+```{webr-r}
+#| context: setup
+library(tidyverse)
+```
+
+# Missing Values
+
+Missing values happen when data for an observation is not recorded. This can occur if, for example, a participant drops out of a study, a machine fails, someone skips a survey question, or a recording error is made.
+
+Missing data are usually shown as an empty cell, a $.$ (dot), or a $*$ (asterisk). Invalid entries -- like text in a numeric column or a `N/A` error -- are also treated as missing.
+
+::: callout-caution
+Sometimes older datasets use numbers like $99999$ to mark missing data. In such cases, replace them with a proper missing value indicator before analysis.
+:::
+
+::: callout-tip
+The missing values can take the form of blank cells, null values or special symbols like `NA`, `NaN` or "*unknown*"
+:::
+
+## Importance of Handling Missing Values
+
+Handeling missing values is essential for accurate and reliable analysis. Key reasons include:
+- **Better Model Accuracy**: Fixing missing data improves predictions and model performance.
+- **Maintained Sample Size**: Imputation or careful removal keeps more data available for analysis.
+- **Reduced Bias**: Proper handeling prevents distorted or misleading results. 
+- **Stronger Decisions**: Clean data leads to more confident and trustworthy conclusions. 
+
+## Challenges Caused by Missing Values
+
+Missing data can create problems such as 
+- **Smaller Sample Size**: Removing rows with missing values reduces data and reliability. 
+- **Biased Results**: Non-random missing data can lead to false conclusions. 
+- **Limited Analysis**: Many methods can not handle missing data, restricting analysis options. 
+
+## Common Reasons for Missing Data
+
+Data may be missing due to:
+- **Technical issues**: Equipment failure or data transfer errors.
+- **Human errors**: Mistakes in entry or recording.
+- **Privacy concerns**: Withholding sensitice information. 
+- **Processing problems**: Errors during data preparation or transformation.
+
+## Figure out Why the Data Is Missing
+
+Before handling missing values, it is IMPORTANT to understand why they are missing -- this is part of what we can call **data intuition**, or the ability to look closely at your data and reason about what is happening.
+
+Ask yourself this key question:
+
+** Is the value missing because it was recorded, or because it does not exist?**
+
+- If it **does not exist** (for example, the height of the oldest child of someone who does not have any children), it does not make sense to fill it in -- keep it as `NaN`.
+- If it **was not recorded** (for example, a measurement that someone forgot to take), you may estimate it using other available data. This process is called **imputation**.
+
+Undertanding the reason behind missing values you decide whether to *leave them as missing* or *fill them in intelligently*.
+
+
+
+
+
