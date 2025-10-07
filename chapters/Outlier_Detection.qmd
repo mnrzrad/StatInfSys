@@ -472,9 +472,9 @@ modified_z_score_method <- function(x, threshold = 3.5) {
 modified_z_score_method(mpg$hwy, threshold = 3.5)
 ```
 
-### Hampel Filte
+### Hampel Filter
 
-The Hample filter is an  bust outlier detection method based on the *median* and the MAD -- just like the modified $Z$-score method.
+The Hampel filter is a robust outlier detection method based on the *median* and the MAD -- just like the modified $Z$-score method.
 
 Instead of using the mean and standard deviation, it defines an interval around the median and flags as outliers any observations that fall outside this interval.
 
