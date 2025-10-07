@@ -160,7 +160,7 @@ ggplot(mpg, aes(x = "", y = hwy)) +
   geom_jitter(width = 0.2, color = "blue") 
 ```
 
-As we discussed previously, a boxplot shows the distribution of a numerical variable using five key values -- the minimum, first quantile ($Q_1$), median, third quantile ($Q_3$), and maximum -- and highlights any suspected outliers based on the interquartile range ($\text{IQR} = Q_3 - Q1$) rule. 
+As we discussed previously, a boxplot shows the distribution of a numerical variable using five key values -- the minimum, first quantile ($Q_1$), median, third quantile ($Q_3$), and maximum -- and highlights any suspected outliers based on the interquartile range ($\text{IQR} = Q_3 - Q_1$) rule. 
 
 ![](../figs/outliers/boxplot.png)
 
@@ -238,6 +238,8 @@ Another method to display these specific rows is with the `identify_outliers()` 
 
 ```{webr-r}
 #| autorun: true
+#| warning: false
+
 library(rstatix)
 
 identify_outliers(data = mpg, variable = "hwy")
@@ -287,9 +289,7 @@ The standard deviation measures how far the data values are spread from the mean
 For a normal distribution:
 
 - $68\%$ of data lies within $\pm 1$ SD
-- 
 - $69\%$ of data lies within $\pm 2$ SD
-- 
 - $99.7\%$ of data lies within $\pm 3$ SD
 
 Values that lie more than 2 or 3 SDs away from the mean are often considered potential outliers.
@@ -430,7 +430,7 @@ The formula is:
 $$
 \text{Modified $Z$-Score} = \frac{0.6745 (x_i - \text{Median})}{\text{MAD}}
 $$
-where $x_i$ is individual observation, and $\text{MAD}=\text{median}(|x_i - \text{median}(x_i)|)$. 
+where $x_i$ is individual observation, and $\text{MAD}=\text{median}(|x_i - \text{Median}|)$. 
 
 ::: callout-tip
 The constant 0.6745 scales the MAD so that, under normality, the median absolute deviation estimates the standard deviation.
@@ -524,7 +524,7 @@ Other cutoff points, such as $1$st and $99$th or $5$th and $95$th percentiles, c
 ```{webr-r}
 #| autorun: true
 #| warning: false
-#| 
+
 percentile_method <- function(x, lower_p = 0.025, upper_p = 0.975) {
  
   lower_bound <- quantile(x, lower_p, na.rm = TRUE)
