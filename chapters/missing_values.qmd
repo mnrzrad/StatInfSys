@@ -26,24 +26,33 @@ The missing values can take the form of blank cells, null values or special symb
 ## Importance of Handling Missing Values
 
 Handeling missing values is essential for accurate and reliable analysis. Key reasons include:
+
 - **Better Model Accuracy**: Fixing missing data improves predictions and model performance.
+  
 - **Maintained Sample Size**: Imputation or careful removal keeps more data available for analysis.
+  
 - **Reduced Bias**: Proper handeling prevents distorted or misleading results. 
+  
 - **Stronger Decisions**: Clean data leads to more confident and trustworthy conclusions. 
 
 ## Challenges Caused by Missing Values
 
 Missing data can create problems such as 
 - **Smaller Sample Size**: Removing rows with missing values reduces data and reliability. 
+  
 - **Biased Results**: Non-random missing data can lead to false conclusions. 
+  
 - **Limited Analysis**: Many methods can not handle missing data, restricting analysis options. 
 
 ## Common Reasons for Missing Data
 
 Data may be missing due to:
 - **Technical issues**: Equipment failure or data transfer errors.
+  
 - **Human errors**: Mistakes in entry or recording.
+  
 - **Privacy concerns**: Withholding sensitice information. 
+
 - **Processing problems**: Errors during data preparation or transformation.
 
 ## Figure out Why the Data Is Missing
@@ -55,11 +64,83 @@ Ask yourself this key question:
 ** Is the value missing because it was recorded, or because it does not exist?**
 
 - If it **does not exist** (for example, the height of the oldest child of someone who does not have any children), it does not make sense to fill it in -- keep it as `NaN`.
+  
 - If it **was not recorded** (for example, a measurement that someone forgot to take), you may estimate it using other available data. This process is called **imputation**.
 
 Undertanding the reason behind missing values you decide whether to *leave them as missing* or *fill them in intelligently*.
 
 
+## Example Dataset
 
+Let us start with an example, the `airquality` dataset, which records daily air quality measurements in New York (1973). 
+```{webr-r}
+#| warning: false
+#| message: false
+#| autorun: true
+#| out-width: 80%
 
+data("airquality")
+
+summary(airquality)
+```
+It has missing values in `Ozone` and `Solar.R` columns.
+
+There are some libraries that can help us visualize missing data patterns, such as `naniar`, `VIM`, and `mice`
+
+```{webr-r}
+#| warning: false
+#| message: false
+#| autorun: true
+#| out-width: 80%
+
+# Install (if needed)
+# install.packages("naniar")
+
+library(naniar)
+
+# Proportion of missing values
+prop_miss(airquality)
+
+# Count missing values per column
+miss_var_summary(airquality)
+
+# Visualize missingness
+vis_miss(airquality)
+
+# Bar plot of missing values per variable
+gg_miss_var(airquality)
+```
+
+```{r}
+#| autorun: true
+#| out-width: 80%
+#| warning: false
+#| message: false
+
+# Install (if needed)
+# install.packages("VIM")
+library(VIM)
+
+# Aggregation plot of missingness
+aggr(airquality, numbers = TRUE, sortVars = TRUE)
+```
+
+```{webr-r}
+#| autorun: true
+#| out-width: 80%
+#| warning: false
+#| message: false
+library(mice)
+
+md.pattern(airquality)
+```
+
+## Types of Missing Data
+Sometimes, we expect a value in our dataset, but it is not there. For example, a survey respondent may skip a question, or a sensor may fail to record a measurement, or a file got lost. These are missing values. But **not all missing values happen for the same reason** -- and the reason matters, because it affects how we should handle them.
+
+1. **Missing Completely at Random (MCAR)**: The missingness is entirely random and unrelated to any other data. 
+
+Think of this as:
+
+> *The data went missing by accident.*
 

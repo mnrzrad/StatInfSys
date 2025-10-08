@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -369,7 +404,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"code":"library(tidyverse)","id":1,"options":{"autorun":"true","classes":"","comment":"","context":"setup","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
+globalThis.qwebrCellDetails = [{"code":"library(tidyverse)","id":1,"options":{"autorun":"true","classes":"","comment":"","context":"setup","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"data(\"airquality\")\n\nsummary(airquality)","id":2,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"# Install (if needed)\n# install.packages(\"naniar\")\n\nlibrary(naniar)\n\n# Proportion of missing values\nprop_miss(airquality)\n\n# Count missing values per column\nmiss_var_summary(airquality)\n\n# Visualize missingness\nvis_miss(airquality)\n\n# Bar plot of missing values per variable\ngg_miss_var(airquality)","id":3,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-3","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"library(mice)\n\nmd.pattern(airquality)","id":4,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-4","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"false"}}];
 
 </script>
 <script type="module">
@@ -1796,6 +1831,9 @@ window.Quarto = {
   <li><a href="#importance-of-handling-missing-values" id="toc-importance-of-handling-missing-values" class="nav-link active" data-scroll-target="#importance-of-handling-missing-values"><span class="header-section-number">8.1</span> Importance of Handling Missing Values</a></li>
   <li><a href="#challenges-caused-by-missing-values" id="toc-challenges-caused-by-missing-values" class="nav-link" data-scroll-target="#challenges-caused-by-missing-values"><span class="header-section-number">8.2</span> Challenges Caused by Missing Values</a></li>
   <li><a href="#common-reasons-for-missing-data" id="toc-common-reasons-for-missing-data" class="nav-link" data-scroll-target="#common-reasons-for-missing-data"><span class="header-section-number">8.3</span> Common Reasons for Missing Data</a></li>
+  <li><a href="#figure-out-why-the-data-is-missing" id="toc-figure-out-why-the-data-is-missing" class="nav-link" data-scroll-target="#figure-out-why-the-data-is-missing"><span class="header-section-number">8.4</span> Figure out Why the Data Is Missing</a></li>
+  <li><a href="#example-dataset" id="toc-example-dataset" class="nav-link" data-scroll-target="#example-dataset"><span class="header-section-number">8.5</span> Example Dataset</a></li>
+  <li><a href="#types-of-missing-data" id="toc-types-of-missing-data" class="nav-link" data-scroll-target="#types-of-missing-data"><span class="header-section-number">8.6</span> Types of Missing Data</a></li>
   </ul>
 </nav>
     </div>
@@ -2137,16 +2175,93 @@ Tip
 </div>
 <section id="importance-of-handling-missing-values" class="level2" data-number="8.1">
 <h2 data-number="8.1" class="anchored" data-anchor-id="importance-of-handling-missing-values"><span class="header-section-number">8.1</span> Importance of Handling Missing Values</h2>
-<p>Handeling missing values is essential for accurate and reliable analysis. Key reasons include: - <strong>Better Model Accuracy</strong>: Fixing missing data improves predictions and model performance. - <strong>Maintained Sample Size</strong>: Imputation or careful removal keeps more data available for analysis. - <strong>Reduced Bias</strong>: Proper handeling prevents distorted or misleading results. - <strong>Stronger Decisions</strong>: Clean data leads to more confident and trustworthy conclusions.</p>
+<p>Handeling missing values is essential for accurate and reliable analysis. Key reasons include:</p>
+<ul>
+<li><p><strong>Better Model Accuracy</strong>: Fixing missing data improves predictions and model performance.</p></li>
+<li><p><strong>Maintained Sample Size</strong>: Imputation or careful removal keeps more data available for analysis.</p></li>
+<li><p><strong>Reduced Bias</strong>: Proper handeling prevents distorted or misleading results.</p></li>
+<li><p><strong>Stronger Decisions</strong>: Clean data leads to more confident and trustworthy conclusions.</p></li>
+</ul>
 </section>
 <section id="challenges-caused-by-missing-values" class="level2" data-number="8.2">
 <h2 data-number="8.2" class="anchored" data-anchor-id="challenges-caused-by-missing-values"><span class="header-section-number">8.2</span> Challenges Caused by Missing Values</h2>
-<p>Missing data can create problems such as - <strong>Smaller Sample Size</strong>: Removing rows with missing values reduces data and reliability. - <strong>Biased Results</strong>: Non-random missing data can lead to false conclusions. - <strong>Limited Analysis</strong>: Many methods can not handle missing data, restricting analysis options.</p>
+<p>Missing data can create problems such as - <strong>Smaller Sample Size</strong>: Removing rows with missing values reduces data and reliability.</p>
+<ul>
+<li><p><strong>Biased Results</strong>: Non-random missing data can lead to false conclusions.</p></li>
+<li><p><strong>Limited Analysis</strong>: Many methods can not handle missing data, restricting analysis options.</p></li>
+</ul>
 </section>
 <section id="common-reasons-for-missing-data" class="level2" data-number="8.3">
 <h2 data-number="8.3" class="anchored" data-anchor-id="common-reasons-for-missing-data"><span class="header-section-number">8.3</span> Common Reasons for Missing Data</h2>
-<p>Data may be missing due to: - <strong>Technical issues</strong>: Equipment failure or data transfer errors. - <strong>Human errors</strong>: Mistakes in entry or recording. - <strong>Privacy concerns</strong>: Withholding sensitice information. - <strong>Processing problems</strong>: Errors during data preparation or transformation.</p>
-<p>Understanding why data is missing helps decide whether to <em>impute</em>, <em>remove</em>, or otherwise <em>adjust</em> it to bias and preserve analysis quality.</p>
+<p>Data may be missing due to: - <strong>Technical issues</strong>: Equipment failure or data transfer errors.</p>
+<ul>
+<li><p><strong>Human errors</strong>: Mistakes in entry or recording.</p></li>
+<li><p><strong>Privacy concerns</strong>: Withholding sensitice information.</p></li>
+<li><p><strong>Processing problems</strong>: Errors during data preparation or transformation.</p></li>
+</ul>
+</section>
+<section id="figure-out-why-the-data-is-missing" class="level2" data-number="8.4">
+<h2 data-number="8.4" class="anchored" data-anchor-id="figure-out-why-the-data-is-missing"><span class="header-section-number">8.4</span> Figure out Why the Data Is Missing</h2>
+<p>Before handling missing values, it is IMPORTANT to understand why they are missing – this is part of what we can call <strong>data intuition</strong>, or the ability to look closely at your data and reason about what is happening.</p>
+<p>Ask yourself this key question:</p>
+<p>** Is the value missing because it was recorded, or because it does not exist?**</p>
+<ul>
+<li><p>If it <strong>does not exist</strong> (for example, the height of the oldest child of someone who does not have any children), it does not make sense to fill it in – keep it as <code>NaN</code>.</p></li>
+<li><p>If it <strong>was not recorded</strong> (for example, a measurement that someone forgot to take), you may estimate it using other available data. This process is called <strong>imputation</strong>.</p></li>
+</ul>
+<p>Undertanding the reason behind missing values you decide whether to <em>leave them as missing</em> or <em>fill them in intelligently</em>.</p>
+</section>
+<section id="example-dataset" class="level2" data-number="8.5">
+<h2 data-number="8.5" class="anchored" data-anchor-id="example-dataset"><span class="header-section-number">8.5</span> Example Dataset</h2>
+<p>Let us start with an example, the <code>airquality</code> dataset, which records daily air quality measurements in New York (1973).</p>
+<div id="qwebr-insertion-location-2"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>It has missing values in <code>Ozone</code> and <code>Solar.R</code> columns.</p>
+<p>There are some libraries that can help us visualize missing data patterns, such as <code>naniar</code>, <code>VIM</code>, and <code>mice</code></p>
+<div id="qwebr-insertion-location-3"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div class="cell" data-autorun="true">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Install (if needed)</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("VIM")</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(VIM)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Aggregation plot of missingness</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">aggr</span>(airquality, <span class="at">numbers =</span> <span class="cn">TRUE</span>, <span class="at">sortVars =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="missing_values_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" style="width:80.0%"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ Variables sorted by number of missings: 
+ Variable      Count
+    Ozone 0.24183007
+  Solar.R 0.04575163
+     Wind 0.00000000
+     Temp 0.00000000
+    Month 0.00000000
+      Day 0.00000000</code></pre>
+</div>
+</div>
+<div id="qwebr-insertion-location-4"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+</section>
+<section id="types-of-missing-data" class="level2" data-number="8.6">
+<h2 data-number="8.6" class="anchored" data-anchor-id="types-of-missing-data"><span class="header-section-number">8.6</span> Types of Missing Data</h2>
+<p>Sometimes, we expect a value in our dataset, but it is not there. For example, a survey respondent may skip a question, or a sensor may fail to record a measurement, or a file got lost. These are missing values. But <strong>not all missing values happen for the same reason</strong> – and the reason matters, because it affects how we should handle them.</p>
+<ol type="1">
+<li><strong>Missing Completely at Random (MCAR)</strong>: The missingness is entirely random and unrelated to any other data.</li>
+</ol>
+<p>Think of this as:</p>
+<blockquote class="blockquote">
+<p><em>The data went missing by accident.</em></p>
+</blockquote>
+<ol type="1">
+<li></li>
+</ol>
 
 
 </section>
