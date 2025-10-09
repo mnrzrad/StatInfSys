@@ -1853,6 +1853,8 @@ window.Quarto = {
   </ul></li>
   <li><a href="#model-based-methods" id="toc-model-based-methods" class="nav-link" data-scroll-target="#model-based-methods"><span class="header-section-number">8.7.4</span> Model-based Methods</a></li>
   </ul></li>
+  <li><a href="#exercise-1" id="toc-exercise-1" class="nav-link" data-scroll-target="#exercise-1"><span class="header-section-number">8.8</span> Exercise 1</a></li>
+  <li><a href="#exercise-2" id="toc-exercise-2" class="nav-link" data-scroll-target="#exercise-2"><span class="header-section-number">8.9</span> Exercise 2</a></li>
   </ul>
 </nav>
     </div>
@@ -2634,9 +2636,41 @@ Note
 <ul>
 <li><strong>Machine learning methods</strong>: Decision trees, random forests, and XGBoost can often deal with missing values internally.</li>
 </ul>
-
-
 </section>
+</section>
+<section id="exercise-1" class="level2" data-number="8.8">
+<h2 data-number="8.8" class="anchored" data-anchor-id="exercise-1"><span class="header-section-number">8.8</span> Exercise 1</h2>
+<p><strong>Dataset1</strong> <code>airquality</code> dataset</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"airquality"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The dataset records daily air quality measurements in New York (1973). It has missing values in <code>Ozone</code> and <code>Solar.R</code> columns.</p>
+<p><strong>Question 1:</strong></p>
+<ol type="a">
+<li><p>Examine the distribution of <code>Ozone</code> and <code>Solar.R</code> columns. Are they normally distributed or skewed? (Hint: use <code>summary()</code>, histogram or boxplot)</p></li>
+<li><p>Based on the shape of the distribution, decide whether to use mean or median imputation for each column.</p></li>
+<li><p>Replace missing values in <code>Ozone</code> and <code>Solar.R</code> using your chosen method with <code>dplyr</code>.</p></li>
+</ol>
+<p><strong>Question 2:</strong></p>
+<ol type="a">
+<li>Now, perform group-wise imputation by <code>Month</code> (i.e., replace missing values with the mean or median within each month), whichever you think is more appropriate.</li>
+</ol>
+</section>
+<section id="exercise-2" class="level2" data-number="8.9">
+<h2 data-number="8.9" class="anchored" data-anchor-id="exercise-2"><span class="header-section-number">8.9</span> Exercise 2</h2>
+<p>** Dataset2** <code>nhanes</code> dataset from <code>mice</code> package</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("mice")</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mice)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"nhanes"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>Question 1:</strong></p>
+<ol type="a">
+<li><p>Explore the <code>nhanes</code> dataset to identify columns with missing values. Use <code>summary()</code> and <code>md.pattern()</code> from the <code>mice</code> package.</p></li>
+<li><p>Choose a categorical column with missing value and impute missing values using mode.</p></li>
+</ol>
+
+
 </section>
 
 </main> <!-- /main -->
