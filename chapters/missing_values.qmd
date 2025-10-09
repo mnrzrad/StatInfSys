@@ -4,6 +4,18 @@ filters:
   - webr
 ---
 
+```{r setup, include=FALSE}
+required_packages <- c("VIM", "naniar", "mice", "dplyr")
+
+for (pkg in required_packages) {
+  if (!require(pkg, character.only = TRUE)) {
+    install.packages(pkg, repos = "https://cloud.r-project.org")
+    library(pkg, character.only = TRUE)
+  }
+}
+```
+
+
 ```{webr-r}
 #| context: setup
 library(tidyverse)
@@ -38,6 +50,7 @@ Handeling missing values is essential for accurate and reliable analysis. Key re
 ## Challenges Caused by Missing Values
 
 Missing data can create problems such as 
+
 - **Smaller Sample Size**: Removing rows with missing values reduces data and reliability. 
   
 - **Biased Results**: Non-random missing data can lead to false conclusions. 
@@ -144,3 +157,80 @@ Think of this as:
 
 > *The data went missing by accident.*
 
+This meissingness has **nothing to do** with any variable in your dataset. It is just a bad luck -- like someone spilled coffee on some forms or a sensor failed. Everyone had an equal chance of having missing data.
+
+**For example**, a few labe samples are lost because a fridge broke. This has nothing to do with the people or the measurements. 
+::: callout-important
+If data are MCAR, your analysis will still be fair and unbiased, even if you remove those cases.
+:::
+
+2. **MAR -- Missing at Random**
+
+Think of this as:
+
+> The data is missing for a reason we know about.
+
+This missingness is related to **other variables** that we have data for. But it is not related to the value that is missing itself. 
+
+**For example**, you ask people about their income, and you notice that younger people are less likely to answer. So the missingness depends on *age* (which you know), not on *income* itself.
+
+::: callout-important
+You can fix this by using the other variables (like *age*) to estimate or impute the missing ones.
+:::
+
+3. **MNAR -- Missing Not at Random**
+
+Think of this as:
+
+> The data is missing because of the value itself.
+
+The missingness is related to the **thing that is missing** or maybe you do not know the reason at all. 
+
+**For example**, some people do not report their weight because they feel uncomfortable about it -- so the missingness depends on *weight* itself.
+
+::: callout-important
+This is the hardes case -- because we can not fix it easily. You may need special models or collect more data.
+:::
+
+
+
+::::: panel-tabset
+## Exercise
+
+For each of situation below, decide whether the missing data are: (A) Missing Completly at Random (MCAR), (B) Missing at Random (MAR), or (C) Missing Not at Random (MNAR). 
+
+**Question 1**
+During data entry, some survey responses were lost because the computer crashed before saving. What type of missingness is this?
+
+**Question 2**
+In a health survey, people with higher income are less likely to reveal their income, but everyone answered all other questions. What type of missingness is this?
+
+**Question 3**
+A researcher measures blood pressure, but the cuff sometimes fails to inflate due to a machine error, affecting random participants. What type of missingness is this?
+
+**Question 4**
+In a questionnaire about mental health, people with higher levels of stress are more likely to skip the “stress level” question. What type of missingness is this?
+
+**Question 5**
+Some students forgot to write their age, but we notice that older students tend to complete the survey more carefully and rarely miss answers. What type of missingness is this?
+
+**Question 6**
+A dataset on patient weight is missing for extremely obese individuals because the hospital’s scale cannot record weights above $200$ kg. What type of missingness is this?
+
+**Question 7**
+An old version of a form did not include the “education level” question, but the new form does. What type of missingness is this?
+
+## Solution
+::: {.solution exercise="ex_m_1"}
+
+**Question 1:** MCAR – Data lost by accident; unrelated to any variable.  
+**Question 2:** MNAR – Missingness depends on the income value itself.  
+**Question 3:** MCAR – Random machine fault.  
+**Question 4:** MNAR – Missingness depends on stress level itself.  
+**Question 5:** MAR – Missingness depends on another variable (age).  
+**Question 6:** MNAR – Missing because of the actual value (very high weight).  
+**Question 7:** MAR – Missingness linked to the form version (observed variable).
+
+:::
+
+:::::

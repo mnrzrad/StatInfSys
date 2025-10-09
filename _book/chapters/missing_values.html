@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -69,14 +69,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../chapters/Outlier_Detection.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-364982630eef5352dd1537128a8ed5cb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-5be42eef0afc690a1ac28f95232477da.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -1672,7 +1673,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -1713,7 +1714,9 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="../index.html" class="sidebar-logo-link">
+      </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="../">Statistics and Information Systems</a> 
     </div>
@@ -2185,8 +2188,9 @@ Tip
 </section>
 <section id="challenges-caused-by-missing-values" class="level2" data-number="8.2">
 <h2 data-number="8.2" class="anchored" data-anchor-id="challenges-caused-by-missing-values"><span class="header-section-number">8.2</span> Challenges Caused by Missing Values</h2>
-<p>Missing data can create problems such as - <strong>Smaller Sample Size</strong>: Removing rows with missing values reduces data and reliability.</p>
+<p>Missing data can create problems such as</p>
 <ul>
+<li><p><strong>Smaller Sample Size</strong>: Removing rows with missing values reduces data and reliability.</p></li>
 <li><p><strong>Biased Results</strong>: Non-random missing data can lead to false conclusions.</p></li>
 <li><p><strong>Limited Analysis</strong>: Many methods can not handle missing data, restricting analysis options.</p></li>
 </ul>
@@ -2221,12 +2225,12 @@ Tip
 <div id="qwebr-insertion-location-3"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <div class="cell" data-autorun="true">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Install (if needed)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Install (if needed)</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("VIM")</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(VIM)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Aggregation plot of missingness</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">aggr</span>(airquality, <span class="at">numbers =</span> <span class="cn">TRUE</span>, <span class="at">sortVars =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">aggr</span>(airquality, <span class="at">numbers =</span> <span class="cn">TRUE</span>, <span class="at">sortVars =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -2259,9 +2263,78 @@ Tip
 <blockquote class="blockquote">
 <p><em>The data went missing by accident.</em></p>
 </blockquote>
-<ol type="1">
-<li></li>
+<p>This meissingness has <strong>nothing to do</strong> with any variable in your dataset. It is just a bad luck – like someone spilled coffee on some forms or a sensor failed. Everyone had an equal chance of having missing data.</p>
+<p><strong>For example</strong>, a few labe samples are lost because a fridge broke. This has nothing to do with the people or the measurements. ::: callout-important If data are MCAR, your analysis will still be fair and unbiased, even if you remove those cases. :::</p>
+<ol start="2" type="1">
+<li><strong>MAR – Missing at Random</strong></li>
 </ol>
+<p>Think of this as:</p>
+<blockquote class="blockquote">
+<p>The data is missing for a reason we know about.</p>
+</blockquote>
+<p>This missingness is related to <strong>other variables</strong> that we have data for. But it is not related to the value that is missing itself.</p>
+<p><strong>For example</strong>, you ask people about their income, and you notice that younger people are less likely to answer. So the missingness depends on <em>age</em> (which you know), not on <em>income</em> itself.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You can fix this by using the other variables (like <em>age</em>) to estimate or impute the missing ones.</p>
+</div>
+</div>
+<ol start="3" type="1">
+<li><strong>MNAR – Missing Not at Random</strong></li>
+</ol>
+<p>Think of this as:</p>
+<blockquote class="blockquote">
+<p>The data is missing because of the value itself.</p>
+</blockquote>
+<p>The missingness is related to the <strong>thing that is missing</strong> or maybe you do not know the reason at all.</p>
+<p><strong>For example</strong>, some people do not report their weight because they feel uncomfortable about it – so the missingness depends on <em>weight</em> itself.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This is the hardes case – because we can not fix it easily. You may need special models or collect more data.</p>
+</div>
+</div>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Exercise</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Solution</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<p>For each of situation below, decide whether the missing data are: (A) Missing Completly at Random (MCAR), (B) Missing at Random (MAR), or (C) Missing Not at Random (MNAR).</p>
+<p><strong>Question 1</strong> During data entry, some survey responses were lost because the computer crashed before saving. What type of missingness is this?</p>
+<p><strong>Question 2</strong> In a health survey, people with higher income are less likely to reveal their income, but everyone answered all other questions. What type of missingness is this?</p>
+<p><strong>Question 3</strong> A researcher measures blood pressure, but the cuff sometimes fails to inflate due to a machine error, affecting random participants. What type of missingness is this?</p>
+<p><strong>Question 4</strong> In a questionnaire about mental health, people with higher levels of stress are more likely to skip the “stress level” question. What type of missingness is this?</p>
+<p><strong>Question 5</strong> Some students forgot to write their age, but we notice that older students tend to complete the survey more carefully and rarely miss answers. What type of missingness is this?</p>
+<p><strong>Question 6</strong> A dataset on patient weight is missing for extremely obese individuals because the hospital’s scale cannot record weights above <span class="math inline">\(200\)</span> kg. What type of missingness is this?</p>
+<p><strong>Question 7</strong> An old version of a form did not include the “education level” question, but the new form does. What type of missingness is this?</p>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div class="proof solution" data-exercise="ex_m_1">
+<p><span class="proof-title"><em>Solution</em>. </span><strong>Question 1:</strong> MCAR – Data lost by accident; unrelated to any variable.<br>
+<strong>Question 2:</strong> MNAR – Missingness depends on the income value itself.<br>
+<strong>Question 3:</strong> MCAR – Random machine fault.<br>
+<strong>Question 4:</strong> MNAR – Missingness depends on stress level itself.<br>
+<strong>Question 5:</strong> MAR – Missingness depends on another variable (age).<br>
+<strong>Question 6:</strong> MNAR – Missing because of the actual value (very high weight).<br>
+<strong>Question 7:</strong> MAR – Missingness linked to the form version (observed variable).</p>
+</div>
+</div>
+</div>
+</div>
 
 
 </section>
@@ -2318,13 +2391,14 @@ Tip
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
