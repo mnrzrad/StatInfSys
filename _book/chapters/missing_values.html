@@ -405,7 +405,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"code":"library(tidyverse)","id":1,"options":{"autorun":"true","classes":"","comment":"","context":"setup","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"data(\"airquality\")\n\nsummary(airquality)","id":2,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"# Install (if needed)\n# install.packages(\"naniar\")\n\nlibrary(naniar)\n\n# Proportion of missing values\nprop_miss(airquality)\n\n# Count missing values per column\nmiss_var_summary(airquality)\n\n# Visualize missingness\nvis_miss(airquality)\n\n# Bar plot of missing values per variable\ngg_miss_var(airquality)","id":3,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-3","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"library(mice)\n\nmd.pattern(airquality)","id":4,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-4","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"false"}}];
+globalThis.qwebrCellDetails = [{"code":"library(tidyverse)","id":1,"options":{"autorun":"true","classes":"","comment":"","context":"setup","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"data(\"airquality\")\n\nsummary(airquality)","id":2,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"anyNA(airquality)","id":3,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-3","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"# Install (if needed)\n# install.packages(\"naniar\")\n\nlibrary(naniar)\n\n# Proportion of missing values\nprop_miss(airquality)\n\n# Count and percentage missing values per column\nmiss_var_summary(airquality)\n\n# Visualize missingness\nvis_miss(airquality)\n\n# Bar plot of missing values per variable\ngg_miss_var(airquality)","id":4,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-4","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"library(mice)\n\nmd.pattern(airquality)","id":5,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-5","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"library(dplyr)\n\ndata <- airquality %>%\n  mutate(\n    Ozone = if_else(is.na(Ozone), mean(Ozone, na.rm = TRUE), Ozone)\n  )","id":6,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-6","message":"true","messages":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true","warnings":"false"}},{"code":"data <- airquality %>% \n  mutate(\n    across(\n      where(is.numeric),\n      ~if_else(is.na(.x), mean(.x, na.rm = TRUE), .x)\n    )\n  )","id":7,"options":{"authorun":"true","autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-7","message":"true","messages":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true","warnings":"false"}}];
 
 </script>
 <script type="module">
@@ -1837,6 +1837,22 @@ window.Quarto = {
   <li><a href="#figure-out-why-the-data-is-missing" id="toc-figure-out-why-the-data-is-missing" class="nav-link" data-scroll-target="#figure-out-why-the-data-is-missing"><span class="header-section-number">8.4</span> Figure out Why the Data Is Missing</a></li>
   <li><a href="#example-dataset" id="toc-example-dataset" class="nav-link" data-scroll-target="#example-dataset"><span class="header-section-number">8.5</span> Example Dataset</a></li>
   <li><a href="#types-of-missing-data" id="toc-types-of-missing-data" class="nav-link" data-scroll-target="#types-of-missing-data"><span class="header-section-number">8.6</span> Types of Missing Data</a></li>
+  <li><a href="#handeling-missing-data" id="toc-handeling-missing-data" class="nav-link" data-scroll-target="#handeling-missing-data"><span class="header-section-number">8.7</span> Handeling Missing Data</a>
+  <ul>
+  <li><a href="#collecting-or-recovering-data" id="toc-collecting-or-recovering-data" class="nav-link" data-scroll-target="#collecting-or-recovering-data"><span class="header-section-number">8.7.1</span> Collecting or Recovering Data</a></li>
+  <li><a href="#deletion-removing-missing-data" id="toc-deletion-removing-missing-data" class="nav-link" data-scroll-target="#deletion-removing-missing-data"><span class="header-section-number">8.7.2</span> Deletion (Removing Missing Data)</a>
+  <ul class="collapse">
+  <li><a href="#deleting-columns-with-many-missing-values" id="toc-deleting-columns-with-many-missing-values" class="nav-link" data-scroll-target="#deleting-columns-with-many-missing-values"><span class="header-section-number">8.7.2.1</span> Deleting Columns with Many Missing Values</a></li>
+  <li><a href="#deleting-rows-with-missing-values" id="toc-deleting-rows-with-missing-values" class="nav-link" data-scroll-target="#deleting-rows-with-missing-values"><span class="header-section-number">8.7.2.2</span> Deleting Rows with Missing Values</a></li>
+  </ul></li>
+  <li><a href="#imputation-filling-in-missing-values" id="toc-imputation-filling-in-missing-values" class="nav-link" data-scroll-target="#imputation-filling-in-missing-values"><span class="header-section-number">8.7.3</span> Imputation (Filling in Missing Values)</a>
+  <ul class="collapse">
+  <li><a href="#simple-methods" id="toc-simple-methods" class="nav-link" data-scroll-target="#simple-methods"><span class="header-section-number">8.7.3.1</span> Simple Methods</a></li>
+  <li><a href="#forward-fill-and-backward-fill-time-series" id="toc-forward-fill-and-backward-fill-time-series" class="nav-link" data-scroll-target="#forward-fill-and-backward-fill-time-series"><span class="header-section-number">8.7.3.2</span> Forward Fill and Backward Fill (Time Series)</a></li>
+  <li><a href="#interpolation" id="toc-interpolation" class="nav-link" data-scroll-target="#interpolation"><span class="header-section-number">8.7.3.3</span> Interpolation</a></li>
+  </ul></li>
+  <li><a href="#model-based-methods" id="toc-model-based-methods" class="nav-link" data-scroll-target="#model-based-methods"><span class="header-section-number">8.7.4</span> Model-based Methods</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -2221,8 +2237,12 @@ Tip
 <div id="qwebr-insertion-location-2"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>It has missing values in <code>Ozone</code> and <code>Solar.R</code> columns.</p>
-<p>There are some libraries that can help us visualize missing data patterns, such as <code>naniar</code>, <code>VIM</code>, and <code>mice</code></p>
+<p>Also, we can cofirm this using <code>anyNA()</code>.</p>
 <div id="qwebr-insertion-location-3"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><code>TRUE</code> indicates a presence of missing values in our data.</p>
+<p>There are some libraries that can help us visualize missing data patterns, such as <code>naniar</code>, <code>VIM</code>, and <code>mice</code></p>
+<div id="qwebr-insertion-location-4"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <div class="cell" data-autorun="true">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Install (if needed)</span></span>
@@ -2250,7 +2270,7 @@ Tip
       Day 0.00000000</code></pre>
 </div>
 </div>
-<div id="qwebr-insertion-location-4"></div>
+<div id="qwebr-insertion-location-5"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
 <section id="types-of-missing-data" class="level2" data-number="8.6">
@@ -2321,22 +2341,302 @@ Important
 <p><strong>Question 5</strong> Some students forgot to write their age, but we notice that older students tend to complete the survey more carefully and rarely miss answers. What type of missingness is this?</p>
 <p><strong>Question 6</strong> A dataset on patient weight is missing for extremely obese individuals because the hospital’s scale cannot record weights above <span class="math inline">\(200\)</span> kg. What type of missingness is this?</p>
 <p><strong>Question 7</strong> An old version of a form did not include the “education level” question, but the new form does. What type of missingness is this?</p>
+<p><strong>Question 8</strong> After a customer service call, customers are asked to rate their experience with the representative. Some customers give feedback, and others do not. Assume that the decision to give feedback is completely random, with no connection to the customer’s experience or any other factor. What type of missing data best describes the missing values in the <em>feedback</em> column?</p>
+<p><strong>Question 9</strong> In a dermatology clinic, a survey is conducted asking patients about their gender and their skincare routine. It turns out that women are more likely to respond, while men often skip the question. What type of missing data best describes the missing values in the skincare <em>routine</em> column?</p>
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
 <div class="proof solution" data-exercise="ex_m_1">
-<p><span class="proof-title"><em>Solution</em>. </span><strong>Question 1:</strong> MCAR – Data lost by accident; unrelated to any variable.<br>
+<p><span class="proof-title"><em>Solution</em>. </span><br> <strong>Question 1:</strong> MCAR – Data lost by accident; unrelated to any variable.<br>
 <strong>Question 2:</strong> MNAR – Missingness depends on the income value itself.<br>
 <strong>Question 3:</strong> MCAR – Random machine fault.<br>
 <strong>Question 4:</strong> MNAR – Missingness depends on stress level itself.<br>
 <strong>Question 5:</strong> MAR – Missingness depends on another variable (age).<br>
 <strong>Question 6:</strong> MNAR – Missing because of the actual value (very high weight).<br>
-<strong>Question 7:</strong> MAR – Missingness linked to the form version (observed variable).</p>
+<strong>Question 7:</strong> MAR – Missingness linked to the form version (observed variable). <strong>Question 8</strong> MCAR – The missing feedback is unrelated to any variable — it is random. <strong>Question 9</strong> MAR – The missingness is related to another variable (gender) that is observed, not to the skincare routine itself.</p>
 </div>
 </div>
 </div>
 </div>
+</section>
+<section id="handeling-missing-data" class="level2" data-number="8.7">
+<h2 data-number="8.7" class="anchored" data-anchor-id="handeling-missing-data"><span class="header-section-number">8.7</span> Handeling Missing Data</h2>
+<p>Once we identify that some data are missing, we need to decide how to deal with them. The goal is to reduce bias and make sure our analysis remains reliable. The best method depends on <em>why</em> the data are missing (MCAR, MAR, or MNAR), <em>how much</em> is missing, and <em>what type of variable</em> we are dealing with (numeric, categorical, or time-series)</p>
+<section id="collecting-or-recovering-data" class="level3" data-number="8.7.1">
+<h3 data-number="8.7.1" class="anchored" data-anchor-id="collecting-or-recovering-data"><span class="header-section-number">8.7.1</span> Collecting or Recovering Data</h3>
+<p>If possible, the best option is to go back and collect the missing data – by recontacting participants, checking logs, or re-running measurements.</p>
+<p>This method is best for small and important datasets but it is time-consuming or impossible after data collection.</p>
+</section>
+<section id="deletion-removing-missing-data" class="level3" data-number="8.7.2">
+<h3 data-number="8.7.2" class="anchored" data-anchor-id="deletion-removing-missing-data"><span class="header-section-number">8.7.2</span> Deletion (Removing Missing Data)</h3>
+<p>This means removing the rows or columns that contain missing values.</p>
+<section id="deleting-columns-with-many-missing-values" class="level4" data-number="8.7.2.1">
+<h4 data-number="8.7.2.1" class="anchored" data-anchor-id="deleting-columns-with-many-missing-values"><span class="header-section-number">8.7.2.1</span> Deleting Columns with Many Missing Values</h4>
+<p>If a column has <em>too many</em> missing values (for example, more than <span class="math inline">\(70\)</span>-<span class="math inline">\(80\%\)</span> of the entries are <code>NA</code>), it may be better to remove it completely.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data[, <span class="fu">colSums</span>(<span class="fu">is.na</span>(data)) <span class="sc">&lt;</span> <span class="fl">0.8</span> <span class="sc">*</span> <span class="fu">nrow</span>(data)]</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># or equivalently</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data[, <span class="fu">colMeans</span>(<span class="fu">is.na</span>(data)) <span class="sc">&lt;</span> <span class="fl">0.8</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>We use this method when most values in a column are missing.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Caution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Using this method results in loss in information</p>
+</div>
+</div>
+</section>
+<section id="deleting-rows-with-missing-values" class="level4" data-number="8.7.2.2">
+<h4 data-number="8.7.2.2" class="anchored" data-anchor-id="deleting-rows-with-missing-values"><span class="header-section-number">8.7.2.2</span> Deleting Rows with Missing Values</h4>
+<p>You can also remove entire rows that contain at least one missing value. This is simple but can lead to data loss if missingness is common.</p>
+<section id="listwise-deletion" class="level5" data-number="8.7.2.2.1">
+<h5 data-number="8.7.2.2.1" class="anchored" data-anchor-id="listwise-deletion"><span class="header-section-number">8.7.2.2.1</span> Listwise Deletion</h5>
+<p>Listwise deletion (also called <em>case deletion</em>) is the default behaviour in R. This methods removes all rows (cases) that contain at least one missing value, regardless of which variable it occues in. For example,</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>linear_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(Ozone <span class="sc">~</span> Solar.R, <span class="at">data =</span> airquality)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(linear_model)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = Ozone ~ Solar.R, data = airquality)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-48.292 -21.361  -8.864  16.373 119.136 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) 18.59873    6.74790   2.756 0.006856 ** 
+Solar.R      0.12717    0.03278   3.880 0.000179 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 31.33 on 109 degrees of freedom
+  (42 observations deleted due to missingness)
+Multiple R-squared:  0.1213,    Adjusted R-squared:  0.1133 
+F-statistic: 15.05 on 1 and 109 DF,  p-value: 0.0001793</code></pre>
+</div>
+</div>
+<p>If you check the model output, R shows at the bottom something like:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a> <span class="dv">42</span> observations deleted due to missingness</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>This message means R autoamtically exculded rows with any missing values before fitting the model.</p>
+<p>You can also perform listwise deletion manually:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>data_without_missing <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(data)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Another way is to use only <em>complete cases</em> (rows without any <code>NA</code>).</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>data_without_missing <span class="ot">&lt;-</span> data[<span class="fu">complete.cases</span>(data),]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Use this method when only a few rows have missing values.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Caution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Avoid this method when many rows have missing values since you may lose too much data.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Listwise deletion gives valid (unbiased) results only when the missing data are MCAR and the amount of missing data is small.</p>
+</div>
+</div>
+</section>
+<section id="pairwise-deletion" class="level5" data-number="8.7.2.2.2">
+<h5 data-number="8.7.2.2.2" class="anchored" data-anchor-id="pairwise-deletion"><span class="header-section-number">8.7.2.2.2</span> Pairwise Deletion</h5>
+<p>Instead of deleting a whole row, each pair of variables is analyzed using all available data for that pair.</p>
+<p>Here, rows are only excluded when data are missing for the specific variables being compared.</p>
+<p>In R, some correlation functions support this:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(data, <span class="at">use =</span> <span class="st">'pairwise.complete.obs'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Although using this method uses more data and does not discard rows entirely, different analyses may use different subsets of data which can make results inconsistent or hard to reproduce.</p>
+</section>
+</section>
+</section>
+<section id="imputation-filling-in-missing-values" class="level3" data-number="8.7.3">
+<h3 data-number="8.7.3" class="anchored" data-anchor-id="imputation-filling-in-missing-values"><span class="header-section-number">8.7.3</span> Imputation (Filling in Missing Values)</h3>
+<p>This means replacing missing values with <em>estimated values</em>. There are many ways to do this – from simple to advanced.</p>
+<section id="simple-methods" class="level4" data-number="8.7.3.1">
+<h4 data-number="8.7.3.1" class="anchored" data-anchor-id="simple-methods"><span class="header-section-number">8.7.3.1</span> Simple Methods</h4>
+<section id="constant-value" class="level5" data-number="8.7.3.1.1">
+<h5 data-number="8.7.3.1.1" class="anchored" data-anchor-id="constant-value"><span class="header-section-number">8.7.3.1.1</span> Constant Value</h5>
+<p>replace misisng values with a fixed number (e.g., <span class="math inline">\(0\)</span> or “unknown”)</p>
+</section>
+<section id="meanmedianmode-imputation" class="level5" data-number="8.7.3.1.2">
+<h5 data-number="8.7.3.1.2" class="anchored" data-anchor-id="meanmedianmode-imputation"><span class="header-section-number">8.7.3.1.2</span> Mean/Median/Mode Imputation:</h5>
+<p>Replace missing values with the column mean or median (for numeric data), median or mode (for categorical).</p>
+<div id="qwebr-insertion-location-6"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you want to impute multiple numeric columns at once (for example, using the mean), you can use <code>across()</code> like this</p>
+<div id="qwebr-insertion-location-7"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>This automatically fills missing values with mean of each numeric column.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Caution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Using this method reduces variability and can distort relationships</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Group-wise Mean/Median Imputations</strong> Sometimes, imputing within groups makes more sense.</p>
+<p>For instance, if passengers of similar class share similar ages, we can use:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Class) <span class="sc">%&gt;%</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Age =</span> <span class="fu">if_else</span>(<span class="fu">is.na</span>(Age), <span class="fu">mean</span>(Age, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), Age))<span class="sc">%&gt;%</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Use this when a grouping variable logically explains variation in missing data.</p>
+</div>
+</div>
+</section>
+<section id="imputing-categorcal-columns" class="level5" data-number="8.7.3.1.3">
+<h5 data-number="8.7.3.1.3" class="anchored" data-anchor-id="imputing-categorcal-columns"><span class="header-section-number">8.7.3.1.3</span> Imputing Categorcal Columns</h5>
+<p>For categorical variabels, replace missing values with the most frequent category or, if many values are missing, a new category such as “unknown”. For example, in a dataset for the variable <code>Gender</code>, we can have</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># replace NA with the most common category </span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>mode_value <span class="ot">&lt;-</span> <span class="fu">names</span>(<span class="fu">sort</span>(<span class="fu">table</span>(data<span class="sc">$</span>Gender), <span class="at">decreading =</span> <span class="cn">TRUE</span>))[<span class="dv">1</span>]</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Gender[<span class="fu">is.na</span>(data<span class="sc">$</span>Gender)] <span class="ot">&lt;-</span> mode_value </span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Or add a new category </span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Gender <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(data<span class="sc">$</span>Gender), <span class="st">"unknown"</span>, data<span class="sc">$</span>Gender)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+</section>
+<section id="forward-fill-and-backward-fill-time-series" class="level4" data-number="8.7.3.2">
+<h4 data-number="8.7.3.2" class="anchored" data-anchor-id="forward-fill-and-backward-fill-time-series"><span class="header-section-number">8.7.3.2</span> Forward Fill and Backward Fill (Time Series)</h4>
+<p>For time-series data, you can fill missing values using the previous or next observed value.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("zoo")</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(zoo)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Forward fill</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Temperature <span class="ot">&lt;-</span> <span class="fu">na.locf</span>(data<span class="sc">$</span>Temperatue, <span class="at">fromLast =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Backward fill </span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Temperature <span class="ot">&lt;-</span> <span class="fu">na.locf</span>(data<span class="sc">$</span>Temperatue, <span class="at">fromLast =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Use this method when data are sequential and values change smoothly over time.</p>
+</section>
+<section id="interpolation" class="level4" data-number="8.7.3.3">
+<h4 data-number="8.7.3.3" class="anchored" data-anchor-id="interpolation"><span class="header-section-number">8.7.3.3</span> Interpolation</h4>
+<p>Interpolation estimates missing values based on neighboring points – ideal for regularly spaced time-series.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("imputeTS")</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(imputeTS)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Temperature <span class="ot">&lt;-</span> <span class="fu">na_interpolation</span>(data<span class="sc">$</span>Temperature, <span class="at">option =</span> <span class="st">"linear"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Use this method when values follow a continues trend (e.g., temperature, stock prices).</p>
+</section>
+</section>
+<section id="model-based-methods" class="level3" data-number="8.7.4">
+<h3 data-number="8.7.4" class="anchored" data-anchor-id="model-based-methods"><span class="header-section-number">8.7.4</span> Model-based Methods</h3>
+<p>Some models can handle missing data automatically, without imputation.</p>
+<ul>
+<li><strong>Regression Imputation</strong>: predict missing values using other variables.</li>
+</ul>
+<p>For example,</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lm</span>(Ozone <span class="sc">~</span> Wind <span class="sc">+</span> Temp <span class="sc">+</span> Solar.R, <span class="at">data =</span> airquality)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(model, <span class="at">newdata =</span> airquality)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>airquality[<span class="fu">is.na</span>(airquality<span class="sc">$</span>Ozone)] <span class="ot">&lt;-</span> pred[<span class="fu">is.na</span>(airquality<span class="sc">$</span>Ozone)]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<ul>
+<li><strong><span class="math inline">\(k\)</span>-Nearest Neighbors (kNN)</strong>: replace missing values based on similar rows. i.e, kNN filles missing values based on the <span class="math inline">\(k\)</span> most similar observations (neighbors).</li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("VIM")</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(VIM) </span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>data_kNN <span class="ot">&lt;-</span> <span class="fu">kNN</span>(airquality, <span class="at">k =</span> <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Use this method when variables have meaningful similarity structure. It is important to note that this method is computationally expensive for large datasets.</p>
+<ul>
+<li><strong>Machine learning methods</strong>: Decision trees, random forests, and XGBoost can often deal with missing values internally.</li>
+</ul>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

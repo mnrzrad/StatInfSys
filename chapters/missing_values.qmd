@@ -98,6 +98,16 @@ summary(airquality)
 ```
 It has missing values in `Ozone` and `Solar.R` columns.
 
+Also, we can cofirm this using `anyNA()`.
+```{webr-r}
+#| warning: false
+#| message: false
+#| autorun: true
+#| out-width: 80%
+anyNA(airquality)
+```
+`TRUE` indicates a presence of missing values in our data. 
+
 There are some libraries that can help us visualize missing data patterns, such as `naniar`, `VIM`, and `mice`
 
 ```{webr-r}
@@ -114,7 +124,7 @@ library(naniar)
 # Proportion of missing values
 prop_miss(airquality)
 
-# Count missing values per column
+# Count and percentage missing values per column
 miss_var_summary(airquality)
 
 # Visualize missingness
@@ -220,9 +230,16 @@ A dataset on patient weight is missing for extremely obese individuals because t
 **Question 7**
 An old version of a form did not include the “education level” question, but the new form does. What type of missingness is this?
 
+**Question 8**
+After a customer service call, customers are asked to rate their experience with the representative. Some customers give feedback, and others do not. Assume that the decision to give feedback is completely random, with no connection to the customer’s experience or any other factor. What type of missing data best describes the missing values in the *feedback* column?
+
+**Question 9**
+In a dermatology clinic, a survey is conducted asking patients about their gender and their skincare routine. It turns out that women are more likely to respond, while men often skip the question. What type of missing data best describes the missing values in the skincare *routine* column?
+
+
 ## Solution
 ::: {.solution exercise="ex_m_1"}
-
+<br>
 **Question 1:** MCAR – Data lost by accident; unrelated to any variable.  
 **Question 2:** MNAR – Missingness depends on the income value itself.  
 **Question 3:** MCAR – Random machine fault.  
@@ -230,7 +247,229 @@ An old version of a form did not include the “education level” question, but
 **Question 5:** MAR – Missingness depends on another variable (age).  
 **Question 6:** MNAR – Missing because of the actual value (very high weight).  
 **Question 7:** MAR – Missingness linked to the form version (observed variable).
+**Question 8** MCAR –  The missing feedback is unrelated to any variable — it is random.
+**Question 9** MAR – The missingness is related to another variable (gender) that is observed, not to the skincare routine itself.
+
 
 :::
-
 :::::
+
+## Handeling Missing Data
+Once we identify that some data are missing, we need to decide how to deal with them. The goal is to reduce bias and make sure our analysis remains reliable. The best method depends on *why* the data are missing (MCAR, MAR, or MNAR),  *how much* is missing, and *what type of variable* we are dealing with (numeric, categorical, or time-series)
+
+### Collecting or Recovering Data 
+If possible, the best option is to go back and collect the missing data -- by recontacting participants, checking logs, or re-running measurements.
+
+This method is best for small and important datasets but it is time-consuming or impossible after data collection. 
+
+
+### Deletion (Removing Missing Data)
+This means removing the rows or columns that contain missing values.
+
+#### Deleting Columns with Many Missing Values
+If a column has *too many* missing values (for example, more than $70$-$80\%$ of the entries are `NA`), it may be better to remove it completely. 
+```{r}
+#| include: true
+#| echo: true
+#| eval: false
+data <- data[, colSums(is.na(data)) < 0.8 * nrow(data)]
+
+# or equivalently
+data <- data[, colMeans(is.na(data)) < 0.8]
+```
+
+::: callout-tip
+We use this method when most values in a column are missing.
+:::
+
+::: callout-caution
+Using this method results in loss in information
+:::
+
+#### Deleting Rows with Missing Values
+You can also remove entire rows that contain at least one missing value. This is simple but can lead to data loss if missingness is common. 
+
+##### Listwise Deletion 
+Listwise deletion (also called *case deletion*) is the default behaviour in R. This methods removes all rows (cases) that contain at least one missing value, regardless of which variable it occues in. For example, 
+```{r}
+linear_model <- lm(Ozone ~ Solar.R, data = airquality)
+summary(linear_model)
+```
+If you check the model output, R shows at the bottom something like:
+```{r}
+#| eval: false
+ 42 observations deleted due to missingness
+```
+This message means R autoamtically exculded rows with any missing values before fitting the model. 
+
+You can also perform listwise deletion manually:
+```{r}
+#| eval: false
+data_without_missing <- na.omit(data)
+```
+
+Another way is to use only *complete cases* (rows without any `NA`). 
+```{r}
+#| eval: false 
+data_without_missing <- data[complete.cases(data),]
+```
+
+::: callout-tip
+Use this method when only a few rows have missing values.
+:::
+
+::: callout-caution
+Avoid this method when many rows have missing values since you may lose too much data. 
+:::
+
+::: callout-important
+Listwise deletion gives valid (unbiased) results only when the missing data are MCAR and the amount of missing data is small.
+:::
+
+##### Pairwise Deletion 
+Instead of deleting a whole row, each pair of variables is analyzed using all available data for that pair. 
+
+Here, rows are only excluded when data are missing for the specific variables being compared. 
+
+In R, some correlation functions support this: 
+
+```{r}
+#| eval: false 
+cor(data, use = 'pairwise.complete.obs')
+``` 
+
+Although using this method uses more data and does not discard rows entirely, different analyses may use different subsets of data which can make results inconsistent or hard to reproduce.
+
+### Imputation (Filling in Missing Values)
+
+This means replacing missing values with *estimated values*. There are many ways to do this -- from simple to advanced. 
+
+#### Simple Methods
+
+##### Constant Value
+
+replace misisng values with a fixed number (e.g., $0$ or "unknown")
+
+
+##### Mean/Median/Mode Imputation:
+
+Replace missing values with the column mean  or median (for numeric data), median or mode (for categorical).
+
+```{webr-r}
+#| warnings: false
+#| autorun: true
+#| messages: false
+library(dplyr)
+
+data <- airquality %>%
+  mutate(
+    Ozone = if_else(is.na(Ozone), mean(Ozone, na.rm = TRUE), Ozone)
+  )
+```
+
+::: callout-tip
+If you want to impute multiple numeric columns at once (for example, using the mean), you can use `across()` like this 
+```{webr-r}
+#| authorun: true
+#| warnings: false
+#| messages: false
+
+data <- airquality %>% 
+  mutate(
+    across(
+      where(is.numeric),
+      ~if_else(is.na(.x), mean(.x, na.rm = TRUE), .x)
+    )
+  )
+```
+This automatically fills missing values with mean of each numeric column. 
+:::
+
+::: callout-caution
+Using this method reduces variability and can distort relationships
+:::
+
+::: callout-note
+**Group-wise Mean/Median Imputations**
+Sometimes, imputing within groups makes more sense. 
+
+For instance, if passengers of similar class share similar ages, we can use:
+```{r}
+#| eval: false 
+library(dplyr)
+data <- data %>%
+  group_by(Class) %>%
+  mutate(Age = if_else(is.na(Age), mean(Age, na.rm = TRUE), Age))%>%
+  ungroup()
+``` 
+Use this when a grouping variable logically explains variation in missing data. 
+:::
+
+##### Imputing Categorcal Columns 
+For categorical variabels, replace missing values with the most frequent category or, if many values are missing, a new category such as "unknown". For example, in a dataset for the variable `Gender`, we can have
+```{r}
+#| eval: false 
+# replace NA with the most common category 
+mode_value <- names(sort(table(data$Gender), decreading = TRUE))[1]
+data$Gender[is.na(data$Gender)] <- mode_value 
+
+# Or add a new category 
+data$Gender <- ifelse(is.na(data$Gender), "unknown", data$Gender)
+```
+
+#### Forward Fill and Backward Fill (Time Series)
+For time-series data, you can fill missing values using the previous or next observed value. 
+```{r}
+#| eval: false 
+# install.packages("zoo")
+
+library(zoo)
+
+# Forward fill
+data$Temperature <- na.locf(data$Temperatue, fromLast = FALSE)
+
+# Backward fill 
+data$Temperature <- na.locf(data$Temperatue, fromLast = TRUE)
+```
+Use this method when data are sequential and values change smoothly over time.
+
+#### Interpolation 
+
+Interpolation estimates missing values based on neighboring points -- ideal for regularly spaced time-series. 
+```{r}
+#| eval: false 
+# install.packages("imputeTS")
+
+library(imputeTS)
+
+data$Temperature <- na_interpolation(data$Temperature, option = "linear")
+```
+Use this method when values follow a continues trend (e.g., temperature, stock prices).
+
+### Model-based Methods
+
+Some models can handle missing data automatically, without imputation. 
+
+- **Regression Imputation**: predict missing values using other variables.
+
+For example, 
+```{r}
+#| eval: false 
+model <- lm(Ozone ~ Wind + Temp + Solar.R, data = airquality)
+pred <- predict(model, newdata = airquality)
+airquality[is.na(airquality$Ozone)] <- pred[is.na(airquality$Ozone)]
+```
+
+- **$k$-Nearest Neighbors (kNN)**: replace missing values based on similar rows.  i.e, kNN filles missing values based on the $k$ most similar observations (neighbors).
+```{r}
+#| eval: false 
+# install.packages("VIM")
+library(VIM) 
+
+data_kNN <- kNN(airquality, k = 5)
+```
+Use this method when variables have meaningful similarity structure. It is important to note that this method is computationally expensive for large datasets. 
+
+- **Machine learning methods**: Decision trees, random forests, and XGBoost can often deal with missing values internally. 
+  
+
