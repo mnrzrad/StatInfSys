@@ -645,5 +645,27 @@
       "Explanatory Data Analysis",
       "<span class='chapter-number'>8</span>  <span class='chapter-title'>Missing Values</span>"
     ]
+  },
+  {
+    "objectID": "chapters/missing_values.html#exercise-1",
+    "href": "chapters/missing_values.html#exercise-1",
+    "title": "8  Missing Values",
+    "section": "8.8 Exercise 1",
+    "text": "8.8 Exercise 1\nDataset1 airquality dataset\n\ndata(\"airquality\")\n\nThe dataset records daily air quality measurements in New York (1973). It has missing values in Ozone and Solar.R columns.\nQuestion 1:\n\nExamine the distribution of Ozone and Solar.R columns. Are they normally distributed or skewed? (Hint: use summary(), histogram or boxplot)\nBased on the shape of the distribution, decide whether to use mean or median imputation for each column.\nReplace missing values in Ozone and Solar.R using your chosen method with dplyr.\n\nQuestion 2:\n\nNow, perform group-wise imputation by Month (i.e., replace missing values with the mean or median within each month), whichever you think is more appropriate.",
+    "crumbs": [
+      "Explanatory Data Analysis",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Missing Values</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/missing_values.html#exercise-2",
+    "href": "chapters/missing_values.html#exercise-2",
+    "title": "8  Missing Values",
+    "section": "8.9 Exercise 2",
+    "text": "8.9 Exercise 2\n** Dataset2** nhanes dataset from mice package\n\n# install.packages(\"mice\")\nlibrary(mice)\ndata(\"nhanes\")\n\nQuestion 1:\n\nExplore the nhanes dataset to identify columns with missing values. Use summary() and md.pattern() from the mice package.\nChoose a categorical column with missing value and impute missing values using mode.",
+    "crumbs": [
+      "Explanatory Data Analysis",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Missing Values</span>"
+    ]
   }
 ]

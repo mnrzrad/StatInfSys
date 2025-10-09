@@ -472,4 +472,39 @@ Use this method when variables have meaningful similarity structure. It is impor
 
 - **Machine learning methods**: Decision trees, random forests, and XGBoost can often deal with missing values internally. 
   
+## Exercise 1
+**Dataset1** `airquality` dataset
+```{r}
+#| warning: false
+#| message: false
+#| eval: false
+data("airquality")
+```
+The dataset records daily air quality measurements in New York (1973). It has missing values in `Ozone` and `Solar.R` columns.
 
+**Question 1:** 
+
+a. Examine the distribution of `Ozone` and `Solar.R` columns. Are they normally distributed or skewed? (Hint: use `summary()`, histogram or boxplot)
+
+b. Based on the shape of the distribution, decide whether to use mean or median imputation for each column.
+
+c. Replace missing values in `Ozone` and `Solar.R` using your chosen method with `dplyr`. 
+
+**Question 2:**
+
+a. Now, perform group-wise imputation by `Month` (i.e., replace missing values with the mean or median within each month), whichever you think is more appropriate.
+
+## Exercise 2
+** Dataset2** `nhanes` dataset from `mice` package
+```{r}
+#| eval: false
+# install.packages("mice")
+library(mice)
+data("nhanes")
+```
+
+**Question 1:**
+
+a. Explore the `nhanes` dataset to identify columns with missing values. Use `summary()` and `md.pattern()` from the `mice` package.
+
+b. Choose a  categorical column with missing value and impute missing values using mode.

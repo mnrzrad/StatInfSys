@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.25">
+<meta name="generator" content="quarto-1.7.32">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -69,15 +69,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../chapters/Outlier_Detection.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-5be42eef0afc690a1ac28f95232477da.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-364982630eef5352dd1537128a8ed5cb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -1673,7 +1672,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+      if (mathElements[i].tagName == "SPAN") {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -1714,9 +1713,7 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
-      <a href="../index.html" class="sidebar-logo-link">
-      </a>
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="../">Statistics and Information Systems</a> 
     </div>
@@ -1853,6 +1850,8 @@ window.Quarto = {
   </ul></li>
   <li><a href="#model-based-methods" id="toc-model-based-methods" class="nav-link" data-scroll-target="#model-based-methods"><span class="header-section-number">8.7.4</span> Model-based Methods</a></li>
   </ul></li>
+  <li><a href="#exercise-1" id="toc-exercise-1" class="nav-link" data-scroll-target="#exercise-1"><span class="header-section-number">8.8</span> Exercise 1</a></li>
+  <li><a href="#exercise-2" id="toc-exercise-2" class="nav-link" data-scroll-target="#exercise-2"><span class="header-section-number">8.9</span> Exercise 2</a></li>
   </ul>
 </nav>
     </div>
@@ -2245,12 +2244,12 @@ Tip
 <div id="qwebr-insertion-location-4"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <div class="cell" data-autorun="true">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Install (if needed)</span></span>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Install (if needed)</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("VIM")</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(VIM)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Aggregation plot of missingness</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">aggr</span>(airquality, <span class="at">numbers =</span> <span class="cn">TRUE</span>, <span class="at">sortVars =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">aggr</span>(airquality, <span class="at">numbers =</span> <span class="cn">TRUE</span>, <span class="at">sortVars =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -2330,7 +2329,7 @@ Important
 </div>
 </div>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Exercise</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Solution</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page">Exercise</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Solution</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
 <p>For each of situation below, decide whether the missing data are: (A) Missing Completly at Random (MCAR), (B) Missing at Random (MAR), or (C) Missing Not at Random (MNAR).</p>
@@ -2373,10 +2372,10 @@ Important
 <h4 data-number="8.7.2.1" class="anchored" data-anchor-id="deleting-columns-with-many-missing-values"><span class="header-section-number">8.7.2.1</span> Deleting Columns with Many Missing Values</h4>
 <p>If a column has <em>too many</em> missing values (for example, more than <span class="math inline">\(70\)</span>-<span class="math inline">\(80\%\)</span> of the entries are <code>NA</code>), it may be better to remove it completely.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data[, <span class="fu">colSums</span>(<span class="fu">is.na</span>(data)) <span class="sc">&lt;</span> <span class="fl">0.8</span> <span class="sc">*</span> <span class="fu">nrow</span>(data)]</span>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data[, <span class="fu">colSums</span>(<span class="fu">is.na</span>(data)) <span class="sc">&lt;</span> <span class="fl">0.8</span> <span class="sc">*</span> <span class="fu">nrow</span>(data)]</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># or equivalently</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data[, <span class="fu">colMeans</span>(<span class="fu">is.na</span>(data)) <span class="sc">&lt;</span> <span class="fl">0.8</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data[, <span class="fu">colMeans</span>(<span class="fu">is.na</span>(data)) <span class="sc">&lt;</span> <span class="fl">0.8</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -2412,8 +2411,8 @@ Caution
 <h5 data-number="8.7.2.2.1" class="anchored" data-anchor-id="listwise-deletion"><span class="header-section-number">8.7.2.2.1</span> Listwise Deletion</h5>
 <p>Listwise deletion (also called <em>case deletion</em>) is the default behaviour in R. This methods removes all rows (cases) that contain at least one missing value, regardless of which variable it occues in. For example,</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>linear_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(Ozone <span class="sc">~</span> Solar.R, <span class="at">data =</span> airquality)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(linear_model)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>linear_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(Ozone <span class="sc">~</span> Solar.R, <span class="at">data =</span> airquality)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(linear_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -2438,16 +2437,16 @@ F-statistic: 15.05 on 1 and 109 DF,  p-value: 0.0001793</code></pre>
 </div>
 <p>If you check the model output, R shows at the bottom something like:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a> <span class="dv">42</span> observations deleted due to missingness</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a> <span class="dv">42</span> observations deleted due to missingness</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This message means R autoamtically exculded rows with any missing values before fitting the model.</p>
 <p>You can also perform listwise deletion manually:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>data_without_missing <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(data)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>data_without_missing <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Another way is to use only <em>complete cases</em> (rows without any <code>NA</code>).</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>data_without_missing <span class="ot">&lt;-</span> data[<span class="fu">complete.cases</span>(data),]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>data_without_missing <span class="ot">&lt;-</span> data[<span class="fu">complete.cases</span>(data),]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -2495,7 +2494,7 @@ Important
 <p>Here, rows are only excluded when data are missing for the specific variables being compared.</p>
 <p>In R, some correlation functions support this:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(data, <span class="at">use =</span> <span class="st">'pairwise.complete.obs'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(data, <span class="at">use =</span> <span class="st">'pairwise.complete.obs'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Although using this method uses more data and does not discard rows entirely, different analyses may use different subsets of data which can make results inconsistent or hard to reproduce.</p>
 </section>
@@ -2557,11 +2556,11 @@ Note
 <p><strong>Group-wise Mean/Median Imputations</strong> Sometimes, imputing within groups makes more sense.</p>
 <p>For instance, if passengers of similar class share similar ages, we can use:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Class) <span class="sc">%&gt;%</span></span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Age =</span> <span class="fu">if_else</span>(<span class="fu">is.na</span>(Age), <span class="fu">mean</span>(Age, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), Age))<span class="sc">%&gt;%</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Use this when a grouping variable logically explains variation in missing data.</p>
 </div>
@@ -2571,12 +2570,12 @@ Note
 <h5 data-number="8.7.3.1.3" class="anchored" data-anchor-id="imputing-categorcal-columns"><span class="header-section-number">8.7.3.1.3</span> Imputing Categorcal Columns</h5>
 <p>For categorical variabels, replace missing values with the most frequent category or, if many values are missing, a new category such as “unknown”. For example, in a dataset for the variable <code>Gender</code>, we can have</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># replace NA with the most common category </span></span>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># replace NA with the most common category </span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>mode_value <span class="ot">&lt;-</span> <span class="fu">names</span>(<span class="fu">sort</span>(<span class="fu">table</span>(data<span class="sc">$</span>Gender), <span class="at">decreading =</span> <span class="cn">TRUE</span>))[<span class="dv">1</span>]</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Gender[<span class="fu">is.na</span>(data<span class="sc">$</span>Gender)] <span class="ot">&lt;-</span> mode_value </span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Or add a new category </span></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Gender <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(data<span class="sc">$</span>Gender), <span class="st">"unknown"</span>, data<span class="sc">$</span>Gender)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Gender <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(data<span class="sc">$</span>Gender), <span class="st">"unknown"</span>, data<span class="sc">$</span>Gender)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
@@ -2584,7 +2583,7 @@ Note
 <h4 data-number="8.7.3.2" class="anchored" data-anchor-id="forward-fill-and-backward-fill-time-series"><span class="header-section-number">8.7.3.2</span> Forward Fill and Backward Fill (Time Series)</h4>
 <p>For time-series data, you can fill missing values using the previous or next observed value.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("zoo")</span></span>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("zoo")</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(zoo)</span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -2592,7 +2591,7 @@ Note
 <span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Temperature <span class="ot">&lt;-</span> <span class="fu">na.locf</span>(data<span class="sc">$</span>Temperatue, <span class="at">fromLast =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Backward fill </span></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Temperature <span class="ot">&lt;-</span> <span class="fu">na.locf</span>(data<span class="sc">$</span>Temperatue, <span class="at">fromLast =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Temperature <span class="ot">&lt;-</span> <span class="fu">na.locf</span>(data<span class="sc">$</span>Temperatue, <span class="at">fromLast =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Use this method when data are sequential and values change smoothly over time.</p>
 </section>
@@ -2600,11 +2599,11 @@ Note
 <h4 data-number="8.7.3.3" class="anchored" data-anchor-id="interpolation"><span class="header-section-number">8.7.3.3</span> Interpolation</h4>
 <p>Interpolation estimates missing values based on neighboring points – ideal for regularly spaced time-series.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("imputeTS")</span></span>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("imputeTS")</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(imputeTS)</span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Temperature <span class="ot">&lt;-</span> <span class="fu">na_interpolation</span>(data<span class="sc">$</span>Temperature, <span class="at">option =</span> <span class="st">"linear"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Temperature <span class="ot">&lt;-</span> <span class="fu">na_interpolation</span>(data<span class="sc">$</span>Temperature, <span class="at">option =</span> <span class="st">"linear"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Use this method when values follow a continues trend (e.g., temperature, stock prices).</p>
 </section>
@@ -2617,26 +2616,58 @@ Note
 </ul>
 <p>For example,</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lm</span>(Ozone <span class="sc">~</span> Wind <span class="sc">+</span> Temp <span class="sc">+</span> Solar.R, <span class="at">data =</span> airquality)</span>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lm</span>(Ozone <span class="sc">~</span> Wind <span class="sc">+</span> Temp <span class="sc">+</span> Solar.R, <span class="at">data =</span> airquality)</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(model, <span class="at">newdata =</span> airquality)</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>airquality[<span class="fu">is.na</span>(airquality<span class="sc">$</span>Ozone)] <span class="ot">&lt;-</span> pred[<span class="fu">is.na</span>(airquality<span class="sc">$</span>Ozone)]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>airquality[<span class="fu">is.na</span>(airquality<span class="sc">$</span>Ozone)] <span class="ot">&lt;-</span> pred[<span class="fu">is.na</span>(airquality<span class="sc">$</span>Ozone)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li><strong><span class="math inline">\(k\)</span>-Nearest Neighbors (kNN)</strong>: replace missing values based on similar rows. i.e, kNN filles missing values based on the <span class="math inline">\(k\)</span> most similar observations (neighbors).</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("VIM")</span></span>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("VIM")</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(VIM) </span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>data_kNN <span class="ot">&lt;-</span> <span class="fu">kNN</span>(airquality, <span class="at">k =</span> <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>data_kNN <span class="ot">&lt;-</span> <span class="fu">kNN</span>(airquality, <span class="at">k =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Use this method when variables have meaningful similarity structure. It is important to note that this method is computationally expensive for large datasets.</p>
 <ul>
 <li><strong>Machine learning methods</strong>: Decision trees, random forests, and XGBoost can often deal with missing values internally.</li>
 </ul>
-
-
 </section>
+</section>
+<section id="exercise-1" class="level2" data-number="8.8">
+<h2 data-number="8.8" class="anchored" data-anchor-id="exercise-1"><span class="header-section-number">8.8</span> Exercise 1</h2>
+<p><strong>Dataset1</strong> <code>airquality</code> dataset</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"airquality"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The dataset records daily air quality measurements in New York (1973). It has missing values in <code>Ozone</code> and <code>Solar.R</code> columns.</p>
+<p><strong>Question 1:</strong></p>
+<ol type="a">
+<li><p>Examine the distribution of <code>Ozone</code> and <code>Solar.R</code> columns. Are they normally distributed or skewed? (Hint: use <code>summary()</code>, histogram or boxplot)</p></li>
+<li><p>Based on the shape of the distribution, decide whether to use mean or median imputation for each column.</p></li>
+<li><p>Replace missing values in <code>Ozone</code> and <code>Solar.R</code> using your chosen method with <code>dplyr</code>.</p></li>
+</ol>
+<p><strong>Question 2:</strong></p>
+<ol type="a">
+<li>Now, perform group-wise imputation by <code>Month</code> (i.e., replace missing values with the mean or median within each month), whichever you think is more appropriate.</li>
+</ol>
+</section>
+<section id="exercise-2" class="level2" data-number="8.9">
+<h2 data-number="8.9" class="anchored" data-anchor-id="exercise-2"><span class="header-section-number">8.9</span> Exercise 2</h2>
+<p>** Dataset2** <code>nhanes</code> dataset from <code>mice</code> package</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("mice")</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mice)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"nhanes"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Question 1:</strong></p>
+<ol type="a">
+<li><p>Explore the <code>nhanes</code> dataset to identify columns with missing values. Use <code>summary()</code> and <code>md.pattern()</code> from the <code>mice</code> package.</p></li>
+<li><p>Choose a categorical column with missing value and impute missing values using mode.</p></li>
+</ol>
+
+
 </section>
 
 </main> <!-- /main -->
@@ -2691,14 +2722,13 @@ Note
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-      const outerScaffold = trigger.parentElement.cloneNode(true);
-      const codeEl = outerScaffold.querySelector('code');
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
         }
-      }
-      return codeEl.innerText;
+        return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
