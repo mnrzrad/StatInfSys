@@ -60,6 +60,7 @@ Missing data can create problems such as
 ## Common Reasons for Missing Data
 
 Data may be missing due to:
+
 - **Technical issues**: Equipment failure or data transfer errors.
   
 - **Human errors**: Mistakes in entry or recording.
@@ -74,7 +75,7 @@ Before handling missing values, it is IMPORTANT to understand why they are missi
 
 Ask yourself this key question:
 
-** Is the value missing because it was recorded, or because it does not exist?**
+**Is the value missing because it was recorded, or because it does not exist?**
 
 - If it **does not exist** (for example, the height of the oldest child of someone who does not have any children), it does not make sense to fill it in -- keep it as `NaN`.
   
@@ -145,7 +146,7 @@ gg_miss_var(airquality)
 library(VIM)
 
 # Aggregation plot of missingness
-aggr(airquality, numbers = TRUE, sortVars = TRUE)
+aggr(airquality, numbers = TRUE, prop = FALSE)
 ```
 
 ```{webr-r}
@@ -167,9 +168,9 @@ Think of this as:
 
 > *The data went missing by accident.*
 
-This meissingness has **nothing to do** with any variable in your dataset. It is just a bad luck -- like someone spilled coffee on some forms or a sensor failed. Everyone had an equal chance of having missing data.
+This missingness has **nothing to do** with any variable in your dataset. It is just a bad luck -- like someone spilled coffee on some forms or a sensor failed. Everyone had an equal chance of having missing data.
 
-**For example**, a few labe samples are lost because a fridge broke. This has nothing to do with the people or the measurements. 
+**For example**, a few lab samples are lost because a fridge broke. This has nothing to do with the people or the measurements. 
 ::: callout-important
 If data are MCAR, your analysis will still be fair and unbiased, even if you remove those cases.
 :::
