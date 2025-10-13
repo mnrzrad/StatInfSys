@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>9&nbsp; Decision Trees – Statistics and Information Systems</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../chapters/chapter5_logistic_regression.html" rel="next">
+<link href="../chapters/missing_values.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-364982630eef5352dd1537128a8ed5cb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../libs/style.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter4_EDA.html">Explanatory Data Analysis</a></li><li class="breadcrumb-item"><a href="../chapters/Decision_trees.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Decision Trees</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Statistics and Information Systems</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Note</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Explanatory Data Analysis</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter4_EDA.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Exploratory data analysis (EDA)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter3_dplyr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Data Wrangling</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter2_data_visualization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Data Visualization</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/project.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Project</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/Exam-Sample.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Sample of Questions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/Outlier_Detection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Outlier Detection: Understading and Handling</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/missing_values.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Missing Values</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/Decision_trees.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Decision Trees</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Logistic Regression</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter5_logistic_regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Logistic Regression</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Data</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter1_data_ethics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Data Ethics</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#types-of-decision-trees" id="toc-types-of-decision-trees" class="nav-link active" data-scroll-target="#types-of-decision-trees"><span class="header-section-number">9.1</span> Types of Decision Trees</a>
+  <ul>
+  <li><a href="#classification-trees" id="toc-classification-trees" class="nav-link" data-scroll-target="#classification-trees"><span class="header-section-number">9.1.1</span> Classification Trees</a></li>
+  <li><a href="#regression-trees" id="toc-regression-trees" class="nav-link" data-scroll-target="#regression-trees"><span class="header-section-number">9.1.2</span> Regression Trees</a></li>
+  </ul></li>
+  <li><a href="#classification-and-regression-tree-cart-algorithm" id="toc-classification-and-regression-tree-cart-algorithm" class="nav-link" data-scroll-target="#classification-and-regression-tree-cart-algorithm"><span class="header-section-number">9.2</span> Classification and Regression Tree (CART) Algorithm</a>
+  <ul>
+  <li><a href="#metrics-used-in-cart" id="toc-metrics-used-in-cart" class="nav-link" data-scroll-target="#metrics-used-in-cart"><span class="header-section-number">9.2.1</span> Metrics used in CART</a>
+  <ul class="collapse">
+  <li><a href="#for-classification-trees" id="toc-for-classification-trees" class="nav-link" data-scroll-target="#for-classification-trees"><span class="header-section-number">9.2.1.1</span> For Classification Trees</a></li>
+  <li><a href="#for-regression-trees" id="toc-for-regression-trees" class="nav-link" data-scroll-target="#for-regression-trees"><span class="header-section-number">9.2.1.2</span> For Regression Trees</a></li>
+  </ul></li>
+  <li><a href="#variance" id="toc-variance" class="nav-link" data-scroll-target="#variance"><span class="header-section-number">9.2.2</span> Variance</a></li>
+  <li><a href="#mean-squared-error-mse" id="toc-mean-squared-error-mse" class="nav-link" data-scroll-target="#mean-squared-error-mse"><span class="header-section-number">9.2.3</span> Mean Squared Error (MSE)</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter4_EDA.html">Explanatory Data Analysis</a></li><li class="breadcrumb-item"><a href="../chapters/Decision_trees.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Decision Trees</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Decision Trees</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>A Decision Tree is one of the most intuitive and powerful tools in data analysis and machine learning.</p>
+<p>It mimics the way humans make decisions – by asking a sequence of simple questions that split a problem into smaller, clearer parts.</p>
+<p>A decision tree functions like a flowchart that asks a sequence of <strong>if-then</strong> questions about the data:</p>
+<ul>
+<li><p>Each <em>internal node</em> represents a test or question about a feature/variable (e.g., “Is age &gt; 30?” or “Is he/she male?”).</p></li>
+<li><p>Each <em>branch</em> represents the possible outcome of that test.</p></li>
+<li><p>Each <em>leaf node</em> provides the final prediction – either a category (for classification) or a numeric value (for regression).</p></li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figs/CART/DT.png" class="img-fluid figure-img"></p>
+<figcaption>Structure of a Decision Tree (source: https://machinelearning-basics.com/cart-algorithm-and-everything-you-need-to-know-about-decision-trees-1-2/)</figcaption>
+</figure>
+</div>
+<p>So, you can see that a decision tree is organized as a hierarchy of nodes connected by branches, similar to an inverted tree structure.</p>
+<ol type="1">
+<li><p><strong>Root Node</strong>: The <em>root node</em> is the topmost in the tree. It represents the starting point of the decision process and corresponds to the entire dataset. The <em>rrot node</em> asks the first and most important question – the one that best separated the data into distinct groups based on a chosen attribute.</p></li>
+<li><p><strong>Internal Nodes (or Child Nodes)</strong>: Internal nodes are the decision points that come after the root. Each represents a <em>test</em> or <em>question</em> on one feature of the data. The outcome of this test leads to further branches and nodes.</p></li>
+<li><p><strong>Branches (or edges)</strong>: Branches represent the possible outcomes of a test at a node. Each branch carries the data that satisfies (True) or fails (False) the node’s condition. The tree continues to grow along each branch until a stopping criterion is met.</p></li>
+<li><p><strong>Leaf Nodes (or Terminal Nodes)</strong>: Leaf nodes are the <em>endpoints</em> of the tree – where no further splitting occurs. Each leaf node provides a final output of the model, which can be a class label (for classification tasks) or a continuous value (for regression tasks). Leaf nodes correspond to the purest possible groups based on the chosen splitting rules.</p></li>
+<li><p><strong>Subtrees</strong>: A subtree is any section of the overall tree that can be considered a smaller, self-contained decision tree. Each subtree has its own root, internal nodes, branches, and leaf nodes.</p></li>
+</ol>
+<section id="types-of-decision-trees" class="level2" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="types-of-decision-trees"><span class="header-section-number">9.1</span> Types of Decision Trees</h2>
+<p>Decision trees can be divided into two main types based on the nature of the target variable. Although the overall structure of the tree remains the same – with nodes, branches, and leaves – the way they make predictions differs depending on whether the target variable is <em>categorical</em> or <em>numerical</em>.</p>
+<p>There are two main types of Decision Trees:</p>
+<ol type="1">
+<li>Classification Trees</li>
+<li>Regression Trees</li>
+</ol>
+<section id="classification-trees" class="level3" data-number="9.1.1">
+<h3 data-number="9.1.1" class="anchored" data-anchor-id="classification-trees"><span class="header-section-number">9.1.1</span> Classification Trees</h3>
+<p>A classification tree is used when the target variable is categorical, meaning it represents distinct <em>classes, categories or labels</em> (e.g., “Yes/No”, “Low/Medium/High”, “Survived/Not Survived”). The goal of a classification tree is to assign each observation to one of the predefined classes based on the features of the data.</p>
+<p>The tree splits the data into groupd that are <strong>as similar as possible</strong> in terms of the target class. Each question (or split) tries to separate different classes more clearly. At the end of the tree, each leaf node contains cases that mostly belong to the same category – ans that category is assigned as the prediction for any new observation that falls into that leaf.</p>
+<p><strong>Example</strong> The <strong>iris dataset</strong> is one of the most famous examples in datascience and machine learning. It contains measurements of 150 iris flowers from three different species: <em>Iris setosa</em>, <em>Iris versicolor</em>, and <em>Iris virginica</em>. The dataset includes four variables: <code>Sepal.Length</code> (Length of the sepal), <code>Sepal.Width</code> (Width of the sepal), <code>Petal.Length</code> (Length of the petal), and <code>Petal.Width</code> (Width of the petal). The goal is to classify the species of an iris flower based on these measurements. So, the target variable is <code>Species</code>, which is categorical with three levels: <em>setosa</em>, <em>versicolor</em>, and <em>virginica</em>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figs/CART/iris.png" class="img-fluid figure-img"></p>
+<figcaption>The three species of iris flowers (Source: https://www.datacamp.com/tutorial/machine-learning-in-r)</figcaption>
+</figure>
+</div>
+<p>The goal is to build a Classification Tree that predicts the species of a flower based on its measured characteristics.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Decision_trees_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This is a classification tree built to predict the species of iris flowers based on their sepal and petal measurements.</p>
+<p>Each box (node) represents a decision or a group of flowers with similar characteristics.</p>
+<p>The top box is the <em>root node</em>, which contains all 150 flowers. The first split is based on <code>Petal.Length</code>. If <code>Petal.Length</code> is less than or equal to <span class="math inline">\(2.5\)</span> cm, the flower is classified as <em>Iris setosa</em> (left branch). If <code>Petal.Length</code> is greater than <span class="math inline">\(2.5\)</span> cm, the tree asks another question about <code>Petal.Width</code>.”Is ‍<code>Petal.width</code> &lt; 1.8?” If <strong>yes</strong>, the flower is classified as <em>Iris versicolor</em> (middle branch). If <strong>no</strong>, it is classified as <em>Iris virginica</em> (right branch). These two species are harder to separate than <em>Iris setosa</em>, but the tree still achieves a very high accuracy (around <span class="math inline">\(90-98\%\)</span>).</p>
+<p>The numbers in the boxes provide numbers like <code>1.00 .00 .00</code> that means <span class="math inline">\(100\%\)</span> of samples in that groupd belong to the <em>Iris setosa</em> species. The numbers <code>.00 .91 .09</code> means <span class="math inline">\(91\%\)</span> of samples in that group belong to <em>Iris versicolor</em> and <span class="math inline">\(9\%\)</span> belong to <em>Iris virginica</em>. And, <code>.02 .98 .00</code> means <span class="math inline">\(98\%\)</span> of samples in that group belong to <em>Iris virginica</em> and <span class="math inline">\(2\%\)</span> belong to <em>Iris versicolor</em>. Thus, the model’s decisions are based on <strong>probabilities</strong> – and each leaf node represents the most likely class for that group of samples.</p>
+<p>So, each path from the top to a leaf node represents a classification rule.</p>
+<ul>
+<li>If <code>Petal.Length</code> &lt; 2.5<code>, then</code>Species` = <em>Iris setosa</em>.</li>
+<li>If <code>Petal.Length</code> <span class="math inline">\(\ge\)</span> 2.5<code>and</code>Petal.Width<code>&lt;= 1.8</code>, then <code>Species</code> = <em>Iris versicolor</em>.</li>
+<li>If <code>Petal.Length</code> <span class="math inline">\(\ge\)</span> 2.5<code>and</code>Petal.Width<code>&gt; 1.8</code>, then <code>Species</code> = <em>Iris virginica</em>.</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Why Only Two Variables Appear in the Tree?</strong></p>
+<p>The tree does not try to use every variable – it picks the ones that best separate the data. In the <em>iris</em> dataset, the petal measurements are much more distinctive between species than the sepal ones, so the algorithm quickly finds that using just <code>Petal.Length</code> and <code>Petal.Width</code> gives almost perfect classification. If we removed the petal variables and built a new tree, we would see the sepal variables appear instead.</p>
+</div>
+</div>
+</section>
+<section id="regression-trees" class="level3" data-number="9.1.2">
+<h3 data-number="9.1.2" class="anchored" data-anchor-id="regression-trees"><span class="header-section-number">9.1.2</span> Regression Trees</h3>
+<p>A <em>regression tree</em> is used when the target variable is continuous or numerical (e.g., house prices, temperatures, or ages).</p>
+<p>Each split in a regression tree aims to minimize the variance (or mean squared error) within each group, creating subsets of data that are <em>as similar as</em> possible in terms of the target variable. At the end of the tree, each leaf node contains a predicted value, which is typically the average of the target variable for all observations that fall into that leaf.</p>
+<p><strong>Example</strong> The <code>mtcars</code> dataset contains data on fuel consumption and performance for <span class="math inline">\(32\)</span> automobiles (1973–74 models). The goal is to predict the miles per gallon (<code>mpg</code>) of a car based on its features: <code>disp</code> (Engine displacement), <code>hp</code> (Gross horsepower), <code>wt</code> (Weight), and <code>cyl</code> (number of cylinders).</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Decision_trees_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Based on this regression tree, we can see how the model predicts <code>mpg</code> based on number of cylinders (<code>cyl</code>) and horsepower (<code>hp</code>).</p>
+<p>Each box (node) represents a decision or a group of cars with similar characteristics, and the numbers in the boxes represent the average <code>mpg</code> for that group of cars.</p>
+<p>The first split is based on <code>cyl</code> and tells us that the number of cylinders is the most important factor in predicting <code>mpg</code>. “Is <code>cyl</code> <span class="math inline">\(\ge 5\)</span>?” If <em>no</em>, go to right branch that leaf node shows that cars with small engines ( less than 5 cylinders) have an average <code>mpg</code> of <span class="math inline">\(27\)</span> (<span class="math inline">\(34\%\)</span> of cars). If <em>yes</em>, go to left branch that asks another question about <code>hp</code>. “Is <code>hp</code> <span class="math inline">\(\ge\)</span> 193?” If <em>no</em>, go to right branch that leaf node shows that cars with large engines (5 or more cylinders and lower horsepower) have an average <code>mpg</code> of <span class="math inline">\(18\)</span> (<span class="math inline">\(44\%\)</span> of cars). If <em>yes</em>, go to left branch that leaf node shows that cars with large engines (5 or more cylinders and higher horsepower) have an average <code>mpg</code> of <span class="math inline">\(13\)</span> (<span class="math inline">\(22\%\)</span> of cars).</p>
+<p>So, this tree tells us:</p>
+<ul>
+<li>Fewer cylinders generally lead to better fuel efficiency (higher <code>mpg</code>).</li>
+<li>Higher horsepower tends to decrease <code>mpg</code>, especially in cars with more cylinders.</li>
+</ul>
+<p>This model translates to a few simple, interpretable rules that summarize how car design affects performance.</p>
+</section>
+</section>
+<section id="classification-and-regression-tree-cart-algorithm" class="level2" data-number="9.2">
+<h2 data-number="9.2" class="anchored" data-anchor-id="classification-and-regression-tree-cart-algorithm"><span class="header-section-number">9.2</span> Classification and Regression Tree (CART) Algorithm</h2>
+<p>The term <em>classification and regression tree</em> (CART) refers to a specific algorithm developed by Breiman et al.&nbsp;in 1984 for constructing decision trees. It provides a unified framework for building both Classification Trees and Regression Trees.</p>
+<p>The CART works by recursively splitting the dataset into smaller and smaller groups (nodes) based on the variable and threshold that best separate the data according to the target variable.</p>
+<p>It follows these main steps:</p>
+<ol type="1">
+<li><strong>Start with the full dataset (root node)</strong> All observations are included in one group.</li>
+<li><strong>Find the best split</strong> For every variable, the CART tests possible cut points and it chooses the one that makes the resulting groups as <em>pure</em> (homogeneous) as possible.</li>
+<li><strong>Split the data into two subgroups</strong> The CART always creates binary splits (two branches) at each node.</li>
+<li><strong>Repeat the process (recursion)</strong> Each subgroup becomes a new node, and the CART continues splitting until a stopping criterion is met (e.g., minimum node size, maximum tree depth, or no further improvement in purity).</li>
+<li><strong>Prun the tree (optional)</strong> To avoid overfitting, the CART may prune the tree by removing branches that do not provide significant predictive power.</li>
+</ol>
+<section id="metrics-used-in-cart" class="level3" data-number="9.2.1">
+<h3 data-number="9.2.1" class="anchored" data-anchor-id="metrics-used-in-cart"><span class="header-section-number">9.2.1</span> Metrics used in CART</h3>
+<p>To decide best split, CART uses different metrics depending on whether it is building a Classification Tree or a Regression Tree.</p>
+<section id="for-classification-trees" class="level4" data-number="9.2.1.1">
+<h4 data-number="9.2.1.1" class="anchored" data-anchor-id="for-classification-trees"><span class="header-section-number">9.2.1.1</span> For Classification Trees</h4>
+<p>The CART algorithm typically uses <em>impurity measures</em> to evaluate how well a split separates the classes.</p>
+<p>The most common impurity measures are:</p>
+<ul>
+<li><strong>Gini impurity</strong></li>
+<li><strong>Entropy (information gain)</strong></li>
+<li><strong>Classification error</strong></li>
+</ul>
+<p><strong>Gini Index</strong></p>
+<p>The Gini index is defined as <span class="math display">\[
+\text{Gini} = 1 - \sum\limits_{i=1}^{k} p_i^2
+\]</span> where <span class="math inline">\(p_i\)</span> is the proportion of class <span class="math inline">\(i\)</span> in the node.</p>
+<p>If <span class="math inline">\(\text{Gini} = 0\)</span>, the node is pure (all observations belong to one class). If <span class="math inline">\(\text{Gini} = 0.5\)</span> (binary case), the node is completely mixed (<span class="math inline">\(50\%\)</span> each class).</p>
+<p>For example, if a node has <span class="math inline">\(90\%\)</span> setosa and <span class="math inline">\(10\%\)</span> versicolor, <span class="math inline">\(\text{Gini} = 1 - (0.9^2 + 0.1^2) = 0.18\)</span>. The node is fairly pure.</p>
+<p><strong>Entropy (Information Gain)</strong></p>
+<p>The Entropy is defined as <span class="math display">\[
+\text{Entropy} = - \sum\limits_{i = 1}^k p_i \log_2(p_i)
+\]</span> where <span class="math inline">\(p_i\)</span> is the proportion of class <span class="math inline">\(i\)</span> in the node.</p>
+<p>If <span class="math inline">\(\text{Entropy} = 0\)</span>, it means the node is perfectly pure while <span class="math inline">\(\text{Entropy} = 1\)</span> means that the node has maximum disorder (completely mixed).</p>
+<p>CART usually uses the <strong>Gini Index</strong> because it is computationally faster and produces results very similar to those obtained with Entropy.</p>
+<p><strong>Classification Error</strong></p>
+<p>The classification error is a simpler impurity measure defined as <span class="math display">\[
+\text{Error} = 1 - \max(p_i)
+\]</span> where <span class="math inline">\(\max(p_i)\)</span> is the proportion of the most common class in the node.</p>
+<p>If all samples belong to one class, <span class="math inline">\(\max(p_i) = 1\)</span> and <strong>Error = 0</strong> (perfectly pure). If the classes are equally mixed, <span class="math inline">\(\max(p_i) = 0.5\)</span> and <strong>Error = 0.5</strong>.</p>
+<p>This measure is easy to interpret but <em>less sensitive</em> than the Gini Index or Entropy, so it is mainly used for <em>reporting accuracy</em>, not for choosing splits.</p>
+</section>
+<section id="for-regression-trees" class="level4" data-number="9.2.1.2">
+<h4 data-number="9.2.1.2" class="anchored" data-anchor-id="for-regression-trees"><span class="header-section-number">9.2.1.2</span> For Regression Trees</h4>
+<p>When the target variable is <strong>numeric</strong>, CART measures how similar the values are within each node.<br>
+Instead of impurity, it uses the <strong>variance</strong> or the <strong>Mean Squared Error (MSE)</strong>.</p>
+</section>
+</section>
+<section id="variance" class="level3" data-number="9.2.2">
+<h3 data-number="9.2.2" class="anchored" data-anchor-id="variance"><span class="header-section-number">9.2.2</span> Variance</h3>
+<p>The variance of a node is defined <span class="math display">\[
+\text{Var}(Y) = \frac{1}{n} \sum\limits_{i=1}^{n} (y_i - \bar{y})^2
+\]</span> where <span class="math inline">\(y_i\)</span>s are observed values, <span class="math inline">\(\bar{y}\)</span> is the mean of the node, and <span class="math inline">\(n\)</span> is the number of observation in each node.</p>
+<p>A <em>lower variance</em> means that the values in that node are closer to each other, so the node is more ‘pure’ in terms of numeric outcomes.</p>
+</section>
+<section id="mean-squared-error-mse" class="level3" data-number="9.2.3">
+<h3 data-number="9.2.3" class="anchored" data-anchor-id="mean-squared-error-mse"><span class="header-section-number">9.2.3</span> Mean Squared Error (MSE)</h3>
+<p>CART typically uses <em>MSE</em> as the splitting criterion, which is conceptually similar to variance.</p>
+<p>The MSE is defined as <span class="math display">\[\text{MSE} = \frac{1}{n} \sum\limits_{i=1}^n (y_i - \hat{y})^2
+\]</span> where <span class="math inline">\(\hat{y}\)</span> is the predicted value for that node (usually the mean).</p>
+<p>The <em>best split</em> is the one that <em>reduces the total MSE the most</em> — in other words, the children nodes have smaller errors than the parent node.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In a Regression Tree, the predicted value for each node is simply the mean of that node – so, <span class="math inline">\(\hat{y} = \bar{y}\)</span>. When that is the case: <span class="math display">\[
+\text{MSE} = \text{Var}(Y)
+\]</span></p>
+</div>
+</div>
+<p><strong>Example:</strong> Suppose a node contains five cars with their <strong>fuel efficiency (mpg)</strong> values:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Car</th>
+<th style="text-align: right;">mpg</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">A</td>
+<td style="text-align: right;">10</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">B</td>
+<td style="text-align: right;">12</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">C</td>
+<td style="text-align: right;">15</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">D</td>
+<td style="text-align: right;">20</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">E</td>
+<td style="text-align: right;">22</td>
+</tr>
+</tbody>
+</table>
+<p>First, Compute the variance before splitting as: <span class="math display">\[
+\bar{y} = \frac{10 + 12 + 15 + 20 + 22}{5} = 15.8
+\]</span> and then <span class="math display">\[
+\text{Var}_{\text{parent}} = \frac{(10-15.8)^2 + (12-15.8)^2 + (15-15.8)^2 + (20-15.8)^2 + (22-15.8)^2}{5} = 21.36
+\]</span> Then, we try a possible split</p>
+<ul>
+<li><strong>Left node:</strong> cars with small engines → mpg = [10, 12, 15]<br>
+</li>
+<li><strong>Right node:</strong> cars with large engines → mpg = [20, 22]</li>
+</ul>
+<p>Compute the variances for each node:</p>
+<p><strong>Left node:</strong> <span class="math display">\[
+\bar{y}_L = 12.33,\quad \text{Var}_L = \frac{(10-12.33)^2 + (12-12.33)^2 + (15-12.33)^2}{3} = 4.22
+\]</span> <strong>Right node:</strong> <span class="math display">\[
+\bar{y}_R = 21.0,\quad \text{Var}_R = \frac{(20-21)^2 + (22-21)^2}{2} = 1.0
+\]</span> Then, Compute the weighted average of child variances <span class="math display">\[
+\text{Var}_{\text{after split}} = \frac{3}{5}(4.22) + \frac{2}{5}(1.0) = 2.93.
+\]</span> So, we calculate the variance reduction as [ = 21.36 - 2.93 = 18.43. ] This means the split <em>greatly reduces the variability</em> of <code>mpg</code> within each node,<br>
+so CART would consider it a very good split.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../chapters/missing_values.html" class="pagination-link" aria-label="Missing Values">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Missing Values</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../chapters/chapter5_logistic_regression.html" class="pagination-link" aria-label="Logistic Regression">
+        <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Logistic Regression</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
