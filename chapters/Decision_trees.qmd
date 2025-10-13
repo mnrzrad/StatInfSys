@@ -43,6 +43,9 @@ So, you can see that a decision tree is organized as a hierarchy of nodes connec
 
 5. **Subtrees**: A subtree is any section of the overall tree that can be considered a smaller, self-contained decision tree. Each subtree has its own root, internal nodes, branches, and leaf nodes.
 
+For a more interactive explanation, see the [MLU-Explain Decision Trees tutorial](https://mlu-explain.github.io/decision-tree/).
+
+
 ## Types of Decision Trees
 
 Decision trees can be divided into two main types based on the nature of the target variable. Although the overall structure of the tree remains the same -- with nodes, branches, and leaves -- the way they make predictions differs depending on whether the target variable is *categorical* or *numerical*.
@@ -270,5 +273,209 @@ So, we calculate the variance reduction as
 \[
 \text{Reduction} = 21.36 - 2.93 = 18.43.
 \]
-This means the split *greatly reduces the variability* of `mpg` within each node,  
-so CART would consider it a very good split.
+This means the split *greatly reduces the variability* of `mpg` within each node, so CART would consider it a very good split.
+
+## Implementations in R  
+There are some packages in R that implements the CART algorithm. The most famous are `{rpart}` and `{rpart.plot}`.
+
+**The `rpart` Function**: 
+
+The `rpart()` function is the core of CART in R. It fits *Classification*, *Regression*, (and two other) trees depending on the target variable and the `method` argument. 
+
+The basic syntax is 
+```{r}
+#| eval: false
+rpart(formula, 
+      data, 
+      weights, 
+      subset, 
+      na.action = na.rpart, 
+      method,
+      model = FALSE, 
+      x = FALSE, 
+      y = TRUE, 
+      parms, 
+      control, 
+      cost, 
+      ...)
+```
+The main arguments are:
+
+- `formula`: Defines the relationship between the target variable and predictors. The left side of `~` is the response, and the right side are the predictors. You can use `.` to include all predictors automatically. 
+
+- `data`: The data frame containing the variables used in the formula.
+  
+- `weights`: Optional vector giving observation weights.
+  
+- `subset`: Logical condition to select part of the data.
+  
+- `na.action`: Specifies how to handle missing values. The default removes rows with missing response, but can handle missing predictors using surrogate splits (unique to CART).
+  
+-  `method`: Specifies the type of model: "class", "anova", "poisson", or "exp". `method = "class"` means Classification tree (categorical response). `method =  "anova"` means Regression tree (numeric response). `method = "poisson"` means Count data; and `method = "exp"` means Survival data.
+  
+-  `model`, `x`, `y`: They are logical and store model frame, predictors, or response in the output. Usually, we left them as default.
+  
+-  `parms`: Additional parameters for the splitting rule. For classification, you can set `parms = list(split = "information")` to use entropy instead of Gini. 
+  
+-  `control`: A list of options controlling tree complexity, pruning, and stopping criteria. Controls include: `minsplit`: minimum observations to attempt a split; `minbucket`: minimum observations in a terminal node; `cp`: complexity parameter (pruning strength); and now, `maxdepth`: maximum depth of tree.
+  
+-  `cost`: Vector of variable costs. You can penalize certain variables if they are expensive to measure.
+  
+-  `...`: Additional arguments 
+
+**Example of Customization**
+```{r}
+#| eval: false
+fit <- rpart(Species ~ ., 
+             data = iris, 
+             method = "class", 
+             parms = list(split = "information"),  # use entropy instead of Gini
+             control = rpart.control(cp = 0.02, minsplit = 10))
+```
+
+**The `rpart.plot()` Function**: 
+
+The `rpart.plot()` function from the `{rpart.plot}` package creates clean, colored diagrams of decision trees.
+
+The basic syntax is 
+```{r}
+#| eval: false
+rpart.plot(x,
+           type = 2,
+           extra = "auto",
+           fallen.leaves = TRUE,
+           digits = 2,
+           varlen = 0,
+           box.palette = "auto",
+           shadow.col = 0,
+           ...)
+```
+The main arguments are:
+- `x`: The fitted model object from `rpart()`
+- `type`: Controls how node labels and split labels are displayed.
+
+| Value | Description |
+| ----- | ----- |
+| `0`   | Draws a *split label* at each split and a *node label* only at leaves. |
+| `1`   | Labels *all nodes*, not just leaves (similar to `text.rpart(all = TRUE)`). |
+| `2`   | *(Default)* Like `1`, but *split labels appear below node labels* — similar to the style used in the original CART book. |
+| `3`   | Draws *separate split labels* for the left and right branches. |
+| `4`   | Like `3`, but *labels all nodes*, similar to `text.rpart(fancy = TRUE)`.  |
+| `5`   | Displays *split variable names* in the interior nodes.   |
+
+- `extra`: Specifies what additional information should be shown in each node.
+  
+| Value    | Meaning  |
+| -------- | -------- |
+| `"auto"` | *(Default)* Automatically selects based on model type. <br> – `extra = 106` for binary classification <br> – `extra = 104` for multiclass <br> – `extra = 100` for regression |
+| `0`      | Show no extra information.|
+| `1`      | Number of observations in the node (or per class).|
+| `2`      | Classification rate (correct vs total) or number of events.|
+| `3`      | Misclassification rate (incorrect vs total). |
+| `4`      | Class probabilities for each category (sum = 1).|
+| `5`      | Like `4`, but hides the predicted class.|
+| `6`      | Probability of the **second class** (useful for binary).|
+| `7`      | Like `6`, but hides the fitted class.  |
+| `8`      | Probability of the **predicted class** only. |
+| `9`      | Probability relative to **all observations** (sum of all leaves = 1).|
+| `10`     | Probability of second class relative to all data. |
+| `11`     | Like `10`, but hides the fitted class. |
+| `+100`   | Adds **percentage of total observations** in each node.| 
+
+For example `extra = 104` is ideal for multiclass problems; `extra = 100` is typically used for regressiont rees.           
+
+- `under`: Applies only if `extra > 0`. The default value is `FALSE` that means extra information appears inside the box. Also, `TRUE` places the extra text below the box (useful for crowded trees).
+
+- `fallen.leaves`: Places all leaves at the same height. The default is `TRUE` that aligns all leaf nodes at the same level (bottom of the plot). If the tree is large and text overlaps, we set it `FALSE`. 
+
+- `digits`: Controls the number of significant digits in numeric labels. The default value is $2$. 
+
+- `varlen`: Controls the length of variable names in split labels. The default value is $0$. `> 0` abbreviate names to the specified number of characters. `< 0` truncate names automatically to shortest unique length.
+
+- `faclen`: Similar to `varlen`, but applies to factor level names. The default value is $0$ that shows full level names. $1$ shows letters (a, b, c) instead of full names — useful for compact display.
+
+- `roundint`: If `TRUE` (default), integer splits are rounded for readability. Set to `FALSE` if predictors have possible decimal values.
+
+- `cex`: Sets the text size directly (NULL = automatic).
+
+- `tweak`: Adjusts the automatic size by a multiplier (e.g., `tweak = 1.2` makes text $20\%$ larger).
+
+- `clip.facs`: The default value is `FALSE`. If `TRUE`, shortens factor splits by removing the variable name and equals sign. e.g., shows `female` instead of `sex = female`.
+
+- `box.palette` Colors nodes by fitted value or class.
+
+
+### Classification Tree in R 
+Now, we are giving the R code for classification tree that aimed to predict the *species* of iris flowers using their measurments. 
+
+```{webr-r}
+#| autorun: true 
+#| warnings: false 
+#| message: false 
+#| out-width: "80%"
+#| fig-align: "center"
+ 
+library(rpart) # For CART algorithm 
+library(rpart.plot) #For visualizing decision trees 
+
+data("iris")
+
+# Build the classification tree 
+tree_class <- rpart(Species ~ Petal.Length + Petal.Width + Sepal.Length + Sepal.Width , data = iris, method = 'class')
+
+# Visualize the tree
+rpart.plot(tree_class, type = 3, extra = 104, fallen.leaves = TRUE)
+```
+
+```{webr-r}
+#| autorun: true
+summary(tree_class)
+```
+
+```{webr-r}
+#| autorun: true 
+#| out-width: "80%"
+#| 
+# Predict species for the same dataset
+pred_class <- predict(tree_class, iris, type = "class")
+
+# Confusion matrix
+table(Predicted = pred_class, Actual = iris$Species)
+
+# Compute accuracy
+mean(pred_class == iris$Species)
+```
+
+### Regression Tree in R 
+
+We will predict miles per gallon (`mpg`) from car features in the mtcars dataset.
+
+```{webr-r}
+#| autorun: true
+#| out-width: "80%"
+
+# Build the regression tree
+tree_reg <- rpart(mpg ~ wt + hp + disp + cyl, data = mtcars,method = "anova")
+
+# Visualize the tree
+rpart.plot(tree_reg, 
+           type = 3, 
+           digits = 2, 
+           fallen.leaves = TRUE)
+```
+
+```{webr-r}
+#| autorun: true
+
+summary(tree_reg) 
+```
+```{webr-r}
+#| autorun: true 
+
+# Predict mpg values
+pred_reg <- predict(tree_reg, mtcars)
+
+# Calculate R-squared manually
+mse <- mean((pred_reg - mtcars$mpg)^2)
+mse
+```
