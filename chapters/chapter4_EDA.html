@@ -3588,7 +3588,7 @@ Note
 </ul>
 </div>
 </div>
-<p>When we compute these from a sample, we get estimates with standard errors. As a rough rule: if an estimate is within about <span class="math inline">\(\pm 2\)</span> standard errors of zero, there is no strong evidence of skewness or extra tail weight; if it is more than <span class="math inline">\(2\)</span> standard errors away, that suggests positive/negative skew or heavier/lighter tails in that direction.</p>
+<p>When we compute these from a sample, we get estimates with standard er&nbsp;rors. As a rough rule: if an estimate is within about <span class="math inline">\(\pm 2\)</span> standard errors of zero, there is no strong evidence of skewness or extra tail weight; if it is more than <span class="math inline">\(2\)</span> standard errors away, that suggests positive/negative skew or heavier/lighter tails in that direction. Also, when the Pearson’s second coefficient is between -0.3 and 0.3, the distribution is approximately symmetric.</p>
 <p>In R, example is</p>
 <div id="qwebr-insertion-location-15"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
@@ -3865,19 +3865,53 @@ Imagine we observed <span class="math inline">\(344\)</span> penguins from three
 </tr>
 </tbody>
 </table>
-<p>The formula</p>
 <p><strong>Summary of Correlation and Association Measures in R</strong></p>
-<p>This table shows which association or correlation measure to use depending on the types of variables, along with the appropriate R function.</p>
+<p>This table shows which association or correlation measure to use depending on the types of variables.</p>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 25%">
-<col style="width: 25%">
-<col style="width: 25%">
-<col style="width: 25%">
+<col style="width: 12%">
+<col style="width: 28%">
+<col style="width: 32%">
+<col style="width: 26%">
 </colgroup>
 <thead>
 <tr class="header">
-<th>Variable Types</th>
+<th style="text-align: left;"></th>
+<th style="text-align: center;">Nominal</th>
+<th style="text-align: center;">Ordinal</th>
+<th style="text-align: center;">Numeric</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Nominal</strong></td>
+<td style="text-align: center;">Cramér’s V<br>φ coefficient (binary)<br>Tetrachoric corr. (binary)</td>
+<td style="text-align: center;">No standard measure</td>
+<td style="text-align: center;">Eta (η)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Ordinal</strong></td>
+<td style="text-align: center;">No standard measure</td>
+<td style="text-align: center;">Spearman’s ρ<br>Kendall’s τ</td>
+<td style="text-align: center;">Spearman’s ρ<br>Kendall’s τ</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Numeric</strong></td>
+<td style="text-align: center;">Eta (η)</td>
+<td style="text-align: center;">Spearman’s ρ<br>Kendall’s τ</td>
+<td style="text-align: center;">Pearson’s r<br>Spearman’s ρ<br>Kendall’s τ</td>
+</tr>
+</tbody>
+</table>
+<p>In this table, we can find the R function for the methods described above with a brief description of its interpretation.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
 <th>Measure</th>
 <th>Interpretation</th>
 <th>R Function / Package</th>
@@ -3885,62 +3919,52 @@ Imagine we observed <span class="math inline">\(344\)</span> penguins from three
 </thead>
 <tbody>
 <tr class="odd">
-<td><strong>Numeric – Numeric</strong></td>
 <td><strong>Pearson’s r</strong></td>
 <td>Strength of <strong>linear</strong> relationship</td>
 <td><code>cor(x, y, method = "pearson")</code></td>
 </tr>
 <tr class="even">
-<td><strong>Numeric – Numeric</strong></td>
 <td><strong>Spearman’s ρ</strong></td>
 <td>Strength of <strong>monotonic</strong> relationship</td>
 <td><code>cor(x, y, method = "spearman")</code></td>
 </tr>
 <tr class="odd">
-<td><strong>Numeric – Numeric</strong></td>
 <td><strong>Kendall’s τ</strong></td>
 <td>Rank-based measure; robust to ties</td>
 <td><code>cor(x, y, method = "kendall")</code></td>
 </tr>
 <tr class="even">
-<td><strong>Ordinal – Ordinal</strong></td>
 <td><strong>Spearman’s ρ</strong> or <strong>Kendall’s τ</strong></td>
 <td>Association between ranks</td>
 <td>Same as above</td>
 </tr>
 <tr class="odd">
-<td><strong>Nominal – Nominal (2×2)</strong></td>
 <td><strong>Phi (φ) coefficient</strong></td>
 <td>Association between two binary variables</td>
 <td><code>psych::phi(table)</code></td>
 </tr>
 <tr class="even">
-<td><strong>Nominal – Nominal (k×m)</strong></td>
 <td><strong>Cramér’s V</strong></td>
 <td>Strength of association in contingency table</td>
 <td><code>rcompanion::cramerV(table)</code> or <code>DescTools::CramerV(table)</code></td>
 </tr>
 <tr class="odd">
-<td><strong>Nominal – Numeric</strong></td>
 <td><strong>Eta (η) coefficient</strong></td>
 <td>How much variance in numeric var is explained by group</td>
 <td><code>DescTools::EtaSq(aov(y ~ group))</code></td>
 </tr>
 <tr class="even">
-<td><strong>Binary – Binary</strong></td>
 <td><strong>Tetrachoric correlation</strong></td>
 <td>For binary variables assumed to reflect latent continuous variables</td>
 <td><code>psych::tetrachoric(table)$rho</code></td>
 </tr>
 <tr class="odd">
-<td><strong>Ordinal – Nominal</strong></td>
-<td><em>(No standard measure)</em></td>
+<td><strong>Ordinal vs.&nbsp;Nominal</strong></td>
 <td>Use visual summaries or grouped statistics</td>
 <td><code>table()</code>, <code>ggplot2::geom_bar()</code>, <code>mosaicplot()</code></td>
 </tr>
 </tbody>
 </table>
-<hr>
 <p><strong>Notes</strong></p>
 <ul>
 <li><strong>Spearman’s ρ</strong> and <strong>Kendall’s τ</strong> both work well for <strong>ranked data</strong> and are more robust to non-linear trends than Pearson’s r.</li>
