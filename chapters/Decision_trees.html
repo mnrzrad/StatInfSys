@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>11&nbsp; Data Ethics – Statistics and Information Systems</title>
+<title>9&nbsp; Decision Trees – Statistics and Information Systems</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,7 +30,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../chapters/chapter5_logistic_regression.html" rel="prev">
+<link href="../chapters/chapter5_logistic_regression.html" rel="next">
+<link href="../chapters/missing_values.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -70,6 +71,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../libs/style.css">
 </head>
@@ -83,7 +113,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter1_data_ethics.html">Data</a></li><li class="breadcrumb-item"><a href="../chapters/chapter1_data_ethics.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Data Ethics</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter4_EDA.html">Explanatory Data Analysis</a></li><li class="breadcrumb-item"><a href="../chapters/Decision_trees.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Decision Trees</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -169,7 +199,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/Decision_trees.html" class="sidebar-item-text sidebar-link">
+  <a href="../chapters/Decision_trees.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Decision Trees</span></span></a>
   </div>
 </li>
@@ -203,7 +233,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/chapter1_data_ethics.html" class="sidebar-item-text sidebar-link active">
+  <a href="../chapters/chapter1_data_ethics.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Data Ethics</span></span></a>
   </div>
 </li>
@@ -219,20 +249,30 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#what-is-the-ethics-of-data-science" id="toc-what-is-the-ethics-of-data-science" class="nav-link active" data-scroll-target="#what-is-the-ethics-of-data-science"><span class="header-section-number">11.1</span> What is the Ethics of Data Science?</a>
+  <li><a href="#types-of-decision-trees" id="toc-types-of-decision-trees" class="nav-link active" data-scroll-target="#types-of-decision-trees"><span class="header-section-number">9.1</span> Types of Decision Trees</a>
   <ul>
-  <li><a href="#principles-of-data-ethics-for-business-professionals" id="toc-principles-of-data-ethics-for-business-professionals" class="nav-link" data-scroll-target="#principles-of-data-ethics-for-business-professionals"><span class="header-section-number">11.1.1</span> Principles of Data Ethics for Business Professionals</a></li>
+  <li><a href="#classification-trees" id="toc-classification-trees" class="nav-link" data-scroll-target="#classification-trees"><span class="header-section-number">9.1.1</span> Classification Trees</a></li>
+  <li><a href="#regression-trees" id="toc-regression-trees" class="nav-link" data-scroll-target="#regression-trees"><span class="header-section-number">9.1.2</span> Regression Trees</a></li>
   </ul></li>
-  <li><a href="#why-is-ethics-important-in-the-age-of-data-abundance" id="toc-why-is-ethics-important-in-the-age-of-data-abundance" class="nav-link" data-scroll-target="#why-is-ethics-important-in-the-age-of-data-abundance"><span class="header-section-number">11.2</span> Why is Ethics Important in the Age of Data Abundance?</a></li>
+  <li><a href="#classification-and-regression-tree-cart-algorithm" id="toc-classification-and-regression-tree-cart-algorithm" class="nav-link" data-scroll-target="#classification-and-regression-tree-cart-algorithm"><span class="header-section-number">9.2</span> Classification and Regression Tree (CART) Algorithm</a>
+  <ul>
+  <li><a href="#metrics-used-in-cart" id="toc-metrics-used-in-cart" class="nav-link" data-scroll-target="#metrics-used-in-cart"><span class="header-section-number">9.2.1</span> Metrics used in CART</a>
+  <ul class="collapse">
+  <li><a href="#for-classification-trees" id="toc-for-classification-trees" class="nav-link" data-scroll-target="#for-classification-trees"><span class="header-section-number">9.2.1.1</span> For Classification Trees</a></li>
+  <li><a href="#for-regression-trees" id="toc-for-regression-trees" class="nav-link" data-scroll-target="#for-regression-trees"><span class="header-section-number">9.2.1.2</span> For Regression Trees</a></li>
+  </ul></li>
+  <li><a href="#variance" id="toc-variance" class="nav-link" data-scroll-target="#variance"><span class="header-section-number">9.2.2</span> Variance</a></li>
+  <li><a href="#mean-squared-error-mse" id="toc-mean-squared-error-mse" class="nav-link" data-scroll-target="#mean-squared-error-mse"><span class="header-section-number">9.2.3</span> Mean Squared Error (MSE)</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter1_data_ethics.html">Data</a></li><li class="breadcrumb-item"><a href="../chapters/chapter1_data_ethics.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Data Ethics</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter4_EDA.html">Explanatory Data Analysis</a></li><li class="breadcrumb-item"><a href="../chapters/Decision_trees.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Decision Trees</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Data Ethics</span></h1>
+<h1 class="title"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Decision Trees</span></h1>
 </div>
 
 
@@ -249,142 +289,237 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>The <em>ethics</em> of data science are very important, and all data analyst, data scientists, and everyone who works with data should know the principles of ethics.</p>
-<p>All individuals handling data are obligated to report any occurrences such as <strong>data theft</strong>, <strong>improper storage</strong>, <strong>unethical data collection</strong>, or <strong>data misuse</strong>.</p>
-<p>For example, a business might track and store information about a customer’s path, starting from the moment they enter their email address on the website until they purchase products. In such cases, it is essential that the <strong>individual’s report remains confidential</strong> and is <strong>safeguarded it from unauthorized access</strong>.</p>
-<section id="what-is-the-ethics-of-data-science" class="level2" data-number="11.1">
-<h2 data-number="11.1" class="anchored" data-anchor-id="what-is-the-ethics-of-data-science"><span class="header-section-number">11.1</span> What is the Ethics of Data Science?</h2>
-<p>The study and evaluation of ethical issues related to data have led to the emergence of a new domain in ethics, known as “<strong>data science ethics.</strong>” Data can be collected, recorded, generated, processed, shared, and used. This field also covers various data and technologies, including <strong>programming</strong>, <strong>professional code</strong>, and <strong>algorithms</strong>.</p>
-<p>In the past, ethical principles in computer and information science primarily focused on the content and information present within computer systems. However, with the advancement of technology and the increasing volume of data, the scope of data science ethics has expanded to include concepts and principles related to data collection, use, processing, and sharing.</p>
-<p>When companies collect data from individuals, ethical issues related to <strong>privacy</strong>, <strong>personal information</strong>, and <strong>data misuse</strong> arise. However, when companies begin to use these data for purposes not initially specified, even more ethical concerns emerge. In other words, companies try to monetize the collected data, using it in ways that were not previously disclosed. This practice further <strong>challenges privacy</strong>, <strong>trust</strong>, and <strong>ethics</strong> in data collection and use.</p>
-<p>Although “<em>ethics</em>” seems complicated, it is really about understanding what is right or wrong. There are different ways people think about ethics, especially when it comes to data world.</p>
-<div class="callout callout-style-default callout-important callout-titled">
+<p>A Decision Tree is one of the most intuitive and powerful tools in data analysis and machine learning.</p>
+<p>It mimics the way humans make decisions – by asking a sequence of simple questions that split a problem into smaller, clearer parts.</p>
+<p>A decision tree functions like a flowchart that asks a sequence of <strong>if-then</strong> questions about the data:</p>
+<ul>
+<li><p>Each <em>internal node</em> represents a test or question about a feature/variable (e.g., “Is age &gt; 30?” or “Is he/she male?”).</p></li>
+<li><p>Each <em>branch</em> represents the possible outcome of that test.</p></li>
+<li><p>Each <em>leaf node</em> provides the final prediction – either a category (for classification) or a numeric value (for regression).</p></li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figs/CART/DT.png" class="img-fluid figure-img"></p>
+<figcaption>Structure of a Decision Tree (source: https://machinelearning-basics.com/cart-algorithm-and-everything-you-need-to-know-about-decision-trees-1-2/)</figcaption>
+</figure>
+</div>
+<p>So, you can see that a decision tree is organized as a hierarchy of nodes connected by branches, similar to an inverted tree structure.</p>
+<ol type="1">
+<li><p><strong>Root Node</strong>: The <em>root node</em> is the topmost in the tree. It represents the starting point of the decision process and corresponds to the entire dataset. The <em>rrot node</em> asks the first and most important question – the one that best separated the data into distinct groups based on a chosen attribute.</p></li>
+<li><p><strong>Internal Nodes (or Child Nodes)</strong>: Internal nodes are the decision points that come after the root. Each represents a <em>test</em> or <em>question</em> on one feature of the data. The outcome of this test leads to further branches and nodes.</p></li>
+<li><p><strong>Branches (or edges)</strong>: Branches represent the possible outcomes of a test at a node. Each branch carries the data that satisfies (True) or fails (False) the node’s condition. The tree continues to grow along each branch until a stopping criterion is met.</p></li>
+<li><p><strong>Leaf Nodes (or Terminal Nodes)</strong>: Leaf nodes are the <em>endpoints</em> of the tree – where no further splitting occurs. Each leaf node provides a final output of the model, which can be a class label (for classification tasks) or a continuous value (for regression tasks). Leaf nodes correspond to the purest possible groups based on the chosen splitting rules.</p></li>
+<li><p><strong>Subtrees</strong>: A subtree is any section of the overall tree that can be considered a smaller, self-contained decision tree. Each subtree has its own root, internal nodes, branches, and leaf nodes.</p></li>
+</ol>
+<section id="types-of-decision-trees" class="level2" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="types-of-decision-trees"><span class="header-section-number">9.1</span> Types of Decision Trees</h2>
+<p>Decision trees can be divided into two main types based on the nature of the target variable. Although the overall structure of the tree remains the same – with nodes, branches, and leaves – the way they make predictions differs depending on whether the target variable is <em>categorical</em> or <em>numerical</em>.</p>
+<p>There are two main types of Decision Trees:</p>
+<ol type="1">
+<li>Classification Trees</li>
+<li>Regression Trees</li>
+</ol>
+<section id="classification-trees" class="level3" data-number="9.1.1">
+<h3 data-number="9.1.1" class="anchored" data-anchor-id="classification-trees"><span class="header-section-number">9.1.1</span> Classification Trees</h3>
+<p>A classification tree is used when the target variable is categorical, meaning it represents distinct <em>classes, categories or labels</em> (e.g., “Yes/No”, “Low/Medium/High”, “Survived/Not Survived”). The goal of a classification tree is to assign each observation to one of the predefined classes based on the features of the data.</p>
+<p>The tree splits the data into groupd that are <strong>as similar as possible</strong> in terms of the target class. Each question (or split) tries to separate different classes more clearly. At the end of the tree, each leaf node contains cases that mostly belong to the same category – ans that category is assigned as the prediction for any new observation that falls into that leaf.</p>
+<p><strong>Example</strong> The <strong>iris dataset</strong> is one of the most famous examples in datascience and machine learning. It contains measurements of 150 iris flowers from three different species: <em>Iris setosa</em>, <em>Iris versicolor</em>, and <em>Iris virginica</em>. The dataset includes four variables: <code>Sepal.Length</code> (Length of the sepal), <code>Sepal.Width</code> (Width of the sepal), <code>Petal.Length</code> (Length of the petal), and <code>Petal.Width</code> (Width of the petal). The goal is to classify the species of an iris flower based on these measurements. So, the target variable is <code>Species</code>, which is categorical with three levels: <em>setosa</em>, <em>versicolor</em>, and <em>virginica</em>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figs/CART/iris.png" class="img-fluid figure-img"></p>
+<figcaption>The three species of iris flowers (Source: https://www.datacamp.com/tutorial/machine-learning-in-r)</figcaption>
+</figure>
+</div>
+<p>The goal is to build a Classification Tree that predicts the species of a flower based on its measured characteristics.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Decision_trees_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This is a classification tree built to predict the species of iris flowers based on their sepal and petal measurements.</p>
+<p>Each box (node) represents a decision or a group of flowers with similar characteristics.</p>
+<p>The top box is the <em>root node</em>, which contains all 150 flowers. The first split is based on <code>Petal.Length</code>. If <code>Petal.Length</code> is less than or equal to <span class="math inline">\(2.5\)</span> cm, the flower is classified as <em>Iris setosa</em> (left branch). If <code>Petal.Length</code> is greater than <span class="math inline">\(2.5\)</span> cm, the tree asks another question about <code>Petal.Width</code>.”Is ‍<code>Petal.width</code> &lt; 1.8?” If <strong>yes</strong>, the flower is classified as <em>Iris versicolor</em> (middle branch). If <strong>no</strong>, it is classified as <em>Iris virginica</em> (right branch). These two species are harder to separate than <em>Iris setosa</em>, but the tree still achieves a very high accuracy (around <span class="math inline">\(90-98\%\)</span>).</p>
+<p>The numbers in the boxes provide numbers like <code>1.00 .00 .00</code> that means <span class="math inline">\(100\%\)</span> of samples in that groupd belong to the <em>Iris setosa</em> species. The numbers <code>.00 .91 .09</code> means <span class="math inline">\(91\%\)</span> of samples in that group belong to <em>Iris versicolor</em> and <span class="math inline">\(9\%\)</span> belong to <em>Iris virginica</em>. And, <code>.02 .98 .00</code> means <span class="math inline">\(98\%\)</span> of samples in that group belong to <em>Iris virginica</em> and <span class="math inline">\(2\%\)</span> belong to <em>Iris versicolor</em>. Thus, the model’s decisions are based on <strong>probabilities</strong> – and each leaf node represents the most likely class for that group of samples.</p>
+<p>So, each path from the top to a leaf node represents a classification rule.</p>
+<ul>
+<li>If <code>Petal.Length</code> &lt; 2.5<code>, then</code>Species` = <em>Iris setosa</em>.</li>
+<li>If <code>Petal.Length</code> <span class="math inline">\(\ge\)</span> 2.5<code>and</code>Petal.Width<code>&lt;= 1.8</code>, then <code>Species</code> = <em>Iris versicolor</em>.</li>
+<li>If <code>Petal.Length</code> <span class="math inline">\(\ge\)</span> 2.5<code>and</code>Petal.Width<code>&gt; 1.8</code>, then <code>Species</code> = <em>Iris virginica</em>.</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Important
+Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>Data Ethics</strong> covers the moral and ethical obligations related to the collection, sharing, and use of data, focusing on ensuring its fair and beneficial applications. It is mainly focused on any negative impacts that data might have on individuals, groups or wider society.</p>
+<p><strong>Why Only Two Variables Appear in the Tree?</strong></p>
+<p>The tree does not try to use every variable – it picks the ones that best separate the data. In the <em>iris</em> dataset, the petal measurements are much more distinctive between species than the sepal ones, so the algorithm quickly finds that using just <code>Petal.Length</code> and <code>Petal.Width</code> gives almost perfect classification. If we removed the petal variables and built a new tree, we would see the sepal variables appear instead.</p>
 </div>
 </div>
-<section id="principles-of-data-ethics-for-business-professionals" class="level3" data-number="11.1.1">
-<h3 data-number="11.1.1" class="anchored" data-anchor-id="principles-of-data-ethics-for-business-professionals"><span class="header-section-number">11.1.1</span> Principles of Data Ethics for Business Professionals</h3>
-<p>In an era where data is considered the new oil, understanding the ethical issues related to its collection, analysis, and use is of most important. Below, we will introduce the five key ethical principles that every data professional should be aware of.</p>
-<ol type="1">
-<li><p><strong>Ownership</strong>: The first principle of data ethics is that every individual has the right to ownership over their personal information. Just as it is considered theft to take an object without its owner’s permission, collecting someone’s personal information without their consent is both illegal and unethical. Some common methods for obtaining consent include signed written agreements, digital privacy policies that require users to agree to a company’s terms and conditions, and pop-up windows with check-boxes that allow websites to track users’ online behavior with cookies. *Never assume customers agree to their information being collected; always seek their permission to avoid ethical and legal problems.</p></li>
-<li><p><strong>Transparency</strong>: In addition to ownership, individuals whose data you collect have the right to know how you plan to gather, store, and use their personal information. When collecting data, <em>prioritize transparency</em> and provide them with all necessary information.</p>
-<p>For example, imagine your company decides to implement an algorithm to personalize the website experience based on user shopping habits and behavior. You should develop a policy explaining that cookies will track user behavior, the collected data will be stored in a secure database, and an algorithm will be trained to personalize the website experience.</p>
-<p>Users have the right to access this information so they can decide whether to accept or reject your website’s cookies. Hiding or lying about your company’s methods and goals is deceptive, illegal, and unfair to the individuals whose data you handle.</p></li>
-<li><p><strong>Privacy</strong>: One of the ethical responsibilities associated with handling data is preserving the <strong>privacy of individuals</strong> whose data is involved. Even if a customer has given your company permission to collect, store, and analyze their <strong>Personally Identifiable Information (PII)</strong>, it does not mean they want this information to be publicly accessible.</p>
-<p>PII is any data that relates to an individual’s identity. This typically includes items such as full name, address, phone number, date of birth, credit card number, bank account number, social security number, passport number, and other information that can be used to identify a person.</p>
-<p>To protect individuals’ privacy, ensure you store data in a <strong>secure database</strong> to prevent it from falling into the wrong hands. Data security methods that help maintain privacy include <strong>file encryption</strong> (transforming information into a readable format only with an encryption key) and <strong>dual-authentication</strong> (password protection with two-factor authentication).</p>
-<p>One way to prevent errors is to <strong>de-identify the dataset</strong>. When all PII is removed, only anonymous data remains, and the dataset can no longer be traced back to individuals. This allows analysis to identify relationships between variables of interest without linking data points to personal identities.</p></li>
-<li><p><strong>Intention</strong> : Before you even begin collecting data, it is crucial to consider <strong>why you need this data</strong> and <strong>what purpose you aim to achieve with it</strong>. If your intention is to engage in unethical activities, such as harassing others or improperly exploiting individuals’ vulnerabilities, then collecting their data is not ethical. Ethical data collection requires a <strong>legitimate purpose</strong> and operating in accordance with regulations and ethical principles.</p>
-<p>Even when your intention is good - for instance, collecting data to understand health experience in order to create an app that addresses urgent needs – you still need to <em>evaluate your purpose</em> for collecting every piece of data.</p></li>
-<li><p><strong>Outcomes</strong> : Even if your <strong>intention</strong> and <strong>purpose</strong> in collecting and analyzing data are good, the <strong>outcome</strong> of this process might unintentionally cause harm to individuals or groups. This type of harm is known as <em>disparate impact</em> and is considered invalid under civil rights laws, meaning it is illegal.</p>
-<p>Unfortunately, you cannot definitively predict the exact impact of data analysis until it is complete. However, by considering this question and its importance before conducting the analysis, you can identify any potential disparate impacts that might occur. By being aware if the possibility of disparate impact, you can then take the necessary steps to prevent and mitigate it.</p></li>
-</ol>
+</section>
+<section id="regression-trees" class="level3" data-number="9.1.2">
+<h3 data-number="9.1.2" class="anchored" data-anchor-id="regression-trees"><span class="header-section-number">9.1.2</span> Regression Trees</h3>
+<p>A <em>regression tree</em> is used when the target variable is continuous or numerical (e.g., house prices, temperatures, or ages).</p>
+<p>Each split in a regression tree aims to minimize the variance (or mean squared error) within each group, creating subsets of data that are <em>as similar as</em> possible in terms of the target variable. At the end of the tree, each leaf node contains a predicted value, which is typically the average of the target variable for all observations that fall into that leaf.</p>
+<p><strong>Example</strong> The <code>mtcars</code> dataset contains data on fuel consumption and performance for <span class="math inline">\(32\)</span> automobiles (1973–74 models). The goal is to predict the miles per gallon (<code>mpg</code>) of a car based on its features: <code>disp</code> (Engine displacement), <code>hp</code> (Gross horsepower), <code>wt</code> (Weight), and <code>cyl</code> (number of cylinders).</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Decision_trees_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Based on this regression tree, we can see how the model predicts <code>mpg</code> based on number of cylinders (<code>cyl</code>) and horsepower (<code>hp</code>).</p>
+<p>Each box (node) represents a decision or a group of cars with similar characteristics, and the numbers in the boxes represent the average <code>mpg</code> for that group of cars.</p>
+<p>The first split is based on <code>cyl</code> and tells us that the number of cylinders is the most important factor in predicting <code>mpg</code>. “Is <code>cyl</code> <span class="math inline">\(\ge 5\)</span>?” If <em>no</em>, go to right branch that leaf node shows that cars with small engines ( less than 5 cylinders) have an average <code>mpg</code> of <span class="math inline">\(27\)</span> (<span class="math inline">\(34\%\)</span> of cars). If <em>yes</em>, go to left branch that asks another question about <code>hp</code>. “Is <code>hp</code> <span class="math inline">\(\ge\)</span> 193?” If <em>no</em>, go to right branch that leaf node shows that cars with large engines (5 or more cylinders and lower horsepower) have an average <code>mpg</code> of <span class="math inline">\(18\)</span> (<span class="math inline">\(44\%\)</span> of cars). If <em>yes</em>, go to left branch that leaf node shows that cars with large engines (5 or more cylinders and higher horsepower) have an average <code>mpg</code> of <span class="math inline">\(13\)</span> (<span class="math inline">\(22\%\)</span> of cars).</p>
+<p>So, this tree tells us:</p>
+<ul>
+<li>Fewer cylinders generally lead to better fuel efficiency (higher <code>mpg</code>).</li>
+<li>Higher horsepower tends to decrease <code>mpg</code>, especially in cars with more cylinders.</li>
+</ul>
+<p>This model translates to a few simple, interpretable rules that summarize how car design affects performance.</p>
 </section>
 </section>
-<section id="why-is-ethics-important-in-the-age-of-data-abundance" class="level2" data-number="11.2">
-<h2 data-number="11.2" class="anchored" data-anchor-id="why-is-ethics-important-in-the-age-of-data-abundance"><span class="header-section-number">11.2</span> Why is Ethics Important in the Age of Data Abundance?</h2>
-<p>Using information ethically within decision-making has always been important. However, two factors have made data ethics business-critical:</p>
+<section id="classification-and-regression-tree-cart-algorithm" class="level2" data-number="9.2">
+<h2 data-number="9.2" class="anchored" data-anchor-id="classification-and-regression-tree-cart-algorithm"><span class="header-section-number">9.2</span> Classification and Regression Tree (CART) Algorithm</h2>
+<p>The term <em>classification and regression tree</em> (CART) refers to a specific algorithm developed by Breiman et al.&nbsp;in 1984 for constructing decision trees. It provides a unified framework for building both Classification Trees and Regression Trees.</p>
+<p>The CART works by recursively splitting the dataset into smaller and smaller groups (nodes) based on the variable and threshold that best separate the data according to the target variable.</p>
+<p>It follows these main steps:</p>
 <ol type="1">
-<li><p><strong>Data Volumes</strong> : There has been an explosion in the amount of data available to organizations, both collected themselves, ans sourced from third-parties. It is not always clear where this information has come from, particularly in the case of personal information, and what permissions have been provided for its reuse.</p></li>
-<li><p><strong>Artificial Intelligence</strong> : Organizations are increasing using machine learning and artificial intelligence algorithms to make sense of data and take automated decisions based on data analysis without involving human oversights. This can lead to issues around fairness and discrimination, even if these are unintended consequences of how data is used.</p></li>
+<li><strong>Start with the full dataset (root node)</strong> All observations are included in one group.</li>
+<li><strong>Find the best split</strong> For every variable, the CART tests possible cut points and it chooses the one that makes the resulting groups as <em>pure</em> (homogeneous) as possible.</li>
+<li><strong>Split the data into two subgroups</strong> The CART always creates binary splits (two branches) at each node.</li>
+<li><strong>Repeat the process (recursion)</strong> Each subgroup becomes a new node, and the CART continues splitting until a stopping criterion is met (e.g., minimum node size, maximum tree depth, or no further improvement in purity).</li>
+<li><strong>Prun the tree (optional)</strong> To avoid overfitting, the CART may prune the tree by removing branches that do not provide significant predictive power.</li>
 </ol>
-<p>The importance of ethics in data science stems from the necessity of having a clear set of rules and guidelines that determine what businesses can and cannot do with the personal information they collect from their customers. This is crucial for safeguarding customer privacy and rights, and appropriate laws and standards must be established to protect personal information.</p>
-<p>All experts agree that certain fundamental principles must be implemented, even if this field still contains gray areas and nothing is simple or uniform. These are just a few important topics and strategic ideas that have currently garnered the most attention. However, there is still much ground to cover in data ethics, and further progress and development are needed in this area.</p>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
+<section id="metrics-used-in-cart" class="level3" data-number="9.2.1">
+<h3 data-number="9.2.1" class="anchored" data-anchor-id="metrics-used-in-cart"><span class="header-section-number">9.2.1</span> Metrics used in CART</h3>
+<p>To decide best split, CART uses different metrics depending on whether it is building a Classification Tree or a Regression Tree.</p>
+<section id="for-classification-trees" class="level4" data-number="9.2.1.1">
+<h4 data-number="9.2.1.1" class="anchored" data-anchor-id="for-classification-trees"><span class="header-section-number">9.2.1.1</span> For Classification Trees</h4>
+<p>The CART algorithm typically uses <em>impurity measures</em> to evaluate how well a split separates the classes.</p>
+<p>The most common impurity measures are:</p>
+<ul>
+<li><strong>Gini impurity</strong></li>
+<li><strong>Entropy (information gain)</strong></li>
+<li><strong>Classification error</strong></li>
+</ul>
+<p><strong>Gini Index</strong></p>
+<p>The Gini index is defined as <span class="math display">\[
+\text{Gini} = 1 - \sum\limits_{i=1}^{k} p_i^2
+\]</span> where <span class="math inline">\(p_i\)</span> is the proportion of class <span class="math inline">\(i\)</span> in the node.</p>
+<p>If <span class="math inline">\(\text{Gini} = 0\)</span>, the node is pure (all observations belong to one class). If <span class="math inline">\(\text{Gini} = 0.5\)</span> (binary case), the node is completely mixed (<span class="math inline">\(50\%\)</span> each class).</p>
+<p>For example, if a node has <span class="math inline">\(90\%\)</span> setosa and <span class="math inline">\(10\%\)</span> versicolor, <span class="math inline">\(\text{Gini} = 1 - (0.9^2 + 0.1^2) = 0.18\)</span>. The node is fairly pure.</p>
+<p><strong>Entropy (Information Gain)</strong></p>
+<p>The Entropy is defined as <span class="math display">\[
+\text{Entropy} = - \sum\limits_{i = 1}^k p_i \log_2(p_i)
+\]</span> where <span class="math inline">\(p_i\)</span> is the proportion of class <span class="math inline">\(i\)</span> in the node.</p>
+<p>If <span class="math inline">\(\text{Entropy} = 0\)</span>, it means the node is perfectly pure while <span class="math inline">\(\text{Entropy} = 1\)</span> means that the node has maximum disorder (completely mixed).</p>
+<p>CART usually uses the <strong>Gini Index</strong> because it is computationally faster and produces results very similar to those obtained with Entropy.</p>
+<p><strong>Classification Error</strong></p>
+<p>The classification error is a simpler impurity measure defined as <span class="math display">\[
+\text{Error} = 1 - \max(p_i)
+\]</span> where <span class="math inline">\(\max(p_i)\)</span> is the proportion of the most common class in the node.</p>
+<p>If all samples belong to one class, <span class="math inline">\(\max(p_i) = 1\)</span> and <strong>Error = 0</strong> (perfectly pure). If the classes are equally mixed, <span class="math inline">\(\max(p_i) = 0.5\)</span> and <strong>Error = 0.5</strong>.</p>
+<p>This measure is easy to interpret but <em>less sensitive</em> than the Gini Index or Entropy, so it is mainly used for <em>reporting accuracy</em>, not for choosing splits.</p>
+</section>
+<section id="for-regression-trees" class="level4" data-number="9.2.1.2">
+<h4 data-number="9.2.1.2" class="anchored" data-anchor-id="for-regression-trees"><span class="header-section-number">9.2.1.2</span> For Regression Trees</h4>
+<p>When the target variable is <strong>numeric</strong>, CART measures how similar the values are within each node.<br>
+Instead of impurity, it uses the <strong>variance</strong> or the <strong>Mean Squared Error (MSE)</strong>.</p>
+</section>
+</section>
+<section id="variance" class="level3" data-number="9.2.2">
+<h3 data-number="9.2.2" class="anchored" data-anchor-id="variance"><span class="header-section-number">9.2.2</span> Variance</h3>
+<p>The variance of a node is defined <span class="math display">\[
+\text{Var}(Y) = \frac{1}{n} \sum\limits_{i=1}^{n} (y_i - \bar{y})^2
+\]</span> where <span class="math inline">\(y_i\)</span>s are observed values, <span class="math inline">\(\bar{y}\)</span> is the mean of the node, and <span class="math inline">\(n\)</span> is the number of observation in each node.</p>
+<p>A <em>lower variance</em> means that the values in that node are closer to each other, so the node is more ‘pure’ in terms of numeric outcomes.</p>
+</section>
+<section id="mean-squared-error-mse" class="level3" data-number="9.2.3">
+<h3 data-number="9.2.3" class="anchored" data-anchor-id="mean-squared-error-mse"><span class="header-section-number">9.2.3</span> Mean Squared Error (MSE)</h3>
+<p>CART typically uses <em>MSE</em> as the splitting criterion, which is conceptually similar to variance.</p>
+<p>The MSE is defined as <span class="math display">\[\text{MSE} = \frac{1}{n} \sum\limits_{i=1}^n (y_i - \hat{y})^2
+\]</span> where <span class="math inline">\(\hat{y}\)</span> is the predicted value for that node (usually the mean).</p>
+<p>The <em>best split</em> is the one that <em>reduces the total MSE the most</em> — in other words, the children nodes have smaller errors than the parent node.</p>
+<div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
+<i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span><svg aria-hidden="true" role="img" viewbox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M64 416L168.6 180.7c15.3-34.4 40.3-63.5 72-83.7l146.9-94c3-1.9 6.5-2.9 10-2.9C407.7 0 416 8.3 416 18.6v1.6c0 2.6-.5 5.1-1.4 7.5L354.8 176.9c-1.9 4.7-2.8 9.7-2.8 14.7c0 5.5 1.2 11 3.4 16.1L448 416H240.9l11.8-35.4 40.4-13.5c6.5-2.2 10.9-8.3 10.9-15.2s-4.4-13-10.9-15.2l-40.4-13.5-13.5-40.4C237 276.4 230.9 272 224 272s-13 4.4-15.2 10.9l-13.5 40.4-40.4 13.5C148.4 339 144 345.1 144 352s4.4 13 10.9 15.2l40.4 13.5L207.1 416H64zM279.6 141.5c-1.1-3.3-4.1-5.5-7.6-5.5s-6.5 2.2-7.6 5.5l-6.7 20.2-20.2 6.7c-3.3 1.1-5.5 4.1-5.5 7.6s2.2 6.5 5.5 7.6l20.2 6.7 6.7 20.2c1.1 3.3 4.1 5.5 7.6 5.5s6.5-2.2 7.6-5.5l6.7-20.2 20.2-6.7c3.3-1.1 5.5-4.1 5.5-7.6s-2.2-6.5-5.5-7.6l-20.2-6.7-6.7-20.2zM32 448H480c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32z"></path></svg> Exercise 1
+Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Identify the data ethics principle related to each question:</p>
-<ol type="a">
-<li><p>Is it clear what data is being used for, how and where it is being stored, and is this information freely available to all?</p></li>
-<li><p>Are you collecting only data that is necessary and relevant to your clearly defined goals?</p></li>
-<li><p>Have you anticipated any potential harmful, negative, or biased impacts that could result from your use of the data?</p></li>
-<li><p>Is any personal or identifiable data being securely stored and anonymized to prevent unauthorized access?</p></li>
-<li><p>Have you obtained informed consent from individuals for how their data will be used in your project?</p></li>
-</ol>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span><svg aria-hidden="true" role="img" viewbox="0 0 576 512" style="height:1em;width:1.12em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M234.7 42.7L197 56.8c-3 1.1-5 4-5 7.2s2 6.1 5 7.2l37.7 14.1L248.8 123c1.1 3 4 5 7.2 5s6.1-2 7.2-5l14.1-37.7L315 71.2c3-1.1 5-4 5-7.2s-2-6.1-5-7.2L277.3 42.7 263.2 5c-1.1-3-4-5-7.2-5s-6.1 2-7.2 5L234.7 42.7zM46.1 395.4c-18.7 18.7-18.7 49.1 0 67.9l34.6 34.6c18.7 18.7 49.1 18.7 67.9 0L529.9 116.5c18.7-18.7 18.7-49.1 0-67.9L495.3 14.1c-18.7-18.7-49.1-18.7-67.9 0L46.1 395.4zM484.6 82.6l-105 105-23.3-23.3 105-105 23.3 23.3zM7.5 117.2C3 118.9 0 123.2 0 128s3 9.1 7.5 10.8L64 160l21.2 56.5c1.7 4.5 6 7.5 10.8 7.5s9.1-3 10.8-7.5L128 160l56.5-21.2c4.5-1.7 7.5-6 7.5-10.8s-3-9.1-7.5-10.8L128 96 106.8 39.5C105.1 35 100.8 32 96 32s-9.1 3-10.8 7.5L64 96 7.5 117.2zm352 256c-4.5 1.7-7.5 6-7.5 10.8s3 9.1 7.5 10.8L416 416l21.2 56.5c1.7 4.5 6 7.5 10.8 7.5s9.1-3 10.8-7.5L480 416l56.5-21.2c4.5-1.7 7.5-6 7.5-10.8s-3-9.1-7.5-10.8L480 352l-21.2-56.5c-1.7-4.5-6-7.5-10.8-7.5s-9.1 3-10.8 7.5L416 352l-56.5 21.2z"></path></svg> Answers
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-2" class="callout-2-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<ol type="a">
-<li>Transparency</li>
-<li>Intention</li>
-<li>Outcomes</li>
-<li>Privacy</li>
-<li>Ownership</li>
-</ol>
+<p>In a Regression Tree, the predicted value for each node is simply the mean of that node – so, <span class="math inline">\(\hat{y} = \bar{y}\)</span>. When that is the case: <span class="math display">\[
+\text{MSE} = \text{Var}(Y)
+\]</span></p>
 </div>
 </div>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span><svg aria-hidden="true" role="img" viewbox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M64 416L168.6 180.7c15.3-34.4 40.3-63.5 72-83.7l146.9-94c3-1.9 6.5-2.9 10-2.9C407.7 0 416 8.3 416 18.6v1.6c0 2.6-.5 5.1-1.4 7.5L354.8 176.9c-1.9 4.7-2.8 9.7-2.8 14.7c0 5.5 1.2 11 3.4 16.1L448 416H240.9l11.8-35.4 40.4-13.5c6.5-2.2 10.9-8.3 10.9-15.2s-4.4-13-10.9-15.2l-40.4-13.5-13.5-40.4C237 276.4 230.9 272 224 272s-13 4.4-15.2 10.9l-13.5 40.4-40.4 13.5C148.4 339 144 345.1 144 352s4.4 13 10.9 15.2l40.4 13.5L207.1 416H64zM279.6 141.5c-1.1-3.3-4.1-5.5-7.6-5.5s-6.5 2.2-7.6 5.5l-6.7 20.2-20.2 6.7c-3.3 1.1-5.5 4.1-5.5 7.6s2.2 6.5 5.5 7.6l20.2 6.7 6.7 20.2c1.1 3.3 4.1 5.5 7.6 5.5s6.5-2.2 7.6-5.5l6.7-20.2 20.2-6.7c3.3-1.1 5.5-4.1 5.5-7.6s-2.2-6.5-5.5-7.6l-20.2-6.7-6.7-20.2zM32 448H480c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32z"></path></svg> Exercise 2
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Identify the data ethics principle related to each question:</p>
-<ol type="a">
-<li><p>A company collects location data from users’ mobile phones but does not disclose that this information will be shared with advertisers.</p></li>
-<li><p>An analyst stores survey responses on an unsecured shared drive, and the file includes names and phone numbers of participants.</p></li>
-<li><p>A data science team begins using a health dataset for a study unrelated to the one participants originally agreed to take part in.</p></li>
-<li><p>Before collecting any data, a team carefully evaluates whether the data they plan to gather is essential to their project goals and excludes anything not directly needed.</p></li>
-<li><p>Before launching a new app feature based on user behavior data, a team conducts a risk assessment to explore how it might negatively affect vulnerable users.</p></li>
-</ol>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span><svg aria-hidden="true" role="img" viewbox="0 0 576 512" style="height:1em;width:1.12em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M234.7 42.7L197 56.8c-3 1.1-5 4-5 7.2s2 6.1 5 7.2l37.7 14.1L248.8 123c1.1 3 4 5 7.2 5s6.1-2 7.2-5l14.1-37.7L315 71.2c3-1.1 5-4 5-7.2s-2-6.1-5-7.2L277.3 42.7 263.2 5c-1.1-3-4-5-7.2-5s-6.1 2-7.2 5L234.7 42.7zM46.1 395.4c-18.7 18.7-18.7 49.1 0 67.9l34.6 34.6c18.7 18.7 49.1 18.7 67.9 0L529.9 116.5c18.7-18.7 18.7-49.1 0-67.9L495.3 14.1c-18.7-18.7-49.1-18.7-67.9 0L46.1 395.4zM484.6 82.6l-105 105-23.3-23.3 105-105 23.3 23.3zM7.5 117.2C3 118.9 0 123.2 0 128s3 9.1 7.5 10.8L64 160l21.2 56.5c1.7 4.5 6 7.5 10.8 7.5s9.1-3 10.8-7.5L128 160l56.5-21.2c4.5-1.7 7.5-6 7.5-10.8s-3-9.1-7.5-10.8L128 96 106.8 39.5C105.1 35 100.8 32 96 32s-9.1 3-10.8 7.5L64 96 7.5 117.2zm352 256c-4.5 1.7-7.5 6-7.5 10.8s3 9.1 7.5 10.8L416 416l21.2 56.5c1.7 4.5 6 7.5 10.8 7.5s9.1-3 10.8-7.5L480 416l56.5-21.2c4.5-1.7 7.5-6 7.5-10.8s-3-9.1-7.5-10.8L480 352l-21.2-56.5c-1.7-4.5-6-7.5-10.8-7.5s-9.1 3-10.8 7.5L416 352l-56.5 21.2z"></path></svg> Answers
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-4" class="callout-4-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<ol type="a">
-<li>Transparency</li>
-<li>Privacy</li>
-<li>Ownership</li>
-<li>Intention</li>
-<li>Outcomes</li>
-</ol>
-</div>
-</div>
-</div>
-</div>
-</div>
+<p><strong>Example:</strong> Suppose a node contains five cars with their <strong>fuel efficiency (mpg)</strong> values:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Car</th>
+<th style="text-align: right;">mpg</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">A</td>
+<td style="text-align: right;">10</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">B</td>
+<td style="text-align: right;">12</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">C</td>
+<td style="text-align: right;">15</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">D</td>
+<td style="text-align: right;">20</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">E</td>
+<td style="text-align: right;">22</td>
+</tr>
+</tbody>
+</table>
+<p>First, Compute the variance before splitting as: <span class="math display">\[
+\bar{y} = \frac{10 + 12 + 15 + 20 + 22}{5} = 15.8
+\]</span> and then <span class="math display">\[
+\text{Var}_{\text{parent}} = \frac{(10-15.8)^2 + (12-15.8)^2 + (15-15.8)^2 + (20-15.8)^2 + (22-15.8)^2}{5} = 21.36
+\]</span> Then, we try a possible split</p>
+<ul>
+<li><strong>Left node:</strong> cars with small engines → mpg = [10, 12, 15]<br>
+</li>
+<li><strong>Right node:</strong> cars with large engines → mpg = [20, 22]</li>
+</ul>
+<p>Compute the variances for each node:</p>
+<p><strong>Left node:</strong> <span class="math display">\[
+\bar{y}_L = 12.33,\quad \text{Var}_L = \frac{(10-12.33)^2 + (12-12.33)^2 + (15-12.33)^2}{3} = 4.22
+\]</span> <strong>Right node:</strong> <span class="math display">\[
+\bar{y}_R = 21.0,\quad \text{Var}_R = \frac{(20-21)^2 + (22-21)^2}{2} = 1.0
+\]</span> Then, Compute the weighted average of child variances <span class="math display">\[
+\text{Var}_{\text{after split}} = \frac{3}{5}(4.22) + \frac{2}{5}(1.0) = 2.93.
+\]</span> So, we calculate the variance reduction as [ = 21.36 - 2.93 = 18.43. ] This means the split <em>greatly reduces the variability</em> of <code>mpg</code> within each node,<br>
+so CART would consider it a very good split.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -790,11 +925,14 @@ Important
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../chapters/chapter5_logistic_regression.html" class="pagination-link" aria-label="Logistic Regression">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Logistic Regression</span></span>
+      <a href="../chapters/missing_values.html" class="pagination-link" aria-label="Missing Values">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Missing Values</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="../chapters/chapter5_logistic_regression.html" class="pagination-link" aria-label="Logistic Regression">
+        <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Logistic Regression</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->
