@@ -1045,7 +1045,7 @@ These are easier to compute and often agree on the **direction** (sign) of skew,
 -   **Skewness \< 0** → The distribution is **left-skewed** (long tail on the **left**).
 :::
 
-When we compute these from a sample, we get estimates with standard errors. As a rough rule: if an estimate is within about $\pm 2$ standard errors of zero, there is no strong evidence of skewness or extra tail weight; if it is more than $2$ standard errors away, that suggests positive/negative skew or heavier/lighter tails in that direction.
+When we compute these from a sample, we get estimates with standard er rors. As a rough rule: if an estimate is within about $\pm 2$ standard errors of zero, there is no strong evidence of skewness or extra tail weight; if it is more than $2$ standard errors away, that suggests positive/negative skew or heavier/lighter tails in that direction. Also, when the Pearson's second coefficient is between -0.3 and 0.3, the distribution is approximately symmetric.
 
 In R, example is
 
@@ -1396,25 +1396,30 @@ Imagine we observed $344$ penguins from three species on three islands. We recor
 | **Gentoo**    | 124        | 0         | 0             | 124       |
 | **Total**     | 168        | 124       | 52            | 344       |
 
-The formula
-
 **Summary of Correlation and Association Measures in R**
 
-This table shows which association or correlation measure to use depending on the types of variables, along with the appropriate R function.
+This table shows which association or correlation measure to use depending on the types of variables.
 
-| Variable Types | Measure | Interpretation | R Function / Package |
-|------------------|------------------|------------------|------------------|
-| **Numeric – Numeric** | **Pearson’s r** | Strength of **linear** relationship | `cor(x, y, method = "pearson")` |
-| **Numeric – Numeric** | **Spearman’s ρ** | Strength of **monotonic** relationship | `cor(x, y, method = "spearman")` |
-| **Numeric – Numeric** | **Kendall’s τ** | Rank-based measure; robust to ties | `cor(x, y, method = "kendall")` |
-| **Ordinal – Ordinal** | **Spearman’s ρ** or **Kendall’s τ** | Association between ranks | Same as above |
-| **Nominal – Nominal (2×2)** | **Phi (φ) coefficient** | Association between two binary variables | `psych::phi(table)` |
-| **Nominal – Nominal (k×m)** | **Cramér’s V** | Strength of association in contingency table | `rcompanion::cramerV(table)` or `DescTools::CramerV(table)` |
-| **Nominal – Numeric** | **Eta (η) coefficient** | How much variance in numeric var is explained by group | `DescTools::EtaSq(aov(y ~ group))` |
-| **Binary – Binary** | **Tetrachoric correlation** | For binary variables assumed to reflect latent continuous variables | `psych::tetrachoric(table)$rho` |
-| **Ordinal – Nominal** | *(No standard measure)* | Use visual summaries or grouped statistics | `table()`, `ggplot2::geom_bar()`, `mosaicplot()` |
+|               | Nominal                         | Ordinal                                | Numeric                        |
+|:---------------|:----------------------------------:|:----------------------------------------:|:--------------------------------:|
+| **Nominal**   | Cramér’s V<br>φ coefficient (binary)<br>Tetrachoric corr. (binary) | No standard measure                | Eta (η)                        |
+| **Ordinal**       | No standard measure         | Spearman’s ρ<br>Kendall’s τ           | Spearman’s ρ<br>Kendall’s τ   |
+| **Numeric**       | Eta (η)                         | Spearman’s ρ<br>Kendall’s τ           | Pearson’s r<br>Spearman’s ρ<br>Kendall’s τ                   |
 
-------------------------------------------------------------------------
+In this table, we can find the R function for the methods described above with a brief description of its interpretation.
+
+| Measure | Interpretation | R Function / Package |
+|------------------|------------------|------------------|
+| **Pearson’s r** | Strength of **linear** relationship | `cor(x, y, method = "pearson")` |
+| **Spearman’s ρ** | Strength of **monotonic** relationship | `cor(x, y, method = "spearman")` |
+| **Kendall’s τ** | Rank-based measure; robust to ties | `cor(x, y, method = "kendall")` |
+| **Spearman’s ρ** or **Kendall’s τ** | Association between ranks | Same as above |
+| **Phi (φ) coefficient** | Association between two binary variables | `psych::phi(table)` |
+| **Cramér’s V** | Strength of association in contingency table | `rcompanion::cramerV(table)` or `DescTools::CramerV(table)` |
+| **Eta (η) coefficient** | How much variance in numeric var is explained by group | `DescTools::EtaSq(aov(y ~ group))` |
+| **Tetrachoric correlation** | For binary variables assumed to reflect latent continuous variables | `psych::tetrachoric(table)$rho` |
+| **Ordinal vs. Nominal** | Use visual summaries or grouped statistics | `table()`, `ggplot2::geom_bar()`, `mosaicplot()` |
+
 
 **Notes**
 
