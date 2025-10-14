@@ -206,7 +206,8 @@ This measure is easy to interpret but *less sensitive* than the Gini Index or En
 When the target variable is **numeric**, CART measures how similar the values are within each node.  
 Instead of impurity, it uses the **variance** or the **Mean Squared Error (MSE)**.
 
-### Variance
+**Variance**
+
 The variance of a node is defined 
 $$
 \text{Var}(Y) = \frac{1}{n} \sum\limits_{i=1}^{n} (y_i - \bar{y})^2
@@ -215,7 +216,8 @@ where $y_i$s are observed values, $\bar{y}$ is the mean of the node, and $n$ is 
 
 A *lower variance* means that the values in that node are closer to each other, so the node is more 'pure' in terms of numeric outcomes. 
 
-### Mean Squared Error (MSE) 
+**Mean Squared Error (MSE)**
+
 CART typically uses *MSE* as the splitting criterion, which is conceptually similar to variance. 
 
 The MSE is defined as
@@ -479,3 +481,52 @@ pred_reg <- predict(tree_reg, mtcars)
 mse <- mean((pred_reg - mtcars$mpg)^2)
 mse
 ```
+
+## Handling Missing Values in CART 
+
+```{r} 
+data('airquality')
+colSums(is.na(airquality))
+```
+
+```{webr-r}
+#| autorun: true 
+#| warnings: true 
+#| out-width: "80%"
+library(rpart)
+library(rpart.plot)
+
+# Remove rows with missing values 
+aq_clean <- na.omit(airquality)
+
+tree_clean <- rpart(Ozone ~ Solar.R + Wind + Temp + Month, data = aq_clean, method = "anova")
+
+rpart.plot(tree_clean, type = 2, extra = 100, fallen.leaves = TRUE, box.palette = "BuGn")
+```
+
+```{webr-r}
+#| autorun: true 
+#| warnings: true 
+#| out-width: "80%"
+
+# Identify missing Ozone entries
+missing_idx <- is.na(airquality$Ozone)
+
+# Predict them
+predicted_ozone <- predict(tree_na, newdata = airquality[missing_idx, ])
+
+predicted_ozone
+```
+
+```{webr-r}
+#| autorun: true 
+#| warnings: true 
+#| out-width: "80%"
+
+# Combine results
+airquality$Ozone[missing_idx] <- predicted_ozone
+
+colSums(is.na(airquality))
+```
+
+

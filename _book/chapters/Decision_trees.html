@@ -404,7 +404,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"code":"library(rpart) # For CART algorithm \nlibrary(rpart.plot) #For visualizing decision trees \n\ndata(\"iris\")\n\n# Build the classification tree \ntree_class <- rpart(Species ~ Petal.Length + Petal.Width + Sepal.Length + Sepal.Width , data = iris, method = 'class')\n\n# Visualize the tree\nrpart.plot(tree_class, type = 3, extra = 104, fallen.leaves = TRUE)","id":1,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-align":"center","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"true","warnings":"false"}},{"code":"summary(tree_class)","id":2,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"#| \n# Predict species for the same dataset\npred_class <- predict(tree_class, iris, type = \"class\")\n\n# Confusion matrix\ntable(Predicted = pred_class, Actual = iris$Species)\n\n# Compute accuracy\nmean(pred_class == iris$Species)","id":3,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-3","message":"true","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Build the regression tree\ntree_reg <- rpart(mpg ~ wt + hp + disp + cyl, data = mtcars,method = \"anova\")\n\n# Visualize the tree\nrpart.plot(tree_reg, \n           type = 3, \n           digits = 2, \n           fallen.leaves = TRUE)","id":4,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-4","message":"true","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"summary(tree_reg) ","id":5,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-5","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Predict mpg values\npred_reg <- predict(tree_reg, mtcars)\n\n# Calculate R-squared manually\nmse <- mean((pred_reg - mtcars$mpg)^2)\nmse","id":6,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-6","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
+globalThis.qwebrCellDetails = [{"code":"library(rpart) # For CART algorithm \nlibrary(rpart.plot) #For visualizing decision trees \n\ndata(\"iris\")\n\n# Build the classification tree \ntree_class <- rpart(Species ~ Petal.Length + Petal.Width + Sepal.Length + Sepal.Width , data = iris, method = 'class')\n\n# Visualize the tree\nrpart.plot(tree_class, type = 3, extra = 104, fallen.leaves = TRUE)","id":1,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-align":"center","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"true","warnings":"false"}},{"code":"summary(tree_class)","id":2,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"#| \n# Predict species for the same dataset\npred_class <- predict(tree_class, iris, type = \"class\")\n\n# Confusion matrix\ntable(Predicted = pred_class, Actual = iris$Species)\n\n# Compute accuracy\nmean(pred_class == iris$Species)","id":3,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-3","message":"true","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Build the regression tree\ntree_reg <- rpart(mpg ~ wt + hp + disp + cyl, data = mtcars,method = \"anova\")\n\n# Visualize the tree\nrpart.plot(tree_reg, \n           type = 3, \n           digits = 2, \n           fallen.leaves = TRUE)","id":4,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-4","message":"true","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"summary(tree_reg) ","id":5,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-5","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Predict mpg values\npred_reg <- predict(tree_reg, mtcars)\n\n# Calculate R-squared manually\nmse <- mean((pred_reg - mtcars$mpg)^2)\nmse","id":6,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-6","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(rpart)\nlibrary(rpart.plot)\n\n# Remove rows with missing values \naq_clean <- na.omit(airquality)\n\ntree_clean <- rpart(Ozone ~ Solar.R + Wind + Temp + Month, data = aq_clean, method = \"anova\")\n\nrpart.plot(tree_clean, type = 2, extra = 100, fallen.leaves = TRUE, box.palette = \"BuGn\")","id":7,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-7","message":"true","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"true","warnings":"true"}},{"code":"# Identify missing Ozone entries\nmissing_idx <- is.na(airquality$Ozone)\n\n# Predict them\npredicted_ozone <- predict(tree_na, newdata = airquality[missing_idx, ])\n\npredicted_ozone","id":8,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-8","message":"true","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"true","warnings":"true"}},{"code":"# Combine results\nairquality$Ozone[missing_idx] <- predicted_ozone\n\ncolSums(is.na(airquality))","id":9,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-9","message":"true","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"true","warnings":"true"}}];
 
 </script>
 <script type="module">
@@ -1846,14 +1846,13 @@ window.Quarto = {
   <li><a href="#for-classification-trees" id="toc-for-classification-trees" class="nav-link" data-scroll-target="#for-classification-trees"><span class="header-section-number">9.2.1.1</span> For Classification Trees</a></li>
   <li><a href="#for-regression-trees" id="toc-for-regression-trees" class="nav-link" data-scroll-target="#for-regression-trees"><span class="header-section-number">9.2.1.2</span> For Regression Trees</a></li>
   </ul></li>
-  <li><a href="#variance" id="toc-variance" class="nav-link" data-scroll-target="#variance"><span class="header-section-number">9.2.2</span> Variance</a></li>
-  <li><a href="#mean-squared-error-mse" id="toc-mean-squared-error-mse" class="nav-link" data-scroll-target="#mean-squared-error-mse"><span class="header-section-number">9.2.3</span> Mean Squared Error (MSE)</a></li>
   </ul></li>
   <li><a href="#implementations-in-r" id="toc-implementations-in-r" class="nav-link" data-scroll-target="#implementations-in-r"><span class="header-section-number">9.3</span> Implementations in R</a>
   <ul>
   <li><a href="#classification-tree-in-r" id="toc-classification-tree-in-r" class="nav-link" data-scroll-target="#classification-tree-in-r"><span class="header-section-number">9.3.1</span> Classification Tree in R</a></li>
   <li><a href="#regression-tree-in-r" id="toc-regression-tree-in-r" class="nav-link" data-scroll-target="#regression-tree-in-r"><span class="header-section-number">9.3.2</span> Regression Tree in R</a></li>
   </ul></li>
+  <li><a href="#handling-missing-values-in-cart" id="toc-handling-missing-values-in-cart" class="nav-link" data-scroll-target="#handling-missing-values-in-cart"><span class="header-section-number">9.4</span> Handling Missing Values in CART</a></li>
   </ul>
 </nav>
     </div>
@@ -2312,17 +2311,12 @@ Note
 <h4 data-number="9.2.1.2" class="anchored" data-anchor-id="for-regression-trees"><span class="header-section-number">9.2.1.2</span> For Regression Trees</h4>
 <p>When the target variable is <strong>numeric</strong>, CART measures how similar the values are within each node.<br>
 Instead of impurity, it uses the <strong>variance</strong> or the <strong>Mean Squared Error (MSE)</strong>.</p>
-</section>
-</section>
-<section id="variance" class="level3" data-number="9.2.2">
-<h3 data-number="9.2.2" class="anchored" data-anchor-id="variance"><span class="header-section-number">9.2.2</span> Variance</h3>
+<p><strong>Variance</strong></p>
 <p>The variance of a node is defined <span class="math display">\[
 \text{Var}(Y) = \frac{1}{n} \sum\limits_{i=1}^{n} (y_i - \bar{y})^2
 \]</span> where <span class="math inline">\(y_i\)</span>s are observed values, <span class="math inline">\(\bar{y}\)</span> is the mean of the node, and <span class="math inline">\(n\)</span> is the number of observation in each node.</p>
 <p>A <em>lower variance</em> means that the values in that node are closer to each other, so the node is more ‘pure’ in terms of numeric outcomes.</p>
-</section>
-<section id="mean-squared-error-mse" class="level3" data-number="9.2.3">
-<h3 data-number="9.2.3" class="anchored" data-anchor-id="mean-squared-error-mse"><span class="header-section-number">9.2.3</span> Mean Squared Error (MSE)</h3>
+<p><strong>Mean Squared Error (MSE)</strong></p>
 <p>CART typically uses <em>MSE</em> as the splitting criterion, which is conceptually similar to variance.</p>
 <p>The MSE is defined as <span class="math display">\[\text{MSE} = \frac{1}{n} \sum\limits_{i=1}^n (y_i - \hat{y})^2
 \]</span> where <span class="math inline">\(\hat{y}\)</span> is the predicted value for that node (usually the mean).</p>
@@ -2391,6 +2385,7 @@ Note
 \]</span> Then, Compute the weighted average of child variances <span class="math display">\[
 \text{Var}_{\text{after split}} = \frac{3}{5}(4.22) + \frac{2}{5}(1.0) = 2.93.
 \]</span> So, we calculate the variance reduction as [ = 21.36 - 2.93 = 18.43. ] This means the split <em>greatly reduces the variability</em> of <code>mpg</code> within each node, so CART would consider it a very good split.</p>
+</section>
 </section>
 </section>
 <section id="implementations-in-r" class="level2" data-number="9.3">
@@ -2594,9 +2589,26 @@ Note
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <div id="qwebr-insertion-location-6"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-
-
 </section>
+</section>
+<section id="handling-missing-values-in-cart" class="level2" data-number="9.4">
+<h2 data-number="9.4" class="anchored" data-anchor-id="handling-missing-values-in-cart"><span class="header-section-number">9.4</span> Handling Missing Values in CART</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">'airquality'</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(<span class="fu">is.na</span>(airquality))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Ozone Solar.R    Wind    Temp   Month     Day 
+     37       7       0       0       0       0 </code></pre>
+</div>
+</div>
+<div id="qwebr-insertion-location-7"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="qwebr-insertion-location-8"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="qwebr-insertion-location-9"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+
+
 </section>
 
 </main> <!-- /main -->
