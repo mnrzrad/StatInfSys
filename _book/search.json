@@ -14,7 +14,7 @@
     "href": "chapters/chapter4_EDA.html",
     "title": "2  Exploratory data analysis (EDA)",
     "section": "",
-    "text": "2.1 Plan the Study\nStatProcess\n\ncluster_conclusion\n\n\ncluster_plan\n\n\ncluster_data\n\n\ncluster_analysis\n\n\ncluster_problem\n\n\n\nP1\n\nP\n\n\n\nBOX1\n\n\n\n\n\n\n\nProblem\n• Write down study objectives\n• Identify target/sample population\n• Define the variates\n\n\n\nP1-&gt;BOX1\n\n\n\n\nP2\n\nP\n\n\n\nP1-&gt;P2\n\n\n\n\n\nBOX2\n\n\n\n\n\n\n\nPlan\n• Plan data collection methods\n• Calculate sample size\n• Consider analysis options\n\n\n\nP2-&gt;BOX2\n\n\n\n\nD\n\nD\n\n\n\nP2-&gt;D\n\n\n\n\n\nBOX3\n\n\n\n\n\n\n\nData\n• Collect data per plan\n• Note any deviations\n\n\n\nD-&gt;BOX3\n\n\n\n\nA\n\nA\n\n\n\nD-&gt;A\n\n\n\n\n\nBOX4\n\n\n\n\n\n\n\nAnalysis\n• Analyze data per plan\n\n\n\nA-&gt;BOX4\n\n\n\n\nC\n\nC\n\n\n\nA-&gt;C\n\n\n\n\n\nBOX5\n\n\n\n\n\n\n\nConclusion\n• Draw conclusion in context\n\n\n\nC-&gt;BOX5",
+    "text": "2.1 Plan the Study\nStatProcess\n\ncluster_problem\n\n\ncluster_plan\n\n\ncluster_data\n\n\ncluster_analysis\n\n\ncluster_conclusion\n\n\n\nP1\n\nP\n\n\n\nBOX1\n\n\n\n\n\n\n\nProblem\n• Write down study objectives\n• Identify target/sample population\n• Define the variates\n\n\n\nP1-&gt;BOX1\n\n\n\n\nP2\n\nP\n\n\n\nP1-&gt;P2\n\n\n\n\n\nBOX2\n\n\n\n\n\n\n\nPlan\n• Plan data collection methods\n• Calculate sample size\n• Consider analysis options\n\n\n\nP2-&gt;BOX2\n\n\n\n\nD\n\nD\n\n\n\nP2-&gt;D\n\n\n\n\n\nBOX3\n\n\n\n\n\n\n\nData\n• Collect data per plan\n• Note any deviations\n\n\n\nD-&gt;BOX3\n\n\n\n\nA\n\nA\n\n\n\nD-&gt;A\n\n\n\n\n\nBOX4\n\n\n\n\n\n\n\nAnalysis\n• Analyze data per plan\n\n\n\nA-&gt;BOX4\n\n\n\n\nC\n\nC\n\n\n\nA-&gt;C\n\n\n\n\n\nBOX5\n\n\n\n\n\n\n\nConclusion\n• Draw conclusion in context\n\n\n\nC-&gt;BOX5",
     "crumbs": [
       "Explanatory Data Analysis",
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Exploratory data analysis (EDA)</span>"
@@ -728,7 +728,7 @@
     "href": "chapters/Decision_trees.html#handling-missing-values-in-cart",
     "title": "9  Decision Trees",
     "section": "9.4 Handling Missing Values in CART",
-    "text": "9.4 Handling Missing Values in CART\n\ndata('airquality')\ncolSums(is.na(airquality))\n\n  Ozone Solar.R    Wind    Temp   Month     Day \n     37       7       0       0       0       0 \n\n\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.",
+    "text": "9.4 Handling Missing Values in CART\n\ndata('airquality')\ncolSums(is.na(airquality))\n\n  Ozone Solar.R    Wind    Temp   Month     Day \n     37       7       0       0       0       0 \n\n\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.",
     "crumbs": [
       "Explanatory Data Analysis",
       "<span class='chapter-number'>9</span>  <span class='chapter-title'>Decision Trees</span>"

@@ -530,3 +530,12 @@ colSums(is.na(airquality))
 ```
 
 
+```{webr-r}
+data(nhanes)
+
+tree_nhanes <- rpart(chl ~ age + bmi + hyp,
+                     data = nhanes,
+                     method = "anova",
+                     na.action = na.rpart)
+rpart.plot(tree_nhanes, box.palette = "Purples", main = "CART with Surrogate Splits")
+```
