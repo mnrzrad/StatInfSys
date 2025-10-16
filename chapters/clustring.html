@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>6&nbsp; Sample of Questions – Statistics and Information Systems</title>
+<title>10&nbsp; Clustering – Statistics and Information Systems</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -30,8 +65,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../chapters/Outlier_Detection.html" rel="next">
-<link href="../chapters/project.html" rel="prev">
+<link href="../chapters/chapter5_logistic_regression.html" rel="next">
+<link href="../chapters/Decision_trees.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -370,7 +405,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"code":"library(palmerpenguins)\nlibrary(dplyr)\nlibrary(ggplot2)","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"dim(penguins)\nstr(penguins)\ncolSums(is.na(penguins))","id":2,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"summary(penguins$body_mass_g)\nsd(penguins$body_mass_g, na.rm=TRUE)\nIQR(penguins$body_mass_g, na.rm=TRUE)","id":3,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-3","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(penguins, aes(x=species, y=body_mass_g, fill=species)) +\n  geom_boxplot() +\n  labs(title=\"Penguin Body Mass by Species\",\n       x=\"Species\", y=\"Body Mass (g)\") +\n  theme_minimal()","id":4,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-4","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(penguins, aes(x=flipper_length_mm, y=body_mass_g, color=species)) +\n  geom_point() +\n  labs(title=\"Body Mass vs. Flipper Length\",\n       x=\"Flipper Length (mm)\", y=\"Body Mass (g)\") +\n  theme_minimal()","id":5,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-5","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"colSums(is.na(penguins))","id":6,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-6","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(dplyr)\nlibrary(ggplot2)\n\ndata(mtcars)","id":7,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-7","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"dim(mtcars)\nstr(mtcars)\nhead(mtcars, 3)\nhelp(mtcars)","id":8,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-8","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"summary(mtcars$mpg)\nsd(mtcars$mpg)\nIQR(mtcars$mpg)","id":9,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-9","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"table(mtcars$cyl)","id":10,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-10","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(mtcars, aes(x=factor(cyl), y=mpg, fill=factor(cyl))) +\n  geom_boxplot() +\n  labs(title=\"Miles per Gallon by Cylinders\",\n       x=\"Cylinders\", y=\"Miles per Gallon\") ","id":11,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-11","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(mtcars, aes(x=hp, y=mpg, color=factor(am))) +\n  geom_point(size=3) +\n  labs(title=\"Horsepower vs. MPG by Transmission\",\n       x=\"Horsepower\", y=\"Miles per Gallon\", color=\"Transmission\") +\n  theme_minimal()","id":12,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-12","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"cor(mtcars$hp, mtcars$mpg)","id":13,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-13","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
+globalThis.qwebrCellDetails = [{"code":"x <- c(2, 4)\ny <- c(5, 8)\n\n# Euclidean distance\nd_E <- sqrt(sum((x - y)^2))\nd_E","id":1,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"euclidean-distance","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"x <- c(2, 4)\ny <- c(5, 8)\n\n# Manhattan distance\nd_M <- sum(abs(x - y))\nd_M","id":2,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"manhattan-distance","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"x <- c(2, 4)\ny <- c(5, 8)\n\n# Minkowski distance\nd_r <- function(x, y, r) {\n  (sum(abs(x - y)^r))^(1/r)\n}\ncat('Manhattan distance:', d_r(x, y, r = 1), 'that should be equal to d_M which is', d_M, '\\n')\ncat('Euclidean distance:', d_r(x, y, r = 2), 'that should be equal to d_E which is', d_E, '\\n')\ncat('Minkowski Distance', d_r(x, y, r = 3))","id":3,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"manhattan-distance","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"x <- c(2, 4)\ny <- c(5, 8)\n\n# Chebyshev distance\nd_C <- max(abs(x - y))\nd_C","id":4,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"chebyshev-distance","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"x <- c(2, 4)\ny <- c(5, 8)\n\n# For Mahalanobis, we need covariance matrix (example with small dataset)\nX <- matrix(c(2, 4, 5, 8, 3, 7), ncol = 2, byrow = TRUE)\ncov_matrix <- cov(X)\nd_mahalanobis <- sqrt(t(x - y) %*% solve(cov_matrix) %*% (x - y))\nd_mahalanobis","id":5,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"mahalanobis-distance","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"library(lsa)  # for cosine similarity\n\nx <- c(1, 2, 3)\ny <- c(2, 4, 6)\nz <- c(3, 0, 0)\n\ncos_xy <- cosine(x, y)\ncos_xz <- cosine(x, z)\n\ncat(\"Cosine similarity (x,y):\", round(cos_xy, 3), \"\\n\")\ncat(\"Cosine similarity (x,z):\", round(cos_xz, 3), \"\\n\")\ncat(\"Cosine distance (x,y):\", round(1 - cos_xy, 3), \"\\n\")\ncat(\"Cosine distance (x,z):\", round(1 - cos_xz, 3), \"\\n\")","id":6,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"cosine-distance","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"# Two binary observations (e.g., presence/absence of features)\no1 <- c(1, 0, 1, 1, 0, 0, 1)\no2 <- c(1, 1, 0, 1, 0, 0, 0)\n\n# Compute the components\nf11 <- sum(o1 == 1 & o2 == 1)\nf00 <- sum(o1 == 0 & o2 == 0)\nf10 <- sum(o1 == 1 & o2 == 0)\nf01 <- sum(o1 == 0 & o2 == 1)\nd <- length(o1)\n\n# Similarity and distance\ns_SMC <- (f11 + f00) / d\nd_SMC <- (f01 + f10) / d  # same as 1 - s_SMC\n\ncat(\"f11 =\", f11, \"f00 =\", f00, \"f10 =\", f10, \"f01 =\", f01, \"\\n\")\ncat(\"Simple Matching Coefficient (similarity):\", round(s_SMC, 3), \"\\n\")\ncat(\"Simple Matching Distance:\", round(d_SMC, 3), \"\\n\")","id":7,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"smc-distance-example","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"# Example categorical data\nx <- c(\"Red\", \"Small\", \"Circle\")\ny <- c(\"Blue\", \"Small\", \"Square\")\n\n# ----- Hamming Distance -----\nhamming_distance <- sum(x != y)\nprint(paste(\"Hamming distance:\", hamming_distance))\n\n# ----- Gower Distance -----\nlibrary(cluster)\n\ndata <- data.frame(\n  Color = c(\"Red\", \"Blue\"),\n  Size = c(\"Small\", \"Small\"),\n  Shape = c(\"Circle\", \"Square\")\n)\n\n# Convert all character columns to factors\ndata[] <- lapply(data, as.factor)\n\n# Compute Gower distance\ngower_dist <- daisy(data, metric = \"gower\")\ngower_matrix <- round(as.matrix(gower_dist), 3)\n\nprint(\"Gower distance matrix:\")\nprint(gower_matrix)","id":8,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"categorical-distances","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"set.seed(42)\n\n# Generate synthetic 2D data\nx <- rbind(\n  matrix(rnorm(100, mean = 0, sd = 0.3), ncol = 2),\n  matrix(rnorm(100, mean = 3, sd = 0.3), ncol = 2)\n)\ncolnames(x) <- c(\"x\", \"y\")\n\n# Apply k-means with 2 clusters\nkm <- kmeans(x, centers = 2, nstart = 20)\n\n# Visualize results\nlibrary(ggplot2)\ndata <- data.frame(x, cluster = factor(km$cluster))\nggplot(data, aes(x, y, color = cluster)) +\n  geom_point(size = 3) +\n  geom_point(data = as.data.frame(km$centers), aes(x, y), color = \"black\", size = 5, shape = 8) +\n  labs(title = \"K-Means Clustering\",\n       subtitle = \"Centroids shown as black stars\") +\n  theme_minimal()","id":9,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"kmeans-example","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"set.seed(123)\nlibrary(ggplot2)\nlibrary(patchwork)\n\n# Create dataset\ndata_scale <- data.frame(\n  income = c(rnorm(50, 30000, 4000), rnorm(50, 60000, 4000)),\n  age    = c(rnorm(50, 25, 2), rnorm(50, 45, 2))\n)\n\n# --- (1) K-Means without scaling ---\nkm_unscaled <- kmeans(data_scale, centers = 2, nstart = 20)\ndata_scale$cluster_unscaled <- factor(km_unscaled$cluster)\n\n# --- (2) K-Means with scaling ---\ndata_scaled <- scale(data_scale[, c(\"income\", \"age\")])\nkm_scaled <- kmeans(data_scaled, centers = 2, nstart = 20)\n\n# Save scaled cluster results back to original coordinates\ndata_scale$cluster_scaled <- factor(km_scaled$cluster)\n\np1 <- ggplot(data_scale, aes(income, age, color = cluster_unscaled)) +\ngeom_point(size = 3) +\nlabs(title = \"K-Means Without Scaling\",\nsubtitle = \"Clusters dominated by 'income' variable\") +\ntheme_minimal() +\ntheme(legend.position = \"none\")\n\n\n\n\np2 <- ggplot(data_scale, aes(income, age, color = cluster_scaled)) +\ngeom_point(size = 3) +\nlabs(title = \"K-Means With Scaling\",\nsubtitle = \"Clusters reflect both 'income' and 'age'\") +\ntheme_minimal() +\ntheme(legend.position = \"none\")\n\n\n\n\np1 + p2","id":10,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"kmeans-scaling-demo","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}}];
 
 </script>
 <script type="module">
@@ -1666,7 +1701,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter4_EDA.html">Explanatory Data Analysis</a></li><li class="breadcrumb-item"><a href="../chapters/Exam-Sample.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Sample of Questions</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/clustring.html">Clustering</a></li><li class="breadcrumb-item"><a href="../chapters/clustring.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Clustering</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -1734,7 +1769,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/Exam-Sample.html" class="sidebar-item-text sidebar-link active">
+  <a href="../chapters/Exam-Sample.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Sample of Questions</span></span></a>
   </div>
 </li>
@@ -1769,7 +1804,7 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/clustring.html" class="sidebar-item-text sidebar-link">
+  <a href="../chapters/clustring.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Clustering</span></span></a>
   </div>
 </li>
@@ -1819,8 +1854,38 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#sample-1" id="toc-sample-1" class="nav-link active" data-scroll-target="#sample-1"><span class="header-section-number">6.1</span> Sample 1</a></li>
-  <li><a href="#sample-2" id="toc-sample-2" class="nav-link" data-scroll-target="#sample-2"><span class="header-section-number">6.2</span> Sample 2</a></li>
+  <li><a href="#applications-of-clustering" id="toc-applications-of-clustering" class="nav-link active" data-scroll-target="#applications-of-clustering"><span class="header-section-number">10.1</span> Applications of Clustering</a></li>
+  <li><a href="#distance-and-similarity-in-clustering" id="toc-distance-and-similarity-in-clustering" class="nav-link" data-scroll-target="#distance-and-similarity-in-clustering"><span class="header-section-number">10.2</span> Distance and Similarity in Clustering</a>
+  <ul>
+  <li><a href="#common-distance-metrics" id="toc-common-distance-metrics" class="nav-link" data-scroll-target="#common-distance-metrics"><span class="header-section-number">10.2.1</span> Common Distance Metrics</a>
+  <ul class="collapse">
+  <li><a href="#euclidean-distance" id="toc-euclidean-distance" class="nav-link" data-scroll-target="#euclidean-distance"><span class="header-section-number">10.2.1.1</span> <strong>Euclidean Distance</strong></a></li>
+  <li><a href="#manhattan-or-city-block-distance" id="toc-manhattan-or-city-block-distance" class="nav-link" data-scroll-target="#manhattan-or-city-block-distance"><span class="header-section-number">10.2.1.2</span> <strong>Manhattan (or City-Block) Distance</strong></a></li>
+  <li><a href="#minkowski-distance" id="toc-minkowski-distance" class="nav-link" data-scroll-target="#minkowski-distance"><span class="header-section-number">10.2.1.3</span> <strong>Minkowski Distance</strong></a></li>
+  <li><a href="#chebyshev-distance" id="toc-chebyshev-distance" class="nav-link" data-scroll-target="#chebyshev-distance"><span class="header-section-number">10.2.1.4</span> <strong>Chebyshev Distance</strong></a></li>
+  <li><a href="#mahalanobis-distance" id="toc-mahalanobis-distance" class="nav-link" data-scroll-target="#mahalanobis-distance"><span class="header-section-number">10.2.1.5</span> <strong>Mahalanobis Distance</strong></a></li>
+  <li><a href="#cosine-and-correlation-distance" id="toc-cosine-and-correlation-distance" class="nav-link" data-scroll-target="#cosine-and-correlation-distance"><span class="header-section-number">10.2.1.6</span> Cosine and Correlation Distance</a></li>
+  </ul></li>
+  <li><a href="#distances-for-binary-data" id="toc-distances-for-binary-data" class="nav-link" data-scroll-target="#distances-for-binary-data"><span class="header-section-number">10.2.2</span> Distances for Binary Data</a>
+  <ul class="collapse">
+  <li><a href="#simple-matching-coefficient-similarity" id="toc-simple-matching-coefficient-similarity" class="nav-link" data-scroll-target="#simple-matching-coefficient-similarity"><span class="header-section-number">10.2.2.1</span> <strong>Simple Matching Coefficient (Similarity)</strong></a></li>
+  <li><a href="#simple-matching-distance" id="toc-simple-matching-distance" class="nav-link" data-scroll-target="#simple-matching-distance"><span class="header-section-number">10.2.2.2</span> <strong>Simple Matching Distance</strong></a></li>
+  </ul></li>
+  <li><a href="#distances-for-categorical-data" id="toc-distances-for-categorical-data" class="nav-link" data-scroll-target="#distances-for-categorical-data"><span class="header-section-number">10.2.3</span> Distances for Categorical Data</a>
+  <ul class="collapse">
+  <li><a href="#hamming-distance" id="toc-hamming-distance" class="nav-link" data-scroll-target="#hamming-distance"><span class="header-section-number">10.2.3.1</span> <strong>Hamming Distance</strong></a></li>
+  <li><a href="#gower-distance" id="toc-gower-distance" class="nav-link" data-scroll-target="#gower-distance"><span class="header-section-number">10.2.3.2</span> <strong>Gower Distance</strong></a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#partition-based-clustering-k-means-and-k-medoids" id="toc-partition-based-clustering-k-means-and-k-medoids" class="nav-link" data-scroll-target="#partition-based-clustering-k-means-and-k-medoids"><span class="header-section-number">10.3</span> Partition-Based Clustering: K-Means and K-Medoids</a>
+  <ul>
+  <li><a href="#k-means-clustering" id="toc-k-means-clustering" class="nav-link" data-scroll-target="#k-means-clustering"><span class="header-section-number">10.3.1</span> <span class="math inline">\(k\)</span>-Means Clustering</a></li>
+  <li><a href="#properties-and-limitations-of-k-means" id="toc-properties-and-limitations-of-k-means" class="nav-link" data-scroll-target="#properties-and-limitations-of-k-means"><span class="header-section-number">10.3.2</span> Properties and Limitations of <span class="math inline">\(k\)</span>-Means</a></li>
+  <li><a href="#effect-of-scaling-on-k-means-clustering" id="toc-effect-of-scaling-on-k-means-clustering" class="nav-link" data-scroll-target="#effect-of-scaling-on-k-means-clustering"><span class="header-section-number">10.3.3</span> Effect of Scaling on <span class="math inline">\(k\)</span>-Means Clustering</a>
+  <ul class="collapse">
+  <li><a href="#example-unscaled-vs.-scaled-data" id="toc-example-unscaled-vs.-scaled-data" class="nav-link" data-scroll-target="#example-unscaled-vs.-scaled-data"><span class="header-section-number">10.3.3.1</span> Example: Unscaled vs.&nbsp;Scaled Data</a></li>
+  </ul></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -2111,9 +2176,9 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 }
 </script>
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter4_EDA.html">Explanatory Data Analysis</a></li><li class="breadcrumb-item"><a href="../chapters/Exam-Sample.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Sample of Questions</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/clustring.html">Clustering</a></li><li class="breadcrumb-item"><a href="../chapters/clustring.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Clustering</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Sample of Questions</span></h1>
+<h1 class="title"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Clustering</span></h1>
 </div>
 
 
@@ -2130,152 +2195,514 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </header>
 
 
-<section id="sample-1" class="level2" data-number="6.1">
-<h2 data-number="6.1" class="anchored" data-anchor-id="sample-1"><span class="header-section-number">6.1</span> Sample 1</h2>
-<p><strong>Introduction</strong></p>
+<p>Cluster analysis, or <em>Clustring</em>, is a technique used to find groups of objects such that the objects within the same group are similar (or closely realted) to one another, while the objects from different groups are dissimilar (or unrelated).</p>
+<section id="applications-of-clustering" class="level2" data-number="10.1">
+<h2 data-number="10.1" class="anchored" data-anchor-id="applications-of-clustering"><span class="header-section-number">10.1</span> Applications of Clustering</h2>
+<p>Clustering techniques are widely used across multiple disciplines to discover patterns, structure data, and support decision-making. Below are some common and illustrative applications.</p>
+<p><strong>Customer Segmentation</strong></p>
+<p>In marketing and business analytics, clustering helps identify groups of customers with similar behaviors, preferences, or purchasing habits. This segmentation allows companies to optimize advertising strategies, personalize product offerings, and design campaigns for specific focus groups.</p>
+<p><strong>Example</strong>: Grouping supermarket customers based on purchase frequency, product categories, and spending level.</p>
+<p><strong>Web Visitor Segmentation</strong></p>
+<p>Web analytics platforms use clustering to classify website visitors according to their browsing patterns, time spent on pages, or interaction behaviors. This segmentation supports personalized content delivery and improved user experience.</p>
+<p><strong>Example</strong>: Optimizing web navigation or recommendations for distinct <em>user segments</em> such as new visitors vs.&nbsp;returning users.</p>
+<p><strong>Data Aggregation and Reduction</strong></p>
+<p>Clustering can be used to represent large datasets by a smaller set of representative elements (centroids or medoids).<br>
+This reduces computational complexity and facilitates data visualization.</p>
+<p><strong>Example</strong>:<br>
+Reducing the color palette of an image to <em>k representative colors</em> using algorithms like <em>k-means</em>.</p>
+<p><strong>Text Collection Organization</strong></p>
+<p>In natural language processing (NLP), clustering is applied to group similar documents or texts into topics or themes.<br>
+It is particularly useful when the number or nature of topics is <em>unknown in advance</em>.</p>
+<p><strong>Example</strong>:<br>
+Grouping news articles, research abstracts, or emails into topic clusters.</p>
+<p><strong>Biology and Taxonomy</strong></p>
+<p>In biological sciences, clustering supports the classification of living organisms based on genetic, morphological, or behavioral similarities.<br>
+It forms the basis for hierarchical structures such as <em>kingdom, phylum, class, order, family, genus,</em> and <em>species</em>.</p>
+<p><strong>Example</strong>:<br>
+Clustering DNA sequences to identify genetic relationships among species.</p>
+<p><strong>Information Retrieval</strong></p>
+<p>In computer science and library systems, clustering helps organize large document collections to improve search and retrieval efficiency. By grouping related documents, search engines can return more <em>contextually relevant</em> results.</p>
+<p><strong>Example</strong>:<br>
+Document clustering for semantic search or grouping research papers by field of study.</p>
+</section>
+<section id="distance-and-similarity-in-clustering" class="level2" data-number="10.2">
+<h2 data-number="10.2" class="anchored" data-anchor-id="distance-and-similarity-in-clustering"><span class="header-section-number">10.2</span> Distance and Similarity in Clustering</h2>
+<p>The notion of <em>distance</em> or <em>similarity</em> lies at the heart of clustering. Since clustering aims to group similar observations together, we must have a way to measure how close or far two observations are from each other in the feature space. These measures quantify the degree of resemblance (similarity) or difference (dissimilarity) between data points.</p>
+<blockquote class="blockquote">
+<p>The main goal is to partition a set of data points into clusters where <strong>intra-cluster</strong> distances (distances between points within the same cluster) are <strong>minimized</strong>, and <strong>inter-cluster</strong> distances (distances between points from different clusters) are <strong>maximized</strong>.</p>
+</blockquote>
+<p>Thus, the main goal of clustering can be rewritten as:</p>
+<blockquote class="blockquote">
+<p>The main goal is to partition a set of data points into clusters where intra-cluster similarities (similarities between points within the same cluster) are maximized, and inter-cluster similarities (similarities between points from different clusters) are minimized.</p>
+</blockquote>
+<p>To avoid confusion, remember that <em>distance</em> and <em>similarity</em> are inverse concepts: when two objects are close (small distance), they are considered similar (high similarity).<br>
+The table below summarizes their relationship and how each measure behaves in clustering.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 12%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 23%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"><strong>Concept</strong></th>
+<th style="text-align: left;"><strong>Meaning</strong></th>
+<th style="text-align: left;"><strong>High Value Indicates</strong></th>
+<th style="text-align: left;"><strong>Low Value Indicates</strong></th>
+<th style="text-align: left;"><strong>Goal in Clustering</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Distance</strong></td>
+<td style="text-align: left;">A measure of dissimilarity between two objects</td>
+<td style="text-align: left;">Objects are far apart (dissimilar)</td>
+<td style="text-align: left;">Objects are close together (similar)</td>
+<td style="text-align: left;"><strong>Minimize intra-cluster distances</strong> and <strong>maximize inter-cluster distances</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Similarity</strong></td>
+<td style="text-align: left;">A measure of closeness or resemblance between two objects</td>
+<td style="text-align: left;">Objects are close together (similar)</td>
+<td style="text-align: left;">Objects are far apart (dissimilar)</td>
+<td style="text-align: left;"><strong>Maximize intra-cluster similarities</strong> and <strong>minimize inter-cluster similarities</strong></td>
+</tr>
+</tbody>
+</table>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="clustring_files/figure-html/similarity-vs-distance-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Relationship between distance and similarity — points in the same cluster have high similarity (low distance).</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>A <strong>distance metric</strong> <span class="math inline">\(d(\mathbf{x}, \mathbf{y})\)</span> measures the dissimilarity between two points <span class="math inline">\(\mathbf{x}=(x_1, x_2, \ldots, x_p)\)</span> and <span class="math inline">\(\mathbf{y} = (y_1, y_2, \ldots, y_p)\)</span>. Formally, a function <span class="math inline">\(d: X \times X \rightarrow \mathbb{R}\)</span> is a <em>metric</em> if it satisfies: <span class="math display">\[
+\begin{aligned}
+1.\;&amp; d(\mathbf{x}, \mathbf{y}) \ge 0 &amp;&amp; \text{(non-negativity)} \\
+2.\;&amp; d(\mathbf{x}, \mathbf{y}) = 0 \iff \mathbf{x} = \mathbf{y} &amp;&amp; \text{(identity)} \\
+3.\;&amp; d(\mathbf{x}, \mathbf{y}) = d(\mathbf{y}, \mathbf{x}) &amp;&amp; \text{(symmetry)} \\
+4.\;&amp; d(\mathbf{x}, \mathbf{y}) \le d(\mathbf{x}, \mathbf{z}) + d(\mathbf{z}, \mathbf{y}) &amp;&amp; \text{(triangle inequality)}
+\end{aligned}
+\]</span></p>
+<p>A <strong>similarity measure</strong> <span class="math inline">\(s(\mathbf{x}, \mathbf{y})\)</span> expresses how close or related two points are.<br>
+It usually satisfies: <span class="math display">\[
+\begin{aligned}
+1.\;&amp; s(\mathbf{x}, \mathbf{y}) \ge 0 &amp;&amp; \text{(non-negativity)} \\
+2.\;&amp; s(\mathbf{x}, \mathbf{y}) = s(\mathbf{y}, \mathbf{x}) &amp;&amp; \text{(symmetry)} \\
+3.\;&amp; s(\mathbf{x}, \mathbf{y}) \in [0, 1] &amp;&amp; \text{(boundedness)} \\
+4.\;&amp; s(\mathbf{x}, \mathbf{x}) = 1 &amp;&amp; \text{(maximum self-similarity)}
+\end{aligned}
+\]</span> A simple transformation links both concepts: <span class="math display">\[
+s(\mathbf{x}, \mathbf{y}) = \frac{1}{1 + d(\mathbf{x}, \mathbf{y})}, \quad \text{where } s(\mathbf{x}, \mathbf{y}) \in [0, 1].
+\]</span></p>
+<section id="common-distance-metrics" class="level3" data-number="10.2.1">
+<h3 data-number="10.2.1" class="anchored" data-anchor-id="common-distance-metrics"><span class="header-section-number">10.2.1</span> Common Distance Metrics</h3>
+<p>Different clustering algorithms may behave very differently depending on the metric used.<br>
+Below are the most widely used <strong>distance measures</strong>.</p>
+<section id="euclidean-distance" class="level4" data-number="10.2.1.1">
+<h4 data-number="10.2.1.1" class="anchored" data-anchor-id="euclidean-distance"><span class="header-section-number">10.2.1.1</span> <strong>Euclidean Distance</strong></h4>
+<p>The most common metric, representing the straight-line distance between two points in <span class="math inline">\(\mathbb{R}^p\)</span>: <span class="math display">\[
+d_E(\mathbf{x}, \mathbf{y}) = \sqrt{\sum_{i=1}^{p} (x_i - y_i)^2}
+\]</span></p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Euclidean distance is sensitive to scale; therefore, variables should usually be standardized before applying it.</p>
+</div>
+</div>
 <div id="qwebr-insertion-location-1"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>In this exercise, we will perform Exploratory Data Analysis (EDA) using the penguins dataset from the <code>palmerpenguins</code> package.</p>
-<p>At each step, you will find a question to test your understanding.</p>
-<p><strong>Step 1: First Look</strong></p>
+</section>
+<section id="manhattan-or-city-block-distance" class="level4" data-number="10.2.1.2">
+<h4 data-number="10.2.1.2" class="anchored" data-anchor-id="manhattan-or-city-block-distance"><span class="header-section-number">10.2.1.2</span> <strong>Manhattan (or City-Block) Distance</strong></h4>
+<p>This distance sums the absolute differences across all coordinates: <span class="math display">\[
+d_M(\mathbf{x}, \mathbf{y}) = \sum_{i=1}^{p} |x_i - y_i|
+\]</span></p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The Manhattan distance is more robust to outliers and suitable when features represent grid-like or discrete steps.</p>
+</div>
+</div>
 <div id="qwebr-insertion-location-2"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>The dataset has 344 rows and 8 variables. Some values are missing.</p>
-<p><strong>Question 1.</strong> How many variables are categorical?</p>
-<ol type="A">
-<li>2</li>
-<li>3</li>
-<li>4</li>
-<li>5</li>
-</ol>
-<p><strong>Correct Answer:</strong> B</p>
-<p><strong>Step 2. Numerical Summaries</strong></p>
+</section>
+<section id="minkowski-distance" class="level4" data-number="10.2.1.3">
+<h4 data-number="10.2.1.3" class="anchored" data-anchor-id="minkowski-distance"><span class="header-section-number">10.2.1.3</span> <strong>Minkowski Distance</strong></h4>
+<p>A generalization of Euclidean and Manhattan distances, controlled by a parameter <span class="math inline">\(r\)</span>: <span class="math display">\[
+d_r(\mathbf{x}, \mathbf{y}) = \left( \sum_{i=1}^{p} |x_i - y_i|^r \right)^{1/r}
+\]</span></p>
+<ul>
+<li><p>When <span class="math inline">\(r = 1\)</span>, it becomes Manhattan distance.</p></li>
+<li><p>When <span class="math inline">\(r = 2\)</span>, it becomes Euclidean distance.</p></li>
+<li><p>Larger values of <span class="math inline">\(r\)</span> emphasize large coordinate differences.</p></li>
+</ul>
 <div id="qwebr-insertion-location-3"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>The body mass ranges from about 2700g to 6300g.</p>
-<p><strong>Question 2.</strong> Which measure is most robust to outliers?</p>
-<ol type="A">
-<li>Mean</li>
-<li>Standard deviation</li>
-<li>Interquartile Range (IQR)</li>
-<li>Variance</li>
-</ol>
-<p><strong>Correct Answer:</strong> C</p>
-<p><strong>Step 3: Visualization – Boxplot</strong></p>
+</section>
+<section id="chebyshev-distance" class="level4" data-number="10.2.1.4">
+<h4 data-number="10.2.1.4" class="anchored" data-anchor-id="chebyshev-distance"><span class="header-section-number">10.2.1.4</span> <strong>Chebyshev Distance</strong></h4>
+<p>Also known as the <span class="math inline">\(L_\infty\)</span> norm, this distance takes the largest coordinate difference: <span class="math display">\[
+d_C(\mathbf{x}, \mathbf{y}) = \max_i |x_i - y_i|
+\]</span> It measures how far apart two points are along the dimension where they differ most.</p>
 <div id="qwebr-insertion-location-4"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>Gentoo penguins appear heavier than Adelie and Chinstrap.</p>
-<p><strong>Question 3.</strong> What does each box in the boxplot represent?</p>
-<ol type="A">
-<li>The entire dataset &nbsp;&nbsp;&nbsp;</li>
-<li>Distribution of body mass for one species</li>
-<li>Only the mean of each species &nbsp;&nbsp;&nbsp;</li>
-<li>Outliers only</li>
-</ol>
-<p><strong>Correct Answer:</strong> C</p>
-<p><strong>Step 4: Relationships Between Variables</strong></p>
+</section>
+<section id="mahalanobis-distance" class="level4" data-number="10.2.1.5">
+<h4 data-number="10.2.1.5" class="anchored" data-anchor-id="mahalanobis-distance"><span class="header-section-number">10.2.1.5</span> <strong>Mahalanobis Distance</strong></h4>
+<p>A scale-invariant distance that accounts for correlations between variables: <span class="math display">\[
+d_{Mah}(\mathbf{x}, \mathbf{y}) = \sqrt{(x - y)^{T} \boldsymbol{\Sigma}^{-1} (x - y)}
+\]</span> where <span class="math inline">\(\boldsymbol{\Sigma}\)</span> is the covariance matrix of the data. Two points with the same Mahalanobis distance from the mean are equally likely under a multivariate normal model, regardless of the variable scales or correlations.</p>
 <div id="qwebr-insertion-location-5"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>Flipper length and body mass are positively related.</p>
-<p><strong>Question 4.</strong> What does a positive relationship mean here?</p>
-<ol type="A">
-<li><p>Larger flipper length tends to go with higher body mass</p></li>
-<li><p>Flipper length causes body mass</p></li>
-<li><p>There is no association</p></li>
-<li><p>Outliers explain the pattern</p></li>
-</ol>
-<p><strong>Correct Answer:</strong> A</p>
-<p><strong>Step 5: Missing Data</strong></p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Choosing an Appropriate Metric</strong></p>
+<p>The choice of metric depends on the <strong>data characteristics</strong> and the <strong>clustering goal</strong>:</p>
+<ul>
+<li>Use <strong>Euclidean</strong> when features are continuous and scaled.<br>
+</li>
+<li>Use <strong>Manhattan</strong> for grid-like or sparse data.<br>
+</li>
+<li>Use <strong>Mahalanobis</strong> when features are correlated.<br>
+</li>
+<li>Use <strong>Chebyshev</strong> for problems sensitive to maximum deviations.<br>
+</li>
+<li>Use <strong>Minkowski</strong> for flexible control between Manhattan and Euclidean.</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="cosine-and-correlation-distance" class="level4" data-number="10.2.1.6">
+<h4 data-number="10.2.1.6" class="anchored" data-anchor-id="cosine-and-correlation-distance"><span class="header-section-number">10.2.1.6</span> Cosine and Correlation Distance</h4>
+<p>For data where <em>direction</em> or <em>orientation</em> matters more than magnitude — such as text represented by TF-IDF vectors or normalized embeddings — Euclidean distance is not ideal. Instead, we use <em>cosine similarity</em> or <em>correlation distance</em>.</p>
+<p>The <em>cosine similarity</em> between two vectors <span class="math inline">\(\mathbf{x}\)</span> and <span class="math inline">\(\mathbf{y}\)</span> is defined as <span class="math display">\[
+s_{\text{cosine}}(\mathbf{x}, \mathbf{y}) = \frac{\mathbf{x} \cdot \mathbf{y}}{\|\mathbf{x}\| \, \|\mathbf{y}\|}
+\]</span> where <span class="math inline">\(\mathbf{x} \cdot \mathbf{y}\)</span> is the <strong>dot product</strong> of the two vectors, and <span class="math inline">\(\|\mathbf{x}\|\)</span> and <span class="math inline">\(\|\mathbf{y}\|\)</span> are their**Euclidean norms*.</p>
+<p>This similarity measures the <em>cosine of the angle</em> between the two vectors in a multidimensional space.</p>
+<ul>
+<li><p>A value of <strong>1</strong> means the vectors point in the <strong>same direction</strong> (perfectly similar).</p></li>
+<li><p>A value of <strong>0</strong> means the vectors are <strong>orthogonal</strong> (no similarity).</p></li>
+<li><p>A value of <strong>–1</strong> means they point in <strong>opposite directions</strong> (perfectly dissimilar).</p></li>
+</ul>
+<p>The corresponding <em>cosine distance</em> is: <span class="math display">\[
+d_{\text{cosine}}(\mathbf{x}, \mathbf{y}) = 1 - s_{\text{cosine}}(\mathbf{x}, \mathbf{y})
+\]</span></p>
 <div id="qwebr-insertion-location-6"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>The variable <code>sex</code> has missing values.</p>
-<p><strong>Question 5.</strong> Which R function checks if any missing values exist in the dataset?</p>
-<ol type="A">
-<li><code>is.na()</code><br>
-</li>
-<li><code>anyNA()</code></li>
-<li><code>all()</code></li>
-<li><code>na.rm()</code></li>
-</ol>
-<p><strong>Correct Answer:</strong> B</p>
+<div class="callout.tip">
+<p>Cosine-based metrics are particularly useful for <em>directional data</em>, where the <em>pattern</em> or <em>orientation</em> of features matters more than their magnitude —<br>
+for example, in <em>text mining</em> (TF-IDF vectors), <em>recommendation systems</em>, or <em>image feature embeddings</em>.</p>
+</div>
 </section>
-<section id="sample-2" class="level2" data-number="6.2">
-<h2 data-number="6.2" class="anchored" data-anchor-id="sample-2"><span class="header-section-number">6.2</span> Sample 2</h2>
+</section>
+<section id="distances-for-binary-data" class="level3" data-number="10.2.2">
+<h3 data-number="10.2.2" class="anchored" data-anchor-id="distances-for-binary-data"><span class="header-section-number">10.2.2</span> Distances for Binary Data</h3>
+<p>When the data are <strong>binary</strong> (0 or 1), such as presence/absence, success/failure, or yes/no attributes, specialized similarity and distance measures are used.</p>
+<p>Let <span class="math inline">\(o_1, o_2 \in \{0,1\}^d\)</span> be two binary observations described by <span class="math inline">\(d\)</span> attributes.</p>
+<p>We define: <span class="math display">\[
+\begin{aligned}
+f_{11} &amp;= \text{number of attributes where } o_1 = 1 \text{ and } o_2 = 1, \\
+f_{00} &amp;= \text{number of attributes where } o_1 = 0 \text{ and } o_2 = 0, \\
+f_{10} &amp;= \text{number of attributes where } o_1 = 1 \text{ and } o_2 = 0, \\
+f_{01} &amp;= \text{number of attributes where } o_1 = 0 \text{ and } o_2 = 1.
+\end{aligned}
+\]</span></p>
+<section id="simple-matching-coefficient-similarity" class="level4" data-number="10.2.2.1">
+<h4 data-number="10.2.2.1" class="anchored" data-anchor-id="simple-matching-coefficient-similarity"><span class="header-section-number">10.2.2.1</span> <strong>Simple Matching Coefficient (Similarity)</strong></h4>
+<p><span class="math display">\[
+s_{SMC}(o_1, o_2) = \frac{f_{11} + f_{00}}{f_{11} + f_{00} + f_{10} + f_{01}} = \frac{f_{11} + f_{00}}{d}
+\]</span></p>
+<p>This coefficient measures the proportion of attributes where the two observations match — whether both are 1s or both are 0s.</p>
+</section>
+<section id="simple-matching-distance" class="level4" data-number="10.2.2.2">
+<h4 data-number="10.2.2.2" class="anchored" data-anchor-id="simple-matching-distance"><span class="header-section-number">10.2.2.2</span> <strong>Simple Matching Distance</strong></h4>
+<p><span class="math display">\[
+d_{SMC}(o_1, o_2) = 1 - s_{SMC}(o_1, o_2) = \frac{f_{01} + f_{10}}{d}
+\]</span> This represents the proportion of mismatches between two binary objects.</p>
 <div id="qwebr-insertion-location-7"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>we will explore the <code>mtcars</code> dataset, which contains fuel consumption and performance information about <span class="math inline">\(32\)</span> car models from 1974.</p>
-<p>We will perform EDA and answer questions along the way.</p>
-<p><strong>Step 1. First Look</strong></p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><p>If two binary vectors are identical,<span class="math inline">\(s_{SMC} = 1\)</span> and <span class="math inline">\(d_{sMC} = 0\)</span>.</p></li>
+<li><p>If they are completely opposite, <span class="math inline">\(s_{SMC} = 0\)</span> and <span class="math inline">\(d_{sMC} = 1\)</span>.</p></li>
+<li><p>The SMC treats <span class="math inline">\(0\)</span>s and <span class="math inline">\(1\)</span>s symmetrically, so it is best used when both states are equally meaningful.</p></li>
+</ul>
+</div>
+</div>
+</section>
+</section>
+<section id="distances-for-categorical-data" class="level3" data-number="10.2.3">
+<h3 data-number="10.2.3" class="anchored" data-anchor-id="distances-for-categorical-data"><span class="header-section-number">10.2.3</span> Distances for Categorical Data</h3>
+<p>When data contain <strong>categorical</strong> or <strong>mixed-type variables</strong>, standard numeric distances (like Euclidean) are not suitable.<br>
+Instead, we use measures that handle <strong>qualitative comparisons</strong> directly.</p>
+<p>Let <span class="math inline">\(\mathbf{x} = (x_1, \ldots, x_p)\)</span> and <span class="math inline">\(\mathbf{y} = (y_1, \ldots, y_p)\)</span> be two observations described by <span class="math inline">\(p\)</span> categorical or mixed-type attributes.</p>
+<section id="hamming-distance" class="level4" data-number="10.2.3.1">
+<h4 data-number="10.2.3.1" class="anchored" data-anchor-id="hamming-distance"><span class="header-section-number">10.2.3.1</span> <strong>Hamming Distance</strong></h4>
+<p>The <strong>Hamming distance</strong> counts the number of mismatches between two vectors: <span class="math display">\[
+\text{d}_{Hamming}(\mathbf{x}, \mathbf{y}) = \sum_{i=1}^{p} \delta(x_i, y_i)
+\]</span> where <span class="math display">\[
+\delta(x_i, y_i) =
+\begin{cases}
+0, &amp; \text{if } x_i = y_i \\
+1, &amp; \text{if } x_i \neq y_i
+\end{cases}
+\]</span> It measures how many positions differ between two categorical strings or binary vectors.</p>
+</section>
+<section id="gower-distance" class="level4" data-number="10.2.3.2">
+<h4 data-number="10.2.3.2" class="anchored" data-anchor-id="gower-distance"><span class="header-section-number">10.2.3.2</span> <strong>Gower Distance</strong></h4>
+<p>The <strong>Gower distance</strong> allows comparing <strong>mixed-type data</strong> (numerical, categorical, ordinal). For each variable <span class="math inline">\(X_i\)</span>, a partial distance is computed, and then averaged: <span class="math display">\[
+\text{d}_{Gower}(\mathbf{x}, \mathbf{y}) =
+\frac{1}{p} \sum_{i=1}^{p} \delta_i(x_i, y_i)
+\]</span> with <span class="math display">\[
+\delta_i(x_i, y_i) =
+\begin{cases}
+0, &amp; \text{if } x_i = y_i \\
+1, &amp; \text{if } X_i \text{ is categorical and } x_i \neq y_i \\
+\frac{|x_i - y_i|}{R_i}, &amp; \text{if } X_i \text{ is interval scale} \\
+\frac{|\text{rank}(x_i) - \text{rank}(y_i)|}{n - 1}, &amp; \text{if } X_i \text{ is ordinal scale}
+\end{cases}
+\]</span> This flexibility makes Gower distance especially useful in real datasets with mixed variable types.</p>
 <div id="qwebr-insertion-location-8"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>The dataset has <span class="math inline">\(32\)</span> observations and <span class="math inline">\(11\)</span> variables.</p>
-<p><strong>Question 1.</strong> How many variables are numeric?</p>
-<ol type="A">
-<li>8</li>
-<li>9</li>
-<li>10</li>
-<li>11</li>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Exercise 1</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Exercise 2</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href="">Exercise 3</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false" href="">Exercise 4</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<p><strong>1. Create two 3-dimensional points and calculate the distance</strong></p>
+<p>Let <span class="math inline">\(A = (1, 3, 5)\)</span> and <span class="math inline">\(B = (4, 9, 6)\)</span>.</p>
+<p>Compute manually and in R the following distances between <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>:</p>
+<ul>
+<li><p>Euclidean</p></li>
+<li><p>Manhattan</p></li>
+<li><p>Minkowski with <span class="math inline">\(r = 3\)</span></p></li>
+<li><p>Chebyshev</p></li>
+</ul>
+<p><strong>2. Explore sensitivity to scale</strong></p>
+<p>Multiply the second coordinate of both points by 10 and recompute all distances. How does this change the results?</p>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<p>Two species are described by four binary characteristics:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Feature</th>
+<th>Species A</th>
+<th>Species B</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Has fins</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>Lays eggs</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td>Has scales</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>Warm-blooded</td>
+<td>0</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<ol type="1">
+<li><p>Compute manually:</p>
+<ul>
+<li>( f_{11}, f_{00}, f_{10}, f_{01} )</li>
+<li>The <em>Simple Matching Coefficient (SMC)</em><br>
+</li>
+<li>The <em>Simple Matching Distance (SMD)</em></li>
+</ul></li>
+<li><p>Verify your results using R.</p></li>
+<li><p>Which pair of features contributes to dissimilarity?</p></li>
 </ol>
-<p><strong>Correct Answer:</strong> B</p>
-<p><strong>Step 2: Descriptive Statistics</strong></p>
+</div>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
+<p>Two students rate three projects as “Good”, “Average”, or “Poor”:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Project</th>
+<th>Student 1</th>
+<th>Student 2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>A</td>
+<td>Good</td>
+<td>Good</td>
+</tr>
+<tr class="even">
+<td>B</td>
+<td>Poor</td>
+<td>Average</td>
+</tr>
+<tr class="odd">
+<td>C</td>
+<td>Good</td>
+<td>Poor</td>
+</tr>
+</tbody>
+</table>
+<p>Compute the <em>Hamming distance</em> (number of mismatches).</p>
+</div>
+<div id="tabset-1-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-4-tab">
+<p>Two students rate three projects as “Good”, “Average”, or “Poor”:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Project</th>
+<th>Student 1</th>
+<th>Student 2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>A</td>
+<td>Good</td>
+<td>Good</td>
+</tr>
+<tr class="even">
+<td>B</td>
+<td>Poor</td>
+<td>Average</td>
+</tr>
+<tr class="odd">
+<td>C</td>
+<td>Good</td>
+<td>Poor</td>
+</tr>
+</tbody>
+</table>
+<p>Compute the <em>Hamming distance</em> (number of mismatches).</p>
+<p><strong>Hint</strong>: Use</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>data[] <span class="ot">&lt;-</span> <span class="fu">lapply</span>(data, <span class="cf">function</span>(col) <span class="cf">if</span> (<span class="fu">is.character</span>(col)) <span class="fu">as.factor</span>(col) <span class="cf">else</span> col)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="partition-based-clustering-k-means-and-k-medoids" class="level2" data-number="10.3">
+<h2 data-number="10.3" class="anchored" data-anchor-id="partition-based-clustering-k-means-and-k-medoids"><span class="header-section-number">10.3</span> Partition-Based Clustering: K-Means and K-Medoids</h2>
+<section id="k-means-clustering" class="level3" data-number="10.3.1">
+<h3 data-number="10.3.1" class="anchored" data-anchor-id="k-means-clustering"><span class="header-section-number">10.3.1</span> <span class="math inline">\(k\)</span>-Means Clustering</h3>
+<p>K-Means aims to partition <span class="math inline">\(n\)</span> observations into <span class="math inline">\(k\)</span> clusters such that each observation belongs to the cluster with the nearest <strong>centroid</strong> (mean of points).</p>
+<p>Each cluster is represented by its <em>centroid</em>, which may not be an actual data point.</p>
+<p><strong>Algorithm</strong></p>
+<p>Given a dataset <span class="math inline">\(\mathbf{X}= \{\mathbf{x}_1, \mathbf{x}_2, \ldots, \mathbf{x}_n\}\)</span>:</p>
+<ol type="1">
+<li>Choose the number of clusters <span class="math inline">\(k\)</span>.<br>
+</li>
+<li>Initialize <span class="math inline">\(k\)</span> centroids randomly.<br>
+</li>
+<li><strong>Assign step:</strong> Assign each observation <span class="math inline">\(x_i\)</span> to the nearest centroid:</li>
+<li><span class="math display">\[
+c_i = \arg\min_j \|x_i - \mu_j\|^2
+\]</span></li>
+<li><strong>Update step:</strong> Recalculate each centroid as the mean of points in its cluster: <span class="math display">\[
+\mu_j = \frac{1}{n_j} \sum_{x_i \in C_j} x_i
+\]</span></li>
+<li>Repeat steps 3–4 until centroids stop changing (convergence).</li>
+</ol>
+<p>For better understanding, see this <a href="https://blog.dailydoseofds.com/p/an-animated-guide-to-kmeans">video</a></p>
 <div id="qwebr-insertion-location-9"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>The miles-per-gallon (mpg) ranges from <span class="math inline">\(10.4\)</span> to <span class="math inline">\(33.9\)</span>.</p>
-<p><strong>Question 2.</strong> Which value best describes the typical <code>mpg</code> while being robust to outliers?</p>
-<ol type="A">
-<li><span class="math inline">\(20.9\)</span></li>
-<li><span class="math inline">\(19.20\)</span>&nbsp;&nbsp;</li>
-<li><span class="math inline">\(7.375\)</span> &nbsp;&nbsp;</li>
-<li><span class="math inline">\(6.026948\)</span></li>
-</ol>
-<p><strong>Correct Answer:</strong> B</p>
-<p><strong>Step 3: Categorical Variable – Cylinders</strong></p>
+</section>
+<section id="properties-and-limitations-of-k-means" class="level3" data-number="10.3.2">
+<h3 data-number="10.3.2" class="anchored" data-anchor-id="properties-and-limitations-of-k-means"><span class="header-section-number">10.3.2</span> Properties and Limitations of <span class="math inline">\(k\)</span>-Means</h3>
+<p>Although <span class="math inline">\(k\)</span>$-means is one of the most popular clustering algorithms, its effectiveness depends on the structure and scale of the data. Understanding its limitations helps decide when to use it — and when to choose a more robust alternative like <span class="math inline">\(k\)</span>-Medoids.</p>
+<section id="data-type-and-cluster-shape" class="level5" data-number="10.3.2.0.1">
+<h5 data-number="10.3.2.0.1" class="anchored" data-anchor-id="data-type-and-cluster-shape"><span class="header-section-number">10.3.2.0.1</span> ** Data Type and Cluster Shape**</h5>
+<p><span class="math inline">\(k\)</span>-Means works best when:</p>
+<ul>
+<li><p>All variables are **</p></li>
+<li><p>numeric**</p></li>
+<li><p>and measured on a comparable scale.</p></li>
+<li><p>The clusters are <em>spherical</em> (or roughly circular in 2D).</p></li>
+<li><p>Each cluster has <em>similar variance</em> and <em>density</em>.</p></li>
+</ul>
+<p>When clusters are elongated, overlapping, or non-spherical, <span class="math inline">\(k\)</span>-Means may assign points incorrectly because it relies on <em>Euclidean distance</em>.</p>
+</section>
+<section id="sensitivity-to-scale" class="level5" data-number="10.3.2.0.2">
+<h5 data-number="10.3.2.0.2" class="anchored" data-anchor-id="sensitivity-to-scale"><span class="header-section-number">10.3.2.0.2</span> <strong>Sensitivity to Scale</strong></h5>
+<p>Since Euclidean distance depends directly on the magnitude of the variables, features with larger numerical ranges will dominate the distance calculation.</p>
+<p>For example, in a dataset with <em>income</em> (in euros) and <em>age</em> (in years), income will completely overshadow age unless both are standardized.</p>
+<p>Always <em>standardize or normalize</em> variables before running <span class="math inline">\(k\)</span>-Means:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Standardization example</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>x_scaled <span class="ot">&lt;-</span> <span class="fu">scale</span>(x)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">kmeans</span>(x_scaled, <span class="at">centers =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+</section>
+<section id="effect-of-scaling-on-k-means-clustering" class="level3" data-number="10.3.3">
+<h3 data-number="10.3.3" class="anchored" data-anchor-id="effect-of-scaling-on-k-means-clustering"><span class="header-section-number">10.3.3</span> Effect of Scaling on <span class="math inline">\(k\)</span>-Means Clustering</h3>
+<p><span class="math inline">\(k\)</span>-means relies on <em>Euclidean distance</em>, which is sensitive to the magnitude of each variable. If one variable has a much larger scale than others, it can dominate the clustering process — even if it’s less informative.</p>
+<p>The following example illustrates this issue.</p>
+<section id="example-unscaled-vs.-scaled-data" class="level4" data-number="10.3.3.1">
+<h4 data-number="10.3.3.1" class="anchored" data-anchor-id="example-unscaled-vs.-scaled-data"><span class="header-section-number">10.3.3.1</span> Example: Unscaled vs.&nbsp;Scaled Data</h4>
+<p>We will create a simple dataset with two features:</p>
+<ul>
+<li><p><code>income</code> (in euros, large values)</p></li>
+<li><p><code>age</code> (in years, small values)</p></li>
+</ul>
 <div id="qwebr-insertion-location-10"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>Cars come with <span class="math inline">\(4\)</span>, <span class="math inline">\(6\)</span>, or <span class="math inline">\(8\)</span> cylinders.</p>
-<p><strong>Question 3.</strong> Which cylinder type is most common in the dataset?</p>
-<ol type="A">
-<li>4 cylinders</li>
-<li>6 cylinders</li>
-<li>8 cylinders<br>
-</li>
-<li>All equally common</li>
-</ol>
-<p><strong>Step 4: Visualization – Boxplot</strong></p>
-<div id="qwebr-insertion-location-11"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p><strong>Question 4.</strong> What does the plot suggest?</p>
-<ol type="A">
-<li>Cars with more cylinders have higher <code>mpg</code></li>
-<li>Cars with more cylinders have lower <code>mpg</code></li>
-<li>Cars with more cylinders have identical <code>mpg</code></li>
-<li>No relationship is visible</li>
-</ol>
-<p><strong>Correct Answer:</strong> B</p>
-<p><strong>Step 5: Relationship Between Variables</strong></p>
-<div id="qwebr-insertion-location-12"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p><strong>Question 5.</strong> What trend do we see between horsepower (<code>hp</code>) and miles per gallon (<code>mpg</code>)?</p>
-<ol type="A">
-<li>Higher horsepower cars tend to have lower <code>mpg</code></li>
-<li>Higher horsepower cars tend to have higher <code>mpg</code></li>
-<li>No relationship</li>
-<li>Only automatic cars follow this trend</li>
-</ol>
-<p><strong>Correct Answer:</strong> A</p>
-<p><strong>Step 6: Correlation</strong></p>
-<div id="qwebr-insertion-location-13"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p><strong>Question 6.</strong> What does the correlation between <code>hp</code> and <code>mpg</code> mean?</p>
-<ol type="A">
-<li>Strong positive relationship</li>
-<li>Strong negative relationship</li>
-<li>Weak negative relationship</li>
-<li>No relationship</li>
-</ol>
-<p><strong>Correct Answer:</strong> B</p>
+<p><strong>Without scaling</strong>: The <code>income</code> variable dominates, because it has a much larger numeric range. The clusters are separated mostly along the horizontal (income) axis.</p>
+<p><strong>With scaling</strong>: Both <code>income</code> and <code>age</code> contribute equally to the distance measure. The clusters now reflect genuine structure in both dimensions.</p>
 
 
+</section>
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -2681,13 +3108,13 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../chapters/project.html" class="pagination-link" aria-label="Project">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Project</span></span>
+      <a href="../chapters/Decision_trees.html" class="pagination-link" aria-label="Decision Trees">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Decision Trees</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../chapters/Outlier_Detection.html" class="pagination-link" aria-label="Outlier Detection: Understading and Handling">
-        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Outlier Detection: Understading and Handling</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../chapters/chapter5_logistic_regression.html" class="pagination-link" aria-label="Logistic Regression">
+        <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Logistic Regression</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
