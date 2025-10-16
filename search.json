@@ -640,7 +640,7 @@
     "href": "chapters/Decision_trees.html#handling-missing-values-in-cart",
     "title": "9  Decision Trees",
     "section": "9.4 Handling Missing Values in CART",
-    "text": "9.4 Handling Missing Values in CART\n\ndata('airquality')\ncolSums(is.na(airquality))\n\n  Ozone Solar.R    Wind    Temp   Month     Day \n     37       7       0       0       0       0 \n\n\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.",
+    "text": "9.4 Handling Missing Values in CART\n\ndata('airquality')\ncolSums(is.na(airquality))\n\n  Ozone Solar.R    Wind    Temp   Month     Day \n     37       7       0       0       0       0 \n\n\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.",
     "crumbs": [
       "Explanatory Data Analysis",
       "<span class='chapter-number'>9</span>  <span class='chapter-title'>Decision Trees</span>"
