@@ -17,7 +17,10 @@ book:
         - chapters/Outlier_Detection.qmd
         - chapters/missing_values.qmd
         - chapters/Decision_trees.qmd
-    - part: "Logistic Regression"
+    - part: "Clustering"
+      chapters:
+        - chapters/clustring.qmd
+    - part: "Classification"
       chapters:
         - chapters/chapter5_logistic_regression.qmd
     - part: "Data"
