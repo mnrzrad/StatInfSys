@@ -784,7 +784,7 @@ $$
 
 A higher ratio means that the clusters explain a greater proportion of the data’s variance.
 
-#### **Silhouette Coefficient (optional preview)**
+#### **Silhouette Coefficient**
 
 The *Silhouette Coefficient* combines *cohesion* (how close points are within a cluster) and *separation* (how far points are from other clusters):
 $$
@@ -795,11 +795,10 @@ where:
 - $b(i)$: smallest average distance from point $i$ to points in another cluster  
 
 Values range from $–1$ to $1$:
+
 - **Close to $1$:** well-clustered  
 - **Around $0$:** point near cluster boundary  
 - **Negative:** likely misclassified
-
-
 
 :::{.callout-note}
 **Summary**
@@ -866,6 +865,18 @@ theme_minimal()
 ```
 
 We observe that the *elbow* appears around $k = 3$, matching the three known species.
+
+
+:::{.callout-tip}
+In the $k$-means function
+```{r}
+#| eval: false 
+kmeans(iris_data, centers = 3, nstart = 20)
+```
+the argument `nstart` controls how many random initializations the algorithm tries before selecting the best solution.
+
+Actually, $k$-means starts by randomly choosing $k$ points as *initial centroids*. Depending on these starting points, the algorithm can converge to *different local minima* — meaning the results may vary across runs. So, `nstart` means number of random initial sets of centroids to try and then, R will run the algorithm that many times and keep the best result (the one with the lowest total within-cluster sum of squares). 
+:::
 
 Now, we apply $k$-means algorithm with $k = 3$.
 
@@ -1051,3 +1062,173 @@ table(Cluster = iris_clustered$cluster, Species = iris_clustered$Species)
 ```
 
 As you see, *Setosa* is perfectly separated, while *versicolor* and *virginica* overlap.
+
+
+We can also evaluat  clustering with the Silhouette coefficient
+
+```{webr-r}
+#| label: silhouette-iris
+#| autorun: true
+#| message: false
+#| warning: false
+
+library(cluster)
+set.seed(42)
+
+# K-means result for k = 3 (from previous section)
+km_iris <- kmeans(iris[, 1:4], centers = 3, nstart = 20)
+
+# Compute silhouette width
+sil_iris <- silhouette(km_iris$cluster, dist(iris[, 1:4]))
+
+# Display summary statistics
+summary(sil_iris)
+```
+
+```{webr-r}
+#| label: silhouette-plot
+#| echo: true
+#| fig-cap: "Silhouette plot for K-Means clustering (k = 3) on the Iris dataset"
+#| out-width: "80%"
+plot(sil_iris, border = NA, main = "Silhouette Plot — Iris Dataset (k = 3)")
+```
+The *average silhouette width *(displayed in the summary) gives an overall quality score.
+
+- Values > $0.5$ indicate clear, well-separated clusters.
+
+- Values around $0.25$–$0.5$ indicate overlapping clusters.
+
+- Values < $0.25$ indicate poor structure or misclassification.
+
+In the `iris` dataset, the average silhouette is typically around $0.55$–$0.60$,
+confirming that 
+$k=3$ is a reasonable choice.
+
+- *Setosa* usually has near-perfect silhouette values, while *Versicolor* and *Virginica* show some overlap — as expected.
+
+We can compute the average silhouette width for different numbers of clusters.
+
+```{webr-r}
+#| label: silhouette-elbow
+#| autorun: true
+#| message: false
+#| warning: false
+#| out-width: "80%"
+
+sil_widths <- sapply(2:10, function(k) {
+km <- kmeans(iris[, 1:4], centers = k, nstart = 20)
+ss <- silhouette(km$cluster, dist(iris[, 1:4]))
+mean(ss[, "sil_width"])
+})
+
+sil_df <- data.frame(k = 2:10, Silhouette = sil_widths)
+
+library(ggplot2)
+ggplot(sil_df, aes(k, Silhouette)) +
+geom_line(color = "steelblue", linewidth = 1.2) +
+geom_point(size = 3, color = "tomato") +
+scale_x_continuous(breaks = 2:10) +
+labs(title = "Average Silhouette Width by Number of Clusters",
+x = "Number of clusters (k)",
+y = "Average Silhouette Width") +
+theme_minimal()
+```
+
+As you see, the highest silhouette score occurs around $k = 3$, matching the known number of species. $k = 2$ gives larger compact clusters but merges two real species. While $k > 3$ begins splitting natural groups unnecessarily (overfitting). 
+You see that the *Silhouette Coefficient* confirms the Elbow method’s result
+
+::::: panel-tabset
+## Exercise 1
+
+Use the built-in dataset `USArrests`, which contains statistics on violent crime rates in the 1970s for 50 U.S. states.
+```{r}
+#| label: ex1
+#| eval: false
+
+data("USArrests")
+```
+Standardize all numeric features before applying $k$-Means using this R code:
+```{r}
+#| label: ex1-standard 
+#| eval: false
+
+us_data <- scale(USArrests)
+```
+**Elbow Method**
+
+- Compute the total within-cluster sum of squares (WSS) for $k=1$ to $10$.
+  
+- Plot the results.
+  
+- Identify the "elbow" point.
+
+**Silhouette Method**
+
+- Compute the average silhouette width for $k=2$ to $10$.
+  
+- Plot the results using the same approach as in the Iris example.
+  
+- Identify the $k$ that maximizes the silhouette width.
+
+## Exercise  2
+This exercise demonstrates how $k$-Means clustering can be used beyond data analysis — for image compression.
+
+Each color in an image can be treated as a data point in RGB space, and clustering reduces the number of colors while preserving the main structure.
+
+**Load and visualize an image.**
+
+```{r}
+#| eval: false 
+library(jpeg)
+library(ggplot2)
+library(dplyr)
+
+
+# Read example image from R base (or provide your own file path)
+url <- "https://upload.wikimedia.org/wikipedia/commons/3/3f/JPEG_example_flower.jpg"
+temp <- tempfile(fileext = ".jpg")
+download.file(url, temp, mode = "wb")
+img <- readJPEG(temp)
+
+
+# Convert to data frame
+img_df <- data.frame(
+R = as.vector(img[,,1]),
+G = as.vector(img[,,2]),
+B = as.vector(img[,,3])
+)
+```
+
+**Determine the optimal number of clusters.**
+
+Apply $k$-means clustering to the RGB values of the image (`img_df`) for $k = 2$ to $10$, using `nstart = 10`.  Then, use both the **Elbow Method** and the **Silhouette Coefficient** to decide which $k$ gives the best balance between cluster compactness and separation. Do both methods suggest the same number of clusters? 
+
+
+When you decide about the optimal $k$, with the following code, you can compare the original and compressed image. 
+
+```{r}
+#| eval: false 
+
+set.seed(123)
+
+
+k <- 'put the optimal value you found'
+km_colors <- kmeans(img_df, centers = k, nstart = 10)
+
+
+# Replace each pixel with its cluster centroid color
+compressed_img <- km_colors$centers[km_colors$cluster, ]
+compressed_img <- array(compressed_img, dim = dim(img))
+
+par(mfrow = c(1, 2))
+plot(0, type = "n", xlim = c(0, 1), ylim = c(0, 1),
+xlab = "", ylab = "", axes = FALSE, main = "Original Image")
+rasterImage(img, 0, 0, 1, 1)
+
+
+plot(0, type = "n", xlim = c(0, 1), ylim = c(0, 1),
+xlab = "", ylab = "", axes = FALSE, main = paste("Compressed Image (k =", k, ")"))
+rasterImage(compressed_img, 0, 0, 1, 1)
+```
+
+:::::
