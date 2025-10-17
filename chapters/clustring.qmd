@@ -566,7 +566,7 @@ data[] <- lapply(data, function(col) if (is.character(col)) as.factor(col) else 
 :::::
 
 
-## Partition-Based Clustering: K-Means and K-Medoids
+## Partition-Based Clustering: $k$-Means and $k$-Medoids
 
 ### $k$-Means Clustering
 
@@ -622,11 +622,11 @@ ggplot(data, aes(x, y, color = cluster)) +
   theme_minimal()
 ```
 
-### Properties and Limitations of $k$-Means
+#### Properties and Limitations of $k$-Means
 
 Although $k$$-means is one of the most popular clustering algorithms, its effectiveness depends on the structure and scale of the data. Understanding its limitations helps decide when to use it — and when to choose a more robust alternative like $k$-Medoids.
 
-##### ** Data Type and Cluster Shape**
+##### **Data Type and Cluster Shape**
 
 $k$-Means works best when:
 
@@ -658,7 +658,7 @@ x_scaled <- scale(x)
 kmeans(x_scaled, centers = 2)
 ```
 
-### Effect of Scaling on $k$-Means Clustering
+#### Effect of Scaling on $k$-Means Clustering
 
 $k$-means relies on *Euclidean distance*, which is sensitive to the magnitude of each variable. If one variable has a much larger scale than others, it can dominate the clustering process — even if it’s less informative.
 
@@ -706,18 +706,12 @@ subtitle = "Clusters dominated by 'income' variable") +
 theme_minimal() +
 theme(legend.position = "none")
 
-
-
-
 p2 <- ggplot(data_scale, aes(income, age, color = cluster_scaled)) +
 geom_point(size = 3) +
 labs(title = "K-Means With Scaling",
 subtitle = "Clusters reflect both 'income' and 'age'") +
 theme_minimal() +
 theme(legend.position = "none")
-
-
-
 
 p1 + p2
 ```
@@ -730,13 +724,13 @@ The clusters are separated mostly along the horizontal (income) axis.
 Both `income` and `age` contribute equally to the distance measure.
 The clusters now reflect genuine structure in both dimensions.
 
-### Measures of Cluster Quality
+#### Measures of Cluster Quality
 
 To evaluate and compare clustering results, we rely on *internal validation measures* — those that assess how compact and well-separated the clusters are, using only the data itself.
 
 The most common measures include:
 
-#### **Within-Cluster Sum of Squares (WSS)**
+##### **Within-Cluster Sum of Squares (WSS)**
 
 The *Within-Cluster Sum of Squares* measures how tightly the data points in a cluster are grouped around their centroid.
 $$
@@ -752,7 +746,7 @@ A smaller WSS means *more compact clusters*.
 **Used in:**  
 The **Elbow Method**, where we plot WSS vs. $k$ and look for the “*elbow*” — the point beyond which adding more clusters yields diminishing improvement.
 
-#### **Between-Cluster Sum of Squares (BSS)**
+##### **Between-Cluster Sum of Squares (BSS)**
 
 The *Between-Cluster Sum of Squares* measures how far apart the cluster centroids are from the overall mean of the dataset.
 $$
@@ -765,7 +759,7 @@ where:
 
 A larger BSS means *better separation* between clusters.
 
-#### **Total Sum of Squares (TSS)**
+##### **Total Sum of Squares (TSS)**
 
 The *Total Sum of Squares* represents the overall variation in the dataset:
 $$
@@ -784,7 +778,7 @@ $$
 
 A higher ratio means that the clusters explain a greater proportion of the data’s variance.
 
-#### **Silhouette Coefficient**
+##### **Silhouette Coefficient**
 
 The *Silhouette Coefficient* combines *cohesion* (how close points are within a cluster) and *separation* (how far points are from other clusters):
 $$
@@ -816,7 +810,7 @@ Good clustering minimizes **WSS** and maximizes **BSS**, producing compact, well
 The **Elbow Method** helps find a balance between simplicity (few clusters) and accuracy (tight, distinct groups).
 :::
 
-### Analysis pf `iris` Dataset
+#### Analysis of `iris` Dataset
 
 The classic `iris` dataset contains $150$ flower observations from three species (*setosa*, *versicolor*, *virginica*).  Each observation has four numeric features: `Sepal.Length`, `Sepal.Width`, `Petal.Length`, and `Petal.Width`
 
@@ -866,7 +860,6 @@ theme_minimal()
 
 We observe that the *elbow* appears around $k = 3$, matching the three known species.
 
-
 :::{.callout-tip}
 In the $k$-means function
 ```{r}
@@ -910,9 +903,6 @@ TSS <- sum(scale(iris_data, scale = FALSE)^2)
 WSS <- km_iris$tot.withinss
 BSS <- TSS - WSS
 ratio <- BSS / TSS
-
-
-
 
 cat("TSS:", round(TSS, 2), "\n")
 cat("WSS:", round(WSS, 2), "\n")
