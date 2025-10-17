@@ -5,7 +5,7 @@ filters:
 ---
 
 ```{r setup, include=FALSE}
-required_packages <- c("cluster", "lsa")
+required_packages <- c("cluster", "lsa", "GGally")
 
 for (pkg in required_packages) {
   if (!require(pkg, character.only = TRUE)) {
@@ -729,3 +729,325 @@ The clusters are separated mostly along the horizontal (income) axis.
 **With scaling**:
 Both `income` and `age` contribute equally to the distance measure.
 The clusters now reflect genuine structure in both dimensions.
+
+### Measures of Cluster Quality
+
+To evaluate and compare clustering results, we rely on *internal validation measures* — those that assess how compact and well-separated the clusters are, using only the data itself.
+
+The most common measures include:
+
+#### **Within-Cluster Sum of Squares (WSS)**
+
+The *Within-Cluster Sum of Squares* measures how tightly the data points in a cluster are grouped around their centroid.
+$$
+\text{WSS} = \sum_{j=1}^{k} \sum_{x_i \in C_j} \|x_i - \mu_j\|^2
+$$
+
+- $C_j$: set of points in cluster $j$  
+- $\mu_j$: centroid of cluster $j$  
+- $\|x_i - \mu_j\|^2$: squared Euclidean distance between a point and its centroid  
+
+A smaller WSS means *more compact clusters*.
+
+**Used in:**  
+The **Elbow Method**, where we plot WSS vs. $k$ and look for the “*elbow*” — the point beyond which adding more clusters yields diminishing improvement.
+
+#### **Between-Cluster Sum of Squares (BSS)**
+
+The *Between-Cluster Sum of Squares* measures how far apart the cluster centroids are from the overall mean of the dataset.
+$$
+\text{BSS} = \sum_{j=1}^{k} n_j \| \mu_j - \mu \|^2
+$$
+where:
+- $n_j$: number of points in cluster $j$  
+- $\mu_j$: centroid of cluster $j$ 
+- $\mu$: global mean of all data points  
+
+A larger BSS means *better separation* between clusters.
+
+#### **Total Sum of Squares (TSS)**
+
+The *Total Sum of Squares* represents the overall variation in the dataset:
+$$
+\text{TSS} = \sum_{i=1}^{n} \|x_i - \mu\|^2
+$$
+
+This relationship always holds:
+$$
+\text{TSS} = \text{BSS} + \text{WSS}
+$$
+
+This decomposition allows us to express clustering performance as a proportion of explained variance:
+$$
+\text{Ratio} = \frac{\text{BSS}}{\text{TSS}}
+$$
+
+A higher ratio means that the clusters explain a greater proportion of the data’s variance.
+
+#### **Silhouette Coefficient (optional preview)**
+
+The *Silhouette Coefficient* combines *cohesion* (how close points are within a cluster) and *separation* (how far points are from other clusters):
+$$
+s(i) = \frac{b(i) - a(i)}{\max(a(i), b(i))}
+$$
+where:  
+- $a(i)$: average distance from point $i$ to all other points in its cluster  
+- $b(i)$: smallest average distance from point $i$ to points in another cluster  
+
+Values range from $–1$ to $1$:
+- **Close to $1$:** well-clustered  
+- **Around $0$:** point near cluster boundary  
+- **Negative:** likely misclassified
+
+
+
+:::{.callout-note}
+**Summary**
+
+| Measure | Description | Ideal Value |
+|:---------|:-------------|:-------------|
+| **WSS** | Compactness within clusters | Low |
+| **BSS** | Separation between clusters | High |
+| **BSS / TSS** | Proportion of explained variance | High |
+| **Silhouette** | Cohesion and separation combined | Close to 1 |
+:::
+
+:::{.callout-important}
+Good clustering minimizes **WSS** and maximizes **BSS**, producing compact, well-separated groups.  
+The **Elbow Method** helps find a balance between simplicity (few clusters) and accuracy (tight, distinct groups).
+:::
+
+### Analysis pf `iris` Dataset
+
+The classic `iris` dataset contains $150$ flower observations from three species (*setosa*, *versicolor*, *virginica*).  Each observation has four numeric features: `Sepal.Length`, `Sepal.Width`, `Petal.Length`, and `Petal.Width`
+
+```{webr-r}
+#| label: iris-prepare
+#| autorun: true
+#| message: false
+#| warning: false
+
+# Load dataset
+data("iris")
+
+# Select only numeric features for clustering
+iris_data <- iris[, 1:4]
+```
+
+Suppose that we do not know that there are three groups and the goal is to determine the optimal number of clusters using *Elbow method*
+
+```{webr-r}
+#| label: iris-elbow
+#| autorun: true
+#| message: false
+#| warning: false
+#| out-width: "90%"
+
+library(ggplot2)
+
+# Compute WSS for k = 1:10
+
+wss <- sapply(1:10, function(k) {
+kmeans(iris_data, centers = k, nstart = 20)$tot.withinss
+})
+
+# Create Elbow plot
+
+elbow_df <- data.frame(k = 1:10, WSS = wss)
+
+ggplot(elbow_df, aes(k, WSS)) +
+geom_line(color = "steelblue", linewidth = 1.2) +
+geom_point(size = 3, color = "tomato") +
+scale_x_continuous(breaks = 1:10) +
+labs(title = "Elbow Method — Iris Dataset",
+x = "Number of clusters (k)",
+y = "Total Within-Cluster Sum of Squares (WSS)") +
+theme_minimal()
+```
+
+We observe that the *elbow* appears around $k = 3$, matching the three known species.
+
+Now, we apply $k$-means algorithm with $k = 3$.
+
+```{webr-r}
+#| label: iris-kmeans
+#| autorun: true
+#| message: false
+#| warning: false
+
+set.seed(42)
+km_iris <- kmeans(iris_data, centers = 3, nstart = 20)
+
+# Add cluster assignments to the dataset
+iris_clustered <- cbind(iris, cluster = factor(km_iris$cluster))
+
+# Show first few results
+head(iris_clustered)
+```
+
+We compute cluster quality measures.
+
+```{webr-r}
+#| label: iris-measures
+#| autorun: true
+#| message: false
+#| warning: false
+
+# Total, within, and between-cluster sums of squares
+
+TSS <- sum(scale(iris_data, scale = FALSE)^2)
+WSS <- km_iris$tot.withinss
+BSS <- TSS - WSS
+ratio <- BSS / TSS
+
+
+
+
+cat("TSS:", round(TSS, 2), "\n")
+cat("WSS:", round(WSS, 2), "\n")
+cat("BSS:", round(BSS, 2), "\n")
+cat("Explained variance (BSS/TSS):", round(ratio, 3), "\n")
+```
+
+:::{.callout-note}
+
+**What are “discriminative features”?**
+
+*Discriminative features* are those that *best separate groups or clusters* in your data. They are the variables that most strongly differentiate one cluster (or class) from another.
+
+There are two most famous approach to find discriminative features:
+
+- Exploratory approach
+  
+- Statistical approach
+
+**Exploratory approach**
+```{webr-r}
+#| label: eda
+#| autorun: true
+#| message: false
+#| warning: false
+#| out-width: "80%"
+
+library(GGally)
+ggpairs(iris, aes(color = Species))
+```
+In this plot, you will notice that:
+
+- Setosa is perfectly separated in the `Petal.Length`–`Petal.Width` plane.
+
+- Versicolor and Virginica overlap slightly but still show visible separation.
+
+That is why we often choose `Petal.Length` and `Petal.Width` for visualization — they are the most discriminative pair of features.
+
+**Statistical approach**
+We can quantify which features are most discriminative by computing, for each variable:
+- The between-group variance (BSS)
+- The within-group variance (WSS)
+and comparing their ratio.
+
+```{webr-r}
+#| label: discriminative-measures
+#| autorun: true
+#| message: false
+#| warning: false
+
+# Compute ratio of between- to within-group variance for each feature
+library(dplyr)
+
+iris_var <- iris %>%
+  group_by(Species) %>%
+  summarise(across(where(is.numeric), mean))
+
+# Between-class variance
+overall_means <- colMeans(iris[, 1:4])
+between_var <- colSums((as.matrix(iris_var[, -1]) - overall_means)^2)
+
+# Within-class variance
+within_var <- sapply(iris[, 1:4], function(v) tapply(v, iris$Species, var))
+within_var <- colMeans(within_var)
+
+# Ratio
+discriminative_ratio <- between_var / within_var
+discriminative_ratio
+```
+The higher this ratio, the better that feature separates the species.
+
+In this results, `Petal.Width` is clearly the most discriminative feature.
+
+At first glance, it seems that `Sepal.Width` (124.96) should be more discriminative than `Petal.Length` (79.51) because its ratio is higher — but this needs context
+
+**What the ratio measures?** The ratio 
+BSS/WSS
+BSS/WSS for each feature is:
+$$
+\text{Ratio} = \frac{Between-Class Variance}{Within-Class Variance}
+$$
+This tells you, for that one variable alone, how distinct the species means are compared to the variability within each species.
+
+So, mathematically, if `Sepal.Width` has a higher ratio, it means that species differ more in `Sepal.Width` (on average) than they do within themselves. **But "discriminative" depends on combined separability**
+
+The tricky part is that `Sepal.Width` alone does not visually separate the species well, even if its numeric ratio looks high.
+Let us check the data visually:
+
+```{webr-r}
+#| label: sepal-length-plots
+#| autorun: true
+#| message: false
+#| warning: false
+#| out-width: "80%"
+
+library(ggplot2)
+
+# Compare Sepal.Width vs Petal.Length
+ggplot(iris, aes(Sepal.Width, fill = Species)) +
+  geom_density(alpha = 0.5) +
+  labs(title = "Distribution of Sepal.Width by Species") +
+  theme_minimal()
+
+ggplot(iris, aes(Petal.Length, fill = Species)) +
+  geom_density(alpha = 0.5) +
+  labs(title = "Distribution of Petal.Length by Species") +
+  theme_minimal()
+```
+You see that:
+- For `Sepal.Width`, there is a lot of overlap between Versicolor and Virginica.
+The means differ, but not enough to separate groups clearly.
+
+- For `Petal.Length`, Setosa is completely separated, and Versicolor/Virginica overlap less.
+
+So even though `Sepal.Width`’s ratio is high, its overlap pattern means it is less useful for distinguishing all three species.
+
+:::{.callout-tip}
+The *BSS/WSS ratio* is a helpful indicator, but not the whole story.
+Always complement numerical measures with *visual inspection*.
+:::
+:::
+
+Now, based on the most discriminative features, `Petal.Length` and `Petal.Width`, we visualize the clusters.
+
+```{webr-r}
+#| label: iris-plots
+#| autorun: true
+#| message: false
+#| warning: false
+#| out-width: "80%"
+
+ggplot(iris_clustered, aes(Petal.Length, Petal.Width, color = cluster)) +
+geom_point(size = 3) +
+labs(title = "K-Means Clustering of Iris Data (k = 3)",
+subtitle = "Color shows cluster assignment") +
+theme_minimal()
+```
+
+Even, we can compare with true species 
+```{webr-r}
+#| label: iris-comparison
+#| autorun: true
+#| message: false
+#| warning: false
+
+table(Cluster = iris_clustered$cluster, Species = iris_clustered$Species)
+```
+
+As you see, *Setosa* is perfectly separated, while *versicolor* and *virginica* overlap.
