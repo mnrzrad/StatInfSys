@@ -630,8 +630,7 @@ Although $k$$-means is one of the most popular clustering algorithms, its effect
 
 $k$-Means works best when:
 
-- All variables are **
-- numeric**
+- All variables are numeric
 -  and measured on a comparable scale. 
    
 - The clusters are *spherical* (or roughly circular in 2D).  
@@ -658,71 +657,6 @@ x_scaled <- scale(x)
 kmeans(x_scaled, centers = 2)
 ```
 
-#### Effect of Scaling on $k$-Means Clustering
-
-$k$-means relies on *Euclidean distance*, which is sensitive to the magnitude of each variable. If one variable has a much larger scale than others, it can dominate the clustering process — even if it’s less informative.
-
-The following example illustrates this issue.
-
-#### Example: Unscaled vs. Scaled Data
-
-We will create a simple dataset with two features:
-
-- `income` (in euros, large values)
-
-- `age` (in years, small values)
-
-```{webr-r}
-#| label: kmeans-scaling-demo
-#| autorun: true
-#| message: false
-#| warning: false
-
-set.seed(123)
-library(ggplot2)
-library(patchwork)
-
-# Create dataset
-data_scale <- data.frame(
-  income = c(rnorm(50, 30000, 4000), rnorm(50, 60000, 4000)),
-  age    = c(rnorm(50, 25, 2), rnorm(50, 45, 2))
-)
-
-# --- (1) K-Means without scaling ---
-km_unscaled <- kmeans(data_scale, centers = 2, nstart = 20)
-data_scale$cluster_unscaled <- factor(km_unscaled$cluster)
-
-# --- (2) K-Means with scaling ---
-data_scaled <- scale(data_scale[, c("income", "age")])
-km_scaled <- kmeans(data_scaled, centers = 2, nstart = 20)
-
-# Save scaled cluster results back to original coordinates
-data_scale$cluster_scaled <- factor(km_scaled$cluster)
-
-p1 <- ggplot(data_scale, aes(income, age, color = cluster_unscaled)) +
-geom_point(size = 3) +
-labs(title = "K-Means Without Scaling",
-subtitle = "Clusters dominated by 'income' variable") +
-theme_minimal() +
-theme(legend.position = "none")
-
-p2 <- ggplot(data_scale, aes(income, age, color = cluster_scaled)) +
-geom_point(size = 3) +
-labs(title = "K-Means With Scaling",
-subtitle = "Clusters reflect both 'income' and 'age'") +
-theme_minimal() +
-theme(legend.position = "none")
-
-p1 + p2
-```
-
-**Without scaling**:
-The `income` variable dominates, because it has a much larger numeric range.
-The clusters are separated mostly along the horizontal (income) axis.
-
-**With scaling**:
-Both `income` and `age` contribute equally to the distance measure.
-The clusters now reflect genuine structure in both dimensions.
 
 #### Measures of Cluster Quality
 
