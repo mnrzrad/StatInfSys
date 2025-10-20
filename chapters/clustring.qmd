@@ -5,7 +5,7 @@ filters:
 ---
 
 ```{r setup, include=FALSE}
-required_packages <- c("cluster", "lsa", "GGally")
+required_packages <- c("cluster", "lsa", "GGally", "factoextra", "stats", "tibble", 'dplyr')
 
 for (pkg in required_packages) {
   if (!require(pkg, character.only = TRUE)) {
@@ -17,7 +17,7 @@ for (pkg in required_packages) {
 
 # Clustering
 
-Cluster analysis, or *Clustring*, is a technique used to find groups of objects such that the objects within the same group are similar (or closely realted) to one another, while the objects from different groups are dissimilar (or unrelated).
+Cluster analysis, or *Clustering*, is a technique used to find groups of objects such that the objects within the same group are similar (or closely realted) to one another, while the objects from different groups are dissimilar (or unrelated).
 
 ## Applications of Clustering
 
@@ -181,8 +181,19 @@ y <- c(5, 8)
 
 # Euclidean distance
 d_E <- sqrt(sum((x - y)^2))
-d_E
+cat("Euclidean distance using direct function:", d_E, "\n")
+
+# Another way
+df <- data.frame(rbind(x, y))
+dist_euclidean <- dist(df, method = 'euclidean')
+cat("Euclidean distance using 'dist()' function:", dist_euclidean, "\n")
+
+# Using the package "factoextra" 
+library(factoextra)
+dist_euclidean_factoextra <- get_dist(df, method = 'euclidean')
+cat("Euclidean distance using 'factoextra::get_dist()' function:", dist_euclidean_factoextra)
 ```
+
 #### **Manhattan (or City-Block) Distance**
 This distance sums the absolute differences across all coordinates:
 $$
@@ -204,7 +215,78 @@ y <- c(5, 8)
 
 # Manhattan distance
 d_M <- sum(abs(x - y))
-d_M
+cat("Manhattan distance using direct function:", d_M, "\n")
+
+# Another way
+df <- data.frame(rbind(x, y))
+dist_manhattan <- dist(df, method = 'manhattan')
+cat("Manhattan distance using 'dist()' function:", dist_manhattan, "\n")
+
+# Using the package "factoextra" 
+library(factoextra)
+dist_manhattan_factoextra <- get_dist(df, method = 'manhattan')
+cat("Manhattan distance using 'factoextra::get_dist()' function:", dist_manhattan_factoextra)
+```
+
+```{r}
+#| label: distance-compare
+#| fig-cap: "Comparison of Euclidean and Manhattan distance between two points"
+#| echo: false
+#| message: false
+#| warning: false
+#| out-width: "80%"
+
+library(ggplot2)
+
+# Define two points
+A <- c(1, 1)
+B <- c(5, 5)
+
+# Create a stepwise Manhattan path (red, geometric)
+manhattan_path <- data.frame(
+  x = c(1, 2, 2, 3, 3, 4, 4, 5, 5),
+  y = c(1, 1, 2, 2, 3, 3, 4, 4, 5)
+)
+
+# Calculate distances (algebraic)
+d_euclidean <- sqrt((B[1] - A[1])^2 + (B[2] - A[2])^2)
+d_manhattan <- abs(B[1] - A[1]) + abs(B[2] - A[2])
+
+# Build the plot
+ggplot() +
+  # Geometric Manhattan path (red, stepwise)
+  geom_path(data = manhattan_path, aes(x, y), color = "red", linewidth = 1.3) +
+  # Algebraic Manhattan path (green L-shape)
+  geom_segment(aes(x = A[1], y = A[2], xend = A[1], yend = B[2]),
+               color = "green3", linewidth = 1.3) +
+  geom_segment(aes(x = A[1], y = B[2], xend = B[1], yend = B[2]),
+               color = "green3", linewidth = 1.3) +
+  # Euclidean (straight line)
+  geom_segment(aes(x = A[1], y = A[2], xend = B[1], yend = B[2]),
+               color = "blue", linewidth = 1.3) +
+  # Points A and B
+  geom_point(aes(x = A[1], y = A[2]), size = 4, color = "black") +
+  geom_point(aes(x = B[1], y = B[2]), size = 4, color = "black") +
+  # Labels for points
+  annotate("text", x = A[1]-0.3, y = A[2]-0.3, label = "A", fontface = "bold", size = 5) +
+  annotate("text", x = B[1]+0.3, y = B[2]+0.3, label = "B", fontface = "bold", size = 5) +
+  # Axes and grid
+  scale_x_continuous(breaks = 0:6, limits = c(0,6)) +
+  scale_y_continuous(breaks = 0:6, limits = c(0,6)) +
+  coord_equal() +
+  theme_minimal(base_size = 14) +
+  theme(panel.grid.minor = element_blank(),
+        panel.grid.major = element_line(color = "gray90")) +
+  # Text annotations for distances
+  annotate("text", x = 1, y = 5.8, label = paste0("Euclidean = ", round(d_euclidean, 2)),
+           color = "blue", hjust = 0, size = 4) +
+  annotate("text", x = 1, y = 5.4, label = paste0("Manhattan = ", round(d_manhattan, 2)),
+           color = "red", hjust = 0, size = 4) +  
+  # Legend substitute
+  annotate("text", x = 1, y = 0.5, label = "Red = stepwise Manhattan", color = "red", hjust = 0, size = 4) +
+  annotate("text", x = 1, y = 0.1, label = "Green = L-path Manhattan", color = "green3", hjust = 0, size = 4) +
+  annotate("text", x = 1.1, y = 4.5, label = "Blue = Euclidean", color = "blue", hjust = 0, size = 4) +
+  labs(title = "Euclidean vs Manhattan Distance (Two Interpretations)",x = "", y = "")
 ```
 
 #### **Minkowski Distance**
@@ -235,10 +317,116 @@ d_r <- function(x, y, r) {
 }
 cat('Manhattan distance:', d_r(x, y, r = 1), 'that should be equal to d_M which is', d_M, '\n')
 cat('Euclidean distance:', d_r(x, y, r = 2), 'that should be equal to d_E which is', d_E, '\n')
-cat('Minkowski Distance', d_r(x, y, r = 3))
+cat('Minkowski Distance', d_r(x, y, r = 5), '\n')
+cat('Minkowski Distance', d_r(x, y, r = 10), '\n')
+
+# Another way
+df <- data.frame(rbind(x, y))
+dist_minkowski_5 <- dist(df, method = 'minkowski', p = 5)
+dist_minkowski_10 <- dist(df, method = 'minkowski', p = 10)
+cat("Minkowski distance using 'dist()' function (p = 5):", dist_minkowski_5, '\n')
+cat("Minkowski distance using 'dist()' function (p = 10):", dist_minkowski_10, '\n')
+
+
+# Using the package "factoextra" 
+library(factoextra)
+dist_minkowski_5_factoextra <- get_dist(df, method = 'manhattan', p = 5)
+cat("Minkowski distance using 'factoextra::get_dist()' function:", dist_minkowski_5_factoextra, '\n') 
+
+dist_minkowski_10_factoextra <- get_dist(df, method = 'manhattan', p = 10)
+cat("Minkowski distance using 'factoextra::get_dist()' function:", dist_minkowski_10_factoextra) 
 ```
 
-#### **Chebyshev Distance**
+```{r}
+#| label: minkowski-distance
+#| fig-cap: "Shapes of Minkowski (Lp) distances around a point for different p values"
+#| echo: false
+#| message: false
+#| warning: false
+#| out-width: "80%"
+
+#| label: minkowski-distance-path
+#| fig-cap: "Minkowski distance (Lp) path between two points A and B"
+#| echo: true
+#| message: false
+#| warning: false
+
+#| label: minkowski-comparison
+#| fig-cap: "Comparison of Minkowski (Lp) distances between points A and B for various p values"
+#| echo: true
+#| message: false
+#| warning: false
+
+library(ggplot2)
+
+# Define points
+A <- c(1, 1)
+B <- c(5, 5)
+
+# Set of p values to compare
+p_values <- c(1, 2, 5, 10)
+colors <- c("red", "blue", "purple", "darkgreen")
+
+# Compute Minkowski distances
+dx <- abs(B[1] - A[1])
+dy <- abs(B[2] - A[2])
+distances <- sapply(p_values, function(p) (dx^p + dy^p)^(1/p))
+names(distances) <- paste0("p = ", p_values)
+
+# Build the plot
+g <- ggplot() +
+  # Points A and B
+  geom_point(aes(x = A[1], y = A[2]), size = 4, color = "black") +
+  geom_point(aes(x = B[1], y = B[2]), size = 4, color = "black") +
+  annotate("text", x = A[1]-0.3, y = A[2]-0.3, label = "A", fontface = "bold", size = 5) +
+  annotate("text", x = B[1]+0.3, y = B[2]+0.3, label = "B", fontface = "bold", size = 5) +
+  # Euclidean path (p=2, blue straight line)
+  geom_segment(aes(x = A[1], y = A[2], xend = B[1], yend = B[2]),
+               color = "blue", linewidth = 1.3) +
+  # Manhattan (p=1, L-path)
+  geom_segment(aes(x = A[1], y = A[2], xend = A[1], yend = B[2]),
+               color = "red", linewidth = 1.3) +
+  geom_segment(aes(x = A[1], y = B[2], xend = B[1], yend = B[2]),
+               color = "red", linewidth = 1.3)
+
+# Add Minkowski curves for p = 5, 10 (smooth approximations)
+curve_positions <- data.frame(
+  p = rep(c(5, 10), each = 100),
+  t = rep(seq(0, 1, length.out = 100), 2)
+)
+
+# Generate smooth Minkowski-like curves (not exact, illustrative)
+curve_positions <- within(curve_positions, {
+  x <- A[1] + (B[1] - A[1]) * t
+  y <- A[2] + (B[2] - A[2]) * (t^(1/p))
+  col <- ifelse(p == 5, "purple", "darkgreen")
+})
+
+g <- g +
+  geom_path(data = subset(curve_positions, p == 5), aes(x, y), color = "purple", linewidth = 1.3) +
+  geom_path(data = subset(curve_positions, p == 10), aes(x, y), color = "darkgreen", linewidth = 1.3) +
+  # Axes and style
+  scale_x_continuous(breaks = 0:6, limits = c(0, 6)) +
+  scale_y_continuous(breaks = 0:6, limits = c(0, 6)) +
+  coord_equal() +
+  theme_minimal(base_size = 14) +
+  theme(panel.grid.minor = element_blank(),
+        panel.grid.major = element_line(color = "gray90")) +
+  # Legend substitute
+  annotate("text", x = 3.5, y = 2.9, label = "p = 1 (Manhattan)", color = "red", hjust = 0, size = 4) +
+  annotate("text", x = 3.5, y = 2.6, label = "p = 2 (Euclidean)", color = "blue", hjust = 0, size = 4) +
+  annotate("text", x = 3.5, y = 2.3, label = "p = 5", color = "purple", hjust = 0, size = 4) +
+  annotate("text", x = 3.5, y = 2.0, label = "p = 10", color = "darkgreen", hjust = 0, size = 4) +
+  labs(title = "Minkowski Distance Between A and B for Different p",
+       subtitle = paste("Distances:",
+                        paste(names(distances), round(distances, 2), collapse = " | ")),
+       x = "", y = "")
+
+g
+
+```
+
+#### Chebyshev Distance
 
 Also known as the $L_\infty$ norm, this distance takes the largest coordinate difference:
 $$
@@ -256,14 +444,94 @@ y <- c(5, 8)
 
 # Chebyshev distance
 d_C <- max(abs(x - y))
-d_C
+cat("Chebyshev distance using direct function:", d_C, "\n")
+
+# Another way
+df <- data.frame(rbind(x, y))
+dist_chebyshev <- dist(df, method = 'maximum')
+cat("Chebyshev distance using 'dist()' function:", dist_chebyshev, "\n")
+
+# Using the package "factoextra" 
+library(factoextra)
+dist_chebyshev_factoextra <- get_dist(df, method = 'maximum')
+cat("Chebyshev distance using 'factoextra::get_dist()' function:", dist_chebyshev_factoextra)
+```
+
+```{r}
+#| label: chebyshev-vs-euclidean-manhattan
+#| fig-cap: "Comparison of Chebyshev, Euclidean, and Manhattan distances between A and B"
+#| echo: false
+#| message: false
+#| warning: false
+
+library(ggplot2)
+
+# Define the points
+A <- c(1, 1)
+B <- c(5, 3)
+
+# Calculate distances
+dx <- abs(B[1] - A[1])
+dy <- abs(B[2] - A[2])
+d_manhattan <- dx + dy
+d_euclidean <- sqrt(dx^2 + dy^2)
+d_chebyshev <- max(dx, dy)
+
+# Build the plot
+ggplot() +
+  # Manhattan path (red L-shape)
+  geom_segment(aes(x = A[1], y = A[2], xend = A[1], yend = B[2]),
+               color = "red", linewidth = 1.3) +
+  geom_segment(aes(x = A[1], y = B[2], xend = B[1], yend = B[2]),
+               color = "red", linewidth = 1.3) +
+  
+  # Euclidean path (blue diagonal)
+  geom_segment(aes(x = A[1], y = A[2], xend = B[1], yend = B[2]),
+               color = "blue", linewidth = 1.3) +
+  
+  # Chebyshev path (green square)
+  geom_segment(aes(x = A[1], y = A[2], xend = B[1], yend = A[2]),
+               color = "green3", linetype = "dashed", linewidth = 1.2) +
+  # geom_segment(aes(x = B[1], y = A[2], xend = B[1], yend = B[2]),
+  #              color = "green3", linetype = "dashed", linewidth = 1.2) +
+  
+  # Points A and B
+  geom_point(aes(x = A[1], y = A[2]), size = 4, color = "black") +
+  geom_point(aes(x = B[1], y = B[2]), size = 4, color = "black") +
+  
+  # Labels for points
+  annotate("text", x = A[1]-0.3, y = A[2]-0.3, label = "A", fontface = "bold", size = 5) +
+  annotate("text", x = B[1]+0.3, y = B[2]+0.3, label = "B", fontface = "bold", size = 5) +
+  
+  # Axes and grid
+  scale_x_continuous(breaks = 0:6, limits = c(0,6)) +
+  scale_y_continuous(breaks = 0:6, limits = c(0,6)) +
+  coord_equal() +
+  theme_minimal(base_size = 14) +
+  theme(panel.grid.minor = element_blank(),
+        panel.grid.major = element_line(color = "gray90")) +
+  
+  # Text annotations for distances
+  annotate("text", x = 1.0, y = 5.8,
+           label = paste0("Chebyshev (L∞) = ", d_chebyshev),
+           color = "green3", hjust = 0, size = 4) +
+  annotate("text", x = 1.0, y = 5.4,
+           label = paste0("Euclidean (L2) = ", round(d_euclidean, 2)),
+           color = "blue", hjust = 0, size = 4) +
+  annotate("text", x = 1.0, y = 5.0,
+           label = paste0("Manhattan (L1) = ", d_manhattan),
+           color = "red", hjust = 0, size = 4) +
+  
+  labs(title = "Chebyshev vs Euclidean vs Manhattan Distance",
+       subtitle = "Comparison of geometric interpretations for two points",
+       x = "", y = "")
 ```
 
 #### **Mahalanobis Distance**
 
 A scale-invariant distance that accounts for correlations between variables:
 $$
-d_{Mah}(\mathbf{x}, \mathbf{y}) = \sqrt{(x - y)^{T} \boldsymbol{\Sigma}^{-1} (x - y)}
+d_{Mah}(\mathbf{x}, \mathbf{y}) = \sqrt{(x - y)^{\top} \boldsymbol{\Sigma}^{-1} (x - y)}
 $$
 where $\boldsymbol{\Sigma}$ is the covariance matrix of the data.
 Two points with the same Mahalanobis distance from the mean are equally likely under a multivariate normal model, regardless of the variable scales or correlations.
@@ -435,27 +703,8 @@ $$
 $$
 It measures how many positions differ between two categorical strings or binary vectors.
 
-#### **Gower Distance**
-
-The **Gower distance** allows comparing **mixed-type data** (numerical, categorical, ordinal). For each variable $X_i$, a partial distance is computed, and then averaged:
-$$
-\text{d}_{Gower}(\mathbf{x}, \mathbf{y}) =
-\frac{1}{p} \sum_{i=1}^{p} \delta_i(x_i, y_i)
-$$
-with
-$$
-\delta_i(x_i, y_i) =
-\begin{cases}
-0, & \text{if } x_i = y_i \\
-1, & \text{if } X_i \text{ is categorical and } x_i \neq y_i \\
-\frac{|x_i - y_i|}{R_i}, & \text{if } X_i \text{ is interval scale} \\
-\frac{|\text{rank}(x_i) - \text{rank}(y_i)|}{n - 1}, & \text{if } X_i \text{ is ordinal scale}
-\end{cases}
-$$
-This flexibility makes Gower distance especially useful in real datasets with mixed variable types.
-
 ```{webr-r}
-#| label: categorical-distances
+#| label: hamming-distance
 #| message: false
 #| warning: false
 #| autorun: true
@@ -467,28 +716,176 @@ y <- c("Blue", "Small", "Square")
 # ----- Hamming Distance -----
 hamming_distance <- sum(x != y)
 print(paste("Hamming distance:", hamming_distance))
-
-# ----- Gower Distance -----
-library(cluster)
-
-data <- data.frame(
-  Color = c("Red", "Blue"),
-  Size = c("Small", "Small"),
-  Shape = c("Circle", "Square")
-)
-
-# Convert all character columns to factors
-data[] <- lapply(data, as.factor)
-
-# Compute Gower distance
-gower_dist <- daisy(data, metric = "gower")
-gower_matrix <- round(as.matrix(gower_dist), 3)
-
-print("Gower distance matrix:")
-print(gower_matrix)
-
 ```
 
+
+#### **Gower Distance**
+
+The **Gower distance** [@Gower1971] allows comparing **mixed-type data** (numerical, categorical, binomial).
+
+For two observations $i$ and $k$, and each variable $k$, Gower's method computes a partial *similarity score* $s_{ijk}$ as follows: 
+
+- **Numeric variables (continuous or discrete)**:
+$$
+s_{ijk} = 1 - \frac{|x_{ik} - x_{jk}|}{R_k}
+$$
+where $R_k$ is the range of variable $k$.
+
+- **Categorical (or binary) variables**:
+$$
+s_{ijk} = \begin{cases}
+1 & \quad \text{if} \quad x_{ik} = x_{jk}\\
+0 & \quad \text{if} \quad x_{ik} \neq x_{jk}
+\end{cases}
+$$
+Then, the *overall similarity* between $i$ and $j$ is 
+$$
+S_{ij} = \frac{\sum_k s_{ijk} \delta_{ijk}}{\sum_k \delta_{ijk}}
+$$
+where $\delta_{ijk} = 1$ if variable $k$ is valid for both $i$ and $j$ (i.e, non-missing), else $0$.
+
+Finally, to convert similarity to a distance, one often uses
+$$ 
+D_{ij} = 1 - S_{ij}
+$$
+
+[**Example**](https://crispinagar.github.io/blogs/gower-distance.html)
+
+As an example, consider the following table which shows information about a number of individuals (identified by "Subject ID") with four attributes:
+
+- *Age* --  a continuous numeric variable
+- *Handedness* -- a binary variable, whether the individual is left- or right-handed.
+- *Eye colour* - a categorical variable
+- *Knows Python* - a dichotomous variable (while two people who know python may have a similar education, both of them not knowing Python does not imply they have similar backgrounds).
+
+| Subject ID | Age | Handedness | Eye Colour | Knows Python |
+|:-----------:|:---:|:-----------:|:------------:|:--------------:|
+| 001 | 28 | Right | Blue  | Yes |
+| 002 | 34 | Left  | Blue  | No  |
+| 003 | 22 | Right | Green | Yes |
+| 004 | 45 | Right | Hazel | No  |
+| 005 | 30 | Left  | Brown | Yes |
+
+Let us look at individuals 001 and 002, and calculate the score for each variable in turn:
+
+- *Age*: 
+$$
+s_{\textrm{age}} = 1 - \frac{|28 - 34|}{23} = 0.74
+$$
+where the range $R_k = 23$ is the range of ages in the sample, which has a minimum of $22$ and a maximum of $45$.
+
+- *Handedness*: 
+
+Since the individuals have different handedness, $s_{\text{handedness}} = 0$.
+
+- *Eye colour*: 
+They have the same eyes, $s_{\text{eyes}} = 1$.
+
+- *Knows Python*:
+
+Individuals 001 knows python whereas 002 does not; so, $s_{\text{python}} = 0$.
+
+We have no missing data, so all the $\delta_{ijk} = 1$. The overall similarity score between 001 and 002 is therefore
+$$
+S = \frac{0.74 \times 1 + 0 \times 1 + 1 \times 1 + 0 \times 1}{1 + 1 + 1 + 1} = \frac{1.74}{4} = 0.435
+$$
+So, the Gower distance between these two individuals is 
+$$
+D = 1 - 0.435 = 0.565
+$$
+
+Repeating the calculation for all pairs of indivials, we obtain the distance matrix, which can be used for clustering them into groups. 
+
+For calculating Gower distance in R, we can use `daisy()` from the library `cluster`. However, it is important to note that always convert categorical characters to factors before using this function. 
+```{webr-r}
+#| label: gower-mixed-fixed
+#| autorun: true
+#| message: false
+#| warning: false
+
+library(cluster)
+library(tibble)
+library(dplyr)
+
+# Create dataset
+subjects <- tibble::tibble(
+  Subject_ID = c("001", "002", "003", "004", "005"),
+  Age = c(28, 34, 22, 45, 30),                
+  Handedness = c("Right", "Left", "Right", "Right", "Left"),  
+  Eye_Colour = c("Blue", "Blue", "Green", "Hazel", "Brown"),  
+  Knows_Python = c("Yes", "No", "Yes", "No", "Yes")           
+)
+
+# Convert character columns to factors (important for Gower)
+subjects <- subjects %>%
+  mutate(across(where(is.character), as.factor))
+
+# Compute Gower distance 
+gower_dist <- daisy(subjects[, -1], metric = "gower")  # exclude Subject_ID
+
+print(round(as.matrix(gower_dist), 3))
+```
+As you see that the individuals who are most similar are 001 and 003 $(D = 0.315)$ and the most different are 004 and 005 $(D = 0.913)$.
+
+### Visualizing distance matrices
+
+Datasets usually contain many observations (more than just two points).
+
+When we compute pairwise distances between all observations, we obtain a *distance matrix* — a square table where each cell represents the dissimilarity between two observations.
+
+Mathematically, if a dataset has $n$ observations, the distance matrix has $n \times n$ entries:
+$$
+D_{ij} = d(\mathbf{x}_i, \mathbf{x}_j)
+$$
+where $D_{ij}$ is the distance between observation $i$ and $j$.
+
+Because this matrix contains all pairwise comparisons, it provides a complete picture of how observations relate to one another.
+
+However, as the number of observations grows, the matrix quickly becomes difficult to interpret numerically — it is just a sea of numbers.
+
+To extract insights, we often visualize the distance matrix as a heatmap or similarity map.
+
+Visualizing distance matrices helps us:
+
+- **Detect structure** -- clusters appear as blocks or dark/light patches.
+  
+- **Spot outliers** -- points that are dissimilar from everyone else.
+  
+- **Compare metrics** -- see how distance measures produce different patterns.
+  
+- **Build intuitio** -- for what *closeness* or *difference* means in multidimensional space.
+
+```{webr-r}
+#| label: visualize-gower
+#| autorun: true
+#| message: false
+#| warning: false
+#| fig-cap: "Visualization of Gower distance matrix using factoextra."
+#| out-width: "80%"
+
+library(cluster)
+library(factoextra)
+library(dplyr)
+library(tibble)
+
+subjects <- tibble(
+  Subject_ID = c("001", "002", "003", "004", "005"),
+  Age = c(28, 34, 22, 45, 30),
+  Handedness = as.factor(c("Right", "Left", "Right", "Right", "Left")),
+  Eye_Colour = as.factor(c("Blue", "Blue", "Green", "Hazel", "Brown")),
+  Knows_Python = as.factor(c("Yes", "No", "Yes", "No", "Yes"))
+)
+subjects <- subjects %>%
+  mutate(across(where(is.character), as.factor))
+gower_dist <- daisy(subjects[, -1], metric = "gower")
+
+# Visualize matrix
+library(factoextra)
+fviz_dist(gower_dist) 
+```
+The color level is proportional to the value of the dissimilarity between observations: pure red if $\text{dist}(\mathbf{x}_i, \mathbf{x}_j) = 0$ nad pure blue if $\text{dist}(\mathbf{x}_i, \mathbf{x}_j) = 1$, here. Objects belonging to the same cluster are displayed in consecutive order. 
+
+In this example, subjects `001` and `002` are quite similar (close in age, same eye color). Subject `004` (older, hazel eyes, does not know Python) stands out as most dissimilar from others. 
 
 
 ::::: panel-tabset
@@ -544,51 +941,84 @@ Two students rate three projects as “Good”, “Average”, or “Poor”:
 
 Compute the *Hamming distance* (number of mismatches).
 
-
-## Exercise 4
-
-Two students rate three projects as “Good”, “Average”, or “Poor”:
-
-| Project | Student 1 | Student 2 |
-|----------|------------|------------|
-| A | Good | Good |
-| B | Poor | Average |
-| C | Good | Poor |
-
-Compute the *Hamming distance* (number of mismatches).
-
 **Hint**: Use 
 ```{r}
 #| eval: false
 data[] <- lapply(data, function(col) if (is.character(col)) as.factor(col) else col)
 ```
 
-:::::
+## Exercise 3
 
+We want to analyse the `flower` dataset which is available at library `cluseter`.
+
+Based on the following information, a) find the best distance matrix. and b) visulize the distance matrix.
+
+```{r}
+#| label: Exercise4-Gower_distance
+#| echo: true
+library(cluster)
+data(flower)
+
+head(flower, 3)
+
+#Data structure
+str(flower)
+
+```
+:::::
 
 ## Partition-Based Clustering: $k$-Means and $k$-Medoids
 
-### $k$-Means Clustering
+*Partitioning clustering* are clustering methods used to classify observations, within a dataset, into multiple groups based ion their similrity. The algorithms require the analyst to specify the number of clusters to be generated.
 
-K-Means aims to partition $n$ observations into $k$ clusters such that each observation belongs to the cluster with the nearest **centroid** (mean of points).
+The commonly used partitioning clustering includes: 
+
+- $K$-means clustering [@macqueen1967] in which ,each cluster is represented by the center or means of the data points belonging to the cluster. The $K$-means method is sensitive to anomalous data points and outliers.
+- $K$-medoids clustering or PAM (Partitioning Around Medoids) [@kaufman1990] in which , each cluster is reprsented by one of the objects in the cluster. PAM is less sensitive to outliers compared to $K$-means.
+- CLARA (Clustering Large Applications) algorithm, which is an extension to PAM adapted for large data sets.
+
+### $K$-Means Clustering 
+
+K-Means aims to partition $n$ observations into $K$ clusters such that each observation belongs to the cluster with the nearest **centroid** (mean of points).
 
 Each cluster is represented by its *centroid*, which may not be an actual data point.
 
-**Algorithm**
+**$K$-means basic ideas**
+
+This basic idea behind $K$-means clustering consists of defining clusters so that the total intra-cluster variation (known as *total within-cluster variation*) is minimized.
+
+There are several $K$-means algorithms available. The standard algorithm is the *Hartigan-Wong algorithm* [@hartigan1979] which defines the total within-cluster variation as the sum of squared distances Euclidean distances between items and the corresponding centroid: 
+$$
+W(C_k) = \sum_{x_i \in C_k} (x_i - \mu_k)^2
+$$
+where $x_i$ design a data point belonging to the cluster $C_k$ and $\mu_k$ is the mean value of the points assigned to the cluster $C_k$.
+
+Each observation ($x_i$) is assigned to a given cluster such that the sum of squares (SS) distances of the observation to their assigned cluster $\mu_k$ is minimum. 
+
+We define the *total within-cluster* variation as follow: 
+$$
+\text{tot.withinss} = \sum_{k=1}^K W(C_k) = \sum_{k=1}^K \sum_{x_i \in C_k} (x_i - \mu_k)^2
+$$
+
+The *total within-cluster sum of square* measures the compactness (i.e. *goodness*) of the clustering and we want it to be as small as possible. 
+
+
+**$K$-means Algorithm**
 
 Given a dataset $\mathbf{X}= \{\mathbf{x}_1, \mathbf{x}_2, \ldots, \mathbf{x}_n\}$:
 
-1. Choose the number of clusters $k$.  
+1. Choose the number of clusters $K$.  
 2. Initialize $k$ centroids randomly.  
-3. **Assign step:** Assign each observation $x_i$ to the nearest centroid:
+3. **Assign step:** Assign each observation $\mathbf{x}_i$ to the nearest centroid based on the Euclidean distance between the object and the centroid:
 4. $$
-   c_i = \arg\min_j \|x_i - \mu_j\|^2
+   c_i = \arg\min_k \|\mathbf{x}_i - \mu_k\|^2
    $$
+   where $\mu_k$ is the $k$st centroid. 
 5. **Update step:** Recalculate each centroid as the mean of points in its cluster:
    $$
-   \mu_j = \frac{1}{n_j} \sum_{x_i \in C_j} x_i
+   \mu_k = \frac{1}{n_k} \sum_{\mathbf{x}_i \in C_k} \mathbf{x}_i
    $$
-6. Repeat steps 3–4 until centroids stop changing (convergence).
+6. Repeat steps 3–4 until centroids stop changing (convergence) or the maximum number of iterations is reached. 
 
 For better understanding, see this [video](https://blog.dailydoseofds.com/p/an-animated-guide-to-kmeans)
 
@@ -622,13 +1052,13 @@ ggplot(data, aes(x, y, color = cluster)) +
   theme_minimal()
 ```
 
-#### Properties and Limitations of $k$-Means
+#### Properties and Limitations of $K$-Means
 
-Although $k$$-means is one of the most popular clustering algorithms, its effectiveness depends on the structure and scale of the data. Understanding its limitations helps decide when to use it — and when to choose a more robust alternative like $k$-Medoids.
+Although $K$-means is one of the most popular clustering algorithms, its effectiveness depends on the structure and scale of the data. Understanding its limitations helps decide when to use it — and when to choose a more robust alternative like $K$-Medoids.
 
 ##### **Data Type and Cluster Shape**
 
-$k$-Means works best when:
+$K$-Means works best when:
 
 - All variables are numeric
 -  and measured on a comparable scale. 
@@ -637,26 +1067,123 @@ $k$-Means works best when:
   
 - Each cluster has *similar variance* and *density*.
 
-When clusters are elongated, overlapping, or non-spherical, $k$-Means may assign points incorrectly because it relies on *Euclidean distance*.
+When clusters are elongated, overlapping, or non-spherical, $K$-Means may assign points incorrectly because it relies on *Euclidean distance*.
 
 ##### **Sensitivity to Scale**
 
-Since Euclidean distance depends directly on the magnitude of the variables, features with larger numerical ranges will dominate the distance calculation.
+In clustering, the distance between data points determines how groups are formed. 
 
-For example, in a dataset with *income* (in euros) and *age* (in years), income will completely overshadow age unless both are standardized.
+If variables are measured on very different scales (for example, income in euros and age in years), the variable with the largest numerical range will dominate the distance calculation. As a result, the algorithm may ignore other variables, even if they carry meaningful structure. To correct this imbalance, we use **scaling transformations**, which adjust the magnitude or spread of each variable before computing distances.
 
-Always *standardize or normalize* variables before running $k$-Means:
-```{r}
-#| label: kmeans-scale
-#| eval: false
+**Normalization (Min–Max Scaling)**
+Normalization rescales all variables to a fixed range, usually between $0$ and $1$:
+$$
+x' = \frac{x - \min(x)}{\max(x) - \min(x)}
+$$
+This transformation preserves the shape of the distribution but ensures all features contribute equally in magnitude to the distance measure.
+It is particularly effective when all features have bounded ranges or similar distributions.
+
+**Standardization (Z-score Scaling)**
+Standardization rescales variables so they have mean 0 and standard deviation 1:
+$$
+x' = \frac{x - \bar{x}}{s_x}
+$$
+where $\bar{x}$ is the mean and $s_x$ is the standard deviation. 
+
+This approach centers the data and adjusts for variance, which helps when features have different dispersions or units of measurement. 
+Standardization is preferred when features are expected to follow roughly Gaussian distributions, or when outliers might distort min–max scaling.
+
+:::{.callout-important}
+**Why It Matters for $k$-Means and Similar Algorithms**
+
+- $K$-means relies on Euclidean distance, which is sensitive to scale. Without scaling, one feature can dominate, producing distorted clusters.
+
+- After scaling or standardization, all variables contribute more fairly, and the clusters tend to reflect combined variation across features.
+
+- Scaling can change the cluster boundaries, but it does not change the underlying data relationships — it only ensures that distances are comparable.
+:::
+
+We will show the effect of normalization and standardization on the data. 
+
+```{webr-r}
+#| label: kmeans-step1
+#| fig-cap: "Original data (different scales)"
+#| autorun: true
+#| out-width: "80%"
+#| warnings: false 
+#| message: false
+library(ggplot2)
+library(dplyr)
+
+set.seed(42)
+x <- rnorm(1000) / 2
+y <- c(rnorm(500) + 5, rnorm(500)) / 10
+data <- data.frame(x, y)
+
+ggplot(data, aes(x, y)) +
+  geom_point(size = 1, color = "black") +
+  theme_minimal(base_size = 14) +
+  labs(title = "Original Data (different scales)")
+```
+Now, we apply $K$-means on the raw dataset. 
+
+```{webr-r}
+#| label: kmeans-step2
+#| fig-cap: "Non-normalized K-Means clustering"
+#| autorun: true
 #| message: false
 #| warning: false
+#| out-width: "80%"
 
-# Standardization example
-x_scaled <- scale(x)
-kmeans(x_scaled, centers = 2)
+km_raw <- kmeans(data, centers = 2)
+data$cluster_raw <- as.factor(km_raw$cluster)
+
+ggplot(data, aes(x, y, color = cluster_raw)) +
+  geom_point(size = 1) +
+  scale_color_manual(values = c("tomato", "steelblue")) +
+  theme_minimal(base_size = 14) +
+  labs(title = "Non-normalized K-Means")
 ```
+Now, we normalize the dataset and apply $k$-means. 
+```{webr-r}
+#| label: kmeans-step3
+#| fig-cap: "Normalized (0–1) K-Means clustering"
+#| autorun: true
+#| message: false
+#| warning: false
+#| out-width: "80%"
 
+normalize <- function(v) (v - min(v)) / (max(v) - min(v))
+data_norm <- data %>% mutate(xn = normalize(x), yn = normalize(y))
+km_norm <- kmeans(data_norm[, c("xn", "yn")], centers = 2)
+data_norm$cluster_norm <- as.factor(km_norm$cluster)
+
+ggplot(data_norm, aes(xn, yn, color = cluster_norm)) +
+  geom_point(size = 1) +
+  scale_color_manual(values = c("tomato", "steelblue")) +
+  theme_minimal(base_size = 14) +
+  labs(title = "Normalized (0–1) K-Means")
+```
+It is the time to standarize the dataset before applyong $k$-means. 
+```{webr-r}
+#| label: kmeans-step4
+#| fig-cap: "Standardized (Z-score) K-Means clustering"
+#| autorun: true
+#| message: false
+#| warning: false
+#| out-width: "80%"
+
+standardize <- function(v) (v - mean(v)) / sd(v)
+data_std <- data %>% mutate(xs = standardize(x), ys = standardize(y))
+km_std <- kmeans(data_std[, c("xs", "ys")], centers = 2)
+data_std$cluster_std <- as.factor(km_std$cluster)
+
+ggplot(data_std, aes(xs, ys, color = cluster_std)) +
+  geom_point(size = 1) +
+  scale_color_manual(values = c("tomato", "steelblue")) +
+  theme_minimal(base_size = 14) +
+  labs(title = "Standardized (Z-score) K-Means")
+```
 
 #### Measures of Cluster Quality
 
@@ -668,28 +1195,19 @@ The most common measures include:
 
 The *Within-Cluster Sum of Squares* measures how tightly the data points in a cluster are grouped around their centroid.
 $$
-\text{WSS} = \sum_{j=1}^{k} \sum_{x_i \in C_j} \|x_i - \mu_j\|^2
+\text{WSS} = \sum_{k=1}^{K} \sum_{\mathbf{x}_i \in C_k} \|\mathbf{x}_i - \boldsymbol{\mu}_k\|^2
 $$
-
-- $C_j$: set of points in cluster $j$  
-- $\mu_j$: centroid of cluster $j$  
-- $\|x_i - \mu_j\|^2$: squared Euclidean distance between a point and its centroid  
+where $C_k$ is the set of points in cluster $k$, $\boldsymbol{\mu}_k$ is the centroid of cluster $k$, and $\|\cdot\|^2$ shows the squared Euclidean distance between a point and its centroid.  
 
 A smaller WSS means *more compact clusters*.
-
-**Used in:**  
-The **Elbow Method**, where we plot WSS vs. $k$ and look for the “*elbow*” — the point beyond which adding more clusters yields diminishing improvement.
 
 ##### **Between-Cluster Sum of Squares (BSS)**
 
 The *Between-Cluster Sum of Squares* measures how far apart the cluster centroids are from the overall mean of the dataset.
 $$
-\text{BSS} = \sum_{j=1}^{k} n_j \| \mu_j - \mu \|^2
+\text{BSS} = \sum_{k=1}^{K} n_k \| \boldsymbol{\mu}_k - \boldsymbol{\mu} \|^2
 $$
-where:
-- $n_j$: number of points in cluster $j$  
-- $\mu_j$: centroid of cluster $j$ 
-- $\mu$: global mean of all data points  
+where $n_k$ is the number of points in cluster $k$, $\boldsymbol{\mu}_k$ is the centroid of cluster $k$, and $\boldsymbol{\mu}$ is the global mean of all data points. 
 
 A larger BSS means *better separation* between clusters.
 
@@ -697,7 +1215,7 @@ A larger BSS means *better separation* between clusters.
 
 The *Total Sum of Squares* represents the overall variation in the dataset:
 $$
-\text{TSS} = \sum_{i=1}^{n} \|x_i - \mu\|^2
+\text{TSS} = \sum_{i=1}^{n} \|\mathbf{x}_i - \boldsymbol{\mu}\|^2
 $$
 
 This relationship always holds:
@@ -718,15 +1236,9 @@ The *Silhouette Coefficient* combines *cohesion* (how close points are within a 
 $$
 s(i) = \frac{b(i) - a(i)}{\max(a(i), b(i))}
 $$
-where:  
-- $a(i)$: average distance from point $i$ to all other points in its cluster  
-- $b(i)$: smallest average distance from point $i$ to points in another cluster  
+where $a(i)$ is the average distance from point $i$ to all other points in its cluster, and $b(i)$ is the smallest average distance from point $i$ to points in another cluster.  
 
-Values range from $–1$ to $1$:
-
-- **Close to $1$:** well-clustered  
-- **Around $0$:** point near cluster boundary  
-- **Negative:** likely misclassified
+Values range from $–1$ to $1$, where values **close to $1$** indicate that observations are well-clustered, values **around $0$** suggest that points lie near cluster boundaries, and  **negative** values indicate that observations are likely misclassified or assigned to the wrong cluster.
 
 :::{.callout-note}
 **Summary**
@@ -742,6 +1254,130 @@ Values range from $–1$ to $1$:
 :::{.callout-important}
 Good clustering minimizes **WSS** and maximizes **BSS**, producing compact, well-separated groups.  
 The **Elbow Method** helps find a balance between simplicity (few clusters) and accuracy (tight, distinct groups).
+:::
+
+**Implementation in R**
+
+The standard R function for $K$-means clustering is `stats::kmeans()` which simplified format is as follow:
+```{r}
+#| eval: false
+kmeans(x, centers, iter.max = 10, nstart = 1)
+```
+where:
+- `x`: numeric matrix, numeric data frame or a numeric vevtor
+- `centers`: possible values are the number of clusters ($k$) or a set of initial (distinct) cluster centers. If a number, a random set of (distinct) rows in $x$ is chosen as the initial centers. 
+- `iter.max`: the maximum number of iterations allowed. Default value if $10$.
+- `nstart`: the number of random starting partitions when centers is a number. Trying `nstart > 1` is often recommended. 
+
+To create a beautiful graph of the clusters generated with the `kmeans()` function, will use the `factoextra` package.
+
+**Computing $K$-means clustering**
+
+As $K$-means clustering algorithm starts with $K$ randomly selected centroids, it is always recommended to use the `set.seed()` function in order to set a seed for `R`'s random number generator. The aim of using this function is to make reproducible the results. 
+
+The `R` code below performs $K$-means clustering with $K = 4$:
+```{r}
+#| eval: false
+set.seed(123)
+km.res <- kmeans(df, k = 4, nstart = 25)
+```
+
+:::{.callout-tip}
+Actually, $K$-means starts by randomly choosing $K$ points as *initial centroids*. Depending on these starting points, the algorithm can converge to *different local minima* — meaning the results may vary across runs. So, `nstart` means number of random initial sets of centroids to try and then, R will run the algorithm that many times and keep the best result (the one with the lowest total within-cluster sum of squares). 
+
+The default value of `nstart` in R is one. But, it is strongly recommended to compute $K$-means clustering with a large value of `nstart` such as $25$ or $50$, in order to have a more stable result.
+:::
+
+With the function `print()`, the results of `kmeans()` that for example in this note, saved in `km.res` 
+```{r}
+#| eval: false
+print(km.res)
+```
+The printed output displys:
+- the cluster means or centers, that is a matrix which rows are cluster number and columns are variables. 
+- the clustering vector which is a vector of integers (from 1 to $K$) indicating the cluster to which each point is allocated. 
+
+:::{.callout-note}
+It is possible to compute the mean of each variable in the dataset by clusters using the original dataset.
+```{r}
+#| eval: false 
+aggregate(df, by = list(cluster=km.res$cluster), mean)
+```
+:::
+
+:::{.callout-note}
+It the user is intersted in adding the clusters to the original data, use the following R code
+```{r}
+#| eval: false 
+cbind(df, cluster = km.res$cluster)
+```
+:::
+
+`kmeans()` function returns a list of components, including:
+- *cluster*: a vector of integers (from $1$ to $k$) indicating the cluster to which each point is allocated. 
+- *centers*: a matrix of cluster centers (cluster means)
+- *totss*: the total sum of squares (TSS). It measures the total variance in the data. 
+- *withinss*: vector of within-cluster sum of squares, one component per cluster
+- *tot.withinss*: total within-cluster sum of squares, i.e., $\text{sum}(withinss)$
+- *betweenss*: the between-cluster sum of squares, i.e., *totss - tot.withinss*
+- *size*: the number of observations in each cluster
+
+These components can be accessed as follow:
+```{r}
+#| eval: false 
+# Cluster number for each of the observations
+km.res$cluster 
+
+# Cluster size
+km.res$size
+
+# Cluster means
+km.res$centers
+```
+
+**Visualizing $K$-means Clusters**
+
+It is a good idea to plot the cluster results. These can be used to assess the choice of the number of clusters as well as comparing two different cluster analyses.
+
+The idea is to visualize the data in scatter plot with coloring tach data point according to its cluster assignment. 
+
+The problem is that the data contains more than 2 variables and the question is what variables to choose for the $x$-$y$ scatter plot. A **solution** is to reduce the number of dimensions by applying a dimensionality reduction algorithm, such as *principal component analysis (PCA)*. 
+
+In other words, if we have a multi-dimensional dataset, a solution is to perform *PCA* and to plot data points according to the first two principal components coordinates.
+
+The function `factoextra::fviz_cluster()` can be used to easily visulize $K$-means clusters. It takes $K$-means results and the original data as arguments. In the resulting plot, observations are represented by points, using orincipal components if the number of variables is greater than $2$. It is also possible to draw concentration ellipse around each cluster. 
+
+```{r}
+#| eval: false 
+fviz_cluster(km.res, data = df,
+palette = c("#2E9FDF", "#00AFBB", "#E7B800", "#FC4E07"), #Define colors
+ellipse.type = "euclid", # Concentration ellipse
+star.plot = TRUE, # Add segments from centroids to items
+repel = TRUE, # Avoid label overplotting (slow)
+ggtheme = theme_minimal()
+)
+```
+
+:::{.callout-important}
+$K$-means clustering is very simple and fast algorithm. It can efficiently deal with very large data sets. 
+:::
+
+
+:::{.callout-important}
+$K$-means has some weaknesses, including:
+
+- It assumes prior knowledge of the data and requires the analyst to choose the appropriate number of cluster ($k$) in advance. 
+
+*Solution*: Compute $K$-means for a range of $K$ values, for example by varying $k$ between $2$ and $10$. Then choose the best $k$ by comparing the clustering results obtained for different $k$ values.
+
+- The final results obtained is sensitive to the initial random selection of cluster centers. *Why is this a problem?* Because, for every different run of the algorithm on the same data set, you may choose different set of initial centers. This may lead to different clustering results on different runs of the algorithm.
+
+*Solution*: Compute $K$-means algorithm several times with different initial cluster centers. The run with the lowest total within-cluster sum of square is selected as the final clustering solution.
+
+- It is sensitive to outliers.
+
+*Solution*: To avoid distortions caused by excessive outliers, it is possible to use PAM algorithm, which is less sensitive to outliers.
+
 :::
 
 #### Analysis of `iris` Dataset
@@ -792,18 +1428,26 @@ y = "Total Within-Cluster Sum of Squares (WSS)") +
 theme_minimal()
 ```
 
-We observe that the *elbow* appears around $k = 3$, matching the three known species.
+The plot represents the variance within the clusters. It decreases as $k$ increases, but it can be seen a bend (or *elbow*) at $k = 3$, matching the three known species.
 
-:::{.callout-tip}
-In the $k$-means function
-```{r}
-#| eval: false 
-kmeans(iris_data, centers = 3, nstart = 20)
+Another way to visualize the elbow method for choosing the optimal number of clusters is by using the function `factoextra::fviz_nbclust()`. We can also add a vertical dashed line to indicate the chosen value of $k$.
+
+```{webr-r}
+#| label: elbow-fviz 
+#| autorun:true 
+#| messages: false 
+#| warning: false 
+#| out-width: "80%"
+
+library(factoextra)
+
+fviz_nbclust(iris_data, kmeans, method = 'wss') + 
+  geom_vline(xintercept = 3, linetype = 2) +
+labs(
+title = "Elbow Method for Determining Optimal k",
+subtitle = "Dashed line indicates the chosen number of clusters (k = 4)"
+)
 ```
-the argument `nstart` controls how many random initializations the algorithm tries before selecting the best solution.
-
-Actually, $k$-means starts by randomly choosing $k$ points as *initial centroids*. Depending on these starting points, the algorithm can converge to *different local minima* — meaning the results may vary across runs. So, `nstart` means number of random initial sets of centroids to try and then, R will run the algorithm that many times and keep the best result (the one with the lowest total within-cluster sum of squares). 
-:::
 
 Now, we apply $k$-means algorithm with $k = 3$.
 
@@ -815,6 +1459,16 @@ Now, we apply $k$-means algorithm with $k = 3$.
 
 set.seed(42)
 km_iris <- kmeans(iris_data, centers = 3, nstart = 20)
+
+# Print the results
+print(km_iris)
+```
+
+```{webr-r}
+#| label: iris-kmeans
+#| autorun: true
+#| message: false
+#| warning: false
 
 # Add cluster assignments to the dataset
 iris_clustered <- cbind(iris, cluster = factor(km_iris$cluster))
@@ -975,17 +1629,25 @@ subtitle = "Color shows cluster assignment") +
 theme_minimal()
 ```
 
-Even, we can compare with true species 
-```{webr-r}
-#| label: iris-comparison
-#| autorun: true
-#| message: false
-#| warning: false
 
-table(Cluster = iris_clustered$cluster, Species = iris_clustered$Species)
+Another way to visulize $K$-means clusters is using the function `fviz_cluster()` that used the PCA (the `iris_data` has 4 variables) with the following code 
+
+```{webr-r}
+#| label: fviz_clust_iris
+#| autorun: true
+#| warnings: false 
+#| message: false
+#| out-width: "80%"
+fviz_cluster(km_iris, data = iris_data,
+palette = c("#2E9FDF", "#00AFBB", "#E7B800"),
+ellipse.type = "euclid", # Concentration ellipse
+star.plot = FALSE, # Add segments from centroids to items
+repel = TRUE, # Avoid label overplotting (slow)
+ggtheme = theme_minimal()
+)
 ```
 
-As you see, *Setosa* is perfectly separated, while *versicolor* and *virginica* overlap.
+
 
 
 We can also evaluat  clustering with the Silhouette coefficient
@@ -1011,7 +1673,7 @@ summary(sil_iris)
 
 ```{webr-r}
 #| label: silhouette-plot
-#| echo: true
+#| autorun: true
 #| fig-cap: "Silhouette plot for K-Means clustering (k = 3) on the Iris dataset"
 #| out-width: "80%"
 plot(sil_iris, border = NA, main = "Silhouette Plot — Iris Dataset (k = 3)")
@@ -1056,10 +1718,24 @@ labs(title = "Average Silhouette Width by Number of Clusters",
 x = "Number of clusters (k)",
 y = "Average Silhouette Width") +
 theme_minimal()
+
+library(factoextra)
+
+fviz_nbclust(iris_data, kmeans, method = 'silhouette')
 ```
 
-As you see, the highest silhouette score occurs around $k = 3$, matching the known number of species. $k = 2$ gives larger compact clusters but merges two real species. While $k > 3$ begins splitting natural groups unnecessarily (overfitting). 
-You see that the *Silhouette Coefficient* confirms the Elbow method’s result
+Based on the Silhouette plots, the highest average silhouette width occurs at $k = 2$. This means that, mathematically, dividing the data into two clusters gives the tightest and most well-separated grouping according to the Silhouette metric.
+
+However, **the best numerical score does not always mean the most meaningful clustering**. 
+
+At $k =2$, the algorithm merges two of the real Iris species (versicolor and virginica) into a single cluster. The result has high compactness, but low interpretive accuracy.
+
+At $k = 3$, the average silhouette width is slightly lower, but the clusters correspond more closely to the true biological species. This result is more meaningful, even if slightly less compact.
+
+Thus, the *Silhouette Coefficient* and the *Elbow Method* together suggest that: 
+- $k=2$ yields the most compact clustering,
+- but $k=3$ represents the optimal trade-off between cluster compactness and real-world interpretability
+
 
 ::::: panel-tabset
 ## Exercise 1
@@ -1121,12 +1797,15 @@ R = as.vector(img[,,1]),
 G = as.vector(img[,,2]),
 B = as.vector(img[,,3])
 )
+
+# Sample only a few thousand pixels to avoid memory explosion
+set.seed(123)
+img_sample <- img_df %>% sample_n(5000)
 ```
 
 **Determine the optimal number of clusters.**
 
-Apply $k$-means clustering to the RGB values of the image (`img_df`) for $k = 2$ to $10$, using `nstart = 10`.  Then, use both the **Elbow Method** and the **Silhouette Coefficient** to decide which $k$ gives the best balance between cluster compactness and separation. Do both methods suggest the same number of clusters? 
-
+Apply $k$-means clustering to the RGB values of the image (`img_sample`) for $k = 2$ to $10$, using `nstart = 10`.  Then, use both the **Elbow Method** and the **Silhouette Coefficient** to decide which $k$ gives the best balance between cluster compactness and separation. Do both methods suggest the same number of clusters? 
 
 When you decide about the optimal $k$, with the following code, you can compare the original and compressed image. 
 
@@ -1137,7 +1816,7 @@ set.seed(123)
 
 
 k <- 'put the optimal value you found'
-km_colors <- kmeans(img_df, centers = k, nstart = 10)
+km_colors <- kmeans(img_sample, centers = k, nstart = 10)
 
 
 # Replace each pixel with its cluster centroid color
@@ -1156,3 +1835,175 @@ rasterImage(compressed_img, 0, 0, 1, 1)
 ```
 
 :::::
+
+### $k$-Medoids Clustering
+
+The $k$-medoids algorithm is a partitioning clustering method closely related to $k$-means, but instead of using the *mean (centroid)* of points to represent a cluster, it uses an *actual observation (medoid)* — the most centrally located data point within that cluster.
+
+Formally, a medoid is the point whose average dissimilarity to all other points in the cluster is minimal. i.e,
+$$
+m_j = \arg\min_{x_i \in C_j} \sum_{x_k \in C_j} d(x_i,x_k)
+$$
+where:
+- $C_j$ is the set of points assigned to cluster $j$
+- $d(x_i,x_k)$ is a chosen distance or dissimilarity measure (e.g., Euclidean, Manhattan, etc.)
+
+**Algorithm (PAM — Partitioning Around Medoids)**
+
+The most common implementation of k-medoids is the PAM algorithm, which works as follows:
+1. **Initialize:**
+Select $k$ representative objects (medoids) randomly from the dataset.
+2. **Assign:**
+Assign each remaining point to the nearest medoid based on the chosen distance metric.
+3. **Update:**
+For each cluster, try swapping the medoid with another point from the same cluster and compute the total cost:
+$$
+\text{Cost} = \sum_{i=1}^n \min_j d(x_i, m_j)
+$$
+If a swap reduces the cost, keep it.
+4. **Iterate:** 
+Repeat assignment and update steps until the medoids no longer change.
+
+:::{.callout-important}
+The $k$-medoids algorithm minimizes a **sum of dissimilarities**, not squared distances.
+Thus, the cluster representative is always a real observation, which makes the method robust when data contain noise, outliers, or mixed types.
+:::
+
+```{webr-r}
+#| label: pam-basic
+#| autorun: true
+#| message: false
+#| warning: false
+#| fig-cap: "k-Medoids clustering using the PAM algorithm on the iris dataset."
+#| out-width: "80%"
+
+library(cluster)
+library(ggplot2)
+
+# Prepare data (use only numeric columns)
+iris_data <- iris[, 1:4]
+
+# Apply k-medoids clustering (PAM = Partitioning Around Medoids)
+set.seed(123)
+pam_result <- pam(iris_data, k = 3, metric = "euclidean")
+
+# Add cluster labels to data
+iris_pam <- iris
+iris_pam$cluster <- as.factor(pam_result$clustering)
+
+# Visualize clusters (Petal.Length vs Petal.Width)
+ggplot(iris_pam, aes(Petal.Length, Petal.Width, color = cluster, shape = Species)) +
+  geom_point(size = 3, alpha = 0.7) +
+  geom_point(data = as.data.frame(pam_result$medoids), 
+             aes(Petal.Length, Petal.Width), 
+             color = "black", size = 5, shape = 8) +
+  labs(title = "k-Medoids Clustering (PAM)", 
+       subtitle = "Medoids shown as black stars",
+       x = "Petal Length", y = "Petal Width") +
+  theme_minimal(base_size = 14)
+```
+
+As you see, the black stars represent the *medoids* — actual data points from the dataset.
+
+Unlike $k$-means, the medoid is a real observation, not an artificial centroid.
+
+
+**Visual Comparison: k-Means vs k-Medoids**
+```{webr-r}
+#| label: kmeans-vs-pam
+#| autorun: true
+#| fig-cap: "Comparison between k-Means and k-Medoids clustering on the same dataset."
+#| out-width: true
+
+set.seed(123)
+kmeans_result <- kmeans(iris_data, centers = 3, nstart = 20)
+
+iris_compare <- iris
+iris_compare$kmeans_cluster <- as.factor(kmeans_result$cluster)
+iris_compare$kmedoids_cluster <- as.factor(pam_result$clustering)
+
+# Combine plots side by side
+library(patchwork)
+
+p1 <- ggplot(iris_compare, aes(Petal.Length, Petal.Width, color = kmeans_cluster)) +
+  geom_point(size = 3, alpha = 0.7) +
+  geom_point(data = as.data.frame(kmeans_result$centers),
+             aes(Petal.Length, Petal.Width),
+             color = "black", size = 5, shape = 8) +
+  labs(title = "k-Means", subtitle = "Centroids (means) shown as black stars") +
+  theme_minimal(base_size = 13)
+
+p2 <- ggplot(iris_compare, aes(Petal.Length, Petal.Width, color = kmedoids_cluster)) +
+  geom_point(size = 3, alpha = 0.7) +
+  geom_point(data = as.data.frame(pam_result$medoids),
+             aes(Petal.Length, Petal.Width),
+             color = "black", size = 5, shape = 8) +
+  labs(title = "k-Medoids (PAM)", subtitle = "Medoids (real points) shown as black stars") +
+  theme_minimal(base_size = 13)
+
+p1 + p2
+```
+
+#### Analysis of Heart Disease Dataset
+
+The dataset has a mix of numerical, ordinal, and categorical features:
+`Age`, `Sex`, `ChestPain`, `Thal`, `RestBP`, `Chol`, `MaxHR`, `AHD` (disease outcome), etc.
+
+We compute Gower distance and run $k$-medoids.
+
+```{webr-r}
+#| label: pam-heart-optimal
+#| fig-cap: "Finding optimal k and discriminative features in the Heart Disease dataset using PAM (Gower distance)."
+#| autorun: true
+#| message: false
+#| warning: false
+
+library(cluster)
+library(ggplot2)
+library(dplyr)
+library(factoextra)
+
+# Load dataset
+data("heart")
+
+# Compute Gower distance for mixed data
+diss_heart <- daisy(heart, metric = "gower")
+
+#-----------------------------
+# 1️⃣ Find optimal number of clusters using silhouette
+#-----------------------------
+sil_width <- c()
+
+for (k in 2:6) {
+  pam_fit <- pam(diss_heart, k = k, diss = TRUE)
+  sil_width[k] <- pam_fit$silinfo$avg.width
+}
+
+# Find best k (maximum silhouette width)
+best_k <- which.max(sil_width)
+best_k
+
+# Plot silhouette curve
+plot(2:6, sil_width[2:6], type = "b", pch = 19,
+     xlab = "Number of clusters (k)",
+     ylab = "Average silhouette width",
+     main = "Choosing optimal number of clusters (PAM, Gower)")
+abline(v = best_k, lty = 2, col = "red")
+text(best_k + 0.2, max(sil_width, na.rm = TRUE) - 0.01,
+     labels = paste("Best k =", best_k), col = "red")
+```
+
+```{webr-r}
+#| label: pam-heart-optimal-1"
+#| autorun: true
+#| message: false
+#| warning: false
+
+set.seed(123)
+pam_heart <- pam(diss_heart, k = best_k, diss = TRUE)
+
+heart_clustered <- heart %>%
+  mutate(Cluster = as.factor(pam_heart$clustering))
+```
+
+
