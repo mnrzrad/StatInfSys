@@ -2795,7 +2795,7 @@ D_{ij} = d(\mathbf{x}_i, \mathbf{x}_j)
 <p>The commonly used partitioning clustering includes:</p>
 <ul>
 <li><span class="math inline">\(K\)</span>-means clustering <span class="citation" data-cites="macqueen1967">(<a href="#ref-macqueen1967" role="doc-biblioref">MacQueen 1967</a>)</span> in which ,each cluster is represented by the center or means of the data points belonging to the cluster. The <span class="math inline">\(K\)</span>-means method is sensitive to anomalous data points and outliers.</li>
-<li><span class="math inline">\(K\)</span>-medoids clustering or PAM (Partitioning Around Medoids) <span class="citation" data-cites="kaufman1990">(<a href="#ref-kaufman1990" role="doc-biblioref"><strong>kaufman1990?</strong></a>)</span> in which , each cluster is reprsented by one of the objects in the cluster. PAM is less sensitive to outliers compared to <span class="math inline">\(K\)</span>-means.</li>
+<li><span class="math inline">\(K\)</span>-medoids clustering or PAM (Partitioning Around Medoids) <span class="citation" data-cites="kaufman1990">(<a href="#ref-kaufman1990" role="doc-biblioref">Kaufman and Rousseeuw 1990</a>)</span> in which , each cluster is reprsented by one of the objects in the cluster. PAM is less sensitive to outliers compared to <span class="math inline">\(K\)</span>-means.</li>
 <li>CLARA (Clustering Large Applications) algorithm, which is an extension to PAM adapted for large data sets.</li>
 </ul>
 <section id="k-means-clustering" class="level3" data-number="10.3.1">
@@ -2804,7 +2804,7 @@ D_{ij} = d(\mathbf{x}_i, \mathbf{x}_j)
 <p>Each cluster is represented by its <em>centroid</em>, which may not be an actual data point.</p>
 <p><strong><span class="math inline">\(K\)</span>-means basic ideas</strong></p>
 <p>This basic idea behind <span class="math inline">\(K\)</span>-means clustering consists of defining clusters so that the total intra-cluster variation (known as <em>total within-cluster variation</em>) is minimized.</p>
-<p>There are several <span class="math inline">\(K\)</span>-means algorithms available. The standard algorithm is the <em>Hartigan-Wong algorithm</em> <span class="citation" data-cites="hartigan1979">(<a href="#ref-hartigan1979" role="doc-biblioref"><strong>hartigan1979?</strong></a>)</span> which defines the total within-cluster variation as the sum of squared distances Euclidean distances between items and the corresponding centroid: <span class="math display">\[
+<p>There are several <span class="math inline">\(K\)</span>-means algorithms available. The standard algorithm is the <em>Hartigan-Wong algorithm</em> <span class="citation" data-cites="hartigan1979">(<a href="#ref-hartigan1979" role="doc-biblioref">Hartigan and Wong 1979</a>)</span> which defines the total within-cluster variation as the sum of squared distances Euclidean distances between items and the corresponding centroid: <span class="math display">\[
 W(C_k) = \sum_{x_i \in C_k} (x_i - \mu_k)^2
 \]</span> where <span class="math inline">\(x_i\)</span> design a data point belonging to the cluster <span class="math inline">\(C_k\)</span> and <span class="math inline">\(\mu_k\)</span> is the mean value of the points assigned to the cluster <span class="math inline">\(C_k\)</span>.</p>
 <p>Each observation (<span class="math inline">\(x_i\)</span>) is assigned to a given cluster such that the sum of squares (SS) distances of the observation to their assigned cluster <span class="math inline">\(\mu_k\)</span> is minimum.</p>
@@ -3349,6 +3349,12 @@ Important
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
 <div id="ref-Gower1971" class="csl-entry" role="listitem">
 Gower, J. C. 1971. <span>“A General Coefficient of Similarity and Some of Its Properties.”</span> <em>Biometrics</em> 27 (4): 857–71.
+</div>
+<div id="ref-hartigan1979" class="csl-entry" role="listitem">
+Hartigan, John A., and Manchek A. Wong. 1979. <span>“A <span>K</span>-Means Clustering Algorithm.”</span> <em>Applied Statistics</em> 28: 100–108.
+</div>
+<div id="ref-kaufman1990" class="csl-entry" role="listitem">
+Kaufman, Leonard, and Peter J. Rousseeuw. 1990. <em>Finding Groups in Data: An Introduction to Cluster Analysis</em>. New York: Wiley.
 </div>
 <div id="ref-macqueen1967" class="csl-entry" role="listitem">
 MacQueen, J. 1967. <span>“Some Methods for Classification and Analysis of Multivariate Observations.”</span> In <em>Proceedings of the Fifth Berkeley Symposium on Mathematical Statistics and Probability</em>, edited by L. M. Le Cam and J. Neyman, 1:281–97. Berkeley, CA: University of California Press.
