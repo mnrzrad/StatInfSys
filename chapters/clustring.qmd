@@ -1855,6 +1855,7 @@ The most common $K$-medoids clustering methods is the PAM (Partitioning Around M
 The PAM algorithm is based on the search for $K$ representative objects or medoids among the observations of the data set. After finding a set of $K$ medoids, clusters are constructed by assigning each observation to the nearest medoid. Next, each selected medoid $m$ and each non-medoid data point are swapped and the objective function is computed. The objective function corresponds to the sum of the dissimilarities of all objects to their nearest medoid. The *SWAP* step attemps to improve the quality of the clustering by exchanging selected objects (medoids) and non-selected objects. If the objective function can be reduced by interchanging a selected object with an unselected object, then the swap is carried out. This is continued until the objective function can no longer be decreased. The goal is to find $k$ representative objects which minimize the sum of the dissimilarities of the observations to their closest representative object.
 
 In summary, PAM algorithm is:
+
 1. **Initialize:**
 Select $k$ representative objects (medoids) randomly from the dataset.
 2. Calculate the distance (dissimilarity) matrix if it was not provided.
@@ -1884,6 +1885,7 @@ In practice, you should get similar results most of time, using either euclidean
 
 #### Example 
 Consider the following example
+
 |   | X | Y |
 |:-:|:-:|:-:|
 | 1 | 9 | 3 |
@@ -1987,6 +1989,7 @@ where:
 We evaluate each point in a cluster as a potential medoid, computing the sum of Manhattan distances to all other points in that cluster.
 
 **Cluster C1 = {3,5,6,7,8}**
+
 | Candidate (ID) | Sum of distances |
 |:--------------:|:----------------:|
 | 3 (4,6)        | **11 ← best**    |
@@ -1996,6 +1999,7 @@ We evaluate each point in a cluster as a potential medoid, computing the sum of 
 | 8 (4,4)        | 15               |
 
 **Cluster C2 = {1,2,4,9,10}**
+
 | Candidate (ID) | Sum of distances |
 |:--------------:|:----------------:|
 | 1 (9,3)        | 10               |

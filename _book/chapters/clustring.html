@@ -96,7 +96,7 @@ div.csl-indent {
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-364982630eef5352dd1537128a8ed5cb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-485d01fc63b59abcd3ee1bf1e8e2748d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -3322,9 +3322,16 @@ m_k = \arg\min_{\mathbf{x}_i \in C_k} \sum_{\mathbf{x}_j \in C_k} d(\mathbf{x}_i
 <section id="pam-algorithm" class="level4" data-number="10.3.2.1">
 <h4 data-number="10.3.2.1" class="anchored" data-anchor-id="pam-algorithm"><span class="header-section-number">10.3.2.1</span> PAM Algorithm</h4>
 <p>The PAM algorithm is based on the search for <span class="math inline">\(K\)</span> representative objects or medoids among the observations of the data set. After finding a set of <span class="math inline">\(K\)</span> medoids, clusters are constructed by assigning each observation to the nearest medoid. Next, each selected medoid <span class="math inline">\(m\)</span> and each non-medoid data point are swapped and the objective function is computed. The objective function corresponds to the sum of the dissimilarities of all objects to their nearest medoid. The <em>SWAP</em> step attemps to improve the quality of the clustering by exchanging selected objects (medoids) and non-selected objects. If the objective function can be reduced by interchanging a selected object with an unselected object, then the swap is carried out. This is continued until the objective function can no longer be decreased. The goal is to find <span class="math inline">\(k\)</span> representative objects which minimize the sum of the dissimilarities of the observations to their closest representative object.</p>
-<p>In summary, PAM algorithm is: 1. <strong>Initialize:</strong> Select <span class="math inline">\(k\)</span> representative objects (medoids) randomly from the dataset. 2. Calculate the distance (dissimilarity) matrix if it was not provided. 2. <strong>Assign:</strong> Assign each remaining point to the nearest medoid based on the chosen distance metric. 3. <strong>Update:</strong> For each cluster, try swapping the medoid with another point from the same cluster and compute the total cost: <span class="math display">\[
+<p>In summary, PAM algorithm is:</p>
+<ol type="1">
+<li><strong>Initialize:</strong> Select <span class="math inline">\(k\)</span> representative objects (medoids) randomly from the dataset.</li>
+<li>Calculate the distance (dissimilarity) matrix if it was not provided.</li>
+<li><strong>Assign:</strong> Assign each remaining point to the nearest medoid based on the chosen distance metric.</li>
+<li><strong>Update:</strong> For each cluster, try swapping the medoid with another point from the same cluster and compute the total cost: <span class="math display">\[
 \text{Cost} = \sum_{i=1}^n \min_k d(\mathbf{x}_i, m_k)
-\]</span> If a swap reduces the cost, keep it. 4. <strong>Iterate:</strong> Repeat assignment and update steps until the medoids no longer change.</p>
+\]</span> If a swap reduces the cost, keep it.</li>
+<li><strong>Iterate:</strong> Repeat assignment and update steps until the medoids no longer change.</li>
+</ol>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -3355,7 +3362,68 @@ Note
 </section>
 <section id="example" class="level4" data-number="10.3.2.2">
 <h4 data-number="10.3.2.2" class="anchored" data-anchor-id="example"><span class="header-section-number">10.3.2.2</span> Example</h4>
-<p>Consider the following example | | X | Y | |:-:|:-:|:-:| | 1 | 9 | 3 | | 2 | 8 | 4 | | 3 | 4 | 6 | | 4 | 8 | 5 | | 5 | 2 | 5 | | 6 | 3 | 8 | | 7 | 8 | 8 | | 8 | 4 | 4 | | 9 | 10 | 4 | | 10 | 9 | 6 |</p>
+<p>Consider the following example</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;"></th>
+<th style="text-align: center;">X</th>
+<th style="text-align: center;">Y</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">9</td>
+<td style="text-align: center;">3</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">6</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">5</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">8</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">8</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">9</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">4</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">9</td>
+<td style="text-align: center;">6</td>
+</tr>
+</tbody>
+</table>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -3526,8 +3594,68 @@ C_1 + C_2 = 9 + 11 = 20
 \]</span> where: - <span class="math inline">\(C_1 = 0 + 3 + 3 + 3 + 2  = 11\)</span> - <span class="math inline">\(C_2 = 0 + 2 + 2 + 2 + 3 = 9\)</span></p>
 <p>** Step2** – Update (try swaps)</p>
 <p>We evaluate each point in a cluster as a potential medoid, computing the sum of Manhattan distances to all other points in that cluster.</p>
-<p><strong>Cluster C1 = {3,5,6,7,8}</strong> | Candidate (ID) | Sum of distances | |:————–:|:—————-:| | 3 (4,6) | <strong>11 ← best</strong> | | 5 (2,5) | 16 | | 6 (3,8) | 14 | | 7 (5,8) | 16 | | 8 (4,4) | 15 |</p>
-<p><strong>Cluster C2 = {1,2,4,9,10}</strong> | Candidate (ID) | Sum of distances | |:————–:|:—————-:| | 1 (9,3) | 10 | | 2 (8,4) | <strong>8 ← best</strong> | | 4 (8,5) | 9 | | 9 (10,4) | 10 | | 10 (9,6) | 11 |</p>
+<p><strong>Cluster C1 = {3,5,6,7,8}</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">Candidate (ID)</th>
+<th style="text-align: center;">Sum of distances</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">3 (4,6)</td>
+<td style="text-align: center;"><strong>11 ← best</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">5 (2,5)</td>
+<td style="text-align: center;">16</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">6 (3,8)</td>
+<td style="text-align: center;">14</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">7 (5,8)</td>
+<td style="text-align: center;">16</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">8 (4,4)</td>
+<td style="text-align: center;">15</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Cluster C2 = {1,2,4,9,10}</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">Candidate (ID)</th>
+<th style="text-align: center;">Sum of distances</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1 (9,3)</td>
+<td style="text-align: center;">10</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2 (8,4)</td>
+<td style="text-align: center;"><strong>8 ← best</strong></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">4 (8,5)</td>
+<td style="text-align: center;">9</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">9 (10,4)</td>
+<td style="text-align: center;">10</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">10 (9,6)</td>
+<td style="text-align: center;">11</td>
+</tr>
+</tbody>
+</table>
 <p>Update result:</p>
 <ul>
 <li>Medoid for <span class="math inline">\(C_1\)</span> stays ID 3 (<span class="math inline">\((4,6)\)</span>)</li>
