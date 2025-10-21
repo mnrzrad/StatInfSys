@@ -55,7 +55,27 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -405,7 +425,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"code":"x <- c(2, 4)\ny <- c(5, 8)\n\n# Euclidean distance\nd_E <- sqrt(sum((x - y)^2))\nd_E","id":1,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"euclidean-distance","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"x <- c(2, 4)\ny <- c(5, 8)\n\n# Manhattan distance\nd_M <- sum(abs(x - y))\nd_M","id":2,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"manhattan-distance","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"x <- c(2, 4)\ny <- c(5, 8)\n\n# Minkowski distance\nd_r <- function(x, y, r) {\n  (sum(abs(x - y)^r))^(1/r)\n}\ncat('Manhattan distance:', d_r(x, y, r = 1), 'that should be equal to d_M which is', d_M, '\\n')\ncat('Euclidean distance:', d_r(x, y, r = 2), 'that should be equal to d_E which is', d_E, '\\n')\ncat('Minkowski Distance', d_r(x, y, r = 3))","id":3,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"manhattan-distance","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"x <- c(2, 4)\ny <- c(5, 8)\n\n# Chebyshev distance\nd_C <- max(abs(x - y))\nd_C","id":4,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"chebyshev-distance","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"x <- c(2, 4)\ny <- c(5, 8)\n\n# For Mahalanobis, we need covariance matrix (example with small dataset)\nX <- matrix(c(2, 4, 5, 8, 3, 7), ncol = 2, byrow = TRUE)\ncov_matrix <- cov(X)\nd_mahalanobis <- sqrt(t(x - y) %*% solve(cov_matrix) %*% (x - y))\nd_mahalanobis","id":5,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"mahalanobis-distance","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"library(lsa)  # for cosine similarity\n\nx <- c(1, 2, 3)\ny <- c(2, 4, 6)\nz <- c(3, 0, 0)\n\ncos_xy <- cosine(x, y)\ncos_xz <- cosine(x, z)\n\ncat(\"Cosine similarity (x,y):\", round(cos_xy, 3), \"\\n\")\ncat(\"Cosine similarity (x,z):\", round(cos_xz, 3), \"\\n\")\ncat(\"Cosine distance (x,y):\", round(1 - cos_xy, 3), \"\\n\")\ncat(\"Cosine distance (x,z):\", round(1 - cos_xz, 3), \"\\n\")","id":6,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"cosine-distance","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"# Two binary observations (e.g., presence/absence of features)\no1 <- c(1, 0, 1, 1, 0, 0, 1)\no2 <- c(1, 1, 0, 1, 0, 0, 0)\n\n# Compute the components\nf11 <- sum(o1 == 1 & o2 == 1)\nf00 <- sum(o1 == 0 & o2 == 0)\nf10 <- sum(o1 == 1 & o2 == 0)\nf01 <- sum(o1 == 0 & o2 == 1)\nd <- length(o1)\n\n# Similarity and distance\ns_SMC <- (f11 + f00) / d\nd_SMC <- (f01 + f10) / d  # same as 1 - s_SMC\n\ncat(\"f11 =\", f11, \"f00 =\", f00, \"f10 =\", f10, \"f01 =\", f01, \"\\n\")\ncat(\"Simple Matching Coefficient (similarity):\", round(s_SMC, 3), \"\\n\")\ncat(\"Simple Matching Distance:\", round(d_SMC, 3), \"\\n\")","id":7,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"smc-distance-example","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"# Example categorical data\nx <- c(\"Red\", \"Small\", \"Circle\")\ny <- c(\"Blue\", \"Small\", \"Square\")\n\n# ----- Hamming Distance -----\nhamming_distance <- sum(x != y)\nprint(paste(\"Hamming distance:\", hamming_distance))\n\n# ----- Gower Distance -----\nlibrary(cluster)\n\ndata <- data.frame(\n  Color = c(\"Red\", \"Blue\"),\n  Size = c(\"Small\", \"Small\"),\n  Shape = c(\"Circle\", \"Square\")\n)\n\n# Convert all character columns to factors\ndata[] <- lapply(data, as.factor)\n\n# Compute Gower distance\ngower_dist <- daisy(data, metric = \"gower\")\ngower_matrix <- round(as.matrix(gower_dist), 3)\n\nprint(\"Gower distance matrix:\")\nprint(gower_matrix)","id":8,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"categorical-distances","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"set.seed(42)\n\n# Generate synthetic 2D data\nx <- rbind(\n  matrix(rnorm(100, mean = 0, sd = 0.3), ncol = 2),\n  matrix(rnorm(100, mean = 3, sd = 0.3), ncol = 2)\n)\ncolnames(x) <- c(\"x\", \"y\")\n\n# Apply k-means with 2 clusters\nkm <- kmeans(x, centers = 2, nstart = 20)\n\n# Visualize results\nlibrary(ggplot2)\ndata <- data.frame(x, cluster = factor(km$cluster))\nggplot(data, aes(x, y, color = cluster)) +\n  geom_point(size = 3) +\n  geom_point(data = as.data.frame(km$centers), aes(x, y), color = \"black\", size = 5, shape = 8) +\n  labs(title = \"K-Means Clustering\",\n       subtitle = \"Centroids shown as black stars\") +\n  theme_minimal()","id":9,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"kmeans-example","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"# Load dataset\ndata(\"iris\")\n\n# Select only numeric features for clustering\niris_data <- iris[, 1:4]","id":10,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"iris-prepare","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"library(ggplot2)\n\n# Compute WSS for k = 1:10\n\nwss <- sapply(1:10, function(k) {\nkmeans(iris_data, centers = k, nstart = 20)$tot.withinss\n})\n\n# Create Elbow plot\n\nelbow_df <- data.frame(k = 1:10, WSS = wss)\n\nggplot(elbow_df, aes(k, WSS)) +\ngeom_line(color = \"steelblue\", linewidth = 1.2) +\ngeom_point(size = 3, color = \"tomato\") +\nscale_x_continuous(breaks = 1:10) +\nlabs(title = \"Elbow Method — Iris Dataset\",\nx = \"Number of clusters (k)\",\ny = \"Total Within-Cluster Sum of Squares (WSS)\") +\ntheme_minimal()","id":11,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"iris-elbow","message":"false","out-height":"","out-width":"90%","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"set.seed(42)\nkm_iris <- kmeans(iris_data, centers = 3, nstart = 20)\n\n# Add cluster assignments to the dataset\niris_clustered <- cbind(iris, cluster = factor(km_iris$cluster))\n\n# Show first few results\nhead(iris_clustered)","id":12,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"iris-kmeans","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"# Total, within, and between-cluster sums of squares\n\nTSS <- sum(scale(iris_data, scale = FALSE)^2)\nWSS <- km_iris$tot.withinss\nBSS <- TSS - WSS\nratio <- BSS / TSS\n\ncat(\"TSS:\", round(TSS, 2), \"\\n\")\ncat(\"WSS:\", round(WSS, 2), \"\\n\")\ncat(\"BSS:\", round(BSS, 2), \"\\n\")\ncat(\"Explained variance (BSS/TSS):\", round(ratio, 3), \"\\n\")","id":13,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"iris-measures","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"library(GGally)\nggpairs(iris, aes(color = Species))","id":14,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"eda","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"# Compute ratio of between- to within-group variance for each feature\nlibrary(dplyr)\n\niris_var <- iris %>%\n  group_by(Species) %>%\n  summarise(across(where(is.numeric), mean))\n\n# Between-class variance\noverall_means <- colMeans(iris[, 1:4])\nbetween_var <- colSums((as.matrix(iris_var[, -1]) - overall_means)^2)\n\n# Within-class variance\nwithin_var <- sapply(iris[, 1:4], function(v) tapply(v, iris$Species, var))\nwithin_var <- colMeans(within_var)\n\n# Ratio\ndiscriminative_ratio <- between_var / within_var\ndiscriminative_ratio","id":15,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"discriminative-measures","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"library(ggplot2)\n\n# Compare Sepal.Width vs Petal.Length\nggplot(iris, aes(Sepal.Width, fill = Species)) +\n  geom_density(alpha = 0.5) +\n  labs(title = \"Distribution of Sepal.Width by Species\") +\n  theme_minimal()\n\nggplot(iris, aes(Petal.Length, fill = Species)) +\n  geom_density(alpha = 0.5) +\n  labs(title = \"Distribution of Petal.Length by Species\") +\n  theme_minimal()","id":16,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"sepal-length-plots","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"ggplot(iris_clustered, aes(Petal.Length, Petal.Width, color = cluster)) +\ngeom_point(size = 3) +\nlabs(title = \"K-Means Clustering of Iris Data (k = 3)\",\nsubtitle = \"Color shows cluster assignment\") +\ntheme_minimal()","id":17,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"iris-plots","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"table(Cluster = iris_clustered$cluster, Species = iris_clustered$Species)","id":18,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"iris-comparison","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"library(cluster)\nset.seed(42)\n\n# K-means result for k = 3 (from previous section)\nkm_iris <- kmeans(iris[, 1:4], centers = 3, nstart = 20)\n\n# Compute silhouette width\nsil_iris <- silhouette(km_iris$cluster, dist(iris[, 1:4]))\n\n# Display summary statistics\nsummary(sil_iris)","id":19,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"silhouette-iris","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"plot(sil_iris, border = NA, main = \"Silhouette Plot — Iris Dataset (k = 3)\")","id":20,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"echo":"true","editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"Silhouette plot for K-Means clustering (k = 3) on the Iris dataset","fig-height":5,"fig-width":7,"label":"silhouette-plot","message":"true","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"sil_widths <- sapply(2:10, function(k) {\nkm <- kmeans(iris[, 1:4], centers = k, nstart = 20)\nss <- silhouette(km$cluster, dist(iris[, 1:4]))\nmean(ss[, \"sil_width\"])\n})\n\nsil_df <- data.frame(k = 2:10, Silhouette = sil_widths)\n\nlibrary(ggplot2)\nggplot(sil_df, aes(k, Silhouette)) +\ngeom_line(color = \"steelblue\", linewidth = 1.2) +\ngeom_point(size = 3, color = \"tomato\") +\nscale_x_continuous(breaks = 2:10) +\nlabs(title = \"Average Silhouette Width by Number of Clusters\",\nx = \"Number of clusters (k)\",\ny = \"Average Silhouette Width\") +\ntheme_minimal()","id":21,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"silhouette-elbow","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"false"}}];
+globalThis.qwebrCellDetails = [{"code":"x <- c(2, 4)\ny <- c(5, 8)\n\n# Euclidean distance\nd_E <- sqrt(sum((x - y)^2))\ncat(\"Euclidean distance using direct function:\", d_E, \"\\n\")\n\n# Another way\ndf <- data.frame(rbind(x, y))\ndist_euclidean <- dist(df, method = 'euclidean')\ncat(\"Euclidean distance using 'dist()' function:\", dist_euclidean, \"\\n\")\n\n# Using the package \"factoextra\" \nlibrary(factoextra)\ndist_euclidean_factoextra <- get_dist(df, method = 'euclidean')\ncat(\"Euclidean distance using 'factoextra::get_dist()' function:\", dist_euclidean_factoextra)","id":1,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"euclidean-distance","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"x <- c(2, 4)\ny <- c(5, 8)\n\n# Manhattan distance\nd_M <- sum(abs(x - y))\ncat(\"Manhattan distance using direct function:\", d_M, \"\\n\")\n\n# Another way\ndf <- data.frame(rbind(x, y))\ndist_manhattan <- dist(df, method = 'manhattan')\ncat(\"Manhattan distance using 'dist()' function:\", dist_manhattan, \"\\n\")\n\n# Using the package \"factoextra\" \nlibrary(factoextra)\ndist_manhattan_factoextra <- get_dist(df, method = 'manhattan')\ncat(\"Manhattan distance using 'factoextra::get_dist()' function:\", dist_manhattan_factoextra)","id":2,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"manhattan-distance","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"x <- c(2, 4)\ny <- c(5, 8)\n\n# Minkowski distance\nd_r <- function(x, y, r) {\n  (sum(abs(x - y)^r))^(1/r)\n}\ncat('Manhattan distance:', d_r(x, y, r = 1), 'that should be equal to d_M which is', d_M, '\\n')\ncat('Euclidean distance:', d_r(x, y, r = 2), 'that should be equal to d_E which is', d_E, '\\n')\ncat('Minkowski Distance', d_r(x, y, r = 5), '\\n')\ncat('Minkowski Distance', d_r(x, y, r = 10), '\\n')\n\n# Another way\ndf <- data.frame(rbind(x, y))\ndist_minkowski_5 <- dist(df, method = 'minkowski', p = 5)\ndist_minkowski_10 <- dist(df, method = 'minkowski', p = 10)\ncat(\"Minkowski distance using 'dist()' function (p = 5):\", dist_minkowski_5, '\\n')\ncat(\"Minkowski distance using 'dist()' function (p = 10):\", dist_minkowski_10, '\\n')\n\n\n# Using the package \"factoextra\" \nlibrary(factoextra)\ndist_minkowski_5_factoextra <- get_dist(df, method = 'manhattan', p = 5)\ncat(\"Minkowski distance using 'factoextra::get_dist()' function:\", dist_minkowski_5_factoextra, '\\n') \n\ndist_minkowski_10_factoextra <- get_dist(df, method = 'manhattan', p = 10)\ncat(\"Minkowski distance using 'factoextra::get_dist()' function:\", dist_minkowski_10_factoextra) ","id":3,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"manhattan-distance","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"x <- c(2, 4)\ny <- c(5, 8)\n\n# Chebyshev distance\nd_C <- max(abs(x - y))\ncat(\"Chebyshev distance using direct function:\", d_C, \"\\n\")\n\n# Another way\ndf <- data.frame(rbind(x, y))\ndist_chebyshev <- dist(df, method = 'maximum')\ncat(\"Chebyshev distance using 'dist()' function:\", dist_chebyshev, \"\\n\")\n\n# Using the package \"factoextra\" \nlibrary(factoextra)\ndist_chebyshev_factoextra <- get_dist(df, method = 'maximum')\ncat(\"Chebyshev distance using 'factoextra::get_dist()' function:\", dist_chebyshev_factoextra)","id":4,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"chebyshev-distance","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"x <- c(2, 4)\ny <- c(5, 8)\n\n# For Mahalanobis, we need covariance matrix (example with small dataset)\nX <- matrix(c(2, 4, 5, 8, 3, 7), ncol = 2, byrow = TRUE)\ncov_matrix <- cov(X)\nd_mahalanobis <- sqrt(t(x - y) %*% solve(cov_matrix) %*% (x - y))\nd_mahalanobis","id":5,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"mahalanobis-distance","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"library(lsa)  # for cosine similarity\n\nx <- c(1, 2, 3)\ny <- c(2, 4, 6)\nz <- c(3, 0, 0)\n\ncos_xy <- cosine(x, y)\ncos_xz <- cosine(x, z)\n\ncat(\"Cosine similarity (x,y):\", round(cos_xy, 3), \"\\n\")\ncat(\"Cosine similarity (x,z):\", round(cos_xz, 3), \"\\n\")\ncat(\"Cosine distance (x,y):\", round(1 - cos_xy, 3), \"\\n\")\ncat(\"Cosine distance (x,z):\", round(1 - cos_xz, 3), \"\\n\")","id":6,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"cosine-distance","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"# Two binary observations (e.g., presence/absence of features)\no1 <- c(1, 0, 1, 1, 0, 0, 1)\no2 <- c(1, 1, 0, 1, 0, 0, 0)\n\n# Compute the components\nf11 <- sum(o1 == 1 & o2 == 1)\nf00 <- sum(o1 == 0 & o2 == 0)\nf10 <- sum(o1 == 1 & o2 == 0)\nf01 <- sum(o1 == 0 & o2 == 1)\nd <- length(o1)\n\n# Similarity and distance\ns_SMC <- (f11 + f00) / d\nd_SMC <- (f01 + f10) / d  # same as 1 - s_SMC\n\ncat(\"f11 =\", f11, \"f00 =\", f00, \"f10 =\", f10, \"f01 =\", f01, \"\\n\")\ncat(\"Simple Matching Coefficient (similarity):\", round(s_SMC, 3), \"\\n\")\ncat(\"Simple Matching Distance:\", round(d_SMC, 3), \"\\n\")","id":7,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"smc-distance-example","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"# Example categorical data\nx <- c(\"Red\", \"Small\", \"Circle\")\ny <- c(\"Blue\", \"Small\", \"Square\")\n\n# ----- Hamming Distance -----\nhamming_distance <- sum(x != y)\nprint(paste(\"Hamming distance:\", hamming_distance))","id":8,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"hamming-distance","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"library(cluster)\nlibrary(tibble)\nlibrary(dplyr)\n\n# Create dataset\nsubjects <- tibble::tibble(\n  Subject_ID = c(\"001\", \"002\", \"003\", \"004\", \"005\"),\n  Age = c(28, 34, 22, 45, 30),                \n  Handedness = c(\"Right\", \"Left\", \"Right\", \"Right\", \"Left\"),  \n  Eye_Colour = c(\"Blue\", \"Blue\", \"Green\", \"Hazel\", \"Brown\"),  \n  Knows_Python = c(\"Yes\", \"No\", \"Yes\", \"No\", \"Yes\")           \n)\n\n# Convert character columns to factors (important for Gower)\nsubjects <- subjects %>%\n  mutate(across(where(is.character), as.factor))\n\n# Compute Gower distance \ngower_dist <- daisy(subjects[, -1], metric = \"gower\")  # exclude Subject_ID\n\nprint(round(as.matrix(gower_dist), 3))","id":9,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"gower-mixed-fixed","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"library(cluster)\nlibrary(factoextra)\nlibrary(dplyr)\nlibrary(tibble)\n\nsubjects <- tibble(\n  Subject_ID = c(\"001\", \"002\", \"003\", \"004\", \"005\"),\n  Age = c(28, 34, 22, 45, 30),\n  Handedness = as.factor(c(\"Right\", \"Left\", \"Right\", \"Right\", \"Left\")),\n  Eye_Colour = as.factor(c(\"Blue\", \"Blue\", \"Green\", \"Hazel\", \"Brown\")),\n  Knows_Python = as.factor(c(\"Yes\", \"No\", \"Yes\", \"No\", \"Yes\"))\n)\nsubjects <- subjects %>%\n  mutate(across(where(is.character), as.factor))\ngower_dist <- daisy(subjects[, -1], metric = \"gower\")\n\n# Visualize matrix\nlibrary(factoextra)\nfviz_dist(gower_dist) ","id":10,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"Visualization of Gower distance matrix using factoextra.","fig-height":5,"fig-width":7,"label":"visualize-gower","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"set.seed(42)\n\n# Generate synthetic 2D data\nx <- rbind(\n  matrix(rnorm(100, mean = 0, sd = 0.3), ncol = 2),\n  matrix(rnorm(100, mean = 3, sd = 0.3), ncol = 2)\n)\ncolnames(x) <- c(\"x\", \"y\")\n\n# Apply k-means with 2 clusters\nkm <- kmeans(x, centers = 2, nstart = 20)\n\n# Visualize results\nlibrary(ggplot2)\ndata <- data.frame(x, cluster = factor(km$cluster))\nggplot(data, aes(x, y, color = cluster)) +\n  geom_point(size = 3) +\n  geom_point(data = as.data.frame(km$centers), aes(x, y), color = \"black\", size = 5, shape = 8) +\n  labs(title = \"K-Means Clustering\",\n       subtitle = \"Centroids shown as black stars\") +\n  theme_minimal()","id":11,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"kmeans-example","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"library(ggplot2)\nlibrary(dplyr)\n\nset.seed(42)\nx <- rnorm(1000) / 2\ny <- c(rnorm(500) + 5, rnorm(500)) / 10\ndata <- data.frame(x, y)\n\nggplot(data, aes(x, y)) +\n  geom_point(size = 1, color = \"black\") +\n  theme_minimal(base_size = 14) +\n  labs(title = \"Original Data (different scales)\")","id":12,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"Original data (different scales)","fig-height":5,"fig-width":7,"label":"kmeans-step1","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"true","warnings":"false"}},{"code":"km_raw <- kmeans(data, centers = 2)\ndata$cluster_raw <- as.factor(km_raw$cluster)\n\nggplot(data, aes(x, y, color = cluster_raw)) +\n  geom_point(size = 1) +\n  scale_color_manual(values = c(\"tomato\", \"steelblue\")) +\n  theme_minimal(base_size = 14) +\n  labs(title = \"Non-normalized K-Means\")","id":13,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"Non-normalized K-Means clustering","fig-height":5,"fig-width":7,"label":"kmeans-step2","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"normalize <- function(v) (v - min(v)) / (max(v) - min(v))\ndata_norm <- data %>% mutate(xn = normalize(x), yn = normalize(y))\nkm_norm <- kmeans(data_norm[, c(\"xn\", \"yn\")], centers = 2)\ndata_norm$cluster_norm <- as.factor(km_norm$cluster)\n\nggplot(data_norm, aes(xn, yn, color = cluster_norm)) +\n  geom_point(size = 1) +\n  scale_color_manual(values = c(\"tomato\", \"steelblue\")) +\n  theme_minimal(base_size = 14) +\n  labs(title = \"Normalized (0–1) K-Means\")","id":14,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"Normalized (0–1) K-Means clustering","fig-height":5,"fig-width":7,"label":"kmeans-step3","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"standardize <- function(v) (v - mean(v)) / sd(v)\ndata_std <- data %>% mutate(xs = standardize(x), ys = standardize(y))\nkm_std <- kmeans(data_std[, c(\"xs\", \"ys\")], centers = 2)\ndata_std$cluster_std <- as.factor(km_std$cluster)\n\nggplot(data_std, aes(xs, ys, color = cluster_std)) +\n  geom_point(size = 1) +\n  scale_color_manual(values = c(\"tomato\", \"steelblue\")) +\n  theme_minimal(base_size = 14) +\n  labs(title = \"Standardized (Z-score) K-Means\")","id":15,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"Standardized (Z-score) K-Means clustering","fig-height":5,"fig-width":7,"label":"kmeans-step4","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"# Load dataset\ndata(\"iris\")\n\n# Select only numeric features for clustering\niris_data <- iris[, 1:4]","id":16,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"iris-prepare","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"library(ggplot2)\n\n# Compute WSS for k = 1:10\n\nwss <- sapply(1:10, function(k) {\nkmeans(iris_data, centers = k, nstart = 20)$tot.withinss\n})\n\n# Create Elbow plot\n\nelbow_df <- data.frame(k = 1:10, WSS = wss)\n\nggplot(elbow_df, aes(k, WSS)) +\ngeom_line(color = \"steelblue\", linewidth = 1.2) +\ngeom_point(size = 3, color = \"tomato\") +\nscale_x_continuous(breaks = 1:10) +\nlabs(title = \"Elbow Method — Iris Dataset\",\nx = \"Number of clusters (k)\",\ny = \"Total Within-Cluster Sum of Squares (WSS)\") +\ntheme_minimal()","id":17,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"iris-elbow","message":"false","out-height":"","out-width":"90%","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"library(factoextra)\n\nfviz_nbclust(iris_data, kmeans, method = 'wss') + \n  geom_vline(xintercept = 3, linetype = 2) +\nlabs(\ntitle = \"Elbow Method for Determining Optimal k\",\nsubtitle = \"Dashed line indicates the chosen number of clusters (k = 4)\"\n)","id":18,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"elbow-fviz","message":"true","messages":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"set.seed(42)\nkm_iris <- kmeans(iris_data, centers = 3, nstart = 20)\n\n# Print the results\nprint(km_iris)","id":19,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"iris-kmeans","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"# Add cluster assignments to the dataset\niris_clustered <- cbind(iris, cluster = factor(km_iris$cluster))\n\n# Show first few results\nhead(iris_clustered)","id":20,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"iris-kmeans","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"# Total, within, and between-cluster sums of squares\n\nTSS <- sum(scale(iris_data, scale = FALSE)^2)\nWSS <- km_iris$tot.withinss\nBSS <- TSS - WSS\nratio <- BSS / TSS\n\ncat(\"TSS:\", round(TSS, 2), \"\\n\")\ncat(\"WSS:\", round(WSS, 2), \"\\n\")\ncat(\"BSS:\", round(BSS, 2), \"\\n\")\ncat(\"Explained variance (BSS/TSS):\", round(ratio, 3), \"\\n\")","id":21,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"iris-measures","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"library(GGally)\nggpairs(iris, aes(color = Species))","id":22,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"eda","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"# Compute ratio of between- to within-group variance for each feature\nlibrary(dplyr)\n\niris_var <- iris %>%\n  group_by(Species) %>%\n  summarise(across(where(is.numeric), mean))\n\n# Between-class variance\noverall_means <- colMeans(iris[, 1:4])\nbetween_var <- colSums((as.matrix(iris_var[, -1]) - overall_means)^2)\n\n# Within-class variance\nwithin_var <- sapply(iris[, 1:4], function(v) tapply(v, iris$Species, var))\nwithin_var <- colMeans(within_var)\n\n# Ratio\ndiscriminative_ratio <- between_var / within_var\ndiscriminative_ratio","id":23,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"discriminative-measures","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"library(ggplot2)\n\n# Compare Sepal.Width vs Petal.Length\nggplot(iris, aes(Sepal.Width, fill = Species)) +\n  geom_density(alpha = 0.5) +\n  labs(title = \"Distribution of Sepal.Width by Species\") +\n  theme_minimal()\n\nggplot(iris, aes(Petal.Length, fill = Species)) +\n  geom_density(alpha = 0.5) +\n  labs(title = \"Distribution of Petal.Length by Species\") +\n  theme_minimal()","id":24,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"sepal-length-plots","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"ggplot(iris_clustered, aes(Petal.Length, Petal.Width, color = cluster)) +\ngeom_point(size = 3) +\nlabs(title = \"K-Means Clustering of Iris Data (k = 3)\",\nsubtitle = \"Color shows cluster assignment\") +\ntheme_minimal()","id":25,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"iris-plots","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"fviz_cluster(km_iris, data = iris_data,\npalette = c(\"#2E9FDF\", \"#00AFBB\", \"#E7B800\"),\nellipse.type = \"euclid\", # Concentration ellipse\nstar.plot = FALSE, # Add segments from centroids to items\nrepel = TRUE, # Avoid label overplotting (slow)\nggtheme = theme_minimal()\n)","id":26,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"fviz_clust_iris","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"true","warnings":"false"}},{"code":"library(cluster)\nset.seed(42)\n\n# K-means result for k = 3 (from previous section)\nkm_iris <- kmeans(iris[, 1:4], centers = 3, nstart = 20)\n\n# Compute silhouette width\nsil_iris <- silhouette(km_iris$cluster, dist(iris[, 1:4]))\n\n# Display summary statistics\nsummary(sil_iris)","id":27,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"silhouette-iris","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"plot(sil_iris, border = NA, main = \"Silhouette Plot — Iris Dataset (k = 3)\")","id":28,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"Silhouette plot for K-Means clustering (k = 3) on the Iris dataset","fig-height":5,"fig-width":7,"label":"silhouette-plot","message":"true","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"sil_widths <- sapply(2:10, function(k) {\nkm <- kmeans(iris[, 1:4], centers = k, nstart = 20)\nss <- silhouette(km$cluster, dist(iris[, 1:4]))\nmean(ss[, \"sil_width\"])\n})\n\nsil_df <- data.frame(k = 2:10, Silhouette = sil_widths)\n\nlibrary(ggplot2)\nggplot(sil_df, aes(k, Silhouette)) +\ngeom_line(color = \"steelblue\", linewidth = 1.2) +\ngeom_point(size = 3, color = \"tomato\") +\nscale_x_continuous(breaks = 2:10) +\nlabs(title = \"Average Silhouette Width by Number of Clusters\",\nx = \"Number of clusters (k)\",\ny = \"Average Silhouette Width\") +\ntheme_minimal()\n\nlibrary(factoextra)\n\nfviz_nbclust(iris_data, kmeans, method = 'silhouette')","id":29,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"silhouette-elbow","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"library(cluster)\nlibrary(ggplot2)\n\n# Prepare data (use only numeric columns)\niris_data <- iris[, 1:4]\n\n# Apply k-medoids clustering (PAM = Partitioning Around Medoids)\nset.seed(123)\npam_result <- pam(iris_data, k = 3, metric = \"euclidean\")\n\n# Add cluster labels to data\niris_pam <- iris\niris_pam$cluster <- as.factor(pam_result$clustering)\n\n# Visualize clusters (Petal.Length vs Petal.Width)\nggplot(iris_pam, aes(Petal.Length, Petal.Width, color = cluster, shape = Species)) +\n  geom_point(size = 3, alpha = 0.7) +\n  geom_point(data = as.data.frame(pam_result$medoids), \n             aes(Petal.Length, Petal.Width), \n             color = \"black\", size = 5, shape = 8) +\n  labs(title = \"k-Medoids Clustering (PAM)\", \n       subtitle = \"Medoids shown as black stars\",\n       x = \"Petal Length\", y = \"Petal Width\") +\n  theme_minimal(base_size = 14)","id":30,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"k-Medoids clustering using the PAM algorithm on the iris dataset.","fig-height":5,"fig-width":7,"label":"pam-basic","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"set.seed(123)\nkmeans_result <- kmeans(iris_data, centers = 3, nstart = 20)\n\niris_compare <- iris\niris_compare$kmeans_cluster <- as.factor(kmeans_result$cluster)\niris_compare$kmedoids_cluster <- as.factor(pam_result$clustering)\n\n# Combine plots side by side\nlibrary(patchwork)\n\np1 <- ggplot(iris_compare, aes(Petal.Length, Petal.Width, color = kmeans_cluster)) +\n  geom_point(size = 3, alpha = 0.7) +\n  geom_point(data = as.data.frame(kmeans_result$centers),\n             aes(Petal.Length, Petal.Width),\n             color = \"black\", size = 5, shape = 8) +\n  labs(title = \"k-Means\", subtitle = \"Centroids (means) shown as black stars\") +\n  theme_minimal(base_size = 13)\n\np2 <- ggplot(iris_compare, aes(Petal.Length, Petal.Width, color = kmedoids_cluster)) +\n  geom_point(size = 3, alpha = 0.7) +\n  geom_point(data = as.data.frame(pam_result$medoids),\n             aes(Petal.Length, Petal.Width),\n             color = \"black\", size = 5, shape = 8) +\n  labs(title = \"k-Medoids (PAM)\", subtitle = \"Medoids (real points) shown as black stars\") +\n  theme_minimal(base_size = 13)\n\np1 + p2","id":31,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"Comparison between k-Means and k-Medoids clustering on the same dataset.","fig-height":5,"fig-width":7,"label":"kmeans-vs-pam","message":"true","out-height":"","out-width":"true","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(cluster)\nlibrary(ggplot2)\nlibrary(dplyr)\nlibrary(factoextra)\n\n# Load dataset\ndata(\"heart\")\n\n# Compute Gower distance for mixed data\ndiss_heart <- daisy(heart, metric = \"gower\")\n\n#-----------------------------\n# 1️⃣ Find optimal number of clusters using silhouette\n#-----------------------------\nsil_width <- c()\n\nfor (k in 2:6) {\n  pam_fit <- pam(diss_heart, k = k, diss = TRUE)\n  sil_width[k] <- pam_fit$silinfo$avg.width\n}\n\n# Find best k (maximum silhouette width)\nbest_k <- which.max(sil_width)\nbest_k\n\n# Plot silhouette curve\nplot(2:6, sil_width[2:6], type = \"b\", pch = 19,\n     xlab = \"Number of clusters (k)\",\n     ylab = \"Average silhouette width\",\n     main = \"Choosing optimal number of clusters (PAM, Gower)\")\nabline(v = best_k, lty = 2, col = \"red\")\ntext(best_k + 0.2, max(sil_width, na.rm = TRUE) - 0.01,\n     labels = paste(\"Best k =\", best_k), col = \"red\")","id":32,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"Finding optimal k and discriminative features in the Heart Disease dataset using PAM (Gower distance).","fig-height":5,"fig-width":7,"label":"pam-heart-optimal","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"set.seed(123)\npam_heart <- pam(diss_heart, k = best_k, diss = TRUE)\n\nheart_clustered <- heart %>%\n  mutate(Cluster = as.factor(pam_heart$clustering))","id":33,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"pam-heart-optimal-1","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}}];
 
 </script>
 <script type="module">
@@ -1862,7 +1882,7 @@ window.Quarto = {
   <li><a href="#euclidean-distance" id="toc-euclidean-distance" class="nav-link" data-scroll-target="#euclidean-distance"><span class="header-section-number">10.2.1.1</span> <strong>Euclidean Distance</strong></a></li>
   <li><a href="#manhattan-or-city-block-distance" id="toc-manhattan-or-city-block-distance" class="nav-link" data-scroll-target="#manhattan-or-city-block-distance"><span class="header-section-number">10.2.1.2</span> <strong>Manhattan (or City-Block) Distance</strong></a></li>
   <li><a href="#minkowski-distance" id="toc-minkowski-distance" class="nav-link" data-scroll-target="#minkowski-distance"><span class="header-section-number">10.2.1.3</span> <strong>Minkowski Distance</strong></a></li>
-  <li><a href="#chebyshev-distance" id="toc-chebyshev-distance" class="nav-link" data-scroll-target="#chebyshev-distance"><span class="header-section-number">10.2.1.4</span> <strong>Chebyshev Distance</strong></a></li>
+  <li><a href="#chebyshev-distance" id="toc-chebyshev-distance" class="nav-link" data-scroll-target="#chebyshev-distance"><span class="header-section-number">10.2.1.4</span> Chebyshev Distance</a></li>
   <li><a href="#mahalanobis-distance" id="toc-mahalanobis-distance" class="nav-link" data-scroll-target="#mahalanobis-distance"><span class="header-section-number">10.2.1.5</span> <strong>Mahalanobis Distance</strong></a></li>
   <li><a href="#cosine-and-correlation-distance" id="toc-cosine-and-correlation-distance" class="nav-link" data-scroll-target="#cosine-and-correlation-distance"><span class="header-section-number">10.2.1.6</span> Cosine and Correlation Distance</a></li>
   </ul></li>
@@ -1876,14 +1896,19 @@ window.Quarto = {
   <li><a href="#hamming-distance" id="toc-hamming-distance" class="nav-link" data-scroll-target="#hamming-distance"><span class="header-section-number">10.2.3.1</span> <strong>Hamming Distance</strong></a></li>
   <li><a href="#gower-distance" id="toc-gower-distance" class="nav-link" data-scroll-target="#gower-distance"><span class="header-section-number">10.2.3.2</span> <strong>Gower Distance</strong></a></li>
   </ul></li>
+  <li><a href="#visualizing-distance-matrices" id="toc-visualizing-distance-matrices" class="nav-link" data-scroll-target="#visualizing-distance-matrices"><span class="header-section-number">10.2.4</span> Visualizing distance matrices</a></li>
   </ul></li>
   <li><a href="#partition-based-clustering-k-means-and-k-medoids" id="toc-partition-based-clustering-k-means-and-k-medoids" class="nav-link" data-scroll-target="#partition-based-clustering-k-means-and-k-medoids"><span class="header-section-number">10.3</span> Partition-Based Clustering: <span class="math inline">\(k\)</span>-Means and <span class="math inline">\(k\)</span>-Medoids</a>
   <ul>
-  <li><a href="#k-means-clustering" id="toc-k-means-clustering" class="nav-link" data-scroll-target="#k-means-clustering"><span class="header-section-number">10.3.1</span> <span class="math inline">\(k\)</span>-Means Clustering</a>
+  <li><a href="#k-means-clustering" id="toc-k-means-clustering" class="nav-link" data-scroll-target="#k-means-clustering"><span class="header-section-number">10.3.1</span> <span class="math inline">\(K\)</span>-Means Clustering</a>
   <ul class="collapse">
-  <li><a href="#properties-and-limitations-of-k-means" id="toc-properties-and-limitations-of-k-means" class="nav-link" data-scroll-target="#properties-and-limitations-of-k-means"><span class="header-section-number">10.3.1.1</span> Properties and Limitations of <span class="math inline">\(k\)</span>-Means</a></li>
+  <li><a href="#properties-and-limitations-of-k-means" id="toc-properties-and-limitations-of-k-means" class="nav-link" data-scroll-target="#properties-and-limitations-of-k-means"><span class="header-section-number">10.3.1.1</span> Properties and Limitations of <span class="math inline">\(K\)</span>-Means</a></li>
   <li><a href="#measures-of-cluster-quality" id="toc-measures-of-cluster-quality" class="nav-link" data-scroll-target="#measures-of-cluster-quality"><span class="header-section-number">10.3.1.2</span> Measures of Cluster Quality</a></li>
   <li><a href="#analysis-of-iris-dataset" id="toc-analysis-of-iris-dataset" class="nav-link" data-scroll-target="#analysis-of-iris-dataset"><span class="header-section-number">10.3.1.3</span> Analysis of <code>iris</code> Dataset</a></li>
+  </ul></li>
+  <li><a href="#k-medoids-clustering" id="toc-k-medoids-clustering" class="nav-link" data-scroll-target="#k-medoids-clustering"><span class="header-section-number">10.3.2</span> <span class="math inline">\(k\)</span>-Medoids Clustering</a>
+  <ul class="collapse">
+  <li><a href="#analysis-of-heart-disease-dataset" id="toc-analysis-of-heart-disease-dataset" class="nav-link" data-scroll-target="#analysis-of-heart-disease-dataset"><span class="header-section-number">10.3.2.1</span> Analysis of Heart Disease Dataset</a></li>
   </ul></li>
   </ul></li>
   </ul>
@@ -2195,7 +2220,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </header>
 
 
-<p>Cluster analysis, or <em>Clustring</em>, is a technique used to find groups of objects such that the objects within the same group are similar (or closely realted) to one another, while the objects from different groups are dissimilar (or unrelated).</p>
+<p>Cluster analysis, or <em>Clustering</em>, is a technique used to find groups of objects such that the objects within the same group are similar (or closely realted) to one another, while the objects from different groups are dissimilar (or unrelated).</p>
 <section id="applications-of-clustering" class="level2" data-number="10.1">
 <h2 data-number="10.1" class="anchored" data-anchor-id="applications-of-clustering"><span class="header-section-number">10.1</span> Applications of Clustering</h2>
 <p>Clustering techniques are widely used across multiple disciplines to discover patterns, structure data, and support decision-making. Below are some common and illustrative applications.</p>
@@ -2345,6 +2370,16 @@ Note
 </div>
 <div id="qwebr-insertion-location-2"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="clustring_files/figure-html/distance-compare-1.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>Comparison of Euclidean and Manhattan distance between two points</figcaption>
+</figure>
+</div>
+</div>
+</div>
 </section>
 <section id="minkowski-distance" class="level4" data-number="10.2.1.3">
 <h4 data-number="10.2.1.3" class="anchored" data-anchor-id="minkowski-distance"><span class="header-section-number">10.2.1.3</span> <strong>Minkowski Distance</strong></h4>
@@ -2358,19 +2393,39 @@ d_r(\mathbf{x}, \mathbf{y}) = \left( \sum_{i=1}^{p} |x_i - y_i|^r \right)^{1/r}
 </ul>
 <div id="qwebr-insertion-location-3"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="clustring_files/figure-html/minkowski-distance-1.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>Shapes of Minkowski (Lp) distances around a point for different p values</figcaption>
+</figure>
+</div>
+</div>
+</div>
 </section>
 <section id="chebyshev-distance" class="level4" data-number="10.2.1.4">
-<h4 data-number="10.2.1.4" class="anchored" data-anchor-id="chebyshev-distance"><span class="header-section-number">10.2.1.4</span> <strong>Chebyshev Distance</strong></h4>
+<h4 data-number="10.2.1.4" class="anchored" data-anchor-id="chebyshev-distance"><span class="header-section-number">10.2.1.4</span> Chebyshev Distance</h4>
 <p>Also known as the <span class="math inline">\(L_\infty\)</span> norm, this distance takes the largest coordinate difference: <span class="math display">\[
 d_C(\mathbf{x}, \mathbf{y}) = \max_i |x_i - y_i|
 \]</span> It measures how far apart two points are along the dimension where they differ most.</p>
 <div id="qwebr-insertion-location-4"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="clustring_files/figure-html/chebyshev-vs-euclidean-manhattan-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Comparison of Chebyshev, Euclidean, and Manhattan distances between A and B</figcaption>
+</figure>
+</div>
+</div>
+</div>
 </section>
 <section id="mahalanobis-distance" class="level4" data-number="10.2.1.5">
 <h4 data-number="10.2.1.5" class="anchored" data-anchor-id="mahalanobis-distance"><span class="header-section-number">10.2.1.5</span> <strong>Mahalanobis Distance</strong></h4>
 <p>A scale-invariant distance that accounts for correlations between variables: <span class="math display">\[
-d_{Mah}(\mathbf{x}, \mathbf{y}) = \sqrt{(x - y)^{T} \boldsymbol{\Sigma}^{-1} (x - y)}
+d_{Mah}(\mathbf{x}, \mathbf{y}) = \sqrt{(x - y)^{\top} \boldsymbol{\Sigma}^{-1} (x - y)}
 \]</span> where <span class="math inline">\(\boldsymbol{\Sigma}\)</span> is the covariance matrix of the data. Two points with the same Mahalanobis distance from the mean are equally likely under a multivariate normal model, regardless of the variable scales or correlations.</p>
 <div id="qwebr-insertion-location-5"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
@@ -2484,25 +2539,133 @@ Instead, we use measures that handle <strong>qualitative comparisons</strong> di
 1, &amp; \text{if } x_i \neq y_i
 \end{cases}
 \]</span> It measures how many positions differ between two categorical strings or binary vectors.</p>
+<div id="qwebr-insertion-location-8"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
 <section id="gower-distance" class="level4" data-number="10.2.3.2">
 <h4 data-number="10.2.3.2" class="anchored" data-anchor-id="gower-distance"><span class="header-section-number">10.2.3.2</span> <strong>Gower Distance</strong></h4>
-<p>The <strong>Gower distance</strong> allows comparing <strong>mixed-type data</strong> (numerical, categorical, ordinal). For each variable <span class="math inline">\(X_i\)</span>, a partial distance is computed, and then averaged: <span class="math display">\[
-\text{d}_{Gower}(\mathbf{x}, \mathbf{y}) =
-\frac{1}{p} \sum_{i=1}^{p} \delta_i(x_i, y_i)
-\]</span> with <span class="math display">\[
-\delta_i(x_i, y_i) =
-\begin{cases}
-0, &amp; \text{if } x_i = y_i \\
-1, &amp; \text{if } X_i \text{ is categorical and } x_i \neq y_i \\
-\frac{|x_i - y_i|}{R_i}, &amp; \text{if } X_i \text{ is interval scale} \\
-\frac{|\text{rank}(x_i) - \text{rank}(y_i)|}{n - 1}, &amp; \text{if } X_i \text{ is ordinal scale}
+<p>The <strong>Gower distance</strong> <span class="citation" data-cites="Gower1971">(<a href="#ref-Gower1971" role="doc-biblioref">Gower 1971</a>)</span> allows comparing <strong>mixed-type data</strong> (numerical, categorical, binomial).</p>
+<p>For two observations <span class="math inline">\(i\)</span> and <span class="math inline">\(k\)</span>, and each variable <span class="math inline">\(k\)</span>, Gower’s method computes a partial <em>similarity score</em> <span class="math inline">\(s_{ijk}\)</span> as follows:</p>
+<ul>
+<li><p><strong>Numeric variables (continuous or discrete)</strong>: <span class="math display">\[
+s_{ijk} = 1 - \frac{|x_{ik} - x_{jk}|}{R_k}
+\]</span> where <span class="math inline">\(R_k\)</span> is the range of variable <span class="math inline">\(k\)</span>.</p></li>
+<li><p><strong>Categorical (or binary) variables</strong>: <span class="math display">\[
+s_{ijk} = \begin{cases}
+1 &amp; \quad \text{if} \quad x_{ik} = x_{jk}\\
+0 &amp; \quad \text{if} \quad x_{ik} \neq x_{jk}
 \end{cases}
-\]</span> This flexibility makes Gower distance especially useful in real datasets with mixed variable types.</p>
-<div id="qwebr-insertion-location-8"></div>
+\]</span> Then, the <em>overall similarity</em> between <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span> is <span class="math display">\[
+S_{ij} = \frac{\sum_k s_{ijk} \delta_{ijk}}{\sum_k \delta_{ijk}}
+\]</span> where <span class="math inline">\(\delta_{ijk} = 1\)</span> if variable <span class="math inline">\(k\)</span> is valid for both <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span> (i.e, non-missing), else <span class="math inline">\(0\)</span>.</p></li>
+</ul>
+<p>Finally, to convert similarity to a distance, one often uses <span class="math display">\[
+D_{ij} = 1 - S_{ij}
+\]</span></p>
+<p><a href="https://crispinagar.github.io/blogs/gower-distance.html"><strong>Example</strong></a></p>
+<p>As an example, consider the following table which shows information about a number of individuals (identified by “Subject ID”) with four attributes:</p>
+<ul>
+<li><em>Age</em> – a continuous numeric variable</li>
+<li><em>Handedness</em> – a binary variable, whether the individual is left- or right-handed.</li>
+<li><em>Eye colour</em> - a categorical variable</li>
+<li><em>Knows Python</em> - a dichotomous variable (while two people who know python may have a similar education, both of them not knowing Python does not imply they have similar backgrounds).</li>
+</ul>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">Subject ID</th>
+<th style="text-align: center;">Age</th>
+<th style="text-align: center;">Handedness</th>
+<th style="text-align: center;">Eye Colour</th>
+<th style="text-align: center;">Knows Python</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">001</td>
+<td style="text-align: center;">28</td>
+<td style="text-align: center;">Right</td>
+<td style="text-align: center;">Blue</td>
+<td style="text-align: center;">Yes</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">002</td>
+<td style="text-align: center;">34</td>
+<td style="text-align: center;">Left</td>
+<td style="text-align: center;">Blue</td>
+<td style="text-align: center;">No</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">003</td>
+<td style="text-align: center;">22</td>
+<td style="text-align: center;">Right</td>
+<td style="text-align: center;">Green</td>
+<td style="text-align: center;">Yes</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">004</td>
+<td style="text-align: center;">45</td>
+<td style="text-align: center;">Right</td>
+<td style="text-align: center;">Hazel</td>
+<td style="text-align: center;">No</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">005</td>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">Left</td>
+<td style="text-align: center;">Brown</td>
+<td style="text-align: center;">Yes</td>
+</tr>
+</tbody>
+</table>
+<p>Let us look at individuals 001 and 002, and calculate the score for each variable in turn:</p>
+<ul>
+<li><p><em>Age</em>: <span class="math display">\[
+s_{\textrm{age}} = 1 - \frac{|28 - 34|}{23} = 0.74
+\]</span> where the range <span class="math inline">\(R_k = 23\)</span> is the range of ages in the sample, which has a minimum of <span class="math inline">\(22\)</span> and a maximum of <span class="math inline">\(45\)</span>.</p></li>
+<li><p><em>Handedness</em>:</p></li>
+</ul>
+<p>Since the individuals have different handedness, <span class="math inline">\(s_{\text{handedness}} = 0\)</span>.</p>
+<ul>
+<li><p><em>Eye colour</em>: They have the same eyes, <span class="math inline">\(s_{\text{eyes}} = 1\)</span>.</p></li>
+<li><p><em>Knows Python</em>:</p></li>
+</ul>
+<p>Individuals 001 knows python whereas 002 does not; so, <span class="math inline">\(s_{\text{python}} = 0\)</span>.</p>
+<p>We have no missing data, so all the <span class="math inline">\(\delta_{ijk} = 1\)</span>. The overall similarity score between 001 and 002 is therefore <span class="math display">\[
+S = \frac{0.74 \times 1 + 0 \times 1 + 1 \times 1 + 0 \times 1}{1 + 1 + 1 + 1} = \frac{1.74}{4} = 0.435
+\]</span> So, the Gower distance between these two individuals is <span class="math display">\[
+D = 1 - 0.435 = 0.565
+\]</span></p>
+<p>Repeating the calculation for all pairs of indivials, we obtain the distance matrix, which can be used for clustering them into groups.</p>
+<p>For calculating Gower distance in R, we can use <code>daisy()</code> from the library <code>cluster</code>. However, it is important to note that always convert categorical characters to factors before using this function.</p>
+<div id="qwebr-insertion-location-9"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>As you see that the individuals who are most similar are 001 and 003 <span class="math inline">\((D = 0.315)\)</span> and the most different are 004 and 005 <span class="math inline">\((D = 0.913)\)</span>.</p>
+</section>
+</section>
+<section id="visualizing-distance-matrices" class="level3" data-number="10.2.4">
+<h3 data-number="10.2.4" class="anchored" data-anchor-id="visualizing-distance-matrices"><span class="header-section-number">10.2.4</span> Visualizing distance matrices</h3>
+<p>Datasets usually contain many observations (more than just two points).</p>
+<p>When we compute pairwise distances between all observations, we obtain a <em>distance matrix</em> — a square table where each cell represents the dissimilarity between two observations.</p>
+<p>Mathematically, if a dataset has <span class="math inline">\(n\)</span> observations, the distance matrix has <span class="math inline">\(n \times n\)</span> entries: <span class="math display">\[
+D_{ij} = d(\mathbf{x}_i, \mathbf{x}_j)
+\]</span> where <span class="math inline">\(D_{ij}\)</span> is the distance between observation <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span>.</p>
+<p>Because this matrix contains all pairwise comparisons, it provides a complete picture of how observations relate to one another.</p>
+<p>However, as the number of observations grows, the matrix quickly becomes difficult to interpret numerically — it is just a sea of numbers.</p>
+<p>To extract insights, we often visualize the distance matrix as a heatmap or similarity map.</p>
+<p>Visualizing distance matrices helps us:</p>
+<ul>
+<li><p><strong>Detect structure</strong> – clusters appear as blocks or dark/light patches.</p></li>
+<li><p><strong>Spot outliers</strong> – points that are dissimilar from everyone else.</p></li>
+<li><p><strong>Compare metrics</strong> – see how distance measures produce different patterns.</p></li>
+<li><p><strong>Build intuitio</strong> – for what <em>closeness</em> or <em>difference</em> means in multidimensional space.</p></li>
+</ul>
+<div id="qwebr-insertion-location-10"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>The color level is proportional to the value of the dissimilarity between observations: pure red if <span class="math inline">\(\text{dist}(\mathbf{x}_i, \mathbf{x}_j) = 0\)</span> nad pure blue if <span class="math inline">\(\text{dist}(\mathbf{x}_i, \mathbf{x}_j) = 1\)</span>, here. Objects belonging to the same cluster are displayed in consecutive order.</p>
+<p>In this example, subjects <code>001</code> and <code>002</code> are quite similar (close in age, same eye color). Subject <code>004</code> (older, hazel eyes, does not know Python) stands out as most dissimilar from others.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Exercise 1</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Exercise 2</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href="">Exercise 3</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false" href="">Exercise 4</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Exercise 1</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Exercise 2</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href="">Exercise 3</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false" href="">Exercise 3</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
 <p><strong>1. Create two 3-dimensional points and calculate the distance</strong></p>
@@ -2591,95 +2754,141 @@ Instead, we use measures that handle <strong>qualitative comparisons</strong> di
 </tbody>
 </table>
 <p>Compute the <em>Hamming distance</em> (number of mismatches).</p>
-</div>
-<div id="tabset-1-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-4-tab">
-<p>Two students rate three projects as “Good”, “Average”, or “Poor”:</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Project</th>
-<th>Student 1</th>
-<th>Student 2</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>A</td>
-<td>Good</td>
-<td>Good</td>
-</tr>
-<tr class="even">
-<td>B</td>
-<td>Poor</td>
-<td>Average</td>
-</tr>
-<tr class="odd">
-<td>C</td>
-<td>Good</td>
-<td>Poor</td>
-</tr>
-</tbody>
-</table>
-<p>Compute the <em>Hamming distance</em> (number of mismatches).</p>
 <p><strong>Hint</strong>: Use</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>data[] <span class="ot">&lt;-</span> <span class="fu">lapply</span>(data, <span class="cf">function</span>(col) <span class="cf">if</span> (<span class="fu">is.character</span>(col)) <span class="fu">as.factor</span>(col) <span class="cf">else</span> col)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
+<div id="tabset-1-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-4-tab">
+<p>We want to analyse the <code>flower</code> dataset which is available at library <code>cluseter</code>.</p>
+<p>Based on the following information, a) find the best distance matrix. and b) visulize the distance matrix.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cluster)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(flower)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(flower, <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  V1 V2 V3 V4 V5 V6  V7 V8
+1  0  1  1  4  3 15  25 15
+2  1  0  0  2  1  3 150 50
+3  0  1  0  3  3  1 150 50</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Data structure</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(flower)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   18 obs. of  8 variables:
+ $ V1: Factor w/ 2 levels "0","1": 1 2 1 1 1 1 1 1 2 2 ...
+ $ V2: Factor w/ 2 levels "0","1": 2 1 2 1 2 2 1 1 2 2 ...
+ $ V3: Factor w/ 2 levels "0","1": 2 1 1 2 1 1 1 2 1 1 ...
+ $ V4: Factor w/ 5 levels "1","2","3","4",..: 4 2 3 4 5 4 4 2 3 5 ...
+ $ V5: Ord.factor w/ 3 levels "1"&lt;"2"&lt;"3": 3 1 3 2 2 3 3 2 1 2 ...
+ $ V6: Ord.factor w/ 18 levels "1"&lt;"2"&lt;"3"&lt;"4"&lt;..: 15 3 1 16 2 12 13 7 4 14 ...
+ $ V7: num  25 150 150 125 20 50 40 100 25 100 ...
+ $ V8: num  15 50 50 50 15 40 20 15 15 60 ...</code></pre>
 </div>
 </div>
-</section>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="partition-based-clustering-k-means-and-k-medoids" class="level2" data-number="10.3">
 <h2 data-number="10.3" class="anchored" data-anchor-id="partition-based-clustering-k-means-and-k-medoids"><span class="header-section-number">10.3</span> Partition-Based Clustering: <span class="math inline">\(k\)</span>-Means and <span class="math inline">\(k\)</span>-Medoids</h2>
+<p><em>Partitioning clustering</em> are clustering methods used to classify observations, within a dataset, into multiple groups based ion their similrity. The algorithms require the analyst to specify the number of clusters to be generated.</p>
+<p>The commonly used partitioning clustering includes:</p>
+<ul>
+<li><span class="math inline">\(K\)</span>-means clustering <span class="citation" data-cites="macqueen1967">(<a href="#ref-macqueen1967" role="doc-biblioref">MacQueen 1967</a>)</span> in which ,each cluster is represented by the center or means of the data points belonging to the cluster. The <span class="math inline">\(K\)</span>-means method is sensitive to anomalous data points and outliers.</li>
+<li><span class="math inline">\(K\)</span>-medoids clustering or PAM (Partitioning Around Medoids) <span class="citation" data-cites="kaufman1990">(<a href="#ref-kaufman1990" role="doc-biblioref">Kaufman and Rousseeuw 1990</a>)</span> in which , each cluster is reprsented by one of the objects in the cluster. PAM is less sensitive to outliers compared to <span class="math inline">\(K\)</span>-means.</li>
+<li>CLARA (Clustering Large Applications) algorithm, which is an extension to PAM adapted for large data sets.</li>
+</ul>
 <section id="k-means-clustering" class="level3" data-number="10.3.1">
-<h3 data-number="10.3.1" class="anchored" data-anchor-id="k-means-clustering"><span class="header-section-number">10.3.1</span> <span class="math inline">\(k\)</span>-Means Clustering</h3>
-<p>K-Means aims to partition <span class="math inline">\(n\)</span> observations into <span class="math inline">\(k\)</span> clusters such that each observation belongs to the cluster with the nearest <strong>centroid</strong> (mean of points).</p>
+<h3 data-number="10.3.1" class="anchored" data-anchor-id="k-means-clustering"><span class="header-section-number">10.3.1</span> <span class="math inline">\(K\)</span>-Means Clustering</h3>
+<p>K-Means aims to partition <span class="math inline">\(n\)</span> observations into <span class="math inline">\(K\)</span> clusters such that each observation belongs to the cluster with the nearest <strong>centroid</strong> (mean of points).</p>
 <p>Each cluster is represented by its <em>centroid</em>, which may not be an actual data point.</p>
-<p><strong>Algorithm</strong></p>
+<p><strong><span class="math inline">\(K\)</span>-means basic ideas</strong></p>
+<p>This basic idea behind <span class="math inline">\(K\)</span>-means clustering consists of defining clusters so that the total intra-cluster variation (known as <em>total within-cluster variation</em>) is minimized.</p>
+<p>There are several <span class="math inline">\(K\)</span>-means algorithms available. The standard algorithm is the <em>Hartigan-Wong algorithm</em> <span class="citation" data-cites="hartigan1979">(<a href="#ref-hartigan1979" role="doc-biblioref">Hartigan and Wong 1979</a>)</span> which defines the total within-cluster variation as the sum of squared distances Euclidean distances between items and the corresponding centroid: <span class="math display">\[
+W(C_k) = \sum_{x_i \in C_k} (x_i - \mu_k)^2
+\]</span> where <span class="math inline">\(x_i\)</span> design a data point belonging to the cluster <span class="math inline">\(C_k\)</span> and <span class="math inline">\(\mu_k\)</span> is the mean value of the points assigned to the cluster <span class="math inline">\(C_k\)</span>.</p>
+<p>Each observation (<span class="math inline">\(x_i\)</span>) is assigned to a given cluster such that the sum of squares (SS) distances of the observation to their assigned cluster <span class="math inline">\(\mu_k\)</span> is minimum.</p>
+<p>We define the <em>total within-cluster</em> variation as follow: <span class="math display">\[
+\text{tot.withinss} = \sum_{k=1}^K W(C_k) = \sum_{k=1}^K \sum_{x_i \in C_k} (x_i - \mu_k)^2
+\]</span></p>
+<p>The <em>total within-cluster sum of square</em> measures the compactness (i.e.&nbsp;<em>goodness</em>) of the clustering and we want it to be as small as possible.</p>
+<p><strong><span class="math inline">\(K\)</span>-means Algorithm</strong></p>
 <p>Given a dataset <span class="math inline">\(\mathbf{X}= \{\mathbf{x}_1, \mathbf{x}_2, \ldots, \mathbf{x}_n\}\)</span>:</p>
 <ol type="1">
-<li>Choose the number of clusters <span class="math inline">\(k\)</span>.<br>
+<li>Choose the number of clusters <span class="math inline">\(K\)</span>.<br>
 </li>
 <li>Initialize <span class="math inline">\(k\)</span> centroids randomly.<br>
 </li>
-<li><strong>Assign step:</strong> Assign each observation <span class="math inline">\(x_i\)</span> to the nearest centroid:</li>
+<li><strong>Assign step:</strong> Assign each observation <span class="math inline">\(\mathbf{x}_i\)</span> to the nearest centroid based on the Euclidean distance between the object and the centroid:</li>
 <li><span class="math display">\[
-c_i = \arg\min_j \|x_i - \mu_j\|^2
-\]</span></li>
+c_i = \arg\min_k \|\mathbf{x}_i - \mu_k\|^2
+\]</span> where <span class="math inline">\(\mu_k\)</span> is the <span class="math inline">\(k\)</span>st centroid.</li>
 <li><strong>Update step:</strong> Recalculate each centroid as the mean of points in its cluster: <span class="math display">\[
-\mu_j = \frac{1}{n_j} \sum_{x_i \in C_j} x_i
+\mu_k = \frac{1}{n_k} \sum_{\mathbf{x}_i \in C_k} \mathbf{x}_i
 \]</span></li>
-<li>Repeat steps 3–4 until centroids stop changing (convergence).</li>
+<li>Repeat steps 3–4 until centroids stop changing (convergence) or the maximum number of iterations is reached.</li>
 </ol>
 <p>For better understanding, see this <a href="https://blog.dailydoseofds.com/p/an-animated-guide-to-kmeans">video</a></p>
-<div id="qwebr-insertion-location-9"></div>
+<div id="qwebr-insertion-location-11"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <section id="properties-and-limitations-of-k-means" class="level4" data-number="10.3.1.1">
-<h4 data-number="10.3.1.1" class="anchored" data-anchor-id="properties-and-limitations-of-k-means"><span class="header-section-number">10.3.1.1</span> Properties and Limitations of <span class="math inline">\(k\)</span>-Means</h4>
-<p>Although <span class="math inline">\(k\)</span>$-means is one of the most popular clustering algorithms, its effectiveness depends on the structure and scale of the data. Understanding its limitations helps decide when to use it — and when to choose a more robust alternative like <span class="math inline">\(k\)</span>-Medoids.</p>
+<h4 data-number="10.3.1.1" class="anchored" data-anchor-id="properties-and-limitations-of-k-means"><span class="header-section-number">10.3.1.1</span> Properties and Limitations of <span class="math inline">\(K\)</span>-Means</h4>
+<p>Although <span class="math inline">\(K\)</span>-means is one of the most popular clustering algorithms, its effectiveness depends on the structure and scale of the data. Understanding its limitations helps decide when to use it — and when to choose a more robust alternative like <span class="math inline">\(K\)</span>-Medoids.</p>
 <section id="data-type-and-cluster-shape" class="level5" data-number="10.3.1.1.1">
 <h5 data-number="10.3.1.1.1" class="anchored" data-anchor-id="data-type-and-cluster-shape"><span class="header-section-number">10.3.1.1.1</span> <strong>Data Type and Cluster Shape</strong></h5>
-<p><span class="math inline">\(k\)</span>-Means works best when:</p>
+<p><span class="math inline">\(K\)</span>-Means works best when:</p>
 <ul>
 <li><p>All variables are numeric</p></li>
 <li><p>and measured on a comparable scale.</p></li>
 <li><p>The clusters are <em>spherical</em> (or roughly circular in 2D).</p></li>
 <li><p>Each cluster has <em>similar variance</em> and <em>density</em>.</p></li>
 </ul>
-<p>When clusters are elongated, overlapping, or non-spherical, <span class="math inline">\(k\)</span>-Means may assign points incorrectly because it relies on <em>Euclidean distance</em>.</p>
+<p>When clusters are elongated, overlapping, or non-spherical, <span class="math inline">\(K\)</span>-Means may assign points incorrectly because it relies on <em>Euclidean distance</em>.</p>
 </section>
 <section id="sensitivity-to-scale" class="level5" data-number="10.3.1.1.2">
 <h5 data-number="10.3.1.1.2" class="anchored" data-anchor-id="sensitivity-to-scale"><span class="header-section-number">10.3.1.1.2</span> <strong>Sensitivity to Scale</strong></h5>
-<p>Since Euclidean distance depends directly on the magnitude of the variables, features with larger numerical ranges will dominate the distance calculation.</p>
-<p>For example, in a dataset with <em>income</em> (in euros) and <em>age</em> (in years), income will completely overshadow age unless both are standardized.</p>
-<p>Always <em>standardize or normalize</em> variables before running <span class="math inline">\(k\)</span>-Means:</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Standardization example</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>x_scaled <span class="ot">&lt;-</span> <span class="fu">scale</span>(x)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">kmeans</span>(x_scaled, <span class="at">centers =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>In clustering, the distance between data points determines how groups are formed.</p>
+<p>If variables are measured on very different scales (for example, income in euros and age in years), the variable with the largest numerical range will dominate the distance calculation. As a result, the algorithm may ignore other variables, even if they carry meaningful structure. To correct this imbalance, we use <strong>scaling transformations</strong>, which adjust the magnitude or spread of each variable before computing distances.</p>
+<p><strong>Normalization (Min–Max Scaling)</strong> Normalization rescales all variables to a fixed range, usually between <span class="math inline">\(0\)</span> and <span class="math inline">\(1\)</span>: <span class="math display">\[
+x' = \frac{x - \min(x)}{\max(x) - \min(x)}
+\]</span> This transformation preserves the shape of the distribution but ensures all features contribute equally in magnitude to the distance measure. It is particularly effective when all features have bounded ranges or similar distributions.</p>
+<p><strong>Standardization (Z-score Scaling)</strong> Standardization rescales variables so they have mean 0 and standard deviation 1: <span class="math display">\[
+x' = \frac{x - \bar{x}}{s_x}
+\]</span> where <span class="math inline">\(\bar{x}\)</span> is the mean and <span class="math inline">\(s_x\)</span> is the standard deviation.</p>
+<p>This approach centers the data and adjusts for variance, which helps when features have different dispersions or units of measurement. Standardization is preferred when features are expected to follow roughly Gaussian distributions, or when outliers might distort min–max scaling.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
 </div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Why It Matters for <span class="math inline">\(k\)</span>-Means and Similar Algorithms</strong></p>
+<ul>
+<li><p><span class="math inline">\(K\)</span>-means relies on Euclidean distance, which is sensitive to scale. Without scaling, one feature can dominate, producing distorted clusters.</p></li>
+<li><p>After scaling or standardization, all variables contribute more fairly, and the clusters tend to reflect combined variation across features.</p></li>
+<li><p>Scaling can change the cluster boundaries, but it does not change the underlying data relationships — it only ensures that distances are comparable.</p></li>
+</ul>
+</div>
+</div>
+<p>We will show the effect of normalization and standardization on the data.</p>
+<div id="qwebr-insertion-location-12"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>Now, we apply <span class="math inline">\(K\)</span>-means on the raw dataset.</p>
+<div id="qwebr-insertion-location-13"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>Now, we normalize the dataset and apply <span class="math inline">\(k\)</span>-means.</p>
+<div id="qwebr-insertion-location-14"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>It is the time to standarize the dataset before applyong <span class="math inline">\(k\)</span>-means.</p>
+<div id="qwebr-insertion-location-15"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
 </section>
 <section id="measures-of-cluster-quality" class="level4" data-number="10.3.1.2">
@@ -2689,31 +2898,21 @@ c_i = \arg\min_j \|x_i - \mu_j\|^2
 <section id="within-cluster-sum-of-squares-wss" class="level5" data-number="10.3.1.2.1">
 <h5 data-number="10.3.1.2.1" class="anchored" data-anchor-id="within-cluster-sum-of-squares-wss"><span class="header-section-number">10.3.1.2.1</span> <strong>Within-Cluster Sum of Squares (WSS)</strong></h5>
 <p>The <em>Within-Cluster Sum of Squares</em> measures how tightly the data points in a cluster are grouped around their centroid. <span class="math display">\[
-\text{WSS} = \sum_{j=1}^{k} \sum_{x_i \in C_j} \|x_i - \mu_j\|^2
-\]</span></p>
-<ul>
-<li><span class="math inline">\(C_j\)</span>: set of points in cluster <span class="math inline">\(j\)</span><br>
-</li>
-<li><span class="math inline">\(\mu_j\)</span>: centroid of cluster <span class="math inline">\(j\)</span><br>
-</li>
-<li><span class="math inline">\(\|x_i - \mu_j\|^2\)</span>: squared Euclidean distance between a point and its centroid</li>
-</ul>
+\text{WSS} = \sum_{k=1}^{K} \sum_{\mathbf{x}_i \in C_k} \|\mathbf{x}_i - \boldsymbol{\mu}_k\|^2
+\]</span> where <span class="math inline">\(C_k\)</span> is the set of points in cluster <span class="math inline">\(k\)</span>, <span class="math inline">\(\boldsymbol{\mu}_k\)</span> is the centroid of cluster <span class="math inline">\(k\)</span>, and <span class="math inline">\(\|\cdot\|^2\)</span> shows the squared Euclidean distance between a point and its centroid.</p>
 <p>A smaller WSS means <em>more compact clusters</em>.</p>
-<p><strong>Used in:</strong><br>
-The <strong>Elbow Method</strong>, where we plot WSS vs.&nbsp;<span class="math inline">\(k\)</span> and look for the “<em>elbow</em>” — the point beyond which adding more clusters yields diminishing improvement.</p>
 </section>
 <section id="between-cluster-sum-of-squares-bss" class="level5" data-number="10.3.1.2.2">
 <h5 data-number="10.3.1.2.2" class="anchored" data-anchor-id="between-cluster-sum-of-squares-bss"><span class="header-section-number">10.3.1.2.2</span> <strong>Between-Cluster Sum of Squares (BSS)</strong></h5>
 <p>The <em>Between-Cluster Sum of Squares</em> measures how far apart the cluster centroids are from the overall mean of the dataset. <span class="math display">\[
-\text{BSS} = \sum_{j=1}^{k} n_j \| \mu_j - \mu \|^2
-\]</span> where: - <span class="math inline">\(n_j\)</span>: number of points in cluster <span class="math inline">\(j\)</span><br>
-- <span class="math inline">\(\mu_j\)</span>: centroid of cluster <span class="math inline">\(j\)</span> - <span class="math inline">\(\mu\)</span>: global mean of all data points</p>
+\text{BSS} = \sum_{k=1}^{K} n_k \| \boldsymbol{\mu}_k - \boldsymbol{\mu} \|^2
+\]</span> where <span class="math inline">\(n_k\)</span> is the number of points in cluster <span class="math inline">\(k\)</span>, <span class="math inline">\(\boldsymbol{\mu}_k\)</span> is the centroid of cluster <span class="math inline">\(k\)</span>, and <span class="math inline">\(\boldsymbol{\mu}\)</span> is the global mean of all data points.</p>
 <p>A larger BSS means <em>better separation</em> between clusters.</p>
 </section>
 <section id="total-sum-of-squares-tss" class="level5" data-number="10.3.1.2.3">
 <h5 data-number="10.3.1.2.3" class="anchored" data-anchor-id="total-sum-of-squares-tss"><span class="header-section-number">10.3.1.2.3</span> <strong>Total Sum of Squares (TSS)</strong></h5>
 <p>The <em>Total Sum of Squares</em> represents the overall variation in the dataset: <span class="math display">\[
-\text{TSS} = \sum_{i=1}^{n} \|x_i - \mu\|^2
+\text{TSS} = \sum_{i=1}^{n} \|\mathbf{x}_i - \boldsymbol{\mu}\|^2
 \]</span></p>
 <p>This relationship always holds: <span class="math display">\[
 \text{TSS} = \text{BSS} + \text{WSS}
@@ -2727,17 +2926,8 @@ The <strong>Elbow Method</strong>, where we plot WSS vs.&nbsp;<span class="math 
 <h5 data-number="10.3.1.2.4" class="anchored" data-anchor-id="silhouette-coefficient"><span class="header-section-number">10.3.1.2.4</span> <strong>Silhouette Coefficient</strong></h5>
 <p>The <em>Silhouette Coefficient</em> combines <em>cohesion</em> (how close points are within a cluster) and <em>separation</em> (how far points are from other clusters): <span class="math display">\[
 s(i) = \frac{b(i) - a(i)}{\max(a(i), b(i))}
-\]</span> where:<br>
-- <span class="math inline">\(a(i)\)</span>: average distance from point <span class="math inline">\(i\)</span> to all other points in its cluster<br>
-- <span class="math inline">\(b(i)\)</span>: smallest average distance from point <span class="math inline">\(i\)</span> to points in another cluster</p>
-<p>Values range from <span class="math inline">\(–1\)</span> to <span class="math inline">\(1\)</span>:</p>
-<ul>
-<li><strong>Close to <span class="math inline">\(1\)</span>:</strong> well-clustered<br>
-</li>
-<li><strong>Around <span class="math inline">\(0\)</span>:</strong> point near cluster boundary<br>
-</li>
-<li><strong>Negative:</strong> likely misclassified</li>
-</ul>
+\]</span> where <span class="math inline">\(a(i)\)</span> is the average distance from point <span class="math inline">\(i\)</span> to all other points in its cluster, and <span class="math inline">\(b(i)\)</span> is the smallest average distance from point <span class="math inline">\(i\)</span> to points in another cluster.</p>
+<p>Values range from <span class="math inline">\(–1\)</span> to <span class="math inline">\(1\)</span>, where values <strong>close to <span class="math inline">\(1\)</span></strong> indicate that observations are well-clustered, values <strong>around <span class="math inline">\(0\)</span></strong> suggest that points lie near cluster boundaries, and <strong>negative</strong> values indicate that observations are likely misclassified or assigned to the wrong cluster.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -2796,17 +2986,20 @@ Important
 The <strong>Elbow Method</strong> helps find a balance between simplicity (few clusters) and accuracy (tight, distinct groups).</p>
 </div>
 </div>
-</section>
-</section>
-<section id="analysis-of-iris-dataset" class="level4" data-number="10.3.1.3">
-<h4 data-number="10.3.1.3" class="anchored" data-anchor-id="analysis-of-iris-dataset"><span class="header-section-number">10.3.1.3</span> Analysis of <code>iris</code> Dataset</h4>
-<p>The classic <code>iris</code> dataset contains <span class="math inline">\(150\)</span> flower observations from three species (<em>setosa</em>, <em>versicolor</em>, <em>virginica</em>). Each observation has four numeric features: <code>Sepal.Length</code>, <code>Sepal.Width</code>, <code>Petal.Length</code>, and <code>Petal.Width</code></p>
-<div id="qwebr-insertion-location-10"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>Suppose that we do not know that there are three groups and the goal is to determine the optimal number of clusters using <em>Elbow method</em></p>
-<div id="qwebr-insertion-location-11"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>We observe that the <em>elbow</em> appears around <span class="math inline">\(k = 3\)</span>, matching the three known species.</p>
+<p><strong>Implementation in R</strong></p>
+<p>The standard R function for <span class="math inline">\(K\)</span>-means clustering is <code>stats::kmeans()</code> which simplified format is as follow:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kmeans</span>(x, centers, <span class="at">iter.max =</span> <span class="dv">10</span>, <span class="at">nstart =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>where: - <code>x</code>: numeric matrix, numeric data frame or a numeric vevtor - <code>centers</code>: possible values are the number of clusters (<span class="math inline">\(k\)</span>) or a set of initial (distinct) cluster centers. If a number, a random set of (distinct) rows in <span class="math inline">\(x\)</span> is chosen as the initial centers. - <code>iter.max</code>: the maximum number of iterations allowed. Default value if <span class="math inline">\(10\)</span>. - <code>nstart</code>: the number of random starting partitions when centers is a number. Trying <code>nstart &gt; 1</code> is often recommended.</p>
+<p>To create a beautiful graph of the clusters generated with the <code>kmeans()</code> function, will use the <code>factoextra</code> package.</p>
+<p><strong>Computing <span class="math inline">\(K\)</span>-means clustering</strong></p>
+<p>As <span class="math inline">\(K\)</span>-means clustering algorithm starts with <span class="math inline">\(K\)</span> randomly selected centroids, it is always recommended to use the <code>set.seed()</code> function in order to set a seed for <code>R</code>’s random number generator. The aim of using this function is to make reproducible the results.</p>
+<p>The <code>R</code> code below performs <span class="math inline">\(K\)</span>-means clustering with <span class="math inline">\(K = 4\)</span>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>km.res <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(df, <span class="at">k =</span> <span class="dv">4</span>, <span class="at">nstart =</span> <span class="dv">25</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -2817,19 +3010,133 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>In the <span class="math inline">\(k\)</span>-means function</p>
+<p>Actually, <span class="math inline">\(K\)</span>-means starts by randomly choosing <span class="math inline">\(K\)</span> points as <em>initial centroids</em>. Depending on these starting points, the algorithm can converge to <em>different local minima</em> — meaning the results may vary across runs. So, <code>nstart</code> means number of random initial sets of centroids to try and then, R will run the algorithm that many times and keep the best result (the one with the lowest total within-cluster sum of squares).</p>
+<p>The default value of <code>nstart</code> in R is one. But, it is strongly recommended to compute <span class="math inline">\(K\)</span>-means clustering with a large value of <code>nstart</code> such as <span class="math inline">\(25\)</span> or <span class="math inline">\(50\)</span>, in order to have a more stable result.</p>
+</div>
+</div>
+<p>With the function <code>print()</code>, the results of <code>kmeans()</code> that for example in this note, saved in <code>km.res</code></p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kmeans</span>(iris_data, <span class="at">centers =</span> <span class="dv">3</span>, <span class="at">nstart =</span> <span class="dv">20</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(km.res)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>the argument <code>nstart</code> controls how many random initializations the algorithm tries before selecting the best solution.</p>
-<p>Actually, <span class="math inline">\(k\)</span>-means starts by randomly choosing <span class="math inline">\(k\)</span> points as <em>initial centroids</em>. Depending on these starting points, the algorithm can converge to <em>different local minima</em> — meaning the results may vary across runs. So, <code>nstart</code> means number of random initial sets of centroids to try and then, R will run the algorithm that many times and keep the best result (the one with the lowest total within-cluster sum of squares).</p>
+<p>The printed output displys: - the cluster means or centers, that is a matrix which rows are cluster number and columns are variables. - the clustering vector which is a vector of integers (from 1 to <span class="math inline">\(K\)</span>) indicating the cluster to which each point is allocated.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
 </div>
 </div>
+<div class="callout-body-container callout-body">
+<p>It is possible to compute the mean of each variable in the dataset by clusters using the original dataset.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">aggregate</span>(df, <span class="at">by =</span> <span class="fu">list</span>(<span class="at">cluster=</span>km.res<span class="sc">$</span>cluster), mean)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>It the user is intersted in adding the clusters to the original data, use the following R code</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cbind</span>(df, <span class="at">cluster =</span> km.res<span class="sc">$</span>cluster)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+<p><code>kmeans()</code> function returns a list of components, including: - <em>cluster</em>: a vector of integers (from <span class="math inline">\(1\)</span> to <span class="math inline">\(k\)</span>) indicating the cluster to which each point is allocated. - <em>centers</em>: a matrix of cluster centers (cluster means) - <em>totss</em>: the total sum of squares (TSS). It measures the total variance in the data. - <em>withinss</em>: vector of within-cluster sum of squares, one component per cluster - <em>tot.withinss</em>: total within-cluster sum of squares, i.e., <span class="math inline">\(\text{sum}(withinss)\)</span> - <em>betweenss</em>: the between-cluster sum of squares, i.e., <em>totss - tot.withinss</em> - <em>size</em>: the number of observations in each cluster</p>
+<p>These components can be accessed as follow:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Cluster number for each of the observations</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>km.res<span class="sc">$</span>cluster </span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Cluster size</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>km.res<span class="sc">$</span>size</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Cluster means</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>km.res<span class="sc">$</span>centers</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>Visualizing <span class="math inline">\(K\)</span>-means Clusters</strong></p>
+<p>It is a good idea to plot the cluster results. These can be used to assess the choice of the number of clusters as well as comparing two different cluster analyses.</p>
+<p>The idea is to visualize the data in scatter plot with coloring tach data point according to its cluster assignment.</p>
+<p>The problem is that the data contains more than 2 variables and the question is what variables to choose for the <span class="math inline">\(x\)</span>-<span class="math inline">\(y\)</span> scatter plot. A <strong>solution</strong> is to reduce the number of dimensions by applying a dimensionality reduction algorithm, such as <em>principal component analysis (PCA)</em>.</p>
+<p>In other words, if we have a multi-dimensional dataset, a solution is to perform <em>PCA</em> and to plot data points according to the first two principal components coordinates.</p>
+<p>The function <code>factoextra::fviz_cluster()</code> can be used to easily visulize <span class="math inline">\(K\)</span>-means clusters. It takes <span class="math inline">\(K\)</span>-means results and the original data as arguments. In the resulting plot, observations are represented by points, using orincipal components if the number of variables is greater than <span class="math inline">\(2\)</span>. It is also possible to draw concentration ellipse around each cluster.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_cluster</span>(km.res, <span class="at">data =</span> df,</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="at">palette =</span> <span class="fu">c</span>(<span class="st">"#2E9FDF"</span>, <span class="st">"#00AFBB"</span>, <span class="st">"#E7B800"</span>, <span class="st">"#FC4E07"</span>), <span class="co">#Define colors</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="at">ellipse.type =</span> <span class="st">"euclid"</span>, <span class="co"># Concentration ellipse</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="at">star.plot =</span> <span class="cn">TRUE</span>, <span class="co"># Add segments from centroids to items</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="at">repel =</span> <span class="cn">TRUE</span>, <span class="co"># Avoid label overplotting (slow)</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="at">ggtheme =</span> <span class="fu">theme_minimal</span>()</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math inline">\(K\)</span>-means clustering is very simple and fast algorithm. It can efficiently deal with very large data sets.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math inline">\(K\)</span>-means has some weaknesses, including:</p>
+<ul>
+<li>It assumes prior knowledge of the data and requires the analyst to choose the appropriate number of cluster (<span class="math inline">\(k\)</span>) in advance.</li>
+</ul>
+<p><em>Solution</em>: Compute <span class="math inline">\(K\)</span>-means for a range of <span class="math inline">\(K\)</span> values, for example by varying <span class="math inline">\(k\)</span> between <span class="math inline">\(2\)</span> and <span class="math inline">\(10\)</span>. Then choose the best <span class="math inline">\(k\)</span> by comparing the clustering results obtained for different <span class="math inline">\(k\)</span> values.</p>
+<ul>
+<li>The final results obtained is sensitive to the initial random selection of cluster centers. <em>Why is this a problem?</em> Because, for every different run of the algorithm on the same data set, you may choose different set of initial centers. This may lead to different clustering results on different runs of the algorithm.</li>
+</ul>
+<p><em>Solution</em>: Compute <span class="math inline">\(K\)</span>-means algorithm several times with different initial cluster centers. The run with the lowest total within-cluster sum of square is selected as the final clustering solution.</p>
+<ul>
+<li>It is sensitive to outliers.</li>
+</ul>
+<p><em>Solution</em>: To avoid distortions caused by excessive outliers, it is possible to use PAM algorithm, which is less sensitive to outliers.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="analysis-of-iris-dataset" class="level4" data-number="10.3.1.3">
+<h4 data-number="10.3.1.3" class="anchored" data-anchor-id="analysis-of-iris-dataset"><span class="header-section-number">10.3.1.3</span> Analysis of <code>iris</code> Dataset</h4>
+<p>The classic <code>iris</code> dataset contains <span class="math inline">\(150\)</span> flower observations from three species (<em>setosa</em>, <em>versicolor</em>, <em>virginica</em>). Each observation has four numeric features: <code>Sepal.Length</code>, <code>Sepal.Width</code>, <code>Petal.Length</code>, and <code>Petal.Width</code></p>
+<div id="qwebr-insertion-location-16"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>Suppose that we do not know that there are three groups and the goal is to determine the optimal number of clusters using <em>Elbow method</em></p>
+<div id="qwebr-insertion-location-17"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>The plot represents the variance within the clusters. It decreases as <span class="math inline">\(k\)</span> increases, but it can be seen a bend (or <em>elbow</em>) at <span class="math inline">\(k = 3\)</span>, matching the three known species.</p>
+<p>Another way to visualize the elbow method for choosing the optimal number of clusters is by using the function <code>factoextra::fviz_nbclust()</code>. We can also add a vertical dashed line to indicate the chosen value of <span class="math inline">\(k\)</span>.</p>
+<div id="qwebr-insertion-location-18"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>Now, we apply <span class="math inline">\(k\)</span>-means algorithm with <span class="math inline">\(k = 3\)</span>.</p>
-<div id="qwebr-insertion-location-12"></div>
+<div id="qwebr-insertion-location-19"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="qwebr-insertion-location-20"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>We compute cluster quality measures.</p>
-<div id="qwebr-insertion-location-13"></div>
+<div id="qwebr-insertion-location-21"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -2849,7 +3156,7 @@ Note
 <li><p>Statistical approach</p></li>
 </ul>
 <p><strong>Exploratory approach</strong></p>
-<div id="qwebr-insertion-location-14"></div>
+<div id="qwebr-insertion-location-22"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>In this plot, you will notice that:</p>
 <ul>
@@ -2858,7 +3165,7 @@ Note
 </ul>
 <p>That is why we often choose <code>Petal.Length</code> and <code>Petal.Width</code> for visualization — they are the most discriminative pair of features.</p>
 <p><strong>Statistical approach</strong> We can quantify which features are most discriminative by computing, for each variable: - The between-group variance (BSS) - The within-group variance (WSS) and comparing their ratio.</p>
-<div id="qwebr-insertion-location-15"></div>
+<div id="qwebr-insertion-location-23"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>The higher this ratio, the better that feature separates the species.</p>
 <p>In this results, <code>Petal.Width</code> is clearly the most discriminative feature.</p>
@@ -2868,7 +3175,7 @@ Note
 \]</span> This tells you, for that one variable alone, how distinct the species means are compared to the variability within each species.</p>
 <p>So, mathematically, if <code>Sepal.Width</code> has a higher ratio, it means that species differ more in <code>Sepal.Width</code> (on average) than they do within themselves. <strong>But “discriminative” depends on combined separability</strong></p>
 <p>The tricky part is that <code>Sepal.Width</code> alone does not visually separate the species well, even if its numeric ratio looks high. Let us check the data visually:</p>
-<div id="qwebr-insertion-location-16"></div>
+<div id="qwebr-insertion-location-24"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>You see that: - For <code>Sepal.Width</code>, there is a lot of overlap between Versicolor and Virginica. The means differ, but not enough to separate groups clearly.</p>
 <ul>
@@ -2891,16 +3198,15 @@ Tip
 </div>
 </div>
 <p>Now, based on the most discriminative features, <code>Petal.Length</code> and <code>Petal.Width</code>, we visualize the clusters.</p>
-<div id="qwebr-insertion-location-17"></div>
+<div id="qwebr-insertion-location-25"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>Even, we can compare with true species</p>
-<div id="qwebr-insertion-location-18"></div>
+<p>Another way to visulize <span class="math inline">\(K\)</span>-means clusters is using the function <code>fviz_cluster()</code> that used the PCA (the <code>iris_data</code> has 4 variables) with the following code</p>
+<div id="qwebr-insertion-location-26"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>As you see, <em>Setosa</em> is perfectly separated, while <em>versicolor</em> and <em>virginica</em> overlap.</p>
 <p>We can also evaluat clustering with the Silhouette coefficient</p>
-<div id="qwebr-insertion-location-19"></div>
+<div id="qwebr-insertion-location-27"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div id="qwebr-insertion-location-20"></div>
+<div id="qwebr-insertion-location-28"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>The <em>average silhouette width </em>(displayed in the summary) gives an overall quality score.</p>
 <ul>
@@ -2913,20 +3219,24 @@ Tip
 <li><em>Setosa</em> usually has near-perfect silhouette values, while <em>Versicolor</em> and <em>Virginica</em> show some overlap — as expected.</li>
 </ul>
 <p>We can compute the average silhouette width for different numbers of clusters.</p>
-<div id="qwebr-insertion-location-21"></div>
+<div id="qwebr-insertion-location-29"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>As you see, the highest silhouette score occurs around <span class="math inline">\(k = 3\)</span>, matching the known number of species. <span class="math inline">\(k = 2\)</span> gives larger compact clusters but merges two real species. While <span class="math inline">\(k &gt; 3\)</span> begins splitting natural groups unnecessarily (overfitting). You see that the <em>Silhouette Coefficient</em> confirms the Elbow method’s result</p>
+<p>Based on the Silhouette plots, the highest average silhouette width occurs at <span class="math inline">\(k = 2\)</span>. This means that, mathematically, dividing the data into two clusters gives the tightest and most well-separated grouping according to the Silhouette metric.</p>
+<p>However, <strong>the best numerical score does not always mean the most meaningful clustering</strong>.</p>
+<p>At <span class="math inline">\(k =2\)</span>, the algorithm merges two of the real Iris species (versicolor and virginica) into a single cluster. The result has high compactness, but low interpretive accuracy.</p>
+<p>At <span class="math inline">\(k = 3\)</span>, the average silhouette width is slightly lower, but the clusters correspond more closely to the true biological species. This result is more meaningful, even if slightly less compact.</p>
+<p>Thus, the <em>Silhouette Coefficient</em> and the <em>Elbow Method</em> together suggest that: - <span class="math inline">\(k=2\)</span> yields the most compact clustering, - but <span class="math inline">\(k=3\)</span> represents the optimal trade-off between cluster compactness and real-world interpretability</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true" href="">Exercise 1</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false" href="">Exercise 2</a></li></ul>
 <div class="tab-content">
 <div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
 <p>Use the built-in dataset <code>USArrests</code>, which contains statistics on violent crime rates in the 1970s for 50 U.S. states.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"USArrests"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"USArrests"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Standardize all numeric features before applying <span class="math inline">\(k\)</span>-Means using this R code:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>us_data <span class="ot">&lt;-</span> <span class="fu">scale</span>(USArrests)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>us_data <span class="ot">&lt;-</span> <span class="fu">scale</span>(USArrests)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><strong>Elbow Method</strong></p>
 <ul>
@@ -2946,55 +3256,113 @@ Tip
 <p>Each color in an image can be treated as a data point in RGB space, and clustering reduces the number of colors while preserving the main structure.</p>
 <p><strong>Load and visualize an image.</strong></p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(jpeg)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Read example image from R base (or provide your own file path)</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">"https://upload.wikimedia.org/wikipedia/commons/3/3f/JPEG_example_flower.jpg"</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span> <span class="fu">tempfile</span>(<span class="at">fileext =</span> <span class="st">".jpg"</span>)</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(url, temp, <span class="at">mode =</span> <span class="st">"wb"</span>)</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>img <span class="ot">&lt;-</span> <span class="fu">readJPEG</span>(temp)</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert to data frame</span></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>img_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="at">R =</span> <span class="fu">as.vector</span>(img[,,<span class="dv">1</span>]),</span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="at">G =</span> <span class="fu">as.vector</span>(img[,,<span class="dv">2</span>]),</span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="at">B =</span> <span class="fu">as.vector</span>(img[,,<span class="dv">3</span>])</span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(jpeg)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Read example image from R base (or provide your own file path)</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">"https://upload.wikimedia.org/wikipedia/commons/3/3f/JPEG_example_flower.jpg"</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span> <span class="fu">tempfile</span>(<span class="at">fileext =</span> <span class="st">".jpg"</span>)</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(url, temp, <span class="at">mode =</span> <span class="st">"wb"</span>)</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>img <span class="ot">&lt;-</span> <span class="fu">readJPEG</span>(temp)</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert to data frame</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>img_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a><span class="at">R =</span> <span class="fu">as.vector</span>(img[,,<span class="dv">1</span>]),</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a><span class="at">G =</span> <span class="fu">as.vector</span>(img[,,<span class="dv">2</span>]),</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a><span class="at">B =</span> <span class="fu">as.vector</span>(img[,,<span class="dv">3</span>])</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample only a few thousand pixels to avoid memory explosion</span></span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>img_sample <span class="ot">&lt;-</span> img_df <span class="sc">%&gt;%</span> <span class="fu">sample_n</span>(<span class="dv">5000</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><strong>Determine the optimal number of clusters.</strong></p>
-<p>Apply <span class="math inline">\(k\)</span>-means clustering to the RGB values of the image (<code>img_df</code>) for <span class="math inline">\(k = 2\)</span> to <span class="math inline">\(10\)</span>, using <code>nstart = 10</code>. Then, use both the <strong>Elbow Method</strong> and the <strong>Silhouette Coefficient</strong> to decide which <span class="math inline">\(k\)</span> gives the best balance between cluster compactness and separation. Do both methods suggest the same number of clusters?</p>
+<p>Apply <span class="math inline">\(k\)</span>-means clustering to the RGB values of the image (<code>img_sample</code>) for <span class="math inline">\(k = 2\)</span> to <span class="math inline">\(10\)</span>, using <code>nstart = 10</code>. Then, use both the <strong>Elbow Method</strong> and the <strong>Silhouette Coefficient</strong> to decide which <span class="math inline">\(k\)</span> gives the best balance between cluster compactness and separation. Do both methods suggest the same number of clusters?</p>
 <p>When you decide about the optimal <span class="math inline">\(k\)</span>, with the following code, you can compare the original and compressed image.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>k <span class="ot">&lt;-</span> <span class="st">'put the optimal value you found'</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>km_colors <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(img_df, <span class="at">centers =</span> k, <span class="at">nstart =</span> <span class="dv">10</span>)</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Replace each pixel with its cluster centroid color</span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>compressed_img <span class="ot">&lt;-</span> km_colors<span class="sc">$</span>centers[km_colors<span class="sc">$</span>cluster, ]</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>compressed_img <span class="ot">&lt;-</span> <span class="fu">array</span>(compressed_img, <span class="at">dim =</span> <span class="fu">dim</span>(img))</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">0</span>, <span class="at">type =</span> <span class="st">"n"</span>, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>),</span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="at">xlab =</span> <span class="st">""</span>, <span class="at">ylab =</span> <span class="st">""</span>, <span class="at">axes =</span> <span class="cn">FALSE</span>, <span class="at">main =</span> <span class="st">"Original Image"</span>)</span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="fu">rasterImage</span>(img, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>)</span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">0</span>, <span class="at">type =</span> <span class="st">"n"</span>, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>),</span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="at">xlab =</span> <span class="st">""</span>, <span class="at">ylab =</span> <span class="st">""</span>, <span class="at">axes =</span> <span class="cn">FALSE</span>, <span class="at">main =</span> <span class="fu">paste</span>(<span class="st">"Compressed Image (k ="</span>, k, <span class="st">")"</span>))</span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="fu">rasterImage</span>(compressed_img, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>k <span class="ot">&lt;-</span> <span class="st">'put the optimal value you found'</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>km_colors <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(img_sample, <span class="at">centers =</span> k, <span class="at">nstart =</span> <span class="dv">10</span>)</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Replace each pixel with its cluster centroid color</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>compressed_img <span class="ot">&lt;-</span> km_colors<span class="sc">$</span>centers[km_colors<span class="sc">$</span>cluster, ]</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>compressed_img <span class="ot">&lt;-</span> <span class="fu">array</span>(compressed_img, <span class="at">dim =</span> <span class="fu">dim</span>(img))</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">0</span>, <span class="at">type =</span> <span class="st">"n"</span>, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>),</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="at">xlab =</span> <span class="st">""</span>, <span class="at">ylab =</span> <span class="st">""</span>, <span class="at">axes =</span> <span class="cn">FALSE</span>, <span class="at">main =</span> <span class="st">"Original Image"</span>)</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a><span class="fu">rasterImage</span>(img, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">0</span>, <span class="at">type =</span> <span class="st">"n"</span>, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>),</span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a><span class="at">xlab =</span> <span class="st">""</span>, <span class="at">ylab =</span> <span class="st">""</span>, <span class="at">axes =</span> <span class="cn">FALSE</span>, <span class="at">main =</span> <span class="fu">paste</span>(<span class="st">"Compressed Image (k ="</span>, k, <span class="st">")"</span>))</span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a><span class="fu">rasterImage</span>(compressed_img, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
 </div>
+</section>
+</section>
+<section id="k-medoids-clustering" class="level3" data-number="10.3.2">
+<h3 data-number="10.3.2" class="anchored" data-anchor-id="k-medoids-clustering"><span class="header-section-number">10.3.2</span> <span class="math inline">\(k\)</span>-Medoids Clustering</h3>
+<p>The <span class="math inline">\(k\)</span>-medoids algorithm is a partitioning clustering method closely related to <span class="math inline">\(k\)</span>-means, but instead of using the <em>mean (centroid)</em> of points to represent a cluster, it uses an <em>actual observation (medoid)</em> — the most centrally located data point within that cluster.</p>
+<p>Formally, a medoid is the point whose average dissimilarity to all other points in the cluster is minimal. i.e, <span class="math display">\[
+m_j = \arg\min_{x_i \in C_j} \sum_{x_k \in C_j} d(x_i,x_k)
+\]</span> where: - <span class="math inline">\(C_j\)</span> is the set of points assigned to cluster <span class="math inline">\(j\)</span> - <span class="math inline">\(d(x_i,x_k)\)</span> is a chosen distance or dissimilarity measure (e.g., Euclidean, Manhattan, etc.)</p>
+<p><strong>Algorithm (PAM — Partitioning Around Medoids)</strong></p>
+<p>The most common implementation of k-medoids is the PAM algorithm, which works as follows: 1. <strong>Initialize:</strong> Select <span class="math inline">\(k\)</span> representative objects (medoids) randomly from the dataset. 2. <strong>Assign:</strong> Assign each remaining point to the nearest medoid based on the chosen distance metric. 3. <strong>Update:</strong> For each cluster, try swapping the medoid with another point from the same cluster and compute the total cost: <span class="math display">\[
+\text{Cost} = \sum_{i=1}^n \min_j d(x_i, m_j)
+\]</span> If a swap reduces the cost, keep it. 4. <strong>Iterate:</strong> Repeat assignment and update steps until the medoids no longer change.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <span class="math inline">\(k\)</span>-medoids algorithm minimizes a <strong>sum of dissimilarities</strong>, not squared distances. Thus, the cluster representative is always a real observation, which makes the method robust when data contain noise, outliers, or mixed types.</p>
+</div>
+</div>
+<div id="qwebr-insertion-location-30"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>As you see, the black stars represent the <em>medoids</em> — actual data points from the dataset.</p>
+<p>Unlike <span class="math inline">\(k\)</span>-means, the medoid is a real observation, not an artificial centroid.</p>
+<p><strong>Visual Comparison: k-Means vs k-Medoids</strong></p>
+<div id="qwebr-insertion-location-31"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<section id="analysis-of-heart-disease-dataset" class="level4" data-number="10.3.2.1">
+<h4 data-number="10.3.2.1" class="anchored" data-anchor-id="analysis-of-heart-disease-dataset"><span class="header-section-number">10.3.2.1</span> Analysis of Heart Disease Dataset</h4>
+<p>The dataset has a mix of numerical, ordinal, and categorical features: <code>Age</code>, <code>Sex</code>, <code>ChestPain</code>, <code>Thal</code>, <code>RestBP</code>, <code>Chol</code>, <code>MaxHR</code>, <code>AHD</code> (disease outcome), etc.</p>
+<p>We compute Gower distance and run <span class="math inline">\(k\)</span>-medoids.</p>
+<div id="qwebr-insertion-location-32"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="qwebr-insertion-location-33"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-Gower1971" class="csl-entry" role="listitem">
+Gower, J. C. 1971. <span>“A General Coefficient of Similarity and Some of Its Properties.”</span> <em>Biometrics</em> 27 (4): 857–71.
+</div>
+<div id="ref-hartigan1979" class="csl-entry" role="listitem">
+Hartigan, John A., and Manchek A. Wong. 1979. <span>“A <span>K</span>-Means Clustering Algorithm.”</span> <em>Applied Statistics</em> 28: 100–108.
+</div>
+<div id="ref-kaufman1990" class="csl-entry" role="listitem">
+Kaufman, Leonard, and Peter J. Rousseeuw. 1990. <em>Finding Groups in Data: An Introduction to Cluster Analysis</em>. New York: Wiley.
+</div>
+<div id="ref-macqueen1967" class="csl-entry" role="listitem">
+MacQueen, J. 1967. <span>“Some Methods for Classification and Analysis of Multivariate Observations.”</span> In <em>Proceedings of the Fifth Berkeley Symposium on Mathematical Statistics and Probability</em>, edited by L. M. Le Cam and J. Neyman, 1:281–97. Berkeley, CA: University of California Press.
+</div>
+</div>
 </section>
 </section>
 </section>
