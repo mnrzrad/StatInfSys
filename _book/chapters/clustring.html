@@ -424,7 +424,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"code":"x <- c(2, 4)\ny <- c(5, 8)\n\n# Euclidean distance\nd_E <- sqrt(sum((x - y)^2))\ncat(\"Euclidean distance using direct function:\", d_E, \"\\n\")\n\n# Another way\ndf <- data.frame(rbind(x, y))\ndist_euclidean <- dist(df, method = 'euclidean')\ncat(\"Euclidean distance using 'dist()' function:\", dist_euclidean, \"\\n\")\n\n# Using the package \"factoextra\" \nlibrary(factoextra)\ndist_euclidean_factoextra <- get_dist(df, method = 'euclidean')\ncat(\"Euclidean distance using 'factoextra::get_dist()' function:\", dist_euclidean_factoextra)","id":1,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"euclidean-distance","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"x <- c(2, 4)\ny <- c(5, 8)\n\n# Manhattan distance\nd_M <- sum(abs(x - y))\ncat(\"Manhattan distance using direct function:\", d_M, \"\\n\")\n\n# Another way\ndf <- data.frame(rbind(x, y))\ndist_manhattan <- dist(df, method = 'manhattan')\ncat(\"Manhattan distance using 'dist()' function:\", dist_manhattan, \"\\n\")\n\n# Using the package \"factoextra\" \nlibrary(factoextra)\ndist_manhattan_factoextra <- get_dist(df, method = 'manhattan')\ncat(\"Manhattan distance using 'factoextra::get_dist()' function:\", dist_manhattan_factoextra)","id":2,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"manhattan-distance","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"x <- c(2, 4)\ny <- c(5, 8)\n\n# Minkowski distance\nd_r <- function(x, y, r) {\n  (sum(abs(x - y)^r))^(1/r)\n}\ncat('Manhattan distance:', d_r(x, y, r = 1), 'that should be equal to d_M which is', d_M, '\\n')\ncat('Euclidean distance:', d_r(x, y, r = 2), 'that should be equal to d_E which is', d_E, '\\n')\ncat('Minkowski Distance', d_r(x, y, r = 5), '\\n')\ncat('Minkowski Distance', d_r(x, y, r = 10), '\\n')\n\n# Another way\ndf <- data.frame(rbind(x, y))\ndist_minkowski_5 <- dist(df, method = 'minkowski', p = 5)\ndist_minkowski_10 <- dist(df, method = 'minkowski', p = 10)\ncat(\"Minkowski distance using 'dist()' function (p = 5):\", dist_minkowski_5, '\\n')\ncat(\"Minkowski distance using 'dist()' function (p = 10):\", dist_minkowski_10, '\\n')\n\n\n# Using the package \"factoextra\" \nlibrary(factoextra)\ndist_minkowski_5_factoextra <- get_dist(df, method = 'manhattan', p = 5)\ncat(\"Minkowski distance using 'factoextra::get_dist()' function:\", dist_minkowski_5_factoextra, '\\n') \n\ndist_minkowski_10_factoextra <- get_dist(df, method = 'manhattan', p = 10)\ncat(\"Minkowski distance using 'factoextra::get_dist()' function:\", dist_minkowski_10_factoextra) ","id":3,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"manhattan-distance","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"x <- c(2, 4)\ny <- c(5, 8)\n\n# Chebyshev distance\nd_C <- max(abs(x - y))\ncat(\"Chebyshev distance using direct function:\", d_C, \"\\n\")\n\n# Another way\ndf <- data.frame(rbind(x, y))\ndist_chebyshev <- dist(df, method = 'maximum')\ncat(\"Chebyshev distance using 'dist()' function:\", dist_chebyshev, \"\\n\")\n\n# Using the package \"factoextra\" \nlibrary(factoextra)\ndist_chebyshev_factoextra <- get_dist(df, method = 'maximum')\ncat(\"Chebyshev distance using 'factoextra::get_dist()' function:\", dist_chebyshev_factoextra)","id":4,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"chebyshev-distance","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"x <- c(2, 4)\ny <- c(5, 8)\n\n# For Mahalanobis, we need covariance matrix (example with small dataset)\nX <- matrix(c(2, 4, 5, 8, 3, 7), ncol = 2, byrow = TRUE)\ncov_matrix <- cov(X)\nd_mahalanobis <- sqrt(t(x - y) %*% solve(cov_matrix) %*% (x - y))\nd_mahalanobis","id":5,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"mahalanobis-distance","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"library(lsa)  # for cosine similarity\n\nx <- c(1, 2, 3)\ny <- c(2, 4, 6)\nz <- c(3, 0, 0)\n\ncos_xy <- cosine(x, y)\ncos_xz <- cosine(x, z)\n\ncat(\"Cosine similarity (x,y):\", round(cos_xy, 3), \"\\n\")\ncat(\"Cosine similarity (x,z):\", round(cos_xz, 3), \"\\n\")\ncat(\"Cosine distance (x,y):\", round(1 - cos_xy, 3), \"\\n\")\ncat(\"Cosine distance (x,z):\", round(1 - cos_xz, 3), \"\\n\")","id":6,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"cosine-distance","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"# Two binary observations (e.g., presence/absence of features)\no1 <- c(1, 0, 1, 1, 0, 0, 1)\no2 <- c(1, 1, 0, 1, 0, 0, 0)\n\n# Compute the components\nf11 <- sum(o1 == 1 & o2 == 1)\nf00 <- sum(o1 == 0 & o2 == 0)\nf10 <- sum(o1 == 1 & o2 == 0)\nf01 <- sum(o1 == 0 & o2 == 1)\nd <- length(o1)\n\n# Similarity and distance\ns_SMC <- (f11 + f00) / d\nd_SMC <- (f01 + f10) / d  # same as 1 - s_SMC\n\ncat(\"f11 =\", f11, \"f00 =\", f00, \"f10 =\", f10, \"f01 =\", f01, \"\\n\")\ncat(\"Simple Matching Coefficient (similarity):\", round(s_SMC, 3), \"\\n\")\ncat(\"Simple Matching Distance:\", round(d_SMC, 3), \"\\n\")","id":7,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"smc-distance-example","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"# Example categorical data\nx <- c(\"Red\", \"Small\", \"Circle\")\ny <- c(\"Blue\", \"Small\", \"Square\")\n\n# ----- Hamming Distance -----\nhamming_distance <- sum(x != y)\nprint(paste(\"Hamming distance:\", hamming_distance))","id":8,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"hamming-distance","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"library(cluster)\nlibrary(tibble)\nlibrary(dplyr)\n\n# Create dataset\nsubjects <- tibble::tibble(\n  Subject_ID = c(\"001\", \"002\", \"003\", \"004\", \"005\"),\n  Age = c(28, 34, 22, 45, 30),                \n  Handedness = c(\"Right\", \"Left\", \"Right\", \"Right\", \"Left\"),  \n  Eye_Colour = c(\"Blue\", \"Blue\", \"Green\", \"Hazel\", \"Brown\"),  \n  Knows_Python = c(\"Yes\", \"No\", \"Yes\", \"No\", \"Yes\")           \n)\n\n# Convert character columns to factors (important for Gower)\nsubjects <- subjects %>%\n  mutate(across(where(is.character), as.factor))\n\n# Compute Gower distance \ngower_dist <- daisy(subjects[, -1], metric = \"gower\")  # exclude Subject_ID\n\nprint(round(as.matrix(gower_dist), 3))","id":9,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"gower-mixed-fixed","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"library(cluster)\nlibrary(factoextra)\nlibrary(dplyr)\nlibrary(tibble)\n\nsubjects <- tibble(\n  Subject_ID = c(\"001\", \"002\", \"003\", \"004\", \"005\"),\n  Age = c(28, 34, 22, 45, 30),\n  Handedness = as.factor(c(\"Right\", \"Left\", \"Right\", \"Right\", \"Left\")),\n  Eye_Colour = as.factor(c(\"Blue\", \"Blue\", \"Green\", \"Hazel\", \"Brown\")),\n  Knows_Python = as.factor(c(\"Yes\", \"No\", \"Yes\", \"No\", \"Yes\"))\n)\nsubjects <- subjects %>%\n  mutate(across(where(is.character), as.factor))\ngower_dist <- daisy(subjects[, -1], metric = \"gower\")\n\n# Visualize matrix\nlibrary(factoextra)\nfviz_dist(gower_dist) ","id":10,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"Visualization of Gower distance matrix using factoextra.","fig-height":5,"fig-width":7,"label":"visualize-gower","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"set.seed(42)\n\n# Generate synthetic 2D data\nx <- rbind(\n  matrix(rnorm(100, mean = 0, sd = 0.3), ncol = 2),\n  matrix(rnorm(100, mean = 3, sd = 0.3), ncol = 2)\n)\ncolnames(x) <- c(\"x\", \"y\")\n\n# Apply k-means with 2 clusters\nkm <- kmeans(x, centers = 2, nstart = 20)\n\n# Visualize results\nlibrary(ggplot2)\ndata <- data.frame(x, cluster = factor(km$cluster))\nggplot(data, aes(x, y, color = cluster)) +\n  geom_point(size = 3) +\n  geom_point(data = as.data.frame(km$centers), aes(x, y), color = \"black\", size = 5, shape = 8) +\n  labs(title = \"K-Means Clustering\",\n       subtitle = \"Centroids shown as black stars\") +\n  theme_minimal()","id":11,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"kmeans-example","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"library(ggplot2)\nlibrary(dplyr)\n\nset.seed(42)\nx <- rnorm(1000) / 2\ny <- c(rnorm(500) + 5, rnorm(500)) / 10\ndata <- data.frame(x, y)\n\nggplot(data, aes(x, y)) +\n  geom_point(size = 1, color = \"black\") +\n  theme_minimal(base_size = 14) +\n  labs(title = \"Original Data (different scales)\")","id":12,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"Original data (different scales)","fig-height":5,"fig-width":7,"label":"kmeans-step1","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"true","warnings":"false"}},{"code":"km_raw <- kmeans(data, centers = 2)\ndata$cluster_raw <- as.factor(km_raw$cluster)\n\nggplot(data, aes(x, y, color = cluster_raw)) +\n  geom_point(size = 1) +\n  scale_color_manual(values = c(\"tomato\", \"steelblue\")) +\n  theme_minimal(base_size = 14) +\n  labs(title = \"Non-normalized K-Means\")","id":13,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"Non-normalized K-Means clustering","fig-height":5,"fig-width":7,"label":"kmeans-step2","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"normalize <- function(v) (v - min(v)) / (max(v) - min(v))\ndata_norm <- data %>% mutate(xn = normalize(x), yn = normalize(y))\nkm_norm <- kmeans(data_norm[, c(\"xn\", \"yn\")], centers = 2)\ndata_norm$cluster_norm <- as.factor(km_norm$cluster)\n\nggplot(data_norm, aes(xn, yn, color = cluster_norm)) +\n  geom_point(size = 1) +\n  scale_color_manual(values = c(\"tomato\", \"steelblue\")) +\n  theme_minimal(base_size = 14) +\n  labs(title = \"Normalized (0–1) K-Means\")","id":14,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"Normalized (0–1) K-Means clustering","fig-height":5,"fig-width":7,"label":"kmeans-step3","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"standardize <- function(v) (v - mean(v)) / sd(v)\ndata_std <- data %>% mutate(xs = standardize(x), ys = standardize(y))\nkm_std <- kmeans(data_std[, c(\"xs\", \"ys\")], centers = 2)\ndata_std$cluster_std <- as.factor(km_std$cluster)\n\nggplot(data_std, aes(xs, ys, color = cluster_std)) +\n  geom_point(size = 1) +\n  scale_color_manual(values = c(\"tomato\", \"steelblue\")) +\n  theme_minimal(base_size = 14) +\n  labs(title = \"Standardized (Z-score) K-Means\")","id":15,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"Standardized (Z-score) K-Means clustering","fig-height":5,"fig-width":7,"label":"kmeans-step4","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"# Load dataset\ndata(\"iris\")\n\n# Select only numeric features for clustering\niris_data <- iris[, 1:4]","id":16,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"iris-prepare","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"library(ggplot2)\n\n# Compute WSS for k = 1:10\n\nwss <- sapply(1:10, function(k) {\nkmeans(iris_data, centers = k, nstart = 20)$tot.withinss\n})\n\n# Create Elbow plot\n\nelbow_df <- data.frame(k = 1:10, WSS = wss)\n\nggplot(elbow_df, aes(k, WSS)) +\ngeom_line(color = \"steelblue\", linewidth = 1.2) +\ngeom_point(size = 3, color = \"tomato\") +\nscale_x_continuous(breaks = 1:10) +\nlabs(title = \"Elbow Method — Iris Dataset\",\nx = \"Number of clusters (k)\",\ny = \"Total Within-Cluster Sum of Squares (WSS)\") +\ntheme_minimal()","id":17,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"iris-elbow","message":"false","out-height":"","out-width":"90%","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"library(factoextra)\n\nfviz_nbclust(iris_data, kmeans, method = 'wss') + \n  geom_vline(xintercept = 3, linetype = 2) +\nlabs(\ntitle = \"Elbow Method for Determining Optimal k\",\nsubtitle = \"Dashed line indicates the chosen number of clusters (k = 4)\"\n)","id":18,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"elbow-fviz","message":"true","messages":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"set.seed(42)\nkm_iris <- kmeans(iris_data, centers = 3, nstart = 20)\n\n# Print the results\nprint(km_iris)","id":19,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"iris-kmeans","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"# Add cluster assignments to the dataset\niris_clustered <- cbind(iris, cluster = factor(km_iris$cluster))\n\n# Show first few results\nhead(iris_clustered)","id":20,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"iris-kmeans","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"# Total, within, and between-cluster sums of squares\n\nTSS <- sum(scale(iris_data, scale = FALSE)^2)\nWSS <- km_iris$tot.withinss\nBSS <- TSS - WSS\nratio <- BSS / TSS\n\ncat(\"TSS:\", round(TSS, 2), \"\\n\")\ncat(\"WSS:\", round(WSS, 2), \"\\n\")\ncat(\"BSS:\", round(BSS, 2), \"\\n\")\ncat(\"Explained variance (BSS/TSS):\", round(ratio, 3), \"\\n\")","id":21,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"iris-measures","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"library(GGally)\nggpairs(iris, aes(color = Species))","id":22,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"eda","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"# Compute ratio of between- to within-group variance for each feature\nlibrary(dplyr)\n\niris_var <- iris %>%\n  group_by(Species) %>%\n  summarise(across(where(is.numeric), mean))\n\n# Between-class variance\noverall_means <- colMeans(iris[, 1:4])\nbetween_var <- colSums((as.matrix(iris_var[, -1]) - overall_means)^2)\n\n# Within-class variance\nwithin_var <- sapply(iris[, 1:4], function(v) tapply(v, iris$Species, var))\nwithin_var <- colMeans(within_var)\n\n# Ratio\ndiscriminative_ratio <- between_var / within_var\ndiscriminative_ratio","id":23,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"discriminative-measures","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"library(ggplot2)\n\n# Compare Sepal.Width vs Petal.Length\nggplot(iris, aes(Sepal.Width, fill = Species)) +\n  geom_density(alpha = 0.5) +\n  labs(title = \"Distribution of Sepal.Width by Species\") +\n  theme_minimal()\n\nggplot(iris, aes(Petal.Length, fill = Species)) +\n  geom_density(alpha = 0.5) +\n  labs(title = \"Distribution of Petal.Length by Species\") +\n  theme_minimal()","id":24,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"sepal-length-plots","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"ggplot(iris_clustered, aes(Petal.Length, Petal.Width, color = cluster)) +\ngeom_point(size = 3) +\nlabs(title = \"K-Means Clustering of Iris Data (k = 3)\",\nsubtitle = \"Color shows cluster assignment\") +\ntheme_minimal()","id":25,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"iris-plots","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"fviz_cluster(km_iris, data = iris_data,\npalette = c(\"#2E9FDF\", \"#00AFBB\", \"#E7B800\"),\nellipse.type = \"euclid\", # Concentration ellipse\nstar.plot = FALSE, # Add segments from centroids to items\nrepel = TRUE, # Avoid label overplotting (slow)\nggtheme = theme_minimal()\n)","id":26,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"fviz_clust_iris","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"true","warnings":"false"}},{"code":"library(cluster)\nset.seed(42)\n\n# K-means result for k = 3 (from previous section)\nkm_iris <- kmeans(iris[, 1:4], centers = 3, nstart = 20)\n\n# Compute silhouette width\nsil_iris <- silhouette(km_iris$cluster, dist(iris[, 1:4]))\n\n# Display summary statistics\nsummary(sil_iris)","id":27,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"silhouette-iris","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"plot(sil_iris, border = NA, main = \"Silhouette Plot — Iris Dataset (k = 3)\")","id":28,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"Silhouette plot for K-Means clustering (k = 3) on the Iris dataset","fig-height":5,"fig-width":7,"label":"silhouette-plot","message":"true","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"sil_widths <- sapply(2:10, function(k) {\nkm <- kmeans(iris[, 1:4], centers = k, nstart = 20)\nss <- silhouette(km$cluster, dist(iris[, 1:4]))\nmean(ss[, \"sil_width\"])\n})\n\nsil_df <- data.frame(k = 2:10, Silhouette = sil_widths)\n\nlibrary(ggplot2)\nggplot(sil_df, aes(k, Silhouette)) +\ngeom_line(color = \"steelblue\", linewidth = 1.2) +\ngeom_point(size = 3, color = \"tomato\") +\nscale_x_continuous(breaks = 2:10) +\nlabs(title = \"Average Silhouette Width by Number of Clusters\",\nx = \"Number of clusters (k)\",\ny = \"Average Silhouette Width\") +\ntheme_minimal()\n\nlibrary(factoextra)\n\nfviz_nbclust(iris_data, kmeans, method = 'silhouette')","id":29,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"silhouette-elbow","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"library(cluster)\nlibrary(ggplot2)\n\n# Prepare data (use only numeric columns)\niris_data <- iris[, 1:4]\n\n# Apply k-medoids clustering (PAM = Partitioning Around Medoids)\nset.seed(123)\npam_result <- pam(iris_data, k = 3, metric = \"euclidean\")\n\n# Add cluster labels to data\niris_pam <- iris\niris_pam$cluster <- as.factor(pam_result$clustering)\n\n# Visualize clusters (Petal.Length vs Petal.Width)\nggplot(iris_pam, aes(Petal.Length, Petal.Width, color = cluster, shape = Species)) +\n  geom_point(size = 3, alpha = 0.7) +\n  geom_point(data = as.data.frame(pam_result$medoids), \n             aes(Petal.Length, Petal.Width), \n             color = \"black\", size = 5, shape = 8) +\n  labs(title = \"k-Medoids Clustering (PAM)\", \n       subtitle = \"Medoids shown as black stars\",\n       x = \"Petal Length\", y = \"Petal Width\") +\n  theme_minimal(base_size = 14)","id":30,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"k-Medoids clustering using the PAM algorithm on the iris dataset.","fig-height":5,"fig-width":7,"label":"pam-basic","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"set.seed(123)\nkmeans_result <- kmeans(iris_data, centers = 3, nstart = 20)\n\niris_compare <- iris\niris_compare$kmeans_cluster <- as.factor(kmeans_result$cluster)\niris_compare$kmedoids_cluster <- as.factor(pam_result$clustering)\n\n# Combine plots side by side\nlibrary(patchwork)\n\np1 <- ggplot(iris_compare, aes(Petal.Length, Petal.Width, color = kmeans_cluster)) +\n  geom_point(size = 3, alpha = 0.7) +\n  geom_point(data = as.data.frame(kmeans_result$centers),\n             aes(Petal.Length, Petal.Width),\n             color = \"black\", size = 5, shape = 8) +\n  labs(title = \"k-Means\", subtitle = \"Centroids (means) shown as black stars\") +\n  theme_minimal(base_size = 13)\n\np2 <- ggplot(iris_compare, aes(Petal.Length, Petal.Width, color = kmedoids_cluster)) +\n  geom_point(size = 3, alpha = 0.7) +\n  geom_point(data = as.data.frame(pam_result$medoids),\n             aes(Petal.Length, Petal.Width),\n             color = \"black\", size = 5, shape = 8) +\n  labs(title = \"k-Medoids (PAM)\", subtitle = \"Medoids (real points) shown as black stars\") +\n  theme_minimal(base_size = 13)\n\np1 + p2","id":31,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"Comparison between k-Means and k-Medoids clustering on the same dataset.","fig-height":5,"fig-width":7,"label":"kmeans-vs-pam","message":"true","out-height":"","out-width":"true","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(cluster)\nlibrary(ggplot2)\nlibrary(dplyr)\nlibrary(factoextra)\n\n# Load dataset\ndata(\"heart\")\n\n# Compute Gower distance for mixed data\ndiss_heart <- daisy(heart, metric = \"gower\")\n\n#-----------------------------\n# 1️⃣ Find optimal number of clusters using silhouette\n#-----------------------------\nsil_width <- c()\n\nfor (k in 2:6) {\n  pam_fit <- pam(diss_heart, k = k, diss = TRUE)\n  sil_width[k] <- pam_fit$silinfo$avg.width\n}\n\n# Find best k (maximum silhouette width)\nbest_k <- which.max(sil_width)\nbest_k\n\n# Plot silhouette curve\nplot(2:6, sil_width[2:6], type = \"b\", pch = 19,\n     xlab = \"Number of clusters (k)\",\n     ylab = \"Average silhouette width\",\n     main = \"Choosing optimal number of clusters (PAM, Gower)\")\nabline(v = best_k, lty = 2, col = \"red\")\ntext(best_k + 0.2, max(sil_width, na.rm = TRUE) - 0.01,\n     labels = paste(\"Best k =\", best_k), col = \"red\")","id":32,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"Finding optimal k and discriminative features in the Heart Disease dataset using PAM (Gower distance).","fig-height":5,"fig-width":7,"label":"pam-heart-optimal","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"set.seed(123)\npam_heart <- pam(diss_heart, k = best_k, diss = TRUE)\n\nheart_clustered <- heart %>%\n  mutate(Cluster = as.factor(pam_heart$clustering))","id":33,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"pam-heart-optimal-1","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}}];
+globalThis.qwebrCellDetails = [{"code":"x <- c(2, 4)\ny <- c(5, 8)\n\n# Euclidean distance\nd_E <- sqrt(sum((x - y)^2))\ncat(\"Euclidean distance using direct function:\", d_E, \"\\n\")\n\n# Another way\ndf <- data.frame(rbind(x, y))\ndist_euclidean <- dist(df, method = 'euclidean')\ncat(\"Euclidean distance using 'dist()' function:\", dist_euclidean, \"\\n\")\n\n# Using the package \"factoextra\" \nlibrary(factoextra)\ndist_euclidean_factoextra <- get_dist(df, method = 'euclidean')\ncat(\"Euclidean distance using 'factoextra::get_dist()' function:\", dist_euclidean_factoextra)","id":1,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"euclidean-distance","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"x <- c(2, 4)\ny <- c(5, 8)\n\n# Manhattan distance\nd_M <- sum(abs(x - y))\ncat(\"Manhattan distance using direct function:\", d_M, \"\\n\")\n\n# Another way\ndf <- data.frame(rbind(x, y))\ndist_manhattan <- dist(df, method = 'manhattan')\ncat(\"Manhattan distance using 'dist()' function:\", dist_manhattan, \"\\n\")\n\n# Using the package \"factoextra\" \nlibrary(factoextra)\ndist_manhattan_factoextra <- get_dist(df, method = 'manhattan')\ncat(\"Manhattan distance using 'factoextra::get_dist()' function:\", dist_manhattan_factoextra)","id":2,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"manhattan-distance","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"x <- c(2, 4)\ny <- c(5, 8)\n\n# Minkowski distance\nd_r <- function(x, y, r) {\n  (sum(abs(x - y)^r))^(1/r)\n}\ncat('Manhattan distance:', d_r(x, y, r = 1), 'that should be equal to d_M which is', d_M, '\\n')\ncat('Euclidean distance:', d_r(x, y, r = 2), 'that should be equal to d_E which is', d_E, '\\n')\ncat('Minkowski Distance', d_r(x, y, r = 5), '\\n')\ncat('Minkowski Distance', d_r(x, y, r = 10), '\\n')\n\n# Another way\ndf <- data.frame(rbind(x, y))\ndist_minkowski_5 <- dist(df, method = 'minkowski', p = 5)\ndist_minkowski_10 <- dist(df, method = 'minkowski', p = 10)\ncat(\"Minkowski distance using 'dist()' function (p = 5):\", dist_minkowski_5, '\\n')\ncat(\"Minkowski distance using 'dist()' function (p = 10):\", dist_minkowski_10, '\\n')\n\n\n# Using the package \"factoextra\" \nlibrary(factoextra)\ndist_minkowski_5_factoextra <- get_dist(df, method = 'manhattan', p = 5)\ncat(\"Minkowski distance using 'factoextra::get_dist()' function:\", dist_minkowski_5_factoextra, '\\n') \n\ndist_minkowski_10_factoextra <- get_dist(df, method = 'manhattan', p = 10)\ncat(\"Minkowski distance using 'factoextra::get_dist()' function:\", dist_minkowski_10_factoextra) ","id":3,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"manhattan-distance","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"x <- c(2, 4)\ny <- c(5, 8)\n\n# Chebyshev distance\nd_C <- max(abs(x - y))\ncat(\"Chebyshev distance using direct function:\", d_C, \"\\n\")\n\n# Another way\ndf <- data.frame(rbind(x, y))\ndist_chebyshev <- dist(df, method = 'maximum')\ncat(\"Chebyshev distance using 'dist()' function:\", dist_chebyshev, \"\\n\")\n\n# Using the package \"factoextra\" \nlibrary(factoextra)\ndist_chebyshev_factoextra <- get_dist(df, method = 'maximum')\ncat(\"Chebyshev distance using 'factoextra::get_dist()' function:\", dist_chebyshev_factoextra)","id":4,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"chebyshev-distance","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"x <- c(2, 4)\ny <- c(5, 8)\n\n# For Mahalanobis, we need covariance matrix (example with small dataset)\nX <- matrix(c(2, 4, 5, 8, 3, 7), ncol = 2, byrow = TRUE)\ncov_matrix <- cov(X)\nd_mahalanobis <- sqrt(t(x - y) %*% solve(cov_matrix) %*% (x - y))\nd_mahalanobis","id":5,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"mahalanobis-distance","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"library(lsa)  # for cosine similarity\n\nx <- c(1, 2, 3)\ny <- c(2, 4, 6)\nz <- c(3, 0, 0)\n\ncos_xy <- cosine(x, y)\ncos_xz <- cosine(x, z)\n\ncat(\"Cosine similarity (x,y):\", round(cos_xy, 3), \"\\n\")\ncat(\"Cosine similarity (x,z):\", round(cos_xz, 3), \"\\n\")\ncat(\"Cosine distance (x,y):\", round(1 - cos_xy, 3), \"\\n\")\ncat(\"Cosine distance (x,z):\", round(1 - cos_xz, 3), \"\\n\")","id":6,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"cosine-distance","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"# Two binary observations (e.g., presence/absence of features)\no1 <- c(1, 0, 1, 1, 0, 0, 1)\no2 <- c(1, 1, 0, 1, 0, 0, 0)\n\n# Compute the components\nf11 <- sum(o1 == 1 & o2 == 1)\nf00 <- sum(o1 == 0 & o2 == 0)\nf10 <- sum(o1 == 1 & o2 == 0)\nf01 <- sum(o1 == 0 & o2 == 1)\nd <- length(o1)\n\n# Similarity and distance\ns_SMC <- (f11 + f00) / d\nd_SMC <- (f01 + f10) / d  # same as 1 - s_SMC\n\ncat(\"f11 =\", f11, \"f00 =\", f00, \"f10 =\", f10, \"f01 =\", f01, \"\\n\")\ncat(\"Simple Matching Coefficient (similarity):\", round(s_SMC, 3), \"\\n\")\ncat(\"Simple Matching Distance:\", round(d_SMC, 3), \"\\n\")","id":7,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"smc-distance-example","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"# Example categorical data\nx <- c(\"Red\", \"Small\", \"Circle\")\ny <- c(\"Blue\", \"Small\", \"Square\")\n\n# ----- Hamming Distance -----\nhamming_distance <- sum(x != y)\nprint(paste(\"Hamming distance:\", hamming_distance))","id":8,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"hamming-distance","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"library(cluster)\nlibrary(tibble)\nlibrary(dplyr)\n\n# Create dataset\nsubjects <- tibble::tibble(\n  Subject_ID = c(\"001\", \"002\", \"003\", \"004\", \"005\"),\n  Age = c(28, 34, 22, 45, 30),                \n  Handedness = c(\"Right\", \"Left\", \"Right\", \"Right\", \"Left\"),  \n  Eye_Colour = c(\"Blue\", \"Blue\", \"Green\", \"Hazel\", \"Brown\"),  \n  Knows_Python = c(\"Yes\", \"No\", \"Yes\", \"No\", \"Yes\")           \n)\n\n# Convert character columns to factors (important for Gower)\nsubjects <- subjects %>%\n  mutate(across(where(is.character), as.factor))\n\n# Compute Gower distance \ngower_dist <- daisy(subjects[, -1], metric = \"gower\")  # exclude Subject_ID\n\nprint(round(as.matrix(gower_dist), 3))","id":9,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"gower-mixed-fixed","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"library(cluster)\nlibrary(factoextra)\nlibrary(dplyr)\nlibrary(tibble)\n\nsubjects <- tibble(\n  Subject_ID = c(\"001\", \"002\", \"003\", \"004\", \"005\"),\n  Age = c(28, 34, 22, 45, 30),\n  Handedness = as.factor(c(\"Right\", \"Left\", \"Right\", \"Right\", \"Left\")),\n  Eye_Colour = as.factor(c(\"Blue\", \"Blue\", \"Green\", \"Hazel\", \"Brown\")),\n  Knows_Python = as.factor(c(\"Yes\", \"No\", \"Yes\", \"No\", \"Yes\"))\n)\nsubjects <- subjects %>%\n  mutate(across(where(is.character), as.factor))\ngower_dist <- daisy(subjects[, -1], metric = \"gower\")\n\n# Visualize matrix\nlibrary(factoextra)\nfviz_dist(gower_dist) ","id":10,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"Visualization of Gower distance matrix using factoextra.","fig-height":5,"fig-width":7,"label":"visualize-gower","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"set.seed(42)\n\n# Generate synthetic 2D data\nx <- rbind(\n  matrix(rnorm(100, mean = 0, sd = 0.3), ncol = 2),\n  matrix(rnorm(100, mean = 3, sd = 0.3), ncol = 2)\n)\ncolnames(x) <- c(\"x\", \"y\")\n\n# Apply k-means with 2 clusters\nkm <- kmeans(x, centers = 2, nstart = 20)\n\n# Visualize results\nlibrary(ggplot2)\ndata <- data.frame(x, cluster = factor(km$cluster))\nggplot(data, aes(x, y, color = cluster)) +\n  geom_point(size = 3) +\n  geom_point(data = as.data.frame(km$centers), aes(x, y), color = \"black\", size = 5, shape = 8) +\n  labs(title = \"K-Means Clustering\",\n       subtitle = \"Centroids shown as black stars\") +\n  theme_minimal()","id":11,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"kmeans-example","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"library(ggplot2)\nlibrary(dplyr)\n\nset.seed(42)\nx <- rnorm(1000) / 2\ny <- c(rnorm(500) + 5, rnorm(500)) / 10\ndata <- data.frame(x, y)\n\nggplot(data, aes(x, y)) +\n  geom_point(size = 1, color = \"black\") +\n  theme_minimal(base_size = 14) +\n  labs(title = \"Original Data (different scales)\")","id":12,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"Original data (different scales)","fig-height":5,"fig-width":7,"label":"kmeans-step1","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"true","warnings":"false"}},{"code":"km_raw <- kmeans(data, centers = 2)\ndata$cluster_raw <- as.factor(km_raw$cluster)\n\nggplot(data, aes(x, y, color = cluster_raw)) +\n  geom_point(size = 1) +\n  scale_color_manual(values = c(\"tomato\", \"steelblue\")) +\n  theme_minimal(base_size = 14) +\n  labs(title = \"Non-normalized K-Means\")","id":13,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"Non-normalized K-Means clustering","fig-height":5,"fig-width":7,"label":"kmeans-step2","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"normalize <- function(v) (v - min(v)) / (max(v) - min(v))\ndata_norm <- data %>% mutate(xn = normalize(x), yn = normalize(y))\nkm_norm <- kmeans(data_norm[, c(\"xn\", \"yn\")], centers = 2)\ndata_norm$cluster_norm <- as.factor(km_norm$cluster)\n\nggplot(data_norm, aes(xn, yn, color = cluster_norm)) +\n  geom_point(size = 1) +\n  scale_color_manual(values = c(\"tomato\", \"steelblue\")) +\n  theme_minimal(base_size = 14) +\n  labs(title = \"Normalized (0–1) K-Means\")","id":14,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"Normalized (0–1) K-Means clustering","fig-height":5,"fig-width":7,"label":"kmeans-step3","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"standardize <- function(v) (v - mean(v)) / sd(v)\ndata_std <- data %>% mutate(xs = standardize(x), ys = standardize(y))\nkm_std <- kmeans(data_std[, c(\"xs\", \"ys\")], centers = 2)\ndata_std$cluster_std <- as.factor(km_std$cluster)\n\nggplot(data_std, aes(xs, ys, color = cluster_std)) +\n  geom_point(size = 1) +\n  scale_color_manual(values = c(\"tomato\", \"steelblue\")) +\n  theme_minimal(base_size = 14) +\n  labs(title = \"Standardized (Z-score) K-Means\")","id":15,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"Standardized (Z-score) K-Means clustering","fig-height":5,"fig-width":7,"label":"kmeans-step4","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"# Load dataset\ndata(\"iris\")\n\n# Select only numeric features for clustering\niris_data <- iris[, 1:4]","id":16,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"iris-prepare","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"library(ggplot2)\n\n# Compute WSS for k = 1:10\n\nwss <- sapply(1:10, function(k) {\nkmeans(iris_data, centers = k, nstart = 20)$tot.withinss\n})\n\n# Create Elbow plot\n\nelbow_df <- data.frame(k = 1:10, WSS = wss)\n\nggplot(elbow_df, aes(k, WSS)) +\ngeom_line(color = \"steelblue\", linewidth = 1.2) +\ngeom_point(size = 3, color = \"tomato\") +\nscale_x_continuous(breaks = 1:10) +\nlabs(title = \"Elbow Method — Iris Dataset\",\nx = \"Number of clusters (k)\",\ny = \"Total Within-Cluster Sum of Squares (WSS)\") +\ntheme_minimal()","id":17,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"iris-elbow","message":"false","out-height":"","out-width":"90%","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"library(factoextra)\n\nfviz_nbclust(iris_data, kmeans, method = 'wss') + \n  geom_vline(xintercept = 3, linetype = 2) +\nlabs(\ntitle = \"Elbow Method for Determining Optimal k\",\nsubtitle = \"Dashed line indicates the chosen number of clusters (k = 4)\"\n)","id":18,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"elbow-fviz","message":"true","messages":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"set.seed(42)\nkm_iris <- kmeans(iris_data, centers = 3, nstart = 20)\n\n# Print the results\nprint(km_iris)","id":19,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"iris-kmeans","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"# Add cluster assignments to the dataset\niris_clustered <- cbind(iris, cluster = factor(km_iris$cluster))\n\n# Show first few results\nhead(iris_clustered)","id":20,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"iris-kmeans","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"# Total, within, and between-cluster sums of squares\n\nTSS <- sum(scale(iris_data, scale = FALSE)^2)\nWSS <- km_iris$tot.withinss\nBSS <- TSS - WSS\nratio <- BSS / TSS\n\ncat(\"TSS:\", round(TSS, 2), \"\\n\")\ncat(\"WSS:\", round(WSS, 2), \"\\n\")\ncat(\"BSS:\", round(BSS, 2), \"\\n\")\ncat(\"Explained variance (BSS/TSS):\", round(ratio, 3), \"\\n\")","id":21,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"iris-measures","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"library(GGally)\nggpairs(iris, aes(color = Species))","id":22,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"eda","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"# Compute ratio of between- to within-group variance for each feature\nlibrary(dplyr)\n\niris_var <- iris %>%\n  group_by(Species) %>%\n  summarise(across(where(is.numeric), mean))\n\n# Between-class variance\noverall_means <- colMeans(iris[, 1:4])\nbetween_var <- colSums((as.matrix(iris_var[, -1]) - overall_means)^2)\n\n# Within-class variance\nwithin_var <- sapply(iris[, 1:4], function(v) tapply(v, iris$Species, var))\nwithin_var <- colMeans(within_var)\n\n# Ratio\ndiscriminative_ratio <- between_var / within_var\ndiscriminative_ratio","id":23,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"discriminative-measures","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"library(ggplot2)\n\n# Compare Sepal.Width vs Petal.Length\nggplot(iris, aes(Sepal.Width, fill = Species)) +\n  geom_density(alpha = 0.5) +\n  labs(title = \"Distribution of Sepal.Width by Species\") +\n  theme_minimal()\n\nggplot(iris, aes(Petal.Length, fill = Species)) +\n  geom_density(alpha = 0.5) +\n  labs(title = \"Distribution of Petal.Length by Species\") +\n  theme_minimal()","id":24,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"sepal-length-plots","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"ggplot(iris_clustered, aes(Petal.Length, Petal.Width, color = cluster)) +\ngeom_point(size = 3) +\nlabs(title = \"K-Means Clustering of Iris Data (k = 3)\",\nsubtitle = \"Color shows cluster assignment\") +\ntheme_minimal()","id":25,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"iris-plots","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"fviz_cluster(km_iris, data = iris_data,\npalette = c(\"#2E9FDF\", \"#00AFBB\", \"#E7B800\"),\nellipse.type = \"euclid\", # Concentration ellipse\nstar.plot = FALSE, # Add segments from centroids to items\nrepel = TRUE, # Avoid label overplotting (slow)\nggtheme = theme_minimal()\n)","id":26,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"fviz_clust_iris","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"true","warnings":"false"}},{"code":"library(cluster)\nset.seed(42)\n\n# K-means result for k = 3 (from previous section)\nkm_iris <- kmeans(iris[, 1:4], centers = 3, nstart = 20)\n\n# Compute silhouette width\nsil_iris <- silhouette(km_iris$cluster, dist(iris[, 1:4]))\n\n# Display summary statistics\nsummary(sil_iris)","id":27,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"silhouette-iris","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"plot(sil_iris, border = NA, main = \"Silhouette Plot — Iris Dataset (k = 3)\")","id":28,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"Silhouette plot for K-Means clustering (k = 3) on the Iris dataset","fig-height":5,"fig-width":7,"label":"silhouette-plot","message":"true","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"sil_widths <- sapply(2:10, function(k) {\nkm <- kmeans(iris[, 1:4], centers = k, nstart = 20)\nss <- silhouette(km$cluster, dist(iris[, 1:4]))\nmean(ss[, \"sil_width\"])\n})\n\nsil_df <- data.frame(k = 2:10, Silhouette = sil_widths)\n\nlibrary(ggplot2)\nggplot(sil_df, aes(k, Silhouette)) +\ngeom_line(color = \"steelblue\", linewidth = 1.2) +\ngeom_point(size = 3, color = \"tomato\") +\nscale_x_continuous(breaks = 2:10) +\nlabs(title = \"Average Silhouette Width by Number of Clusters\",\nx = \"Number of clusters (k)\",\ny = \"Average Silhouette Width\") +\ntheme_minimal()\n\nlibrary(factoextra)\n\nfviz_nbclust(iris_data, kmeans, method = 'silhouette')","id":29,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"silhouette-elbow","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"library(cluster)\nlibrary(ggplot2)\n\niris_data <- iris[, 1:4]\n\n# Apply k-medoids clustering (PAM = Partitioning Around Medoids)\nset.seed(123)\npam_result <- pam(iris_data, k = 3, metric = \"euclidean\")\n\niris_pam <- iris\niris_pam$cluster <- as.factor(pam_result$clustering)\n\n# Visualize clusters (Petal.Length vs Petal.Width)\nggplot(iris_pam, aes(Petal.Length, Petal.Width, color = cluster, shape = Species)) +\n  geom_point(size = 3, alpha = 0.7) +\n  geom_point(data = as.data.frame(pam_result$medoids), \n             aes(Petal.Length, Petal.Width), \n             color = \"black\", size = 5, shape = 8) +\n  labs(title = \"k-Medoids Clustering (PAM)\", \n       subtitle = \"Medoids shown as black stars\",\n       x = \"Petal Length\", y = \"Petal Width\") +\n  theme_minimal(base_size = 14)","id":30,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"k-Medoids clustering using the PAM algorithm on the iris dataset.","fig-height":5,"fig-width":7,"label":"pam-basic","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"fviz_cluster(pam_result, data = iris_pm,\n             palette = c(\"#2E9FDF\", \"#00AFBB\", \"#E7B800\"),\n             ellipse.type = \"euclid\", # Concentration ellipse\n             star.plot = FALSE, # Add segments from centroids to items\n             repel = TRUE, # Avoid label overplotting (slow)\n             ggtheme = theme_minimal()\n)       ","id":31,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"k-Medoids clustering using the PAM algorithm via PCA.","fig-height":5,"fig-width":7,"label":"fviz_PCA","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"set.seed(123)\nkmeans_result <- kmeans(iris_data, centers = 3, nstart = 20)\n\niris_compare <- iris\niris_compare$kmeans_cluster <- as.factor(kmeans_result$cluster)\niris_compare$kmedoids_cluster <- as.factor(pam_result$clustering)\n\n# Combine plots side by side\nlibrary(patchwork)\n\np1 <- ggplot(iris_compare, aes(Petal.Length, Petal.Width, color = kmeans_cluster)) +\n  geom_point(size = 3, alpha = 0.7) +\n  geom_point(data = as.data.frame(kmeans_result$centers),\n             aes(Petal.Length, Petal.Width),\n             color = \"black\", size = 5, shape = 8) +\n  labs(title = \"k-Means\", subtitle = \"Centroids (means) shown as black stars\") +\n  theme_minimal(base_size = 13)\n\np2 <- ggplot(iris_compare, aes(Petal.Length, Petal.Width, color = kmedoids_cluster)) +\n  geom_point(size = 3, alpha = 0.7) +\n  geom_point(data = as.data.frame(pam_result$medoids),\n             aes(Petal.Length, Petal.Width),\n             color = \"black\", size = 5, shape = 8) +\n  labs(title = \"k-Medoids (PAM)\", subtitle = \"Medoids (real points) shown as black stars\") +\n  theme_minimal(base_size = 13)\n\np1 + p2","id":32,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"Comparison between k-Means and k-Medoids clustering on the same dataset.","fig-height":5,"fig-width":7,"label":"kmeans-vs-pam","message":"true","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(cluster)\nlibrary(ggplot2)\nlibrary(dplyr)\nlibrary(factoextra)\n\n# Load dataset\ndata(\"heart\")","id":33,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"Finding optimal k and discriminative features in the Heart Disease dataset using PAM (Gower distance).","fig-height":5,"fig-width":7,"label":"pam-heart-optimal","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"false"}}];
 
 </script>
 <script type="module">
@@ -1903,9 +1903,14 @@ window.Quarto = {
   <li><a href="#measures-of-cluster-quality" id="toc-measures-of-cluster-quality" class="nav-link" data-scroll-target="#measures-of-cluster-quality"><span class="header-section-number">10.3.1.2</span> Measures of Cluster Quality</a></li>
   <li><a href="#analysis-of-iris-dataset" id="toc-analysis-of-iris-dataset" class="nav-link" data-scroll-target="#analysis-of-iris-dataset"><span class="header-section-number">10.3.1.3</span> Analysis of <code>iris</code> Dataset</a></li>
   </ul></li>
-  <li><a href="#k-medoids-clustering" id="toc-k-medoids-clustering" class="nav-link" data-scroll-target="#k-medoids-clustering"><span class="header-section-number">10.3.2</span> <span class="math inline">\(k\)</span>-Medoids Clustering</a>
+  <li><a href="#k-medoids-clustering" id="toc-k-medoids-clustering" class="nav-link" data-scroll-target="#k-medoids-clustering"><span class="header-section-number">10.3.2</span> <span class="math inline">\(K\)</span>-Medoids Clustering</a>
   <ul class="collapse">
-  <li><a href="#analysis-of-heart-disease-dataset" id="toc-analysis-of-heart-disease-dataset" class="nav-link" data-scroll-target="#analysis-of-heart-disease-dataset"><span class="header-section-number">10.3.2.1</span> Analysis of Heart Disease Dataset</a></li>
+  <li><a href="#pam-algorithm" id="toc-pam-algorithm" class="nav-link" data-scroll-target="#pam-algorithm"><span class="header-section-number">10.3.2.1</span> PAM Algorithm</a></li>
+  <li><a href="#example" id="toc-example" class="nav-link" data-scroll-target="#example"><span class="header-section-number">10.3.2.2</span> Example</a></li>
+  <li><a href="#implementation-pam-in-r" id="toc-implementation-pam-in-r" class="nav-link" data-scroll-target="#implementation-pam-in-r"><span class="header-section-number">10.3.2.3</span> Implementation PAM in R</a></li>
+  <li><a href="#estimating-the-optimal-number-of-clusters" id="toc-estimating-the-optimal-number-of-clusters" class="nav-link" data-scroll-target="#estimating-the-optimal-number-of-clusters"><span class="header-section-number">10.3.2.4</span> Estimating the optimal number of clusters</a></li>
+  <li><a href="#example-of-pam-in-r" id="toc-example-of-pam-in-r" class="nav-link" data-scroll-target="#example-of-pam-in-r"><span class="header-section-number">10.3.2.5</span> Example of PAM in R</a></li>
+  <li><a href="#exercise" id="toc-exercise" class="nav-link" data-scroll-target="#exercise"><span class="header-section-number">10.3.2.6</span> Exercise</a></li>
   </ul></li>
   </ul></li>
   </ul>
@@ -3307,14 +3312,18 @@ Tip
 </section>
 </section>
 <section id="k-medoids-clustering" class="level3" data-number="10.3.2">
-<h3 data-number="10.3.2" class="anchored" data-anchor-id="k-medoids-clustering"><span class="header-section-number">10.3.2</span> <span class="math inline">\(k\)</span>-Medoids Clustering</h3>
+<h3 data-number="10.3.2" class="anchored" data-anchor-id="k-medoids-clustering"><span class="header-section-number">10.3.2</span> <span class="math inline">\(K\)</span>-Medoids Clustering</h3>
 <p>The <span class="math inline">\(k\)</span>-medoids algorithm is a partitioning clustering method closely related to <span class="math inline">\(k\)</span>-means, but instead of using the <em>mean (centroid)</em> of points to represent a cluster, it uses an <em>actual observation (medoid)</em> — the most centrally located data point within that cluster.</p>
 <p>Formally, a medoid is the point whose average dissimilarity to all other points in the cluster is minimal. i.e, <span class="math display">\[
-m_j = \arg\min_{x_i \in C_j} \sum_{x_k \in C_j} d(x_i,x_k)
-\]</span> where: - <span class="math inline">\(C_j\)</span> is the set of points assigned to cluster <span class="math inline">\(j\)</span> - <span class="math inline">\(d(x_i,x_k)\)</span> is a chosen distance or dissimilarity measure (e.g., Euclidean, Manhattan, etc.)</p>
-<p><strong>Algorithm (PAM — Partitioning Around Medoids)</strong></p>
-<p>The most common implementation of k-medoids is the PAM algorithm, which works as follows: 1. <strong>Initialize:</strong> Select <span class="math inline">\(k\)</span> representative objects (medoids) randomly from the dataset. 2. <strong>Assign:</strong> Assign each remaining point to the nearest medoid based on the chosen distance metric. 3. <strong>Update:</strong> For each cluster, try swapping the medoid with another point from the same cluster and compute the total cost: <span class="math display">\[
-\text{Cost} = \sum_{i=1}^n \min_j d(x_i, m_j)
+m_k = \arg\min_{\mathbf{x}_i \in C_k} \sum_{\mathbf{x}_j \in C_k} d(\mathbf{x}_i,\mathbf{x}_j)
+\]</span> where <span class="math inline">\(C_k\)</span> is the set of points assigned to cluster <span class="math inline">\(k\)</span>, and <span class="math inline">\(d(\mathbf{x}_i,\mathbf{x}_j)\)</span> is a chosen distance or dissimilarity measure (e.g., Euclidean, Manhattan, etc.)</p>
+<p><span class="math inline">\(K\)</span>-medoid is a robust alternative to <span class="math inline">\(K\)</span>-means clustering. This means that, the algorithm of clusters to be generated (like in <span class="math inline">\(K\)</span>-means clustering). A useful approach to determine the optimal number of clusters is the <em>silhouette</em> method.</p>
+<p>The most common <span class="math inline">\(K\)</span>-medoids clustering methods is the PAM (Partitioning Around Medoids) algorithm <span class="citation" data-cites="kaufman1990">(<a href="#ref-kaufman1990" role="doc-biblioref">Kaufman and Rousseeuw 1990</a>)</span></p>
+<section id="pam-algorithm" class="level4" data-number="10.3.2.1">
+<h4 data-number="10.3.2.1" class="anchored" data-anchor-id="pam-algorithm"><span class="header-section-number">10.3.2.1</span> PAM Algorithm</h4>
+<p>The PAM algorithm is based on the search for <span class="math inline">\(K\)</span> representative objects or medoids among the observations of the data set. After finding a set of <span class="math inline">\(K\)</span> medoids, clusters are constructed by assigning each observation to the nearest medoid. Next, each selected medoid <span class="math inline">\(m\)</span> and each non-medoid data point are swapped and the objective function is computed. The objective function corresponds to the sum of the dissimilarities of all objects to their nearest medoid. The <em>SWAP</em> step attemps to improve the quality of the clustering by exchanging selected objects (medoids) and non-selected objects. If the objective function can be reduced by interchanging a selected object with an unselected object, then the swap is carried out. This is continued until the objective function can no longer be decreased. The goal is to find <span class="math inline">\(k\)</span> representative objects which minimize the sum of the dissimilarities of the observations to their closest representative object.</p>
+<p>In summary, PAM algorithm is: 1. <strong>Initialize:</strong> Select <span class="math inline">\(k\)</span> representative objects (medoids) randomly from the dataset. 2. Calculate the distance (dissimilarity) matrix if it was not provided. 2. <strong>Assign:</strong> Assign each remaining point to the nearest medoid based on the chosen distance metric. 3. <strong>Update:</strong> For each cluster, try swapping the medoid with another point from the same cluster and compute the total cost: <span class="math display">\[
+\text{Cost} = \sum_{i=1}^n \min_k d(\mathbf{x}_i, m_k)
 \]</span> If a swap reduces the cost, keep it. 4. <strong>Iterate:</strong> Repeat assignment and update steps until the medoids no longer change.</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -3326,22 +3335,473 @@ Important
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The <span class="math inline">\(k\)</span>-medoids algorithm minimizes a <strong>sum of dissimilarities</strong>, not squared distances. Thus, the cluster representative is always a real observation, which makes the method robust when data contain noise, outliers, or mixed types.</p>
+<p>The <span class="math inline">\(K\)</span>-medoids algorithm minimizes a <strong>sum of dissimilarities</strong>, not squared distances. Thus, the cluster representative is always a real observation, which makes the method robust when data contain noise, outliers, or mixed types.</p>
 </div>
 </div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The PAM algorithm works with a matrix of dissimilarity, and to compute this matrix the algorithm can use two metrics: 1. The euclidean distance 2. The Manhattan distance</p>
+<p>In practice, you should get similar results most of time, using either euclidean or Manhattan distance. If the dataset contains outliers, Manhattan distance should give more robust results, whereas euclidean would be influenced by unusual values.</p>
+</div>
+</div>
+</section>
+<section id="example" class="level4" data-number="10.3.2.2">
+<h4 data-number="10.3.2.2" class="anchored" data-anchor-id="example"><span class="header-section-number">10.3.2.2</span> Example</h4>
+<p>Consider the following example | | X | Y | |:-:|:-:|:-:| | 1 | 9 | 3 | | 2 | 8 | 4 | | 3 | 4 | 6 | | 4 | 8 | 5 | | 5 | 2 | 5 | | 6 | 3 | 8 | | 7 | 8 | 8 | | 8 | 4 | 4 | | 9 | 10 | 4 | | 10 | 9 | 6 |</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Dataset (same as your table)</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>points <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tibble</span>(</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="at">ID =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>,</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="at">X =</span> <span class="fu">c</span>(<span class="dv">9</span>, <span class="dv">8</span>, <span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">4</span>, <span class="dv">10</span>, <span class="dv">9</span>),</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="at">Y =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">8</span>, <span class="dv">8</span>, <span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">6</span>)</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>points</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 3
+      ID     X     Y
+   &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;
+ 1     1     9     3
+ 2     2     8     4
+ 3     3     4     6
+ 4     4     8     5
+ 5     5     2     5
+ 6     6     3     8
+ 7     7     5     8
+ 8     8     4     4
+ 9     9    10     4
+10    10     9     6</code></pre>
+</div>
+</div>
+<p>Assume <span class="math inline">\(k = 2\)</span> and use the specified points (<span class="math inline">\(m_1 = (4,6)\)</span>) and <span class="math inline">\(m_2 = (9,3)\)</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Define medoid points</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>medoids <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="at">X =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">6</span>),</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="at">Y =</span> <span class="fu">c</span>(<span class="dv">9</span>, <span class="dv">3</span>),</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="at">label =</span> <span class="fu">c</span>(<span class="st">"Medoid 1"</span>, <span class="st">"Medoid 2"</span>)</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Scatter plot</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(points, <span class="fu">aes</span>(<span class="at">x =</span> X, <span class="at">y =</span> Y)) <span class="sc">+</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_point</span>(<span class="at">data =</span> medoids, <span class="fu">aes</span>(<span class="at">x =</span> X, <span class="at">y =</span> Y, <span class="at">color =</span> label), <span class="at">size =</span> <span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> ID), <span class="at">vjust =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a><span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Medoid 1"</span> <span class="ot">=</span> <span class="st">"red"</span>, <span class="st">"Medoid 2"</span> <span class="ot">=</span> <span class="st">"blue"</span>)) <span class="sc">+</span></span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a><span class="fu">labs</span>(</span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a><span class="at">title =</span> <span class="st">"K-Medoids Example Dataset"</span>,</span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a><span class="at">subtitle =</span> <span class="st">"Initial medoids highlighted in red and blue"</span>,</span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a><span class="at">x =</span> <span class="st">"X coordinate"</span>,</span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a><span class="at">y =</span> <span class="st">"Y coordinate"</span>,</span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a><span class="at">color =</span> <span class="st">"Medoids"</span></span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a><span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="clustring_files/figure-html/example_PAM_plot-1.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>Scatter plot of the k-medoids example dataset with initial medoids highlighted.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Let consider we use <em>Manhattan distance</em> because it is easy to compute and commonly used with <span class="math inline">\(K\)</span>-medoids.</p>
+<p><strong>Step 1</strong> – <strong>Assign each point to the nearest medoid</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: right;">ID</th>
+<th style="text-align: right;">X</th>
+<th style="text-align: right;">Y</th>
+<th style="text-align: right;">d to (4,6)</th>
+<th style="text-align: right;">d to (9,3)</th>
+<th style="text-align: center;">Assign</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: center;">C2</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: center;">C2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: center;">C1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: center;">C2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: center;">C1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: center;">C1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: center;">C1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: center;">C1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: center;">C2</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: center;">C2</td>
+</tr>
+</tbody>
+</table>
+<p>Clusters after assignment is:</p>
+<ul>
+<li><span class="math inline">\(C_1(m_1) = \{3,5,6,7,8\}\)</span> (around <span class="math inline">\((4,6)\)</span>)</li>
+<li><span class="math inline">\(C_2(m_2) = \{1,2,4,9,10\}\)</span> (around <span class="math inline">\((9,3)\)</span>)</li>
+</ul>
+<p>The total cost (sum of within-cluster distances) is <span class="math display">\[
+C_1 + C_2 = 9 + 11 = 20
+\]</span> where: - <span class="math inline">\(C_1 = 0 + 3 + 3 + 3 + 2  = 11\)</span> - <span class="math inline">\(C_2 = 0 + 2 + 2 + 2 + 3 = 9\)</span></p>
+<p>** Step2** – Update (try swaps)</p>
+<p>We evaluate each point in a cluster as a potential medoid, computing the sum of Manhattan distances to all other points in that cluster.</p>
+<p><strong>Cluster C1 = {3,5,6,7,8}</strong> | Candidate (ID) | Sum of distances | |:————–:|:—————-:| | 3 (4,6) | <strong>11 ← best</strong> | | 5 (2,5) | 16 | | 6 (3,8) | 14 | | 7 (5,8) | 16 | | 8 (4,4) | 15 |</p>
+<p><strong>Cluster C2 = {1,2,4,9,10}</strong> | Candidate (ID) | Sum of distances | |:————–:|:—————-:| | 1 (9,3) | 10 | | 2 (8,4) | <strong>8 ← best</strong> | | 4 (8,5) | 9 | | 9 (10,4) | 10 | | 10 (9,6) | 11 |</p>
+<p>Update result:</p>
+<ul>
+<li>Medoid for <span class="math inline">\(C_1\)</span> stays ID 3 (<span class="math inline">\((4,6)\)</span>)</li>
+<li>Medoid for <span class="math inline">\(C_2\)</span> changes to ID 2 (<span class="math inline">\((8,4)\)</span>) which it improves the total cost.</li>
+</ul>
+<p>After updating the medoids, the next step is to recompute the total cost (sum of distances from each point to its nearest medoid).</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: right;">ID</th>
+<th style="text-align: right;">X</th>
+<th style="text-align: right;">Y</th>
+<th style="text-align: right;">d to (4,6)</th>
+<th style="text-align: right;">d to (8,4)</th>
+<th style="text-align: right;">min d</th>
+<th style="text-align: center;">Assign</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: center;">C2</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: center;">C2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: center;">C1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: center;">C2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: center;">C1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: center;">C1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: center;">C1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: center;">C1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: center;">C2</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: center;">C2</td>
+</tr>
+</tbody>
+</table>
+<p>The total cost (sum of within-cluster distances) is <span class="math display">\[
+C_1 + C_2 = (0+1+3+3+3+2) + (2+0+1+2+3) = 19
+\]</span></p>
+<p>the following R code helps to do the computations.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Data</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>pts <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tibble</span>(</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">ID =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>,</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">X  =</span> <span class="fu">c</span>(<span class="dv">9</span>,<span class="dv">8</span>,<span class="dv">4</span>,<span class="dv">8</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">4</span>,<span class="dv">10</span>,<span class="dv">9</span>),</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">Y  =</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">6</span>,<span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">8</span>,<span class="dv">8</span>,<span class="dv">4</span>, <span class="dv">4</span>,<span class="dv">6</span>)</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>manhattan <span class="ot">&lt;-</span> <span class="cf">function</span>(a, b) <span class="fu">sum</span>(<span class="fu">abs</span>(a <span class="sc">-</span> b))</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Helper to compute total cost for given medoids</span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>total_cost <span class="ot">&lt;-</span> <span class="cf">function</span>(m1, m2) {</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>  pts <span class="sc">%&gt;%</span></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rowwise</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>      <span class="at">d1 =</span> <span class="fu">manhattan</span>(<span class="fu">c</span>(X, Y), m1),</span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>      <span class="at">d2 =</span> <span class="fu">manhattan</span>(<span class="fu">c</span>(X, Y), m2),</span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>      <span class="at">mind =</span> <span class="fu">min</span>(d1, d2),</span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>      <span class="at">Assign =</span> <span class="fu">if_else</span>(d1 <span class="sc">&lt;=</span> d2, <span class="st">"C1"</span>, <span class="st">"C2"</span>)</span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span></span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ungroup</span>()</span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Initial medoids: (4,6), (9,3)</span></span>
+<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a>init_tbl <span class="ot">&lt;-</span> <span class="fu">total_cost</span>(<span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">6</span>), <span class="fu">c</span>(<span class="dv">9</span>,<span class="dv">3</span>))</span>
+<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a>sum_init <span class="ot">&lt;-</span> <span class="fu">sum</span>(init_tbl<span class="sc">$</span>mind)</span>
+<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Updated medoids: (4,6), (8,4)</span></span>
+<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a>upd_tbl  <span class="ot">&lt;-</span> <span class="fu">total_cost</span>(<span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">6</span>), <span class="fu">c</span>(<span class="dv">8</span>,<span class="dv">4</span>))</span>
+<span id="cb20-31"><a href="#cb20-31" aria-hidden="true" tabindex="-1"></a>sum_upd  <span class="ot">&lt;-</span> <span class="fu">sum</span>(upd_tbl<span class="sc">$</span>mind)</span>
+<span id="cb20-32"><a href="#cb20-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-33"><a href="#cb20-33" aria-hidden="true" tabindex="-1"></a><span class="fu">list</span>(</span>
+<span id="cb20-34"><a href="#cb20-34" aria-hidden="true" tabindex="-1"></a>  <span class="at">initial_total =</span> sum_init,</span>
+<span id="cb20-35"><a href="#cb20-35" aria-hidden="true" tabindex="-1"></a>  <span class="at">updated_total =</span> sum_upd,</span>
+<span id="cb20-36"><a href="#cb20-36" aria-hidden="true" tabindex="-1"></a>  <span class="at">initial_assignments =</span> init_tbl <span class="sc">%&gt;%</span> <span class="fu">select</span>(ID, X, Y, d1, d2, mind, Assign),</span>
+<span id="cb20-37"><a href="#cb20-37" aria-hidden="true" tabindex="-1"></a>  <span class="at">updated_assignments =</span> upd_tbl <span class="sc">%&gt;%</span> <span class="fu">select</span>(ID, X, Y, d1, d2, mind, Assign)</span>
+<span id="cb20-38"><a href="#cb20-38" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$initial_total
+[1] 21
+
+$updated_total
+[1] 19
+
+$initial_assignments
+# A tibble: 10 × 7
+      ID     X     Y    d1    d2  mind Assign
+   &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; 
+ 1     1     9     3     8     0     0 C2    
+ 2     2     8     4     6     2     2 C2    
+ 3     3     4     6     0     8     0 C1    
+ 4     4     8     5     5     3     3 C2    
+ 5     5     2     5     3     9     3 C1    
+ 6     6     3     8     3    11     3 C1    
+ 7     7     5     8     3     9     3 C1    
+ 8     8     4     4     2     6     2 C1    
+ 9     9    10     4     8     2     2 C2    
+10    10     9     6     5     3     3 C2    
+
+$updated_assignments
+# A tibble: 10 × 7
+      ID     X     Y    d1    d2  mind Assign
+   &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; 
+ 1     1     9     3     8     2     2 C2    
+ 2     2     8     4     6     0     0 C2    
+ 3     3     4     6     0     6     0 C1    
+ 4     4     8     5     5     1     1 C2    
+ 5     5     2     5     3     7     3 C1    
+ 6     6     3     8     3     9     3 C1    
+ 7     7     5     8     3     7     3 C1    
+ 8     8     4     4     2     4     2 C1    
+ 9     9    10     4     8     2     2 C2    
+10    10     9     6     5     3     3 C2    </code></pre>
+</div>
+</div>
+<p>Since there is an improvement in the total cost, we continue with the new medoids: <span class="math inline">\((4,6)\)</span> and <span class="math inline">\((8,4)\)</span>.</p>
+<p><strong>Exercise</strong> Continue this process and find the best medoids.</p>
+</section>
+<section id="implementation-pam-in-r" class="level4" data-number="10.3.2.3">
+<h4 data-number="10.3.2.3" class="anchored" data-anchor-id="implementation-pam-in-r"><span class="header-section-number">10.3.2.3</span> Implementation PAM in R</h4>
+<p>The function <code>cluster::pam()</code> and <code>fpc::pamk()</code> can be used compute PAM.</p>
+<p>The function <code>pamk()</code> does not require a user to decide the number of clusters <span class="math inline">\(K\)</span>.</p>
+<p>The simplified format of <code>pam()</code> is</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pam</span>(x, k, <span class="at">metric =</span> <span class="st">'euclidean'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>where:</p>
+<ul>
+<li><code>x</code>: possible value includes: numeric data matrix or numeric data frame, or dissimilarity matrix – in this case <code>x</code> is typically the output of <code>daisy()</code> or <code>dist()</code>.</li>
+<li><code>k</code>: the number of clusters</li>
+<li><code>metric</code>: the distance matrix to be used. Available options are <code>"euclidean"</code> and <code>"manhattan"</code>.</li>
+<li><code>stand</code>: logical value; if <code>TRUE</code>, the variables (columns) in <code>x</code> are standardized before calculating the dissilarities. Ignored when <code>x</code> is a dissimilarity matrix.</li>
+</ul>
+<p>Similar to <span class="math inline">\(K\)</span>-means, the following <code>R</code> code computes PAM algorithm ::: {.aside}</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>pam.res <span class="ot">&lt;-</span> <span class="fu">pam</span>(df, <span class="at">k =</span> <span class="dv">2</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co"># print the results </span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(pam.res)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The printed output shows:</p>
+<ul>
+<li>the cluster medoids: a matrix, which rows are the medoids and columns are varibles</li>
+<li>the clustering vector: a vector of integers (from <span class="math inline">\(1\)</span> to <span class="math inline">\(k\)</span>) indicating the cluster to which point is allocated.</li>
+</ul>
+<p>The function <code>pam()</code> returns an object of class <em>pam</em> which components include:</p>
+<ul>
+<li><em>medoids</em>: Objects that represent clusters</li>
+<li><em>clustering</em>: a vector containing the cluster number of each object</li>
+</ul>
+<p>These components can be accessed as</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Cluster medoids</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>pam.res<span class="sc">$</span>medoids</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Cluster numbers</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>pm.res<span class="sc">$</span>clustering</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>To create a beautiful graph of the clusters generated with the <code>pam()</code> function, similar to <span class="math inline">\(K\)</span>-means, the function <code>factoextra::fviz_cluster()</code> can be used as</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_cluster</span>(pam.res,</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">palette =</span> <span class="fu">c</span>(<span class="st">"#00AFBB"</span>, <span class="st">"#FC4E07"</span>), <span class="co"># color palette</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">ellipse.type =</span> <span class="st">"t"</span>, <span class="co"># Concentration ellipse</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">repel =</span> <span class="cn">TRUE</span>, <span class="co"># Avoid label overplotting (slow)</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">ggtheme =</span> <span class="fu">theme_classic</span>()</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="estimating-the-optimal-number-of-clusters" class="level4" data-number="10.3.2.4">
+<h4 data-number="10.3.2.4" class="anchored" data-anchor-id="estimating-the-optimal-number-of-clusters"><span class="header-section-number">10.3.2.4</span> Estimating the optimal number of clusters</h4>
+<p>To estimate the optimal number of clusters, we will use the average silhouette method. The idea is to compute PAM algorithm using different values of clusters <span class="math inline">\(k\)</span>. Next, the average clusters silhouette is drawn according to the number of clusters. The average silhouette measures the quality of a clustering. A high average silhouette width indicates a good clustering. The optimal number of clusters <span class="math inline">\(k\)</span> is the one that maximize the average silhouette over a range of possible values for <span class="math inline">\(k\)</span> <span class="citation" data-cites="kaufman1990">(<a href="#ref-kaufman1990" role="doc-biblioref">Kaufman and Rousseeuw 1990</a>)</span>.</p>
+<p>The R function <code>factoextra::fviz_nbclust()</code> provides a convenient solution to estimate the optimal number of clusters.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cluster)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(factoextra)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_nbclust</span>(df, pam, <span class="at">method =</span> <span class="st">"silhouette"</span>)<span class="sc">+</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="example-of-pam-in-r" class="level4" data-number="10.3.2.5">
+<h4 data-number="10.3.2.5" class="anchored" data-anchor-id="example-of-pam-in-r"><span class="header-section-number">10.3.2.5</span> Example of PAM in R</h4>
+<p>Here, we apply PAM algoritm to <code>iris</code> dataset and we expect to have similar results to <span class="math inline">\(K\)</span>-means since there is no outlier in this dataset.</p>
 <div id="qwebr-insertion-location-30"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>Similar to <span class="math inline">\(K\)</span>-means, we can use the funtion <code>fviz_cluster()</code> with the following code:</p>
+<div id="qwebr-insertion-location-31"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>As you see, the black stars represent the <em>medoids</em> — actual data points from the dataset.</p>
 <p>Unlike <span class="math inline">\(k\)</span>-means, the medoid is a real observation, not an artificial centroid.</p>
 <p><strong>Visual Comparison: k-Means vs k-Medoids</strong></p>
-<div id="qwebr-insertion-location-31"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<section id="analysis-of-heart-disease-dataset" class="level4" data-number="10.3.2.1">
-<h4 data-number="10.3.2.1" class="anchored" data-anchor-id="analysis-of-heart-disease-dataset"><span class="header-section-number">10.3.2.1</span> Analysis of Heart Disease Dataset</h4>
-<p>The dataset has a mix of numerical, ordinal, and categorical features: <code>Age</code>, <code>Sex</code>, <code>ChestPain</code>, <code>Thal</code>, <code>RestBP</code>, <code>Chol</code>, <code>MaxHR</code>, <code>AHD</code> (disease outcome), etc.</p>
-<p>We compute Gower distance and run <span class="math inline">\(k\)</span>-medoids.</p>
 <div id="qwebr-insertion-location-32"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+</section>
+<section id="exercise" class="level4" data-number="10.3.2.6">
+<h4 data-number="10.3.2.6" class="anchored" data-anchor-id="exercise"><span class="header-section-number">10.3.2.6</span> Exercise</h4>
+<p>The dataset has a mix of numerical, ordinal, and categorical features: <code>Age</code>, <code>Sex</code>, <code>ChestPain</code>, <code>Thal</code>, <code>RestBP</code>, <code>Chol</code>, <code>MaxHR</code>, <code>AHD</code> (disease outcome), etc.</p>
+<p>Do the PAM algorithm for this dataset</p>
 <div id="qwebr-insertion-location-33"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 

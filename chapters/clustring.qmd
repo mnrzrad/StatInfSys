@@ -1836,38 +1836,326 @@ rasterImage(compressed_img, 0, 0, 1, 1)
 
 :::::
 
-### $k$-Medoids Clustering
+### $K$-Medoids Clustering
 
 The $k$-medoids algorithm is a partitioning clustering method closely related to $k$-means, but instead of using the *mean (centroid)* of points to represent a cluster, it uses an *actual observation (medoid)* — the most centrally located data point within that cluster.
 
 Formally, a medoid is the point whose average dissimilarity to all other points in the cluster is minimal. i.e,
 $$
-m_j = \arg\min_{x_i \in C_j} \sum_{x_k \in C_j} d(x_i,x_k)
+m_k = \arg\min_{\mathbf{x}_i \in C_k} \sum_{\mathbf{x}_j \in C_k} d(\mathbf{x}_i,\mathbf{x}_j)
 $$
-where:
-- $C_j$ is the set of points assigned to cluster $j$
-- $d(x_i,x_k)$ is a chosen distance or dissimilarity measure (e.g., Euclidean, Manhattan, etc.)
+where $C_k$ is the set of points assigned to cluster $k$, and $d(\mathbf{x}_i,\mathbf{x}_j)$ is a chosen distance or dissimilarity measure (e.g., Euclidean, Manhattan, etc.)
 
-**Algorithm (PAM — Partitioning Around Medoids)**
+$K$-medoid is a robust alternative to $K$-means clustering. This means that, the algorithm of clusters to be generated (like in $K$-means clustering). A useful approach to determine the optimal number of clusters is the *silhouette* method. 
 
-The most common implementation of k-medoids is the PAM algorithm, which works as follows:
+The most common $K$-medoids clustering methods is the PAM (Partitioning Around Medoids) algorithm [@kaufman1990]
+
+#### PAM Algorithm
+
+The PAM algorithm is based on the search for $K$ representative objects or medoids among the observations of the data set. After finding a set of $K$ medoids, clusters are constructed by assigning each observation to the nearest medoid. Next, each selected medoid $m$ and each non-medoid data point are swapped and the objective function is computed. The objective function corresponds to the sum of the dissimilarities of all objects to their nearest medoid. The *SWAP* step attemps to improve the quality of the clustering by exchanging selected objects (medoids) and non-selected objects. If the objective function can be reduced by interchanging a selected object with an unselected object, then the swap is carried out. This is continued until the objective function can no longer be decreased. The goal is to find $k$ representative objects which minimize the sum of the dissimilarities of the observations to their closest representative object.
+
+In summary, PAM algorithm is:
 1. **Initialize:**
 Select $k$ representative objects (medoids) randomly from the dataset.
+2. Calculate the distance (dissimilarity) matrix if it was not provided.
 2. **Assign:**
 Assign each remaining point to the nearest medoid based on the chosen distance metric.
 3. **Update:**
 For each cluster, try swapping the medoid with another point from the same cluster and compute the total cost:
 $$
-\text{Cost} = \sum_{i=1}^n \min_j d(x_i, m_j)
+\text{Cost} = \sum_{i=1}^n \min_k d(\mathbf{x}_i, m_k)
 $$
 If a swap reduces the cost, keep it.
 4. **Iterate:** 
 Repeat assignment and update steps until the medoids no longer change.
 
 :::{.callout-important}
-The $k$-medoids algorithm minimizes a **sum of dissimilarities**, not squared distances.
+The $K$-medoids algorithm minimizes a **sum of dissimilarities**, not squared distances.
 Thus, the cluster representative is always a real observation, which makes the method robust when data contain noise, outliers, or mixed types.
 :::
+
+:::{.callout-note}
+The PAM algorithm works with a matrix of dissimilarity, and to compute this matrix the algorithm can use two metrics: 
+1. The euclidean distance
+2. The Manhattan distance
+
+In practice, you should get similar results most of time, using either euclidean or Manhattan distance. If the dataset contains outliers, Manhattan distance should give more robust results, whereas euclidean would be influenced by unusual values.
+:::
+
+#### Example 
+Consider the following example
+|   | X | Y |
+|:-:|:-:|:-:|
+| 1 | 9 | 3 |
+| 2 | 8 | 4 |
+| 3 | 4 | 6 |
+| 4 | 8 | 5 |
+| 5 | 2 | 5 |
+| 6 | 3 | 8 |
+| 7 | 8 | 8 |
+| 8 | 4 | 4 |
+| 9 | 10 | 4 |
+| 10 | 9 | 6 |
+
+```{r}
+#| label: example_PAM_1
+#| echo: true
+#| eval: true 
+
+library(tibble)
+
+# Dataset (same as your table)
+
+points <- tibble::tibble(
+ID = 1:10,
+X = c(9, 8, 4, 8, 2, 3, 5, 4, 10, 9),
+Y = c(3, 4, 6, 5, 5, 8, 8, 4, 4, 6)
+)
+
+points
+```
+
+Assume $k = 2$ and use the specified points ($m_1 = (4,6)$) and $m_2 = (9,3)$
+
+```{r}
+#| label: example_PAM_plot
+#| echo: true
+#| message: false
+#| warning: false
+#| fig-cap: "Scatter plot of the k-medoids example dataset with initial medoids highlighted."
+#| out-width: "80%"
+
+library(ggplot2)
+
+# Define medoid points
+medoids <- data.frame(
+X = c(4, 6),
+Y = c(9, 3),
+label = c("Medoid 1", "Medoid 2")
+)
+
+# Scatter plot
+
+ggplot(points, aes(x = X, y = Y)) +
+geom_point(size = 3, color = "black") +
+geom_point(data = medoids, aes(x = X, y = Y, color = label), size = 5) +
+geom_text(aes(label = ID), vjust = -1, size = 3) +
+scale_color_manual(values = c("Medoid 1" = "red", "Medoid 2" = "blue")) +
+labs(
+title = "K-Medoids Example Dataset",
+subtitle = "Initial medoids highlighted in red and blue",
+x = "X coordinate",
+y = "Y coordinate",
+color = "Medoids"
+) +
+theme_minimal() +
+theme(legend.position = "bottom")
+```
+
+Let consider we use *Manhattan distance* because it is easy to compute and commonly used with $K$-medoids. 
+
+**Step 1** -- **Assign each point to the nearest medoid**
+
+| ID |  X | Y | d to (4,6) | d to (9,3) | Assign |
+|---:|---:|--:|-----------:|-----------:|:------:|
+|  1 |  9 | 3 |          8 |          0 |  C2    |
+|  2 |  8 | 4 |          6 |          2 |  C2    |
+|  3 |  4 | 6 |          0 |          8 |  C1    |
+|  4 |  8 | 5 |          5 |          3 |  C2    |
+|  5 |  2 | 5 |          3 |          9 |  C1    |
+|  6 |  3 | 8 |          3 |         11 |  C1    |
+|  7 |  5 | 8 |          3 |          9 |  C1    |
+|  8 |  4 | 4 |          2 |          6 |  C1    |
+|  9 | 10 | 4 |          8 |          2 |  C2    |
+| 10 |  9 | 6 |          5 |          3 |  C2    |
+
+Clusters after assignment is: 
+
+- $C_1(m_1) = \{3,5,6,7,8\}$ (around $(4,6)$)
+- $C_2(m_2) = \{1,2,4,9,10\}$ (around $(9,3)$)
+
+The total cost (sum of within-cluster distances) is
+$$
+C_1 + C_2 = 9 + 11 = 20
+$$
+where: 
+- $C_1 = 0 + 3 + 3 + 3 + 2  = 11$
+- $C_2 = 0 + 2 + 2 + 2 + 3 = 9$ 
+
+** Step2** -- Update (try swaps)
+
+We evaluate each point in a cluster as a potential medoid, computing the sum of Manhattan distances to all other points in that cluster.
+
+**Cluster C1 = {3,5,6,7,8}**
+| Candidate (ID) | Sum of distances |
+|:--------------:|:----------------:|
+| 3 (4,6)        | **11 ← best**    |
+| 5 (2,5)        | 16               |
+| 6 (3,8)        | 14               |
+| 7 (5,8)        | 16               |
+| 8 (4,4)        | 15               |
+
+**Cluster C2 = {1,2,4,9,10}**
+| Candidate (ID) | Sum of distances |
+|:--------------:|:----------------:|
+| 1 (9,3)        | 10               |
+| 2 (8,4)        | **8 ← best**     |
+| 4 (8,5)        | 9                |
+| 9 (10,4)       | 10               |
+| 10 (9,6)       | 11               |
+
+Update result:
+
+- Medoid for $C_1$ stays ID 3 ($(4,6)$)
+- Medoid for $C_2$ changes to ID 2 ($(8,4)$) which it improves the total cost.
+
+After updating the medoids, the next step is to recompute the total cost (sum of distances from each point to its nearest medoid).
+
+| ID |  X | Y | d to (4,6) | d to (8,4) | min d | Assign |
+|---:|---:|--:|-----------:|-----------:|------:|:------:|
+|  1 |  9 | 3 |          8 |          2 |     2 |  C2    |
+|  2 |  8 | 4 |          6 |          0 |     0 |  C2    |
+|  3 |  4 | 6 |          0 |          6 |     0 |  C1    |
+|  4 |  8 | 5 |          5 |          1 |     1 |  C2    |
+|  5 |  2 | 5 |          3 |          7 |     3 |  C1    |
+|  6 |  3 | 8 |          3 |          9 |     3 |  C1    |
+|  7 |  5 | 8 |          3 |          7 |     3 |  C1    |
+|  8 |  4 | 4 |          2 |          4 |     2 |  C1    |
+|  9 | 10 | 4 |          8 |          2 |     2 |  C2    |
+| 10 |  9 | 6 |          5 |          3 |     3 |  C2    |
+
+The total cost (sum of within-cluster distances) is
+$$
+C_1 + C_2 = (0+1+3+3+3+2) + (2+0+1+2+3) = 19
+$$
+
+the following R code helps to do the computations. 
+```{r}
+#| label: kmedoids-total-cost
+#| echo: true
+#| message: false
+#| warning: false
+
+library(dplyr)
+
+# Data
+pts <- tibble::tibble(
+  ID = 1:10,
+  X  = c(9,8,4,8,2,3,5,4,10,9),
+  Y  = c(3,4,6,5,5,8,8,4, 4,6)
+)
+
+manhattan <- function(a, b) sum(abs(a - b))
+
+# Helper to compute total cost for given medoids
+total_cost <- function(m1, m2) {
+  pts %>%
+    rowwise() %>%
+    mutate(
+      d1 = manhattan(c(X, Y), m1),
+      d2 = manhattan(c(X, Y), m2),
+      mind = min(d1, d2),
+      Assign = if_else(d1 <= d2, "C1", "C2")
+    ) %>%
+    ungroup()
+}
+
+# Initial medoids: (4,6), (9,3)
+init_tbl <- total_cost(c(4,6), c(9,3))
+sum_init <- sum(init_tbl$mind)
+
+# Updated medoids: (4,6), (8,4)
+upd_tbl  <- total_cost(c(4,6), c(8,4))
+sum_upd  <- sum(upd_tbl$mind)
+
+list(
+  initial_total = sum_init,
+  updated_total = sum_upd,
+  initial_assignments = init_tbl %>% select(ID, X, Y, d1, d2, mind, Assign),
+  updated_assignments = upd_tbl %>% select(ID, X, Y, d1, d2, mind, Assign)
+)
+```
+
+Since there is an improvement in the total cost, we continue with the new medoids: $(4,6)$ and $(8,4)$.
+
+**Exercise** Continue this process and find the best medoids.
+
+
+#### Implementation PAM in R 
+
+The function `cluster::pam()` and `fpc::pamk()` can be used compute PAM.
+
+The function `pamk()` does not require a user to decide the number of clusters $K$. 
+
+The simplified format of `pam()` is
+```{r}
+#| eval: false 
+pam(x, k, metric = 'euclidean')
+```
+where:
+
+- `x`: possible value includes: numeric data matrix or numeric data frame, or dissimilarity matrix -- in this case `x` is typically the output of `daisy()` or `dist()`.
+- `k`: the number of clusters
+- `metric`: the distance matrix to be used. Available options are `"euclidean"` and `"manhattan"`.
+- `stand`: logical value; if `TRUE`, the variables (columns) in `x` are standardized before calculating the dissilarities. Ignored when `x` is a dissimilarity matrix.
+
+Similar to $K$-means, the following `R` code computes PAM algorithm ::: {.aside}
+```{r}
+#| eval: false 
+
+pam.res <- pam(df, k = 2)
+
+# print the results 
+print(pam.res)
+```
+
+The printed output shows: 
+
+- the cluster medoids: a matrix, which rows are the medoids and columns are varibles
+- the clustering vector: a vector of integers (from $1$ to $k$) indicating the cluster to which point is allocated.
+
+The function `pam()` returns an object of class *pam* which components include: 
+
+- *medoids*: Objects that represent clusters
+- *clustering*: a vector containing the cluster number of each object
+
+These components can be accessed as
+```{r}
+#| eval: false 
+# Cluster medoids
+pam.res$medoids
+
+# Cluster numbers
+pm.res$clustering
+```
+
+To create a beautiful graph of the clusters generated with the `pam()` function, similar to $K$-means, the function `factoextra::fviz_cluster()` can be used as 
+
+```{r}
+#| eval: false 
+fviz_cluster(pam.res,
+  palette = c("#00AFBB", "#FC4E07"), # color palette
+  ellipse.type = "t", # Concentration ellipse
+  repel = TRUE, # Avoid label overplotting (slow)
+  ggtheme = theme_classic()
+)
+```
+
+#### Estimating the optimal number of clusters
+
+To estimate the optimal number of clusters, we will use the average silhouette method. The idea is to compute PAM algorithm using different values of clusters $k$. Next, the average clusters silhouette is drawn according to the number of clusters. The average silhouette measures the quality of a clustering. A high average silhouette width indicates a good clustering. The optimal number of clusters $k$ is the one that maximize the average silhouette over a range of possible values for $k$ [@kaufman1990].
+
+The R function `factoextra::fviz_nbclust()` provides a convenient solution to estimate the optimal number of clusters. 
+```{r}
+#| eval: false 
+library(cluster)
+library(factoextra)
+fviz_nbclust(df, pam, method = "silhouette")+
+theme_classic()
+```
+
+#### Example of PAM in R
+Here, we apply PAM algoritm to `iris` dataset and we expect to have similar results to $K$-means since there is no outlier in this dataset.
 
 ```{webr-r}
 #| label: pam-basic
@@ -1880,14 +2168,12 @@ Thus, the cluster representative is always a real observation, which makes the m
 library(cluster)
 library(ggplot2)
 
-# Prepare data (use only numeric columns)
 iris_data <- iris[, 1:4]
 
 # Apply k-medoids clustering (PAM = Partitioning Around Medoids)
 set.seed(123)
 pam_result <- pam(iris_data, k = 3, metric = "euclidean")
 
-# Add cluster labels to data
 iris_pam <- iris
 iris_pam$cluster <- as.factor(pam_result$clustering)
 
@@ -1903,6 +2189,23 @@ ggplot(iris_pam, aes(Petal.Length, Petal.Width, color = cluster, shape = Species
   theme_minimal(base_size = 14)
 ```
 
+Similar to $K$-means, we can use the funtion `fviz_cluster()` with the following code:
+```{webr-r}
+#|label: fviz_PCA
+#| autorun: true
+#| message: false
+#| warning: false
+#| fig-cap: "k-Medoids clustering using the PAM algorithm via PCA."
+#| out-width: "80%"
+
+fviz_cluster(pam_result, data = iris_pm,
+             palette = c("#2E9FDF", "#00AFBB", "#E7B800"),
+             ellipse.type = "euclid", # Concentration ellipse
+             star.plot = FALSE, # Add segments from centroids to items
+             repel = TRUE, # Avoid label overplotting (slow)
+             ggtheme = theme_minimal()
+)       
+```
 As you see, the black stars represent the *medoids* — actual data points from the dataset.
 
 Unlike $k$-means, the medoid is a real observation, not an artificial centroid.
@@ -1913,7 +2216,7 @@ Unlike $k$-means, the medoid is a real observation, not an artificial centroid.
 #| label: kmeans-vs-pam
 #| autorun: true
 #| fig-cap: "Comparison between k-Means and k-Medoids clustering on the same dataset."
-#| out-width: true
+#| out-width: "80%"
 
 set.seed(123)
 kmeans_result <- kmeans(iris_data, centers = 3, nstart = 20)
@@ -1944,12 +2247,12 @@ p2 <- ggplot(iris_compare, aes(Petal.Length, Petal.Width, color = kmedoids_clust
 p1 + p2
 ```
 
-#### Analysis of Heart Disease Dataset
+#### Exercise
 
 The dataset has a mix of numerical, ordinal, and categorical features:
 `Age`, `Sex`, `ChestPain`, `Thal`, `RestBP`, `Chol`, `MaxHR`, `AHD` (disease outcome), etc.
 
-We compute Gower distance and run $k$-medoids.
+Do the PAM algorithm for this dataset
 
 ```{webr-r}
 #| label: pam-heart-optimal
@@ -1957,6 +2260,7 @@ We compute Gower distance and run $k$-medoids.
 #| autorun: true
 #| message: false
 #| warning: false
+#| out-width: "80%"
 
 library(cluster)
 library(ggplot2)
@@ -1966,44 +2270,6 @@ library(factoextra)
 # Load dataset
 data("heart")
 
-# Compute Gower distance for mixed data
-diss_heart <- daisy(heart, metric = "gower")
-
-#-----------------------------
-# 1️⃣ Find optimal number of clusters using silhouette
-#-----------------------------
-sil_width <- c()
-
-for (k in 2:6) {
-  pam_fit <- pam(diss_heart, k = k, diss = TRUE)
-  sil_width[k] <- pam_fit$silinfo$avg.width
-}
-
-# Find best k (maximum silhouette width)
-best_k <- which.max(sil_width)
-best_k
-
-# Plot silhouette curve
-plot(2:6, sil_width[2:6], type = "b", pch = 19,
-     xlab = "Number of clusters (k)",
-     ylab = "Average silhouette width",
-     main = "Choosing optimal number of clusters (PAM, Gower)")
-abline(v = best_k, lty = 2, col = "red")
-text(best_k + 0.2, max(sil_width, na.rm = TRUE) - 0.01,
-     labels = paste("Best k =", best_k), col = "red")
-```
-
-```{webr-r}
-#| label: pam-heart-optimal-1"
-#| autorun: true
-#| message: false
-#| warning: false
-
-set.seed(123)
-pam_heart <- pam(diss_heart, k = best_k, diss = TRUE)
-
-heart_clustered <- heart %>%
-  mutate(Cluster = as.factor(pam_heart$clustering))
 ```
 
 
