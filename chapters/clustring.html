@@ -1918,18 +1918,20 @@ window.Quarto = {
   </ul></li>
   <li><a href="#cluster-validation" id="toc-cluster-validation" class="nav-link" data-scroll-target="#cluster-validation"><span class="header-section-number">10.4</span> Cluster Validation</a>
   <ul>
-  <li><a href="#assessing-clustering-tendency" id="toc-assessing-clustering-tendency" class="nav-link" data-scroll-target="#assessing-clustering-tendency"><span class="header-section-number">10.4.1</span> Assessing Clustering Tendency</a></li>
-  <li><a href="#methods-for-assessing-clustering-tendency" id="toc-methods-for-assessing-clustering-tendency" class="nav-link" data-scroll-target="#methods-for-assessing-clustering-tendency"><span class="header-section-number">10.4.2</span> Methods for assessing clustering tendency</a>
+  <li><a href="#assessing-clustering-tendency" id="toc-assessing-clustering-tendency" class="nav-link" data-scroll-target="#assessing-clustering-tendency"><span class="header-section-number">10.4.1</span> Assessing Clustering Tendency</a>
   <ul class="collapse">
-  <li><a href="#statistical-methods" id="toc-statistical-methods" class="nav-link" data-scroll-target="#statistical-methods"><span class="header-section-number">10.4.2.1</span> Statistical methods</a></li>
-  <li><a href="#visual-methods" id="toc-visual-methods" class="nav-link" data-scroll-target="#visual-methods"><span class="header-section-number">10.4.2.2</span> Visual methods</a></li>
+  <li><a href="#methods-for-assessing-clustering-tendency" id="toc-methods-for-assessing-clustering-tendency" class="nav-link" data-scroll-target="#methods-for-assessing-clustering-tendency"><span class="header-section-number">10.4.1.1</span> Methods for assessing clustering tendency</a></li>
   </ul></li>
-  <li><a href="#determing-the-optimal-number-of-clusters" id="toc-determing-the-optimal-number-of-clusters" class="nav-link" data-scroll-target="#determing-the-optimal-number-of-clusters"><span class="header-section-number">10.4.3</span> Determing the optimal number of clusters</a>
+  <li><a href="#determing-the-optimal-number-of-clusters" id="toc-determing-the-optimal-number-of-clusters" class="nav-link" data-scroll-target="#determing-the-optimal-number-of-clusters"><span class="header-section-number">10.4.2</span> Determing the optimal number of clusters</a>
   <ul class="collapse">
-  <li><a href="#elbow-method" id="toc-elbow-method" class="nav-link" data-scroll-target="#elbow-method"><span class="header-section-number">10.4.3.1</span> Elbow method</a></li>
-  <li><a href="#average-silhouette-method" id="toc-average-silhouette-method" class="nav-link" data-scroll-target="#average-silhouette-method"><span class="header-section-number">10.4.3.2</span> Average silhouette method</a></li>
-  <li><a href="#gap-statistic-method" id="toc-gap-statistic-method" class="nav-link" data-scroll-target="#gap-statistic-method"><span class="header-section-number">10.4.3.3</span> Gap statistic method</a></li>
-  <li><a href="#computing-the-number-of-clusters-using-r" id="toc-computing-the-number-of-clusters-using-r" class="nav-link" data-scroll-target="#computing-the-number-of-clusters-using-r"><span class="header-section-number">10.4.3.4</span> Computing the number of clusters using R</a></li>
+  <li><a href="#elbow-method" id="toc-elbow-method" class="nav-link" data-scroll-target="#elbow-method"><span class="header-section-number">10.4.2.1</span> Elbow method</a></li>
+  <li><a href="#average-silhouette-method" id="toc-average-silhouette-method" class="nav-link" data-scroll-target="#average-silhouette-method"><span class="header-section-number">10.4.2.2</span> Average silhouette method</a></li>
+  <li><a href="#gap-statistic-method" id="toc-gap-statistic-method" class="nav-link" data-scroll-target="#gap-statistic-method"><span class="header-section-number">10.4.2.3</span> Gap statistic method</a></li>
+  <li><a href="#computing-the-number-of-clusters-using-r" id="toc-computing-the-number-of-clusters-using-r" class="nav-link" data-scroll-target="#computing-the-number-of-clusters-using-r"><span class="header-section-number">10.4.2.4</span> Computing the number of clusters using R</a></li>
+  </ul></li>
+  <li><a href="#cluster-validation-statistics" id="toc-cluster-validation-statistics" class="nav-link" data-scroll-target="#cluster-validation-statistics"><span class="header-section-number">10.4.3</span> Cluster Validation Statistics</a>
+  <ul class="collapse">
+  <li><a href="#internal-measures-for-cluster-validation" id="toc-internal-measures-for-cluster-validation" class="nav-link" data-scroll-target="#internal-measures-for-cluster-validation"><span class="header-section-number">10.4.3.1</span> Internal measures for cluster validation</a></li>
   </ul></li>
   </ul></li>
   </ul>
@@ -3974,16 +3976,15 @@ Important
 <p>A big issue, in cluster analysis, is that clustering methods will return clusters even if the data does not contain any clusters. In other words, if you blindly apply a clustering method on a data set, it will divide the data into clusters because that is what it supposed to do.</p>
 </div>
 </div>
-</section>
-<section id="methods-for-assessing-clustering-tendency" class="level3" data-number="10.4.2">
-<h3 data-number="10.4.2" class="anchored" data-anchor-id="methods-for-assessing-clustering-tendency"><span class="header-section-number">10.4.2</span> Methods for assessing clustering tendency</h3>
+<section id="methods-for-assessing-clustering-tendency" class="level4" data-number="10.4.1.1">
+<h4 data-number="10.4.1.1" class="anchored" data-anchor-id="methods-for-assessing-clustering-tendency"><span class="header-section-number">10.4.1.1</span> Methods for assessing clustering tendency</h4>
 <p>There are two methods for evaluating the clustering tendency:</p>
 <ul>
 <li>a statistical method like <em>Hopkins statistic</em></li>
 <li>a visual method like <em>Visual Assessment of Cluster Tendency (VAT)</em> algorithm</li>
 </ul>
-<section id="statistical-methods" class="level4" data-number="10.4.2.1">
-<h4 data-number="10.4.2.1" class="anchored" data-anchor-id="statistical-methods"><span class="header-section-number">10.4.2.1</span> Statistical methods</h4>
+<section id="statistical-methods" class="level5" data-number="10.4.1.1.1">
+<h5 data-number="10.4.1.1.1" class="anchored" data-anchor-id="statistical-methods"><span class="header-section-number">10.4.1.1.1</span> Statistical methods</h5>
 <p>The <em>Hopkins statistic</em> is used to assess the clustering tendency of a dataset by measuring the probability that a given dataset is generated by a uniform data distribution. In other words, it tests the spatial randomness of the data.</p>
 <p>Let <span class="math inline">\(D\)</span> be a real dataset. The <em>Hopkins statistic</em> can be calculated as follows:</p>
 <ol type="1">
@@ -4029,8 +4030,8 @@ H = \frac{\sum_{i=1}^n y_i}{\sum_{i=1}^n x_i + \sum_{i=1}^n y_i}
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>It can be seen that the <code>iris</code> dataset is highly clusterable (the <span class="math inline">\(H\)</span> value = <span class="math inline">\(0.18\)</span> which is far below the threshold <span class="math inline">\(0.5\)</span>). However, the random dataset is not clusterable (<span class="math inline">\(H = 0.5\)</span>).</p>
 </section>
-<section id="visual-methods" class="level4" data-number="10.4.2.2">
-<h4 data-number="10.4.2.2" class="anchored" data-anchor-id="visual-methods"><span class="header-section-number">10.4.2.2</span> Visual methods</h4>
+<section id="visual-methods" class="level5" data-number="10.4.1.1.2">
+<h5 data-number="10.4.1.1.2" class="anchored" data-anchor-id="visual-methods"><span class="header-section-number">10.4.1.1.2</span> Visual methods</h5>
 <p>The algorithm of the visual assessment of cluster tendency (VAT) approach <span class="citation" data-cites="Bezdek2002">(<a href="#ref-Bezdek2002" role="doc-biblioref">Bezdek and Hathaway 2002</a>)</span> is as follow:</p>
 <ol type="1">
 <li>Compute the dissimilarity (DM) matrix between the observations in the dataset using the Euclidean distance meature</li>
@@ -4058,8 +4059,9 @@ H = \frac{\sum_{i=1}^n y_i}{\sum_{i=1}^n x_i + \sum_{i=1}^n y_i}
 <p>The <em>VAT</em> algorithm detects the clustering tendency in a visual form by computing the number of square shaped dark blocks along the diagonal in a <em>VAT</em> image.</p>
 </section>
 </section>
-<section id="determing-the-optimal-number-of-clusters" class="level3" data-number="10.4.3">
-<h3 data-number="10.4.3" class="anchored" data-anchor-id="determing-the-optimal-number-of-clusters"><span class="header-section-number">10.4.3</span> Determing the optimal number of clusters</h3>
+</section>
+<section id="determing-the-optimal-number-of-clusters" class="level3" data-number="10.4.2">
+<h3 data-number="10.4.2" class="anchored" data-anchor-id="determing-the-optimal-number-of-clusters"><span class="header-section-number">10.4.2</span> Determing the optimal number of clusters</h3>
 <p><em>Determing the optimal number of clusters in a dataset</em> is a fundamental issue in partitioning clustering, such as <span class="math inline">\(k\)</span>-means clustering, which requires the user to specify the number of clusters <span class="math inline">\(k\)</span> to be generated.</p>
 <p>Unfortunately, there is no definitive answer to this question. The optimal number of clusters is somehow subjective and depends on the method used for measuring similarities and the parameters used for partitioning.</p>
 <p>The methods include direct methods and statistical testing methods:</p>
@@ -4068,8 +4070,8 @@ H = \frac{\sum_{i=1}^n y_i}{\sum_{i=1}^n x_i + \sum_{i=1}^n y_i}
 <li><em>Statistical testing methods</em>: consists of computing evidence against null hypothesis. An example is <em>gap statistic</em></li>
 </ul>
 <p>In addition to <em>elbow</em>, <em>silhouette</em>, and <em>gap statistic</em> methods, there are more than <span class="math inline">\(30\)</span> other indices and methods that have been published for identifying the optimal number of clusters. There are some R codes for computing all these <span class="math inline">\(30\)</span> indices in order to decide the best number of clusters using the ``<em>majority rule</em>”.</p>
-<section id="elbow-method" class="level4" data-number="10.4.3.1">
-<h4 data-number="10.4.3.1" class="anchored" data-anchor-id="elbow-method"><span class="header-section-number">10.4.3.1</span> Elbow method</h4>
+<section id="elbow-method" class="level4" data-number="10.4.2.1">
+<h4 data-number="10.4.2.1" class="anchored" data-anchor-id="elbow-method"><span class="header-section-number">10.4.2.1</span> Elbow method</h4>
 <p>Recall that, the basic idea behind partitioning methods, such as <span class="math inline">\(K\)</span>-means clustering, is to define clusters such that the total intra-cluster variation [or total within-cluster sum of square (WSS)] is minimized. The total WSS measures the compactness of the clustering and we want it to be as small as possible.</p>
 <p>The Elbow method looks at the total WSS as a function of the number of clusters: One should choose a number of clusters so that adding another cluster does not improve much better the total WSS.</p>
 <p>The optimal number of clusters can be defined as follow:</p>
@@ -4093,8 +4095,8 @@ Tip
 </div>
 </div>
 </section>
-<section id="average-silhouette-method" class="level4" data-number="10.4.3.2">
-<h4 data-number="10.4.3.2" class="anchored" data-anchor-id="average-silhouette-method"><span class="header-section-number">10.4.3.2</span> Average silhouette method</h4>
+<section id="average-silhouette-method" class="level4" data-number="10.4.2.2">
+<h4 data-number="10.4.2.2" class="anchored" data-anchor-id="average-silhouette-method"><span class="header-section-number">10.4.2.2</span> Average silhouette method</h4>
 <p>The average silhoutte approach measures the quality of a clustering. That is, it determines how well each observation lies within its cluster. A high average silhouette width indicates a good clustering.</p>
 <p>Average silhouette methods computes the average silhouette of observations for different values of <span class="math inline">\(k\)</span>. The optimal number of clusters <span class="math inline">\(k\)</span> is one that maximize the average silhouette over a range of possible values for <span class="math inline">\(k\)</span> <span class="citation" data-cites="kaufman1990">(<a href="#ref-kaufman1990" role="doc-biblioref">Kaufman and Rousseeuw 1990</a>)</span>.</p>
 <p>The average silhouette method is similar to the <em>elbow</em> method and can be computed as follow:</p>
@@ -4105,8 +4107,8 @@ Tip
 <li>The location of the maximum is considered as the appropraite number of clusters.</li>
 </ol>
 </section>
-<section id="gap-statistic-method" class="level4" data-number="10.4.3.3">
-<h4 data-number="10.4.3.3" class="anchored" data-anchor-id="gap-statistic-method"><span class="header-section-number">10.4.3.3</span> Gap statistic method</h4>
+<section id="gap-statistic-method" class="level4" data-number="10.4.2.3">
+<h4 data-number="10.4.2.3" class="anchored" data-anchor-id="gap-statistic-method"><span class="header-section-number">10.4.2.3</span> Gap statistic method</h4>
 <p>The <em>gap statistic</em> <span class="citation" data-cites="tibshirani2001gap">(<a href="#ref-tibshirani2001gap" role="doc-biblioref">Tibshirani, Walther, and Hastie 2001</a>)</span> can be applied to any clustering method.</p>
 <p>The <em>gap statistic</em> compares the total within intra-cluster variation for different values of <span class="math inline">\(k\)</span> with their expected values under null reference distribution of the data. The estimate of the optimal clusters will be value that maximize the gap statistic (i.e., that yields the largest gap statistic). This means that the clustering structure is far away from the random uniform distribution of points.</p>
 <p>The algorithm works as follows:</p>
@@ -4132,12 +4134,12 @@ Note
 </div>
 </div>
 </section>
-<section id="computing-the-number-of-clusters-using-r" class="level4" data-number="10.4.3.4">
-<h4 data-number="10.4.3.4" class="anchored" data-anchor-id="computing-the-number-of-clusters-using-r"><span class="header-section-number">10.4.3.4</span> Computing the number of clusters using R</h4>
+<section id="computing-the-number-of-clusters-using-r" class="level4" data-number="10.4.2.4">
+<h4 data-number="10.4.2.4" class="anchored" data-anchor-id="computing-the-number-of-clusters-using-r"><span class="header-section-number">10.4.2.4</span> Computing the number of clusters using R</h4>
 <p>There are two functions for determing the optimal number of clusters:</p>
 <ol type="1">
 <li><code>factoextra::fviz_nbclust()</code> function: It can be used to compute the three differet methods for any partitioning clustering methods.</li>
-<li><code>NbClust::NbClust()</code> function []: It provides <span class="math inline">\(30\)</span> indices for determining the relevant number of clusters and proposes to users the best clustering sheme from the different results obtained by varying all combinations of number of clusters, distance measures, and clustering methods. It can simultanously computes all the indices and determine the number of clusters in a single function call.</li>
+<li><code>NbClust::NbClust()</code> function <span class="citation" data-cites="charrad2014nbclust">(<a href="#ref-charrad2014nbclust" role="doc-biblioref">Charrad et al. 2014</a>)</span>: It provides <span class="math inline">\(30\)</span> indices for determining the relevant number of clusters and proposes to users the best clustering sheme from the different results obtained by varying all combinations of number of clusters, distance measures, and clustering methods. It can simultanously computes all the indices and determine the number of clusters in a single function call.</li>
 </ol>
 <p>The simplified format is as:</p>
 <div class="cell">
@@ -4185,11 +4187,75 @@ Note
 <p>Th R code below computes <code>NbClust()</code> for <span class="math inline">\(k\)</span>-means:</p>
 <div id="qwebr-insertion-location-40"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>Based on this output, the best number of clusters is <span class="math inline">\(2\)</span>.</p>
+</section>
+</section>
+<section id="cluster-validation-statistics" class="level3" data-number="10.4.3">
+<h3 data-number="10.4.3" class="anchored" data-anchor-id="cluster-validation-statistics"><span class="header-section-number">10.4.3</span> Cluster Validation Statistics</h3>
+<p>The term <em>cluster validation</em> is used to design the procedure of evaluating the goodness of clustering algorithm results. This is important to avoid finding patterns in a random data, as well as, in the situation where you want to compare two clustering algorithms.</p>
+<p>Based on <span class="citation" data-cites="theodoridis2008pattern">Theodoridis and Koutroumbas (<a href="#ref-theodoridis2008pattern" role="doc-biblioref">2008</a>)</span>, <span class="citation" data-cites="brock2008clvalid">Brock et al. (<a href="#ref-brock2008clvalid" role="doc-biblioref">2008</a>)</span>, <span class="citation" data-cites="charrad2014nbclust">Charrad et al. (<a href="#ref-charrad2014nbclust" role="doc-biblioref">2014</a>)</span>; clustering validation statistics can be categorized into <span class="math inline">\(3\)</span> classes:</p>
+<ol type="1">
+<li><strong>Internal cluster validation</strong>. which uses the internal information of the clustering process to evaluate the goodness of a clustering structure without reference to external information. It can be also used for estimating the number of clusters and the appropriate clustering algorithm without any external data.</li>
+<li><strong>External cluster validation</strong>, which consists of comparing the results of a clutser analsis to an externally known result, such as externally provided class labels. It measures the extent to which cluster labels match externally supplied class labels. Since we know the “true” cluster number in advance, this approach is mainly used for selecting the right clustering algorithm for a specific data set.</li>
+<li><strong>Relative cluster validation</strong>, which evaluates the clustering structure by varying different parameter values for the same algorithm (e.g.,: varying the number of clusters <span class="math inline">\(k\)</span>). It is generally used for determining the optimal number of clusters.</li>
+</ol>
+<section id="internal-measures-for-cluster-validation" class="level4" data-number="10.4.3.1">
+<h4 data-number="10.4.3.1" class="anchored" data-anchor-id="internal-measures-for-cluster-validation"><span class="header-section-number">10.4.3.1</span> Internal measures for cluster validation</h4>
+<p>Recall that the goal of partitioning algoritms is to split the dataset into clusters of observations, such that:</p>
+<ul>
+<li>the observations in the same cluster are similar as much as possible</li>
+<li>the observation in the different clusters are highly distict</li>
+</ul>
+<p>Thus, the average distance within cluster should be <em>as samll as</em> possible, and the average distance between clusters should be <em>as large as</em> possible.</p>
+<p>Internal validation measures reflect often the <strong>compactness</strong>, the <strong>connectedness</strong> and the <strong>separation</strong> of the cluster partitions.</p>
+<ol type="1">
+<li><strong>Compactness</strong> or <strong>cluster cohesion</strong>: Measures how close are the objects within the same cluster. A lower within-cluster variation is an indicator of a good compactness (i.e., a good clustering). The different indices for evaluating the compactness of clusters are base on distance measures such as the cluster-wise within average/median distances between observations.</li>
+<li><strong>Separation</strong>: Measures how well-separated a cluster is from other clusters. The indices used as separation measures include:</li>
+</ol>
+<ul>
+<li>distances between cluster centers</li>
+<li>the pairwise minimum distances between objects in different clusters</li>
+</ul>
+<ol start="3" type="1">
+<li><strong>Connectivity</strong>: corresponds to what extent items are placed in the same cluster as their nearest neighbors in the data space. The connectivity has a value between <span class="math inline">\(0\)</span> and <span class="math inline">\(\infty\)</span> and should be minimized.</li>
+</ol>
+<p>Generally most of the indices used for internal clustering validation combine compactness and speration measures as follow: <span class="math display">\[
+\text{Index} = \frac{\alpha \times \text{Separation}}{\beta \times \text{Compactness}}
+\]</span> where <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> are weights.</p>
+<p>There are two commonly used indices for assessing the goodness of clustering:</p>
+<ul>
+<li>the *silhouette width**</li>
+<li>the <em>Dunn index</em></li>
+</ul>
+<p>These internal measure can be used also to determine the <em>optimal number of clusters</em> in the data.</p>
+<section id="silhouette-coefficient-1" class="level5" data-number="10.4.3.1.1">
+<h5 data-number="10.4.3.1.1" class="anchored" data-anchor-id="silhouette-coefficient-1"><span class="header-section-number">10.4.3.1.1</span> Silhouette coefficient</h5>
+<p>The silhouette analysis measures how well an observation is clustered and it estimates the <em>average distance between clusters</em>. The silhouette plot displays a measure of how close each point in one cluster is to points in the neighboring clusters.</p>
+<p>For each observation <span class="math inline">\(\mathbf{x}_i\)</span>, the silhouette width <span class="math inline">\(s_i\)</span> is calculated as follows:</p>
+<ol type="1">
+<li>For each observation <span class="math inline">\(\mathbf{x}_i\)</span>, calculate the average dissimilarity <span class="math inline">\(a_i\)</span> between <span class="math inline">\(\mathbf{x}_i\)</span> and all other points of the cluster to which <span class="math inline">\(\mathbf{x}_i\)</span> belongs.</li>
+<li>For all other clusters <span class="math inline">\(C\)</span>, to which <span class="math inline">\(\mathbf{x}_i\)</span> does not belong, calculate the average dissimilarity <span class="math inline">\(d(\mathbf{x}_i,C)\)</span> of <span class="math inline">\(\mathbf{x}_i\)</span> to all observations of <span class="math inline">\(C\)</span>. The smallest of these <span class="math inline">\(d(\mathbf{x}_i,C)\)</span> is defined as <span class="math inline">\(b_i = \min_C d(\mathbf{x}_i,C)\)</span> The value of <span class="math inline">\(b_i\)</span> can be seen as the dissimilarity between <span class="math inline">\(\mathbf{x}_i\)</span> and its “<em>neighbor</em>” cluster, i.e., the nearest one to which it does not belong.</li>
+<li>Finally the silhouette width of the observation <span class="math inline">\(\mathbf{x}_i\)</span> is defined by the formula: <span class="math display">\[
+S_i = \frac{b_i - a_i}{\max(a_i, b_i)}
+\]</span></li>
+</ol>
+<p>Silhouette width can be interpreted as follow:</p>
+<ul>
+<li>Observations with a large <span class="math inline">\(S_i\)</span> (almost <span class="math inline">\(1\)</span>) are very well clustered.</li>
+<li>A small <span class="math inline">\(S_i\)</span> (around <span class="math inline">\(0\)</span>) means that the observation lies between two clusters.</li>
+<li>Observations with a negative <span class="math inline">\(S_i\)</span> are probably placed in the wrong cluster.</li>
+</ul>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
 <div id="ref-Bezdek2002" class="csl-entry" role="listitem">
 Bezdek, J. C., and R. J. Hathaway. 2002. <span>“VAT: A Tool for Visual Assessment of (Cluster) Tendency.”</span> In <em>Proceedings of the 2002 International Joint Conference on Neural Networks. IJCNN’02 (Cat. No.02CH37290)</em>, 3:2225–30.
+</div>
+<div id="ref-brock2008clvalid" class="csl-entry" role="listitem">
+Brock, Guy, Vasyl Pihur, Susmita Datta, and Somnath Datta. 2008. <span>“clValid: An r Package for Cluster Validation.”</span> <em>Journal of Statistical Software</em> 25 (4): 1–22. <a href="https://doi.org/10.18637/jss.v025.i04">https://doi.org/10.18637/jss.v025.i04</a>.
+</div>
+<div id="ref-charrad2014nbclust" class="csl-entry" role="listitem">
+Charrad, Malika, Nadia Ghazzali, Véronique Boiteau, and Azam Niknafs. 2014. <span>“NbClust: An r Package for Determining the Relevant Number of Clusters in a Data Set.”</span> <em>Journal of Statistical Software</em> 61 (6): 1–36. <a href="https://doi.org/10.18637/jss.v061.i06">https://doi.org/10.18637/jss.v061.i06</a>.
 </div>
 <div id="ref-Gower1971" class="csl-entry" role="listitem">
 Gower, J. C. 1971. <span>“A General Coefficient of Similarity and Some of Its Properties.”</span> <em>Biometrics</em> 27 (4): 857–71.
@@ -4203,10 +4269,14 @@ Kaufman, Leonard, and Peter J. Rousseeuw. 1990. <em>Finding Groups in Data: An I
 <div id="ref-macqueen1967" class="csl-entry" role="listitem">
 MacQueen, J. 1967. <span>“Some Methods for Classification and Analysis of Multivariate Observations.”</span> In <em>Proceedings of the Fifth Berkeley Symposium on Mathematical Statistics and Probability</em>, edited by L. M. Le Cam and J. Neyman, 1:281–97. Berkeley, CA: University of California Press.
 </div>
+<div id="ref-theodoridis2008pattern" class="csl-entry" role="listitem">
+Theodoridis, Sergios, and Konstantinos Koutroumbas. 2008. <em>Pattern Recognition</em>. 4th ed. Amsterdam, Netherlands: Academic Press.
+</div>
 <div id="ref-tibshirani2001gap" class="csl-entry" role="listitem">
 Tibshirani, Robert, Guenther Walther, and Trevor Hastie. 2001. <span>“Estimating the Number of Data Clusters via the Gap Statistic.”</span> <em>Journal of the Royal Statistical Society: Series B (Statistical Methodology)</em> 63 (2): 411–23.
 </div>
 </div>
+</section>
 </section>
 </section>
 </section>
