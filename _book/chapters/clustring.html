@@ -1899,10 +1899,46 @@ window.Quarto = {
   <ul>
   <li><a href="#k-means-clustering" id="toc-k-means-clustering" class="nav-link" data-scroll-target="#k-means-clustering"><span class="header-section-number">10.3.1</span> <span class="math inline">\(K\)</span>-Means Clustering</a>
   <ul class="collapse">
-  <li><a href="#properties-and-limitations-of-k-means" id="toc-properties-and-limitations-of-k-means" class="nav-link" data-scroll-target="#properties-and-limitations-of-k-means"><span class="header-section-number">10.3.1.1</span> Properties and Limitations of <span class="math inline">\(K\)</span>-Means</a></li>
-  <li><a href="#measures-of-cluster-quality" id="toc-measures-of-cluster-quality" class="nav-link" data-scroll-target="#measures-of-cluster-quality"><span class="header-section-number">10.3.1.2</span> Measures of Cluster Quality</a></li>
-  <li><a href="#analysis-of-iris-dataset" id="toc-analysis-of-iris-dataset" class="nav-link" data-scroll-target="#analysis-of-iris-dataset"><span class="header-section-number">10.3.1.3</span> Analysis of <code>iris</code> Dataset</a></li>
+  <li><a href="#k-means-basic-ideas" id="toc-k-means-basic-ideas" class="nav-link" data-scroll-target="#k-means-basic-ideas"><span class="header-section-number">10.3.1.1</span> <span class="math inline">\(K\)</span>-means basic ideas</a></li>
+  <li><a href="#k-means-algorithm" id="toc-k-means-algorithm" class="nav-link" data-scroll-target="#k-means-algorithm"><span class="header-section-number">10.3.1.2</span> <span class="math inline">\(K\)</span>-means Algorithm</a></li>
+  <li><a href="#properties-and-limitations-of-k-means" id="toc-properties-and-limitations-of-k-means" class="nav-link" data-scroll-target="#properties-and-limitations-of-k-means"><span class="header-section-number">10.3.1.3</span> Properties and Limitations of <span class="math inline">\(K\)</span>-Means</a></li>
+  <li><a href="#normalization-minmax-scaling" id="toc-normalization-minmax-scaling" class="nav-link" data-scroll-target="#normalization-minmax-scaling"><span class="header-section-number">10.3.1.4</span> Normalization (Min–Max Scaling)</a></li>
+  <li><a href="#standardization-z-score-scaling" id="toc-standardization-z-score-scaling" class="nav-link" data-scroll-target="#standardization-z-score-scaling"><span class="header-section-number">10.3.1.5</span> Standardization (Z-score Scaling)</a></li>
+  <li><a href="#measures-of-cluster-quality" id="toc-measures-of-cluster-quality" class="nav-link" data-scroll-target="#measures-of-cluster-quality"><span class="header-section-number">10.3.1.6</span> Measures of Cluster Quality</a></li>
+  <li><a href="#analysis-of-iris-dataset" id="toc-analysis-of-iris-dataset" class="nav-link" data-scroll-target="#analysis-of-iris-dataset"><span class="header-section-number">10.3.1.7</span> Analysis of <code>iris</code> Dataset</a></li>
   </ul></li>
+  <li><a href="#k-medoids-clustering" id="toc-k-medoids-clustering" class="nav-link" data-scroll-target="#k-medoids-clustering"><span class="header-section-number">10.3.2</span> <span class="math inline">\(K\)</span>-Medoids Clustering</a>
+  <ul class="collapse">
+  <li><a href="#pam-algorithm" id="toc-pam-algorithm" class="nav-link" data-scroll-target="#pam-algorithm"><span class="header-section-number">10.3.2.1</span> PAM Algorithm</a></li>
+  <li><a href="#example" id="toc-example" class="nav-link" data-scroll-target="#example"><span class="header-section-number">10.3.2.2</span> Example</a></li>
+  <li><a href="#implementation-pam-in-r" id="toc-implementation-pam-in-r" class="nav-link" data-scroll-target="#implementation-pam-in-r"><span class="header-section-number">10.3.2.3</span> Implementation PAM in R</a></li>
+  <li><a href="#estimating-the-optimal-number-of-clusters" id="toc-estimating-the-optimal-number-of-clusters" class="nav-link" data-scroll-target="#estimating-the-optimal-number-of-clusters"><span class="header-section-number">10.3.2.4</span> Estimating the optimal number of clusters</a></li>
+  <li><a href="#example-of-pam-in-r" id="toc-example-of-pam-in-r" class="nav-link" data-scroll-target="#example-of-pam-in-r"><span class="header-section-number">10.3.2.5</span> Example of PAM in R</a></li>
+  <li><a href="#exercise" id="toc-exercise" class="nav-link" data-scroll-target="#exercise"><span class="header-section-number">10.3.2.6</span> Exercise</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#cluster-validation" id="toc-cluster-validation" class="nav-link" data-scroll-target="#cluster-validation"><span class="header-section-number">10.4</span> Cluster Validation</a>
+  <ul>
+  <li><a href="#assessing-clustering-tendency" id="toc-assessing-clustering-tendency" class="nav-link" data-scroll-target="#assessing-clustering-tendency"><span class="header-section-number">10.4.1</span> Assessing Clustering Tendency</a>
+  <ul class="collapse">
+  <li><a href="#methods-for-assessing-clustering-tendency" id="toc-methods-for-assessing-clustering-tendency" class="nav-link" data-scroll-target="#methods-for-assessing-clustering-tendency"><span class="header-section-number">10.4.1.1</span> Methods for assessing clustering tendency</a></li>
+  </ul></li>
+  <li><a href="#determing-the-optimal-number-of-clusters" id="toc-determing-the-optimal-number-of-clusters" class="nav-link" data-scroll-target="#determing-the-optimal-number-of-clusters"><span class="header-section-number">10.4.2</span> Determing the optimal number of clusters</a>
+  <ul class="collapse">
+  <li><a href="#elbow-method" id="toc-elbow-method" class="nav-link" data-scroll-target="#elbow-method"><span class="header-section-number">10.4.2.1</span> Elbow method</a></li>
+  <li><a href="#average-silhouette-method" id="toc-average-silhouette-method" class="nav-link" data-scroll-target="#average-silhouette-method"><span class="header-section-number">10.4.2.2</span> Average silhouette method</a></li>
+  <li><a href="#gap-statistic-method" id="toc-gap-statistic-method" class="nav-link" data-scroll-target="#gap-statistic-method"><span class="header-section-number">10.4.2.3</span> Gap statistic method</a></li>
+  <li><a href="#computing-the-number-of-clusters-using-r" id="toc-computing-the-number-of-clusters-using-r" class="nav-link" data-scroll-target="#computing-the-number-of-clusters-using-r"><span class="header-section-number">10.4.2.4</span> Computing the number of clusters using R</a></li>
+  </ul></li>
+  <li><a href="#cluster-validation-statistics" id="toc-cluster-validation-statistics" class="nav-link" data-scroll-target="#cluster-validation-statistics"><span class="header-section-number">10.4.3</span> Cluster Validation Statistics</a>
+  <ul class="collapse">
+  <li><a href="#internal-measures-for-cluster-validation" id="toc-internal-measures-for-cluster-validation" class="nav-link" data-scroll-target="#internal-measures-for-cluster-validation"><span class="header-section-number">10.4.3.1</span> Internal measures for cluster validation</a></li>
+  <li><a href="#external-measures-for-clustering-validation" id="toc-external-measures-for-clustering-validation" class="nav-link" data-scroll-target="#external-measures-for-clustering-validation"><span class="header-section-number">10.4.3.2</span> External measures for clustering validation</a></li>
+  <li><a href="#implementation-in-r" id="toc-implementation-in-r" class="nav-link" data-scroll-target="#implementation-in-r"><span class="header-section-number">10.4.3.3</span> Implementation in R</a></li>
+  <li><a href="#cluster-validation-1" id="toc-cluster-validation-1" class="nav-link" data-scroll-target="#cluster-validation-1"><span class="header-section-number">10.4.3.4</span> Cluster validation</a></li>
+  <li><a href="#external-clustering-validation" id="toc-external-clustering-validation" class="nav-link" data-scroll-target="#external-clustering-validation"><span class="header-section-number">10.4.3.5</span> External clustering validation</a></li>
+  </ul></li>
+  <li><a href="#choosing-the-best-clustering-algorithms" id="toc-choosing-the-best-clustering-algorithms" class="nav-link" data-scroll-target="#choosing-the-best-clustering-algorithms"><span class="header-section-number">10.4.4</span> Choosing the Best Clustering Algorithms</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -2795,10 +2831,11 @@ D_{ij} = d(\mathbf{x}_i, \mathbf{x}_j)
 <li>CLARA (Clustering Large Applications) algorithm, which is an extension to PAM adapted for large data sets.</li>
 </ul>
 <section id="k-means-clustering" class="level3" data-number="10.3.1">
-<h3 data-number="10.3.1" class="anchored"><span class="header-section-number">10.3.1</span> <span class="math inline">\(K\)</span>-Means Clustering</h3>
+<h3 data-number="10.3.1" class="anchored" data-anchor-id="k-means-clustering"><span class="header-section-number">10.3.1</span> <span class="math inline">\(K\)</span>-Means Clustering</h3>
 <p>K-Means aims to partition <span class="math inline">\(n\)</span> observations into <span class="math inline">\(K\)</span> clusters such that each observation belongs to the cluster with the nearest <strong>centroid</strong> (mean of points).</p>
 <p>Each cluster is represented by its <em>centroid</em>, which may not be an actual data point.</p>
-<p><strong><span class="math inline">\(K\)</span>-means basic ideas</strong></p>
+<section id="k-means-basic-ideas" class="level4" data-number="10.3.1.1">
+<h4 data-number="10.3.1.1" class="anchored" data-anchor-id="k-means-basic-ideas"><span class="header-section-number">10.3.1.1</span> <span class="math inline">\(K\)</span>-means basic ideas</h4>
 <p>This basic idea behind <span class="math inline">\(K\)</span>-means clustering consists of defining clusters so that the total intra-cluster variation (known as <em>total within-cluster variation</em>) is minimized.</p>
 <p>There are several <span class="math inline">\(K\)</span>-means algorithms available. The standard algorithm is the <em>Hartigan-Wong algorithm</em> <span class="citation" data-cites="hartigan1979">(<a href="#ref-hartigan1979" role="doc-biblioref">Hartigan and Wong 1979</a>)</span> which defines the total within-cluster variation as the sum of squared distances Euclidean distances between items and the corresponding centroid: <span class="math display">\[
 W(C_k) = \sum_{x_i \in C_k} (x_i - \mu_k)^2
@@ -2808,7 +2845,9 @@ W(C_k) = \sum_{x_i \in C_k} (x_i - \mu_k)^2
 \text{tot.withinss} = \sum_{k=1}^K W(C_k) = \sum_{k=1}^K \sum_{x_i \in C_k} (x_i - \mu_k)^2
 \]</span></p>
 <p>The <em>total within-cluster sum of square</em> measures the compactness (i.e.&nbsp;<em>goodness</em>) of the clustering and we want it to be as small as possible.</p>
-<p><strong><span class="math inline">\(K\)</span>-means Algorithm</strong></p>
+</section>
+<section id="k-means-algorithm" class="level4" data-number="10.3.1.2">
+<h4 data-number="10.3.1.2" class="anchored" data-anchor-id="k-means-algorithm"><span class="header-section-number">10.3.1.2</span> <span class="math inline">\(K\)</span>-means Algorithm</h4>
 <p>Given a dataset <span class="math inline">\(\mathbf{X}= \{\mathbf{x}_1, \mathbf{x}_2, \ldots, \mathbf{x}_n\}\)</span>:</p>
 <ol type="1">
 <li>Choose the number of clusters <span class="math inline">\(K\)</span>.<br>
@@ -2827,11 +2866,12 @@ c_i = \arg\min_k \|\mathbf{x}_i - \mu_k\|^2
 <p>For better understanding, see this <a href="https://blog.dailydoseofds.com/p/an-animated-guide-to-kmeans">video</a></p>
 <div id="qwebr-insertion-location-11"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<section id="properties-and-limitations-of-k-means" class="level4" data-number="10.3.1.1">
-<h4 data-number="10.3.1.1" class="anchored" data-anchor-id="properties-and-limitations-of-k-means"><span class="header-section-number">10.3.1.1</span> Properties and Limitations of <span class="math inline">\(K\)</span>-Means</h4>
+</section>
+<section id="properties-and-limitations-of-k-means" class="level4" data-number="10.3.1.3">
+<h4 data-number="10.3.1.3" class="anchored" data-anchor-id="properties-and-limitations-of-k-means"><span class="header-section-number">10.3.1.3</span> Properties and Limitations of <span class="math inline">\(K\)</span>-Means</h4>
 <p>Although <span class="math inline">\(K\)</span>-means is one of the most popular clustering algorithms, its effectiveness depends on the structure and scale of the data. Understanding its limitations helps decide when to use it — and when to choose a more robust alternative like <span class="math inline">\(K\)</span>-Medoids.</p>
-<section id="data-type-and-cluster-shape" class="level5" data-number="10.3.1.1.1">
-<h5 data-number="10.3.1.1.1" class="anchored" data-anchor-id="data-type-and-cluster-shape"><span class="header-section-number">10.3.1.1.1</span> <strong>Data Type and Cluster Shape</strong></h5>
+<section id="data-type-and-cluster-shape" class="level5" data-number="10.3.1.3.1">
+<h5 data-number="10.3.1.3.1" class="anchored" data-anchor-id="data-type-and-cluster-shape"><span class="header-section-number">10.3.1.3.1</span> Data Type and Cluster Shape</h5>
 <p><span class="math inline">\(K\)</span>-Means works best when:</p>
 <ul>
 <li><p>All variables are numeric</p></li>
@@ -2841,14 +2881,21 @@ c_i = \arg\min_k \|\mathbf{x}_i - \mu_k\|^2
 </ul>
 <p>When clusters are elongated, overlapping, or non-spherical, <span class="math inline">\(K\)</span>-Means may assign points incorrectly because it relies on <em>Euclidean distance</em>.</p>
 </section>
-<section id="sensitivity-to-scale" class="level5" data-number="10.3.1.1.2">
-<h5 data-number="10.3.1.1.2" class="anchored" data-anchor-id="sensitivity-to-scale"><span class="header-section-number">10.3.1.1.2</span> <strong>Sensitivity to Scale</strong></h5>
+<section id="sensitivity-to-scale" class="level5" data-number="10.3.1.3.2">
+<h5 data-number="10.3.1.3.2" class="anchored" data-anchor-id="sensitivity-to-scale"><span class="header-section-number">10.3.1.3.2</span> Sensitivity to Scale</h5>
 <p>In clustering, the distance between data points determines how groups are formed.</p>
 <p>If variables are measured on very different scales (for example, income in euros and age in years), the variable with the largest numerical range will dominate the distance calculation. As a result, the algorithm may ignore other variables, even if they carry meaningful structure. To correct this imbalance, we use <strong>scaling transformations</strong>, which adjust the magnitude or spread of each variable before computing distances.</p>
-<p><strong>Normalization (Min–Max Scaling)</strong> Normalization rescales all variables to a fixed range, usually between <span class="math inline">\(0\)</span> and <span class="math inline">\(1\)</span>: <span class="math display">\[
+</section>
+</section>
+<section id="normalization-minmax-scaling" class="level4" data-number="10.3.1.4">
+<h4 data-number="10.3.1.4" class="anchored" data-anchor-id="normalization-minmax-scaling"><span class="header-section-number">10.3.1.4</span> Normalization (Min–Max Scaling)</h4>
+<p>Normalization rescales all variables to a fixed range, usually between <span class="math inline">\(0\)</span> and <span class="math inline">\(1\)</span>: <span class="math display">\[
 x' = \frac{x - \min(x)}{\max(x) - \min(x)}
 \]</span> This transformation preserves the shape of the distribution but ensures all features contribute equally in magnitude to the distance measure. It is particularly effective when all features have bounded ranges or similar distributions.</p>
-<p><strong>Standardization (Z-score Scaling)</strong> Standardization rescales variables so they have mean 0 and standard deviation 1: <span class="math display">\[
+</section>
+<section id="standardization-z-score-scaling" class="level4" data-number="10.3.1.5">
+<h4 data-number="10.3.1.5" class="anchored" data-anchor-id="standardization-z-score-scaling"><span class="header-section-number">10.3.1.5</span> Standardization (Z-score Scaling)</h4>
+<p>Standardization rescales variables so they have mean 0 and standard deviation 1: <span class="math display">\[
 x' = \frac{x - \bar{x}}{s_x}
 \]</span> where <span class="math inline">\(\bar{x}\)</span> is the mean and <span class="math inline">\(s_x\)</span> is the standard deviation.</p>
 <p>This approach centers the data and adjusts for variance, which helps when features have different dispersions or units of measurement. Standardization is preferred when features are expected to follow roughly Gaussian distributions, or when outliers might distort min–max scaling.</p>
@@ -2883,27 +2930,26 @@ Important
 <div id="qwebr-insertion-location-15"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
-</section>
-<section id="measures-of-cluster-quality" class="level4" data-number="10.3.1.2">
-<h4 data-number="10.3.1.2" class="anchored" data-anchor-id="measures-of-cluster-quality"><span class="header-section-number">10.3.1.2</span> Measures of Cluster Quality</h4>
+<section id="measures-of-cluster-quality" class="level4" data-number="10.3.1.6">
+<h4 data-number="10.3.1.6" class="anchored" data-anchor-id="measures-of-cluster-quality"><span class="header-section-number">10.3.1.6</span> Measures of Cluster Quality</h4>
 <p>To evaluate and compare clustering results, we rely on <em>internal validation measures</em> — those that assess how compact and well-separated the clusters are, using only the data itself.</p>
 <p>The most common measures include:</p>
-<section id="within-cluster-sum-of-squares-wss" class="level5" data-number="10.3.1.2.1">
-<h5 data-number="10.3.1.2.1" class="anchored" data-anchor-id="within-cluster-sum-of-squares-wss"><span class="header-section-number">10.3.1.2.1</span> <strong>Within-Cluster Sum of Squares (WSS)</strong></h5>
+<section id="within-cluster-sum-of-squares-wss" class="level5" data-number="10.3.1.6.1">
+<h5 data-number="10.3.1.6.1" class="anchored" data-anchor-id="within-cluster-sum-of-squares-wss"><span class="header-section-number">10.3.1.6.1</span> <strong>Within-Cluster Sum of Squares (WSS)</strong></h5>
 <p>The <em>Within-Cluster Sum of Squares</em> measures how tightly the data points in a cluster are grouped around their centroid. <span class="math display">\[
 \text{WSS} = \sum_{k=1}^{K} \sum_{\mathbf{x}_i \in C_k} \|\mathbf{x}_i - \boldsymbol{\mu}_k\|^2
 \]</span> where <span class="math inline">\(C_k\)</span> is the set of points in cluster <span class="math inline">\(k\)</span>, <span class="math inline">\(\boldsymbol{\mu}_k\)</span> is the centroid of cluster <span class="math inline">\(k\)</span>, and <span class="math inline">\(\|\cdot\|^2\)</span> shows the squared Euclidean distance between a point and its centroid.</p>
 <p>A smaller WSS means <em>more compact clusters</em>.</p>
 </section>
-<section id="between-cluster-sum-of-squares-bss" class="level5" data-number="10.3.1.2.2">
-<h5 data-number="10.3.1.2.2" class="anchored" data-anchor-id="between-cluster-sum-of-squares-bss"><span class="header-section-number">10.3.1.2.2</span> <strong>Between-Cluster Sum of Squares (BSS)</strong></h5>
+<section id="between-cluster-sum-of-squares-bss" class="level5" data-number="10.3.1.6.2">
+<h5 data-number="10.3.1.6.2" class="anchored" data-anchor-id="between-cluster-sum-of-squares-bss"><span class="header-section-number">10.3.1.6.2</span> <strong>Between-Cluster Sum of Squares (BSS)</strong></h5>
 <p>The <em>Between-Cluster Sum of Squares</em> measures how far apart the cluster centroids are from the overall mean of the dataset. <span class="math display">\[
 \text{BSS} = \sum_{k=1}^{K} n_k \| \boldsymbol{\mu}_k - \boldsymbol{\mu} \|^2
 \]</span> where <span class="math inline">\(n_k\)</span> is the number of points in cluster <span class="math inline">\(k\)</span>, <span class="math inline">\(\boldsymbol{\mu}_k\)</span> is the centroid of cluster <span class="math inline">\(k\)</span>, and <span class="math inline">\(\boldsymbol{\mu}\)</span> is the global mean of all data points.</p>
 <p>A larger BSS means <em>better separation</em> between clusters.</p>
 </section>
-<section id="total-sum-of-squares-tss" class="level5" data-number="10.3.1.2.3">
-<h5 data-number="10.3.1.2.3" class="anchored" data-anchor-id="total-sum-of-squares-tss"><span class="header-section-number">10.3.1.2.3</span> <strong>Total Sum of Squares (TSS)</strong></h5>
+<section id="total-sum-of-squares-tss" class="level5" data-number="10.3.1.6.3">
+<h5 data-number="10.3.1.6.3" class="anchored" data-anchor-id="total-sum-of-squares-tss"><span class="header-section-number">10.3.1.6.3</span> <strong>Total Sum of Squares (TSS)</strong></h5>
 <p>The <em>Total Sum of Squares</em> represents the overall variation in the dataset: <span class="math display">\[
 \text{TSS} = \sum_{i=1}^{n} \|\mathbf{x}_i - \boldsymbol{\mu}\|^2
 \]</span></p>
@@ -2915,8 +2961,8 @@ Important
 \]</span></p>
 <p>A higher ratio means that the clusters explain a greater proportion of the data’s variance.</p>
 </section>
-<section id="silhouette-coefficient" class="level5" data-number="10.3.1.2.4">
-<h5 data-number="10.3.1.2.4" class="anchored" data-anchor-id="silhouette-coefficient"><span class="header-section-number">10.3.1.2.4</span> <strong>Silhouette Coefficient</strong></h5>
+<section id="silhouette-coefficient" class="level5" data-number="10.3.1.6.4">
+<h5 data-number="10.3.1.6.4" class="anchored" data-anchor-id="silhouette-coefficient"><span class="header-section-number">10.3.1.6.4</span> <strong>Silhouette Coefficient</strong></h5>
 <p>The <em>Silhouette Coefficient</em> combines <em>cohesion</em> (how close points are within a cluster) and <em>separation</em> (how far points are from other clusters): <span class="math display">\[
 s(i) = \frac{b(i) - a(i)}{\max(a(i), b(i))}
 \]</span> where <span class="math inline">\(a(i)\)</span> is the average distance from point <span class="math inline">\(i\)</span> to all other points in its cluster, and <span class="math inline">\(b(i)\)</span> is the smallest average distance from point <span class="math inline">\(i\)</span> to points in another cluster.</p>
@@ -3111,8 +3157,8 @@ Important
 </div>
 </section>
 </section>
-<section id="analysis-of-iris-dataset" class="level4" data-number="10.3.1.3">
-<h4 data-number="10.3.1.3" class="anchored"><span class="header-section-number">10.3.1.3</span> Analysis of <code>iris</code> Dataset</h4>
+<section id="analysis-of-iris-dataset" class="level4" data-number="10.3.1.7">
+<h4 data-number="10.3.1.7" class="anchored" data-anchor-id="analysis-of-iris-dataset"><span class="header-section-number">10.3.1.7</span> Analysis of <code>iris</code> Dataset</h4>
 <p>The classic <code>iris</code> dataset contains <span class="math inline">\(150\)</span> flower observations from three species (<em>setosa</em>, <em>versicolor</em>, <em>virginica</em>). Each observation has four numeric features: <code>Sepal.Length</code>, <code>Sepal.Width</code>, <code>Petal.Length</code>, and <code>Petal.Width</code></p>
 <div id="qwebr-insertion-location-16"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
@@ -3186,6 +3232,8 @@ Tip
 </div>
 <div class="callout-body-container callout-body">
 <p>The <em>BSS/WSS ratio</em> is a helpful indicator, but not the whole story. Always complement numerical measures with <em>visual inspection</em>.</p>
+</div>
+</div>
 </div>
 </div>
 <p>Now, based on the most discriminative features, <code>Petal.Length</code> and <code>Petal.Width</code>, we visualize the clusters.</p>
@@ -3298,6 +3346,8 @@ Tip
 </div>
 </div>
 </div>
+</section>
+</section>
 <section id="k-medoids-clustering" class="level3" data-number="10.3.2">
 <h3 data-number="10.3.2" class="anchored" data-anchor-id="k-medoids-clustering"><span class="header-section-number">10.3.2</span> <span class="math inline">\(K\)</span>-Medoids Clustering</h3>
 <p>The <span class="math inline">\(k\)</span>-medoids algorithm is a partitioning clustering method closely related to <span class="math inline">\(k\)</span>-means, but instead of using the <em>mean (centroid)</em> of points to represent a cluster, it uses an <em>actual observation (medoid)</em> — the most centrally located data point within that cluster.</p>
@@ -3921,6 +3971,7 @@ $updated_assignments
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
 </section>
+</section>
 <section id="cluster-validation" class="level2" data-number="10.4">
 <h2 data-number="10.4" class="anchored" data-anchor-id="cluster-validation"><span class="header-section-number">10.4</span> Cluster Validation</h2>
 <p>The cluster validation consists of measuring the goodness of clustering results.</p>
@@ -4374,13 +4425,12 @@ Important
 <p>The same analysis can be computed for PAM clustering</p>
 <div id="qwebr-insertion-location-48"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+</section>
+</section>
+<section id="choosing-the-best-clustering-algorithms" class="level3" data-number="10.4.4">
+<h3 data-number="10.4.4" class="anchored" data-anchor-id="choosing-the-best-clustering-algorithms"><span class="header-section-number">10.4.4</span> Choosing the Best Clustering Algorithms</h3>
 
 
-</section>
-</section>
-</section>
-</div>
-</div>
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
 <div id="ref-Bezdek2002" class="csl-entry" role="listitem">
 Bezdek, J. C., and R. J. Hathaway. 2002. <span>“VAT: A Tool for Visual Assessment of (Cluster) Tendency.”</span> In <em>Proceedings of the 2002 International Joint Conference on Neural Networks. IJCNN’02 (Cat. No.02CH37290)</em>, 3:2225–30.
@@ -4410,7 +4460,6 @@ Theodoridis, Sergios, and Konstantinos Koutroumbas. 2008. <em>Pattern Recognitio
 Tibshirani, Robert, Guenther Walther, and Trevor Hastie. 2001. <span>“Estimating the Number of Data Clusters via the Gap Statistic.”</span> <em>Journal of the Royal Statistical Society: Series B (Statistical Methodology)</em> 63 (2): 411–23.
 </div>
 </div>
-</section>
 </section>
 </section>
 

@@ -983,7 +983,7 @@ K-Means aims to partition $n$ observations into $K$ clusters such that each obse
 
 Each cluster is represented by its *centroid*, which may not be an actual data point.
 
-**$K$-means basic ideas**
+#### $K$-means basic ideas
 
 This basic idea behind $K$-means clustering consists of defining clusters so that the total intra-cluster variation (known as *total within-cluster variation*) is minimized.
 
@@ -1003,7 +1003,7 @@ $$
 The *total within-cluster sum of square* measures the compactness (i.e. *goodness*) of the clustering and we want it to be as small as possible. 
 
 
-**$K$-means Algorithm**
+#### $K$-means Algorithm
 
 Given a dataset $\mathbf{X}= \{\mathbf{x}_1, \mathbf{x}_2, \ldots, \mathbf{x}_n\}$:
 
@@ -1056,7 +1056,7 @@ ggplot(data, aes(x, y, color = cluster)) +
 
 Although $K$-means is one of the most popular clustering algorithms, its effectiveness depends on the structure and scale of the data. Understanding its limitations helps decide when to use it — and when to choose a more robust alternative like $K$-Medoids.
 
-##### **Data Type and Cluster Shape**
+##### Data Type and Cluster Shape
 
 $K$-Means works best when:
 
@@ -1069,13 +1069,14 @@ $K$-Means works best when:
 
 When clusters are elongated, overlapping, or non-spherical, $K$-Means may assign points incorrectly because it relies on *Euclidean distance*.
 
-##### **Sensitivity to Scale**
+##### Sensitivity to Scale
 
 In clustering, the distance between data points determines how groups are formed. 
 
 If variables are measured on very different scales (for example, income in euros and age in years), the variable with the largest numerical range will dominate the distance calculation. As a result, the algorithm may ignore other variables, even if they carry meaningful structure. To correct this imbalance, we use **scaling transformations**, which adjust the magnitude or spread of each variable before computing distances.
 
-**Normalization (Min–Max Scaling)**
+#### Normalization (Min–Max Scaling)
+
 Normalization rescales all variables to a fixed range, usually between $0$ and $1$:
 $$
 x' = \frac{x - \min(x)}{\max(x) - \min(x)}
@@ -1083,7 +1084,7 @@ $$
 This transformation preserves the shape of the distribution but ensures all features contribute equally in magnitude to the distance measure.
 It is particularly effective when all features have bounded ranges or similar distributions.
 
-**Standardization (Z-score Scaling)**
+#### Standardization (Z-score Scaling)
 Standardization rescales variables so they have mean 0 and standard deviation 1:
 $$
 x' = \frac{x - \bar{x}}{s_x}
@@ -1612,6 +1613,8 @@ The *BSS/WSS ratio* is a helpful indicator, but not the whole story.
 Always complement numerical measures with *visual inspection*.
 :::
 
+:::
+
 Now, based on the most discriminative features, `Petal.Length` and `Petal.Width`, we visualize the clusters.
 
 ```{webr-r}
@@ -1832,7 +1835,6 @@ plot(0, type = "n", xlim = c(0, 1), ylim = c(0, 1),
 xlab = "", ylab = "", axes = FALSE, main = paste("Compressed Image (k =", k, ")"))
 rasterImage(compressed_img, 0, 0, 1, 1)
 ```
-
 :::::
 
 ### $K$-Medoids Clustering
