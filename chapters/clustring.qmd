@@ -5,7 +5,7 @@ filters:
 ---
 
 ```{r setup, include=FALSE}
-required_packages <- c("cluster", "lsa", "GGally", "factoextra", "stats", "tibble", 'dplyr', 'kmed', 'hopkins')
+required_packages <- c("cluster", "lsa", "GGally", "factoextra", "stats", "tibble", 'dplyr', 'kmed', 'hopkins', 'fpc')
 
 for (pkg in required_packages) {
   if (!require(pkg, character.only = TRUE)) {
@@ -1611,7 +1611,6 @@ So even though `Sepal.Width`’s ratio is high, its overlap pattern means it is 
 The *BSS/WSS ratio* is a helpful indicator, but not the whole story.
 Always complement numerical measures with *visual inspection*.
 :::
-:::
 
 Now, based on the most discriminative features, `Petal.Length` and `Petal.Width`, we visualize the clusters.
 
@@ -2103,7 +2102,7 @@ where:
 - `metric`: the distance matrix to be used. Available options are `"euclidean"` and `"manhattan"`.
 - `stand`: logical value; if `TRUE`, the variables (columns) in `x` are standardized before calculating the dissilarities. Ignored when `x` is a dissimilarity matrix.
 
-Similar to $K$-means, the following `R` code computes PAM algorithm ::: {.aside}
+Similar to $K$-means, the following `R` code computes PAM algorithm 
 ```{r}
 #| eval: false 
 
@@ -2636,3 +2635,238 @@ Silhouette width can be interpreted as follow:
 - Observations with a large $S_i$ (almost $1$) are very well clustered.
 - A small $S_i$ (around $0$) means that the observation lies between two clusters.
 - Observations with a negative $S_i$ are probably placed in the wrong cluster.
+
+##### Dunn Index 
+
+The *Dunn index* is another internal clustering validation measure which can be computed as follow:
+
+1. For each cluster, compute the distance between each of the observations in the cluster and the observations in the other clusters
+2. Use the minimum of this pairwise distance as the inter-cluster separation (*min.separation*)
+3. For each cluster, compute the distance between the observations in the same cluster. 
+4. Use the maximal intra-cluster distance (i.e. maximum diameter) as the intra-cluster compactness
+5. Calculate the *Dunn index* ($D$) as follow: 
+$$
+D = \frac{min.separation}{max.diameter}
+$$
+
+:::{.callout-important}
+If the dataset contains compact and well-separated clusters, the diameter of the clusters is expected to be small and the distance between the clusters is expected to be large. Thus, *Dunn index* should be maximized.
+:::
+
+#### External measures for clustering validation
+The aim is to compare the udentified clusters (e.g. by $k$-means, PAM, etc.) to an external reference. 
+
+It is possible to quantify the agreement between partitioning clusters and external reference using either the corrected *Rand index* and *Meila's variation index VI*, which are implemented in R function `fpc::cluster.stats()`. 
+
+The corrected *Rand index* varies from $-1$ (no agreement) to $1$ (perfect agreement).
+
+:::{.callout-note}
+External clustering validation can be used to select suitable clustering algorithm for a given dataset.
+:::
+
+
+#### Implementation in R  
+
+The main package for computing clustering validation statistics is `fpc`.
+
+:::{.callout-tip}
+There is another function that does enhanced clustering is `factoextra::eclust()` which provides several advantages:
+
+- It simplifies the workflow of clustering analysis.
+- It can be used to cumpute different methods of clustering in a single line function call
+- Compared to the standard partitioning functions ($k$-means, PAM, ...) which requires the user to specify the optimal number of clusters, the function `eclust()` computes automatically the gap statistic for estimating the right number of clusters.
+- It provides silhouette information for all partitioning methods and hierarchical clustering
+- It draws beautiful graphs using `ggplot2` package
+:::
+
+The simplified format of the `eclust()` function is:
+```{r}
+#| eval: false
+eclust(x, FUNcluster = 'kmeans', hc_metric = 'euclidean', ...)
+```
+where:
+
+- `x`: numeric vector, data matrix, or data frame 
+- `FUNcluster`: a clustering function including `"kmeans"`, `"pam"`, `"clara"`, `"fanny"`, `"hclust"`, `"agnes"`, and `"diana"`
+- `hc_metric`: character string specifying the metric to be used for calculating dissimilarities between observations. Allowed values are those accepted by function `dist()`, including `"euclidean"`, `"manhattan"`, `"maximum"`, `"canberra"`, `"binary"`, `"minkowski"` and correlation-based distance measures including `"perason"`, `"spearman"`, or `"kendall"`. This parameter is used only when `FUNcluster` is a hierarchical clustering function such as one of `hclust`, `agnes`, or `diana`.
+- `...`: other arguments to be passed to `FUNcluster`.
+
+The function `eclust()` returns an object of class *eclust* containing the result of the standard function used. It includes:
+
+- *cluster*: the cluster assignment of observations after cutting the tree (in hirarical clustering)
+- *nbclust*: the number of clusters
+- *silinfo*: the silhouette information of observations
+- *size*: the size of clusters
+- *data*: a matrix containing the original or the standardized data (if `stand = TRUE`)
+- *gap\_stat*: containing gap statistic
+
+We countine our example with `iris` dataset as
+```{webr-r}
+#| label: example_eclust
+#| autorun: true 
+#| messages: false
+#| warnings: false 
+#| out-width: "80%"
+
+# k-means clustering on iris dataset
+km.res <- eclust(df_iris_scaled, FUNclust = 'kmeans', k = 3, nstart = 25, graph = FALSE)
+
+# Visualize k-means clusters
+fviz_cluster(km.res, geom = "point", ellipse.type = "norm",
+palette = "jco", ggtheme = theme_minimal())
+```
+
+#### Cluster validation
+
+##### Silhouette plot
+
+Recall that the silhouette coefficient ($S_i$) measures how similar an observation $\mathbf{x}_i$ is to the other observations in its own cluster versus those in the neighbor cluster. $S_i$ values range from $1$ to $-1$:
+
+- A value of $S_i$ close to $1$ indicates that the observation is well clustered. In the other words, the observation $\mathbf{x}_i$ is similar to the other observations in its group.
+- A value of $S_i$ close to $-1$ indicates that the observation is poorly clustered, and that assignment to some other cluster would probably improve the overall results. It is possible to draw silhouette coefficients of observations using the function `factoextra::fviz_silhouette()`, which will also print a summary of the silhouette analysis output. To avoid this, you can use the option `print.summary = FALSE`.
+```{webr-r}
+#| label: example_eclust-2
+#| autorun: true 
+#| messages: false
+#| warnings: false 
+#| out-width: "80%"
+
+fviz_silhouette(km.res, palette = "jco",
+ggtheme = theme_classic())
+```
+
+Silhouette information can be extracted as follow:
+
+```{webr-r}
+#| label: example_eclust-3
+#| autorun: true 
+#| messages: false
+#| warnings: false 
+#| out-width: "80%"
+
+# Silhouette information
+silinfo <- km.res$silinfo
+names(silinfo)
+# Silhouette widths of each observation
+head(silinfo$widths[, 1:3], 10)
+# Average silhouette width of each cluster
+silinfo$clus.avg.widths
+# The total average (mean of all individual silhouette widths)
+silinfo$avg.width
+# The size of each clusters
+km.res$size
+```
+
+It can be seen that several samples, in cluster 2, have a negative silhouette coefficient.
+This means that they are not in the right cluster. We can find the name of these
+samples and determine the clusters they are closer (neighbor cluster), as follow:
+
+```{webr-r}
+#| label: example_eclust-4
+#| autorun: true 
+#| messages: false
+#| warnings: false 
+#| out-width: "80%"
+
+# Silhouette width of observation
+sil <- km.res$silinfo$widths[, 1:3]
+# Objects with negative silhouette
+neg_sil_index <- which(sil[, 'sil_width'] < 0)
+sil[neg_sil_index, , drop = FALSE]
+```
+
+##### Computing Dunn index and other cluster validation statistics
+
+The function `fpc::cluster.stats()` and the function `NbClust::NbClust()` can be used to compute *Dunn index* and many other indices.
+
+The simplified format is
+```{r}
+#| eval: false 
+cluster.stats(d = NULL, clustering, al.clustering = NULL)
+```
+where: 
+- `d`: a distance object between cases as generated by the `dist()` function
+- `clustering`: vector containing the cluster number of each observation
+- `alt.clustering`: vector such as for clustering, indicating an alternative clustering
+
+The function `cluster.stats()` returns a list containing many components useful for analyzing the intrinsic characteristics of a clustering:
+
+- *cluster.number*: number of clusters
+- *cluster.size*: vector containing the number of points in each cluster
+- *average.distance, median.distance*: vector containing the cluster-wise within average/median distances
+- *average.between*: average distance between clusters. We want it to be as large as possible
+- *average.within*: average distance within clusters. We want it to be as small as possible
+- *clus.avg.silwidths*: vector of cluster average silhouette widths. Recall that, the *silhouette width* is also an estimate of the average distance between clusters. Its value is comprised between $1$ and $-1$ with a value of $1$ indicating a very good cluster
+- *within.cluster.ss*: a generalization of the within clusters sum of squares ($k$-means objective function), which is obtained if $d$ is a Euclidean distance matrix
+- *dunn, dunn2*: Dunn index
+- *corrected.rand, vi*: Two indexes to assess the similarity of two clustering: the corrected Rand index and Meila’s VI
+
+The clustering quality statistic for $k$-means can be computed. Look at the **within.cluster.ss** (within clusters sum of squares), the **average.within** (average distance within clusters) and **clus.avg.silwidths** (vector of cluster average silhouette widths).
+
+```{webr-r}
+#| label: example_eclust-4
+#| autorun: true 
+#| messages: false
+#| warnings: false 
+#| out-width: "80%"
+library(fpc)
+# Statistics for k-means clustering
+km_stats <- cluster.stats(dist(df_iris_scaled), km.res$cluster)
+# Dun index
+km_stats$dunn
+```
+
+#### External clustering validation
+
+Among the values returned by the function `cluster.stats()`, there are two indexes to assess the similarity of two clustering, namely the corrected Rand index and Meila’s
+VI.
+
+We know that the `iris` data contains exactly $3$ groups of species. *Does the $k$-means clustering matches with the true structure of the data?* We can use the function `cluster.stats()` to answer to this question. 
+
+Let start by computing a cross-tabulation between $k$-means clusters and the reference Species labels:
+
+```{webr-r}
+#| autorun: true 
+#| messages: false
+#| warnings: false 
+table(iris$Species, km.res$cluster)
+```
+It can be seen that:
+- All setosa species ($n = 50$) has been classified in cluster 1.
+- A large number of versicolor species ($n = 39$) has been classified in cluster 3. Some of them ($n = 11$) have been classified in cluster 2.
+- A large number of virginica species ($n = 36$) has been classified in cluster 2. Some of them ($n = 14$) have been classified in cluster 3. It is possible to quantify the agreement between Species and $k$-means clusters
+
+It is possible to quantify the agreement between Species and $k$-means clusters using either the corrected Rand index and Meila’s VI provided as follow:
+```{webr-r}
+#| autorun: true 
+#| messages: false
+#| warnings: false 
+library("fpc")
+# Compute cluster stats
+species <- as.numeric(iris$Species)
+clust_stats <- cluster.stats(d = dist(df_iris_scaled),
+species, km.res$cluster)
+# Corrected Rand index
+clust_stats$corrected.rand
+# VI
+clust_stats$vi
+```
+
+:::{.callout-important}
+The corrected Rand index provides a measure for assessing the similarity between two partitions, adjusted for chance. Its range is $-1$ (no agreement) to $1$ (perfect agreement).
+:::
+
+The same analysis can be computed for PAM clustering
+```{webr-r}
+#| autorun: true 
+#| messages: false
+#| warnings: false 
+library("fpc")
+# Agreement between species and pam clusters
+pam.res <- eclust(df, "pam", k = 3, graph = FALSE)
+table(iris$Species, pam.res$cluster)
+cluster.stats(d = dist(iris.scaled),
+species, pam.res$cluster)$vi
+```
+
+### Choosing the Best Clustering Algorithms
