@@ -1571,7 +1571,7 @@ At first glance, it seems that `Sepal.Width` (124.96) should be more discriminat
 BSS/WSS
 BSS/WSS for each feature is:
 $$
-\text{Ratio} = \frac{Between-Class Variance}{Within-Class Variance}
+\text{Ratio} = \frac{Between-Class Variance}{Within-Class Variance}
 $$
 This tells you, for that one variable alone, how distinct the species means are compared to the variability within each species.
 
@@ -2536,7 +2536,7 @@ The results show that:
 
 - *Elbow method* suggested $4$ clusters
 - *Silhouette method* suggested $2$ clusters
-- *Gap statistic method* suggested $4$ clusters
+- *Gap statistic method* suggested $2$ clusters
 
 According to these observatios, it is possible to define $k = 2$ as the optimal number of clusters in the `iris` dataset although, we know that the dataset has three clusters but based on the plots of the data, choosing $k=2$ makes sense. 
 
@@ -2805,13 +2805,20 @@ The function `cluster.stats()` returns a list containing many components useful 
 
 The clustering quality statistic for $k$-means can be computed. Look at the **within.cluster.ss** (within clusters sum of squares), the **average.within** (average distance within clusters) and **clus.avg.silwidths** (vector of cluster average silhouette widths).
 
-```{webr-r}
+```{r}
 #| label: example_eclust-4
 #| autorun: true 
 #| messages: false
 #| warnings: false 
 #| out-width: "80%"
 library(fpc)
+
+df_iris <- iris[, 1:4]
+# standardize the dataset
+df_iris_scaled <- scale(df_iris)
+
+km.res <- eclust(df_iris_scaled, FUNclust = 'kmeans', k = 3, nstart = 25, graph = FALSE)
+
 # Statistics for k-means clustering
 km_stats <- cluster.stats(dist(df_iris_scaled), km.res$cluster)
 # Dun index
@@ -2839,11 +2846,18 @@ It can be seen that:
 - A large number of virginica species ($n = 36$) has been classified in cluster 2. Some of them ($n = 14$) have been classified in cluster 3. It is possible to quantify the agreement between Species and $k$-means clusters
 
 It is possible to quantify the agreement between Species and $k$-means clusters using either the corrected Rand index and Meila’s VI provided as follow:
-```{webr-r}
+```{r}
 #| autorun: true 
 #| messages: false
 #| warnings: false 
 library("fpc")
+
+df_iris <- iris[, 1:4]
+# standardize the dataset
+df_iris_scaled <- scale(df_iris)
+
+km.res <- eclust(df_iris_scaled, FUNclust = 'kmeans', k = 3, nstart = 25, graph = FALSE)
+
 # Compute cluster stats
 species <- as.numeric(iris$Species)
 clust_stats <- cluster.stats(d = dist(df_iris_scaled),
