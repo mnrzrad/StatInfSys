@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>12&nbsp; Logistic Regression – Statistics and Information Systems</title>
+<title>11&nbsp; Projects – Statistics and Information Systems</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,8 +30,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../chapters/chapter1_data_ethics.html" rel="next">
-<link href="../chapters/clustering_projects.html" rel="prev">
+<link href="../chapters/chapter5_logistic_regression.html" rel="next">
+<link href="../chapters/clustring.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -369,7 +369,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"code":"library(tidyverse)","id":1,"options":{"autorun":"true","classes":"","comment":"","context":"setup","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"n <- 20\nx <- rbeta(n, 0.2, 0.4)\ny <- rbinom(n, 1, x)\nggplot(tibble(x, y), aes(x, y)) +\n  geom_point() +\n  geom_smooth(method = \"lm\", se = FALSE) +\n  labs(title = \"\",\n       x = \"x\",\n       y = \"y\")","id":2,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(tibble(x, y), aes(x, y)) +\n  geom_point() +\n  geom_smooth(method = \"glm\", \n       method.args = list(family = \"binomial\"), \n       se = FALSE) +\n  labs(title = \"\",\n       x = \"x\",\n       y = \"y\")\n  ","id":3,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-3","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"odds <- function(p) p / (1 - p)\np <- seq(0.1, 0.9, length.out = 90)\ntibble(p, odds = odds(p)) %>%\n  ggplot(aes(p, odds)) +\n  geom_line() +\n  geom_vline(xintercept = 0.5, color = \"red\", linetype = \"dashed\") +\n  geom_hline(yintercept = 1, color = \"blue\", linetype = \"dashed\") +\n  annotate(\"text\", x = 0.52, y = max(odds(p))*0.8, label = \"x = 0.5\", color = \"red\", hjust = 0) +\n  annotate(\"text\", x = 0.8, y = 1.05, label = \"y = 1\", color = \"blue\", vjust = 0) +\n  labs(title = \"Odds as a function of probability\",\n       x = \"Probability\",\n       y = \"Odds\")","id":4,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-4","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"logit <- function(p) log(p / (1 - p))\nprob <- seq(0.01, 0.99, length.out = 99)\ntibble(prob, logit = logit(prob)) %>%\n  ggplot(aes(prob, logit)) +\n  geom_line() +\n  geom_vline(xintercept = 0.5, color = \"red\", linetype = \"dashed\") +\n  geom_hline(yintercept = 0, color = \"blue\", linetype = \"dashed\") +\n  annotate(\"text\", x = 0.52, y = max(logit(prob))*0.8, label = \"x = 0.5\", color = \"red\", hjust = 0) +\n  annotate(\"text\", x = 0.8, y = 0.05, label = \"y = 0\", color = \"blue\", vjust = 0) +\n  labs(title = \"Logit as a function of probability\",\n       x = \"Probability\",\n       y = \"Logit\")","id":5,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-5","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
+globalThis.qwebrCellDetails = [{"code":"library(jpeg)\nlibrary(ggplot2)\nlibrary(dplyr)\n\n# Download an example image \nurl <- \"https://storage.googleapis.com/kagglesdsdata/datasets/2588649/4418848/photos_no_class/children-g13a48a038_640.jpg?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=databundle-worker-v2%40kaggle-161607.iam.gserviceaccount.com%2F20251023%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20251023T200444Z&X-Goog-Expires=345600&X-Goog-SignedHeaders=host&X-Goog-Signature=2c5de780583523927b9be8f9d460b45b5d38fc41d851eb2fe64d0563ea4ed2457222ee668b09d6cef490bc0235067b2bf71dfd70f3491b3d95bd29676992346bff389388a4a8d776cc9ce85c7eff3ff561fe434b07045ab9d8d8ea8d175edeeebc4328b9482d5224edf988292d2a250678bd0d24dadeecd254231ac98d6a303bfea264dce96f8efd0b4e9564000d61f7a73e46c50116b161163ce264bbb868639e41bea513e5b6ed641cfdcadc1e6d59a484e2b086503ff96e35a1b39e53a6096218b098dbe80e1b8f0f2de9252ca9d0ce8c7cacb1ebe83378211bbd708e6bb048ffdbef2770e6c8d39bac31559b419befc9855ebb082ddebaf87dec146c174e\"\ntemp <- tempfile(fileext = \".jpg\")\ndownload.file(url, temp, mode = 'wb')\nimg <- readJPEG(temp)\n\n# Show the original image \ngrid::grid.raster(img)","id":1,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"img-load","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"# Convert to data frame of RGB values \nimg_df <- data.frame(\n    R = as.vector(img[,,1]),\n    G = as.vector(img[,,2]),\n    B = as.vector(img[,,3])\n    )\n\ndim(img_df)","id":2,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"img-convert_data","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"head(img_df)","id":3,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"img-df-preview-1","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"summary(img_df)","id":4,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"img-df-preview-2","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"library(factoextra)\n\nset.seed(123)\n\n# Take a random sample of 5000 pixels\nn_sample <- 5000\nsample_img <- img_df[sample(1:nrow(img_df), n_sample), ]\n\nfviz_nbclust(sample_img, kmeans, method = \"wss\") +\n  ggtitle(\"Elbow Method — Optimal Number of Colors\")","id":5,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"kmeans-elbow-plot","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"set.seed(123)\nfviz_nbclust(sample_img, kmeans, method = \"silhouette\") +\n  ggtitle(\"Silhouette Method — Cluster Quality\")","id":6,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"kmeans-silhouette-plot","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"set.seed(123)\nfviz_nbclust(sample_img, kmeans, method = \"gap_stat\", nboot = 30) +\n  ggtitle(\"Gap Statistic — Cluster Quality\")","id":7,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"kmeans-gap_statistic-plot","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"library(ggplot2)\nlibrary(gridExtra)\n\n\nset.seed(123)\n# Step 1: Optionally downscale large images to save memory \nif (dim(img)[1] > 400) {\nimg <- img[seq(1, dim(img)[1], by = 2), seq(1, dim(img)[2], by = 2), ]\n}\n# Step 2: Convert image to RGB data frame \nimg_df <- data.frame(\nR = as.vector(img[,,1]),\nG = as.vector(img[,,2]),\nB = as.vector(img[,,3])\n)\n# Step 3: Fit K-Means on the full (or reduced) image \nkm3 <- kmeans(img_df, centers = 3, nstart = 10)\nkm4 <- kmeans(img_df, centers = 4, nstart = 10)\n\n# Step 4: Reconstruct compressed image keeping spatial layout \ncompress_full <- function(km_model, img_full) {\ncenters <- km_model$centers\ncluster_colors <- centers[km_model$cluster, ]\nimg_array <- array(cluster_colors, dim = dim(img_full))\nas.raster(img_array)\n}\n\ncompressed_3 <- compress_full(km3, img)\ncompressed_4 <- compress_full(km4, img)\n\n# Step 5: Plot side by side\np1 <- ggplot() + annotation_raster(compressed_3, 0, 1, 0, 1) +\nggtitle(\"K-Means Compression (k = 3)\") + theme_void()\np2 <- ggplot() + annotation_raster(compressed_4, 0, 1, 0, 1) +\nggtitle(\"K-Means Compression (k = 4)\") + theme_void()\n\ngridExtra::grid.arrange(p1, p2, ncol = 2)","id":8,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"Comparison of K-Means compression with k = 3 and k = 4","fig-height":5,"fig-width":7,"label":"compare-kmeans-3-4","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"false"}}];
 
 </script>
 <script type="module">
@@ -1665,7 +1665,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter5_logistic_regression.html">Classification</a></li><li class="breadcrumb-item"><a href="../chapters/chapter5_logistic_regression.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Logistic Regression</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/clustring.html">Clustering</a></li><li class="breadcrumb-item"><a href="../chapters/clustering_projects.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Projects</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -1772,7 +1772,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/clustering_projects.html" class="sidebar-item-text sidebar-link">
+  <a href="../chapters/clustering_projects.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Projects</span></span></a>
   </div>
 </li>
@@ -1789,7 +1789,7 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/chapter5_logistic_regression.html" class="sidebar-item-text sidebar-link active">
+  <a href="../chapters/chapter5_logistic_regression.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Logistic Regression</span></span></a>
   </div>
 </li>
@@ -1822,9 +1822,14 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#modelling-probabilities" id="toc-modelling-probabilities" class="nav-link active" data-scroll-target="#modelling-probabilities"><span class="header-section-number">12.1</span> Modelling Probabilities</a></li>
-  <li><a href="#sigmoid-functions" id="toc-sigmoid-functions" class="nav-link" data-scroll-target="#sigmoid-functions"><span class="header-section-number">12.2</span> Sigmoid Functions</a></li>
-  <li><a href="#logistic-model" id="toc-logistic-model" class="nav-link" data-scroll-target="#logistic-model"><span class="header-section-number">12.3</span> Logistic Model</a></li>
+  <li><a href="#image-clustering-and-compression" id="toc-image-clustering-and-compression" class="nav-link active" data-scroll-target="#image-clustering-and-compression"><span class="header-section-number">11.1</span> Image Clustering and Compression</a>
+  <ul>
+  <li><a href="#load-and-visualize-the-image" id="toc-load-and-visualize-the-image" class="nav-link" data-scroll-target="#load-and-visualize-the-image"><span class="header-section-number">11.1.1</span> Load and Visualize the Image</a></li>
+  <li><a href="#k-means" id="toc-k-means" class="nav-link" data-scroll-target="#k-means"><span class="header-section-number">11.1.2</span> <span class="math inline">\(k\)</span>-means</a>
+  <ul class="collapse">
+  <li><a href="#choosing-the-number-of-clusters" id="toc-choosing-the-number-of-clusters" class="nav-link" data-scroll-target="#choosing-the-number-of-clusters"><span class="header-section-number">11.1.2.1</span> Choosing the Number of clusters</a></li>
+  </ul></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -2115,9 +2120,9 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 }
 </script>
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter5_logistic_regression.html">Classification</a></li><li class="breadcrumb-item"><a href="../chapters/chapter5_logistic_regression.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Logistic Regression</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/clustring.html">Clustering</a></li><li class="breadcrumb-item"><a href="../chapters/clustering_projects.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Projects</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Logistic Regression</span></h1>
+<h1 class="title"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Projects</span></h1>
 </div>
 
 
@@ -2134,50 +2139,20 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </header>
 
 
-<div id="qwebr-insertion-location-1"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>A binary classification problem is one where the outcome variable can take on only two possible values. For example:</p>
+<section id="image-clustering-and-compression" class="level2" data-number="11.1">
+<h2 data-number="11.1" class="anchored" data-anchor-id="image-clustering-and-compression"><span class="header-section-number">11.1</span> Image Clustering and Compression</h2>
+<p>The goal of this analysis is to <strong>simplify an image</strong> by reducing the number of distinct colors while preserving its overall appearance.</p>
+<p>In other words, we are using <strong>clustering</strong> to group similar pixels in the RGB color space so that all pixels within a cluster share a representative color (the <strong>centroid</strong> or <strong>medoid</strong>).</p>
+<p>This technique:</p>
 <ul>
-<li>will a loaner enter default or not, based on their credit score and income;</li>
-<li>will a driver be involved in an accident or not, based on their age, automobile age and driving history;</li>
-<li>will a patient have a heart attack or not, based on their cholesterol level and blood pressure, and other health indicators.</li>
+<li><em>Reduces file size</em> (useful for compression),</li>
+<li><em>Highlights dominant colors</em> (helpful in computer vision, design, and pattern recognition),</li>
+<li><em>Illustrates how clustering groups similar observations</em> — here, similar colors.</li>
 </ul>
-<p>For this kind of problem, the dataset used to fit the model is composed of observations <span class="math inline">\((\mathbf{x}_1, y_1)\)</span>, <span class="math inline">\((\mathbf{x}_2, y_2)\)</span>, …, <span class="math inline">\((\mathbf{x}_n, y_n)\)</span> where each <span class="math inline">\(y_i\)</span> is usually labelled 0 (failure, no event, …) or 1 (success, event, …) and <span class="math inline">\(\mathbf{x}_i\)</span> is a vector of input variables.</p>
-<p>The task at hand is to build a model that, given an arbitrary <span class="math inline">\(\mathbf{x}\)</span>, will predict the probability that <span class="math inline">\(y = 1\)</span>.</p>
-<section id="modelling-probabilities" class="level2" data-number="12.1">
-<h2 data-number="12.1" class="anchored" data-anchor-id="modelling-probabilities"><span class="header-section-number">12.1</span> Modelling Probabilities</h2>
-<p>Why not use a linear regression model to predict the probability that <span class="math inline">\(y = 1\)</span>? After all, linear regression is a well-known and widely used method.</p>
-<div id="qwebr-insertion-location-2"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>There are some problems with this approach:</p>
-<ul>
-<li>the output values are never (with probability 1) exactly 0 or 1, the values that are taken by <span class="math inline">\(y\)</span>;</li>
-<li>even considering a threshold (e.g.&nbsp;0.5) to classify the predicted values into 0 or 1, this would be mostly an arbitrary chosen value.</li>
-</ul>
-</section>
-<section id="sigmoid-functions" class="level2" data-number="12.2">
-<h2 data-number="12.2" class="anchored" data-anchor-id="sigmoid-functions"><span class="header-section-number">12.2</span> Sigmoid Functions</h2>
-<p>Instead of a linear function, we can opt to model the <em>probability</em> of success of the event described by <span class="math inline">\(y\)</span>, i.e <span class="math inline">\(\operatorname{P}(Y=1)\)</span>. This is a more sound and natural way to model the prediction of a random binary event. In order to do this, we can use <strong>sigmoid functions</strong>. A sigmoid function <span class="math inline">\(f(x)\)</span> is a function having an “S” shaped curve (sigmoid curve) with the following properties:</p>
-<ul>
-<li><span class="math inline">\(0&lt;f(x)&lt;1\)</span>;</li>
-<li><span class="math inline">\(\displaystyle \lim_{x \to -\infty} f(x) = 0\)</span>, <span class="math inline">\(\displaystyle \lim_{x \to +\infty} f(x) = 1\)</span>;</li>
-<li><span class="math inline">\(f'(x)&gt;0\)</span>.</li>
-</ul>
-<p>A common sigmoid function is the logistic function, defined as:</p>
-<p><span class="math display">\[
-f(x) = \frac{e^x}{1 + e^x} = \frac{1}{1 + e^{-x}}.
-\]</span></p>
-<p>A logistic function can be used to model the probability that <span class="math inline">\(y = 1\)</span> given <span class="math inline">\(\mathbf{x}\)</span>.</p>
-<div id="qwebr-insertion-location-3"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>This function will play a central row in the logistic regression model, as we will see briefly.</p>
-</section>
-<section id="logistic-model" class="level2" data-number="12.3">
-<h2 data-number="12.3" class="anchored" data-anchor-id="logistic-model"><span class="header-section-number">12.3</span> Logistic Model</h2>
-<p>The first random variable that comes to mind in order to model a random binary event is the <strong>Bernoulli random variable</strong>, which is a discrete random variable that takes value 1 with probability <span class="math inline">\(p\)</span> and value 0 with probability <span class="math inline">\(1-p\)</span>. The parameter <span class="math inline">\(p\)</span> is the probability of success of the event described by the random variable, and it’s probability function is</p>
-<p><span class="math display">\[
-p(y) = p^y (1-p)^{1-y}, \quad y \in \{0, 1\}.
-\]</span> The expected value of a Bernoulli random variable is <span class="math inline">\(\operatorname{E}[Y] = p\)</span> and it’s variance is <span class="math inline">\(\operatorname{V}(Y) = p(1-p)\)</span>.</p>
+<p>So, clustering acts like a smart palette optimizer: it finds the key “color families” that best describe the image.</p>
+<section id="load-and-visualize-the-image" class="level3" data-number="11.1.1">
+<h3 data-number="11.1.1" class="anchored" data-anchor-id="load-and-visualize-the-image"><span class="header-section-number">11.1.1</span> Load and Visualize the Image</h3>
+<p>Here, we use a small flower image.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -2188,59 +2163,60 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>A natural extension is the <strong>Binomial random variable</strong>, which is the sum of <span class="math inline">\(n\)</span> independent Bernoulli random variables with the same parameter <span class="math inline">\(p\)</span>. The parameter <span class="math inline">\(p\)</span> is again the probability of success of the event described by the random variable, and it’s probability function is</p>
-<p><span class="math display">\[
-p(y) = \binom{n}{y} p^y (1-p)^{n-y}, \quad y \in \{0, 1, ..., n\}.
-\]</span></p>
+<p>You can replace the URL with any image (small then 1 MB).</p>
 </div>
 </div>
-<p>Another way of expressing the probability of an event is through the <strong>odds</strong> of the event, defined as the ratio between the probability of the event and the probability of it’s complementary event:</p>
-<p><span class="math display">\[
-\operatorname{odds} = \frac{p}{1-p} = \frac{1}{1-p^{-1}}, \quad p \in ]0, 1[.
-\]</span></p>
-<p>The odds are a number between 0 and <span class="math inline">\(+\infty\)</span>. If the odds are equal to 1, then the event and it’s complementary are equally likely. If the odds are greater than 1, then the event is more likely than it’s complementary event, and vice versa. It’s easy to see that odds are monotonically increasing with respect to <span class="math inline">\(p\)</span>:</p>
-<p><span class="math display">\[
-{(\operatorname{odds})}' = \frac{1}{(1-p)^2} &gt; 0.
-\]</span></p>
+<div id="qwebr-insertion-location-1"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="qwebr-insertion-location-2"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>Before applying clustering, let us look at what our image data actually looks like.</p>
+<p>When we read the image, each pixel is represented by three values — <strong>Red (R)</strong>, <strong>Green (G)</strong>, and <strong>Blue (B)</strong> — that together define its color. So, an image becomes a dataset where <strong>each row = one pixel</strong>, and the columns are <strong>R</strong>, <strong>G</strong>, and <strong>B</strong>. This is why we can treat image processing as a <strong>clustering problem</strong> — we want to group pixels with <em>similar colors</em>.</p>
+<div id="qwebr-insertion-location-3"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <div id="qwebr-insertion-location-4"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>Odds are an alternative way of expressing probabilities, still being relatively intuitive concerning interpretation. Nevertheless, they are still confined to the interval <span class="math inline">\(]0, +\infty[\)</span>, because</p>
-<p><span class="math display">\[
-\lim_{p \to 0^+} \frac{1}{1-p^{-1}} = 0, \quad \lim_{p \to 1^-} \frac{1}{1-p^{-1}} = +\infty.
-\]</span></p>
-<p>If we want to have a represantation of probabilities that spans the whole real line, we can use the <strong>log-odds</strong>, also called <strong>logit</strong> function, defined as</p>
-<p><span class="math display">\[
-\operatorname{logit}(p) = \log\left(\frac{p}{1-p}\right), \quad p \in ]0, 1[.
-\]</span></p>
-<p>This creates a one-to-one mapping between the interval <span class="math inline">\(]0, 1[\)</span> and the whole real line <span class="math inline">\(\mathbb{R}\)</span>.</p>
+<p>Now that we understand what the data looks like (each pixel is a point in RGB space), our next goal is to <strong>group pixels with similar colors</strong> into clusters.</p>
+<p>We will start with <span class="math inline">\(k\)</span>-means and later, will do <span class="math inline">\(k\)</span>-medoids. At the end, we will <em>compare both methods</em>.</p>
+</section>
+<section id="k-means" class="level3" data-number="11.1.2">
+<h3 data-number="11.1.2" class="anchored" data-anchor-id="k-means"><span class="header-section-number">11.1.2</span> <span class="math inline">\(k\)</span>-means</h3>
+<section id="choosing-the-number-of-clusters" class="level4" data-number="11.1.2.1">
+<h4 data-number="11.1.2.1" class="anchored" data-anchor-id="choosing-the-number-of-clusters"><span class="header-section-number">11.1.2.1</span> Choosing the Number of clusters</h4>
+<p>We already know three standard methods for determining the best <span class="math inline">\(k\)</span>:</p>
+<ul>
+<li><em>Elbow Method:</em> looks at how the <em>within-cluster sum of squares (WSS)</em> decreases with increasing <span class="math inline">\(k\)</span>; the <em>elbow</em> marks a good balance between simplicity and accuracy.<br>
+</li>
+<li><em>Silhouette Coefficient:</em> evaluates how well each point fits within its cluster; the closer to <span class="math inline">\(1\)</span>, the better.<br>
+</li>
+<li><em>Gap Statistic:</em> compares within-cluster dispersion to that of random uniform data.</li>
+</ul>
+<p>We use all three to guide our choice of <span class="math inline">\(k\)</span>.</p>
+<p>Because clustering every pixel in a large image is computationally heavy and memory-intensive, we can analyze only a random subset of pixels that still represents the overall color diversity.</p>
+<p>In clustering, what matters most is diversity in the data, not volume. A well-chosen random sample gives us the same structure at a fraction of the cost. Once we know how many clusters we need, we can apply that to all pixels for the final image.</p>
+<p>If our image has many similar pixels (which most real images do), then sampling <span class="math inline">\(5\,000\)</span> pixels is enough to capture all the dominant color regions. If the image has tiny regions of rare colors (e.g., coral reef photos, satellite imagery), a small sample might miss some color groups. In this case, use a larger sample (e.g., <span class="math inline">\(20\,000\)</span>).</p>
+<p>Here, we use a sampled dataset (<code>sample_img</code>) to decide the optimal <span class="math inline">\(k\)</span>.</p>
 <div id="qwebr-insertion-location-5"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>The logit function is also monotonically increasing with respect to <span class="math inline">\(p\)</span>:</p>
-<p><span class="math display">\[
-{\big(\operatorname{logit}(p)\big)}' = \frac{1}{p(1-p)} &gt; 0.
-\]</span></p>
-<p>This representation of probabilities is well suited to be used in a regression model, because it spans the whole real line. In fact, in a logistic regression model, we assume that the log-odds of the probability that <span class="math inline">\(y = 1\)</span> is a linear combination of the input variables: <span class="math display">\[
-\operatorname{logit}\big(\operatorname{P}(Y=1|\mathbf{x})\big) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + ... + \beta_p x_p = \mathbf{x}^T \boldsymbol{\beta} = \eta (\mathbf{x}),
-\]</span> where <span class="math inline">\(\boldsymbol{\beta} = (\beta_0, \beta_1, ..., \beta_p)^T\)</span> is the vector of parameters to be estimated.</p>
-<p>Note that the logit function is the inverse of the logistic function! Hence, we can rewrite <span class="math inline">\(\operatorname{P}(Y=1|\mathbf{X}=\mathbf{x})\)</span> as</p>
-<p><span id="eq-logit"><span class="math display">\[
-\operatorname{P}(Y=1|\mathbf{x}) = \frac{e^{\eta(\mathbf{x})}}{1 + e^{\eta(\mathbf{x})}} = \frac{1}{1 + e^{-\eta(\mathbf{x})}}.
-\tag{12.1}\]</span></span></p>
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Warning
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><a href="#eq-logit" class="quarto-xref">Equation&nbsp;<span>12.1</span></a> describes a model for the expected value of the random variable <span class="math inline">\(Y\)</span> given <span class="math inline">\(\mathbf{x}\)</span>, that follows a Bernoulli distribution with parameter <span class="math inline">\(p = \operatorname{P}(Y=1|\mathbf{x})\)</span>. It does <strong>not</strong> describe a model for <span class="math inline">\(Y\)</span> itself, which is a discrete random variable taking values 0 or 1.</p>
-</div>
-</div>
+<p>Based on this plot, we can see that WSS decreases sharply until around <span class="math inline">\(k = 3\)</span>, after which the improvement flattens. So, the “elbow” suggests that <span class="math inline">\(3\)</span> clusters capture most of the color variance efficiently.</p>
+<div id="qwebr-insertion-location-6"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>The average silhouette width peaks at <span class="math inline">\(k = 2\)</span>, meaning that clusters are most compact and well-separated at this point. However, the drop from <span class="math inline">\(k = 2\)</span> to <span class="math inline">\(k = 3\)</span> is small, and with images (continuous color gradients), slightly lower silhouette scores are expected for more nuanced color palettes.</p>
+<div id="qwebr-insertion-location-7"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>The gap statistic reaches its maximum around <span class="math inline">\(k = 4\)</span>, meaning that <span class="math inline">\(4\)</span> clusters explain the data structure significantly better than a random uniform reference.</p>
+<p><strong>What do we choose?</strong></p>
+<p>When methods disagree slightly, <em>Elbow: 3 clusters, Silhouette: 2 clusters, Gap-Statistic: 4 clusters</em>, a reasonable consensus is to choose <span class="math inline">\(k = 3\)</span> or <span class="math inline">\(k = 4\)</span>, depending on how much color detail we want in the compressed image. Choosing <span class="math inline">\(k = 3\)</span> gives smoother and more general color areas. And, <span class="math inline">\(k = 4\)</span> preserves finer details that is more realistic for natural photos.</p>
+<p>In the following code, we fit two <span class="math inline">\(k\)</span>-means models and reconstruct the compressed images and show them side-by-side to see how the number of clusters affects color richness and smoothness.</p>
+<div id="qwebr-insertion-location-8"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>In the original image, each pixel’s RGB value is treated as a 3D point in colour space. In this output, each pixel is relaced by its cluster’s centroid colour.</p>
+<p>The image based on <span class="math inline">\(k = 3\)</span> in the left shows an image that is compressed into just 3 colours and it looks a poster with strong colour bands and high compression. In the right image (i.e., choosing <span class="math inline">\(k = 4\)</span>), a bit more detail and smoother gradients appear, especially in the faces and background, but still simplified compared to the original.</p>
+<p>Increasing <span class="math inline">\(k\)</span> adds more colours which results in higher visual quality but less compression.</p>
 
 
+</section>
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -2645,13 +2621,13 @@ Warning
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../chapters/clustering_projects.html" class="pagination-link" aria-label="Projects">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Projects</span></span>
+      <a href="../chapters/clustring.html" class="pagination-link" aria-label="Clustering">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Clustering</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../chapters/chapter1_data_ethics.html" class="pagination-link" aria-label="Data Ethics">
-        <span class="nav-page-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Data Ethics</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../chapters/chapter5_logistic_regression.html" class="pagination-link" aria-label="Logistic Regression">
+        <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Logistic Regression</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

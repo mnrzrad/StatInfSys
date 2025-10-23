@@ -20,6 +20,7 @@ book:
     - part: "Clustering"
       chapters:
         - chapters/clustring.qmd
+        - chapters/clustering_projects.qmd
     - part: "Classification"
       chapters:
         - chapters/chapter5_logistic_regression.qmd
