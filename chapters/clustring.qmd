@@ -5,7 +5,7 @@ filters:
 ---
 
 ```{r setup, include=FALSE}
-required_packages <- c("cluster", "lsa", "GGally", "factoextra", "stats", "tibble", 'dplyr', 'kmed', 'hopkins', 'fpc')
+required_packages <- c("cluster", "lsa", "GGally", "factoextra", "stats", "tibble", 'dplyr', 'kmed', 'hopkins', 'fpc', 'mclust', 'clValid')
 
 for (pkg in required_packages) {
   if (!require(pkg, character.only = TRUE)) {
@@ -2872,3 +2872,104 @@ species, pam.res$cluster)$vi
 ```
 
 ### Choosing the Best Clustering Algorithms
+
+Choosing the best clustering method for a given data can be a hard task for the analyst. This article describes the R package clValid [@brock2008clvalid], which can be used to compare simultaneously multiple clustering algorithms in a single function call for identifying the best clustering approach and the optimal number of clusters.
+
+#### Measures for comparing clustering algorithms
+
+The `clValid` package compares clustering algorithms using two cluster validation measures:
+
+1. *Internal measures*, which uses intrinsic information in the data to assess the quality of the clustering. Internal measures include the connectivity, the silhouette coefficient and the Dunn index.
+2. *Stability measures*, a special version of internal measures, which evaluates the consistency of a clustering result by comparing it with the clusters obtained after each column is removed, one at a time.
+
+Cluster stability measures include:
+
+- The average proportion of non-overlap (APN)
+- The average distance (AD)
+- The average distance between means (ADM)
+- The figure of merit (FOM)
+
+The APN, AD, and ADM are all based on the cross-classification table of the original clustering on the full data with the clustering based on the removal of one column.
+
+- The APN measures the average proportion of observations not placed in the same cluster by clustering based on the full data and clustering based on the data with a single column removed.
+- The AD measures the average distance between observations placed in the same cluster under both cases (full data set and removal of one column).
+- The ADM measures the average distance between cluster centers for observations placed in the same cluster under both cases.
+- The FOM measures the average intra-cluster variance of the deleted column,
+where the clustering is based on the remaining (undeleted) columns.
+
+:::{.callout-important}
+The values of APN, ADM and FOM ranges from $0$ to $1$, with smaller value corresponding with highly consistent clustering results. AD has a value between $0$ and $\infty$, and smaller values are also preferred.
+:::
+
+:::{.callout-note}
+Note that, the `clValid` package provides also biological validation measures, which evaluates the ability of a clustering algorithm to produce biologically meaningful clusters. An application is microarray or RNAseq data where observations corresponds
+to genes.
+:::
+
+#### Compare clustering algorithms in R
+
+The simplified format of function `cvlValid::clVaild()` is:
+```{r}
+#| eval: false 
+clVaild(obj, nClust, clMethods = 'kmeans', validation = 'stability', maxitems = 600, metric = "euclidean", method = "average")
+```
+where: 
+
+- `obj`: A numeric matrix or data frame. Rows are the items to be clustered and columns are samples.
+- `nClust`: A numeric vector specifying the numbers of clusters to be evaluated. e.g., 2:10
+- `clMethods`: The clustering method to be used. Available options are `"hierarchical"`, `"kmeans"`, `"diana"`, `"fanny"`, `"som"`, `"model"`, `"sota"`, `"pam"`, `"clara"`, and `"agnes"`, with multiple choices allowed.
+- `validation`: The type of validation measures to be used. Allowed values are `"internal"`, `"stability"`, and `"biological"`, with multiple choices allowed.
+- `maxitems`: The maximum number of items (rows in matrix) which can be
+clustered.
+- `metric`: The metric used to determine the distance matrix. Possible choices are `"euclidean"`, `"correlation"`, and `"manhattan"`.
+- `method`: For hierarchical clustering (hclust and agnes), the agglomeration method to be used. Available choices are `"ward"`, `"single"`, `"complete"` and `"average"`.
+
+For example, consider the `iris` dataset.  We start by cluster internal measures, which include the connectivity, silhouette width and Dunn index. It is possible to compute simultaneously these internal measures for multiple clustering algorithms in combination with a range of cluster numbers.
+
+The `clValid()` function can be used for the `iris` as follows:
+```{webr-r}
+#| autorun: true 
+#| messages: false
+#| warning: false 
+
+library(clValid)
+# Compute clValid
+clmethods <- c("kmeans","pam")
+intern <- clValid(df_iris_scaled, nClust = 2:6, clMethods = clmethods, validation = "internal")
+# Summary
+summary(intern)
+```
+
+All the measures indicate $k = 2$ performs best for $k$-means becasue it hase *lowest connectivity*, *highest Dunn*, and *highest silhouette*. The PAM algorithm shows $k = 2$ as optimal under all three metrics. Overall, the $k$-means is slightly better than PAM in connectivity and silhouette. 
+
+The `iris` dataset, when analyzed with these internal metric, exhibits two conpact and well-separated groups rather than three (the known biological species). This is common because: 
+- Two of the species (*versicolor* and *virginica*) have overlapping features, so algorithms often merge them. 
+- *setosa* forms one very distinct cluster.
+
+
+The stability measures can be computed as follow:
+```{webr-r}
+#| autorun: true 
+#| messages: false
+#| warning: false 
+
+library(clValid)
+# Compute clValid
+clmethods <- c("kmeans","pam")
+stab <- clValid(df_iris_scaled, nClust = 2:6, clMethods = clmethods,
+validation = "stability")
+# Display only optimal Scores
+optimalScores(stab)
+```
+
+The outputs shows that
+- APN = $0.0128$ ($k$-means, k = 2) is extremely small which it means clusters are very stable under resampling.
+- ADM = $0.055$ ($k$-means, k = 2) confirms that average distances between means hardly change.
+- AD = $1.00$ (PAM, $k = 6$) and FOM = $0.45$ (PAM, $k = 6$) indicate PAM is slightly more stable when $6$ clusters are allowed, though at the cost of over-fragmenting the data.
+
+The stability measures (APN, AD, ADM, FOM) confirm that the *k-means* method with two clusters
+is the most robust to resampling. Although *PAM* shows slightly lower instability at k = 6,
+this likely represents over-partitioning rather than a meaningful improvement in model stability.
+
+
+## References
