@@ -42,7 +42,7 @@ You can replace the URL with any image (small then 1 MB).
 
 ```{webr-r}
 #| label: img-load 
-#| autorun: true 
+#| autorun: false
 #| message: false
 #| warning: false 
 #| out-width: "80%"
@@ -64,7 +64,7 @@ grid::grid.raster(img)
 
 ```{webr-r}
 #| label: img-convert_data
-#| autorun: true 
+#| autorun: false
 #| message: false
 #| warning: false
 # Convert to data frame of RGB values 
@@ -83,7 +83,7 @@ When we read the image, each pixel is represented by three values — **Red (R)*
 
 ```{webr-r}
 #| label: img-df-preview-1
-#| autorun: true
+#| autorun: false
 #| message: false
 #| warning: false
 head(img_df)
@@ -91,7 +91,7 @@ head(img_df)
 
 ```{webr-r}
 #| label: img-df-preview-2
-#| autorun: true
+#| autorun: false
 #| message: false
 #| warning: false
 summary(img_df)
@@ -125,7 +125,7 @@ Here, we use a sampled dataset (`sample_img`) to decide the optimal $k$.
 
 ```{webr-r}
 #| label: kmeans-elbow-plot
-#| autorun: true
+#| autorun: false
 #| message: false
 #| warning: false
 #| out-width: "80%"
@@ -144,7 +144,7 @@ fviz_nbclust(sample_img, kmeans, method = "wss") +
 Based on this plot, we can see that WSS decreases sharply until around $k = 3$, after which the improvement flattens. So, the "elbow" suggests that $3$ clusters capture most of the color variance efficiently.
 ```{webr-r}
 #| label: kmeans-silhouette-plot
-#| autorun: true
+#| autorun: false
 #| message: false
 #| warning: false
 #| out-width: "80%"
@@ -155,7 +155,7 @@ fviz_nbclust(sample_img, kmeans, method = "silhouette") +
 The average silhouette width peaks at $k = 2$, meaning that clusters are most compact and well-separated at this point. However, the drop from $k = 2$ to $k = 3$ is small, and with images (continuous color gradients), slightly lower silhouette scores are expected for more nuanced color palettes.
 ```{webr-r}
 #| label: kmeans-gap_statistic-plot
-#| autorun: true
+#| autorun: false
 #| message: false
 #| warning: false
 #| out-width: "80%"
@@ -172,7 +172,7 @@ When methods disagree slightly, *Elbow: 3 clusters, Silhouette: 2 clusters, Gap-
 In the following code, we fit two $k$-means models and reconstruct the compressed images and show them side-by-side to see how the number of clusters affects color richness and smoothness.
 ```{webr-r}
 #| label: compare-kmeans-3-4
-#| autorun: true
+#| autorun: false
 #| message: false
 #| warning: false
 #| fig-cap: "Comparison of K-Means compression with k = 3 and k = 4"
@@ -225,7 +225,7 @@ Increasing $k$ adds more colors which results in higher visual quality but less 
 
 ```{webr-r}
 #| label: compare-k-values
-#| autorun: true
+#| autorun: false
 #| message: false
 #| warning: false
 #| fig-cap: "Visual comparison of K-Means compression for different k values"
@@ -266,7 +266,7 @@ In this example, each pixel is treated as a point in RGB space again but instead
 
 ```{webr-r}
 #| label: kmedoid-elbow-plot
-#| autorun: true
+#| autorun: false
 #| message: false
 #| warning: false
 #| out-width: "80%"
@@ -281,7 +281,7 @@ fviz_nbclust(sample_img, pam, method = "wss") +
 
 ```{webr-r}
 #| label: kmedoid-silhouette-plot
-#| autorun: true
+#| autorun: false
 #| message: false
 #| warning: false
 #| out-width: "80%"
@@ -295,7 +295,7 @@ fviz_nbclust(sample_img, pam, method = "silhouette") +
 
 ```{webr-r}
 #| label: kmedoid-gap_statistic-plot
-#| autorun: true
+#| autorun: false
 #| message: false
 #| warning: false
 #| out-width: "80%"
