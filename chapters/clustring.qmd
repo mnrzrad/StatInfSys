@@ -2367,7 +2367,7 @@ library(hopkins)
 
 # compute Hopkins statistic for iris dataset
 set.seed(123)
-cat("The iris dataset:", hopkins(df_iris_scaled, m = nrow(df_iris_scaled) - 1))
+cat("The iris dataset:", hopkins(df_iris_scaled, m = nrow(df_iris_scaled) - 1), "\n")
 
 # Compute Hopkins statistic for a random dataset
 set.seed(123)
@@ -2381,7 +2381,7 @@ The algorithm of the visual assessment of cluster tendency (VAT) approach [@Bezd
 
 1. Compute the dissimilarity (DM) matrix between the observations in the dataset using the Euclidean distance meature
 2. Reorder the DM so that similar objects are close to one another. This process create an ordered dissimilarity (ODM)
-3. The ODM is displayed as an ordered dissimilarity image (ODI), which is the visual output of VAT.
+3. The ODM is displayed as an ordered dissimilarity image (ODI), which is the visual oFutput of VAT.
 
 :::{.callout}
 For the visual assessment of clustering tendency, first, the dissimilarity matrix between observations should be computed using the function `dist()`. Next, the function `factoextra::fviz_dist()` is used to display the dissimilarity matrix.
@@ -2873,15 +2873,15 @@ The corrected Rand index provides a measure for assessing the similarity between
 :::
 
 The same analysis can be computed for PAM clustering
-```{webr-r}
-#| autorun: true 
+```{r}
+#| echo: true 
 #| messages: false
 #| warnings: false 
 library("fpc")
 # Agreement between species and pam clusters
-pam.res <- eclust(df, "pam", k = 3, graph = FALSE)
+pam.res <- eclust(df_iris_scaled, "pam", k = 3, graph = FALSE)
 table(iris$Species, pam.res$cluster)
-cluster.stats(d = dist(iris.scaled),
+cluster.stats(d = dist(df_iris_scaled),
 species, pam.res$cluster)$vi
 ```
 

@@ -5,7 +5,7 @@ filters:
 ---
 
 ```{r setup, include=FALSE}
-required_packages <- c("cluster", "lsa", "GGally", "factoextra", "stats", "tibble", 'dplyr', 'kmed', 'hopkins', 'fpc', 'mclust', 'clValid', "jpeg", "ggplot2", "grid")
+required_packages <- c("cluster", "lsa", "GGally", "factoextra", "stats", "tibble", 'dplyr', 'kmed', 'hopkins', 'fpc', 'mclust', 'clValid', "jpeg", "ggplot2", "grid", "tidyverse", "gridExtra")
 
 for (pkg in required_packages) {
   if (!require(pkg, character.only = TRUE)) {
@@ -215,8 +215,94 @@ ggtitle("K-Means Compression (k = 4)") + theme_void()
 
 gridExtra::grid.arrange(p1, p2, ncol = 2)
 ```
-In the original image, each pixel's RGB value is treated as a 3D point in colour space. In this output, each pixel is relaced by its cluster's centroid colour. 
+In the original image, each pixel's RGB value is treated as a 3D point in color space. In this output, each pixel is replaced by its cluster's centroid color. 
 
-The image based on $k = 3$ in the left shows an image that is compressed into just 3 colours and it looks a poster with strong colour bands and high compression. In the right image (i.e., choosing $k = 4$), a bit more detail and smoother gradients appear, especially in the faces and background, but still simplified compared to the original. 
+The image based on $k = 3$ in the left shows an image that is compressed into just 3 colors and it looks a poster with strong color bands and high compression. In the right image (i.e., choosing $k = 4$), a bit more detail and smoother gradients appear, especially in the faces and background, but still simplified compared to the original. 
 
-Increasing $k$ adds more colours which results in higher visual quality but less compression. 
+Increasing $k$ adds more colors which results in higher visual quality but less compression. 
+
+**At what value of k does the image start to look realistic again?**
+
+```{webr-r}
+#| label: compare-k-values
+#| autorun: true
+#| message: false
+#| warning: false
+#| fig-cap: "Visual comparison of K-Means compression for different k values"
+#| out-width: "80%"
+
+library(ggplot2)
+library(gridExtra)
+
+compress_full <- function(k, img_data, img_shape) {
+km <- kmeans(img_data, centers = k, nstart = 10)
+cluster_colors <- km$centers[km$cluster, ]
+img_array <- array(cluster_colors, dim = img_shape)
+as.raster(img_array)
+}
+
+k_values <- 3:12
+plots <- list()
+
+for (i in seq_along(k_values)) {
+k <- k_values[i]
+compressed_img <- compress_full(k, img_df, dim(img))
+plots[[i]] <- ggplot() +
+annotation_raster(compressed_img, 0, 1, 0, 1) +
+ggtitle(paste("K-Means (k =", k, ")")) +
+theme_void()
+}
+
+gridExtra::grid.arrange(grobs = plots, ncol = 2) 
+```
+
+As we see, at $k=3$, the compression is extreme -- only broad regions of color remain, and fine details (like skin tone, clothing patterns, or light gradients) are lost. Around $k = 6-8$, the image starts to look visually realistic again, as the model captures enough distinct color shades to represent lighting, texture, and contrast. Beyond that, improvements become barely noticeable, while file size and computation cost increase.
+
+### $k$-Medoids (PAM)
+
+While $k$-means uses centroids (means of points in a luster), $k$-medoids uses medoids (actual data points that minimize total dissmilarity). This makes $k$-medoids to be *more robust to outliers*, *works with non-Euclidean distances*, although it is more computationally expensive. 
+
+In this example, each pixel is treated as a point in RGB space again but instead of averaging colors (which can produce unrealistic shades), $k$-medoids selects real pixel colors as representives.
+
+```{webr-r}
+#| label: kmedoid-elbow-plot
+#| autorun: true
+#| message: false
+#| warning: false
+#| out-width: "80%"
+library(cluster)
+library(factoextra)
+
+set.seed(123)
+
+fviz_nbclust(sample_img, pam, method = "wss") +
+  ggtitle("Elbow Method — Optimal Number of Colors")
+```
+
+```{webr-r}
+#| label: kmedoid-silhouette-plot
+#| autorun: true
+#| message: false
+#| warning: false
+#| out-width: "80%"
+library(cluster)
+library(factoextra)
+
+set.seed(123)
+fviz_nbclust(sample_img, pam, method = "silhouette") +
+  ggtitle("Silhouette Method — Optimal Number of Medoids (PAM)")
+```
+
+```{webr-r}
+#| label: kmedoid-gap_statistic-plot
+#| autorun: true
+#| message: false
+#| warning: false
+#| out-width: "80%"
+library(cluster)
+library(factoextra)
+
+set.seed(123)
+fviz_nbclust(sample_img, pam, method = "gap_stat", nboot = 30) +
+  ggtitle("Gap Statistic — Cluster Quality")
+```
