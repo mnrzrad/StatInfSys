@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>9&nbsp; Decision Trees – Statistics and Information Systems</title>
+<title>11&nbsp; Projects – Statistics and Information Systems</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,41 +20,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
@@ -65,8 +30,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../chapters/clustring.html" rel="next">
-<link href="../chapters/missing_values.html" rel="prev">
+<link href="../chapters/chapter5_logistic_regression.html" rel="next">
+<link href="../chapters/clustring.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -405,7 +370,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"code":"library(rpart) # For CART algorithm \nlibrary(rpart.plot) #For visualizing decision trees \n\ndata(\"iris\")\n\n# Build the classification tree \ntree_class <- rpart(Species ~ Petal.Length + Petal.Width + Sepal.Length + Sepal.Width , data = iris, method = 'class')\n\n# Visualize the tree\nrpart.plot(tree_class, type = 3, extra = 104, fallen.leaves = TRUE)","id":1,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-align":"center","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"true","warnings":"false"}},{"code":"summary(tree_class)","id":2,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"#| \n# Predict species for the same dataset\npred_class <- predict(tree_class, iris, type = \"class\")\n\n# Confusion matrix\ntable(Predicted = pred_class, Actual = iris$Species)\n\n# Compute accuracy\nmean(pred_class == iris$Species)","id":3,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-3","message":"true","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Build the regression tree\ntree_reg <- rpart(mpg ~ wt + hp + disp + cyl, data = mtcars,method = \"anova\")\n\n# Visualize the tree\nrpart.plot(tree_reg, \n           type = 3, \n           digits = 2, \n           fallen.leaves = TRUE)","id":4,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-4","message":"true","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"summary(tree_reg) ","id":5,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-5","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Predict mpg values\npred_reg <- predict(tree_reg, mtcars)\n\n# Calculate R-squared manually\nmse <- mean((pred_reg - mtcars$mpg)^2)\nmse","id":6,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-6","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(rpart)\nlibrary(rpart.plot)\n\n# Remove rows with missing values \naq_clean <- na.omit(airquality)\n\ntree_clean <- rpart(Ozone ~ Solar.R + Wind + Temp + Month, data = aq_clean, method = \"anova\")\n\nrpart.plot(tree_clean, type = 2, extra = 100, fallen.leaves = TRUE, box.palette = \"BuGn\")","id":7,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-7","message":"true","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"true","warnings":"true"}},{"code":"# Identify missing Ozone entries\nmissing_idx <- is.na(airquality$Ozone)\n\n# Predict them\npredicted_ozone <- predict(tree_na, newdata = airquality[missing_idx, ])\n\npredicted_ozone","id":8,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-8","message":"true","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"true","warnings":"true"}},{"code":"# Combine results\nairquality$Ozone[missing_idx] <- predicted_ozone\n\ncolSums(is.na(airquality))","id":9,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-9","message":"true","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"true","warnings":"true"}},{"code":"data(nhanes)\n\ntree_nhanes <- rpart(chl ~ age + bmi + hyp,\n                     data = nhanes,\n                     method = \"anova\",\n                     na.action = na.rpart)\nrpart.plot(tree_nhanes, box.palette = \"Purples\", main = \"CART with Surrogate Splits\")","id":10,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-10","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
+globalThis.qwebrCellDetails = [{"code":"library(jpeg)\nlibrary(ggplot2)\nlibrary(dplyr)\n\n# Download an example image \nurl <- \"https://storage.googleapis.com/kagglesdsdata/datasets/2588649/4418848/photos_no_class/children-g13a48a038_640.jpg?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=databundle-worker-v2%40kaggle-161607.iam.gserviceaccount.com%2F20251023%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20251023T200444Z&X-Goog-Expires=345600&X-Goog-SignedHeaders=host&X-Goog-Signature=2c5de780583523927b9be8f9d460b45b5d38fc41d851eb2fe64d0563ea4ed2457222ee668b09d6cef490bc0235067b2bf71dfd70f3491b3d95bd29676992346bff389388a4a8d776cc9ce85c7eff3ff561fe434b07045ab9d8d8ea8d175edeeebc4328b9482d5224edf988292d2a250678bd0d24dadeecd254231ac98d6a303bfea264dce96f8efd0b4e9564000d61f7a73e46c50116b161163ce264bbb868639e41bea513e5b6ed641cfdcadc1e6d59a484e2b086503ff96e35a1b39e53a6096218b098dbe80e1b8f0f2de9252ca9d0ce8c7cacb1ebe83378211bbd708e6bb048ffdbef2770e6c8d39bac31559b419befc9855ebb082ddebaf87dec146c174e\"\ntemp <- tempfile(fileext = \".jpg\")\ndownload.file(url, temp, mode = 'wb')\nimg <- readJPEG(temp)\n\n# Show the original image \ngrid::grid.raster(img)","id":1,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"img-load","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"# Convert to data frame of RGB values \nimg_df <- data.frame(\n    R = as.vector(img[,,1]),\n    G = as.vector(img[,,2]),\n    B = as.vector(img[,,3])\n    )\n\ndim(img_df)","id":2,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"img-convert_data","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"head(img_df)","id":3,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"img-df-preview-1","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"summary(img_df)","id":4,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"img-df-preview-2","message":"false","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"library(factoextra)\n\nset.seed(123)\n\n# Take a random sample of 5000 pixels\nn_sample <- 5000\nsample_img <- img_df[sample(1:nrow(img_df), n_sample), ]\n\nfviz_nbclust(sample_img, kmeans, method = \"wss\") +\n  ggtitle(\"Elbow Method — Optimal Number of Colors\")","id":5,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"kmeans-elbow-plot","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"set.seed(123)\nfviz_nbclust(sample_img, kmeans, method = \"silhouette\") +\n  ggtitle(\"Silhouette Method — Cluster Quality\")","id":6,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"kmeans-silhouette-plot","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"set.seed(123)\nfviz_nbclust(sample_img, kmeans, method = \"gap_stat\", nboot = 30) +\n  ggtitle(\"Gap Statistic — Cluster Quality\")","id":7,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"kmeans-gap_statistic-plot","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"false"}},{"code":"library(ggplot2)\nlibrary(gridExtra)\n\n\nset.seed(123)\n# Step 1: Optionally downscale large images to save memory \nif (dim(img)[1] > 400) {\nimg <- img[seq(1, dim(img)[1], by = 2), seq(1, dim(img)[2], by = 2), ]\n}\n# Step 2: Convert image to RGB data frame \nimg_df <- data.frame(\nR = as.vector(img[,,1]),\nG = as.vector(img[,,2]),\nB = as.vector(img[,,3])\n)\n# Step 3: Fit K-Means on the full (or reduced) image \nkm3 <- kmeans(img_df, centers = 3, nstart = 10)\nkm4 <- kmeans(img_df, centers = 4, nstart = 10)\n\n# Step 4: Reconstruct compressed image keeping spatial layout \ncompress_full <- function(km_model, img_full) {\ncenters <- km_model$centers\ncluster_colors <- centers[km_model$cluster, ]\nimg_array <- array(cluster_colors, dim = dim(img_full))\nas.raster(img_array)\n}\n\ncompressed_3 <- compress_full(km3, img)\ncompressed_4 <- compress_full(km4, img)\n\n# Step 5: Plot side by side\np1 <- ggplot() + annotation_raster(compressed_3, 0, 1, 0, 1) +\nggtitle(\"K-Means Compression (k = 3)\") + theme_void()\np2 <- ggplot() + annotation_raster(compressed_4, 0, 1, 0, 1) +\nggtitle(\"K-Means Compression (k = 4)\") + theme_void()\n\ngridExtra::grid.arrange(p1, p2, ncol = 2)","id":8,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"Comparison of K-Means compression with k = 3 and k = 4","fig-height":5,"fig-width":7,"label":"compare-kmeans-3-4","message":"false","out-height":"","out-width":"80%","output":"true","read-only":"false","results":"markup","warning":"false"}}];
 
 </script>
 <script type="module">
@@ -1701,7 +1666,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter4_EDA.html">Explanatory Data Analysis</a></li><li class="breadcrumb-item"><a href="../chapters/Decision_trees.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Decision Trees</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/clustring.html">Clustering</a></li><li class="breadcrumb-item"><a href="../chapters/clustering_projects.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Projects</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -1787,7 +1752,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/Decision_trees.html" class="sidebar-item-text sidebar-link active">
+  <a href="../chapters/Decision_trees.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Decision Trees</span></span></a>
   </div>
 </li>
@@ -1810,7 +1775,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/clustering_projects.html" class="sidebar-item-text sidebar-link">
+  <a href="../chapters/clustering_projects.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Projects</span></span></a>
   </div>
 </li>
@@ -1860,25 +1825,14 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#types-of-decision-trees" id="toc-types-of-decision-trees" class="nav-link active" data-scroll-target="#types-of-decision-trees"><span class="header-section-number">9.1</span> Types of Decision Trees</a>
+  <li><a href="#image-clustering-and-compression" id="toc-image-clustering-and-compression" class="nav-link active" data-scroll-target="#image-clustering-and-compression"><span class="header-section-number">11.1</span> Image Clustering and Compression</a>
   <ul>
-  <li><a href="#classification-trees" id="toc-classification-trees" class="nav-link" data-scroll-target="#classification-trees"><span class="header-section-number">9.1.1</span> Classification Trees</a></li>
-  <li><a href="#regression-trees" id="toc-regression-trees" class="nav-link" data-scroll-target="#regression-trees"><span class="header-section-number">9.1.2</span> Regression Trees</a></li>
-  </ul></li>
-  <li><a href="#classification-and-regression-tree-cart-algorithm" id="toc-classification-and-regression-tree-cart-algorithm" class="nav-link" data-scroll-target="#classification-and-regression-tree-cart-algorithm"><span class="header-section-number">9.2</span> Classification and Regression Tree (CART) Algorithm</a>
-  <ul>
-  <li><a href="#metrics-used-in-cart" id="toc-metrics-used-in-cart" class="nav-link" data-scroll-target="#metrics-used-in-cart"><span class="header-section-number">9.2.1</span> Metrics used in CART</a>
+  <li><a href="#load-and-visualize-the-image" id="toc-load-and-visualize-the-image" class="nav-link" data-scroll-target="#load-and-visualize-the-image"><span class="header-section-number">11.1.1</span> Load and Visualize the Image</a></li>
+  <li><a href="#k-means" id="toc-k-means" class="nav-link" data-scroll-target="#k-means"><span class="header-section-number">11.1.2</span> <span class="math inline">\(k\)</span>-means</a>
   <ul class="collapse">
-  <li><a href="#for-classification-trees" id="toc-for-classification-trees" class="nav-link" data-scroll-target="#for-classification-trees"><span class="header-section-number">9.2.1.1</span> For Classification Trees</a></li>
-  <li><a href="#for-regression-trees" id="toc-for-regression-trees" class="nav-link" data-scroll-target="#for-regression-trees"><span class="header-section-number">9.2.1.2</span> For Regression Trees</a></li>
+  <li><a href="#choosing-the-number-of-clusters" id="toc-choosing-the-number-of-clusters" class="nav-link" data-scroll-target="#choosing-the-number-of-clusters"><span class="header-section-number">11.1.2.1</span> Choosing the Number of clusters</a></li>
   </ul></li>
   </ul></li>
-  <li><a href="#implementations-in-r" id="toc-implementations-in-r" class="nav-link" data-scroll-target="#implementations-in-r"><span class="header-section-number">9.3</span> Implementations in R</a>
-  <ul>
-  <li><a href="#classification-tree-in-r" id="toc-classification-tree-in-r" class="nav-link" data-scroll-target="#classification-tree-in-r"><span class="header-section-number">9.3.1</span> Classification Tree in R</a></li>
-  <li><a href="#regression-tree-in-r" id="toc-regression-tree-in-r" class="nav-link" data-scroll-target="#regression-tree-in-r"><span class="header-section-number">9.3.2</span> Regression Tree in R</a></li>
-  </ul></li>
-  <li><a href="#handling-missing-values-in-cart" id="toc-handling-missing-values-in-cart" class="nav-link" data-scroll-target="#handling-missing-values-in-cart"><span class="header-section-number">9.4</span> Handling Missing Values in CART</a></li>
   </ul>
 </nav>
     </div>
@@ -2169,9 +2123,9 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 }
 </script>
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter4_EDA.html">Explanatory Data Analysis</a></li><li class="breadcrumb-item"><a href="../chapters/Decision_trees.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Decision Trees</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/clustring.html">Clustering</a></li><li class="breadcrumb-item"><a href="../chapters/clustering_projects.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Projects</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Decision Trees</span></h1>
+<h1 class="title"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Projects</span></h1>
 </div>
 
 
@@ -2188,68 +2142,20 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </header>
 
 
-<p>A Decision Tree is one of the most intuitive and powerful tools in data analysis and machine learning.</p>
-<p>It mimics the way humans make decisions – by asking a sequence of simple questions that split a problem into smaller, clearer parts.</p>
-<p>A decision tree functions like a flowchart that asks a sequence of <strong>if-then</strong> questions about the data:</p>
+<section id="image-clustering-and-compression" class="level2" data-number="11.1">
+<h2 data-number="11.1" class="anchored" data-anchor-id="image-clustering-and-compression"><span class="header-section-number">11.1</span> Image Clustering and Compression</h2>
+<p>The goal of this analysis is to <strong>simplify an image</strong> by reducing the number of distinct colors while preserving its overall appearance.</p>
+<p>In other words, we are using <strong>clustering</strong> to group similar pixels in the RGB color space so that all pixels within a cluster share a representative color (the <strong>centroid</strong> or <strong>medoid</strong>).</p>
+<p>This technique:</p>
 <ul>
-<li><p>Each <em>internal node</em> represents a test or question about a feature/variable (e.g., “Is age &gt; 30?” or “Is he/she male?”).</p></li>
-<li><p>Each <em>branch</em> represents the possible outcome of that test.</p></li>
-<li><p>Each <em>leaf node</em> provides the final prediction – either a category (for classification) or a numeric value (for regression).</p></li>
+<li><em>Reduces file size</em> (useful for compression),</li>
+<li><em>Highlights dominant colors</em> (helpful in computer vision, design, and pattern recognition),</li>
+<li><em>Illustrates how clustering groups similar observations</em> — here, similar colors.</li>
 </ul>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="../figs/CART/DT.png" class="img-fluid figure-img"></p>
-<figcaption>Structure of a Decision Tree (source: https://machinelearning-basics.com/cart-algorithm-and-everything-you-need-to-know-about-decision-trees-1-2/)</figcaption>
-</figure>
-</div>
-<p>So, you can see that a decision tree is organized as a hierarchy of nodes connected by branches, similar to an inverted tree structure.</p>
-<ol type="1">
-<li><p><strong>Root Node</strong>: The <em>root node</em> is the topmost in the tree. It represents the starting point of the decision process and corresponds to the entire dataset. The <em>rrot node</em> asks the first and most important question – the one that best separated the data into distinct groups based on a chosen attribute.</p></li>
-<li><p><strong>Internal Nodes (or Child Nodes)</strong>: Internal nodes are the decision points that come after the root. Each represents a <em>test</em> or <em>question</em> on one feature of the data. The outcome of this test leads to further branches and nodes.</p></li>
-<li><p><strong>Branches (or edges)</strong>: Branches represent the possible outcomes of a test at a node. Each branch carries the data that satisfies (True) or fails (False) the node’s condition. The tree continues to grow along each branch until a stopping criterion is met.</p></li>
-<li><p><strong>Leaf Nodes (or Terminal Nodes)</strong>: Leaf nodes are the <em>endpoints</em> of the tree – where no further splitting occurs. Each leaf node provides a final output of the model, which can be a class label (for classification tasks) or a continuous value (for regression tasks). Leaf nodes correspond to the purest possible groups based on the chosen splitting rules.</p></li>
-<li><p><strong>Subtrees</strong>: A subtree is any section of the overall tree that can be considered a smaller, self-contained decision tree. Each subtree has its own root, internal nodes, branches, and leaf nodes.</p></li>
-</ol>
-<p>For a more interactive explanation, see the <a href="https://mlu-explain.github.io/decision-tree/">MLU-Explain Decision Trees tutorial</a>.</p>
-<section id="types-of-decision-trees" class="level2" data-number="9.1">
-<h2 data-number="9.1" class="anchored" data-anchor-id="types-of-decision-trees"><span class="header-section-number">9.1</span> Types of Decision Trees</h2>
-<p>Decision trees can be divided into two main types based on the nature of the target variable. Although the overall structure of the tree remains the same – with nodes, branches, and leaves – the way they make predictions differs depending on whether the target variable is <em>categorical</em> or <em>numerical</em>.</p>
-<p>There are two main types of Decision Trees:</p>
-<ol type="1">
-<li>Classification Trees</li>
-<li>Regression Trees</li>
-</ol>
-<section id="classification-trees" class="level3" data-number="9.1.1">
-<h3 data-number="9.1.1" class="anchored" data-anchor-id="classification-trees"><span class="header-section-number">9.1.1</span> Classification Trees</h3>
-<p>A classification tree is used when the target variable is categorical, meaning it represents distinct <em>classes, categories or labels</em> (e.g., “Yes/No”, “Low/Medium/High”, “Survived/Not Survived”). The goal of a classification tree is to assign each observation to one of the predefined classes based on the features of the data.</p>
-<p>The tree splits the data into groupd that are <strong>as similar as possible</strong> in terms of the target class. Each question (or split) tries to separate different classes more clearly. At the end of the tree, each leaf node contains cases that mostly belong to the same category – ans that category is assigned as the prediction for any new observation that falls into that leaf.</p>
-<p><strong>Example</strong> The <strong>iris dataset</strong> is one of the most famous examples in datascience and machine learning. It contains measurements of 150 iris flowers from three different species: <em>Iris setosa</em>, <em>Iris versicolor</em>, and <em>Iris virginica</em>. The dataset includes four variables: <code>Sepal.Length</code> (Length of the sepal), <code>Sepal.Width</code> (Width of the sepal), <code>Petal.Length</code> (Length of the petal), and <code>Petal.Width</code> (Width of the petal). The goal is to classify the species of an iris flower based on these measurements. So, the target variable is <code>Species</code>, which is categorical with three levels: <em>setosa</em>, <em>versicolor</em>, and <em>virginica</em>.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="../figs/CART/iris.png" class="img-fluid figure-img"></p>
-<figcaption>The three species of iris flowers (Source: https://www.datacamp.com/tutorial/machine-learning-in-r)</figcaption>
-</figure>
-</div>
-<p>The goal is to build a Classification Tree that predicts the species of a flower based on its measured characteristics.</p>
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Decision_trees_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>This is a classification tree built to predict the species of iris flowers based on their sepal and petal measurements.</p>
-<p>Each box (node) represents a decision or a group of flowers with similar characteristics.</p>
-<p>The top box is the <em>root node</em>, which contains all 150 flowers. The first split is based on <code>Petal.Length</code>. If <code>Petal.Length</code> is less than or equal to <span class="math inline">\(2.5\)</span> cm, the flower is classified as <em>Iris setosa</em> (left branch). If <code>Petal.Length</code> is greater than <span class="math inline">\(2.5\)</span> cm, the tree asks another question about <code>Petal.Width</code>.”Is ‍<code>Petal.width</code> &lt; 1.8?” If <strong>yes</strong>, the flower is classified as <em>Iris versicolor</em> (middle branch). If <strong>no</strong>, it is classified as <em>Iris virginica</em> (right branch). These two species are harder to separate than <em>Iris setosa</em>, but the tree still achieves a very high accuracy (around <span class="math inline">\(90-98\%\)</span>).</p>
-<p>The numbers in the boxes provide numbers like <code>1.00 .00 .00</code> that means <span class="math inline">\(100\%\)</span> of samples in that groupd belong to the <em>Iris setosa</em> species. The numbers <code>.00 .91 .09</code> means <span class="math inline">\(91\%\)</span> of samples in that group belong to <em>Iris versicolor</em> and <span class="math inline">\(9\%\)</span> belong to <em>Iris virginica</em>. And, <code>.02 .98 .00</code> means <span class="math inline">\(98\%\)</span> of samples in that group belong to <em>Iris virginica</em> and <span class="math inline">\(2\%\)</span> belong to <em>Iris versicolor</em>. Thus, the model’s decisions are based on <strong>probabilities</strong> – and each leaf node represents the most likely class for that group of samples.</p>
-<p>So, each path from the top to a leaf node represents a classification rule.</p>
-<ul>
-<li>If <code>Petal.Length</code> &lt; 2.5<code>, then</code>Species` = <em>Iris setosa</em>.</li>
-<li>If <code>Petal.Length</code> <span class="math inline">\(\ge\)</span> 2.5<code>and</code>Petal.Width<code>&lt;= 1.8</code>, then <code>Species</code> = <em>Iris versicolor</em>.</li>
-<li>If <code>Petal.Length</code> <span class="math inline">\(\ge\)</span> 2.5<code>and</code>Petal.Width<code>&gt; 1.8</code>, then <code>Species</code> = <em>Iris virginica</em>.</li>
-</ul>
+<p>So, clustering acts like a smart palette optimizer: it finds the key “color families” that best describe the image.</p>
+<section id="load-and-visualize-the-image" class="level3" data-number="11.1.1">
+<h3 data-number="11.1.1" class="anchored" data-anchor-id="load-and-visualize-the-image"><span class="header-section-number">11.1.1</span> Load and Visualize the Image</h3>
+<p>Here, we use a small flower image.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -2260,383 +2166,60 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>Why Only Two Variables Appear in the Tree?</strong></p>
-<p>The tree does not try to use every variable – it picks the ones that best separate the data. In the <em>iris</em> dataset, the petal measurements are much more distinctive between species than the sepal ones, so the algorithm quickly finds that using just <code>Petal.Length</code> and <code>Petal.Width</code> gives almost perfect classification. If we removed the petal variables and built a new tree, we would see the sepal variables appear instead.</p>
+<p>You can replace the URL with any image (small then 1 MB).</p>
 </div>
 </div>
-</section>
-<section id="regression-trees" class="level3" data-number="9.1.2">
-<h3 data-number="9.1.2" class="anchored" data-anchor-id="regression-trees"><span class="header-section-number">9.1.2</span> Regression Trees</h3>
-<p>A <em>regression tree</em> is used when the target variable is continuous or numerical (e.g., house prices, temperatures, or ages).</p>
-<p>Each split in a regression tree aims to minimize the variance (or mean squared error) within each group, creating subsets of data that are <em>as similar as</em> possible in terms of the target variable. At the end of the tree, each leaf node contains a predicted value, which is typically the average of the target variable for all observations that fall into that leaf.</p>
-<p><strong>Example</strong> The <code>mtcars</code> dataset contains data on fuel consumption and performance for <span class="math inline">\(32\)</span> automobiles (1973–74 models). The goal is to predict the miles per gallon (<code>mpg</code>) of a car based on its features: <code>disp</code> (Engine displacement), <code>hp</code> (Gross horsepower), <code>wt</code> (Weight), and <code>cyl</code> (number of cylinders).</p>
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Decision_trees_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>Based on this regression tree, we can see how the model predicts <code>mpg</code> based on number of cylinders (<code>cyl</code>) and horsepower (<code>hp</code>).</p>
-<p>Each box (node) represents a decision or a group of cars with similar characteristics, and the numbers in the boxes represent the average <code>mpg</code> for that group of cars.</p>
-<p>The first split is based on <code>cyl</code> and tells us that the number of cylinders is the most important factor in predicting <code>mpg</code>. “Is <code>cyl</code> <span class="math inline">\(\ge 5\)</span>?” If <em>no</em>, go to right branch that leaf node shows that cars with small engines ( less than 5 cylinders) have an average <code>mpg</code> of <span class="math inline">\(27\)</span> (<span class="math inline">\(34\%\)</span> of cars). If <em>yes</em>, go to left branch that asks another question about <code>hp</code>. “Is <code>hp</code> <span class="math inline">\(\ge\)</span> 193?” If <em>no</em>, go to right branch that leaf node shows that cars with large engines (5 or more cylinders and lower horsepower) have an average <code>mpg</code> of <span class="math inline">\(18\)</span> (<span class="math inline">\(44\%\)</span> of cars). If <em>yes</em>, go to left branch that leaf node shows that cars with large engines (5 or more cylinders and higher horsepower) have an average <code>mpg</code> of <span class="math inline">\(13\)</span> (<span class="math inline">\(22\%\)</span> of cars).</p>
-<p>So, this tree tells us:</p>
-<ul>
-<li>Fewer cylinders generally lead to better fuel efficiency (higher <code>mpg</code>).</li>
-<li>Higher horsepower tends to decrease <code>mpg</code>, especially in cars with more cylinders.</li>
-</ul>
-<p>This model translates to a few simple, interpretable rules that summarize how car design affects performance.</p>
-</section>
-</section>
-<section id="classification-and-regression-tree-cart-algorithm" class="level2" data-number="9.2">
-<h2 data-number="9.2" class="anchored" data-anchor-id="classification-and-regression-tree-cart-algorithm"><span class="header-section-number">9.2</span> Classification and Regression Tree (CART) Algorithm</h2>
-<p>The term <em>classification and regression tree</em> (CART) refers to a specific algorithm developed by Breiman et al.&nbsp;in 1984 for constructing decision trees. It provides a unified framework for building both Classification Trees and Regression Trees.</p>
-<p>The CART works by recursively splitting the dataset into smaller and smaller groups (nodes) based on the variable and threshold that best separate the data according to the target variable.</p>
-<p>It follows these main steps:</p>
-<ol type="1">
-<li><strong>Start with the full dataset (root node)</strong> All observations are included in one group.</li>
-<li><strong>Find the best split</strong> For every variable, the CART tests possible cut points and it chooses the one that makes the resulting groups as <em>pure</em> (homogeneous) as possible.</li>
-<li><strong>Split the data into two subgroups</strong> The CART always creates binary splits (two branches) at each node.</li>
-<li><strong>Repeat the process (recursion)</strong> Each subgroup becomes a new node, and the CART continues splitting until a stopping criterion is met (e.g., minimum node size, maximum tree depth, or no further improvement in purity).</li>
-<li><strong>Prun the tree (optional)</strong> To avoid overfitting, the CART may prune the tree by removing branches that do not provide significant predictive power.</li>
-</ol>
-<section id="metrics-used-in-cart" class="level3" data-number="9.2.1">
-<h3 data-number="9.2.1" class="anchored" data-anchor-id="metrics-used-in-cart"><span class="header-section-number">9.2.1</span> Metrics used in CART</h3>
-<p>To decide best split, CART uses different metrics depending on whether it is building a Classification Tree or a Regression Tree.</p>
-<section id="for-classification-trees" class="level4" data-number="9.2.1.1">
-<h4 data-number="9.2.1.1" class="anchored" data-anchor-id="for-classification-trees"><span class="header-section-number">9.2.1.1</span> For Classification Trees</h4>
-<p>The CART algorithm typically uses <em>impurity measures</em> to evaluate how well a split separates the classes.</p>
-<p>The most common impurity measures are:</p>
-<ul>
-<li><strong>Gini impurity</strong></li>
-<li><strong>Entropy (information gain)</strong></li>
-<li><strong>Classification error</strong></li>
-</ul>
-<p><strong>Gini Index</strong></p>
-<p>The Gini index is defined as <span class="math display">\[
-\text{Gini} = 1 - \sum\limits_{i=1}^{k} p_i^2
-\]</span> where <span class="math inline">\(p_i\)</span> is the proportion of class <span class="math inline">\(i\)</span> in the node.</p>
-<p>If <span class="math inline">\(\text{Gini} = 0\)</span>, the node is pure (all observations belong to one class). If <span class="math inline">\(\text{Gini} = 0.5\)</span> (binary case), the node is completely mixed (<span class="math inline">\(50\%\)</span> each class).</p>
-<p>For example, if a node has <span class="math inline">\(90\%\)</span> setosa and <span class="math inline">\(10\%\)</span> versicolor, <span class="math inline">\(\text{Gini} = 1 - (0.9^2 + 0.1^2) = 0.18\)</span>. The node is fairly pure.</p>
-<p><strong>Entropy (Information Gain)</strong></p>
-<p>The Entropy is defined as <span class="math display">\[
-\text{Entropy} = - \sum\limits_{i = 1}^k p_i \log_2(p_i)
-\]</span> where <span class="math inline">\(p_i\)</span> is the proportion of class <span class="math inline">\(i\)</span> in the node.</p>
-<p>If <span class="math inline">\(\text{Entropy} = 0\)</span>, it means the node is perfectly pure while <span class="math inline">\(\text{Entropy} = 1\)</span> means that the node has maximum disorder (completely mixed).</p>
-<p>CART usually uses the <strong>Gini Index</strong> because it is computationally faster and produces results very similar to those obtained with Entropy.</p>
-<p><strong>Classification Error</strong></p>
-<p>The classification error is a simpler impurity measure defined as <span class="math display">\[
-\text{Error} = 1 - \max(p_i)
-\]</span> where <span class="math inline">\(\max(p_i)\)</span> is the proportion of the most common class in the node.</p>
-<p>If all samples belong to one class, <span class="math inline">\(\max(p_i) = 1\)</span> and <strong>Error = 0</strong> (perfectly pure). If the classes are equally mixed, <span class="math inline">\(\max(p_i) = 0.5\)</span> and <strong>Error = 0.5</strong>.</p>
-<p>This measure is easy to interpret but <em>less sensitive</em> than the Gini Index or Entropy, so it is mainly used for <em>reporting accuracy</em>, not for choosing splits.</p>
-</section>
-<section id="for-regression-trees" class="level4" data-number="9.2.1.2">
-<h4 data-number="9.2.1.2" class="anchored" data-anchor-id="for-regression-trees"><span class="header-section-number">9.2.1.2</span> For Regression Trees</h4>
-<p>When the target variable is <strong>numeric</strong>, CART measures how similar the values are within each node.<br>
-Instead of impurity, it uses the <strong>variance</strong> or the <strong>Mean Squared Error (MSE)</strong>.</p>
-<p><strong>Variance</strong></p>
-<p>The variance of a node is defined <span class="math display">\[
-\text{Var}(Y) = \frac{1}{n} \sum\limits_{i=1}^{n} (y_i - \bar{y})^2
-\]</span> where <span class="math inline">\(y_i\)</span>s are observed values, <span class="math inline">\(\bar{y}\)</span> is the mean of the node, and <span class="math inline">\(n\)</span> is the number of observation in each node.</p>
-<p>A <em>lower variance</em> means that the values in that node are closer to each other, so the node is more ‘pure’ in terms of numeric outcomes.</p>
-<p><strong>Mean Squared Error (MSE)</strong></p>
-<p>CART typically uses <em>MSE</em> as the splitting criterion, which is conceptually similar to variance.</p>
-<p>The MSE is defined as <span class="math display">\[\text{MSE} = \frac{1}{n} \sum\limits_{i=1}^n (y_i - \hat{y})^2
-\]</span> where <span class="math inline">\(\hat{y}\)</span> is the predicted value for that node (usually the mean).</p>
-<p>The <em>best split</em> is the one that <em>reduces the total MSE the most</em> — in other words, the children nodes have smaller errors than the parent node.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>In a Regression Tree, the predicted value for each node is simply the mean of that node – so, <span class="math inline">\(\hat{y} = \bar{y}\)</span>. When that is the case: <span class="math display">\[
-\text{MSE} = \text{Var}(Y)
-\]</span></p>
-</div>
-</div>
-<p><strong>Example:</strong> Suppose a node contains five cars with their <strong>fuel efficiency (mpg)</strong> values:</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th style="text-align: left;">Car</th>
-<th style="text-align: right;">mpg</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">A</td>
-<td style="text-align: right;">10</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">B</td>
-<td style="text-align: right;">12</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">C</td>
-<td style="text-align: right;">15</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">D</td>
-<td style="text-align: right;">20</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">E</td>
-<td style="text-align: right;">22</td>
-</tr>
-</tbody>
-</table>
-<p>First, Compute the variance before splitting as: <span class="math display">\[
-\bar{y} = \frac{10 + 12 + 15 + 20 + 22}{5} = 15.8
-\]</span> and then <span class="math display">\[
-\text{Var}_{\text{parent}} = \frac{(10-15.8)^2 + (12-15.8)^2 + (15-15.8)^2 + (20-15.8)^2 + (22-15.8)^2}{5} = 21.36
-\]</span> Then, we try a possible split</p>
-<ul>
-<li><strong>Left node:</strong> cars with small engines → mpg = [10, 12, 15]<br>
-</li>
-<li><strong>Right node:</strong> cars with large engines → mpg = [20, 22]</li>
-</ul>
-<p>Compute the variances for each node:</p>
-<p><strong>Left node:</strong> <span class="math display">\[
-\bar{y}_L = 12.33,\quad \text{Var}_L = \frac{(10-12.33)^2 + (12-12.33)^2 + (15-12.33)^2}{3} = 4.22
-\]</span> <strong>Right node:</strong> <span class="math display">\[
-\bar{y}_R = 21.0,\quad \text{Var}_R = \frac{(20-21)^2 + (22-21)^2}{2} = 1.0
-\]</span> Then, Compute the weighted average of child variances <span class="math display">\[
-\text{Var}_{\text{after split}} = \frac{3}{5}(4.22) + \frac{2}{5}(1.0) = 2.93.
-\]</span> So, we calculate the variance reduction as [ = 21.36 - 2.93 = 18.43. ] This means the split <em>greatly reduces the variability</em> of <code>mpg</code> within each node, so CART would consider it a very good split.</p>
-</section>
-</section>
-</section>
-<section id="implementations-in-r" class="level2" data-number="9.3">
-<h2 data-number="9.3" class="anchored" data-anchor-id="implementations-in-r"><span class="header-section-number">9.3</span> Implementations in R</h2>
-<p>There are some packages in R that implements the CART algorithm. The most famous are <code>{rpart}</code> and <code>{rpart.plot}</code>.</p>
-<p><strong>The <code>rpart</code> Function</strong>:</p>
-<p>The <code>rpart()</code> function is the core of CART in R. It fits <em>Classification</em>, <em>Regression</em>, (and two other) trees depending on the target variable and the <code>method</code> argument.</p>
-<p>The basic syntax is</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rpart</span>(formula, </span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>      data, </span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>      weights, </span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>      subset, </span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">na.action =</span> na.rpart, </span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>      method,</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">model =</span> <span class="cn">FALSE</span>, </span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> <span class="cn">FALSE</span>, </span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> <span class="cn">TRUE</span>, </span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>      parms, </span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>      control, </span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>      cost, </span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>      ...)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>The main arguments are:</p>
-<ul>
-<li><p><code>formula</code>: Defines the relationship between the target variable and predictors. The left side of <code>~</code> is the response, and the right side are the predictors. You can use <code>.</code> to include all predictors automatically.</p></li>
-<li><p><code>data</code>: The data frame containing the variables used in the formula.</p></li>
-<li><p><code>weights</code>: Optional vector giving observation weights.</p></li>
-<li><p><code>subset</code>: Logical condition to select part of the data.</p></li>
-<li><p><code>na.action</code>: Specifies how to handle missing values. The default removes rows with missing response, but can handle missing predictors using surrogate splits (unique to CART).</p></li>
-<li><p><code>method</code>: Specifies the type of model: “class”, “anova”, “poisson”, or “exp”. <code>method = "class"</code> means Classification tree (categorical response). <code>method =  "anova"</code> means Regression tree (numeric response). <code>method = "poisson"</code> means Count data; and <code>method = "exp"</code> means Survival data.</p></li>
-<li><p><code>model</code>, <code>x</code>, <code>y</code>: They are logical and store model frame, predictors, or response in the output. Usually, we left them as default.</p></li>
-<li><p><code>parms</code>: Additional parameters for the splitting rule. For classification, you can set <code>parms = list(split = "information")</code> to use entropy instead of Gini.</p></li>
-<li><p><code>control</code>: A list of options controlling tree complexity, pruning, and stopping criteria. Controls include: <code>minsplit</code>: minimum observations to attempt a split; <code>minbucket</code>: minimum observations in a terminal node; <code>cp</code>: complexity parameter (pruning strength); and now, <code>maxdepth</code>: maximum depth of tree.</p></li>
-<li><p><code>cost</code>: Vector of variable costs. You can penalize certain variables if they are expensive to measure.</p></li>
-<li><p><code>...</code>: Additional arguments</p></li>
-</ul>
-<p><strong>Example of Customization</strong></p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">rpart</span>(Species <span class="sc">~</span> ., </span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">data =</span> iris, </span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">method =</span> <span class="st">"class"</span>, </span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">parms =</span> <span class="fu">list</span>(<span class="at">split =</span> <span class="st">"information"</span>),  <span class="co"># use entropy instead of Gini</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">control =</span> <span class="fu">rpart.control</span>(<span class="at">cp =</span> <span class="fl">0.02</span>, <span class="at">minsplit =</span> <span class="dv">10</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p><strong>The <code>rpart.plot()</code> Function</strong>:</p>
-<p>The <code>rpart.plot()</code> function from the <code>{rpart.plot}</code> package creates clean, colored diagrams of decision trees.</p>
-<p>The basic syntax is</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rpart.plot</span>(x,</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">type =</span> <span class="dv">2</span>,</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">extra =</span> <span class="st">"auto"</span>,</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">fallen.leaves =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">digits =</span> <span class="dv">2</span>,</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>           <span class="at">varlen =</span> <span class="dv">0</span>,</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>           <span class="at">box.palette =</span> <span class="st">"auto"</span>,</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>           <span class="at">shadow.col =</span> <span class="dv">0</span>,</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>           ...)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>The main arguments are: - <code>x</code>: The fitted model object from <code>rpart()</code> - <code>type</code>: Controls how node labels and split labels are displayed.</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>0</code></td>
-<td>Draws a <em>split label</em> at each split and a <em>node label</em> only at leaves.</td>
-</tr>
-<tr class="even">
-<td><code>1</code></td>
-<td>Labels <em>all nodes</em>, not just leaves (similar to <code>text.rpart(all = TRUE)</code>).</td>
-</tr>
-<tr class="odd">
-<td><code>2</code></td>
-<td><em>(Default)</em> Like <code>1</code>, but <em>split labels appear below node labels</em> — similar to the style used in the original CART book.</td>
-</tr>
-<tr class="even">
-<td><code>3</code></td>
-<td>Draws <em>separate split labels</em> for the left and right branches.</td>
-</tr>
-<tr class="odd">
-<td><code>4</code></td>
-<td>Like <code>3</code>, but <em>labels all nodes</em>, similar to <code>text.rpart(fancy = TRUE)</code>.</td>
-</tr>
-<tr class="even">
-<td><code>5</code></td>
-<td>Displays <em>split variable names</em> in the interior nodes.</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li><code>extra</code>: Specifies what additional information should be shown in each node.</li>
-</ul>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Value</th>
-<th>Meaning</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>"auto"</code></td>
-<td><em>(Default)</em> Automatically selects based on model type. <br> – <code>extra = 106</code> for binary classification <br> – <code>extra = 104</code> for multiclass <br> – <code>extra = 100</code> for regression</td>
-</tr>
-<tr class="even">
-<td><code>0</code></td>
-<td>Show no extra information.</td>
-</tr>
-<tr class="odd">
-<td><code>1</code></td>
-<td>Number of observations in the node (or per class).</td>
-</tr>
-<tr class="even">
-<td><code>2</code></td>
-<td>Classification rate (correct vs total) or number of events.</td>
-</tr>
-<tr class="odd">
-<td><code>3</code></td>
-<td>Misclassification rate (incorrect vs total).</td>
-</tr>
-<tr class="even">
-<td><code>4</code></td>
-<td>Class probabilities for each category (sum = 1).</td>
-</tr>
-<tr class="odd">
-<td><code>5</code></td>
-<td>Like <code>4</code>, but hides the predicted class.</td>
-</tr>
-<tr class="even">
-<td><code>6</code></td>
-<td>Probability of the <strong>second class</strong> (useful for binary).</td>
-</tr>
-<tr class="odd">
-<td><code>7</code></td>
-<td>Like <code>6</code>, but hides the fitted class.</td>
-</tr>
-<tr class="even">
-<td><code>8</code></td>
-<td>Probability of the <strong>predicted class</strong> only.</td>
-</tr>
-<tr class="odd">
-<td><code>9</code></td>
-<td>Probability relative to <strong>all observations</strong> (sum of all leaves = 1).</td>
-</tr>
-<tr class="even">
-<td><code>10</code></td>
-<td>Probability of second class relative to all data.</td>
-</tr>
-<tr class="odd">
-<td><code>11</code></td>
-<td>Like <code>10</code>, but hides the fitted class.</td>
-</tr>
-<tr class="even">
-<td><code>+100</code></td>
-<td>Adds <strong>percentage of total observations</strong> in each node.</td>
-</tr>
-</tbody>
-</table>
-<p>For example <code>extra = 104</code> is ideal for multiclass problems; <code>extra = 100</code> is typically used for regressiont rees.</p>
-<ul>
-<li><p><code>under</code>: Applies only if <code>extra &gt; 0</code>. The default value is <code>FALSE</code> that means extra information appears inside the box. Also, <code>TRUE</code> places the extra text below the box (useful for crowded trees).</p></li>
-<li><p><code>fallen.leaves</code>: Places all leaves at the same height. The default is <code>TRUE</code> that aligns all leaf nodes at the same level (bottom of the plot). If the tree is large and text overlaps, we set it <code>FALSE</code>.</p></li>
-<li><p><code>digits</code>: Controls the number of significant digits in numeric labels. The default value is <span class="math inline">\(2\)</span>.</p></li>
-<li><p><code>varlen</code>: Controls the length of variable names in split labels. The default value is <span class="math inline">\(0\)</span>. <code>&gt; 0</code> abbreviate names to the specified number of characters. <code>&lt; 0</code> truncate names automatically to shortest unique length.</p></li>
-<li><p><code>faclen</code>: Similar to <code>varlen</code>, but applies to factor level names. The default value is <span class="math inline">\(0\)</span> that shows full level names. <span class="math inline">\(1\)</span> shows letters (a, b, c) instead of full names — useful for compact display.</p></li>
-<li><p><code>roundint</code>: If <code>TRUE</code> (default), integer splits are rounded for readability. Set to <code>FALSE</code> if predictors have possible decimal values.</p></li>
-<li><p><code>cex</code>: Sets the text size directly (NULL = automatic).</p></li>
-<li><p><code>tweak</code>: Adjusts the automatic size by a multiplier (e.g., <code>tweak = 1.2</code> makes text <span class="math inline">\(20\%\)</span> larger).</p></li>
-<li><p><code>clip.facs</code>: The default value is <code>FALSE</code>. If <code>TRUE</code>, shortens factor splits by removing the variable name and equals sign. e.g., shows <code>female</code> instead of <code>sex = female</code>.</p></li>
-<li><p><code>box.palette</code> Colors nodes by fitted value or class.</p></li>
-</ul>
-<section id="classification-tree-in-r" class="level3" data-number="9.3.1">
-<h3 data-number="9.3.1" class="anchored" data-anchor-id="classification-tree-in-r"><span class="header-section-number">9.3.1</span> Classification Tree in R</h3>
-<p>Now, we are giving the R code for classification tree that aimed to predict the <em>species</em> of iris flowers using their measurments.</p>
 <div id="qwebr-insertion-location-1"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <div id="qwebr-insertion-location-2"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>Before applying clustering, let us look at what our image data actually looks like.</p>
+<p>When we read the image, each pixel is represented by three values — <strong>Red (R)</strong>, <strong>Green (G)</strong>, and <strong>Blue (B)</strong> — that together define its color. So, an image becomes a dataset where <strong>each row = one pixel</strong>, and the columns are <strong>R</strong>, <strong>G</strong>, and <strong>B</strong>. This is why we can treat image processing as a <strong>clustering problem</strong> — we want to group pixels with <em>similar colors</em>.</p>
 <div id="qwebr-insertion-location-3"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-</section>
-<section id="regression-tree-in-r" class="level3" data-number="9.3.2">
-<h3 data-number="9.3.2" class="anchored" data-anchor-id="regression-tree-in-r"><span class="header-section-number">9.3.2</span> Regression Tree in R</h3>
-<p>We will predict miles per gallon (<code>mpg</code>) from car features in the mtcars dataset.</p>
 <div id="qwebr-insertion-location-4"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>Now that we understand what the data looks like (each pixel is a point in RGB space), our next goal is to <strong>group pixels with similar colors</strong> into clusters.</p>
+<p>We will start with <span class="math inline">\(k\)</span>-means and later, will do <span class="math inline">\(k\)</span>-medoids. At the end, we will <em>compare both methods</em>.</p>
+</section>
+<section id="k-means" class="level3" data-number="11.1.2">
+<h3 data-number="11.1.2" class="anchored" data-anchor-id="k-means"><span class="header-section-number">11.1.2</span> <span class="math inline">\(k\)</span>-means</h3>
+<section id="choosing-the-number-of-clusters" class="level4" data-number="11.1.2.1">
+<h4 data-number="11.1.2.1" class="anchored" data-anchor-id="choosing-the-number-of-clusters"><span class="header-section-number">11.1.2.1</span> Choosing the Number of clusters</h4>
+<p>We already know three standard methods for determining the best <span class="math inline">\(k\)</span>:</p>
+<ul>
+<li><em>Elbow Method:</em> looks at how the <em>within-cluster sum of squares (WSS)</em> decreases with increasing <span class="math inline">\(k\)</span>; the <em>elbow</em> marks a good balance between simplicity and accuracy.<br>
+</li>
+<li><em>Silhouette Coefficient:</em> evaluates how well each point fits within its cluster; the closer to <span class="math inline">\(1\)</span>, the better.<br>
+</li>
+<li><em>Gap Statistic:</em> compares within-cluster dispersion to that of random uniform data.</li>
+</ul>
+<p>We use all three to guide our choice of <span class="math inline">\(k\)</span>.</p>
+<p>Because clustering every pixel in a large image is computationally heavy and memory-intensive, we can analyze only a random subset of pixels that still represents the overall color diversity.</p>
+<p>In clustering, what matters most is diversity in the data, not volume. A well-chosen random sample gives us the same structure at a fraction of the cost. Once we know how many clusters we need, we can apply that to all pixels for the final image.</p>
+<p>If our image has many similar pixels (which most real images do), then sampling <span class="math inline">\(5\,000\)</span> pixels is enough to capture all the dominant color regions. If the image has tiny regions of rare colors (e.g., coral reef photos, satellite imagery), a small sample might miss some color groups. In this case, use a larger sample (e.g., <span class="math inline">\(20\,000\)</span>).</p>
+<p>Here, we use a sampled dataset (<code>sample_img</code>) to decide the optimal <span class="math inline">\(k\)</span>.</p>
 <div id="qwebr-insertion-location-5"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>Based on this plot, we can see that WSS decreases sharply until around <span class="math inline">\(k = 3\)</span>, after which the improvement flattens. So, the “elbow” suggests that <span class="math inline">\(3\)</span> clusters capture most of the color variance efficiently.</p>
 <div id="qwebr-insertion-location-6"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-</section>
-</section>
-<section id="handling-missing-values-in-cart" class="level2" data-number="9.4">
-<h2 data-number="9.4" class="anchored" data-anchor-id="handling-missing-values-in-cart"><span class="header-section-number">9.4</span> Handling Missing Values in CART</h2>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">'airquality'</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(<span class="fu">is.na</span>(airquality))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>  Ozone Solar.R    Wind    Temp   Month     Day 
-     37       7       0       0       0       0 </code></pre>
-</div>
-</div>
+<p>The average silhouette width peaks at <span class="math inline">\(k = 2\)</span>, meaning that clusters are most compact and well-separated at this point. However, the drop from <span class="math inline">\(k = 2\)</span> to <span class="math inline">\(k = 3\)</span> is small, and with images (continuous color gradients), slightly lower silhouette scores are expected for more nuanced color palettes.</p>
 <div id="qwebr-insertion-location-7"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>The gap statistic reaches its maximum around <span class="math inline">\(k = 4\)</span>, meaning that <span class="math inline">\(4\)</span> clusters explain the data structure significantly better than a random uniform reference.</p>
+<p><strong>What do we choose?</strong></p>
+<p>When methods disagree slightly, <em>Elbow: 3 clusters, Silhouette: 2 clusters, Gap-Statistic: 4 clusters</em>, a reasonable consensus is to choose <span class="math inline">\(k = 3\)</span> or <span class="math inline">\(k = 4\)</span>, depending on how much color detail we want in the compressed image. Choosing <span class="math inline">\(k = 3\)</span> gives smoother and more general color areas. And, <span class="math inline">\(k = 4\)</span> preserves finer details that is more realistic for natural photos.</p>
+<p>In the following code, we fit two <span class="math inline">\(k\)</span>-means models and reconstruct the compressed images and show them side-by-side to see how the number of clusters affects color richness and smoothness.</p>
 <div id="qwebr-insertion-location-8"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div id="qwebr-insertion-location-9"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div id="qwebr-insertion-location-10"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>In the original image, each pixel’s RGB value is treated as a 3D point in colour space. In this output, each pixel is relaced by its cluster’s centroid colour.</p>
+<p>The image based on <span class="math inline">\(k = 3\)</span> in the left shows an image that is compressed into just 3 colours and it looks a poster with strong colour bands and high compression. In the right image (i.e., choosing <span class="math inline">\(k = 4\)</span>), a bit more detail and smoother gradients appear, especially in the faces and background, but still simplified compared to the original.</p>
+<p>Increasing <span class="math inline">\(k\)</span> adds more colours which results in higher visual quality but less compression.</p>
 
 
+</section>
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -3042,13 +2625,13 @@ Note
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../chapters/missing_values.html" class="pagination-link" aria-label="Missing Values">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Missing Values</span></span>
+      <a href="../chapters/clustring.html" class="pagination-link" aria-label="Clustering">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Clustering</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../chapters/clustring.html" class="pagination-link" aria-label="Clustering">
-        <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Clustering</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../chapters/chapter5_logistic_regression.html" class="pagination-link" aria-label="Logistic Regression">
+        <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Logistic Regression</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
