@@ -5,7 +5,7 @@ filters:
 ---
 
 ```{r setup, include=FALSE}
-required_packages <- c("cluster", "lsa", "GGally", "factoextra", "stats", "tibble", 'dplyr', 'kmed', 'hopkins', 'fpc', 'mclust', 'clValid', "jpeg", "ggplot2", "grid", "tidyverse", "gridExtra")
+required_packages <- c("cluster", "lsa", "GGally", "factoextra", "stats", "tibble", 'dplyr', 'kmed', 'hopkins', 'fpc', 'mclust', 'clValid', "jpeg", "ggplot2", "grid", "tidyverse", "gridExtra", 'imager')
 
 for (pkg in required_packages) {
   if (!require(pkg, character.only = TRUE)) {
@@ -42,17 +42,17 @@ You can replace the URL with any image (small then 1 MB).
 
 ```{webr-r}
 #| label: img-load 
-#| autorun: false
-#| message: false
-#| warning: false 
+#| autorun: false 
 #| out-width: "80%"
-
+#| message: false
+#| warning: false
 library(jpeg)
 library(ggplot2)
 library(dplyr)
 
 # Download an example image 
-url <- "https://storage.googleapis.com/kagglesdsdata/datasets/2588649/4418848/photos_no_class/children-g13a48a038_640.jpg?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=databundle-worker-v2%40kaggle-161607.iam.gserviceaccount.com%2F20251023%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20251023T200444Z&X-Goog-Expires=345600&X-Goog-SignedHeaders=host&X-Goog-Signature=2c5de780583523927b9be8f9d460b45b5d38fc41d851eb2fe64d0563ea4ed2457222ee668b09d6cef490bc0235067b2bf71dfd70f3491b3d95bd29676992346bff389388a4a8d776cc9ce85c7eff3ff561fe434b07045ab9d8d8ea8d175edeeebc4328b9482d5224edf988292d2a250678bd0d24dadeecd254231ac98d6a303bfea264dce96f8efd0b4e9564000d61f7a73e46c50116b161163ce264bbb868639e41bea513e5b6ed641cfdcadc1e6d59a484e2b086503ff96e35a1b39e53a6096218b098dbe80e1b8f0f2de9252ca9d0ce8c7cacb1ebe83378211bbd708e6bb048ffdbef2770e6c8d39bac31559b419befc9855ebb082ddebaf87dec146c174e"
+url <- "https://images.pexels.com/photos/1661179/pexels-photo-1661179.jpeg"
+
 temp <- tempfile(fileext = ".jpg")
 download.file(url, temp, mode = 'wb')
 img <- readJPEG(temp)
@@ -65,16 +65,47 @@ grid::grid.raster(img)
 ```{webr-r}
 #| label: img-convert_data
 #| autorun: false
-#| message: false
-#| warning: false
+#| message: true
+#| warning: true
 # Convert to data frame of RGB values 
-img_df <- data.frame(
-    R = as.vector(img[,,1]),
-    G = as.vector(img[,,2]),
-    B = as.vector(img[,,3])
-    )
+# img_df <- data.frame(
+#     R = as.vector(img[,,1]),
+#     G = as.vector(img[,,2]),
+#     B = as.vector(img[,,3])
+#     )
 
-dim(img_df)
+# dim(img_df)
+
+# library(imager)
+# img <- as.cimg(img)
+# img_small <- imresize(img, scale = 0.45)  # adjust scale until ~10k pixels
+
+# img_df <- data.frame(
+#   R = as.vector(img_small[,,1]),
+#   G = as.vector(img_small[,,2]),
+#   B = as.vector(img_small[,,3])
+# )
+# dim(img_df)
+# Obtain the dimension
+imgDm <- dim(img)
+imgDm
+
+# Assign RGB channels to data frame
+imgRGB <- data.frame(
+  x = rep(1:imgDm[2], each = imgDm[1]),
+  y = rep(imgDm[1]:1, imgDm[2]),
+  R = as.vector(img[,,1]),
+  G = as.vector(img[,,2]),
+  B = as.vector(img[,,3])
+  )
+
+dim(imgRGB)
+
+rgb_mat <- imgRGB %>%
+   select(R, G, B)
+
+# Scale RGB so R/G/B have equal weight
+rgb_scaled <- scale(rgb_mat)
 ```
 
 Before applying clustering, let us look at what our image data actually looks like. 
@@ -126,18 +157,18 @@ Here, we use a sampled dataset (`sample_img`) to decide the optimal $k$.
 ```{webr-r}
 #| label: kmeans-elbow-plot
 #| autorun: false
-#| message: false
-#| warning: false
+#| message: true
+#| warning: true
 #| out-width: "80%"
 library(factoextra)
 
 set.seed(123)
 
 # Take a random sample of 5000 pixels
-n_sample <- 5000
-sample_img <- img_df[sample(1:nrow(img_df), n_sample), ]
+# n_sample <- 5000
+# sample_img <- img_df[sample(1:nrow(img_df), n_sample), ]
 
-fviz_nbclust(sample_img, kmeans, method = "wss") +
+fviz_nbclust(img_df, kmeans, method = "wss", k.max = 6) +
   ggtitle("Elbow Method — Optimal Number of Colors")
 ```
 
@@ -149,7 +180,7 @@ Based on this plot, we can see that WSS decreases sharply until around $k = 3$, 
 #| warning: false
 #| out-width: "80%"
 set.seed(123)
-fviz_nbclust(sample_img, kmeans, method = "silhouette") +
+fviz_nbclust(sample_img, kmeans, method = "silhouette", k.max = 6) +
   ggtitle("Silhouette Method — Cluster Quality")
 ```
 The average silhouette width peaks at $k = 2$, meaning that clusters are most compact and well-separated at this point. However, the drop from $k = 2$ to $k = 3$ is small, and with images (continuous color gradients), slightly lower silhouette scores are expected for more nuanced color palettes.
@@ -160,7 +191,10 @@ The average silhouette width peaks at $k = 2$, meaning that clusters are most co
 #| warning: false
 #| out-width: "80%"
 set.seed(123)
-fviz_nbclust(sample_img, kmeans, method = "gap_stat", nboot = 30) +
+# n_sample <- 2000
+# sample_img <- img_df[sample(1:nrow(img_df), n_sample), ]
+
+fviz_nbclust(img_df, kmeans, method = "gap_stat", nboot = 20, k.max = 6) +
   ggtitle("Gap Statistic — Cluster Quality")
 ```
 The gap statistic reaches its maximum around $k = 4$, meaning that $4$ clusters explain the data structure significantly better than a random uniform reference.
@@ -229,7 +263,7 @@ Increasing $k$ adds more colors which results in higher visual quality but less 
 #| message: false
 #| warning: false
 #| fig-cap: "Visual comparison of K-Means compression for different k values"
-#| out-width: "80%"
+#| out-width: "90%"
 
 library(ggplot2)
 library(gridExtra)
@@ -241,7 +275,7 @@ img_array <- array(cluster_colors, dim = img_shape)
 as.raster(img_array)
 }
 
-k_values <- 3:12
+k_values <- c(3, 4, 5, 6, 8, 10, 12, 15)
 plots <- list()
 
 for (i in seq_along(k_values)) {
@@ -274,9 +308,11 @@ library(cluster)
 library(factoextra)
 
 set.seed(123)
+n_sample <- 5000
+sample_img <- img_df[sample(1:nrow(img_df), n_sample), ]
 
-fviz_nbclust(sample_img, pam, method = "wss") +
-  ggtitle("Elbow Method — Optimal Number of Colors")
+fviz_nbclust(sample_img, pam, method = "wss", k.max = 6) +
+  ggtitle("Elbow Method — Optimal Number of Medoids (PAM)")
 ```
 
 ```{webr-r}
@@ -289,7 +325,7 @@ library(cluster)
 library(factoextra)
 
 set.seed(123)
-fviz_nbclust(sample_img, pam, method = "silhouette") +
+fviz_nbclust(sample_img, pam, method = "silhouette", k.max = 6) +
   ggtitle("Silhouette Method — Optimal Number of Medoids (PAM)")
 ```
 
@@ -303,6 +339,63 @@ library(cluster)
 library(factoextra)
 
 set.seed(123)
-fviz_nbclust(sample_img, pam, method = "gap_stat", nboot = 30) +
-  ggtitle("Gap Statistic — Cluster Quality")
+n_sample <- 2000
+sample_img <- img_df[sample(1:nrow(img_df), n_sample), ]
+
+fviz_nbclust(sample_img, pam, method = "gap_stat", nboot = 20, k.max = 6) +
+  ggtitle("Gap Statistic — Optimal Number of Medoids (PAM)")
 ```
+
+:::{.callout-note}
+The *Gap Statistic* is computationally heavy because it repeatedly compares real clustering quality to that of random data. 
+For large datasets like images, we either reduce the bootstrap count or rely on faster methods such as the Silhouette coefficient.
+:::
+The results for $k$-medoids (PAM) show consistent patterns with those obtained from $k$-means. Elbow methods suggests 3 clusters. Silhouette method indicates 2 clusters as the configuration with the most compact and well-separated groups. Gap statistic peaks at 4 clusters. 
+
+Although the exact optimal $k$ differs slightly between methods, all three converge on the same range (2-4 clusters), confirming that the image's dominant colors can be represented effectively with only a few color groups. This agreement also shows that $k$-medoids captures a similar underlying structure as $k$-means, while being more robust to outliers and based on actual data points rather than centroids; so, you should expect more time for seeing the output.
+
+To better understand how the number of clusters affects the representation, we wil test $k = 3$ and $k = 4$ with the PAM algorithm.
+
+Unlike $k$-means (which assumes Euclidean distance), PAM allows any dissimilarity measure. 
+
+For image data (and in general, for colour data), Euclidean usually works well, but we can test Manhattan as well, since it can handle abrupt colour transitions more robustly. 
+
+```{webr-r}
+#| label: pam-compare-metrics
+#| message: true
+#| warning: true
+#| fig-cap: "Comparison of K-Medoids (PAM) clustering for different k and distance metrics"
+
+library(cluster)
+library(ggplot2)
+library(gridExtra)
+
+pam_compress <- function(data, k, metric) {
+pam_fit <- pam(data, k = k, metric = metric)
+medoid_colors <- pam_fit$medoids
+cluster_colors <- medoid_colors[pam_fit$clustering, ]
+array(cluster_colors, dim = c(80, 50, 3)) |> as.raster()
+}
+
+n_sample <- 6000
+sample_img <- img_df[sample(1:nrow(img_df), n_sample), ]
+
+p_eu_4 <- pam_compress(sample_df, 4, "euclidean")
+p_ma_3 <- pam_compress(sample_df, 3, "manhattan")
+p_eu_3 <- pam_compress(sample_df, 3, "euclidean")
+p_ma_4 <- pam_compress(sample_df, 4, "manhattan")
+
+plots <- list(
+ggplot() + annotation_raster(p_eu_3, 0, 1, 0, 1) +
+ggtitle("PAM (k = 3, Euclidean)") + theme_void(),
+ggplot() + annotation_raster(p_eu_4, 0, 1, 0, 1) +
+ggtitle("PAM (k = 4, Euclidean)") + theme_void(),
+ggplot() + annotation_raster(p_ma_3, 0, 1, 0, 1) +
+ggtitle("PAM (k = 3, Manhattan)") + theme_void(),
+ggplot() + annotation_raster(p_ma_4, 0, 1, 0, 1) +
+ggtitle("PAM (k = 4, Manhattan)") + theme_void()
+)
+
+gridExtra::grid.arrange(grobs = plots, ncol = 2)
+```
+

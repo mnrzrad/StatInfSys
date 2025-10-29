@@ -8,14 +8,65 @@ filters:
 #| context: setup
 library(tidyverse)
 ```
+# Classification
 
-# Logistic Regression
+Until now, we have been doing clustering -- we had data with no labels, and we asked the computer to discover natural groups. 
 
-A binary classification problem is one where the outcome variable can take on only two possible values. For example:
+Now, we move to classification. 
 
--   will a loaner enter default or not, based on their credit score and income;
+Suppose that we collected data from the engines on several ships: *temperature*, *vibration level*, and *pressure*. For each moment, we have numbers like $\text{temperature} = 82^\circ \mathrm{C}$, $\text{vibration} = 4.1$, and $\text{pressure} = 205 kPa$. 
+
+At first, imagine we do not know if the engine was OK or about to fail at those moments. We just have the measurements. We ask the computer to group similar engine states together. The algorithm gives $3$ groups: 
+
+- Group 1: normal temperature, low vibration
+- Group 2: slightly higher temperature, medim vibration
+- Group 3: very high temperature, very high vibration
+
+Now, we look at Group 3 and we say that "This looks dangerous."
+
+It is very important that the algorithm never knew the words "safe" or "danger". We discovered the groups and we interpreted them after. This is *clustering*.
+
+Now, imagine we do have labels from the maintenance log. For every past moment, we know that 
+
+- Group 0 means the engine did not fail in the next 24 hours.
+- Group 1 means the engine failed in the next 24 hours
+
+We can train a model. The model sees examples like $(82^\circ \textrm{C}, 4.1 \textrm{vibration}, 205 \textrm{kPa})$ results in Group $0$ (no failure) and $(96^\circ \textrm{C}, 7.5 \textrm{vibration}, 240 \textrm{kPa})$ results in Group $1$ (failure). After training, we can give the model in the next 24 hours: yes or no? That task -- taking a new case and predicting $0$ or $1$ -- is called *classification*
+
+
+There are several method that can act as classifiers, such as:
+
+- logistic regression
+- $k$-nearest neighbors
+- decision trees and random forests
+
+Here, we focus only on logistic regression. 
+
+## Logistic regression
+
+In many situation, we want to make a "yes/no" decision. For example:
+
+- Is this email spam or not?
+- Will this student pass or fail the exam?
+- Is the fish a salmon or a sea bass?
+- Is this transaction fraudulent or normal?
+- will a loaner enter default or not, based on their credit score and income;
 -   will a driver be involved in an accident or not, based on their age, automobile age and driving history;
 -   will a patient have a heart attack or not, based on their cholesterol level and blood pressure, and other health indicators.
+
+This kind of task is called a **binary classification** problem where the outcome variable can take on only two possible values. Usually we use $0$ and $1$ to denote two classes $0$ and $1$. For example, fail ( = $0$) vs. pass ( = $1$); normal (=$1$) vs. fault (=$0$), survived (=$1$) vs. died (=$0$). 
+
+Our goal is
+
+> Given information (variables) about something we have not seen before, can we decide if it is class $0$ or class $1$ based on what we learned from the previous labeled examples?
+
+:::{.callout-note}
+### Difference between clustering and Classification
+
+In clustering, we did **not** know the groups in advance. We tried to discover "natural groups".
+
+In classification, we already know the correct group for past observations (they are labeled $0$ or $1$). We used that labeled history to learn how to classify new observations in the future. 
+:::
 
 For this kind of problem, the dataset used to fit the model is composed of observations $(\mathbf{x}_1, y_1)$, $(\mathbf{x}_2, y_2)$, ..., $(\mathbf{x}_n, y_n)$ where each $y_i$ is usually labelled 0 (failure, no event, ...) or 1 (success, event, ...) and $\mathbf{x}_i$ is a vector of input variables.
 
