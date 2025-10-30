@@ -180,6 +180,9 @@ A logistic function can be used to model the probability that $y = 1$ given $\ma
 
 ```{webr-r}
 #| autorun: true
+n <- 20
+x <- rbeta(n, 0.2, 0.4)
+y <- rbinom(n, 1, x)
 ggplot(tibble(x, y), aes(x, y)) +
   geom_point() +
   geom_smooth(method = "glm", 
