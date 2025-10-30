@@ -19,7 +19,7 @@ Suppose that we collected data from the engines on several ships: *temperature*,
 At first, imagine we do not know if the engine was OK or about to fail at those moments. We just have the measurements. We ask the computer to group similar engine states together. The algorithm gives $3$ groups: 
 
 - Group 1: normal temperature, low vibration
-- Group 2: slightly higher temperature, medim vibration
+- Group 2: slightly higher temperature, medium vibration
 - Group 3: very high temperature, very high vibration
 
 Now, we look at Group 3 and we say that "This looks dangerous."
@@ -68,25 +68,93 @@ In clustering, we did **not** know the groups in advance. We tried to discover "
 In classification, we already know the correct group for past observations (they are labeled $0$ or $1$). We used that labeled history to learn how to classify new observations in the future. 
 :::
 
-For this kind of problem, the dataset used to fit the model is composed of observations $(\mathbf{x}_1, y_1)$, $(\mathbf{x}_2, y_2)$, ..., $(\mathbf{x}_n, y_n)$ where each $y_i$ is usually labelled 0 (failure, no event, ...) or 1 (success, event, ...) and $\mathbf{x}_i$ is a vector of input variables.
+Imagine we are classifying fish using two measurements: *length* (cm) and *weight* (g).
 
-The task at hand is to build a model that, given an arbitrary $\mathbf{x}$, will predict the probability that $y = 1$.
+Suppose we measured many fish, and for each fish we also know the species: $1$ = salmon, and $0$ = sea bass. 
 
-## Modelling Probabilities
+Now, we plot weight vs. length.
 
-Why not use a linear regression model to predict the probability that $y = 1$? After all, linear regression is a well-known and widely used method.
+```{r}
+#| echo: false 
+#| warning: false
+#| message: false
+# ---------------------------------
+# Toy example: salmon vs sea bass
+# ---------------------------------
 
-```{webr-r}
-#| autorun: true
-n <- 20
-x <- rbeta(n, 0.2, 0.4)
-y <- rbinom(n, 1, x)
-ggplot(tibble(x, y), aes(x, y)) +
-  geom_point() +
-  geom_smooth(method = "lm", se = FALSE) +
-  labs(title = "",
-       x = "x",
-       y = "y")
+# We'll need ggplot2 for plotting
+library(ggplot2)
+
+set.seed(123)  # for reproducibility
+
+# 1. Simulate "sea bass" (class 0)
+#    Slightly shorter, lighter fish
+n0 <- 40
+length_seabass <- rnorm(n0, mean = 30, sd = 2)   # cm
+weight_seabass <- rnorm(n0, mean = 200, sd = 15) # g
+
+# 2. Simulate "salmon" (class 1)
+#    Slightly longer, heavier fish
+n1 <- 40
+length_salmon <- rnorm(n1, mean = 35, sd = 2)    # cm
+weight_salmon <- rnorm(n1, mean = 250, sd = 15)  # g
+
+# 3. Combine into one data frame
+fish <- data.frame(
+  length = c(length_seabass, length_salmon),
+  weight = c(weight_seabass, weight_salmon),
+  species = factor(
+    c(rep(0, n0), rep(1, n1)),
+    levels = c(0, 1),
+    labels = c("Sea bass (0)", "Salmon (1)")
+  )
+)
+
+# 4. Let's define a simple linear decision boundary by hand.
+#    We'll say:
+#       predict "Salmon (1)" if weight >= 7*length - 20
+#       predict "Sea bass (0)" otherwise
+#
+#    This is just a line:
+#       weight = 7*length - 20
+#
+#    (Totally arbitrary! We're pretending this is our classifier.)
+library(ggplot2)
+
+# assuming you already have `fish` as in the previous script
+# turn species into 0/1 for glm
+fish$y <- ifelse(fish$species == "Salmon (1)", 1, 0)
+
+# fit logistic regression: y ~ length + weight
+m <- glm(y ~ length + weight, data = fish, family = binomial())
+
+# p = 0.5 boundary: b0 + b1*length + b2*weight = 0  =>  weight = -(b0 + b1*length)/b2
+b <- coef(m)
+slope_logit     <- -b["length"] / b["weight"]
+intercept_logit <- -b["(Intercept)"] / b["weight"]
+
+# (optional) a new fish to plot
+new_fish <- data.frame(length = 32, weight = 230)
+
+ggplot(fish, aes(length, weight, color = species)) +
+  geom_point(size = 3, alpha = 0.8) +
+  # learned decision boundary (prob = 0.5)
+  geom_abline(
+    intercept = intercept_logit, slope = slope_logit,
+    linetype = "dashed", linewidth = 1, color = "black",
+    inherit.aes = FALSE
+  ) +
+  # new fish marker (optional)
+  geom_point(data = new_fish, aes(length, weight),
+             shape = 8, size = 5, color = "black", stroke = 1.2, inherit.aes = FALSE) +
+  annotate("text", x = new_fish$length + 0.5, y = new_fish$weight + 5,
+           label = "new fish?", hjust = 0) +
+  labs(
+    x = "Length (cm)", y = "Weight (g)", color = "Species",
+    title = "Learned decision boundary"
+  ) +
+  theme_classic(base_size = 14)
+
 ```
 
 There are some problems with this approach:
@@ -122,6 +190,34 @@ ggplot(tibble(x, y), aes(x, y)) +
        y = "y")
   
 ```
+
+Based on the plot, we are seeing that each dot is a fish measured by *length* and *weight*; colors show the true species. 
+
+Now, imagine a new fish appears. We measure its length and weight. In the plot, the black star is a new fish. Where it lands on the plot will "look closer" to one group or the other.
+
+Vary natural idea is
+> Let us just draw a line that separates salmon from sea bass.
+
+The dashed line is the classifier's **decision boundary**-- the set of points where the model is 50-50 between the two classes.
+
+So at this stage you can think:
+
+- A classifier is something that finds a good decision boundary in the dataset.
+- If a new point falls on one side, we say class 1. On the other side, it belongs to class 0. 
+
+This is already a valid mental model of classification. 
+
+Sometimes we do not want the answer.
+
+We might see:
+
+- Above or right of the line: the model predicts *salmon* (class 1)
+- Below or left of the line: the model predicts see bass (class 0)
+
+Because it sits below the boundary, the model predicts *sea bass* -- but notice it is close to the line, so confidence is only moderate. Far from the line the model is more confident; near the line it is less sure. 
+
+The picture captures the core idea of classification: a model learns a good boundary from labeled data and uses it to decide the class of new points. Logistic regression is one such model that also gives a probability for class 1, with the boundary marking the 50% line.
+
 
 This function will play a central row in the logistic regression model, as we will see briefly.
 
