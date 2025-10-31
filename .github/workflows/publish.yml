@@ -3,7 +3,8 @@ name: Quarto Publish
 on:
   workflow_dispatch:
   push:
-    branches: [main]
+    branches: 
+      - main
 
 jobs:
   build-deploy:
@@ -29,7 +30,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y \
             libpng-dev libpng-tools zlib1g-dev pkg-config \
-            libjpeg-dev
+            libjpeg-dev libtiff-dev
       
       - name: Install R Dependencies
         uses: r-lib/actions/setup-renv@v2
