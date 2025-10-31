@@ -24,15 +24,15 @@ jobs:
           use-public-rspm: true
 
       - name: Install system dependencies
-  run: |
-    sudo apt-get update
-    sudo apt-get install -y \
-      libpng-dev libpng-tools zlib1g-dev pkg-config \
-      libjpeg-dev
-      - name: Install R Dependencies
-        uses: r-lib/actions/setup-renv@v2
-        with:
-          cache-version: 1
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libpng-dev libpng-tools zlib1g-dev pkg-config \
+            libjpeg-dev
+            - name: Install R Dependencies
+              uses: r-lib/actions/setup-renv@v2
+              with:
+                cache-version: 1
 
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2
