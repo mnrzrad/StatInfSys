@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>12&nbsp; Logistic Regression – Statistics and Information Systems</title>
+<title>12&nbsp; Classification – Statistics and Information Systems</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -370,7 +370,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"code":"library(tidyverse)","id":1,"options":{"autorun":"true","classes":"","comment":"","context":"setup","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"n <- 20\nx <- rbeta(n, 0.2, 0.4)\ny <- rbinom(n, 1, x)\nggplot(tibble(x, y), aes(x, y)) +\n  geom_point() +\n  geom_smooth(method = \"lm\", se = FALSE) +\n  labs(title = \"\",\n       x = \"x\",\n       y = \"y\")","id":2,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(tibble(x, y), aes(x, y)) +\n  geom_point() +\n  geom_smooth(method = \"glm\", \n       method.args = list(family = \"binomial\"), \n       se = FALSE) +\n  labs(title = \"\",\n       x = \"x\",\n       y = \"y\")\n  ","id":3,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-3","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"odds <- function(p) p / (1 - p)\np <- seq(0.1, 0.9, length.out = 90)\ntibble(p, odds = odds(p)) %>%\n  ggplot(aes(p, odds)) +\n  geom_line() +\n  geom_vline(xintercept = 0.5, color = \"red\", linetype = \"dashed\") +\n  geom_hline(yintercept = 1, color = \"blue\", linetype = \"dashed\") +\n  annotate(\"text\", x = 0.52, y = max(odds(p))*0.8, label = \"x = 0.5\", color = \"red\", hjust = 0) +\n  annotate(\"text\", x = 0.8, y = 1.05, label = \"y = 1\", color = \"blue\", vjust = 0) +\n  labs(title = \"Odds as a function of probability\",\n       x = \"Probability\",\n       y = \"Odds\")","id":4,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-4","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"logit <- function(p) log(p / (1 - p))\nprob <- seq(0.01, 0.99, length.out = 99)\ntibble(prob, logit = logit(prob)) %>%\n  ggplot(aes(prob, logit)) +\n  geom_line() +\n  geom_vline(xintercept = 0.5, color = \"red\", linetype = \"dashed\") +\n  geom_hline(yintercept = 0, color = \"blue\", linetype = \"dashed\") +\n  annotate(\"text\", x = 0.52, y = max(logit(prob))*0.8, label = \"x = 0.5\", color = \"red\", hjust = 0) +\n  annotate(\"text\", x = 0.8, y = 0.05, label = \"y = 0\", color = \"blue\", vjust = 0) +\n  labs(title = \"Logit as a function of probability\",\n       x = \"Probability\",\n       y = \"Logit\")","id":5,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-5","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
+globalThis.qwebrCellDetails = [{"code":"library(tidyverse)","id":1,"options":{"autorun":"true","classes":"","comment":"","context":"setup","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"n <- 20\nx <- rbeta(n, 0.2, 0.4)\ny <- rbinom(n, 1, x)\nggplot(tibble(x, y), aes(x, y)) +\n  geom_point() +\n  geom_smooth(method = \"glm\", \n       method.args = list(family = \"binomial\"), \n       se = FALSE) +\n  labs(title = \"\",\n       x = \"x\",\n       y = \"y\")\n  ","id":2,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"odds <- function(p) p / (1 - p)\np <- seq(0.1, 0.9, length.out = 90)\ntibble(p, odds = odds(p)) %>%\n  ggplot(aes(p, odds)) +\n  geom_line() +\n  geom_vline(xintercept = 0.5, color = \"red\", linetype = \"dashed\") +\n  geom_hline(yintercept = 1, color = \"blue\", linetype = \"dashed\") +\n  annotate(\"text\", x = 0.52, y = max(odds(p))*0.8, label = \"x = 0.5\", color = \"red\", hjust = 0) +\n  annotate(\"text\", x = 0.8, y = 1.05, label = \"y = 1\", color = \"blue\", vjust = 0) +\n  labs(title = \"Odds as a function of probability\",\n       x = \"Probability\",\n       y = \"Odds\")","id":3,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-3","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"logit <- function(p) log(p / (1 - p))\nprob <- seq(0.01, 0.99, length.out = 99)\ntibble(prob, logit = logit(prob)) %>%\n  ggplot(aes(prob, logit)) +\n  geom_line() +\n  geom_vline(xintercept = 0.5, color = \"red\", linetype = \"dashed\") +\n  geom_hline(yintercept = 0, color = \"blue\", linetype = \"dashed\") +\n  annotate(\"text\", x = 0.52, y = max(logit(prob))*0.8, label = \"x = 0.5\", color = \"red\", hjust = 0) +\n  annotate(\"text\", x = 0.8, y = 0.05, label = \"y = 0\", color = \"blue\", vjust = 0) +\n  labs(title = \"Logit as a function of probability\",\n       x = \"Probability\",\n       y = \"Logit\")","id":4,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-4","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
 
 </script>
 <script type="module">
@@ -1666,7 +1666,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter5_logistic_regression.html">Classification</a></li><li class="breadcrumb-item"><a href="../chapters/chapter5_logistic_regression.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Logistic Regression</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter5_logistic_regression.html">Classification</a></li><li class="breadcrumb-item"><a href="../chapters/chapter5_logistic_regression.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Classification</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -1793,7 +1793,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/chapter5_logistic_regression.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Logistic Regression</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Classification</span></span></a>
   </div>
 </li>
       </ul>
@@ -1825,7 +1825,7 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#modelling-probabilities" id="toc-modelling-probabilities" class="nav-link active" data-scroll-target="#modelling-probabilities"><span class="header-section-number">12.1</span> Modelling Probabilities</a></li>
+  <li><a href="#logistic-regression" id="toc-logistic-regression" class="nav-link active" data-scroll-target="#logistic-regression"><span class="header-section-number">12.1</span> Logistic regression</a></li>
   <li><a href="#sigmoid-functions" id="toc-sigmoid-functions" class="nav-link" data-scroll-target="#sigmoid-functions"><span class="header-section-number">12.2</span> Sigmoid Functions</a></li>
   <li><a href="#logistic-model" id="toc-logistic-model" class="nav-link" data-scroll-target="#logistic-model"><span class="header-section-number">12.3</span> Logistic Model</a></li>
   </ul>
@@ -2118,9 +2118,9 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 }
 </script>
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter5_logistic_regression.html">Classification</a></li><li class="breadcrumb-item"><a href="../chapters/chapter5_logistic_regression.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Logistic Regression</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter5_logistic_regression.html">Classification</a></li><li class="breadcrumb-item"><a href="../chapters/chapter5_logistic_regression.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Classification</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Logistic Regression</span></h1>
+<h1 class="title"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Classification</span></h1>
 </div>
 
 
@@ -2139,19 +2139,73 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 
 <div id="qwebr-insertion-location-1"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>A binary classification problem is one where the outcome variable can take on only two possible values. For example:</p>
+<p>Until now, we have been doing clustering – we had data with no labels, and we asked the computer to discover natural groups.</p>
+<p>Now, we move to classification.</p>
+<p>Suppose that we collected data from the engines on several ships: <em>temperature</em>, <em>vibration level</em>, and <em>pressure</em>. For each moment, we have numbers like <span class="math inline">\(\text{temperature} = 82^\circ \mathrm{C}\)</span>, <span class="math inline">\(\text{vibration} = 4.1\)</span>, and <span class="math inline">\(\text{pressure} = 205 kPa\)</span>.</p>
+<p>At first, imagine we do not know if the engine was OK or about to fail at those moments. We just have the measurements. We ask the computer to group similar engine states together. The algorithm gives <span class="math inline">\(3\)</span> groups:</p>
 <ul>
+<li>Group 1: normal temperature, low vibration</li>
+<li>Group 2: slightly higher temperature, medium vibration</li>
+<li>Group 3: very high temperature, very high vibration</li>
+</ul>
+<p>Now, we look at Group 3 and we say that “This looks dangerous.”</p>
+<p>It is very important that the algorithm never knew the words “safe” or “danger”. We discovered the groups and we interpreted them after. This is <em>clustering</em>.</p>
+<p>Now, imagine we do have labels from the maintenance log. For every past moment, we know that</p>
+<ul>
+<li>Group 0 means the engine did not fail in the next 24 hours.</li>
+<li>Group 1 means the engine failed in the next 24 hours</li>
+</ul>
+<p>We can train a model. The model sees examples like <span class="math inline">\((82^\circ \textrm{C}, 4.1 \textrm{vibration}, 205 \textrm{kPa})\)</span> results in Group <span class="math inline">\(0\)</span> (no failure) and <span class="math inline">\((96^\circ \textrm{C}, 7.5 \textrm{vibration}, 240 \textrm{kPa})\)</span> results in Group <span class="math inline">\(1\)</span> (failure). After training, we can give the model in the next 24 hours: yes or no? That task – taking a new case and predicting <span class="math inline">\(0\)</span> or <span class="math inline">\(1\)</span> – is called <em>classification</em></p>
+<p>There are several method that can act as classifiers, such as:</p>
+<ul>
+<li>logistic regression</li>
+<li><span class="math inline">\(k\)</span>-nearest neighbors</li>
+<li>decision trees and random forests</li>
+</ul>
+<p>Here, we focus only on logistic regression.</p>
+<section id="logistic-regression" class="level2" data-number="12.1">
+<h2 data-number="12.1" class="anchored" data-anchor-id="logistic-regression"><span class="header-section-number">12.1</span> Logistic regression</h2>
+<p>In many situation, we want to make a “yes/no” decision. For example:</p>
+<ul>
+<li>Is this email spam or not?</li>
+<li>Will this student pass or fail the exam?</li>
+<li>Is the fish a salmon or a sea bass?</li>
+<li>Is this transaction fraudulent or normal?</li>
 <li>will a loaner enter default or not, based on their credit score and income;</li>
 <li>will a driver be involved in an accident or not, based on their age, automobile age and driving history;</li>
 <li>will a patient have a heart attack or not, based on their cholesterol level and blood pressure, and other health indicators.</li>
 </ul>
-<p>For this kind of problem, the dataset used to fit the model is composed of observations <span class="math inline">\((\mathbf{x}_1, y_1)\)</span>, <span class="math inline">\((\mathbf{x}_2, y_2)\)</span>, …, <span class="math inline">\((\mathbf{x}_n, y_n)\)</span> where each <span class="math inline">\(y_i\)</span> is usually labelled 0 (failure, no event, …) or 1 (success, event, …) and <span class="math inline">\(\mathbf{x}_i\)</span> is a vector of input variables.</p>
-<p>The task at hand is to build a model that, given an arbitrary <span class="math inline">\(\mathbf{x}\)</span>, will predict the probability that <span class="math inline">\(y = 1\)</span>.</p>
-<section id="modelling-probabilities" class="level2" data-number="12.1">
-<h2 data-number="12.1" class="anchored" data-anchor-id="modelling-probabilities"><span class="header-section-number">12.1</span> Modelling Probabilities</h2>
-<p>Why not use a linear regression model to predict the probability that <span class="math inline">\(y = 1\)</span>? After all, linear regression is a well-known and widely used method.</p>
-<div id="qwebr-insertion-location-2"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>This kind of task is called a <strong>binary classification</strong> problem where the outcome variable can take on only two possible values. Usually we use <span class="math inline">\(0\)</span> and <span class="math inline">\(1\)</span> to denote two classes <span class="math inline">\(0\)</span> and <span class="math inline">\(1\)</span>. For example, fail ( = <span class="math inline">\(0\)</span>) vs.&nbsp;pass ( = <span class="math inline">\(1\)</span>); normal (=<span class="math inline">\(1\)</span>) vs.&nbsp;fault (=<span class="math inline">\(0\)</span>), survived (=<span class="math inline">\(1\)</span>) vs.&nbsp;died (=<span class="math inline">\(0\)</span>).</p>
+<p>Our goal is</p>
+<blockquote class="blockquote">
+<p>Given information (variables) about something we have not seen before, can we decide if it is class <span class="math inline">\(0\)</span> or class <span class="math inline">\(1\)</span> based on what we learned from the previous labeled examples?</p>
+</blockquote>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Difference between clustering and Classification
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In clustering, we did <strong>not</strong> know the groups in advance. We tried to discover “natural groups”.</p>
+<p>In classification, we already know the correct group for past observations (they are labeled <span class="math inline">\(0\)</span> or <span class="math inline">\(1\)</span>). We used that labeled history to learn how to classify new observations in the future.</p>
+</div>
+</div>
+<p>Imagine we are classifying fish using two measurements: <em>length</em> (cm) and <em>weight</em> (g).</p>
+<p>Suppose we measured many fish, and for each fish we also know the species: <span class="math inline">\(1\)</span> = salmon, and <span class="math inline">\(0\)</span> = sea bass.</p>
+<p>Now, we plot weight vs.&nbsp;length.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="chapter5_logistic_regression_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 <p>There are some problems with this approach:</p>
 <ul>
 <li>the output values are never (with probability 1) exactly 0 or 1, the values that are taken by <span class="math inline">\(y\)</span>;</li>
@@ -2171,8 +2225,26 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 f(x) = \frac{e^x}{1 + e^x} = \frac{1}{1 + e^{-x}}.
 \]</span></p>
 <p>A logistic function can be used to model the probability that <span class="math inline">\(y = 1\)</span> given <span class="math inline">\(\mathbf{x}\)</span>.</p>
-<div id="qwebr-insertion-location-3"></div>
+<div id="qwebr-insertion-location-2"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>Based on the plot, we are seeing that each dot is a fish measured by <em>length</em> and <em>weight</em>; colors show the true species.</p>
+<p>Now, imagine a new fish appears. We measure its length and weight. In the plot, the black star is a new fish. Where it lands on the plot will “look closer” to one group or the other.</p>
+<p>Vary natural idea is &gt; Let us just draw a line that separates salmon from sea bass.</p>
+<p>The dashed line is the classifier’s <strong>decision boundary</strong>– the set of points where the model is 50-50 between the two classes.</p>
+<p>So at this stage you can think:</p>
+<ul>
+<li>A classifier is something that finds a good decision boundary in the dataset.</li>
+<li>If a new point falls on one side, we say class 1. On the other side, it belongs to class 0.</li>
+</ul>
+<p>This is already a valid mental model of classification.</p>
+<p>Sometimes we do not want the answer.</p>
+<p>We might see:</p>
+<ul>
+<li>Above or right of the line: the model predicts <em>salmon</em> (class 1)</li>
+<li>Below or left of the line: the model predicts see bass (class 0)</li>
+</ul>
+<p>Because it sits below the boundary, the model predicts <em>sea bass</em> – but notice it is close to the line, so confidence is only moderate. Far from the line the model is more confident; near the line it is less sure.</p>
+<p>The picture captures the core idea of classification: a model learns a good boundary from labeled data and uses it to decide the class of new points. Logistic regression is one such model that also gives a probability for class 1, with the boundary marking the 50% line.</p>
 <p>This function will play a central row in the logistic regression model, as we will see briefly.</p>
 </section>
 <section id="logistic-model" class="level2" data-number="12.3">
@@ -2205,7 +2277,7 @@ p(y) = \binom{n}{y} p^y (1-p)^{n-y}, \quad y \in \{0, 1, ..., n\}.
 <p><span class="math display">\[
 {(\operatorname{odds})}' = \frac{1}{(1-p)^2} &gt; 0.
 \]</span></p>
-<div id="qwebr-insertion-location-4"></div>
+<div id="qwebr-insertion-location-3"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>Odds are an alternative way of expressing probabilities, still being relatively intuitive concerning interpretation. Nevertheless, they are still confined to the interval <span class="math inline">\(]0, +\infty[\)</span>, because</p>
 <p><span class="math display">\[
@@ -2216,7 +2288,7 @@ p(y) = \binom{n}{y} p^y (1-p)^{n-y}, \quad y \in \{0, 1, ..., n\}.
 \operatorname{logit}(p) = \log\left(\frac{p}{1-p}\right), \quad p \in ]0, 1[.
 \]</span></p>
 <p>This creates a one-to-one mapping between the interval <span class="math inline">\(]0, 1[\)</span> and the whole real line <span class="math inline">\(\mathbb{R}\)</span>.</p>
-<div id="qwebr-insertion-location-5"></div>
+<div id="qwebr-insertion-location-4"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>The logit function is also monotonically increasing with respect to <span class="math inline">\(p\)</span>:</p>
 <p><span class="math display">\[
