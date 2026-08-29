@@ -2,13 +2,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.9.37">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>10&nbsp; Clustering – Statistics and Information Systems</title>
+<title>11&nbsp; Clustering – Statistics and Information Systems</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -59,7 +62,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
-  margin-bottom: 0em;
 }
 .hanging-indent div.csl-entry {
   margin-left:2em;
@@ -86,17 +88,17 @@ div.csl-indent {
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
 <link href="../chapters/clustering_projects.html" rel="next">
-<link href="../chapters/Decision_trees.html" rel="prev">
+<link href="../chapters/pca.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-364982630eef5352dd1537128a8ed5cb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-5ccb035bea26c1e21f80f44cf7c27909.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -1679,7 +1681,7 @@ globalThis.qwebrExecuteCode = async function (
 </script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -1692,7 +1694,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -1720,7 +1722,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/clustring.html">Clustering</a></li><li class="breadcrumb-item"><a href="../chapters/clustring.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Clustering</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/clustring.html">Clustering</a></li><li class="breadcrumb-item"><a href="../chapters/clustring.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Clustering</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -1813,7 +1815,7 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
- <span class="menu-text">Clustering</span></a>
+ <span class="menu-text">Dimension Reduction</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -1821,14 +1823,8 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/clustring.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Clustering</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/clustering_projects.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Projects</span></span></a>
+  <a href="../chapters/pca.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Principal Component Analysis</span></span></a>
   </div>
 </li>
       </ul>
@@ -1836,7 +1832,7 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
- <span class="menu-text">Classification</span></a>
+ <span class="menu-text">Clustering</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -1844,8 +1840,14 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/chapter5_logistic_regression.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Logistic Regression</span></span></a>
+  <a href="../chapters/clustring.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Clustering</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/clustering_projects.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Projects</span></span></a>
   </div>
 </li>
       </ul>
@@ -1853,7 +1855,7 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
- <span class="menu-text">Data</span></a>
+ <span class="menu-text">Classification</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -1861,8 +1863,25 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter5_logistic_regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Classification</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Data</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../chapters/chapter1_data_ethics.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Data Ethics</span></span></a>
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Data Ethics</span></span></a>
   </div>
 </li>
       </ul>
@@ -1877,80 +1896,80 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#applications-of-clustering" id="toc-applications-of-clustering" class="nav-link active" data-scroll-target="#applications-of-clustering"><span class="header-section-number">10.1</span> Applications of Clustering</a></li>
-  <li><a href="#distance-and-similarity-in-clustering" id="toc-distance-and-similarity-in-clustering" class="nav-link" data-scroll-target="#distance-and-similarity-in-clustering"><span class="header-section-number">10.2</span> Distance and Similarity in Clustering</a>
+  <li><a href="#applications-of-clustering" id="toc-applications-of-clustering" class="nav-link active" data-scroll-target="#applications-of-clustering"><span class="header-section-number">11.1</span> Applications of Clustering</a></li>
+  <li><a href="#distance-and-similarity-in-clustering" id="toc-distance-and-similarity-in-clustering" class="nav-link" data-scroll-target="#distance-and-similarity-in-clustering"><span class="header-section-number">11.2</span> Distance and Similarity in Clustering</a>
   <ul>
-  <li><a href="#common-distance-metrics" id="toc-common-distance-metrics" class="nav-link" data-scroll-target="#common-distance-metrics"><span class="header-section-number">10.2.1</span> Common Distance Metrics</a>
+  <li><a href="#common-distance-metrics" id="toc-common-distance-metrics" class="nav-link" data-scroll-target="#common-distance-metrics"><span class="header-section-number">11.2.1</span> Common Distance Metrics</a>
   <ul class="collapse">
-  <li><a href="#euclidean-distance" id="toc-euclidean-distance" class="nav-link" data-scroll-target="#euclidean-distance"><span class="header-section-number">10.2.1.1</span> <strong>Euclidean Distance</strong></a></li>
-  <li><a href="#manhattan-or-city-block-distance" id="toc-manhattan-or-city-block-distance" class="nav-link" data-scroll-target="#manhattan-or-city-block-distance"><span class="header-section-number">10.2.1.2</span> <strong>Manhattan (or City-Block) Distance</strong></a></li>
-  <li><a href="#minkowski-distance" id="toc-minkowski-distance" class="nav-link" data-scroll-target="#minkowski-distance"><span class="header-section-number">10.2.1.3</span> <strong>Minkowski Distance</strong></a></li>
-  <li><a href="#chebyshev-distance" id="toc-chebyshev-distance" class="nav-link" data-scroll-target="#chebyshev-distance"><span class="header-section-number">10.2.1.4</span> Chebyshev Distance</a></li>
-  <li><a href="#mahalanobis-distance" id="toc-mahalanobis-distance" class="nav-link" data-scroll-target="#mahalanobis-distance"><span class="header-section-number">10.2.1.5</span> <strong>Mahalanobis Distance</strong></a></li>
-  <li><a href="#cosine-and-correlation-distance" id="toc-cosine-and-correlation-distance" class="nav-link" data-scroll-target="#cosine-and-correlation-distance"><span class="header-section-number">10.2.1.6</span> Cosine and Correlation Distance</a></li>
+  <li><a href="#euclidean-distance" id="toc-euclidean-distance" class="nav-link" data-scroll-target="#euclidean-distance"><span class="header-section-number">11.2.1.1</span> <strong>Euclidean Distance</strong></a></li>
+  <li><a href="#manhattan-or-city-block-distance" id="toc-manhattan-or-city-block-distance" class="nav-link" data-scroll-target="#manhattan-or-city-block-distance"><span class="header-section-number">11.2.1.2</span> <strong>Manhattan (or City-Block) Distance</strong></a></li>
+  <li><a href="#minkowski-distance" id="toc-minkowski-distance" class="nav-link" data-scroll-target="#minkowski-distance"><span class="header-section-number">11.2.1.3</span> <strong>Minkowski Distance</strong></a></li>
+  <li><a href="#chebyshev-distance" id="toc-chebyshev-distance" class="nav-link" data-scroll-target="#chebyshev-distance"><span class="header-section-number">11.2.1.4</span> Chebyshev Distance</a></li>
+  <li><a href="#mahalanobis-distance" id="toc-mahalanobis-distance" class="nav-link" data-scroll-target="#mahalanobis-distance"><span class="header-section-number">11.2.1.5</span> <strong>Mahalanobis Distance</strong></a></li>
+  <li><a href="#cosine-and-correlation-distance" id="toc-cosine-and-correlation-distance" class="nav-link" data-scroll-target="#cosine-and-correlation-distance"><span class="header-section-number">11.2.1.6</span> Cosine and Correlation Distance</a></li>
   </ul></li>
-  <li><a href="#distances-for-binary-data" id="toc-distances-for-binary-data" class="nav-link" data-scroll-target="#distances-for-binary-data"><span class="header-section-number">10.2.2</span> Distances for Binary Data</a>
+  <li><a href="#distances-for-binary-data" id="toc-distances-for-binary-data" class="nav-link" data-scroll-target="#distances-for-binary-data"><span class="header-section-number">11.2.2</span> Distances for Binary Data</a>
   <ul class="collapse">
-  <li><a href="#simple-matching-coefficient-similarity" id="toc-simple-matching-coefficient-similarity" class="nav-link" data-scroll-target="#simple-matching-coefficient-similarity"><span class="header-section-number">10.2.2.1</span> <strong>Simple Matching Coefficient (Similarity)</strong></a></li>
-  <li><a href="#simple-matching-distance" id="toc-simple-matching-distance" class="nav-link" data-scroll-target="#simple-matching-distance"><span class="header-section-number">10.2.2.2</span> <strong>Simple Matching Distance</strong></a></li>
+  <li><a href="#simple-matching-coefficient-similarity" id="toc-simple-matching-coefficient-similarity" class="nav-link" data-scroll-target="#simple-matching-coefficient-similarity"><span class="header-section-number">11.2.2.1</span> <strong>Simple Matching Coefficient (Similarity)</strong></a></li>
+  <li><a href="#simple-matching-distance" id="toc-simple-matching-distance" class="nav-link" data-scroll-target="#simple-matching-distance"><span class="header-section-number">11.2.2.2</span> <strong>Simple Matching Distance</strong></a></li>
   </ul></li>
-  <li><a href="#distances-for-categorical-data" id="toc-distances-for-categorical-data" class="nav-link" data-scroll-target="#distances-for-categorical-data"><span class="header-section-number">10.2.3</span> Distances for Categorical Data</a>
+  <li><a href="#distances-for-categorical-data" id="toc-distances-for-categorical-data" class="nav-link" data-scroll-target="#distances-for-categorical-data"><span class="header-section-number">11.2.3</span> Distances for Categorical Data</a>
   <ul class="collapse">
-  <li><a href="#hamming-distance" id="toc-hamming-distance" class="nav-link" data-scroll-target="#hamming-distance"><span class="header-section-number">10.2.3.1</span> <strong>Hamming Distance</strong></a></li>
-  <li><a href="#gower-distance" id="toc-gower-distance" class="nav-link" data-scroll-target="#gower-distance"><span class="header-section-number">10.2.3.2</span> <strong>Gower Distance</strong></a></li>
+  <li><a href="#hamming-distance" id="toc-hamming-distance" class="nav-link" data-scroll-target="#hamming-distance"><span class="header-section-number">11.2.3.1</span> <strong>Hamming Distance</strong></a></li>
+  <li><a href="#gower-distance" id="toc-gower-distance" class="nav-link" data-scroll-target="#gower-distance"><span class="header-section-number">11.2.3.2</span> <strong>Gower Distance</strong></a></li>
   </ul></li>
-  <li><a href="#visualizing-distance-matrices" id="toc-visualizing-distance-matrices" class="nav-link" data-scroll-target="#visualizing-distance-matrices"><span class="header-section-number">10.2.4</span> Visualizing distance matrices</a></li>
+  <li><a href="#visualizing-distance-matrices" id="toc-visualizing-distance-matrices" class="nav-link" data-scroll-target="#visualizing-distance-matrices"><span class="header-section-number">11.2.4</span> Visualizing distance matrices</a></li>
   </ul></li>
-  <li><a href="#partition-based-clustering-k-means-and-k-medoids" id="toc-partition-based-clustering-k-means-and-k-medoids" class="nav-link" data-scroll-target="#partition-based-clustering-k-means-and-k-medoids"><span class="header-section-number">10.3</span> Partition-Based Clustering: <span class="math inline">\(k\)</span>-Means and <span class="math inline">\(k\)</span>-Medoids</a>
+  <li><a href="#partition-based-clustering-k-means-and-k-medoids" id="toc-partition-based-clustering-k-means-and-k-medoids" class="nav-link" data-scroll-target="#partition-based-clustering-k-means-and-k-medoids"><span class="header-section-number">11.3</span> Partition-Based Clustering: <span class="math inline">\(k\)</span>-Means and <span class="math inline">\(k\)</span>-Medoids</a>
   <ul>
-  <li><a href="#k-means-clustering" id="toc-k-means-clustering" class="nav-link" data-scroll-target="#k-means-clustering"><span class="header-section-number">10.3.1</span> <span class="math inline">\(K\)</span>-Means Clustering</a>
+  <li><a href="#k-means-clustering" id="toc-k-means-clustering" class="nav-link" data-scroll-target="#k-means-clustering"><span class="header-section-number">11.3.1</span> <span class="math inline">\(K\)</span>-Means Clustering</a>
   <ul class="collapse">
-  <li><a href="#k-means-basic-ideas" id="toc-k-means-basic-ideas" class="nav-link" data-scroll-target="#k-means-basic-ideas"><span class="header-section-number">10.3.1.1</span> <span class="math inline">\(K\)</span>-means basic ideas</a></li>
-  <li><a href="#k-means-algorithm" id="toc-k-means-algorithm" class="nav-link" data-scroll-target="#k-means-algorithm"><span class="header-section-number">10.3.1.2</span> <span class="math inline">\(K\)</span>-means Algorithm</a></li>
-  <li><a href="#properties-and-limitations-of-k-means" id="toc-properties-and-limitations-of-k-means" class="nav-link" data-scroll-target="#properties-and-limitations-of-k-means"><span class="header-section-number">10.3.1.3</span> Properties and Limitations of <span class="math inline">\(K\)</span>-Means</a></li>
-  <li><a href="#normalization-minmax-scaling" id="toc-normalization-minmax-scaling" class="nav-link" data-scroll-target="#normalization-minmax-scaling"><span class="header-section-number">10.3.1.4</span> Normalization (Min–Max Scaling)</a></li>
-  <li><a href="#standardization-z-score-scaling" id="toc-standardization-z-score-scaling" class="nav-link" data-scroll-target="#standardization-z-score-scaling"><span class="header-section-number">10.3.1.5</span> Standardization (Z-score Scaling)</a></li>
-  <li><a href="#measures-of-cluster-quality" id="toc-measures-of-cluster-quality" class="nav-link" data-scroll-target="#measures-of-cluster-quality"><span class="header-section-number">10.3.1.6</span> Measures of Cluster Quality</a></li>
-  <li><a href="#analysis-of-iris-dataset" id="toc-analysis-of-iris-dataset" class="nav-link" data-scroll-target="#analysis-of-iris-dataset"><span class="header-section-number">10.3.1.7</span> Analysis of <code>iris</code> Dataset</a></li>
+  <li><a href="#k-means-basic-ideas" id="toc-k-means-basic-ideas" class="nav-link" data-scroll-target="#k-means-basic-ideas"><span class="header-section-number">11.3.1.1</span> <span class="math inline">\(K\)</span>-means basic ideas</a></li>
+  <li><a href="#k-means-algorithm" id="toc-k-means-algorithm" class="nav-link" data-scroll-target="#k-means-algorithm"><span class="header-section-number">11.3.1.2</span> <span class="math inline">\(K\)</span>-means Algorithm</a></li>
+  <li><a href="#properties-and-limitations-of-k-means" id="toc-properties-and-limitations-of-k-means" class="nav-link" data-scroll-target="#properties-and-limitations-of-k-means"><span class="header-section-number">11.3.1.3</span> Properties and Limitations of <span class="math inline">\(K\)</span>-Means</a></li>
+  <li><a href="#normalization-minmax-scaling" id="toc-normalization-minmax-scaling" class="nav-link" data-scroll-target="#normalization-minmax-scaling"><span class="header-section-number">11.3.1.4</span> Normalization (Min–Max Scaling)</a></li>
+  <li><a href="#standardization-z-score-scaling" id="toc-standardization-z-score-scaling" class="nav-link" data-scroll-target="#standardization-z-score-scaling"><span class="header-section-number">11.3.1.5</span> Standardization (Z-score Scaling)</a></li>
+  <li><a href="#measures-of-cluster-quality" id="toc-measures-of-cluster-quality" class="nav-link" data-scroll-target="#measures-of-cluster-quality"><span class="header-section-number">11.3.1.6</span> Measures of Cluster Quality</a></li>
+  <li><a href="#analysis-of-iris-dataset" id="toc-analysis-of-iris-dataset" class="nav-link" data-scroll-target="#analysis-of-iris-dataset"><span class="header-section-number">11.3.1.7</span> Analysis of <code>iris</code> Dataset</a></li>
   </ul></li>
-  <li><a href="#k-medoids-clustering" id="toc-k-medoids-clustering" class="nav-link" data-scroll-target="#k-medoids-clustering"><span class="header-section-number">10.3.2</span> <span class="math inline">\(K\)</span>-Medoids Clustering</a>
+  <li><a href="#k-medoids-clustering" id="toc-k-medoids-clustering" class="nav-link" data-scroll-target="#k-medoids-clustering"><span class="header-section-number">11.3.2</span> <span class="math inline">\(K\)</span>-Medoids Clustering</a>
   <ul class="collapse">
-  <li><a href="#pam-algorithm" id="toc-pam-algorithm" class="nav-link" data-scroll-target="#pam-algorithm"><span class="header-section-number">10.3.2.1</span> PAM Algorithm</a></li>
-  <li><a href="#example" id="toc-example" class="nav-link" data-scroll-target="#example"><span class="header-section-number">10.3.2.2</span> Example</a></li>
-  <li><a href="#implementation-pam-in-r" id="toc-implementation-pam-in-r" class="nav-link" data-scroll-target="#implementation-pam-in-r"><span class="header-section-number">10.3.2.3</span> Implementation PAM in R</a></li>
-  <li><a href="#estimating-the-optimal-number-of-clusters" id="toc-estimating-the-optimal-number-of-clusters" class="nav-link" data-scroll-target="#estimating-the-optimal-number-of-clusters"><span class="header-section-number">10.3.2.4</span> Estimating the optimal number of clusters</a></li>
-  <li><a href="#example-of-pam-in-r" id="toc-example-of-pam-in-r" class="nav-link" data-scroll-target="#example-of-pam-in-r"><span class="header-section-number">10.3.2.5</span> Example of PAM in R</a></li>
-  <li><a href="#exercise" id="toc-exercise" class="nav-link" data-scroll-target="#exercise"><span class="header-section-number">10.3.2.6</span> Exercise</a></li>
+  <li><a href="#pam-algorithm" id="toc-pam-algorithm" class="nav-link" data-scroll-target="#pam-algorithm"><span class="header-section-number">11.3.2.1</span> PAM Algorithm</a></li>
+  <li><a href="#example" id="toc-example" class="nav-link" data-scroll-target="#example"><span class="header-section-number">11.3.2.2</span> Example</a></li>
+  <li><a href="#implementation-pam-in-r" id="toc-implementation-pam-in-r" class="nav-link" data-scroll-target="#implementation-pam-in-r"><span class="header-section-number">11.3.2.3</span> Implementation PAM in R</a></li>
+  <li><a href="#estimating-the-optimal-number-of-clusters" id="toc-estimating-the-optimal-number-of-clusters" class="nav-link" data-scroll-target="#estimating-the-optimal-number-of-clusters"><span class="header-section-number">11.3.2.4</span> Estimating the optimal number of clusters</a></li>
+  <li><a href="#example-of-pam-in-r" id="toc-example-of-pam-in-r" class="nav-link" data-scroll-target="#example-of-pam-in-r"><span class="header-section-number">11.3.2.5</span> Example of PAM in R</a></li>
+  <li><a href="#exercise" id="toc-exercise" class="nav-link" data-scroll-target="#exercise"><span class="header-section-number">11.3.2.6</span> Exercise</a></li>
   </ul></li>
   </ul></li>
-  <li><a href="#cluster-validation" id="toc-cluster-validation" class="nav-link" data-scroll-target="#cluster-validation"><span class="header-section-number">10.4</span> Cluster Validation</a>
+  <li><a href="#cluster-validation" id="toc-cluster-validation" class="nav-link" data-scroll-target="#cluster-validation"><span class="header-section-number">11.4</span> Cluster Validation</a>
   <ul>
-  <li><a href="#assessing-clustering-tendency" id="toc-assessing-clustering-tendency" class="nav-link" data-scroll-target="#assessing-clustering-tendency"><span class="header-section-number">10.4.1</span> Assessing Clustering Tendency</a>
+  <li><a href="#assessing-clustering-tendency" id="toc-assessing-clustering-tendency" class="nav-link" data-scroll-target="#assessing-clustering-tendency"><span class="header-section-number">11.4.1</span> Assessing Clustering Tendency</a>
   <ul class="collapse">
-  <li><a href="#methods-for-assessing-clustering-tendency" id="toc-methods-for-assessing-clustering-tendency" class="nav-link" data-scroll-target="#methods-for-assessing-clustering-tendency"><span class="header-section-number">10.4.1.1</span> Methods for assessing clustering tendency</a></li>
+  <li><a href="#methods-for-assessing-clustering-tendency" id="toc-methods-for-assessing-clustering-tendency" class="nav-link" data-scroll-target="#methods-for-assessing-clustering-tendency"><span class="header-section-number">11.4.1.1</span> Methods for assessing clustering tendency</a></li>
   </ul></li>
-  <li><a href="#determing-the-optimal-number-of-clusters" id="toc-determing-the-optimal-number-of-clusters" class="nav-link" data-scroll-target="#determing-the-optimal-number-of-clusters"><span class="header-section-number">10.4.2</span> Determing the optimal number of clusters</a>
+  <li><a href="#determing-the-optimal-number-of-clusters" id="toc-determing-the-optimal-number-of-clusters" class="nav-link" data-scroll-target="#determing-the-optimal-number-of-clusters"><span class="header-section-number">11.4.2</span> Determing the optimal number of clusters</a>
   <ul class="collapse">
-  <li><a href="#elbow-method" id="toc-elbow-method" class="nav-link" data-scroll-target="#elbow-method"><span class="header-section-number">10.4.2.1</span> Elbow method</a></li>
-  <li><a href="#average-silhouette-method" id="toc-average-silhouette-method" class="nav-link" data-scroll-target="#average-silhouette-method"><span class="header-section-number">10.4.2.2</span> Average silhouette method</a></li>
-  <li><a href="#gap-statistic-method" id="toc-gap-statistic-method" class="nav-link" data-scroll-target="#gap-statistic-method"><span class="header-section-number">10.4.2.3</span> Gap statistic method</a></li>
-  <li><a href="#computing-the-number-of-clusters-using-r" id="toc-computing-the-number-of-clusters-using-r" class="nav-link" data-scroll-target="#computing-the-number-of-clusters-using-r"><span class="header-section-number">10.4.2.4</span> Computing the number of clusters using R</a></li>
+  <li><a href="#elbow-method" id="toc-elbow-method" class="nav-link" data-scroll-target="#elbow-method"><span class="header-section-number">11.4.2.1</span> Elbow method</a></li>
+  <li><a href="#average-silhouette-method" id="toc-average-silhouette-method" class="nav-link" data-scroll-target="#average-silhouette-method"><span class="header-section-number">11.4.2.2</span> Average silhouette method</a></li>
+  <li><a href="#gap-statistic-method" id="toc-gap-statistic-method" class="nav-link" data-scroll-target="#gap-statistic-method"><span class="header-section-number">11.4.2.3</span> Gap statistic method</a></li>
+  <li><a href="#computing-the-number-of-clusters-using-r" id="toc-computing-the-number-of-clusters-using-r" class="nav-link" data-scroll-target="#computing-the-number-of-clusters-using-r"><span class="header-section-number">11.4.2.4</span> Computing the number of clusters using R</a></li>
   </ul></li>
-  <li><a href="#cluster-validation-statistics" id="toc-cluster-validation-statistics" class="nav-link" data-scroll-target="#cluster-validation-statistics"><span class="header-section-number">10.4.3</span> Cluster Validation Statistics</a>
+  <li><a href="#cluster-validation-statistics" id="toc-cluster-validation-statistics" class="nav-link" data-scroll-target="#cluster-validation-statistics"><span class="header-section-number">11.4.3</span> Cluster Validation Statistics</a>
   <ul class="collapse">
-  <li><a href="#internal-measures-for-cluster-validation" id="toc-internal-measures-for-cluster-validation" class="nav-link" data-scroll-target="#internal-measures-for-cluster-validation"><span class="header-section-number">10.4.3.1</span> Internal measures for cluster validation</a></li>
-  <li><a href="#external-measures-for-clustering-validation" id="toc-external-measures-for-clustering-validation" class="nav-link" data-scroll-target="#external-measures-for-clustering-validation"><span class="header-section-number">10.4.3.2</span> External measures for clustering validation</a></li>
-  <li><a href="#implementation-in-r" id="toc-implementation-in-r" class="nav-link" data-scroll-target="#implementation-in-r"><span class="header-section-number">10.4.3.3</span> Implementation in R</a></li>
-  <li><a href="#cluster-validation-1" id="toc-cluster-validation-1" class="nav-link" data-scroll-target="#cluster-validation-1"><span class="header-section-number">10.4.3.4</span> Cluster validation</a></li>
-  <li><a href="#external-clustering-validation" id="toc-external-clustering-validation" class="nav-link" data-scroll-target="#external-clustering-validation"><span class="header-section-number">10.4.3.5</span> External clustering validation</a></li>
+  <li><a href="#internal-measures-for-cluster-validation" id="toc-internal-measures-for-cluster-validation" class="nav-link" data-scroll-target="#internal-measures-for-cluster-validation"><span class="header-section-number">11.4.3.1</span> Internal measures for cluster validation</a></li>
+  <li><a href="#external-measures-for-clustering-validation" id="toc-external-measures-for-clustering-validation" class="nav-link" data-scroll-target="#external-measures-for-clustering-validation"><span class="header-section-number">11.4.3.2</span> External measures for clustering validation</a></li>
+  <li><a href="#implementation-in-r" id="toc-implementation-in-r" class="nav-link" data-scroll-target="#implementation-in-r"><span class="header-section-number">11.4.3.3</span> Implementation in R</a></li>
+  <li><a href="#cluster-validation-1" id="toc-cluster-validation-1" class="nav-link" data-scroll-target="#cluster-validation-1"><span class="header-section-number">11.4.3.4</span> Cluster validation</a></li>
+  <li><a href="#external-clustering-validation" id="toc-external-clustering-validation" class="nav-link" data-scroll-target="#external-clustering-validation"><span class="header-section-number">11.4.3.5</span> External clustering validation</a></li>
   </ul></li>
-  <li><a href="#choosing-the-best-clustering-algorithms" id="toc-choosing-the-best-clustering-algorithms" class="nav-link" data-scroll-target="#choosing-the-best-clustering-algorithms"><span class="header-section-number">10.4.4</span> Choosing the Best Clustering Algorithms</a>
+  <li><a href="#choosing-the-best-clustering-algorithms" id="toc-choosing-the-best-clustering-algorithms" class="nav-link" data-scroll-target="#choosing-the-best-clustering-algorithms"><span class="header-section-number">11.4.4</span> Choosing the Best Clustering Algorithms</a>
   <ul class="collapse">
-  <li><a href="#measures-for-comparing-clustering-algorithms" id="toc-measures-for-comparing-clustering-algorithms" class="nav-link" data-scroll-target="#measures-for-comparing-clustering-algorithms"><span class="header-section-number">10.4.4.1</span> Measures for comparing clustering algorithms</a></li>
-  <li><a href="#compare-clustering-algorithms-in-r" id="toc-compare-clustering-algorithms-in-r" class="nav-link" data-scroll-target="#compare-clustering-algorithms-in-r"><span class="header-section-number">10.4.4.2</span> Compare clustering algorithms in R</a></li>
+  <li><a href="#measures-for-comparing-clustering-algorithms" id="toc-measures-for-comparing-clustering-algorithms" class="nav-link" data-scroll-target="#measures-for-comparing-clustering-algorithms"><span class="header-section-number">11.4.4.1</span> Measures for comparing clustering algorithms</a></li>
+  <li><a href="#compare-clustering-algorithms-in-r" id="toc-compare-clustering-algorithms-in-r" class="nav-link" data-scroll-target="#compare-clustering-algorithms-in-r"><span class="header-section-number">11.4.4.2</span> Compare clustering algorithms in R</a></li>
   </ul></li>
   </ul></li>
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">10.5</span> References</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">11.5</span> References</a></li>
   </ul>
 </nav>
     </div>
@@ -2241,9 +2260,9 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 }
 </script>
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/clustring.html">Clustering</a></li><li class="breadcrumb-item"><a href="../chapters/clustring.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Clustering</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/clustring.html">Clustering</a></li><li class="breadcrumb-item"><a href="../chapters/clustring.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Clustering</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Clustering</span></h1>
+<h1 class="title"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Clustering</span></h1>
 </div>
 
 
@@ -2261,8 +2280,8 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 
 
 <p>Cluster analysis, or <em>Clustering</em>, is a technique used to find groups of objects such that the objects within the same group are similar (or closely realted) to one another, while the objects from different groups are dissimilar (or unrelated).</p>
-<section id="applications-of-clustering" class="level2" data-number="10.1">
-<h2 data-number="10.1" class="anchored" data-anchor-id="applications-of-clustering"><span class="header-section-number">10.1</span> Applications of Clustering</h2>
+<section id="applications-of-clustering" class="level2" data-number="11.1">
+<h2 data-number="11.1" class="anchored" data-anchor-id="applications-of-clustering"><span class="header-section-number">11.1</span> Applications of Clustering</h2>
 <p>Clustering techniques are widely used across multiple disciplines to discover patterns, structure data, and support decision-making. Below are some common and illustrative applications.</p>
 <p><strong>Customer Segmentation</strong></p>
 <p>In marketing and business analytics, clustering helps identify groups of customers with similar behaviors, preferences, or purchasing habits. This segmentation allows companies to optimize advertising strategies, personalize product offerings, and design campaigns for specific focus groups.</p>
@@ -2290,8 +2309,8 @@ Clustering DNA sequences to identify genetic relationships among species.</p>
 <p><strong>Example</strong>:<br>
 Document clustering for semantic search or grouping research papers by field of study.</p>
 </section>
-<section id="distance-and-similarity-in-clustering" class="level2" data-number="10.2">
-<h2 data-number="10.2" class="anchored" data-anchor-id="distance-and-similarity-in-clustering"><span class="header-section-number">10.2</span> Distance and Similarity in Clustering</h2>
+<section id="distance-and-similarity-in-clustering" class="level2" data-number="11.2">
+<h2 data-number="11.2" class="anchored" data-anchor-id="distance-and-similarity-in-clustering"><span class="header-section-number">11.2</span> Distance and Similarity in Clustering</h2>
 <p>The notion of <em>distance</em> or <em>similarity</em> lies at the heart of clustering. Since clustering aims to group similar observations together, we must have a way to measure how close or far two observations are from each other in the feature space. These measures quantify the degree of resemblance (similarity) or difference (dissimilarity) between data points.</p>
 <blockquote class="blockquote">
 <p>The main goal is to partition a set of data points into clusters where <strong>intra-cluster</strong> distances (distances between points within the same cluster) are <strong>minimized</strong>, and <strong>inter-cluster</strong> distances (distances between points from different clusters) are <strong>maximized</strong>.</p>
@@ -2365,12 +2384,12 @@ It usually satisfies: <span class="math display">\[
 \]</span> A simple transformation links both concepts: <span class="math display">\[
 s(\mathbf{x}, \mathbf{y}) = \frac{1}{1 + d(\mathbf{x}, \mathbf{y})}, \quad \text{where } s(\mathbf{x}, \mathbf{y}) \in [0, 1].
 \]</span></p>
-<section id="common-distance-metrics" class="level3" data-number="10.2.1">
-<h3 data-number="10.2.1" class="anchored" data-anchor-id="common-distance-metrics"><span class="header-section-number">10.2.1</span> Common Distance Metrics</h3>
+<section id="common-distance-metrics" class="level3" data-number="11.2.1">
+<h3 data-number="11.2.1" class="anchored" data-anchor-id="common-distance-metrics"><span class="header-section-number">11.2.1</span> Common Distance Metrics</h3>
 <p>Different clustering algorithms may behave very differently depending on the metric used.<br>
 Below are the most widely used <strong>distance measures</strong>.</p>
-<section id="euclidean-distance" class="level4" data-number="10.2.1.1">
-<h4 data-number="10.2.1.1" class="anchored" data-anchor-id="euclidean-distance"><span class="header-section-number">10.2.1.1</span> <strong>Euclidean Distance</strong></h4>
+<section id="euclidean-distance" class="level4" data-number="11.2.1.1">
+<h4 data-number="11.2.1.1" class="anchored" data-anchor-id="euclidean-distance"><span class="header-section-number">11.2.1.1</span> <strong>Euclidean Distance</strong></h4>
 <p>The most common metric, representing the straight-line distance between two points in <span class="math inline">\(\mathbb{R}^p\)</span>: <span class="math display">\[
 d_E(\mathbf{x}, \mathbf{y}) = \sqrt{\sum_{i=1}^{p} (x_i - y_i)^2}
 \]</span></p>
@@ -2390,8 +2409,8 @@ Note
 <div id="qwebr-insertion-location-1"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
-<section id="manhattan-or-city-block-distance" class="level4" data-number="10.2.1.2">
-<h4 data-number="10.2.1.2" class="anchored" data-anchor-id="manhattan-or-city-block-distance"><span class="header-section-number">10.2.1.2</span> <strong>Manhattan (or City-Block) Distance</strong></h4>
+<section id="manhattan-or-city-block-distance" class="level4" data-number="11.2.1.2">
+<h4 data-number="11.2.1.2" class="anchored" data-anchor-id="manhattan-or-city-block-distance"><span class="header-section-number">11.2.1.2</span> <strong>Manhattan (or City-Block) Distance</strong></h4>
 <p>This distance sums the absolute differences across all coordinates: <span class="math display">\[
 d_M(\mathbf{x}, \mathbf{y}) = \sum_{i=1}^{p} |x_i - y_i|
 \]</span></p>
@@ -2421,8 +2440,8 @@ Note
 </div>
 </div>
 </section>
-<section id="minkowski-distance" class="level4" data-number="10.2.1.3">
-<h4 data-number="10.2.1.3" class="anchored" data-anchor-id="minkowski-distance"><span class="header-section-number">10.2.1.3</span> <strong>Minkowski Distance</strong></h4>
+<section id="minkowski-distance" class="level4" data-number="11.2.1.3">
+<h4 data-number="11.2.1.3" class="anchored" data-anchor-id="minkowski-distance"><span class="header-section-number">11.2.1.3</span> <strong>Minkowski Distance</strong></h4>
 <p>A generalization of Euclidean and Manhattan distances, controlled by a parameter <span class="math inline">\(r\)</span>: <span class="math display">\[
 d_r(\mathbf{x}, \mathbf{y}) = \left( \sum_{i=1}^{p} |x_i - y_i|^r \right)^{1/r}
 \]</span></p>
@@ -2444,8 +2463,8 @@ d_r(\mathbf{x}, \mathbf{y}) = \left( \sum_{i=1}^{p} |x_i - y_i|^r \right)^{1/r}
 </div>
 </div>
 </section>
-<section id="chebyshev-distance" class="level4" data-number="10.2.1.4">
-<h4 data-number="10.2.1.4" class="anchored" data-anchor-id="chebyshev-distance"><span class="header-section-number">10.2.1.4</span> Chebyshev Distance</h4>
+<section id="chebyshev-distance" class="level4" data-number="11.2.1.4">
+<h4 data-number="11.2.1.4" class="anchored" data-anchor-id="chebyshev-distance"><span class="header-section-number">11.2.1.4</span> Chebyshev Distance</h4>
 <p>Also known as the <span class="math inline">\(L_\infty\)</span> norm, this distance takes the largest coordinate difference: <span class="math display">\[
 d_C(\mathbf{x}, \mathbf{y}) = \max_i |x_i - y_i|
 \]</span> It measures how far apart two points are along the dimension where they differ most.</p>
@@ -2462,8 +2481,8 @@ d_C(\mathbf{x}, \mathbf{y}) = \max_i |x_i - y_i|
 </div>
 </div>
 </section>
-<section id="mahalanobis-distance" class="level4" data-number="10.2.1.5">
-<h4 data-number="10.2.1.5" class="anchored" data-anchor-id="mahalanobis-distance"><span class="header-section-number">10.2.1.5</span> <strong>Mahalanobis Distance</strong></h4>
+<section id="mahalanobis-distance" class="level4" data-number="11.2.1.5">
+<h4 data-number="11.2.1.5" class="anchored" data-anchor-id="mahalanobis-distance"><span class="header-section-number">11.2.1.5</span> <strong>Mahalanobis Distance</strong></h4>
 <p>A scale-invariant distance that accounts for correlations between variables: <span class="math display">\[
 d_{Mah}(\mathbf{x}, \mathbf{y}) = \sqrt{(x - y)^{\top} \boldsymbol{\Sigma}^{-1} (x - y)}
 \]</span> where <span class="math inline">\(\boldsymbol{\Sigma}\)</span> is the covariance matrix of the data. Two points with the same Mahalanobis distance from the mean are equally likely under a multivariate normal model, regardless of the variable scales or correlations.</p>
@@ -2495,8 +2514,8 @@ Tip
 </div>
 </div>
 </section>
-<section id="cosine-and-correlation-distance" class="level4" data-number="10.2.1.6">
-<h4 data-number="10.2.1.6" class="anchored" data-anchor-id="cosine-and-correlation-distance"><span class="header-section-number">10.2.1.6</span> Cosine and Correlation Distance</h4>
+<section id="cosine-and-correlation-distance" class="level4" data-number="11.2.1.6">
+<h4 data-number="11.2.1.6" class="anchored" data-anchor-id="cosine-and-correlation-distance"><span class="header-section-number">11.2.1.6</span> Cosine and Correlation Distance</h4>
 <p>For data where <em>direction</em> or <em>orientation</em> matters more than magnitude — such as text represented by TF-IDF vectors or normalized embeddings — Euclidean distance is not ideal. Instead, we use <em>cosine similarity</em> or <em>correlation distance</em>.</p>
 <p>The <em>cosine similarity</em> between two vectors <span class="math inline">\(\mathbf{x}\)</span> and <span class="math inline">\(\mathbf{y}\)</span> is defined as <span class="math display">\[
 s_{\text{cosine}}(\mathbf{x}, \mathbf{y}) = \frac{\mathbf{x} \cdot \mathbf{y}}{\|\mathbf{x}\| \, \|\mathbf{y}\|}
@@ -2518,8 +2537,8 @@ for example, in <em>text mining</em> (TF-IDF vectors), <em>recommendation system
 </div>
 </section>
 </section>
-<section id="distances-for-binary-data" class="level3" data-number="10.2.2">
-<h3 data-number="10.2.2" class="anchored" data-anchor-id="distances-for-binary-data"><span class="header-section-number">10.2.2</span> Distances for Binary Data</h3>
+<section id="distances-for-binary-data" class="level3" data-number="11.2.2">
+<h3 data-number="11.2.2" class="anchored" data-anchor-id="distances-for-binary-data"><span class="header-section-number">11.2.2</span> Distances for Binary Data</h3>
 <p>When the data are <strong>binary</strong> (0 or 1), such as presence/absence, success/failure, or yes/no attributes, specialized similarity and distance measures are used.</p>
 <p>Let <span class="math inline">\(o_1, o_2 \in \{0,1\}^d\)</span> be two binary observations described by <span class="math inline">\(d\)</span> attributes.</p>
 <p>We define: <span class="math display">\[
@@ -2530,15 +2549,15 @@ f_{10} &amp;= \text{number of attributes where } o_1 = 1 \text{ and } o_2 = 0, \
 f_{01} &amp;= \text{number of attributes where } o_1 = 0 \text{ and } o_2 = 1.
 \end{aligned}
 \]</span></p>
-<section id="simple-matching-coefficient-similarity" class="level4" data-number="10.2.2.1">
-<h4 data-number="10.2.2.1" class="anchored" data-anchor-id="simple-matching-coefficient-similarity"><span class="header-section-number">10.2.2.1</span> <strong>Simple Matching Coefficient (Similarity)</strong></h4>
+<section id="simple-matching-coefficient-similarity" class="level4" data-number="11.2.2.1">
+<h4 data-number="11.2.2.1" class="anchored" data-anchor-id="simple-matching-coefficient-similarity"><span class="header-section-number">11.2.2.1</span> <strong>Simple Matching Coefficient (Similarity)</strong></h4>
 <p><span class="math display">\[
 s_{SMC}(o_1, o_2) = \frac{f_{11} + f_{00}}{f_{11} + f_{00} + f_{10} + f_{01}} = \frac{f_{11} + f_{00}}{d}
 \]</span></p>
 <p>This coefficient measures the proportion of attributes where the two observations match — whether both are 1s or both are 0s.</p>
 </section>
-<section id="simple-matching-distance" class="level4" data-number="10.2.2.2">
-<h4 data-number="10.2.2.2" class="anchored" data-anchor-id="simple-matching-distance"><span class="header-section-number">10.2.2.2</span> <strong>Simple Matching Distance</strong></h4>
+<section id="simple-matching-distance" class="level4" data-number="11.2.2.2">
+<h4 data-number="11.2.2.2" class="anchored" data-anchor-id="simple-matching-distance"><span class="header-section-number">11.2.2.2</span> <strong>Simple Matching Distance</strong></h4>
 <p><span class="math display">\[
 d_{SMC}(o_1, o_2) = 1 - s_{SMC}(o_1, o_2) = \frac{f_{01} + f_{10}}{d}
 \]</span> This represents the proportion of mismatches between two binary objects.</p>
@@ -2563,13 +2582,13 @@ Note
 </div>
 </section>
 </section>
-<section id="distances-for-categorical-data" class="level3" data-number="10.2.3">
-<h3 data-number="10.2.3" class="anchored" data-anchor-id="distances-for-categorical-data"><span class="header-section-number">10.2.3</span> Distances for Categorical Data</h3>
+<section id="distances-for-categorical-data" class="level3" data-number="11.2.3">
+<h3 data-number="11.2.3" class="anchored" data-anchor-id="distances-for-categorical-data"><span class="header-section-number">11.2.3</span> Distances for Categorical Data</h3>
 <p>When data contain <strong>categorical</strong> or <strong>mixed-type variables</strong>, standard numeric distances (like Euclidean) are not suitable.<br>
 Instead, we use measures that handle <strong>qualitative comparisons</strong> directly.</p>
 <p>Let <span class="math inline">\(\mathbf{x} = (x_1, \ldots, x_p)\)</span> and <span class="math inline">\(\mathbf{y} = (y_1, \ldots, y_p)\)</span> be two observations described by <span class="math inline">\(p\)</span> categorical or mixed-type attributes.</p>
-<section id="hamming-distance" class="level4" data-number="10.2.3.1">
-<h4 data-number="10.2.3.1" class="anchored" data-anchor-id="hamming-distance"><span class="header-section-number">10.2.3.1</span> <strong>Hamming Distance</strong></h4>
+<section id="hamming-distance" class="level4" data-number="11.2.3.1">
+<h4 data-number="11.2.3.1" class="anchored" data-anchor-id="hamming-distance"><span class="header-section-number">11.2.3.1</span> <strong>Hamming Distance</strong></h4>
 <p>The <strong>Hamming distance</strong> counts the number of mismatches between two vectors: <span class="math display">\[
 \text{d}_{Hamming}(\mathbf{x}, \mathbf{y}) = \sum_{i=1}^{p} \delta(x_i, y_i)
 \]</span> where <span class="math display">\[
@@ -2582,8 +2601,8 @@ Instead, we use measures that handle <strong>qualitative comparisons</strong> di
 <div id="qwebr-insertion-location-8"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
-<section id="gower-distance" class="level4" data-number="10.2.3.2">
-<h4 data-number="10.2.3.2" class="anchored" data-anchor-id="gower-distance"><span class="header-section-number">10.2.3.2</span> <strong>Gower Distance</strong></h4>
+<section id="gower-distance" class="level4" data-number="11.2.3.2">
+<h4 data-number="11.2.3.2" class="anchored" data-anchor-id="gower-distance"><span class="header-section-number">11.2.3.2</span> <strong>Gower Distance</strong></h4>
 <p>The <strong>Gower distance</strong> <span class="citation" data-cites="Gower1971">(<a href="#ref-Gower1971" role="doc-biblioref">Gower 1971</a>)</span> allows comparing <strong>mixed-type data</strong> (numerical, categorical, binomial).</p>
 <p>For two observations <span class="math inline">\(i\)</span> and <span class="math inline">\(k\)</span>, and each variable <span class="math inline">\(k\)</span>, Gower’s method computes a partial <em>similarity score</em> <span class="math inline">\(s_{ijk}\)</span> as follows:</p>
 <ul>
@@ -2683,8 +2702,8 @@ D = 1 - 0.435 = 0.565
 <p>As you see that the individuals who are most similar are 001 and 003 <span class="math inline">\((D = 0.315)\)</span> and the most different are 004 and 005 <span class="math inline">\((D = 0.913)\)</span>.</p>
 </section>
 </section>
-<section id="visualizing-distance-matrices" class="level3" data-number="10.2.4">
-<h3 data-number="10.2.4" class="anchored" data-anchor-id="visualizing-distance-matrices"><span class="header-section-number">10.2.4</span> Visualizing distance matrices</h3>
+<section id="visualizing-distance-matrices" class="level3" data-number="11.2.4">
+<h3 data-number="11.2.4" class="anchored" data-anchor-id="visualizing-distance-matrices"><span class="header-section-number">11.2.4</span> Visualizing distance matrices</h3>
 <p>Datasets usually contain many observations (more than just two points).</p>
 <p>When we compute pairwise distances between all observations, we obtain a <em>distance matrix</em> — a square table where each cell represents the dissimilarity between two observations.</p>
 <p>Mathematically, if a dataset has <span class="math inline">\(n\)</span> observations, the distance matrix has <span class="math inline">\(n \times n\)</span> entries: <span class="math display">\[
@@ -2705,7 +2724,7 @@ D_{ij} = d(\mathbf{x}_i, \mathbf{x}_j)
 <p>The color level is proportional to the value of the dissimilarity between observations: pure red if <span class="math inline">\(\text{dist}(\mathbf{x}_i, \mathbf{x}_j) = 0\)</span> nad pure blue if <span class="math inline">\(\text{dist}(\mathbf{x}_i, \mathbf{x}_j) = 1\)</span>, here. Objects belonging to the same cluster are displayed in consecutive order.</p>
 <p>In this example, subjects <code>001</code> and <code>002</code> are quite similar (close in age, same eye color). Subject <code>004</code> (older, hazel eyes, does not know Python) stands out as most dissimilar from others.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page">Exercise 1</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Exercise 2</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false">Exercise 3</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false">Exercise 3</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Exercise 1</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Exercise 2</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href="">Exercise 3</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false" href="">Exercise 3</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
 <p><strong>1. Create two 3-dimensional points and calculate the distance</strong></p>
@@ -2796,25 +2815,25 @@ D_{ij} = d(\mathbf{x}_i, \mathbf{x}_j)
 <p>Compute the <em>Hamming distance</em> (number of mismatches).</p>
 <p><strong>Hint</strong>: Use</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>data[] <span class="ot">&lt;-</span> <span class="fu">lapply</span>(data, <span class="cf">function</span>(col) <span class="cf">if</span> (<span class="fu">is.character</span>(col)) <span class="fu">as.factor</span>(col) <span class="cf">else</span> col)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>data[] <span class="ot">&lt;-</span> <span class="fu">lapply</span>(data, <span class="cf">function</span>(col) <span class="cf">if</span> (<span class="fu">is.character</span>(col)) <span class="fu">as.factor</span>(col) <span class="cf">else</span> col)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <div id="tabset-1-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-4-tab">
 <p>We want to analyse the <code>flower</code> dataset which is available at library <code>cluseter</code>.</p>
 <p>Based on the following information, a) find the best distance matrix. and b) visulize the distance matrix.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cluster)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cluster)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(flower)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(flower, <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(flower, <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  V1 V2 V3 V4 V5 V6  V7 V8
 1  0  1  1  4  3 15  25 15
 2  1  0  0  2  1  3 150 50
 3  0  1  0  3  3  1 150 50</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Data structure</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(flower)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Data structure</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(flower)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>'data.frame':   18 obs. of  8 variables:
  $ V1: Factor w/ 2 levels "0","1": 1 2 1 1 1 1 1 1 2 2 ...
@@ -2832,8 +2851,8 @@ D_{ij} = d(\mathbf{x}_i, \mathbf{x}_j)
 </div>
 </section>
 </section>
-<section id="partition-based-clustering-k-means-and-k-medoids" class="level2" data-number="10.3">
-<h2 data-number="10.3" class="anchored" data-anchor-id="partition-based-clustering-k-means-and-k-medoids"><span class="header-section-number">10.3</span> Partition-Based Clustering: <span class="math inline">\(k\)</span>-Means and <span class="math inline">\(k\)</span>-Medoids</h2>
+<section id="partition-based-clustering-k-means-and-k-medoids" class="level2" data-number="11.3">
+<h2 data-number="11.3" class="anchored" data-anchor-id="partition-based-clustering-k-means-and-k-medoids"><span class="header-section-number">11.3</span> Partition-Based Clustering: <span class="math inline">\(k\)</span>-Means and <span class="math inline">\(k\)</span>-Medoids</h2>
 <p><em>Partitioning clustering</em> are clustering methods used to classify observations, within a dataset, into multiple groups based ion their similrity. The algorithms require the analyst to specify the number of clusters to be generated.</p>
 <p>The commonly used partitioning clustering includes:</p>
 <ul>
@@ -2841,12 +2860,12 @@ D_{ij} = d(\mathbf{x}_i, \mathbf{x}_j)
 <li><span class="math inline">\(K\)</span>-medoids clustering or PAM (Partitioning Around Medoids) <span class="citation" data-cites="kaufman1990">(<a href="#ref-kaufman1990" role="doc-biblioref">Kaufman and Rousseeuw 1990</a>)</span> in which , each cluster is reprsented by one of the objects in the cluster. PAM is less sensitive to outliers compared to <span class="math inline">\(K\)</span>-means.</li>
 <li>CLARA (Clustering Large Applications) algorithm, which is an extension to PAM adapted for large data sets.</li>
 </ul>
-<section id="k-means-clustering" class="level3" data-number="10.3.1">
-<h3 data-number="10.3.1" class="anchored" data-anchor-id="k-means-clustering"><span class="header-section-number">10.3.1</span> <span class="math inline">\(K\)</span>-Means Clustering</h3>
+<section id="k-means-clustering" class="level3" data-number="11.3.1">
+<h3 data-number="11.3.1" class="anchored" data-anchor-id="k-means-clustering"><span class="header-section-number">11.3.1</span> <span class="math inline">\(K\)</span>-Means Clustering</h3>
 <p>K-Means aims to partition <span class="math inline">\(n\)</span> observations into <span class="math inline">\(K\)</span> clusters such that each observation belongs to the cluster with the nearest <strong>centroid</strong> (mean of points).</p>
 <p>Each cluster is represented by its <em>centroid</em>, which may not be an actual data point.</p>
-<section id="k-means-basic-ideas" class="level4" data-number="10.3.1.1">
-<h4 data-number="10.3.1.1" class="anchored" data-anchor-id="k-means-basic-ideas"><span class="header-section-number">10.3.1.1</span> <span class="math inline">\(K\)</span>-means basic ideas</h4>
+<section id="k-means-basic-ideas" class="level4" data-number="11.3.1.1">
+<h4 data-number="11.3.1.1" class="anchored" data-anchor-id="k-means-basic-ideas"><span class="header-section-number">11.3.1.1</span> <span class="math inline">\(K\)</span>-means basic ideas</h4>
 <p>This basic idea behind <span class="math inline">\(K\)</span>-means clustering consists of defining clusters so that the total intra-cluster variation (known as <em>total within-cluster variation</em>) is minimized.</p>
 <p>There are several <span class="math inline">\(K\)</span>-means algorithms available. The standard algorithm is the <em>Hartigan-Wong algorithm</em> <span class="citation" data-cites="hartigan1979">(<a href="#ref-hartigan1979" role="doc-biblioref">Hartigan and Wong 1979</a>)</span> which defines the total within-cluster variation as the sum of squared distances Euclidean distances between items and the corresponding centroid: <span class="math display">\[
 W(C_k) = \sum_{x_i \in C_k} (x_i - \mu_k)^2
@@ -2857,8 +2876,8 @@ W(C_k) = \sum_{x_i \in C_k} (x_i - \mu_k)^2
 \]</span></p>
 <p>The <em>total within-cluster sum of square</em> measures the compactness (i.e.&nbsp;<em>goodness</em>) of the clustering and we want it to be as small as possible.</p>
 </section>
-<section id="k-means-algorithm" class="level4" data-number="10.3.1.2">
-<h4 data-number="10.3.1.2" class="anchored" data-anchor-id="k-means-algorithm"><span class="header-section-number">10.3.1.2</span> <span class="math inline">\(K\)</span>-means Algorithm</h4>
+<section id="k-means-algorithm" class="level4" data-number="11.3.1.2">
+<h4 data-number="11.3.1.2" class="anchored" data-anchor-id="k-means-algorithm"><span class="header-section-number">11.3.1.2</span> <span class="math inline">\(K\)</span>-means Algorithm</h4>
 <p>Given a dataset <span class="math inline">\(\mathbf{X}= \{\mathbf{x}_1, \mathbf{x}_2, \ldots, \mathbf{x}_n\}\)</span>:</p>
 <ol type="1">
 <li>Choose the number of clusters <span class="math inline">\(K\)</span>.<br>
@@ -2878,11 +2897,11 @@ c_i = \arg\min_k \|\mathbf{x}_i - \mu_k\|^2
 <div id="qwebr-insertion-location-11"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
-<section id="properties-and-limitations-of-k-means" class="level4" data-number="10.3.1.3">
-<h4 data-number="10.3.1.3" class="anchored" data-anchor-id="properties-and-limitations-of-k-means"><span class="header-section-number">10.3.1.3</span> Properties and Limitations of <span class="math inline">\(K\)</span>-Means</h4>
+<section id="properties-and-limitations-of-k-means" class="level4" data-number="11.3.1.3">
+<h4 data-number="11.3.1.3" class="anchored" data-anchor-id="properties-and-limitations-of-k-means"><span class="header-section-number">11.3.1.3</span> Properties and Limitations of <span class="math inline">\(K\)</span>-Means</h4>
 <p>Although <span class="math inline">\(K\)</span>-means is one of the most popular clustering algorithms, its effectiveness depends on the structure and scale of the data. Understanding its limitations helps decide when to use it — and when to choose a more robust alternative like <span class="math inline">\(K\)</span>-Medoids.</p>
-<section id="data-type-and-cluster-shape" class="level5" data-number="10.3.1.3.1">
-<h5 data-number="10.3.1.3.1" class="anchored" data-anchor-id="data-type-and-cluster-shape"><span class="header-section-number">10.3.1.3.1</span> Data Type and Cluster Shape</h5>
+<section id="data-type-and-cluster-shape" class="level5" data-number="11.3.1.3.1">
+<h5 data-number="11.3.1.3.1" class="anchored" data-anchor-id="data-type-and-cluster-shape"><span class="header-section-number">11.3.1.3.1</span> Data Type and Cluster Shape</h5>
 <p><span class="math inline">\(K\)</span>-Means works best when:</p>
 <ul>
 <li><p>All variables are numeric</p></li>
@@ -2892,20 +2911,20 @@ c_i = \arg\min_k \|\mathbf{x}_i - \mu_k\|^2
 </ul>
 <p>When clusters are elongated, overlapping, or non-spherical, <span class="math inline">\(K\)</span>-Means may assign points incorrectly because it relies on <em>Euclidean distance</em>.</p>
 </section>
-<section id="sensitivity-to-scale" class="level5" data-number="10.3.1.3.2">
-<h5 data-number="10.3.1.3.2" class="anchored" data-anchor-id="sensitivity-to-scale"><span class="header-section-number">10.3.1.3.2</span> Sensitivity to Scale</h5>
+<section id="sensitivity-to-scale" class="level5" data-number="11.3.1.3.2">
+<h5 data-number="11.3.1.3.2" class="anchored" data-anchor-id="sensitivity-to-scale"><span class="header-section-number">11.3.1.3.2</span> Sensitivity to Scale</h5>
 <p>In clustering, the distance between data points determines how groups are formed.</p>
 <p>If variables are measured on very different scales (for example, income in euros and age in years), the variable with the largest numerical range will dominate the distance calculation. As a result, the algorithm may ignore other variables, even if they carry meaningful structure. To correct this imbalance, we use <strong>scaling transformations</strong>, which adjust the magnitude or spread of each variable before computing distances.</p>
 </section>
 </section>
-<section id="normalization-minmax-scaling" class="level4" data-number="10.3.1.4">
-<h4 data-number="10.3.1.4" class="anchored" data-anchor-id="normalization-minmax-scaling"><span class="header-section-number">10.3.1.4</span> Normalization (Min–Max Scaling)</h4>
+<section id="normalization-minmax-scaling" class="level4" data-number="11.3.1.4">
+<h4 data-number="11.3.1.4" class="anchored" data-anchor-id="normalization-minmax-scaling"><span class="header-section-number">11.3.1.4</span> Normalization (Min–Max Scaling)</h4>
 <p>Normalization rescales all variables to a fixed range, usually between <span class="math inline">\(0\)</span> and <span class="math inline">\(1\)</span>: <span class="math display">\[
 x' = \frac{x - \min(x)}{\max(x) - \min(x)}
 \]</span> This transformation preserves the shape of the distribution but ensures all features contribute equally in magnitude to the distance measure. It is particularly effective when all features have bounded ranges or similar distributions.</p>
 </section>
-<section id="standardization-z-score-scaling" class="level4" data-number="10.3.1.5">
-<h4 data-number="10.3.1.5" class="anchored" data-anchor-id="standardization-z-score-scaling"><span class="header-section-number">10.3.1.5</span> Standardization (Z-score Scaling)</h4>
+<section id="standardization-z-score-scaling" class="level4" data-number="11.3.1.5">
+<h4 data-number="11.3.1.5" class="anchored" data-anchor-id="standardization-z-score-scaling"><span class="header-section-number">11.3.1.5</span> Standardization (Z-score Scaling)</h4>
 <p>Standardization rescales variables so they have mean 0 and standard deviation 1: <span class="math display">\[
 x' = \frac{x - \bar{x}}{s_x}
 \]</span> where <span class="math inline">\(\bar{x}\)</span> is the mean and <span class="math inline">\(s_x\)</span> is the standard deviation.</p>
@@ -2941,26 +2960,26 @@ Important
 <div id="qwebr-insertion-location-15"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
-<section id="measures-of-cluster-quality" class="level4" data-number="10.3.1.6">
-<h4 data-number="10.3.1.6" class="anchored" data-anchor-id="measures-of-cluster-quality"><span class="header-section-number">10.3.1.6</span> Measures of Cluster Quality</h4>
+<section id="measures-of-cluster-quality" class="level4" data-number="11.3.1.6">
+<h4 data-number="11.3.1.6" class="anchored" data-anchor-id="measures-of-cluster-quality"><span class="header-section-number">11.3.1.6</span> Measures of Cluster Quality</h4>
 <p>To evaluate and compare clustering results, we rely on <em>internal validation measures</em> — those that assess how compact and well-separated the clusters are, using only the data itself.</p>
 <p>The most common measures include:</p>
-<section id="within-cluster-sum-of-squares-wss" class="level5" data-number="10.3.1.6.1">
-<h5 data-number="10.3.1.6.1" class="anchored" data-anchor-id="within-cluster-sum-of-squares-wss"><span class="header-section-number">10.3.1.6.1</span> <strong>Within-Cluster Sum of Squares (WSS)</strong></h5>
+<section id="within-cluster-sum-of-squares-wss" class="level5" data-number="11.3.1.6.1">
+<h5 data-number="11.3.1.6.1" class="anchored" data-anchor-id="within-cluster-sum-of-squares-wss"><span class="header-section-number">11.3.1.6.1</span> <strong>Within-Cluster Sum of Squares (WSS)</strong></h5>
 <p>The <em>Within-Cluster Sum of Squares</em> measures how tightly the data points in a cluster are grouped around their centroid. <span class="math display">\[
 \text{WSS} = \sum_{k=1}^{K} \sum_{\mathbf{x}_i \in C_k} \|\mathbf{x}_i - \boldsymbol{\mu}_k\|^2
 \]</span> where <span class="math inline">\(C_k\)</span> is the set of points in cluster <span class="math inline">\(k\)</span>, <span class="math inline">\(\boldsymbol{\mu}_k\)</span> is the centroid of cluster <span class="math inline">\(k\)</span>, and <span class="math inline">\(\|\cdot\|^2\)</span> shows the squared Euclidean distance between a point and its centroid.</p>
 <p>A smaller WSS means <em>more compact clusters</em>.</p>
 </section>
-<section id="between-cluster-sum-of-squares-bss" class="level5" data-number="10.3.1.6.2">
-<h5 data-number="10.3.1.6.2" class="anchored" data-anchor-id="between-cluster-sum-of-squares-bss"><span class="header-section-number">10.3.1.6.2</span> <strong>Between-Cluster Sum of Squares (BSS)</strong></h5>
+<section id="between-cluster-sum-of-squares-bss" class="level5" data-number="11.3.1.6.2">
+<h5 data-number="11.3.1.6.2" class="anchored" data-anchor-id="between-cluster-sum-of-squares-bss"><span class="header-section-number">11.3.1.6.2</span> <strong>Between-Cluster Sum of Squares (BSS)</strong></h5>
 <p>The <em>Between-Cluster Sum of Squares</em> measures how far apart the cluster centroids are from the overall mean of the dataset. <span class="math display">\[
 \text{BSS} = \sum_{k=1}^{K} n_k \| \boldsymbol{\mu}_k - \boldsymbol{\mu} \|^2
 \]</span> where <span class="math inline">\(n_k\)</span> is the number of points in cluster <span class="math inline">\(k\)</span>, <span class="math inline">\(\boldsymbol{\mu}_k\)</span> is the centroid of cluster <span class="math inline">\(k\)</span>, and <span class="math inline">\(\boldsymbol{\mu}\)</span> is the global mean of all data points.</p>
 <p>A larger BSS means <em>better separation</em> between clusters.</p>
 </section>
-<section id="total-sum-of-squares-tss" class="level5" data-number="10.3.1.6.3">
-<h5 data-number="10.3.1.6.3" class="anchored" data-anchor-id="total-sum-of-squares-tss"><span class="header-section-number">10.3.1.6.3</span> <strong>Total Sum of Squares (TSS)</strong></h5>
+<section id="total-sum-of-squares-tss" class="level5" data-number="11.3.1.6.3">
+<h5 data-number="11.3.1.6.3" class="anchored" data-anchor-id="total-sum-of-squares-tss"><span class="header-section-number">11.3.1.6.3</span> <strong>Total Sum of Squares (TSS)</strong></h5>
 <p>The <em>Total Sum of Squares</em> represents the overall variation in the dataset: <span class="math display">\[
 \text{TSS} = \sum_{i=1}^{n} \|\mathbf{x}_i - \boldsymbol{\mu}\|^2
 \]</span></p>
@@ -2972,8 +2991,8 @@ Important
 \]</span></p>
 <p>A higher ratio means that the clusters explain a greater proportion of the data’s variance.</p>
 </section>
-<section id="silhouette-coefficient" class="level5" data-number="10.3.1.6.4">
-<h5 data-number="10.3.1.6.4" class="anchored" data-anchor-id="silhouette-coefficient"><span class="header-section-number">10.3.1.6.4</span> <strong>Silhouette Coefficient</strong></h5>
+<section id="silhouette-coefficient" class="level5" data-number="11.3.1.6.4">
+<h5 data-number="11.3.1.6.4" class="anchored" data-anchor-id="silhouette-coefficient"><span class="header-section-number">11.3.1.6.4</span> <strong>Silhouette Coefficient</strong></h5>
 <p>The <em>Silhouette Coefficient</em> combines <em>cohesion</em> (how close points are within a cluster) and <em>separation</em> (how far points are from other clusters): <span class="math display">\[
 s(i) = \frac{b(i) - a(i)}{\max(a(i), b(i))}
 \]</span> where <span class="math inline">\(a(i)\)</span> is the average distance from point <span class="math inline">\(i\)</span> to all other points in its cluster, and <span class="math inline">\(b(i)\)</span> is the smallest average distance from point <span class="math inline">\(i\)</span> to points in another cluster.</p>
@@ -3039,7 +3058,7 @@ The <strong>Elbow Method</strong> helps find a balance between simplicity (few c
 <p><strong>Implementation in R</strong></p>
 <p>The standard R function for <span class="math inline">\(K\)</span>-means clustering is <code>stats::kmeans()</code> which simplified format is as follow:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kmeans</span>(x, centers, <span class="at">iter.max =</span> <span class="dv">10</span>, <span class="at">nstart =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kmeans</span>(x, centers, <span class="at">iter.max =</span> <span class="dv">10</span>, <span class="at">nstart =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>where: - <code>x</code>: numeric matrix, numeric data frame or a numeric vevtor - <code>centers</code>: possible values are the number of clusters (<span class="math inline">\(k\)</span>) or a set of initial (distinct) cluster centers. If a number, a random set of (distinct) rows in <span class="math inline">\(x\)</span> is chosen as the initial centers. - <code>iter.max</code>: the maximum number of iterations allowed. Default value if <span class="math inline">\(10\)</span>. - <code>nstart</code>: the number of random starting partitions when centers is a number. Trying <code>nstart &gt; 1</code> is often recommended.</p>
 <p>To create a beautiful graph of the clusters generated with the <code>kmeans()</code> function, will use the <code>factoextra</code> package.</p>
@@ -3047,8 +3066,8 @@ The <strong>Elbow Method</strong> helps find a balance between simplicity (few c
 <p>As <span class="math inline">\(K\)</span>-means clustering algorithm starts with <span class="math inline">\(K\)</span> randomly selected centroids, it is always recommended to use the <code>set.seed()</code> function in order to set a seed for <code>R</code>’s random number generator. The aim of using this function is to make reproducible the results.</p>
 <p>The <code>R</code> code below performs <span class="math inline">\(K\)</span>-means clustering with <span class="math inline">\(K = 4\)</span>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>km.res <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(df, <span class="at">k =</span> <span class="dv">4</span>, <span class="at">nstart =</span> <span class="dv">25</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>km.res <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(df, <span class="at">k =</span> <span class="dv">4</span>, <span class="at">nstart =</span> <span class="dv">25</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -3066,7 +3085,7 @@ Tip
 </div>
 <p>With the function <code>print()</code>, the results of <code>kmeans()</code> that for example in this note, saved in <code>km.res</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(km.res)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(km.res)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The printed output displys: - the cluster means or centers, that is a matrix which rows are cluster number and columns are variables. - the clustering vector which is a vector of integers (from 1 to <span class="math inline">\(K\)</span>) indicating the cluster to which each point is allocated.</p>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -3081,7 +3100,7 @@ Note
 <div class="callout-body-container callout-body">
 <p>It is possible to compute the mean of each variable in the dataset by clusters using the original dataset.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">aggregate</span>(df, <span class="at">by =</span> <span class="fu">list</span>(<span class="at">cluster=</span>km.res<span class="sc">$</span>cluster), mean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">aggregate</span>(df, <span class="at">by =</span> <span class="fu">list</span>(<span class="at">cluster=</span>km.res<span class="sc">$</span>cluster), mean)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
@@ -3097,21 +3116,21 @@ Note
 <div class="callout-body-container callout-body">
 <p>It the user is intersted in adding the clusters to the original data, use the following R code</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cbind</span>(df, <span class="at">cluster =</span> km.res<span class="sc">$</span>cluster)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cbind</span>(df, <span class="at">cluster =</span> km.res<span class="sc">$</span>cluster)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
 <p><code>kmeans()</code> function returns a list of components, including: - <em>cluster</em>: a vector of integers (from <span class="math inline">\(1\)</span> to <span class="math inline">\(k\)</span>) indicating the cluster to which each point is allocated. - <em>centers</em>: a matrix of cluster centers (cluster means) - <em>totss</em>: the total sum of squares (TSS). It measures the total variance in the data. - <em>withinss</em>: vector of within-cluster sum of squares, one component per cluster - <em>tot.withinss</em>: total within-cluster sum of squares, i.e., <span class="math inline">\(\text{sum}(withinss)\)</span> - <em>betweenss</em>: the between-cluster sum of squares, i.e., <em>totss - tot.withinss</em> - <em>size</em>: the number of observations in each cluster</p>
 <p>These components can be accessed as follow:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Cluster number for each of the observations</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Cluster number for each of the observations</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>km.res<span class="sc">$</span>cluster </span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Cluster size</span></span>
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>km.res<span class="sc">$</span>size</span>
 <span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Cluster means</span></span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>km.res<span class="sc">$</span>centers</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>km.res<span class="sc">$</span>centers</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><strong>Visualizing <span class="math inline">\(K\)</span>-means Clusters</strong></p>
 <p>It is a good idea to plot the cluster results. These can be used to assess the choice of the number of clusters as well as comparing two different cluster analyses.</p>
@@ -3120,13 +3139,13 @@ Note
 <p>In other words, if we have a multi-dimensional dataset, a solution is to perform <em>PCA</em> and to plot data points according to the first two principal components coordinates.</p>
 <p>The function <code>factoextra::fviz_cluster()</code> can be used to easily visulize <span class="math inline">\(K\)</span>-means clusters. It takes <span class="math inline">\(K\)</span>-means results and the original data as arguments. In the resulting plot, observations are represented by points, using orincipal components if the number of variables is greater than <span class="math inline">\(2\)</span>. It is also possible to draw concentration ellipse around each cluster.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_cluster</span>(km.res, <span class="at">data =</span> df,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_cluster</span>(km.res, <span class="at">data =</span> df,</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="at">palette =</span> <span class="fu">c</span>(<span class="st">"#2E9FDF"</span>, <span class="st">"#00AFBB"</span>, <span class="st">"#E7B800"</span>, <span class="st">"#FC4E07"</span>), <span class="co">#Define colors</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="at">ellipse.type =</span> <span class="st">"euclid"</span>, <span class="co"># Concentration ellipse</span></span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="at">star.plot =</span> <span class="cn">TRUE</span>, <span class="co"># Add segments from centroids to items</span></span>
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="at">repel =</span> <span class="cn">TRUE</span>, <span class="co"># Avoid label overplotting (slow)</span></span>
 <span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="at">ggtheme =</span> <span class="fu">theme_minimal</span>()</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -3168,8 +3187,8 @@ Important
 </div>
 </section>
 </section>
-<section id="analysis-of-iris-dataset" class="level4" data-number="10.3.1.7">
-<h4 data-number="10.3.1.7" class="anchored" data-anchor-id="analysis-of-iris-dataset"><span class="header-section-number">10.3.1.7</span> Analysis of <code>iris</code> Dataset</h4>
+<section id="analysis-of-iris-dataset" class="level4" data-number="11.3.1.7">
+<h4 data-number="11.3.1.7" class="anchored" data-anchor-id="analysis-of-iris-dataset"><span class="header-section-number">11.3.1.7</span> Analysis of <code>iris</code> Dataset</h4>
 <p>The classic <code>iris</code> dataset contains <span class="math inline">\(150\)</span> flower observations from three species (<em>setosa</em>, <em>versicolor</em>, <em>virginica</em>). Each observation has four numeric features: <code>Sepal.Length</code>, <code>Sepal.Width</code>, <code>Petal.Length</code>, and <code>Petal.Width</code></p>
 <div id="qwebr-insertion-location-16"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
@@ -3277,16 +3296,16 @@ Tip
 <p>At <span class="math inline">\(k = 3\)</span>, the average silhouette width is slightly lower, but the clusters correspond more closely to the true biological species. This result is more meaningful, even if slightly less compact.</p>
 <p>Thus, the <em>Silhouette Coefficient</em> and the <em>Elbow Method</em> together suggest that: - <span class="math inline">\(k=2\)</span> yields the most compact clustering, - but <span class="math inline">\(k=3\)</span> represents the optimal trade-off between cluster compactness and real-world interpretability</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">Exercise 1</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">Exercise 2</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true" href="">Exercise 1</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false" href="">Exercise 2</a></li></ul>
 <div class="tab-content">
 <div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
 <p>Use the built-in dataset <code>USArrests</code>, which contains statistics on violent crime rates in the 1970s for 50 U.S. states.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"USArrests"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"USArrests"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Standardize all numeric features before applying <span class="math inline">\(k\)</span>-Means using this R code:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>us_data <span class="ot">&lt;-</span> <span class="fu">scale</span>(USArrests)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>us_data <span class="ot">&lt;-</span> <span class="fu">scale</span>(USArrests)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><strong>Elbow Method</strong></p>
 <ul>
@@ -3306,7 +3325,7 @@ Tip
 <p>Each color in an image can be treated as a data point in RGB space, and clustering reduces the number of colors while preserving the main structure.</p>
 <p><strong>Load and visualize an image.</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(jpeg)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(jpeg)</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -3327,13 +3346,13 @@ Tip
 <span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample only a few thousand pixels to avoid memory explosion</span></span>
 <span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>img_sample <span class="ot">&lt;-</span> img_df <span class="sc">%&gt;%</span> <span class="fu">sample_n</span>(<span class="dv">5000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>img_sample <span class="ot">&lt;-</span> img_df <span class="sc">%&gt;%</span> <span class="fu">sample_n</span>(<span class="dv">5000</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><strong>Determine the optimal number of clusters.</strong></p>
 <p>Apply <span class="math inline">\(k\)</span>-means clustering to the RGB values of the image (<code>img_sample</code>) for <span class="math inline">\(k = 2\)</span> to <span class="math inline">\(10\)</span>, using <code>nstart = 10</code>. Then, use both the <strong>Elbow Method</strong> and the <strong>Silhouette Coefficient</strong> to decide which <span class="math inline">\(k\)</span> gives the best balance between cluster compactness and separation. Do both methods suggest the same number of clusters?</p>
 <p>When you decide about the optimal <span class="math inline">\(k\)</span>, with the following code, you can compare the original and compressed image.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>k <span class="ot">&lt;-</span> <span class="st">'put the optimal value you found'</span></span>
@@ -3352,23 +3371,23 @@ Tip
 <span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">0</span>, <span class="at">type =</span> <span class="st">"n"</span>, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>),</span>
 <span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a><span class="at">xlab =</span> <span class="st">""</span>, <span class="at">ylab =</span> <span class="st">""</span>, <span class="at">axes =</span> <span class="cn">FALSE</span>, <span class="at">main =</span> <span class="fu">paste</span>(<span class="st">"Compressed Image (k ="</span>, k, <span class="st">")"</span>))</span>
-<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a><span class="fu">rasterImage</span>(compressed_img, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a><span class="fu">rasterImage</span>(compressed_img, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
 </div>
 </section>
 </section>
-<section id="k-medoids-clustering" class="level3" data-number="10.3.2">
-<h3 data-number="10.3.2" class="anchored" data-anchor-id="k-medoids-clustering"><span class="header-section-number">10.3.2</span> <span class="math inline">\(K\)</span>-Medoids Clustering</h3>
+<section id="k-medoids-clustering" class="level3" data-number="11.3.2">
+<h3 data-number="11.3.2" class="anchored" data-anchor-id="k-medoids-clustering"><span class="header-section-number">11.3.2</span> <span class="math inline">\(K\)</span>-Medoids Clustering</h3>
 <p>The <span class="math inline">\(k\)</span>-medoids algorithm is a partitioning clustering method closely related to <span class="math inline">\(k\)</span>-means, but instead of using the <em>mean (centroid)</em> of points to represent a cluster, it uses an <em>actual observation (medoid)</em> — the most centrally located data point within that cluster.</p>
 <p>Formally, a medoid is the point whose average dissimilarity to all other points in the cluster is minimal. i.e, <span class="math display">\[
 m_k = \arg\min_{\mathbf{x}_i \in C_k} \sum_{\mathbf{x}_j \in C_k} d(\mathbf{x}_i,\mathbf{x}_j)
 \]</span> where <span class="math inline">\(C_k\)</span> is the set of points assigned to cluster <span class="math inline">\(k\)</span>, and <span class="math inline">\(d(\mathbf{x}_i,\mathbf{x}_j)\)</span> is a chosen distance or dissimilarity measure (e.g., Euclidean, Manhattan, etc.)</p>
 <p><span class="math inline">\(K\)</span>-medoid is a robust alternative to <span class="math inline">\(K\)</span>-means clustering. This means that, the algorithm of clusters to be generated (like in <span class="math inline">\(K\)</span>-means clustering). A useful approach to determine the optimal number of clusters is the <em>silhouette</em> method.</p>
 <p>The most common <span class="math inline">\(K\)</span>-medoids clustering methods is the PAM (Partitioning Around Medoids) algorithm <span class="citation" data-cites="kaufman1990">(<a href="#ref-kaufman1990" role="doc-biblioref">Kaufman and Rousseeuw 1990</a>)</span></p>
-<section id="pam-algorithm" class="level4" data-number="10.3.2.1">
-<h4 data-number="10.3.2.1" class="anchored" data-anchor-id="pam-algorithm"><span class="header-section-number">10.3.2.1</span> PAM Algorithm</h4>
+<section id="pam-algorithm" class="level4" data-number="11.3.2.1">
+<h4 data-number="11.3.2.1" class="anchored" data-anchor-id="pam-algorithm"><span class="header-section-number">11.3.2.1</span> PAM Algorithm</h4>
 <p>The PAM algorithm is based on the search for <span class="math inline">\(K\)</span> representative objects or medoids among the observations of the data set. After finding a set of <span class="math inline">\(K\)</span> medoids, clusters are constructed by assigning each observation to the nearest medoid. Next, each selected medoid <span class="math inline">\(m\)</span> and each non-medoid data point are swapped and the objective function is computed. The objective function corresponds to the sum of the dissimilarities of all objects to their nearest medoid. The <em>SWAP</em> step attemps to improve the quality of the clustering by exchanging selected objects (medoids) and non-selected objects. If the objective function can be reduced by interchanging a selected object with an unselected object, then the swap is carried out. This is continued until the objective function can no longer be decreased. The goal is to find <span class="math inline">\(k\)</span> representative objects which minimize the sum of the dissimilarities of the observations to their closest representative object.</p>
 <p>In summary, PAM algorithm is:</p>
 <ol type="1">
@@ -3408,8 +3427,8 @@ Note
 </div>
 </div>
 </section>
-<section id="example" class="level4" data-number="10.3.2.2">
-<h4 data-number="10.3.2.2" class="anchored" data-anchor-id="example"><span class="header-section-number">10.3.2.2</span> Example</h4>
+<section id="example" class="level4" data-number="11.3.2.2">
+<h4 data-number="11.3.2.2" class="anchored" data-anchor-id="example"><span class="header-section-number">11.3.2.2</span> Example</h4>
 <p>Consider the following example</p>
 <table class="caption-top table">
 <thead>
@@ -3473,7 +3492,7 @@ Note
 </tbody>
 </table>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Dataset (same as your table)</span></span>
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -3483,7 +3502,7 @@ Note
 <span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="at">Y =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">8</span>, <span class="dv">8</span>, <span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">6</span>)</span>
 <span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>points</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>points</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 10 × 3
       ID     X     Y
@@ -3502,7 +3521,7 @@ Note
 </div>
 <p>Assume <span class="math inline">\(k = 2\)</span> and use the specified points (<span class="math inline">\(m_1 = (4,6)\)</span>) and <span class="math inline">\(m_2 = (9,3)\)</span></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Define medoid points</span></span>
 <span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>medoids <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
@@ -3526,7 +3545,7 @@ Note
 <span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a><span class="at">color =</span> <span class="st">"Medoids"</span></span>
 <span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
 <span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a><span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a><span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -3820,7 +3839,7 @@ C_1 + C_2 = (0+1+3+3+3+2) + (2+0+1+2+3) = 19
 \]</span></p>
 <p>the following R code helps to do the computations.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Data</span></span>
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>pts <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tibble</span>(</span>
@@ -3857,7 +3876,7 @@ C_1 + C_2 = (0+1+3+3+3+2) + (2+0+1+2+3) = 19
 <span id="cb20-35"><a href="#cb20-35" aria-hidden="true" tabindex="-1"></a>  <span class="at">updated_total =</span> sum_upd,</span>
 <span id="cb20-36"><a href="#cb20-36" aria-hidden="true" tabindex="-1"></a>  <span class="at">initial_assignments =</span> init_tbl <span class="sc">%&gt;%</span> <span class="fu">select</span>(ID, X, Y, d1, d2, mind, Assign),</span>
 <span id="cb20-37"><a href="#cb20-37" aria-hidden="true" tabindex="-1"></a>  <span class="at">updated_assignments =</span> upd_tbl <span class="sc">%&gt;%</span> <span class="fu">select</span>(ID, X, Y, d1, d2, mind, Assign)</span>
-<span id="cb20-38"><a href="#cb20-38" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb20-38"><a href="#cb20-38" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$initial_total
 [1] 21
@@ -3899,13 +3918,13 @@ $updated_assignments
 <p>Since there is an improvement in the total cost, we continue with the new medoids: <span class="math inline">\((4,6)\)</span> and <span class="math inline">\((8,4)\)</span>.</p>
 <p><strong>Exercise</strong> Continue this process and find the best medoids.</p>
 </section>
-<section id="implementation-pam-in-r" class="level4" data-number="10.3.2.3">
-<h4 data-number="10.3.2.3" class="anchored" data-anchor-id="implementation-pam-in-r"><span class="header-section-number">10.3.2.3</span> Implementation PAM in R</h4>
+<section id="implementation-pam-in-r" class="level4" data-number="11.3.2.3">
+<h4 data-number="11.3.2.3" class="anchored" data-anchor-id="implementation-pam-in-r"><span class="header-section-number">11.3.2.3</span> Implementation PAM in R</h4>
 <p>The function <code>cluster::pam()</code> and <code>fpc::pamk()</code> can be used compute PAM.</p>
 <p>The function <code>pamk()</code> does not require a user to decide the number of clusters <span class="math inline">\(K\)</span>.</p>
 <p>The simplified format of <code>pam()</code> is</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pam</span>(x, k, <span class="at">metric =</span> <span class="st">'euclidean'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pam</span>(x, k, <span class="at">metric =</span> <span class="st">'euclidean'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>where:</p>
 <ul>
@@ -3916,10 +3935,10 @@ $updated_assignments
 </ul>
 <p>Similar to <span class="math inline">\(K\)</span>-means, the following <code>R</code> code computes PAM algorithm</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>pam.res <span class="ot">&lt;-</span> <span class="fu">pam</span>(df, <span class="at">k =</span> <span class="dv">2</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>pam.res <span class="ot">&lt;-</span> <span class="fu">pam</span>(df, <span class="at">k =</span> <span class="dv">2</span>)</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co"># print the results </span></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(pam.res)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(pam.res)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The printed output shows:</p>
 <ul>
@@ -3933,35 +3952,35 @@ $updated_assignments
 </ul>
 <p>These components can be accessed as</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Cluster medoids</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Cluster medoids</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>pam.res<span class="sc">$</span>medoids</span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Cluster numbers</span></span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>pm.res<span class="sc">$</span>clustering</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>pm.res<span class="sc">$</span>clustering</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>To create a beautiful graph of the clusters generated with the <code>pam()</code> function, similar to <span class="math inline">\(K\)</span>-means, the function <code>factoextra::fviz_cluster()</code> can be used as</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_cluster</span>(pam.res,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_cluster</span>(pam.res,</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">palette =</span> <span class="fu">c</span>(<span class="st">"#00AFBB"</span>, <span class="st">"#FC4E07"</span>), <span class="co"># color palette</span></span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">ellipse.type =</span> <span class="st">"t"</span>, <span class="co"># Concentration ellipse</span></span>
 <span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">repel =</span> <span class="cn">TRUE</span>, <span class="co"># Avoid label overplotting (slow)</span></span>
 <span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">ggtheme =</span> <span class="fu">theme_classic</span>()</span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="estimating-the-optimal-number-of-clusters" class="level4" data-number="10.3.2.4">
-<h4 data-number="10.3.2.4" class="anchored" data-anchor-id="estimating-the-optimal-number-of-clusters"><span class="header-section-number">10.3.2.4</span> Estimating the optimal number of clusters</h4>
+<section id="estimating-the-optimal-number-of-clusters" class="level4" data-number="11.3.2.4">
+<h4 data-number="11.3.2.4" class="anchored" data-anchor-id="estimating-the-optimal-number-of-clusters"><span class="header-section-number">11.3.2.4</span> Estimating the optimal number of clusters</h4>
 <p>To estimate the optimal number of clusters, we will use the average silhouette method. The idea is to compute PAM algorithm using different values of clusters <span class="math inline">\(k\)</span>. Next, the average clusters silhouette is drawn according to the number of clusters. The average silhouette measures the quality of a clustering. A high average silhouette width indicates a good clustering. The optimal number of clusters <span class="math inline">\(k\)</span> is the one that maximize the average silhouette over a range of possible values for <span class="math inline">\(k\)</span> <span class="citation" data-cites="kaufman1990">(<a href="#ref-kaufman1990" role="doc-biblioref">Kaufman and Rousseeuw 1990</a>)</span>.</p>
 <p>The R function <code>factoextra::fviz_nbclust()</code> provides a convenient solution to estimate the optimal number of clusters.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cluster)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cluster)</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(factoextra)</span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_nbclust</span>(df, pam, <span class="at">method =</span> <span class="st">"silhouette"</span>)<span class="sc">+</span></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_classic</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="example-of-pam-in-r" class="level4" data-number="10.3.2.5">
-<h4 data-number="10.3.2.5" class="anchored" data-anchor-id="example-of-pam-in-r"><span class="header-section-number">10.3.2.5</span> Example of PAM in R</h4>
+<section id="example-of-pam-in-r" class="level4" data-number="11.3.2.5">
+<h4 data-number="11.3.2.5" class="anchored" data-anchor-id="example-of-pam-in-r"><span class="header-section-number">11.3.2.5</span> Example of PAM in R</h4>
 <p>Here, we apply PAM algoritm to <code>iris</code> dataset and we expect to have similar results to <span class="math inline">\(K\)</span>-means since there is no outlier in this dataset.</p>
 <div id="qwebr-insertion-location-30"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
@@ -3974,8 +3993,8 @@ $updated_assignments
 <div id="qwebr-insertion-location-32"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
-<section id="exercise" class="level4" data-number="10.3.2.6">
-<h4 data-number="10.3.2.6" class="anchored" data-anchor-id="exercise"><span class="header-section-number">10.3.2.6</span> Exercise</h4>
+<section id="exercise" class="level4" data-number="11.3.2.6">
+<h4 data-number="11.3.2.6" class="anchored" data-anchor-id="exercise"><span class="header-section-number">11.3.2.6</span> Exercise</h4>
 <p>The dataset has a mix of numerical, ordinal, and categorical features: <code>Age</code>, <code>Sex</code>, <code>ChestPain</code>, <code>Thal</code>, <code>RestBP</code>, <code>Chol</code>, <code>MaxHR</code>, <code>AHD</code> (disease outcome), etc.</p>
 <p>Do the PAM algorithm for this dataset</p>
 <div id="qwebr-insertion-location-33"></div>
@@ -3983,12 +4002,12 @@ $updated_assignments
 </section>
 </section>
 </section>
-<section id="cluster-validation" class="level2" data-number="10.4">
-<h2 data-number="10.4" class="anchored" data-anchor-id="cluster-validation"><span class="header-section-number">10.4</span> Cluster Validation</h2>
+<section id="cluster-validation" class="level2" data-number="11.4">
+<h2 data-number="11.4" class="anchored" data-anchor-id="cluster-validation"><span class="header-section-number">11.4</span> Cluster Validation</h2>
 <p>The cluster validation consists of measuring the goodness of clustering results.</p>
 <p>Before applying any clustering algorithm to a dataset, the first thing to do is to assess the <em>clustering tendency</em>. That is, whether applying clustering is suitable for the data. If <em>yes</em>, then how many clusters are there. Next, you can perform clustering methods. Finally, you can use a number of measures to evaluate the goodness of the clustering results.</p>
-<section id="assessing-clustering-tendency" class="level3" data-number="10.4.1">
-<h3 data-number="10.4.1" class="anchored" data-anchor-id="assessing-clustering-tendency"><span class="header-section-number">10.4.1</span> Assessing Clustering Tendency</h3>
+<section id="assessing-clustering-tendency" class="level3" data-number="11.4.1">
+<h3 data-number="11.4.1" class="anchored" data-anchor-id="assessing-clustering-tendency"><span class="header-section-number">11.4.1</span> Assessing Clustering Tendency</h3>
 <p>Before applying any clustering method on your data, it is important to evaluate whether the datasets contains meaningful (i.e.&nbsp;non-random structures) or not. If yes, then how many clusters are there. This process is defined as the assessing of clustering tendency or the feasibility of the clustering analysis.</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -4003,15 +4022,15 @@ Important
 <p>A big issue, in cluster analysis, is that clustering methods will return clusters even if the data does not contain any clusters. In other words, if you blindly apply a clustering method on a data set, it will divide the data into clusters because that is what it supposed to do.</p>
 </div>
 </div>
-<section id="methods-for-assessing-clustering-tendency" class="level4" data-number="10.4.1.1">
-<h4 data-number="10.4.1.1" class="anchored" data-anchor-id="methods-for-assessing-clustering-tendency"><span class="header-section-number">10.4.1.1</span> Methods for assessing clustering tendency</h4>
+<section id="methods-for-assessing-clustering-tendency" class="level4" data-number="11.4.1.1">
+<h4 data-number="11.4.1.1" class="anchored" data-anchor-id="methods-for-assessing-clustering-tendency"><span class="header-section-number">11.4.1.1</span> Methods for assessing clustering tendency</h4>
 <p>There are two methods for evaluating the clustering tendency:</p>
 <ul>
 <li>a statistical method like <em>Hopkins statistic</em></li>
 <li>a visual method like <em>Visual Assessment of Cluster Tendency (VAT)</em> algorithm</li>
 </ul>
-<section id="statistical-methods" class="level5" data-number="10.4.1.1.1">
-<h5 data-number="10.4.1.1.1" class="anchored" data-anchor-id="statistical-methods"><span class="header-section-number">10.4.1.1.1</span> Statistical methods</h5>
+<section id="statistical-methods" class="level5" data-number="11.4.1.1.1">
+<h5 data-number="11.4.1.1.1" class="anchored" data-anchor-id="statistical-methods"><span class="header-section-number">11.4.1.1.1</span> Statistical methods</h5>
 <p>The <em>Hopkins statistic</em> is used to assess the clustering tendency of a dataset by measuring the probability that a given dataset is generated by a uniform data distribution. In other words, it tests the spatial randomness of the data.</p>
 <p>Let <span class="math inline">\(D\)</span> be a real dataset. The <em>Hopkins statistic</em> can be calculated as follows:</p>
 <ol type="1">
@@ -4041,7 +4060,7 @@ H = \frac{\sum_{i=1}^n y_i}{\sum_{i=1}^n x_i + \sum_{i=1}^n y_i}
 <div class="callout-body-container">
 <p>The <code>R</code> function <code>hopkins::hopkins()</code> can be used to statistically evaluate clustering tendency. The simplified format is</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hopkins</span>(data, m)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hopkins</span>(data, m)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>where:</p>
 <ul>
@@ -4057,8 +4076,8 @@ H = \frac{\sum_{i=1}^n y_i}{\sum_{i=1}^n x_i + \sum_{i=1}^n y_i}
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>It can be seen that the <code>iris</code> dataset is highly clusterable (the <span class="math inline">\(H\)</span> value = <span class="math inline">\(0.18\)</span> which is far below the threshold <span class="math inline">\(0.5\)</span>). However, the random dataset is not clusterable (<span class="math inline">\(H = 0.5\)</span>).</p>
 </section>
-<section id="visual-methods" class="level5" data-number="10.4.1.1.2">
-<h5 data-number="10.4.1.1.2" class="anchored" data-anchor-id="visual-methods"><span class="header-section-number">10.4.1.1.2</span> Visual methods</h5>
+<section id="visual-methods" class="level5" data-number="11.4.1.1.2">
+<h5 data-number="11.4.1.1.2" class="anchored" data-anchor-id="visual-methods"><span class="header-section-number">11.4.1.1.2</span> Visual methods</h5>
 <p>The algorithm of the visual assessment of cluster tendency (VAT) approach <span class="citation" data-cites="Bezdek2002">(<a href="#ref-Bezdek2002" role="doc-biblioref">Bezdek and Hathaway 2002</a>)</span> is as follow:</p>
 <ol type="1">
 <li>Compute the dissimilarity (DM) matrix between the observations in the dataset using the Euclidean distance meature</li>
@@ -4087,8 +4106,8 @@ H = \frac{\sum_{i=1}^n y_i}{\sum_{i=1}^n x_i + \sum_{i=1}^n y_i}
 </section>
 </section>
 </section>
-<section id="determing-the-optimal-number-of-clusters" class="level3" data-number="10.4.2">
-<h3 data-number="10.4.2" class="anchored" data-anchor-id="determing-the-optimal-number-of-clusters"><span class="header-section-number">10.4.2</span> Determing the optimal number of clusters</h3>
+<section id="determing-the-optimal-number-of-clusters" class="level3" data-number="11.4.2">
+<h3 data-number="11.4.2" class="anchored" data-anchor-id="determing-the-optimal-number-of-clusters"><span class="header-section-number">11.4.2</span> Determing the optimal number of clusters</h3>
 <p><em>Determing the optimal number of clusters in a dataset</em> is a fundamental issue in partitioning clustering, such as <span class="math inline">\(k\)</span>-means clustering, which requires the user to specify the number of clusters <span class="math inline">\(k\)</span> to be generated.</p>
 <p>Unfortunately, there is no definitive answer to this question. The optimal number of clusters is somehow subjective and depends on the method used for measuring similarities and the parameters used for partitioning.</p>
 <p>The methods include direct methods and statistical testing methods:</p>
@@ -4097,8 +4116,8 @@ H = \frac{\sum_{i=1}^n y_i}{\sum_{i=1}^n x_i + \sum_{i=1}^n y_i}
 <li><em>Statistical testing methods</em>: consists of computing evidence against null hypothesis. An example is <em>gap statistic</em></li>
 </ul>
 <p>In addition to <em>elbow</em>, <em>silhouette</em>, and <em>gap statistic</em> methods, there are more than <span class="math inline">\(30\)</span> other indices and methods that have been published for identifying the optimal number of clusters. There are some R codes for computing all these <span class="math inline">\(30\)</span> indices in order to decide the best number of clusters using the ``<em>majority rule</em>”.</p>
-<section id="elbow-method" class="level4" data-number="10.4.2.1">
-<h4 data-number="10.4.2.1" class="anchored" data-anchor-id="elbow-method"><span class="header-section-number">10.4.2.1</span> Elbow method</h4>
+<section id="elbow-method" class="level4" data-number="11.4.2.1">
+<h4 data-number="11.4.2.1" class="anchored" data-anchor-id="elbow-method"><span class="header-section-number">11.4.2.1</span> Elbow method</h4>
 <p>Recall that, the basic idea behind partitioning methods, such as <span class="math inline">\(K\)</span>-means clustering, is to define clusters such that the total intra-cluster variation [or total within-cluster sum of square (WSS)] is minimized. The total WSS measures the compactness of the clustering and we want it to be as small as possible.</p>
 <p>The Elbow method looks at the total WSS as a function of the number of clusters: One should choose a number of clusters so that adding another cluster does not improve much better the total WSS.</p>
 <p>The optimal number of clusters can be defined as follow:</p>
@@ -4122,8 +4141,8 @@ Tip
 </div>
 </div>
 </section>
-<section id="average-silhouette-method" class="level4" data-number="10.4.2.2">
-<h4 data-number="10.4.2.2" class="anchored" data-anchor-id="average-silhouette-method"><span class="header-section-number">10.4.2.2</span> Average silhouette method</h4>
+<section id="average-silhouette-method" class="level4" data-number="11.4.2.2">
+<h4 data-number="11.4.2.2" class="anchored" data-anchor-id="average-silhouette-method"><span class="header-section-number">11.4.2.2</span> Average silhouette method</h4>
 <p>The average silhoutte approach measures the quality of a clustering. That is, it determines how well each observation lies within its cluster. A high average silhouette width indicates a good clustering.</p>
 <p>Average silhouette methods computes the average silhouette of observations for different values of <span class="math inline">\(k\)</span>. The optimal number of clusters <span class="math inline">\(k\)</span> is one that maximize the average silhouette over a range of possible values for <span class="math inline">\(k\)</span> <span class="citation" data-cites="kaufman1990">(<a href="#ref-kaufman1990" role="doc-biblioref">Kaufman and Rousseeuw 1990</a>)</span>.</p>
 <p>The average silhouette method is similar to the <em>elbow</em> method and can be computed as follow:</p>
@@ -4134,9 +4153,9 @@ Tip
 <li>The location of the maximum is considered as the appropraite number of clusters.</li>
 </ol>
 </section>
-<section id="gap-statistic-method" class="level4" data-number="10.4.2.3">
-<h4 data-number="10.4.2.3" class="anchored" data-anchor-id="gap-statistic-method"><span class="header-section-number">10.4.2.3</span> Gap statistic method</h4>
-<p>The <em>gap statistic</em> <span class="citation" data-cites="tibshirani2001gap">(<a href="#ref-tibshirani2001gap" role="doc-biblioref">Tibshirani, Walther, and Hastie 2001</a>)</span> can be applied to any clustering method.</p>
+<section id="gap-statistic-method" class="level4" data-number="11.4.2.3">
+<h4 data-number="11.4.2.3" class="anchored" data-anchor-id="gap-statistic-method"><span class="header-section-number">11.4.2.3</span> Gap statistic method</h4>
+<p>The <em>gap statistic</em> <span class="citation" data-cites="tibshirani2001gap">(<a href="#ref-tibshirani2001gap" role="doc-biblioref">Tibshirani et al. 2001</a>)</span> can be applied to any clustering method.</p>
 <p>The <em>gap statistic</em> compares the total within intra-cluster variation for different values of <span class="math inline">\(k\)</span> with their expected values under null reference distribution of the data. The estimate of the optimal clusters will be value that maximize the gap statistic (i.e., that yields the largest gap statistic). This means that the clustering structure is far away from the random uniform distribution of points.</p>
 <p>The algorithm works as follows:</p>
 <ol type="1">
@@ -4161,8 +4180,8 @@ Note
 </div>
 </div>
 </section>
-<section id="computing-the-number-of-clusters-using-r" class="level4" data-number="10.4.2.4">
-<h4 data-number="10.4.2.4" class="anchored" data-anchor-id="computing-the-number-of-clusters-using-r"><span class="header-section-number">10.4.2.4</span> Computing the number of clusters using R</h4>
+<section id="computing-the-number-of-clusters-using-r" class="level4" data-number="11.4.2.4">
+<h4 data-number="11.4.2.4" class="anchored" data-anchor-id="computing-the-number-of-clusters-using-r"><span class="header-section-number">11.4.2.4</span> Computing the number of clusters using R</h4>
 <p>There are two functions for determing the optimal number of clusters:</p>
 <ol type="1">
 <li><code>factoextra::fviz_nbclust()</code> function: It can be used to compute the three differet methods for any partitioning clustering methods.</li>
@@ -4170,7 +4189,7 @@ Note
 </ol>
 <p>The simplified format is as:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fvix_nbclust</span>(x, FUNcluster, <span class="at">method =</span> <span class="fu">c</span>(<span class="st">'silhouette'</span>, <span class="st">'wss'</span>, <span class="st">'gap_stat'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fvix_nbclust</span>(x, FUNcluster, <span class="at">method =</span> <span class="fu">c</span>(<span class="st">'silhouette'</span>, <span class="st">'wss'</span>, <span class="st">'gap_stat'</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>where:</p>
 <ul>
@@ -4207,7 +4226,7 @@ Note
 </div>
 <p>The simplified format of the function <code>NBClust()</code> is</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">NbClust</span>(<span class="at">data =</span> <span class="cn">NULL</span>, <span class="at">diss =</span> <span class="cn">NULL</span>, <span class="at">distance =</span> <span class="st">'euclidean'</span>, <span class="at">min.nc =</span> <span class="dv">2</span>, <span class="at">max.nc =</span> <span class="dv">15</span>, <span class="at">method =</span> <span class="cn">NULL</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">NbClust</span>(<span class="at">data =</span> <span class="cn">NULL</span>, <span class="at">diss =</span> <span class="cn">NULL</span>, <span class="at">distance =</span> <span class="st">'euclidean'</span>, <span class="at">min.nc =</span> <span class="dv">2</span>, <span class="at">max.nc =</span> <span class="dv">15</span>, <span class="at">method =</span> <span class="cn">NULL</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>where: - <code>data</code>: matrix - <code>diss</code>: dissimilarity matrix to be used. By default, <code>diss=NULL</code>, but if it is replaced by a dissimilarity matrix, distance should be <code>NULL</code> - <code>distance</code>: the distance measure to be used to compute the dissimilarity matrix. Possible values include <code>"euclidean"</code>, <code>"manhattan"</code> or <code>NULL</code>. - <code>min.nc</code> and <code>max.nc</code>: minimal and maximal number of clusters, respectively. - <code>method</code>: The cluster analysis method to be used including <code>"ward.D"</code>, <code>"ward.D2"</code>, <code>"single"</code>, <code>"complete"</code>, <code>"average"</code>, <code>"kmeans"</code>, and more.</p>
 <p>To compute <code>NbClust()</code> for <span class="math inline">\(k\)</span>-means, use <code>method = "kmeans"</code>.</p>
@@ -4217,8 +4236,8 @@ Note
 <p>Based on this output, the best number of clusters is <span class="math inline">\(2\)</span>.</p>
 </section>
 </section>
-<section id="cluster-validation-statistics" class="level3" data-number="10.4.3">
-<h3 data-number="10.4.3" class="anchored" data-anchor-id="cluster-validation-statistics"><span class="header-section-number">10.4.3</span> Cluster Validation Statistics</h3>
+<section id="cluster-validation-statistics" class="level3" data-number="11.4.3">
+<h3 data-number="11.4.3" class="anchored" data-anchor-id="cluster-validation-statistics"><span class="header-section-number">11.4.3</span> Cluster Validation Statistics</h3>
 <p>The term <em>cluster validation</em> is used to design the procedure of evaluating the goodness of clustering algorithm results. This is important to avoid finding patterns in a random data, as well as, in the situation where you want to compare two clustering algorithms.</p>
 <p>Based on <span class="citation" data-cites="theodoridis2008pattern">Theodoridis and Koutroumbas (<a href="#ref-theodoridis2008pattern" role="doc-biblioref">2008</a>)</span>, <span class="citation" data-cites="brock2008clvalid">Brock et al. (<a href="#ref-brock2008clvalid" role="doc-biblioref">2008</a>)</span>, <span class="citation" data-cites="charrad2014nbclust">Charrad et al. (<a href="#ref-charrad2014nbclust" role="doc-biblioref">2014</a>)</span>; clustering validation statistics can be categorized into <span class="math inline">\(3\)</span> classes:</p>
 <ol type="1">
@@ -4226,8 +4245,8 @@ Note
 <li><strong>External cluster validation</strong>, which consists of comparing the results of a clutser analsis to an externally known result, such as externally provided class labels. It measures the extent to which cluster labels match externally supplied class labels. Since we know the “true” cluster number in advance, this approach is mainly used for selecting the right clustering algorithm for a specific data set.</li>
 <li><strong>Relative cluster validation</strong>, which evaluates the clustering structure by varying different parameter values for the same algorithm (e.g.,: varying the number of clusters <span class="math inline">\(k\)</span>). It is generally used for determining the optimal number of clusters.</li>
 </ol>
-<section id="internal-measures-for-cluster-validation" class="level4" data-number="10.4.3.1">
-<h4 data-number="10.4.3.1" class="anchored" data-anchor-id="internal-measures-for-cluster-validation"><span class="header-section-number">10.4.3.1</span> Internal measures for cluster validation</h4>
+<section id="internal-measures-for-cluster-validation" class="level4" data-number="11.4.3.1">
+<h4 data-number="11.4.3.1" class="anchored" data-anchor-id="internal-measures-for-cluster-validation"><span class="header-section-number">11.4.3.1</span> Internal measures for cluster validation</h4>
 <p>Recall that the goal of partitioning algoritms is to split the dataset into clusters of observations, such that:</p>
 <ul>
 <li>the observations in the same cluster are similar as much as possible</li>
@@ -4255,8 +4274,8 @@ Note
 <li>the <em>Dunn index</em></li>
 </ul>
 <p>These internal measure can be used also to determine the <em>optimal number of clusters</em> in the data.</p>
-<section id="silhouette-coefficient-1" class="level5" data-number="10.4.3.1.1">
-<h5 data-number="10.4.3.1.1" class="anchored" data-anchor-id="silhouette-coefficient-1"><span class="header-section-number">10.4.3.1.1</span> Silhouette coefficient</h5>
+<section id="silhouette-coefficient-1" class="level5" data-number="11.4.3.1.1">
+<h5 data-number="11.4.3.1.1" class="anchored" data-anchor-id="silhouette-coefficient-1"><span class="header-section-number">11.4.3.1.1</span> Silhouette coefficient</h5>
 <p>The silhouette analysis measures how well an observation is clustered and it estimates the <em>average distance between clusters</em>. The silhouette plot displays a measure of how close each point in one cluster is to points in the neighboring clusters.</p>
 <p>For each observation <span class="math inline">\(\mathbf{x}_i\)</span>, the silhouette width <span class="math inline">\(s_i\)</span> is calculated as follows:</p>
 <ol type="1">
@@ -4273,8 +4292,8 @@ S_i = \frac{b_i - a_i}{\max(a_i, b_i)}
 <li>Observations with a negative <span class="math inline">\(S_i\)</span> are probably placed in the wrong cluster.</li>
 </ul>
 </section>
-<section id="dunn-index" class="level5" data-number="10.4.3.1.2">
-<h5 data-number="10.4.3.1.2" class="anchored" data-anchor-id="dunn-index"><span class="header-section-number">10.4.3.1.2</span> Dunn Index</h5>
+<section id="dunn-index" class="level5" data-number="11.4.3.1.2">
+<h5 data-number="11.4.3.1.2" class="anchored" data-anchor-id="dunn-index"><span class="header-section-number">11.4.3.1.2</span> Dunn Index</h5>
 <p>The <em>Dunn index</em> is another internal clustering validation measure which can be computed as follow:</p>
 <ol type="1">
 <li>For each cluster, compute the distance between each of the observations in the cluster and the observations in the other clusters</li>
@@ -4300,8 +4319,8 @@ Important
 </div>
 </section>
 </section>
-<section id="external-measures-for-clustering-validation" class="level4" data-number="10.4.3.2">
-<h4 data-number="10.4.3.2" class="anchored" data-anchor-id="external-measures-for-clustering-validation"><span class="header-section-number">10.4.3.2</span> External measures for clustering validation</h4>
+<section id="external-measures-for-clustering-validation" class="level4" data-number="11.4.3.2">
+<h4 data-number="11.4.3.2" class="anchored" data-anchor-id="external-measures-for-clustering-validation"><span class="header-section-number">11.4.3.2</span> External measures for clustering validation</h4>
 <p>The aim is to compare the udentified clusters (e.g.&nbsp;by <span class="math inline">\(k\)</span>-means, PAM, etc.) to an external reference.</p>
 <p>It is possible to quantify the agreement between partitioning clusters and external reference using either the corrected <em>Rand index</em> and <em>Meila’s variation index VI</em>, which are implemented in R function <code>fpc::cluster.stats()</code>.</p>
 <p>The corrected <em>Rand index</em> varies from <span class="math inline">\(-1\)</span> (no agreement) to <span class="math inline">\(1\)</span> (perfect agreement).</p>
@@ -4319,8 +4338,8 @@ Note
 </div>
 </div>
 </section>
-<section id="implementation-in-r" class="level4" data-number="10.4.3.3">
-<h4 data-number="10.4.3.3" class="anchored" data-anchor-id="implementation-in-r"><span class="header-section-number">10.4.3.3</span> Implementation in R</h4>
+<section id="implementation-in-r" class="level4" data-number="11.4.3.3">
+<h4 data-number="11.4.3.3" class="anchored" data-anchor-id="implementation-in-r"><span class="header-section-number">11.4.3.3</span> Implementation in R</h4>
 <p>The main package for computing clustering validation statistics is <code>fpc</code>.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -4344,7 +4363,7 @@ Tip
 </div>
 <p>The simplified format of the <code>eclust()</code> function is:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">eclust</span>(x, <span class="at">FUNcluster =</span> <span class="st">'kmeans'</span>, <span class="at">hc_metric =</span> <span class="st">'euclidean'</span>, ...)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">eclust</span>(x, <span class="at">FUNcluster =</span> <span class="st">'kmeans'</span>, <span class="at">hc_metric =</span> <span class="st">'euclidean'</span>, ...)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>where:</p>
 <ul>
@@ -4366,10 +4385,10 @@ Tip
 <div id="qwebr-insertion-location-41"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
-<section id="cluster-validation-1" class="level4" data-number="10.4.3.4">
-<h4 data-number="10.4.3.4" class="anchored" data-anchor-id="cluster-validation-1"><span class="header-section-number">10.4.3.4</span> Cluster validation</h4>
-<section id="silhouette-plot" class="level5" data-number="10.4.3.4.1">
-<h5 data-number="10.4.3.4.1" class="anchored" data-anchor-id="silhouette-plot"><span class="header-section-number">10.4.3.4.1</span> Silhouette plot</h5>
+<section id="cluster-validation-1" class="level4" data-number="11.4.3.4">
+<h4 data-number="11.4.3.4" class="anchored" data-anchor-id="cluster-validation-1"><span class="header-section-number">11.4.3.4</span> Cluster validation</h4>
+<section id="silhouette-plot" class="level5" data-number="11.4.3.4.1">
+<h5 data-number="11.4.3.4.1" class="anchored" data-anchor-id="silhouette-plot"><span class="header-section-number">11.4.3.4.1</span> Silhouette plot</h5>
 <p>Recall that the silhouette coefficient (<span class="math inline">\(S_i\)</span>) measures how similar an observation <span class="math inline">\(\mathbf{x}_i\)</span> is to the other observations in its own cluster versus those in the neighbor cluster. <span class="math inline">\(S_i\)</span> values range from <span class="math inline">\(1\)</span> to <span class="math inline">\(-1\)</span>:</p>
 <ul>
 <li>A value of <span class="math inline">\(S_i\)</span> close to <span class="math inline">\(1\)</span> indicates that the observation is well clustered. In the other words, the observation <span class="math inline">\(\mathbf{x}_i\)</span> is similar to the other observations in its group.</li>
@@ -4384,12 +4403,12 @@ Tip
 <div id="qwebr-insertion-location-44"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
-<section id="computing-dunn-index-and-other-cluster-validation-statistics" class="level5" data-number="10.4.3.4.2">
-<h5 data-number="10.4.3.4.2" class="anchored" data-anchor-id="computing-dunn-index-and-other-cluster-validation-statistics"><span class="header-section-number">10.4.3.4.2</span> Computing Dunn index and other cluster validation statistics</h5>
+<section id="computing-dunn-index-and-other-cluster-validation-statistics" class="level5" data-number="11.4.3.4.2">
+<h5 data-number="11.4.3.4.2" class="anchored" data-anchor-id="computing-dunn-index-and-other-cluster-validation-statistics"><span class="header-section-number">11.4.3.4.2</span> Computing Dunn index and other cluster validation statistics</h5>
 <p>The function <code>fpc::cluster.stats()</code> and the function <code>NbClust::NbClust()</code> can be used to compute <em>Dunn index</em> and many other indices.</p>
 <p>The simplified format is</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cluster.stats</span>(<span class="at">d =</span> <span class="cn">NULL</span>, clustering, <span class="at">al.clustering =</span> <span class="cn">NULL</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cluster.stats</span>(<span class="at">d =</span> <span class="cn">NULL</span>, clustering, <span class="at">al.clustering =</span> <span class="cn">NULL</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>where: - <code>d</code>: a distance object between cases as generated by the <code>dist()</code> function - <code>clustering</code>: vector containing the cluster number of each observation - <code>alt.clustering</code>: vector such as for clustering, indicating an alternative clustering</p>
 <p>The function <code>cluster.stats()</code> returns a list containing many components useful for analyzing the intrinsic characteristics of a clustering:</p>
@@ -4406,7 +4425,7 @@ Tip
 </ul>
 <p>The clustering quality statistic for <span class="math inline">\(k\)</span>-means can be computed. Look at the <strong>within.cluster.ss</strong> (within clusters sum of squares), the <strong>average.within</strong> (average distance within clusters) and <strong>clus.avg.silwidths</strong> (vector of cluster average silhouette widths).</p>
 <div class="cell" data-autorun="true" data-messages="false" data-warnings="false">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fpc)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fpc)</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>df_iris <span class="ot">&lt;-</span> iris[, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]</span>
 <span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="co"># standardize the dataset</span></span>
@@ -4417,15 +4436,15 @@ Tip
 <span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Statistics for k-means clustering</span></span>
 <span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>km_stats <span class="ot">&lt;-</span> <span class="fu">cluster.stats</span>(<span class="fu">dist</span>(df_iris_scaled), km.res<span class="sc">$</span>cluster)</span>
 <span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Dun index</span></span>
-<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>km_stats<span class="sc">$</span>dunn</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>km_stats<span class="sc">$</span>dunn</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.02649665</code></pre>
 </div>
 </div>
 </section>
 </section>
-<section id="external-clustering-validation" class="level4" data-number="10.4.3.5">
-<h4 data-number="10.4.3.5" class="anchored" data-anchor-id="external-clustering-validation"><span class="header-section-number">10.4.3.5</span> External clustering validation</h4>
+<section id="external-clustering-validation" class="level4" data-number="11.4.3.5">
+<h4 data-number="11.4.3.5" class="anchored" data-anchor-id="external-clustering-validation"><span class="header-section-number">11.4.3.5</span> External clustering validation</h4>
 <p>Among the values returned by the function <code>cluster.stats()</code>, there are two indexes to assess the similarity of two clustering, namely the corrected Rand index and Meila’s VI.</p>
 <p>We know that the <code>iris</code> data contains exactly <span class="math inline">\(3\)</span> groups of species. <em>Does the <span class="math inline">\(k\)</span>-means clustering matches with the true structure of the data?</em> We can use the function <code>cluster.stats()</code> to answer to this question.</p>
 <p>Let start by computing a cross-tabulation between <span class="math inline">\(k\)</span>-means clusters and the reference Species labels:</p>
@@ -4434,7 +4453,7 @@ Tip
 <p>It can be seen that: - All setosa species (<span class="math inline">\(n = 50\)</span>) has been classified in cluster 1. - A large number of versicolor species (<span class="math inline">\(n = 39\)</span>) has been classified in cluster 3. Some of them (<span class="math inline">\(n = 11\)</span>) have been classified in cluster 2. - A large number of virginica species (<span class="math inline">\(n = 36\)</span>) has been classified in cluster 2. Some of them (<span class="math inline">\(n = 14\)</span>) have been classified in cluster 3. It is possible to quantify the agreement between Species and <span class="math inline">\(k\)</span>-means clusters</p>
 <p>It is possible to quantify the agreement between Species and <span class="math inline">\(k\)</span>-means clusters using either the corrected Rand index and Meila’s VI provided as follow:</p>
 <div class="cell" data-autorun="true" data-messages="false" data-warnings="false">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"fpc"</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"fpc"</span>)</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>df_iris <span class="ot">&lt;-</span> iris[, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]</span>
 <span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="co"># standardize the dataset</span></span>
@@ -4447,12 +4466,12 @@ Tip
 <span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>clust_stats <span class="ot">&lt;-</span> <span class="fu">cluster.stats</span>(<span class="at">d =</span> <span class="fu">dist</span>(df_iris_scaled),</span>
 <span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>species, km.res<span class="sc">$</span>cluster)</span>
 <span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Corrected Rand index</span></span>
-<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a>clust_stats<span class="sc">$</span>corrected.rand</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a>clust_stats<span class="sc">$</span>corrected.rand</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.6201352</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># VI</span></span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>clust_stats<span class="sc">$</span>vi</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># VI</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>clust_stats<span class="sc">$</span>vi</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.7477749</code></pre>
 </div>
@@ -4472,10 +4491,10 @@ Important
 </div>
 <p>The same analysis can be computed for PAM clustering</p>
 <div class="cell" data-messages="false" data-warnings="false">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"fpc"</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"fpc"</span>)</span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Agreement between species and pam clusters</span></span>
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>pam.res <span class="ot">&lt;-</span> <span class="fu">eclust</span>(df_iris_scaled, <span class="st">"pam"</span>, <span class="at">k =</span> <span class="dv">3</span>, <span class="at">graph =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(iris<span class="sc">$</span>Species, pam.res<span class="sc">$</span>cluster)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(iris<span class="sc">$</span>Species, pam.res<span class="sc">$</span>cluster)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>            
               1  2  3
@@ -4483,19 +4502,19 @@ Important
   versicolor  0  9 41
   virginica   0 36 14</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cluster.stats</span>(<span class="at">d =</span> <span class="fu">dist</span>(df_iris_scaled),</span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>species, pam.res<span class="sc">$</span>cluster)<span class="sc">$</span>vi</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cluster.stats</span>(<span class="at">d =</span> <span class="fu">dist</span>(df_iris_scaled),</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>species, pam.res<span class="sc">$</span>cluster)<span class="sc">$</span>vi</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.7129034</code></pre>
 </div>
 </div>
 </section>
 </section>
-<section id="choosing-the-best-clustering-algorithms" class="level3" data-number="10.4.4">
-<h3 data-number="10.4.4" class="anchored" data-anchor-id="choosing-the-best-clustering-algorithms"><span class="header-section-number">10.4.4</span> Choosing the Best Clustering Algorithms</h3>
+<section id="choosing-the-best-clustering-algorithms" class="level3" data-number="11.4.4">
+<h3 data-number="11.4.4" class="anchored" data-anchor-id="choosing-the-best-clustering-algorithms"><span class="header-section-number">11.4.4</span> Choosing the Best Clustering Algorithms</h3>
 <p>Choosing the best clustering method for a given data can be a hard task for the analyst. This article describes the R package clValid <span class="citation" data-cites="brock2008clvalid">(<a href="#ref-brock2008clvalid" role="doc-biblioref">Brock et al. 2008</a>)</span>, which can be used to compare simultaneously multiple clustering algorithms in a single function call for identifying the best clustering approach and the optimal number of clusters.</p>
-<section id="measures-for-comparing-clustering-algorithms" class="level4" data-number="10.4.4.1">
-<h4 data-number="10.4.4.1" class="anchored" data-anchor-id="measures-for-comparing-clustering-algorithms"><span class="header-section-number">10.4.4.1</span> Measures for comparing clustering algorithms</h4>
+<section id="measures-for-comparing-clustering-algorithms" class="level4" data-number="11.4.4.1">
+<h4 data-number="11.4.4.1" class="anchored" data-anchor-id="measures-for-comparing-clustering-algorithms"><span class="header-section-number">11.4.4.1</span> Measures for comparing clustering algorithms</h4>
 <p>The <code>clValid</code> package compares clustering algorithms using two cluster validation measures:</p>
 <ol type="1">
 <li><em>Internal measures</em>, which uses intrinsic information in the data to assess the quality of the clustering. Internal measures include the connectivity, the silhouette coefficient and the Dunn index.</li>
@@ -4542,11 +4561,11 @@ Note
 </div>
 </div>
 </section>
-<section id="compare-clustering-algorithms-in-r" class="level4" data-number="10.4.4.2">
-<h4 data-number="10.4.4.2" class="anchored" data-anchor-id="compare-clustering-algorithms-in-r"><span class="header-section-number">10.4.4.2</span> Compare clustering algorithms in R</h4>
+<section id="compare-clustering-algorithms-in-r" class="level4" data-number="11.4.4.2">
+<h4 data-number="11.4.4.2" class="anchored" data-anchor-id="compare-clustering-algorithms-in-r"><span class="header-section-number">11.4.4.2</span> Compare clustering algorithms in R</h4>
 <p>The simplified format of function <code>cvlValid::clVaild()</code> is:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">clVaild</span>(obj, nClust, <span class="at">clMethods =</span> <span class="st">'kmeans'</span>, <span class="at">validation =</span> <span class="st">'stability'</span>, <span class="at">maxitems =</span> <span class="dv">600</span>, <span class="at">metric =</span> <span class="st">"euclidean"</span>, <span class="at">method =</span> <span class="st">"average"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">clVaild</span>(obj, nClust, <span class="at">clMethods =</span> <span class="st">'kmeans'</span>, <span class="at">validation =</span> <span class="st">'stability'</span>, <span class="at">maxitems =</span> <span class="dv">600</span>, <span class="at">metric =</span> <span class="st">"euclidean"</span>, <span class="at">method =</span> <span class="st">"average"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>where:</p>
 <ul>
@@ -4572,13 +4591,13 @@ Note
 </section>
 </section>
 </section>
-<section id="references" class="level2" data-number="10.5">
-<h2 data-number="10.5" class="anchored" data-anchor-id="references"><span class="header-section-number">10.5</span> References</h2>
+<section id="references" class="level2" data-number="11.5">
+<h2 data-number="11.5" class="anchored" data-anchor-id="references"><span class="header-section-number">11.5</span> References</h2>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
 <div id="ref-Bezdek2002" class="csl-entry" role="listitem">
-Bezdek, J. C., and R. J. Hathaway. 2002. <span>“VAT: A Tool for Visual Assessment of (Cluster) Tendency.”</span> In <em>Proceedings of the 2002 International Joint Conference on Neural Networks. IJCNN’02 (Cat. No.02CH37290)</em>, 3:2225–30.
+Bezdek, J. C., and R. J. Hathaway. 2002. <span>“VAT: A Tool for Visual Assessment of (Cluster) Tendency.”</span> <em>Proceedings of the 2002 International Joint Conference on Neural Networks. IJCNN’02 (Cat. No.02CH37290)</em> 3: 2225–30.
 </div>
 <div id="ref-brock2008clvalid" class="csl-entry" role="listitem">
 Brock, Guy, Vasyl Pihur, Susmita Datta, and Somnath Datta. 2008. <span>“clValid: An r Package for Cluster Validation.”</span> <em>Journal of Statistical Software</em> 25 (4): 1–22. <a href="https://doi.org/10.18637/jss.v025.i04">https://doi.org/10.18637/jss.v025.i04</a>.
@@ -4593,13 +4612,13 @@ Gower, J. C. 1971. <span>“A General Coefficient of Similarity and Some of Its 
 Hartigan, John A., and Manchek A. Wong. 1979. <span>“A <span>K</span>-Means Clustering Algorithm.”</span> <em>Applied Statistics</em> 28: 100–108.
 </div>
 <div id="ref-kaufman1990" class="csl-entry" role="listitem">
-Kaufman, Leonard, and Peter J. Rousseeuw. 1990. <em>Finding Groups in Data: An Introduction to Cluster Analysis</em>. New York: Wiley.
+Kaufman, Leonard, and Peter J. Rousseeuw. 1990. <em>Finding Groups in Data: An Introduction to Cluster Analysis</em>. Wiley.
 </div>
 <div id="ref-macqueen1967" class="csl-entry" role="listitem">
-MacQueen, J. 1967. <span>“Some Methods for Classification and Analysis of Multivariate Observations.”</span> In <em>Proceedings of the Fifth Berkeley Symposium on Mathematical Statistics and Probability</em>, edited by L. M. Le Cam and J. Neyman, 1:281–97. Berkeley, CA: University of California Press.
+MacQueen, J. 1967. <span>“Some Methods for Classification and Analysis of Multivariate Observations.”</span> In <em>Proceedings of the Fifth Berkeley Symposium on Mathematical Statistics and Probability</em>, edited by L. M. Le Cam and J. Neyman, vol. 1. University of California Press.
 </div>
 <div id="ref-theodoridis2008pattern" class="csl-entry" role="listitem">
-Theodoridis, Sergios, and Konstantinos Koutroumbas. 2008. <em>Pattern Recognition</em>. 4th ed. Amsterdam, Netherlands: Academic Press.
+Theodoridis, Sergios, and Konstantinos Koutroumbas. 2008. <em>Pattern Recognition</em>. 4th ed. Academic Press.
 </div>
 <div id="ref-tibshirani2001gap" class="csl-entry" role="listitem">
 Tibshirani, Robert, Guenther Walther, and Trevor Hastie. 2001. <span>“Estimating the Number of Data Clusters via the Gap Statistic.”</span> <em>Journal of the Royal Statistical Society: Series B (Statistical Methodology)</em> 63 (2): 411–23.
@@ -4659,13 +4678,14 @@ Tibshirani, Robert, Guenther Walther, and Trevor Hastie. 2001. <span>“Estimati
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
@@ -5009,13 +5029,13 @@ Tibshirani, Robert, Guenther Walther, and Trevor Hastie. 2001. <span>“Estimati
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../chapters/Decision_trees.html" class="pagination-link" aria-label="Decision Trees">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Decision Trees</span></span>
+      <a href="../chapters/pca.html" class="pagination-link" aria-label="Principal Component Analysis">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Principal Component Analysis</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="../chapters/clustering_projects.html" class="pagination-link" aria-label="Projects">
-        <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Projects</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Projects</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

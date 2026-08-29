@@ -1,0 +1,1308 @@
+---
+engine: knitr
+filters:
+  - webr
+---
+
+```{r setup, include=FALSE}
+required_packages <- c("ggplot2", "dplyr", "factoextra", "corrplot", "gridExtra", "tibble")
+
+for (pkg in required_packages) {
+  if (!require(pkg, character.only = TRUE)) {
+    install.packages(pkg, repos = "https://cloud.r-project.org")
+    library(pkg, character.only = TRUE)
+  }
+}
+```
+
+# Principal Component Analysis
+
+*Principal Component Analysis* (PCA) is a technique used to replace a set of correlated variables by a smaller set of new, uncorrelated variables — the *principal components* — that retain as much of the original variability as possible.
+
+Where clustering looks for structure among the **rows** of a data set (which clients resemble each other?), PCA looks for structure among the **columns** (which variables carry the same information?). The two questions are complementary, and in practice PCA is very often the step that comes *before* clustering or classification.
+
+PCA was introduced by @pearson1901 as a problem of fitting lines and planes to a cloud of points, and developed in its modern statistical form by @hotelling1933. A comprehensive treatment is given by @jolliffe2002.
+
+## Why Reduce Dimension?
+
+A retail bank stores dozens — often hundreds — of numeric attributes per client: balances across several account types, transaction counts by channel, credit exposure, tenure, product holdings, contact history. An insurer stores a similar volume per policy. Working with all of them at once creates four practical difficulties.
+
+**Redundancy**
+
+Many variables measure the same underlying thing. A client's income, current-account balance, savings balance, investment holdings and credit limit are all partial views of a single unobserved quantity we might call *affluence*. Keeping five columns to describe one construct adds noise, not information.
+
+**Multicollinearity**
+
+Strongly correlated predictors destabilise regression models: coefficients become large, sign-flipped and highly sensitive to small changes in the sample. Because principal components are *uncorrelated by construction*, they offer one way out of this problem.
+
+**Visualisation**
+
+We can look at a scatterplot of two variables, and with effort at a matrix of pairwise plots for five or six. We cannot look at a thirteen-dimensional cloud. PCA gives us the best possible two-dimensional "photograph" of that cloud, in a precise sense defined below.
+
+**The cost of dimension**
+
+Distances, densities and neighbourhoods behave badly in high dimension — the phenomenon usually called the *curse of dimensionality*. Since $k$-means, $k$-medoids and $k$-nearest-neighbours all rest on distances, reducing dimension first often improves both their speed and their results.
+
+:::{.callout-note}
+PCA does **not** select a subset of the original variables. It builds *new* variables, each one a weighted combination of all the originals. If your goal is to discard columns and keep the rest (for example, because measuring each variable is expensive), PCA is the wrong tool — you want variable selection instead.
+:::
+
+### Applications in Banking and Insurance
+
+**Client segmentation**
+
+Reducing a wide client table to two or three interpretable axes — affluence, digital engagement, credit strain — and then clustering on those axes rather than on the raw variables.
+
+**Credit and behavioural scoring**
+
+Compressing correlated bureau and transaction variables into orthogonal components before fitting a scorecard, so that coefficient estimates remain stable.
+
+**Yield-curve and market-risk modelling**
+
+The classic financial application: applied to daily changes in interest rates across maturities, PCA almost always returns three components interpretable as *level*, *slope* and *curvature*, which together explain over 95% of yield-curve movement. Risk systems hedge these three factors instead of every maturity separately.
+
+**Insurance portfolio analysis**
+
+Summarising policyholder and claims characteristics (exposure, frequency, severity, coverage limits, bonus-malus level) into a small number of risk dimensions for tariff analysis or reinsurance decisions.
+
+**Fraud and anomaly detection**
+
+An observation that is poorly reconstructed from the first few components — that is, one lying far from the low-dimensional subspace where ordinary clients live — is a natural candidate for investigation.
+
+**Questionnaire and survey analysis**
+
+Identifying the latent dimensions behind a battery of customer-satisfaction items, which are typically far more numerous than the concepts they measure.
+
+## The Data: A Retail Bank Client Portfolio
+
+Throughout this chapter we work with a simulated portfolio of $600$ retail bank clients. The data are generated rather than downloaded so that every result in this chapter is exactly reproducible in your browser, but the variables, their units and their correlation structure are typical of a real retail banking table.
+
+| Variable | Type | Description | Unit |
+|:------------------|:---------|:-----------------------------------|:---------|
+| `client_id` | id | Anonymised client identifier | — |
+| `age` | numeric | Age of the client | years |
+| `tenure` | numeric | Time as a client of the bank | years |
+| `income` | numeric | Declared annual net income | € |
+| `balance_current` | numeric | Average balance, current account | € |
+| `balance_savings` | numeric | Average balance, savings products | € |
+| `investments` | numeric | Value of investment holdings | € |
+| `credit_limit` | numeric | Total credit-card limit granted | € |
+| `utilization` | numeric | Share of the credit limit in use | % |
+| `loan_balance` | numeric | Outstanding loan and mortgage debt | € |
+| `card_tx` | numeric | Card transactions per month | count |
+| `mobile_logins` | numeric | Mobile-app logins per month | count |
+| `branch_visits` | numeric | Branch visits per year | count |
+| `missed_payments` | numeric | Missed payments in the last 24 months | count |
+| `segment` | factor | Commercial segment: Mass / Affluent / Private | — |
+| `region` | factor | Region of residence | — |
+| `churn` | factor | Client closed the relationship in the last year | — |
+
+The code below creates the data set. Run it once: every interactive box in this chapter uses the object `bank` that it leaves behind.
+
+```{r}
+#| label: generate-bank
+#| echo: false
+#| message: false
+#| warning: false
+
+set.seed(2025)
+n <- 600
+
+W <- rnorm(n)                     # latent affluence
+A <- rnorm(n)                     # latent life stage
+D <- 0.80 * rnorm(n) - 0.45 * A   # latent digital propensity
+R <- rnorm(n)                     # latent credit risk
+
+age    <- round(pmin(pmax(rnorm(n, 45 + 12 * A + 2 * W, 4), 19), 84))
+tenure <- round(pmin(pmax(rnorm(n, (age - 18) * 0.32 + 1.5 * A, 3), 0.5), 40), 1)
+
+income          <- round(exp(rnorm(n, log(26000) + 0.45 * W, 0.30)), -2)
+balance_current <- round(exp(rnorm(n, log(2800)  + 0.55 * W + 0.10 * D, 0.60)), -1)
+balance_savings <- round(exp(rnorm(n, log(11000) + 0.90 * W + 0.25 * A, 0.70)), -1)
+investments     <- round(exp(rnorm(n, log(4500)  + 1.25 * W + 0.20 * A, 1.00)), -1)
+credit_limit    <- round(exp(rnorm(n, log(3000)  + 0.60 * W, 0.40)), -2)
+utilization     <- round(pmin(pmax(rnorm(n, 34 + 17 * R - 6 * W, 9), 0), 100), 1)
+loan_balance    <- round(exp(rnorm(n, log(14000) + 0.55 * R + 0.40 * W, 0.80)), -2)
+card_tx         <- rpois(n, exp(log(24) + 0.45 * D + 0.15 * W))
+mobile_logins   <- rpois(n, exp(log(16) + 0.60 * D))
+branch_visits   <- rpois(n, exp(log(5)  - 0.70 * D + 0.15 * A))
+missed_payments <- pmin(rpois(n, exp(log(0.6) + 0.80 * R - 0.30 * W)), 12)
+
+wealth_score <- 0.5 * scale(log(income)) + 0.5 * scale(log(investments + 1))
+segment <- cut(wealth_score,
+               breaks = quantile(wealth_score, c(0, .60, .90, 1)),
+               labels = c("Mass", "Affluent", "Private"),
+               include.lowest = TRUE)
+region  <- factor(sample(c("Norte", "Centro", "Lisboa", "Sul"), n,
+                         TRUE, c(.28, .22, .35, .15)))
+eta     <- -1.6 - 0.9 * D + 0.6 * R
+churn   <- factor(ifelse(runif(n) < 1 / (1 + exp(-eta)), "Yes", "No"),
+                  levels = c("No", "Yes"))
+
+bank <- data.frame(client_id = sprintf("C%04d", 1:n),
+                   age, tenure, income, balance_current, balance_savings,
+                   investments, credit_limit, utilization, loan_balance,
+                   card_tx, mobile_logins, branch_visits, missed_payments,
+                   segment, region, churn)
+
+num_vars <- c("age", "tenure", "income", "balance_current", "balance_savings",
+              "investments", "credit_limit", "utilization", "loan_balance",
+              "card_tx", "mobile_logins", "branch_visits", "missed_payments")
+```
+
+```{webr-r}
+#| label: generate-bank-webr
+#| autorun: true
+
+set.seed(2025)
+n <- 600
+
+W <- rnorm(n)                     # latent affluence
+A <- rnorm(n)                     # latent life stage
+D <- 0.80 * rnorm(n) - 0.45 * A   # latent digital propensity
+R <- rnorm(n)                     # latent credit risk
+
+age    <- round(pmin(pmax(rnorm(n, 45 + 12 * A + 2 * W, 4), 19), 84))
+tenure <- round(pmin(pmax(rnorm(n, (age - 18) * 0.32 + 1.5 * A, 3), 0.5), 40), 1)
+
+income          <- round(exp(rnorm(n, log(26000) + 0.45 * W, 0.30)), -2)
+balance_current <- round(exp(rnorm(n, log(2800)  + 0.55 * W + 0.10 * D, 0.60)), -1)
+balance_savings <- round(exp(rnorm(n, log(11000) + 0.90 * W + 0.25 * A, 0.70)), -1)
+investments     <- round(exp(rnorm(n, log(4500)  + 1.25 * W + 0.20 * A, 1.00)), -1)
+credit_limit    <- round(exp(rnorm(n, log(3000)  + 0.60 * W, 0.40)), -2)
+utilization     <- round(pmin(pmax(rnorm(n, 34 + 17 * R - 6 * W, 9), 0), 100), 1)
+loan_balance    <- round(exp(rnorm(n, log(14000) + 0.55 * R + 0.40 * W, 0.80)), -2)
+card_tx         <- rpois(n, exp(log(24) + 0.45 * D + 0.15 * W))
+mobile_logins   <- rpois(n, exp(log(16) + 0.60 * D))
+branch_visits   <- rpois(n, exp(log(5)  - 0.70 * D + 0.15 * A))
+missed_payments <- pmin(rpois(n, exp(log(0.6) + 0.80 * R - 0.30 * W)), 12)
+
+wealth_score <- 0.5 * scale(log(income)) + 0.5 * scale(log(investments + 1))
+segment <- cut(wealth_score,
+               breaks = quantile(wealth_score, c(0, .60, .90, 1)),
+               labels = c("Mass", "Affluent", "Private"),
+               include.lowest = TRUE)
+region  <- factor(sample(c("Norte", "Centro", "Lisboa", "Sul"), n,
+                         TRUE, c(.28, .22, .35, .15)))
+eta     <- -1.6 - 0.9 * D + 0.6 * R
+churn   <- factor(ifelse(runif(n) < 1 / (1 + exp(-eta)), "Yes", "No"),
+                  levels = c("No", "Yes"))
+
+bank <- data.frame(client_id = sprintf("C%04d", 1:n),
+                   age, tenure, income, balance_current, balance_savings,
+                   investments, credit_limit, utilization, loan_balance,
+                   card_tx, mobile_logins, branch_visits, missed_payments,
+                   segment, region, churn)
+
+num_vars <- c("age", "tenure", "income", "balance_current", "balance_savings",
+              "investments", "credit_limit", "utilization", "loan_balance",
+              "card_tx", "mobile_logins", "branch_visits", "missed_payments")
+
+str(bank)
+```
+
+Before any multivariate method, look at the marginal distributions. This is exactly the exploratory work of the EDA chapter, and it determines the choices we make next.
+
+```{r}
+#| label: bank-summary
+summary(bank[, c("income", "balance_savings", "investments",
+                 "utilization", "mobile_logins", "missed_payments")])
+```
+
+### Skewness and the Log Transform
+
+The monetary variables are strongly right-skewed, as monetary variables almost always are: most clients hold modest amounts and a small number hold very large ones.
+
+```{r}
+#| label: skewness
+skewness <- function(x) mean((x - mean(x))^3) / sd(x)^3
+round(sapply(bank[num_vars], skewness), 2)
+```
+
+The savings balance has a skewness of $15.1$ and investments of $7.3$. PCA is a *variance*-based method, and variance is not robust: a handful of private-banking clients with balances two orders of magnitude above the median would, on the raw scale, define the first component almost by themselves. Taking logarithms of the monetary variables brings their skewness essentially to zero:
+
+```{r}
+#| label: build-X
+#| message: false
+library(dplyr)
+
+X <- bank %>%
+  transmute(age, tenure,
+            log_income  = log(income),
+            log_current = log(balance_current),
+            log_savings = log(balance_savings),
+            log_invest  = log(investments),
+            log_limit   = log(credit_limit),
+            utilization,
+            log_loan    = log(loan_balance),
+            card_tx,
+            mobile      = mobile_logins,
+            branch      = branch_visits,
+            missed      = missed_payments)
+
+round(sapply(X, skewness), 2)
+```
+
+The same matrix is built in your browser session by the helper below. Every interactive box from here on begins with `X <- make_X()`, so you can run them in any order.
+
+```{webr-r}
+#| label: make-X-webr
+#| autorun: true
+
+make_X <- function(d = bank) {
+  data.frame(age         = d$age,
+             tenure      = d$tenure,
+             log_income  = log(d$income),
+             log_current = log(d$balance_current),
+             log_savings = log(d$balance_savings),
+             log_invest  = log(d$investments),
+             log_limit   = log(d$credit_limit),
+             utilization = d$utilization,
+             log_loan    = log(d$loan_balance),
+             card_tx     = d$card_tx,
+             mobile      = d$mobile_logins,
+             branch      = d$branch_visits,
+             missed      = d$missed_payments)
+}
+
+X <- make_X()
+str(X)
+```
+
+:::{.callout-tip}
+Log transformation of monetary variables before PCA is standard practice in banking and insurance analytics. It has three effects: it removes the dominance of a few very large clients, it turns *multiplicative* relationships (a client with twice the income tends to hold twice the savings) into *additive* ones, which is what linear methods can capture, and it makes the resulting components easier to read as differences in order of magnitude rather than in euros.
+
+Beware of zeros: $\log(0)$ is undefined. Common remedies are $\log(x+1)$, or treating "holds no investments" as a separate binary variable.
+:::
+
+The count variables `card_tx`, `mobile` and `branch` keep some skewness, which is normal for counts and not damaging at this level. We leave them untransformed so that their scale stays interpretable.
+
+### The Correlation Matrix
+
+PCA is, in the end, a way of reading a correlation matrix. It is worth looking at that matrix directly first.
+
+```{r}
+#| label: corrplot
+#| fig-cap: "Correlation matrix of the transformed bank variables. Blocks of mutually correlated variables are exactly what PCA will summarise."
+#| fig-width: 7
+#| fig-height: 6
+#| message: false
+library(corrplot)
+corrplot(cor(X), method = "color", type = "upper",
+         order = "hclust", tl.col = "black", tl.srt = 45,
+         addCoef.col = "grey30", number.cex = 0.55)
+```
+
+Three blocks stand out:
+
+- the monetary variables (`log_income`, `log_savings`, `log_invest`, `log_limit`, `log_current`) move together;
+- the channel variables (`card_tx`, `mobile`) move together and both move *against* `branch`, `age` and `tenure`;
+- `utilization`, `log_loan` and `missed` form a third, smaller block.
+
+If the correlation matrix were the identity — all variables mutually uncorrelated — PCA would have nothing to do: every component would explain exactly $1/p$ of the variance and no reduction would be possible. **PCA is useful precisely to the extent that the variables are correlated.**
+
+```{webr-r}
+#| label: explore-cor
+#| autorun: false
+
+# Try it: which pairs are most strongly correlated?
+Xsub <- data.frame(age = bank$age, tenure = bank$tenure,
+                   log_income  = log(bank$income),
+                   log_savings = log(bank$balance_savings),
+                   utilization = bank$utilization,
+                   mobile      = bank$mobile_logins,
+                   branch      = bank$branch_visits)
+
+round(cor(Xsub), 2)
+```
+
+## Notation, Centering and Scaling
+
+Let $\mathbf{X}$ be an $n \times p$ data matrix: $n$ clients in rows, $p$ variables in columns. Write $\mathbf{x}_i = (x_{i1}, \ldots, x_{ip})^{\top}$ for the record of client $i$, and $\bar{x}_j$ and $s_j$ for the sample mean and standard deviation of variable $j$.
+
+### Centering
+
+PCA always begins by *centering* each variable:
+$$
+\tilde{x}_{ij} = x_{ij} - \bar{x}_j .
+$$
+Centering moves the origin of the coordinate system to the centre of gravity of the cloud of points. It is not optional: the components are directions *through the mean*, and without centering the first component would mostly point from the origin towards the mean of the data, which tells us nothing about its shape.
+
+### Scaling
+
+*Scaling* is optional, and it is the single most consequential decision in a PCA. If we also divide by the standard deviation,
+$$
+z_{ij} = \frac{x_{ij} - \bar{x}_j}{s_j},
+$$
+then every variable has variance $1$, and PCA is performed on the **correlation matrix**. If we do not, PCA is performed on the **covariance matrix**, and variables with large numerical variance dominate.
+
+Look at the raw variances in our data:
+
+```{r}
+#| label: raw-variances
+round(apply(bank[, num_vars], 2, var))
+```
+
+The variance of `balance_savings` is of the order of $3.3 \times 10^{9}$ (euros squared); the variance of `missed_payments` is about $2$ (counts squared). These numbers are not comparable — they are not even in the same units. A PCA on the covariance matrix of these columns is a PCA of the savings balance and nothing else:
+
+```{r}
+#| label: pca-unscaled
+pca_unscaled <- prcomp(bank[, num_vars], scale. = FALSE)
+round(100 * pca_unscaled$sdev^2 / sum(pca_unscaled$sdev^2), 1)[1:4]
+round(pca_unscaled$rotation[, 1:2], 3)
+```
+
+The first component absorbs $66.7\%$ of the variance and loads almost entirely on `balance_savings` and `investments`. Age, utilisation and every count variable have loadings indistinguishable from zero — not because they carry no information, but because they are measured in small numbers.
+
+:::{.callout-warning}
+When variables are measured in different units, **always** use the correlation matrix (`scale. = TRUE` in `prcomp`, or `cor = TRUE` in `princomp`). Otherwise the analysis reflects your choice of units rather than the structure of the data: converting income from euros to thousands of euros would change the result completely.
+
+The covariance matrix is appropriate only when all variables share the same unit and their differences in variability are themselves meaningful — for example, daily returns of a set of equities, or changes in yields across maturities.
+:::
+
+From here on, every PCA is on the correlation matrix of the transformed matrix `X`.
+
+## The Algebra of PCA
+
+### The First Principal Component
+
+Let $\mathbf{Z}$ be the centred and scaled data matrix, and consider a direction in variable space given by a unit vector $\mathbf{a} = (a_1, \ldots, a_p)^{\top}$, with $\mathbf{a}^{\top}\mathbf{a} = 1$. Projecting the data onto this direction produces a new variable
+$$
+y_i = \mathbf{a}^{\top}\mathbf{z}_i = a_1 z_{i1} + a_2 z_{i2} + \cdots + a_p z_{ip},
+\qquad i = 1, \ldots, n ,
+$$
+a *linear combination* of the original variables. Its sample variance is
+$$
+\operatorname{Var}(y) = \mathbf{a}^{\top}\mathbf{S}\,\mathbf{a},
+$$
+where $\mathbf{S}$ is the sample covariance matrix of $\mathbf{Z}$ — which, because the variables are standardised, is the **correlation matrix** $\mathbf{R}$ of the original variables.
+
+The first principal component is the direction that makes this variance as large as possible:
+$$
+\mathbf{a}_1 = \arg\max_{\mathbf{a}^{\top}\mathbf{a} = 1} \; \mathbf{a}^{\top}\mathbf{S}\,\mathbf{a}.
+$$
+
+The constraint $\mathbf{a}^{\top}\mathbf{a} = 1$ is essential: without it the variance could be made arbitrarily large simply by multiplying $\mathbf{a}$ by a large constant, which changes the scale of the new variable but not the direction it points in.
+
+Introducing a Lagrange multiplier $\lambda$, we maximise
+$$
+\mathbf{a}^{\top}\mathbf{S}\mathbf{a} - \lambda(\mathbf{a}^{\top}\mathbf{a} - 1),
+$$
+and setting the derivative with respect to $\mathbf{a}$ to zero gives
+$$
+2\mathbf{S}\mathbf{a} - 2\lambda \mathbf{a} = \mathbf{0}
+\qquad \Longleftrightarrow \qquad
+\mathbf{S}\mathbf{a} = \lambda \mathbf{a}.
+$$
+
+This is the *eigenvalue equation*. The optimal direction $\mathbf{a}$ must be an **eigenvector** of $\mathbf{S}$, and its associated $\lambda$ is an **eigenvalue**. Moreover, pre-multiplying by $\mathbf{a}^{\top}$,
+$$
+\mathbf{a}^{\top}\mathbf{S}\mathbf{a} = \lambda\, \mathbf{a}^{\top}\mathbf{a} = \lambda ,
+$$
+so the variance captured by a component *is* its eigenvalue. To maximise variance we take the eigenvector belonging to the **largest** eigenvalue.
+
+:::{.callout-note}
+Two readings of the same result:
+
+- **Maximum variance**: the first component is the direction along which the clients are most spread out.
+- **Best fit**: the first component is also the line that minimises the sum of squared *perpendicular* distances from the points to the line. This is the geometry of @pearson1901, and it is not the same as the line fitted by ordinary least squares, which minimises *vertical* distances to a designated response variable.
+
+Both descriptions define the same direction, which is why PCA can be presented either as variance maximisation or as low-dimensional approximation.
+:::
+
+### Subsequent Components
+
+The second component solves the same problem with one extra requirement: it must be **uncorrelated** with the first. Since
+$$
+\operatorname{Cov}(\mathbf{a}_1^{\top}\mathbf{z},\; \mathbf{a}_2^{\top}\mathbf{z}) = \mathbf{a}_1^{\top}\mathbf{S}\mathbf{a}_2 = \lambda_1 \mathbf{a}_1^{\top}\mathbf{a}_2,
+$$
+requiring zero correlation is equivalent to requiring $\mathbf{a}_1^{\top}\mathbf{a}_2 = 0$: the directions are **orthogonal**. Continuing in this way, the $k$-th component is the direction of maximum remaining variance among those orthogonal to the first $k-1$.
+
+Because $\mathbf{S}$ is symmetric and positive semi-definite, it admits the *spectral decomposition*
+$$
+\mathbf{S} = \mathbf{A}\,\boldsymbol{\Lambda}\,\mathbf{A}^{\top},
+\qquad
+\mathbf{A} = [\mathbf{a}_1, \ldots, \mathbf{a}_p],
+\qquad
+\boldsymbol{\Lambda} = \operatorname{diag}(\lambda_1, \ldots, \lambda_p),
+$$
+with $\lambda_1 \ge \lambda_2 \ge \cdots \ge \lambda_p \ge 0$ and $\mathbf{A}^{\top}\mathbf{A} = \mathbf{I}$. The columns of $\mathbf{A}$ are the $p$ principal directions, sorted by the variance they explain, and they form an orthonormal basis: PCA is a **rotation** of the coordinate system, nothing more, until we decide to discard some of the new axes.
+
+### Total Variance is Preserved
+
+Because the trace of a matrix is invariant under this rotation,
+$$
+\sum_{k=1}^{p} \lambda_k = \operatorname{tr}(\mathbf{S}) = \sum_{j=1}^{p} s_{jj}.
+$$
+On the correlation matrix every $s_{jj} = 1$, so
+$$
+\sum_{k=1}^{p} \lambda_k = p .
+$$
+
+With $p = 13$ variables, the eigenvalues of our correlation matrix must sum to $13$. This gives an immediate benchmark: a component with $\lambda_k = 1$ explains exactly as much variance as one original standardised variable. This is the basis of the Kaiser criterion in @sec-how-many.
+
+The **proportion of variance explained** by component $k$ is therefore
+$$
+\text{PVE}_k = \frac{\lambda_k}{\sum_{m=1}^{p}\lambda_m} = \frac{\lambda_k}{p}
+\quad \text{(correlation matrix)} .
+$$
+
+### Connection with the Singular Value Decomposition
+
+In practice, software does not form $\mathbf{S}$ and diagonalise it; it applies the *singular value decomposition* to $\mathbf{Z}$ directly:
+$$
+\mathbf{Z} = \mathbf{U}\,\mathbf{D}\,\mathbf{V}^{\top},
+$$
+with $\mathbf{U}^{\top}\mathbf{U} = \mathbf{V}^{\top}\mathbf{V} = \mathbf{I}$ and $\mathbf{D}$ diagonal with non-negative entries $d_1 \ge \cdots \ge d_p$. Then
+$$
+\mathbf{S} = \frac{1}{n-1}\mathbf{Z}^{\top}\mathbf{Z}
+= \frac{1}{n-1}\mathbf{V}\mathbf{D}^{2}\mathbf{V}^{\top},
+$$
+so $\mathbf{V} = \mathbf{A}$ (the loadings) and $\lambda_k = d_k^2/(n-1)$. The SVD route is numerically more stable, because squaring the data to form $\mathbf{S}$ squares the condition number as well. This is why `prcomp()` (SVD-based) is preferred in R over the older `princomp()` (eigen-based).
+
+:::{.callout-note}
+`prcomp()` divides by $n-1$; `princomp()` divides by $n$. The eigenvectors are identical, the eigenvalues differ by the factor $n/(n-1)$, and for $n = 600$ the difference is immaterial. Use `prcomp()`.
+:::
+
+### Doing It by Hand
+
+Everything above can be verified in a few lines. First the eigen-decomposition of the correlation matrix:
+
+```{r}
+#| label: manual-eigen
+R_mat <- cor(X)
+e <- eigen(R_mat)
+
+round(e$values, 3)          # the p eigenvalues
+sum(e$values)               # must equal p = 13
+```
+
+Now compare with `prcomp()`:
+
+```{r}
+#| label: compare-prcomp
+pca <- prcomp(X, scale. = TRUE)
+
+max(abs(e$values - pca$sdev^2))                        # eigenvalues agree
+max(abs(abs(e$vectors[, 1]) - abs(pca$rotation[, 1]))) # first direction agrees
+```
+
+Both differences are of the order of $10^{-14}$ — machine precision. And through the SVD:
+
+```{r}
+#| label: manual-svd
+Z <- scale(X)                 # centred and scaled
+s <- svd(Z)
+max(abs(s$d / sqrt(nrow(X) - 1) - pca$sdev))
+```
+
+Identical again.
+
+:::{.callout-warning}
+**Signs are arbitrary.** If $\mathbf{a}$ is an eigenvector, so is $-\mathbf{a}$, with the same eigenvalue. Different software — and different versions of the same software — may return a component with all its signs flipped. This changes nothing about the analysis, but it does reverse the *verbal* interpretation ("high on PC3" becomes "low on PC3"), so always state the direction explicitly when reporting results. This is why the comparison above uses `abs()`.
+:::
+
+```{webr-r}
+#| label: eigen-exercise
+#| autorun: false
+
+# Build the transformed matrix and reproduce the eigenvalues yourself
+X <- make_X()
+
+e <- eigen(cor(X))
+round(e$values, 3)
+sum(e$values)   # equals the number of variables
+```
+
+## Scores, Loadings and Explained Variance
+
+Three objects come out of a PCA, and confusing them is the most common source of error in reading PCA output.
+
+| Object | Dimension | Meaning | In `prcomp()` |
+|:-------------|:-----------|:--------------------------------|:-------------|
+| **Loadings** | $p \times p$ | Weight of each *variable* in each component | `$rotation` |
+| **Scores** | $n \times p$ | Coordinate of each *observation* on each component | `$x` |
+| **Eigenvalues** | $p$ | Variance carried by each component | `$sdev^2` |
+
+### Loadings
+
+The loading $a_{jk}$ is the weight of variable $j$ in component $k$. The vector $\mathbf{a}_k$ has unit length, so the loadings of a component satisfy $\sum_j a_{jk}^2 = 1$; a variable's *contribution* to that component is therefore $100\,a_{jk}^2$ per cent.
+
+### Scores
+
+The score of client $i$ on component $k$ is
+$$
+y_{ik} = \mathbf{a}_k^{\top}\mathbf{z}_i = \sum_{j=1}^{p} a_{jk}\, z_{ij}.
+$$
+Scores are the new data: a client who was described by $13$ numbers is now described by $13$ new numbers, of which we intend to keep only the first few. By construction the scores have mean zero, variance $\lambda_k$, and zero correlation with each other.
+
+### Fitting the PCA
+
+```{r}
+#| label: fit-pca
+pca <- prcomp(X, scale. = TRUE)
+summary(pca)
+```
+
+```{r}
+#| label: eig-table
+#| message: false
+library(factoextra)
+eig <- get_eigenvalue(pca)
+round(eig, 3)
+```
+
+The eigenvalues are $4.05$, $2.93$, $1.76$ and $1.03$, explaining $31.2\%$, $22.6\%$, $13.5\%$ and $7.9\%$ of the total variance. The first three components together account for $67.2\%$ of the variability of the thirteen original variables; adding the fourth brings this to $75.1\%$.
+
+:::{.callout-note}
+It is normal — and healthy — for social and behavioural data not to be compressible into two components. A first component explaining $90\%$ of the variance usually means either that the variables are near-duplicates of one another, or that a scaling problem has gone unnoticed.
+:::
+
+### Reconstruction
+
+Keeping only $k$ components and rotating back gives an approximation to the standardised data:
+$$
+\hat{\mathbf{Z}}_{(k)} = \mathbf{Y}_{(k)}\,\mathbf{A}_{(k)}^{\top},
+$$
+where $\mathbf{Y}_{(k)}$ holds the first $k$ score columns and $\mathbf{A}_{(k)}$ the first $k$ loading columns. The Eckart–Young theorem [@eckart1936] states that this is the **best possible rank-$k$ approximation** of $\mathbf{Z}$ in the least-squares sense: no other set of $k$ linear combinations reconstructs the data with smaller squared error.
+
+```{r}
+#| label: reconstruction
+Z <- scale(X)
+for (k in c(1, 2, 3, 4, 6, 8)) {
+  Zhat <- pca$x[, 1:k, drop = FALSE] %*% t(pca$rotation[, 1:k, drop = FALSE])
+  cat(sprintf("k = %d  mean squared error = %.3f   variance retained = %.1f%%\n",
+              k, mean((Z - Zhat)^2), 100 * sum(pca$sdev[1:k]^2) / ncol(X)))
+}
+```
+
+The error and the retained variance are two views of the same quantity: retaining $67.2\%$ of the variance with three components means leaving $32.8\%$ of it — a mean squared error of $0.327$ on standardised data — in the discarded directions.
+
+```{webr-r}
+#| label: pca-fit-webr
+#| autorun: false
+
+X <- make_X()
+
+pca <- prcomp(X, scale. = TRUE)
+summary(pca)
+
+# scores of the first five clients on the first three components
+round(pca$x[1:5, 1:3], 3)
+```
+
+## How Many Components to Retain? {#sec-how-many}
+
+There is no test that settles this question. The usual practice is to look at several criteria and take a decision that is defensible both statistically and substantively.
+
+### The Scree Plot
+
+Plot the eigenvalues against their index and look for an "elbow" — the point after which the curve flattens into a scree slope of small, roughly equal eigenvalues [@cattell1966]. Components before the elbow are taken as signal, those after as noise.
+
+```{r}
+#| label: scree
+#| fig-cap: "Scree plot of the bank PCA. The curve bends after the third component; the fourth is borderline."
+#| fig-width: 7
+#| fig-height: 4.5
+fviz_eig(pca, addlabels = TRUE, choice = "eigenvalue",
+         barfill = "steelblue", barcolor = "steelblue") +
+  geom_hline(yintercept = 1, linetype = "dashed", colour = "red3") +
+  labs(title = "Scree plot", x = "Component", y = "Eigenvalue")
+```
+
+### Cumulative Proportion
+
+Retain as many components as needed to reach a target share of the total variance — commonly $70\%$ or $80\%$. The threshold is a convention, not a result, and should be chosen with the use in mind: a visualisation may be satisfied with two components, a preprocessing step for modelling usually wants more.
+
+```{r}
+#| label: cumvar
+#| fig-cap: "Cumulative percentage of variance explained. Three components pass 67%, four pass 75%."
+#| fig-width: 7
+#| fig-height: 4.5
+cum <- data.frame(comp = 1:ncol(X), cum = cumsum(100 * pca$sdev^2 / ncol(X)))
+
+ggplot(cum, aes(comp, cum)) +
+  geom_line(colour = "steelblue", linewidth = 1) +
+  geom_point(colour = "steelblue", size = 2.5) +
+  geom_hline(yintercept = c(70, 80), linetype = "dashed", colour = "grey40") +
+  scale_x_continuous(breaks = 1:ncol(X)) +
+  labs(title = "Cumulative variance explained",
+       x = "Number of components", y = "Cumulative %") +
+  theme_minimal()
+```
+
+### The Kaiser Criterion
+
+On the correlation matrix, retain components with $\lambda_k > 1$ [@kaiser1960]. The logic is direct: a component explaining less than one standardised variable's worth of variance is not a summary of anything.
+
+```{r}
+#| label: kaiser
+sum(pca$sdev^2 > 1)
+round(pca$sdev^2, 3)
+```
+
+Four components pass. Note how narrowly: $\lambda_4 = 1.025$. A criterion that would drop a component if the fourth eigenvalue were $0.99$ and keep it at $1.01$ should not be applied mechanically.
+
+### The Broken-Stick Model
+
+If a stick of unit length is broken at random into $p$ pieces, the expected length of the $k$-th longest piece is
+$$
+b_k = \frac{1}{p}\sum_{m=k}^{p} \frac{1}{m}.
+$$
+Retain component $k$ if it explains more variance than $b_k$ — that is, more than would be expected if the total variance were divided among the $p$ directions purely at random. This is a stricter rule than Kaiser's, and generally a better-behaved one.
+
+```{r}
+#| label: broken-stick
+p <- ncol(X)
+bstick <- sapply(1:p, function(k) sum(1 / (k:p)) / p) * 100
+obs    <- 100 * pca$sdev^2 / p
+
+data.frame(component = 1:p,
+           observed  = round(obs, 2),
+           broken_stick = round(bstick, 2),
+           retain = obs > bstick)[1:6, ]
+```
+
+Broken-stick retains **three** components; Kaiser retains **four**. The disagreement is informative rather than annoying: it tells us the fourth component sits on the boundary between structure and noise, and we should decide it on interpretive grounds.
+
+:::{.callout-tip}
+**Summary of retention criteria**
+
+| Criterion | Rule | Retains here | Comment |
+|:-----------|:------------------------|:-------:|:-----------------------------|
+| Scree / elbow | Bend in the eigenvalue curve | 3 | Visual, subjective, widely used |
+| Cumulative % | Reach 70–80% | 3–4 | Threshold is a convention |
+| Kaiser | $\lambda_k > 1$ | 4 | Only for the correlation matrix; tends to over-retain |
+| Broken stick | $\lambda_k/p > b_k$ | 3 | Stricter, generally reliable |
+| Interpretability | Can you name it? | 3 | The criterion that decides ties |
+
+When criteria disagree, prefer the solution you can explain to the business. A component nobody can name is rarely worth carrying into the next stage of the analysis.
+:::
+
+We retain **three** components for interpretation. Had the goal been prediction rather than explanation, keeping the fourth would have been defensible: a component that resists naming can still carry usable signal.
+
+## Visualising a PCA
+
+### The Variable Correlation Circle
+
+Because the data are standardised, the correlation between variable $j$ and component $k$ is
+$$
+r(x_j, y_k) = a_{jk}\sqrt{\lambda_k},
+$$
+and these correlations are the coordinates used to plot variables on the *correlation circle*. Since a correlation cannot exceed $1$ in absolute value, every variable lies inside a circle of radius $1$.
+
+```{r}
+#| label: var-circle
+#| fig-cap: "Variables on the plane of the first two components, coloured by quality of representation (cos2). Arrows close to the circle are well represented; small arrows are not."
+#| fig-width: 7
+#| fig-height: 6.5
+fviz_pca_var(pca, axes = c(1, 2), col.var = "cos2",
+             gradient.cols = c("grey70", "steelblue", "red3"),
+             repel = TRUE) +
+  labs(title = "Variables: PC1 vs PC2")
+```
+
+How to read this plot:
+
+- **Direction**: variables pointing the same way are positively correlated; opposite directions mean negative correlation; a right angle between two well-represented arrows means near-zero correlation.
+- **Length**: the closer an arrow reaches the circle, the better the variable is represented by these two components. A short arrow means the variable lives mostly in other dimensions and should *not* be interpreted on this plane.
+- **Position relative to the axes**: an arrow lying along the horizontal axis defines PC1; one lying along the vertical axis defines PC2.
+
+The monetary variables form a tight bundle along the positive horizontal axis. `mobile` and `card_tx` point up; `branch`, `age` and `tenure` point down. `utilization`, `log_loan` and `missed` have short arrows here — they belong to the third component, not to this plane.
+
+```{r}
+#| label: var-circle-13
+#| fig-cap: "Variables on the plane of components 1 and 3. The credit-strain block, invisible in the previous figure, appears clearly."
+#| fig-width: 7
+#| fig-height: 6.5
+fviz_pca_var(pca, axes = c(1, 3), col.var = "cos2",
+             gradient.cols = c("grey70", "steelblue", "red3"),
+             repel = TRUE) +
+  labs(title = "Variables: PC1 vs PC3")
+```
+
+### Quality of Representation: `cos2`
+
+The quality with which variable $j$ is represented by component $k$ is the squared correlation
+$$
+\cos^2(j, k) = r(x_j, y_k)^2 = a_{jk}^{2}\lambda_k ,
+$$
+which is exactly the share of variable $j$'s variance recovered by component $k$. Summing over all $p$ components gives $1$; summing over the retained ones gives the quality of representation on the chosen plane.
+
+```{r}
+#| label: cos2-table
+var_info <- get_pca_var(pca)
+round(var_info$cos2[, 1:3], 3)
+```
+
+`log_savings` has $\cos^2 = 0.718$ on PC1: nearly three quarters of its variability is captured by the first component alone. `utilization` has $\cos^2 = 0.105$ on PC1 but $0.672$ on PC3 — reading it on the first plane would be a mistake.
+
+### Communalities
+
+The sum of the squared cosines of a variable over the retained components has a name of its own: it is the **communality** of that variable,
+$$
+h_j^2 = \sum_{k=1}^{m} \cos^2(j, k) = \sum_{k=1}^{m} a_{jk}^{2}\lambda_k ,
+$$
+where $m$ is the number of components kept. It is the proportion of variable $j$'s variance that the retained components account for, and $1 - h_j^2$ — the part they leave behind — is called the variable's **uniqueness** or *specific variance*.
+
+The name records what the quantity measures: the part of a variable that it holds *in common* with the others, in the sense that the retained components — which are built from all the variables at once — can reproduce it. What is left over, the uniqueness, is the part of the variable that the shared structure does not reach.
+
+Two properties follow directly from the definition:
+
+- Over **all** $p$ components the communality is exactly $1$, since the components form a complete orthonormal basis. Communalities are only informative once some components have been discarded.
+- The **average** communality across the $p$ variables equals the proportion of total variance retained. Communalities are therefore a decomposition, variable by variable, of the single global figure reported by the scree plot.
+
+```{r}
+#| label: communalities
+communality <- rowSums(var_info$cos2[, 1:3])   # three components retained
+
+round(sort(communality), 3)
+
+c(mean_communality = round(mean(communality), 3),
+  variance_retained = round(sum(pca$sdev[1:3]^2) / ncol(X), 3))
+```
+
+The two figures agree: $0.672$, the $67.2\%$ of total variance carried by the first three components.
+
+Communalities are the natural check on whether a chosen number of components serves *every* variable or only most of them. Here they range from $0.572$ for `log_current` to $0.777$ for `utilization` — a narrow band, so no variable is being badly misrepresented by the three-component solution. A variable with a communality of, say, $0.15$ would be a warning: it is nearly absent from the retained subspace, and any interpretation of the solution that mentions it would be unfounded. The usual responses are to retain another component, or to accept that the variable measures something the others do not share and to handle it separately.
+
+```{r}
+#| label: cos2-plot
+#| fig-cap: "Quality of representation of each variable on the first three components."
+#| fig-width: 7
+#| fig-height: 5.5
+corrplot(var_info$cos2[, 1:3], is.corr = FALSE,
+         method = "color", tl.col = "black",
+         addCoef.col = "grey20", number.cex = 0.7,
+         cl.pos = "b")
+```
+
+### Contributions
+
+Where `cos2` asks *how well is this variable explained by the component*, contribution asks the reverse: *how much of this component is built from that variable*. It is
+$$
+\text{contrib}(j,k) = 100 \times a_{jk}^{2},
+$$
+and the contributions of all variables to a given component sum to $100\%$. The dashed reference line marks $100/p$, the contribution a variable would have if all contributed equally.
+
+```{r}
+#| label: contrib
+#| fig-cap: "Six largest contributions to each of the first three components. The dashed line is the contribution a variable would have under equal weighting (100/13 = 7.7%)."
+#| fig-width: 9
+#| fig-height: 3.8
+library(gridExtra)
+g1 <- fviz_contrib(pca, choice = "var", axes = 1, top = 6, fill = "steelblue") +
+      labs(title = "PC1")
+g2 <- fviz_contrib(pca, choice = "var", axes = 2, top = 6, fill = "steelblue") +
+      labs(title = "PC2")
+g3 <- fviz_contrib(pca, choice = "var", axes = 3, top = 6, fill = "steelblue") +
+      labs(title = "PC3")
+grid.arrange(g1, g2, g3, ncol = 3)
+```
+
+:::{.callout-note}
+Keep the two summaries apart. **Contributions** are read *down a column* — they say how much each variable builds a given component, and sum to $100\%$ over the variables. **Communalities** are read *along a row* — they say how much of a given variable the retained components recover, and sum to $1$ over all the components.
+:::
+
+### Individuals
+
+The scores place each client on the new axes. Colouring them by a variable that did **not** take part in the PCA is one of the most useful checks available: if an external, meaningful grouping lines up with a component, the component is measuring something real.
+
+```{r}
+#| label: ind-segment
+#| fig-cap: "Clients on the first plane, coloured by commercial segment. The segments separate along PC1, which the PCA discovered without ever seeing them."
+#| fig-width: 7.5
+#| fig-height: 6
+fviz_pca_ind(pca, axes = c(1, 2),
+             geom.ind = "point", pointshape = 19, alpha.ind = 0.6,
+             col.ind = bank$segment,
+             palette = c("grey55", "steelblue", "red3"),
+             addEllipses = TRUE, ellipse.type = "norm", ellipse.alpha = 0.08,
+             legend.title = "Segment") +
+  labs(title = "Clients: PC1 vs PC2")
+```
+
+The commercial segment was not among the thirteen variables entered into the PCA, yet the three groups order themselves neatly along PC1:
+
+```{r}
+#| label: segment-means
+scores <- as.data.frame(pca$x[, 1:3])
+agg <- aggregate(scores, by = list(segment = bank$segment), FUN = mean)
+agg[, -1] <- round(agg[, -1], 3)
+agg
+```
+
+Mean PC1 rises from $-1.18$ (Mass) through $1.28$ (Affluent) to $3.25$ (Private), while mean PC2 and PC3 barely move. This is strong external evidence that PC1 is an affluence axis.
+
+### The Biplot
+
+A *biplot* superimposes individuals and variables on the same plane. It is the most informative single figure of a PCA and also the easiest to over-read: the two sets of points are on different scales, and only their *relative* geometry is meaningful.
+
+```{r}
+#| label: biplot
+#| fig-cap: "Biplot of the bank portfolio. Clients are positioned by their scores, variables by their loadings; a client lying far along an arrow has high values of that variable."
+#| fig-width: 8
+#| fig-height: 7
+fviz_pca_biplot(pca, axes = c(1, 2),
+                geom.ind = "point", pointshape = 19,
+                alpha.ind = 0.35, col.ind = bank$segment,
+                palette = c("grey55", "steelblue", "red3"),
+                col.var = "black", repel = TRUE,
+                legend.title = "Segment") +
+  labs(title = "Biplot: bank client portfolio")
+```
+
+:::{.callout-note}
+Reading a biplot:
+
+- A client positioned in the direction of an arrow has an above-average value of that variable.
+- Clients far from the origin are atypical on the plane shown; clients near the origin are either average, or badly represented in these two dimensions. The two cases are distinguished by looking at the individual `cos2`, not at the plot.
+- The angle between two arrows approximates the correlation between the corresponding variables — but only when both arrows are long.
+:::
+
+```{webr-r}
+#| label: viz-webr
+#| autorun: false
+
+library(factoextra)
+
+X <- make_X()
+pca <- prcomp(X, scale. = TRUE)
+
+# change axes to c(1, 3) or c(2, 3) and re-run
+fviz_pca_var(pca, axes = c(1, 2), col.var = "cos2", repel = TRUE)
+```
+
+```{webr-r}
+#| label: viz-webr-ind
+#| autorun: false
+
+# colour the clients by churn instead of segment
+fviz_pca_ind(pca, axes = c(2, 3), geom.ind = "point",
+             col.ind = bank$churn, addEllipses = TRUE,
+             legend.title = "Churn")
+```
+
+## Interpreting the Components
+
+A principal component has no meaning until someone gives it one. Interpretation proceeds by reading the loadings of a component and asking what the highly weighted variables have in common. Loadings below roughly $0.3$ in absolute value are usually ignored as noise.
+
+```{r}
+#| label: loadings-table
+round(pca$rotation[, 1:4], 3)
+```
+
+**PC1 — Affluence** ($31.2\%$). Large positive loadings on `log_savings` ($0.421$), `log_limit` ($0.418$), `log_income` ($0.414$), `log_invest` ($0.412$) and `log_current` ($0.355$); everything else is small. This is a *size* factor: a client high on PC1 has more of everything monetary. Its negative loadings on `utilization` ($-0.161$) and `missed` ($-0.148$) are weak but sensible — wealthier clients use less of their limit and miss fewer payments.
+
+**PC2 — Digital engagement versus branch and life stage** ($22.6\%$). Positive on `card_tx` ($0.484$) and `mobile` ($0.467$); negative on `branch` ($-0.445$), `age` ($-0.399$) and `tenure` ($-0.393$). This is a *contrast* factor, and it says something the bank would care about: younger, shorter-tenure clients transact digitally, older and long-standing clients come to the branch. Note that PC2 is essentially uncorrelated with wealth — the digital divide in this portfolio runs along age, not income.
+
+**PC3 — Credit strain, reversed** ($13.5\%$). Negative on `utilization` ($-0.619$), `missed` ($-0.548$) and `log_loan` ($-0.525$). A *low* score on PC3 means high utilisation, missed payments and large outstanding debt. Since it is easier to talk about a factor whose high values mean "more of the thing", we can flip its sign:
+
+```{r}
+#| label: flip-pc3
+pca_flip <- pca
+pca_flip$rotation[, 3] <- -pca$rotation[, 3]
+pca_flip$x[, 3]        <- -pca$x[, 3]
+
+round(pca_flip$rotation[, 3], 3)
+```
+
+After flipping, a high PC3 is a client under credit strain. The eigenvalue, the variance explained and every distance between clients are unchanged; only the label changes.
+
+:::{.callout-warning}
+If you flip a component for readability, flip **both** the loadings and the scores, and do it once, at the start. Flipping only one of the two silently breaks the relationship $\mathbf{Y} = \mathbf{Z}\mathbf{A}$ and every downstream result with it.
+:::
+
+**PC4 — a warning** ($7.9\%$). The Kaiser criterion retained it ($\lambda_4 = 1.025$), but its loadings are a mixture: negative on `tenure` ($-0.537$), `age` ($-0.479$), `mobile` ($-0.459$) and `card_tx` ($-0.371$), with nothing else prominent. It appears to be a residual contrast between age and digital use *after* PC2 has taken the part of that contrast the two share. That is a statement about the geometry of the solution, not about clients. It is retainable for prediction and not interpretable as a construct — a distinction worth keeping.
+
+| Component | Variance | Name | High score means |
+|:----|:------:|:------------------------|:---------------------------------------|
+| PC1 | 31.2% | Affluence | High income, savings, investments and credit limit |
+| PC2 | 22.6% | Digital engagement | Young, short tenure, transacts by card and app, rarely visits a branch |
+| PC3 (flipped) | 13.5% | Credit strain | High credit utilisation, missed payments, large debt |
+| PC4 | 7.9% | — | No stable substantive reading |
+
+:::{.callout-tip}
+The interpretation above recovers, almost exactly, the four latent factors used to generate the data (`W` affluence, `A` life stage, `D` digital propensity, `R` credit risk) — although `A` and `D` were deliberately entangled and PCA, which is restricted to *orthogonal* directions, splits them across PC2 and PC4 rather than isolating each.
+
+This is the honest limitation of the method: PCA recovers latent structure only up to a rotation, and there is no reason for the true drivers of a phenomenon to be orthogonal to one another. Methods that relax orthogonality, such as independent component analysis, exist precisely for this reason.
+:::
+
+## Practical Issues
+
+### Outliers and Heavy Tails
+
+PCA maximises variance, and variance is not a robust quantity. A single record far from the rest can rotate a component towards itself, producing a "component" that describes one client.
+
+Suppose a data-entry error adds three zeros to the savings balance and the investment holdings of client `C0001`. We introduce the same error twice — once in the untransformed variables, once in the log-transformed ones — and compare.
+
+```{r}
+#| label: outlier-setup
+Xr <- bank[, num_vars]                 # untransformed
+Xr_bad <- Xr
+Xr_bad$balance_savings[1] <- 50e6      # should be 50 000
+Xr_bad$investments[1]     <- 30e6      # should be 30 000
+
+X_bad <- X                             # log-transformed
+X_bad$log_savings[1] <- log(50e6)
+X_bad$log_invest[1]  <- log(30e6)
+
+pca_r  <- prcomp(Xr,     scale. = TRUE)
+pca_rb <- prcomp(Xr_bad, scale. = TRUE)
+pca_lb <- prcomp(X_bad,  scale. = TRUE)
+
+pv <- function(p) round(100 * p$sdev[1:3]^2 / 13, 1)
+rbind(untransformed_clean     = pv(pca_r),
+      untransformed_corrupted = pv(pca_rb),
+      log_clean               = pv(pca),
+      log_corrupted           = pv(pca_lb))
+```
+
+On the log scale the corrupted record barely registers: the variance explained by the first three components moves from $31.2\%$, $22.6\%$, $13.5\%$ to $30.8\%$, $22.6\%$, $13.5\%$. On the untransformed scale the solution falls apart. Compare the first component before and after:
+
+```{r}
+#| label: outlier-loadings
+cbind(clean = round(pca_r$rotation[, 1], 3),
+      corrupted = round(pca_rb$rotation[, 1], 3))
+
+cor(pca_r$rotation[, 1], pca_rb$rotation[, 1])
+```
+
+The correlation between the two versions of PC1 is $-0.02$: the affluence factor has not been perturbed, it has been **displaced entirely**, and the first component of the corrupted analysis is now the age-versus-digital contrast. The affluence structure did not merely move down the ordering — the corrupted variables, having almost all their standardised variance concentrated in one point, are now nearly constant across the other $599$ clients and no longer correlate with anything.
+
+Where did the corrupted client go? Into a component of its own:
+
+```{r}
+#| label: outlier-hijack
+round(pca_rb$x[1, ] / apply(pca_rb$x, 2, sd), 1)   # its scores, in standard deviations
+round(pca_rb$rotation[, 3], 3)                     # the component it created
+```
+
+The third component of the corrupted analysis takes $15.3\%$ of the total variance, loads $0.70$ on each of the two corrupted variables and essentially zero on everything else, and the offending client sits $24$ standard deviations along it. That component is not a description of the portfolio; it is a description of one typing mistake.
+
+```{r}
+#| label: outlier-demo
+#| fig-cap: "Left: the clean untransformed analysis, where PC1 is affluence. Right: the same data with two corrupted cells, on the plane where the damage is visible. The third component of the corrupted analysis exists only to hold one client (red)."
+#| fig-width: 9
+#| fig-height: 4.5
+par(mfrow = c(1, 2))
+plot(pca_r$x[, 1], pca_r$x[, 2], pch = 19, col = "grey60", cex = 0.6,
+     xlab = "PC1", ylab = "PC2", main = "Clean data: PC1 vs PC2")
+plot(pca_rb$x[, 1], pca_rb$x[, 3], pch = 19, col = "grey60", cex = 0.6,
+     xlab = "PC1", ylab = "PC3", main = "Corrupted data: PC1 vs PC3")
+points(pca_rb$x[1, 1], pca_rb$x[1, 3], pch = 19, col = "red3", cex = 1.6)
+par(mfrow = c(1, 1))
+```
+
+All of this followed from an error in two cells of a table of $7\,800$ values.
+
+:::{.callout-tip}
+Notice what the log transform bought us. It did not remove the outlier — client `C0001` still has an absurd balance — but it compressed the error from a factor of $1000$ on the euro scale to an additive shift of $\log(1000) \approx 6.9$ on the log scale, which is large but not catastrophic. Transformation is a cheap and effective first defence against exactly this failure mode. It is not a substitute for looking at the data.
+:::
+
+Practical defences:
+
+- Screen for outliers *before* the PCA using the methods of the Outlier Detection chapter.
+- Distinguish errors from genuine extremes. A savings balance of €50 million is an error; a private-banking client with €1.2 million is a real client and should probably stay, possibly after a log transform.
+- Use the PCA itself as a diagnostic: an observation with a large score on a *late*, low-variance component, or a large reconstruction error, is atypical in a way the main structure does not explain.
+- Consider a robust PCA, based on a robust covariance estimator such as the MCD, when contamination is suspected and cannot be cleaned.
+
+```{r}
+#| label: recon-outlier
+# reconstruction error per client using three components
+Zhat <- pca$x[, 1:3] %*% t(pca$rotation[, 1:3])
+err  <- rowSums((scale(X) - Zhat)^2)
+
+head(bank[order(err, decreasing = TRUE), c("client_id", "segment", "utilization",
+                                           "missed_payments", "mobile_logins")], 5)
+```
+
+These are the clients least well described by the three-component summary — the natural shortlist for an anomaly review.
+
+### Missing Values
+
+`prcomp()` has no mechanism for missing data: it removes any row with an `NA`, which can be a substantial part of the sample when many variables are involved. The options are those of the Missing Values chapter — deletion, single imputation, or multiple imputation — with one addition specific to PCA: iterative PCA imputation, which fills the missing cells with the values predicted by a low-rank reconstruction and iterates until convergence (implemented in the `missMDA` package).
+
+```{r}
+#| label: missing-demo
+X_na <- X
+set.seed(1)
+X_na[sample(nrow(X), 60), "log_income"] <- NA
+
+nrow(na.omit(X_na))          # rows surviving listwise deletion
+```
+
+Losing $10\%$ of the sample to missingness in *one* variable is already noticeable; with missingness spread over several variables the loss compounds quickly.
+
+### Categorical Variables
+
+PCA is defined for numeric variables. `segment`, `region` and `churn` cannot enter the analysis directly. Three options:
+
+- **Leave them out and use them for illustration**, as we did above — colouring the individuals plot by segment. This is the safest choice and often the most informative.
+- **Dummy-code them**. Workable for binary variables, but a dummy has variance $\pi(1-\pi)$, which is small for rare categories; standardising then inflates rare categories and lets them drive components.
+- **Use a method designed for the data type**: Multiple Correspondence Analysis (MCA) for a set of categorical variables, or Factor Analysis of Mixed Data (FAMD) when numeric and categorical variables must be analysed together. Both are available in the `FactoMineR` package.
+
+### Multicollinearity and Near-Constant Variables
+
+PCA tolerates perfect collinearity — the corresponding eigenvalue is simply zero — but a variable with zero variance breaks the standardisation, since dividing by $s_j = 0$ is undefined. Check before scaling:
+
+```{r}
+#| label: zero-var
+which(apply(X, 2, sd) == 0)   # integer(0): no constant columns
+```
+
+Also worth avoiding is including a variable twice in different guises (an amount and its logarithm, a total and its components). PCA will faithfully report that they are the same variable, and they will jointly dominate a component for no substantive reason.
+
+### Sample Size
+
+PCA estimates $p(p+1)/2$ covariances from $n$ observations. With $p = 13$ that is $91$ quantities; $n = 600$ is comfortable. Rules of thumb suggest at least $5$–$10$ observations per variable, and more when the correlations are weak. With $n < p$ the correlation matrix is singular and at most $n-1$ eigenvalues are non-zero — PCA still runs, but the later components are pure artefact.
+
+<!-- COMMENTED OUT: section "PCA as a Preprocessing Step".
+     To restore: delete this comment opener and the closing marker below, then
+     put the braces back on the 5 opening code fences (r becomes {r}) so knitr
+     evaluates them again.
+
+## PCA as a Preprocessing Step {#sec-pca-preprocessing}
+
+The scores are ordinary variables and can be fed into any subsequent method. Two combinations are common.
+
+### PCA Followed by Clustering
+
+Clustering on principal components instead of raw variables removes redundancy, removes correlation between features (so Euclidean distance treats each axis on equal terms), and reduces noise by discarding the low-variance directions.
+
+```r
+#| label: pca-kmeans
+set.seed(123)
+scores3 <- pca$x[, 1:3]
+km <- kmeans(scores3, centers = 3, nstart = 25)
+
+round(km$centers, 2)
+table(km$cluster)
+```
+
+```r
+#| label: pca-kmeans-plot
+#| fig-cap: "k-means with k = 3 on the first three component scores, displayed on the PC1-PC2 plane. The axes are the components themselves, not a further reduction."
+#| fig-width: 7.5
+#| fig-height: 6
+clus <- data.frame(scores3, cluster = factor(km$cluster))
+
+ggplot(clus, aes(PC1, PC2, colour = cluster)) +
+  geom_point(size = 1.6, alpha = 0.7) +
+  stat_ellipse(type = "norm", linewidth = 0.8) +
+  scale_colour_manual(values = c("steelblue", "red3", "darkgreen")) +
+  labs(title = "k-means on principal component scores",
+       x = "PC1 (affluence)", y = "PC2 (digital engagement)") +
+  theme_minimal()
+```
+
+The clusters have a reading in terms of the named components: one group is affluent and digital, one is affluent and branch-based, one is mass-market. Cross-tabulating against the commercial segment shows how much the behavioural grouping agrees with the bank's existing one:
+
+```r
+#| label: cluster-vs-segment
+table(cluster = km$cluster, segment = bank$segment)
+```
+
+:::{.callout-warning}
+Clustering on principal components is a *choice*, not an improvement by default. Discarded components sometimes contain exactly the direction that separates two groups — a small-variance direction can still be the one that matters. Compare the clustering on components with the clustering on the full standardised data before adopting it, and use the validation tools of the Clustering chapter (silhouette, Dunn, gap statistic) to decide.
+:::
+
+### PCA Followed by Logistic Regression
+
+Regressing a response on principal components — *principal component regression* — is a standard remedy for multicollinearity. Here we model churn.
+
+```r
+#| label: pcr
+dat_pc <- data.frame(churn = bank$churn, pca$x[, 1:4])
+m_pc   <- glm(churn ~ PC1 + PC2 + PC3 + PC4, data = dat_pc, family = binomial)
+round(summary(m_pc)$coefficients, 3)
+```
+
+The result is instructive. **PC1 — the component explaining the most variance — is not significant** ($p = 0.64$), while PC2, PC3 and PC4 all are. Affluence, the dominant source of variation in the portfolio, tells us nothing about who leaves; digital disengagement and credit strain do.
+
+```r
+#| label: pcr-compare
+m_full <- glm(churn ~ ., data = data.frame(churn = bank$churn, X), family = binomial)
+c(AIC_4_components = round(AIC(m_pc), 1),
+  AIC_13_variables = round(AIC(m_full), 1))
+```
+
+Four components fit as well as thirteen variables, with nine fewer parameters.
+
+:::{.callout-warning}
+**PCA is unsupervised.** It orders components by variance in the predictors, with no reference to the response. There is no guarantee that the leading components are the useful ones — as PC1 demonstrates here. Selecting components by their eigenvalues and then regressing is therefore a gamble; selecting them by their relationship to the response is legitimate but reintroduces the selection problem PCA was meant to avoid.
+
+When the aim is prediction rather than description, consider *partial least squares* (PLS), which builds components that maximise covariance with the response, or simply a regularised regression (ridge, lasso) on the original variables.
+:::
+
+END OF COMMENTED-OUT SECTION -->
+
+## Common Pitfalls
+
+:::{.callout-caution}
+1. **Forgetting to scale** when variables have different units — the analysis then reflects the units.
+2. **Interpreting a component before checking `cos2`** — a variable near the origin of the correlation circle is not "average", it is *absent* from that plane.
+3. **Reading the sign of a component as meaningful** — the sign is arbitrary; only the contrast is real.
+4. **Assuming the first component is the important one** — it is only the largest. PCA orders components by variance in the variables, with no reference to any outcome you might later want to model, so importance depends on the question being asked.
+5. **Applying PCA to a set of uncorrelated variables** — the eigenvalues will all be near $1$ and nothing is gained. Look at the correlation matrix first.
+6. **Computing the PCA on the full data set before splitting into train and test sets** — the test data then influence the transformation, and performance estimates are optimistic. Fit `prcomp()` on the training set and apply it with `predict()`.
+7. **Treating principal components as causes** — they are descriptive summaries of covariation, and nothing about the method licenses a causal reading.
+8. **Reporting components nobody can name** without saying so — an uninterpretable component is a legitimate result, but it should be labelled as such.
+:::
+
+```{r}
+#| label: train-test
+#| eval: false
+# The correct way to use PCA inside a predictive workflow
+set.seed(42)
+idx        <- sample(nrow(X), 0.7 * nrow(X))
+pca_train  <- prcomp(X[idx, ], scale. = TRUE)          # fitted on training data only
+scores_tr  <- pca_train$x[, 1:4]
+scores_te  <- predict(pca_train, newdata = X[-idx, ])[, 1:4]
+```
+
+## Summary
+
+- PCA replaces $p$ correlated variables by $p$ uncorrelated components, ordered by the variance they explain, and is useful only to the extent that the original variables are correlated.
+- The components are the eigenvectors of the covariance (or correlation) matrix, and the variance each explains is the corresponding eigenvalue. Equivalently, they come from the SVD of the centred data matrix.
+- Centering is mandatory. Scaling is mandatory whenever the variables are in different units, which for client data is nearly always. Log-transform skewed monetary variables first.
+- The eigenvalues of a correlation matrix sum to $p$, so a component with $\lambda > 1$ explains more than one original variable.
+- Choose the number of components with several criteria at once — scree, cumulative variance, Kaiser, broken stick — and let interpretability settle the disagreements.
+- Loadings describe variables, scores describe observations, `cos2` measures how well a variable is represented, contributions measure how much a variable builds a component, and the communality $h_j^2$ — the sum of a variable's squared cosines over the retained components — measures how much of that variable the reduced solution recovers.
+- In our bank portfolio, three components explaining $67\%$ of the variance recover an *affluence* axis, a *digital engagement versus branch* axis, and a *credit strain* axis.
+- PCA is unsupervised: the largest component need not be the most useful for any particular downstream task.
+
+## Exercises
+
+### Exercise 1 — Scaling
+
+Run a PCA on the raw (untransformed, unscaled) bank variables and compare it with the PCA on the correlation matrix of the transformed data.
+
+1. What percentage of variance does the first component explain in each case?
+2. Which variables have loadings above $0.3$ on PC1 in each case?
+3. Convert `income` and all balances from euros to *thousands* of euros and re-run both analyses. Which one changes, and why?
+
+```{webr-r}
+#| label: ex1
+#| autorun: false
+
+num_vars <- c("age", "tenure", "income", "balance_current", "balance_savings",
+              "investments", "credit_limit", "utilization", "loan_balance",
+              "card_tx", "mobile_logins", "branch_visits", "missed_payments")
+
+pca_raw <- prcomp(bank[, num_vars], scale. = FALSE)
+
+# your turn
+```
+
+### Exercise 2 — Reproducing the output by hand
+
+Using only `cor()`, `eigen()` and matrix multiplication:
+
+1. Compute the eigenvalues of the correlation matrix of `X` and verify that they sum to $13$.
+2. Compute the scores of the first three components as $\mathbf{Y} = \mathbf{Z}\mathbf{A}$, where $\mathbf{Z}$ is the standardised data.
+3. Verify that the score columns have variances equal to the eigenvalues, and that their pairwise correlations are zero.
+4. Verify that $\cos^2(j,k) = a_{jk}^2\lambda_k$ equals the squared correlation between variable $j$ and score $k$.
+
+```{webr-r}
+#| label: ex2
+#| autorun: false
+
+X <- make_X()
+
+Z <- scale(X)
+e <- eigen(cor(X))
+
+# your turn
+```
+
+:::: {.callout-note appearance="minimal"}
+**Hint**: `Y <- Z %*% e$vectors` gives all the scores at once. Compare `apply(Y, 2, var)` with `e$values`, and `round(cor(Y[, 1:3]), 10)` with the identity matrix.
+::::
+
+### Exercise 3 — How many components?
+
+For the PCA of `X`:
+
+1. Produce the scree plot and state where you would place the elbow.
+2. Apply the Kaiser criterion and the broken-stick model. They disagree — explain the disagreement in terms of $\lambda_4$.
+3. How many components are needed to reach $80\%$ of the total variance? Is that a reasonable target here?
+4. Examine the loadings of PC5 and PC6. Can you name either of them? Does that change your answer to (1)?
+
+```{webr-r}
+#| label: ex3
+#| autorun: false
+
+pca <- prcomp(X, scale. = TRUE)
+
+p <- ncol(X)
+bstick <- sapply(1:p, function(k) sum(1 / (k:p)) / p) * 100
+
+# your turn
+```
+
+### Exercise 4 — An insurance portfolio
+
+Adapt the analysis to an insurance setting. The code below generates a portfolio of $500$ motor policies.
+
+```{webr-r}
+#| label: ex4
+#| autorun: true
+
+set.seed(7)
+m <- 500
+V <- rnorm(m)   # vehicle and coverage value
+B <- rnorm(m)   # driving behaviour / risk
+
+policy <- data.frame(
+  policy_id      = sprintf("P%04d", 1:m),
+  driver_age     = round(pmin(pmax(rnorm(m, 46 - 4 * B, 12), 18), 85)),
+  licence_years  = NA,
+  vehicle_age    = round(pmin(pmax(rnorm(m, 9 - 3 * V, 4), 0), 30)),
+  vehicle_value  = round(exp(rnorm(m, log(14000) + 0.55 * V, 0.45)), -2),
+  annual_premium = round(exp(rnorm(m, log(520) + 0.40 * V + 0.35 * B, 0.30)), 0),
+  coverage_limit = round(exp(rnorm(m, log(50000) + 0.60 * V, 0.35)), -3),
+  deductible     = round(exp(rnorm(m, log(400) - 0.30 * B, 0.40)), -1),
+  annual_km      = round(exp(rnorm(m, log(12000) + 0.35 * B, 0.40)), -2),
+  claims_3y      = rpois(m, exp(log(0.45) + 0.85 * B)),
+  claim_cost_3y  = NA,
+  bonus_malus    = round(pmin(pmax(rnorm(m, 0.90 + 0.16 * B, 0.12), 0.5), 2.0), 2),
+  years_insured  = round(pmin(pmax(rnorm(m, 11 - 2 * B, 5), 0.5), 40), 1)
+)
+policy$licence_years <- round(pmin(policy$driver_age - 18,
+                                   pmax(rnorm(m, policy$driver_age - 24, 4), 0.5)), 1)
+policy$claim_cost_3y <- round(policy$claims_3y *
+                              exp(rnorm(m, log(2200) + 0.5 * V, 0.6)), -1)
+
+str(policy)
+```
+
+1. Which variables should be log-transformed before the PCA? Justify with a skewness calculation.
+2. `claim_cost_3y` is zero for policies with no claims. What does that do to a log transform, and how will you handle it?
+3. Fit the PCA on the correlation matrix, decide how many components to keep, and name them.
+4. Produce the correlation circle and the biplot, colouring policies by `claims_3y > 0`.
+5. Compare your components with the two latent variables (`V`, `B`) used to generate the data. Did PCA recover them?
+
+<!-- COMMENTED OUT: Exercise 5.
+     To restore: delete this comment opener and the closing marker at the end of the file.
+
+### Exercise 5 — Components and churn
+
+1. Fit a logistic regression of `churn` on the first four principal components and on the thirteen original variables. Compare AIC and the significance of the coefficients.
+2. Which component is most strongly associated with churn? Express what that means in words, using the interpretation of that component.
+3. PC1 is not significant. Is that a failure of PCA? Explain.
+4. Split the data into $70\%$ training and $30\%$ test. Fit the PCA on the training set only, apply it to the test set with `predict()`, and compare the test-set accuracy of the two models. Why would fitting the PCA on the full data set be wrong?
+
+```{webr-r}
+#| label: ex5
+#| autorun: false
+
+pca <- prcomp(X, scale. = TRUE)
+dat <- data.frame(churn = bank$churn, pca$x[, 1:4])
+m_pc <- glm(churn ~ PC1 + PC2 + PC3 + PC4, data = dat, family = binomial)
+summary(m_pc)
+
+# your turn
+```
+
+END OF COMMENTED-OUT EXERCISE -->

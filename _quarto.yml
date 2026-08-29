@@ -17,6 +17,9 @@ book:
         - chapters/Outlier_Detection.qmd
         - chapters/missing_values.qmd
         - chapters/Decision_trees.qmd
+    - part: "Dimension Reduction"
+      chapters:
+        - chapters/pca.qmd
     - part: "Clustering"
       chapters:
         - chapters/clustring.qmd
