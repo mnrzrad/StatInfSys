@@ -364,7 +364,7 @@ From here on, every PCA is on the correlation matrix of the transformed matrix `
 
 ## The Algebra of PCA
 
-### The First Principal Component
+### The First Principal Component {#sec-first-pc}
 
 Let $\mathbf{Z}$ be the centred and scaled data matrix, and consider a direction in variable space given by a unit vector $\mathbf{a} = (a_1, \ldots, a_p)^{\top}$, with $\mathbf{a}^{\top}\mathbf{a} = 1$. Projecting the data onto this direction produces a new variable
 $$
@@ -513,6 +513,192 @@ e <- eigen(cor(X))
 round(e$values, 3)
 sum(e$values)   # equals the number of variables
 ```
+
+### A Two-Dimensional Picture of the Rotation
+
+With thirteen variables the rotation cannot be drawn. With two it can, and the picture is worth more than the algebra. Take just `log_income` and `log_limit` — a client's declared income and the card limit the bank granted them, which are related for an obvious reason.
+
+```{r}
+#| label: rot-setup
+pair  <- X[, c("log_income", "log_limit")]
+pca2  <- prcomp(pair, scale. = TRUE)
+
+# both loadings come back negative; flip so that PC1 points up and to the right
+pca2$rotation <- -pca2$rotation
+pca2$x        <- -pca2$x
+
+cor(pair)[1, 2]
+round(pca2$rotation, 4)
+round(pca2$sdev^2, 4)
+```
+
+The correlation is $r = 0.713$. The left panel below shows the two standardised variables with the component directions drawn over the cloud; the right panel shows the *same clients* after the rotation, plotted against their scores.
+
+```{r}
+#| label: rotation-picture
+#| echo: false
+#| fig-cap: "Left: two correlated standardised variables, with the component axes drawn over the cloud. Right: the same 600 clients plotted on those axes. Nothing has moved relative to anything else — the page has been turned by 45 degrees. Both panels use a 1:1 aspect ratio, without which a rotation does not look like one."
+#| fig-width: 10
+#| fig-height: 5.4
+#| message: false
+#| warning: false
+library(gridExtra)
+
+Z2 <- as.data.frame(scale(pair)); names(Z2) <- c("z1", "z2")
+L  <- pca2$sdev
+V  <- pca2$rotation
+lim <- 4
+
+ax <- data.frame(comp = c("PC1", "PC2"),
+                 x    = -2 * L * V[1, ], y    = -2 * L * V[2, ],
+                 xend =  2 * L * V[1, ], yend =  2 * L * V[2, ])
+
+arc <- data.frame(t = seq(0, pi / 4, length.out = 60))
+arc$x <- 1.5 * cos(arc$t); arc$y <- 1.5 * sin(arc$t)
+
+p_before <- ggplot(Z2, aes(z1, z2)) +
+  geom_hline(yintercept = 0, colour = "grey75") +
+  geom_vline(xintercept = 0, colour = "grey75") +
+  geom_point(colour = "grey55", size = 1.1, alpha = 0.55) +
+  geom_path(data = arc, aes(x, y), colour = "grey30", linewidth = 0.4) +
+  annotate("text", x = 1.95, y = 0.75, label = "theta == 45*degree",
+           parse = TRUE, size = 3.6, colour = "grey20") +
+  annotate("text", x =  2.50, y = 2.5, label = "PC1",
+           colour = "red3", fontface = 2, size = 4) +
+  annotate("text", x = -1.55, y = 1.5, label = "PC2",
+           colour = "steelblue", fontface = 2, size = 4) +
+  geom_segment(data = ax, aes(x = x, y = y, xend = xend, yend = yend, colour = comp),
+               linewidth = 1, arrow = arrow(length = unit(0.16, "cm"), ends = "both")) +
+  scale_colour_manual(values = c(PC1 = "red3", PC2 = "steelblue"), guide = "none") +
+  coord_equal(xlim = c(-lim, lim), ylim = c(-lim, lim)) +
+  labs(title = "Before: the original standardised axes",
+       subtitle = "correlated variables, component directions drawn over the cloud",
+       x = "log_income (standardised)", y = "log_limit (standardised)") +
+  theme_minimal() + theme(legend.position = "none")
+
+p_after <- ggplot(as.data.frame(pca2$x), aes(PC1, PC2)) +
+  geom_hline(yintercept = 0, colour = "red3", linewidth = 1) +
+  geom_vline(xintercept = 0, colour = "steelblue", linewidth = 1) +
+  geom_point(colour = "grey55", size = 1.1, alpha = 0.55) +
+  coord_equal(xlim = c(-lim, lim), ylim = c(-lim, lim)) +
+  labs(title = "After: rotated onto the component axes",
+       subtitle = "same cloud, same distances, now uncorrelated",
+       x = "PC1  (variance 1.713)", y = "PC2  (variance 0.287)") +
+  theme_minimal() + theme(legend.position = "none")
+
+grid.arrange(p_before, p_after, ncol = 2)
+```
+
+The elongated, tilted ellipse on the left becomes an ellipse aligned with the axes on the right. Three things are worth checking rather than believing:
+
+```{r}
+#| label: rot-checks
+# 1. distances between clients are unchanged: a rotation is a rigid motion
+d_before <- dist(scale(pair))
+d_after  <- dist(pca2$x)
+max(abs(d_before - d_after))
+
+# 2. total variance is unchanged, only redistributed
+c(before = sum(apply(scale(pair), 2, var)), after = sum(pca2$sdev^2))
+
+# 3. the new variables are uncorrelated
+round(cor(pca2$x)[1, 2], 12)
+```
+
+The variables started with variance $1$ each. After the rotation the same total of $2$ is split $1.713$ / $0.287$ — that is, $85.6\%$ of it now sits on a single axis. This is the whole of PCA in one line: **the rotation does not create or destroy variance, it concentrates it.**
+
+<!-- ### Why the Angle is Exactly 45 Degrees
+
+For two variables the rotation matrix is
+$$
+\mathbf{A} =
+\begin{bmatrix} \cos\theta & -\sin\theta \\ \sin\theta & \cos\theta \end{bmatrix},
+$$
+and the angle that maximises the variance of the projection is
+$$
+\theta = \frac{1}{2}\arctan\!\left(\frac{2 s_{12}}{s_{11} - s_{22}}\right).
+$$
+When the variables are standardised, $s_{11} = s_{22} = 1$, the denominator vanishes, and the angle is $45^{\circ}$ whatever the value of $r$. The eigenvalues then have a closed form:
+$$
+\lambda_1 = 1 + r, \qquad \lambda_2 = 1 - r .
+$$
+
+```{r}
+#| label: rot-closed-form
+r <- cor(pair)[1, 2]
+c(one_plus_r = 1 + r, one_minus_r = 1 - r)
+round(pca2$sdev^2, 6)
+```
+
+:::{.callout-note}
+For exactly two standardised variables the *direction* of the components carries no information at all — PC1 is always the bisector, PC2 always perpendicular to it. Only the eigenvalues say anything, and they say only what $r$ already said. PCA on two standardised variables is therefore never worth doing; it becomes informative from three variables upwards, where the direction of the first component genuinely depends on the pattern of correlations.
+:::
+
+The optimisation of @sec-first-pc is easy to see here: sweep a direction through every angle and record the variance of the data projected onto it. For standardised variables that variance is $1 + r\sin 2\theta$.
+
+```{r}
+#| label: angle-sweep-calc
+R2  <- cor(pair)
+ang <- seq(0, 180, by = 0.5)
+va  <- sapply(ang, function(d) {
+  a <- c(cos(d * pi / 180), sin(d * pi / 180))   # a unit vector at angle d
+  as.numeric(t(a) %*% R2 %*% a)                  # t(a) S a
+})
+
+data.frame(angle = c(0, 45, 90, 135), variance = round(sapply(c(0, 45, 90, 135),
+  function(d) { a <- c(cos(d * pi / 180), sin(d * pi / 180))
+                as.numeric(t(a) %*% R2 %*% a) }), 3))
+```
+
+```{r}
+#| label: angle-sweep-plot
+#| echo: false
+#| fig-cap: "Variance of the projected data as the projection direction sweeps through 180 degrees. PCA takes the maximum (PC1) and then the direction at right angles to it, which here is also the minimum (PC2)."
+#| fig-width: 8
+#| fig-height: 4.4
+ggplot(data.frame(ang, va), aes(ang, va)) +
+  geom_hline(yintercept = 1, linetype = "dotted", colour = "grey50") +
+  geom_line(colour = "grey25", linewidth = 0.9) +
+  geom_point(data = data.frame(ang = c(45, 135), va = c(1 + r, 1 - r)),
+             aes(ang, va), colour = c("red3", "steelblue"), size = 3) +
+  annotate("text", x = 45,  y = 1.80, parse = TRUE, size = 3.5, colour = "red3",
+           label = "PC1: 45*degree*','~lambda[1]==1.713") +
+  annotate("text", x = 135, y = 0.72, parse = TRUE, size = 3.5, colour = "steelblue",
+           label = "PC2: 135*degree*','~lambda[2]==0.287") +
+  scale_x_continuous(breaks = seq(0, 180, 45)) +
+  labs(title = "Variance of the projection as the axis rotates",
+       subtitle = "each angle is one candidate direction; PCA picks the maximum",
+       x = "angle of the projection direction (degrees)",
+       y = "variance of the projected data") +
+  theme_minimal()
+```
+
+The dotted line at $1$ marks the variance of either original variable. Every direction between $0^{\circ}$ and $90^{\circ}$ does better than both of them, and the best does considerably better — which is the reason for rotating at all.
+
+:::{.callout-tip}
+In $p$ dimensions exactly the same thing happens: the cloud is a $p$-dimensional ellipsoid and PCA turns it until its longest axis lies along the first coordinate, its next longest along the second, and so on. What is lost above three dimensions is only our ability to look at it directly — hence the correlation circle and the biplot of @sec-visualising, which are two-dimensional windows onto that same rotation.
+:::
+
+```{webr-r}
+#| label: rot-try
+#| autorun: false
+
+X <- make_X()
+
+# Try another pair — for example age and tenure (r = 0.86),
+# or card_tx and branch (r = -0.55). What changes, and what does not?
+pair <- X[, c("age", "tenure")]
+p2 <- prcomp(pair, scale. = TRUE)
+
+cor(pair)[1, 2]
+round(p2$sdev^2, 4)       # compare with 1 + r and 1 - r
+round(p2$rotation, 4)     # still the bisector?
+
+plot(scale(pair), pch = 19, col = "grey60", cex = 0.6, asp = 1,
+     xlab = "variable 1 (standardised)", ylab = "variable 2 (standardised)")
+abline(0,  1, col = "red3",     lwd = 2)
+abline(0, -1, col = "steelblue", lwd = 2)
+``` -->
 
 ## Scores, Loadings and Explained Variance
 
@@ -681,7 +867,7 @@ When criteria disagree, prefer the solution you can explain to the business. A c
 
 We retain **three** components for interpretation. Had the goal been prediction rather than explanation, keeping the fourth would have been defensible: a component that resists naming can still carry usable signal.
 
-## Visualising a PCA
+## Visualising a PCA {#sec-visualising}
 
 ### The Variable Correlation Circle
 
