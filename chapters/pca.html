@@ -2614,7 +2614,7 @@ Warning
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>When variables are measured in different units, <strong>always</strong> use the correlation matrix (<code>scale. = TRUE</code> in <code>prcomp</code>, or <code>cor = TRUE</code> in <code>princomp</code>). Otherwise the analysis reflects your choice of units rather than the structure of the data: converting income from euros to thousands of euros would change the result completely.</p>
+<p>When variables are measured in different units, <strong>always</strong> use the correlation matrix (<code>scale. = TRUE</code> in <code>prcomp</code>, or <code>cor = TRUE</code> in <code>princomp</code>). Otherwise the analysis reflects your choice of units rather than the structure of the data: converting income from euros to thousands of euros removes it from the first component altogether (its loading falls from <span class="math inline">\(0.17\)</span> to <span class="math inline">\(0\)</span>), although nothing about the clients has changed.</p>
 <p>The covariance matrix is appropriate only when all variables share the same unit and their differences in variability are themselves meaningful — for example, daily returns of a set of equities, or changes in yields across maturities.</p>
 </div>
 </div>
@@ -2927,7 +2927,7 @@ The dotted line at $1$ marks the variance of either original variable. Every dir
 In $p$ dimensions exactly the same thing happens: the cloud is a $p$-dimensional ellipsoid and PCA turns it until its longest axis lies along the first coordinate, its next longest along the second, and so on. What is lost above three dimensions is only our ability to look at it directly — hence the correlation circle and the biplot of @sec-visualising, which are two-dimensional windows onto that same rotation.
 :::
 
-```hfdfgrsg
+```vebnoghp
 #| label: rot-try
 #| autorun: false
 
@@ -3578,12 +3578,12 @@ Tip
 <section id="outliers-and-heavy-tails" class="level3" data-number="10.9.1">
 <h3 data-number="10.9.1" class="anchored" data-anchor-id="outliers-and-heavy-tails"><span class="header-section-number">10.9.1</span> Outliers and Heavy Tails</h3>
 <p>PCA maximises variance, and variance is not a robust quantity. A single record far from the rest can rotate a component towards itself, producing a “component” that describes one client.</p>
-<p>Suppose a data-entry error adds three zeros to the savings balance and the investment holdings of client <code>C0001</code>. We introduce the same error twice — once in the untransformed variables, once in the log-transformed ones — and compare.</p>
+<p>Suppose data-entry errors inflate the savings balance and the investment holdings of client <code>C0001</code> to €50 million and €30 million; the true values are €22 020 and €77 560. We introduce the same error twice — once in the untransformed variables, once in the log-transformed ones — and compare.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>Xr <span class="ot">&lt;-</span> bank[, num_vars]                 <span class="co"># untransformed</span></span>
 <span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>Xr_bad <span class="ot">&lt;-</span> Xr</span>
-<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a>Xr_bad<span class="sc">$</span>balance_savings[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fl">50e6</span>      <span class="co"># should be 50 000</span></span>
-<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a>Xr_bad<span class="sc">$</span>investments[<span class="dv">1</span>]     <span class="ot">&lt;-</span> <span class="fl">30e6</span>      <span class="co"># should be 30 000</span></span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a>Xr_bad<span class="sc">$</span>balance_savings[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fl">50e6</span>      <span class="co"># true value 22 020</span></span>
+<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a>Xr_bad<span class="sc">$</span>investments[<span class="dv">1</span>]     <span class="ot">&lt;-</span> <span class="fl">30e6</span>      <span class="co"># true value 77 560</span></span>
 <span id="cb68-5"><a href="#cb68-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb68-6"><a href="#cb68-6" aria-hidden="true" tabindex="-1"></a>X_bad <span class="ot">&lt;-</span> X                             <span class="co"># log-transformed</span></span>
 <span id="cb68-7"><a href="#cb68-7" aria-hidden="true" tabindex="-1"></a>X_bad<span class="sc">$</span>log_savings[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">log</span>(<span class="fl">50e6</span>)</span>
@@ -3678,7 +3678,7 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Notice what the log transform bought us. It did not remove the outlier — client <code>C0001</code> still has an absurd balance — but it compressed the error from a factor of <span class="math inline">\(1000\)</span> on the euro scale to an additive shift of <span class="math inline">\(\log(1000) \approx 6.9\)</span> on the log scale, which is large but not catastrophic. Transformation is a cheap and effective first defence against exactly this failure mode. It is not a substitute for looking at the data.</p>
+<p>Notice what the log transform bought us. It did not remove the outlier — client <code>C0001</code> still has an absurd balance — but it compressed errors of a factor of about <span class="math inline">\(2300\)</span> (savings) and <span class="math inline">\(390\)</span> (investments) on the euro scale to additive shifts of <span class="math inline">\(\log(2271) \approx 7.7\)</span> and <span class="math inline">\(\log(387) \approx 6.0\)</span> on the log scale, which are large but not catastrophic. Transformation is a cheap and effective first defence against exactly this failure mode. It is not a substitute for looking at the data.</p>
 </div>
 </div>
 <p>Practical defences:</p>
@@ -3879,7 +3879,7 @@ Caution
 <ol type="1">
 <li>What percentage of variance does the first component explain in each case?</li>
 <li>Which variables have loadings above <span class="math inline">\(0.3\)</span> on PC1 in each case?</li>
-<li>Convert <code>income</code> and all balances from euros to <em>thousands</em> of euros and re-run both analyses. Which one changes, and why?</li>
+<li>Convert the six monetary variables (<code>income</code>, <code>balance_current</code>, <code>balance_savings</code>, <code>investments</code>, <code>credit_limit</code>, <code>loan_balance</code>) from euros to <em>thousands</em> of euros and re-run both analyses. Which one changes, and why?</li>
 </ol>
 <div id="qwebr-insertion-location-8"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
@@ -3940,7 +3940,7 @@ Caution
 3. PC1 is not significant. Is that a failure of PCA? Explain.
 4. Split the data into $70\%$ training and $30\%$ test. Fit the PCA on the training set only, apply it to the test set with `predict()`, and compare the test-set accuracy of the two models. Why would fitting the PCA on the full data set be wrong?
 
-```hfdfgrsg
+```vebnoghp
 #| label: ex5
 #| autorun: false
 
