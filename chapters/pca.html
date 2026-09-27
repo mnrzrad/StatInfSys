@@ -429,7 +429,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"code":"set.seed(2025)\nn <- 600\n\nW <- rnorm(n)                     # latent affluence\nA <- rnorm(n)                     # latent life stage\nD <- 0.80 * rnorm(n) - 0.45 * A   # latent digital propensity\nR <- rnorm(n)                     # latent credit risk\n\nage    <- round(pmin(pmax(rnorm(n, 45 + 12 * A + 2 * W, 4), 19), 84))\ntenure <- round(pmin(pmax(rnorm(n, (age - 18) * 0.32 + 1.5 * A, 3), 0.5), 40), 1)\n\nincome          <- round(exp(rnorm(n, log(26000) + 0.45 * W, 0.30)), -2)\nbalance_current <- round(exp(rnorm(n, log(2800)  + 0.55 * W + 0.10 * D, 0.60)), -1)\nbalance_savings <- round(exp(rnorm(n, log(11000) + 0.90 * W + 0.25 * A, 0.70)), -1)\ninvestments     <- round(exp(rnorm(n, log(4500)  + 1.25 * W + 0.20 * A, 1.00)), -1)\ncredit_limit    <- round(exp(rnorm(n, log(3000)  + 0.60 * W, 0.40)), -2)\nutilization     <- round(pmin(pmax(rnorm(n, 34 + 17 * R - 6 * W, 9), 0), 100), 1)\nloan_balance    <- round(exp(rnorm(n, log(14000) + 0.55 * R + 0.40 * W, 0.80)), -2)\ncard_tx         <- rpois(n, exp(log(24) + 0.45 * D + 0.15 * W))\nmobile_logins   <- rpois(n, exp(log(16) + 0.60 * D))\nbranch_visits   <- rpois(n, exp(log(5)  - 0.70 * D + 0.15 * A))\nmissed_payments <- pmin(rpois(n, exp(log(0.6) + 0.80 * R - 0.30 * W)), 12)\n\nwealth_score <- 0.5 * scale(log(income)) + 0.5 * scale(log(investments + 1))\nsegment <- cut(wealth_score,\n               breaks = quantile(wealth_score, c(0, .60, .90, 1)),\n               labels = c(\"Mass\", \"Affluent\", \"Private\"),\n               include.lowest = TRUE)\nregion  <- factor(sample(c(\"Norte\", \"Centro\", \"Lisboa\", \"Sul\"), n,\n                         TRUE, c(.28, .22, .35, .15)))\neta     <- -1.6 - 0.9 * D + 0.6 * R\nchurn   <- factor(ifelse(runif(n) < 1 / (1 + exp(-eta)), \"Yes\", \"No\"),\n                  levels = c(\"No\", \"Yes\"))\n\nbank <- data.frame(client_id = sprintf(\"C%04d\", 1:n),\n                   age, tenure, income, balance_current, balance_savings,\n                   investments, credit_limit, utilization, loan_balance,\n                   card_tx, mobile_logins, branch_visits, missed_payments,\n                   segment, region, churn)\n\nnum_vars <- c(\"age\", \"tenure\", \"income\", \"balance_current\", \"balance_savings\",\n              \"investments\", \"credit_limit\", \"utilization\", \"loan_balance\",\n              \"card_tx\", \"mobile_logins\", \"branch_visits\", \"missed_payments\")\n\nstr(bank)","id":1,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"generate-bank-webr","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"make_X <- function(d = bank) {\n  data.frame(age         = d$age,\n             tenure      = d$tenure,\n             log_income  = log(d$income),\n             log_current = log(d$balance_current),\n             log_savings = log(d$balance_savings),\n             log_invest  = log(d$investments),\n             log_limit   = log(d$credit_limit),\n             utilization = d$utilization,\n             log_loan    = log(d$loan_balance),\n             card_tx     = d$card_tx,\n             mobile      = d$mobile_logins,\n             branch      = d$branch_visits,\n             missed      = d$missed_payments)\n}\n\nX <- make_X()\nstr(X)","id":2,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"make-X-webr","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Try it: which pairs are most strongly correlated?\nXsub <- data.frame(age = bank$age, tenure = bank$tenure,\n                   log_income  = log(bank$income),\n                   log_savings = log(bank$balance_savings),\n                   utilization = bank$utilization,\n                   mobile      = bank$mobile_logins,\n                   branch      = bank$branch_visits)\n\nround(cor(Xsub), 2)","id":3,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"explore-cor","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Build the transformed matrix and reproduce the eigenvalues yourself\nX <- make_X()\n\ne <- eigen(cor(X))\nround(e$values, 3)\nsum(e$values)   # equals the number of variables","id":4,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"eigen-exercise","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"X <- make_X()\n\npca <- prcomp(X, scale. = TRUE)\nsummary(pca)\n\n# scores of the first five clients on the first three components\nround(pca$x[1:5, 1:3], 3)","id":5,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"pca-fit-webr","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(factoextra)\n\nX <- make_X()\npca <- prcomp(X, scale. = TRUE)\n\n# change axes to c(1, 3) or c(2, 3) and re-run\nfviz_pca_var(pca, axes = c(1, 2), col.var = \"cos2\", repel = TRUE)","id":6,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"viz-webr","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# colour the clients by churn instead of segment\nfviz_pca_ind(pca, axes = c(2, 3), geom.ind = \"point\",\n             col.ind = bank$churn, addEllipses = TRUE,\n             legend.title = \"Churn\")","id":7,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"viz-webr-ind","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"num_vars <- c(\"age\", \"tenure\", \"income\", \"balance_current\", \"balance_savings\",\n              \"investments\", \"credit_limit\", \"utilization\", \"loan_balance\",\n              \"card_tx\", \"mobile_logins\", \"branch_visits\", \"missed_payments\")\n\npca_raw <- prcomp(bank[, num_vars], scale. = FALSE)\n\n# your turn","id":8,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"ex1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"X <- make_X()\n\nZ <- scale(X)\ne <- eigen(cor(X))\n\n# your turn","id":9,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"ex2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"pca <- prcomp(X, scale. = TRUE)\n\np <- ncol(X)\nbstick <- sapply(1:p, function(k) sum(1 / (k:p)) / p) * 100\n\n# your turn","id":10,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"ex3","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"set.seed(7)\nm <- 500\nV <- rnorm(m)   # vehicle and coverage value\nB <- rnorm(m)   # driving behaviour / risk\n\npolicy <- data.frame(\n  policy_id      = sprintf(\"P%04d\", 1:m),\n  driver_age     = round(pmin(pmax(rnorm(m, 46 - 4 * B, 12), 18), 85)),\n  licence_years  = NA,\n  vehicle_age    = round(pmin(pmax(rnorm(m, 9 - 3 * V, 4), 0), 30)),\n  vehicle_value  = round(exp(rnorm(m, log(14000) + 0.55 * V, 0.45)), -2),\n  annual_premium = round(exp(rnorm(m, log(520) + 0.40 * V + 0.35 * B, 0.30)), 0),\n  coverage_limit = round(exp(rnorm(m, log(50000) + 0.60 * V, 0.35)), -3),\n  deductible     = round(exp(rnorm(m, log(400) - 0.30 * B, 0.40)), -1),\n  annual_km      = round(exp(rnorm(m, log(12000) + 0.35 * B, 0.40)), -2),\n  claims_3y      = rpois(m, exp(log(0.45) + 0.85 * B)),\n  claim_cost_3y  = NA,\n  bonus_malus    = round(pmin(pmax(rnorm(m, 0.90 + 0.16 * B, 0.12), 0.5), 2.0), 2),\n  years_insured  = round(pmin(pmax(rnorm(m, 11 - 2 * B, 5), 0.5), 40), 1)\n)\npolicy$licence_years <- round(pmin(policy$driver_age - 18,\n                                   pmax(rnorm(m, policy$driver_age - 24, 4), 0.5)), 1)\npolicy$claim_cost_3y <- round(policy$claims_3y *\n                              exp(rnorm(m, log(2200) + 0.5 * V, 0.6)), -1)\n\nstr(policy)","id":11,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"ex4","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
+globalThis.qwebrCellDetails = [{"code":"set.seed(2025)\nn <- 600\n\nW <- rnorm(n)                     # latent affluence\nA <- rnorm(n)                     # latent life stage\nD <- 0.80 * rnorm(n) - 0.45 * A   # latent digital propensity\nR <- rnorm(n)                     # latent credit risk\n\nage    <- round(pmin(pmax(rnorm(n, 45 + 12 * A + 2 * W, 4), 19), 84))\ntenure <- round(pmin(pmax(rnorm(n, (age - 18) * 0.32 + 1.5 * A, 3), 0.5), 40), 1)\n\nincome          <- round(exp(rnorm(n, log(26000) + 0.45 * W, 0.30)), -2)\nbalance_current <- round(exp(rnorm(n, log(2800)  + 0.55 * W + 0.10 * D, 0.60)), -1)\nbalance_savings <- round(exp(rnorm(n, log(11000) + 0.90 * W + 0.25 * A, 0.70)), -1)\ninvestments     <- round(exp(rnorm(n, log(4500)  + 1.25 * W + 0.20 * A, 1.00)), -1)\ncredit_limit    <- round(exp(rnorm(n, log(3000)  + 0.60 * W, 0.40)), -2)\nutilization     <- round(pmin(pmax(rnorm(n, 34 + 17 * R - 6 * W, 9), 0), 100), 1)\nloan_balance    <- round(exp(rnorm(n, log(14000) + 0.55 * R + 0.40 * W, 0.80)), -2)\ncard_tx         <- rpois(n, exp(log(24) + 0.45 * D + 0.15 * W))\nmobile_logins   <- rpois(n, exp(log(16) + 0.60 * D))\nbranch_visits   <- rpois(n, exp(log(5)  - 0.70 * D + 0.15 * A))\nmissed_payments <- pmin(rpois(n, exp(log(0.6) + 0.80 * R - 0.30 * W)), 12)\n\nwealth_score <- 0.5 * scale(log(income)) + 0.5 * scale(log(investments + 1))\nsegment <- cut(wealth_score,\n               breaks = quantile(wealth_score, c(0, .60, .90, 1)),\n               labels = c(\"Mass\", \"Affluent\", \"Private\"),\n               include.lowest = TRUE)\nregion  <- factor(sample(c(\"Norte\", \"Centro\", \"Lisboa\", \"Sul\"), n,\n                         TRUE, c(.28, .22, .35, .15)))\neta     <- -1.6 - 0.9 * D + 0.6 * R\nchurn   <- factor(ifelse(runif(n) < 1 / (1 + exp(-eta)), \"Yes\", \"No\"),\n                  levels = c(\"No\", \"Yes\"))\n\nbank <- data.frame(client_id = sprintf(\"C%04d\", 1:n),\n                   age, tenure, income, balance_current, balance_savings,\n                   investments, credit_limit, utilization, loan_balance,\n                   card_tx, mobile_logins, branch_visits, missed_payments,\n                   segment, region, churn)\n\nnum_vars <- c(\"age\", \"tenure\", \"income\", \"balance_current\", \"balance_savings\",\n              \"investments\", \"credit_limit\", \"utilization\", \"loan_balance\",\n              \"card_tx\", \"mobile_logins\", \"branch_visits\", \"missed_payments\")\n\nstr(bank)","id":1,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"generate-bank-webr","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"make_X <- function(d = bank) {\n  data.frame(age         = d$age,\n             tenure      = d$tenure,\n             log_income  = log(d$income),\n             log_current = log(d$balance_current),\n             log_savings = log(d$balance_savings),\n             log_invest  = log(d$investments),\n             log_limit   = log(d$credit_limit),\n             utilization = d$utilization,\n             log_loan    = log(d$loan_balance),\n             card_tx     = d$card_tx,\n             mobile      = d$mobile_logins,\n             branch      = d$branch_visits,\n             missed      = d$missed_payments)\n}\n\nX <- make_X()\nstr(X)","id":2,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"make-X-webr","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Try it: which pairs are most strongly correlated?\nXsub <- data.frame(age = bank$age, tenure = bank$tenure,\n                   log_income  = log(bank$income),\n                   log_savings = log(bank$balance_savings),\n                   utilization = bank$utilization,\n                   mobile      = bank$mobile_logins,\n                   branch      = bank$branch_visits)\n\nround(cor(Xsub), 2)","id":3,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"explore-cor","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Build the transformed matrix and reproduce the eigenvalues yourself\nX <- make_X()\n\ne <- eigen(cor(X))\nround(e$values, 3)\nsum(e$values)   # equals the number of variables","id":4,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"eigen-exercise","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"X <- make_X()\n\npca <- prcomp(X, scale. = TRUE)\nsummary(pca)\n\n# scores of the first five clients on the first three components\nround(pca$x[1:5, 1:3], 3)","id":5,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"pca-fit-webr","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(factoextra)\n\nX <- make_X()\npca <- prcomp(X, scale. = TRUE)\n\n# change axes to c(1, 3) or c(2, 3) and re-run\nfviz_pca_var(pca, axes = c(1, 2), col.var = \"cos2\", repel = TRUE)","id":6,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"viz-webr","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# colour the clients by churn instead of segment\nfviz_pca_ind(pca, axes = c(2, 3), geom.ind = \"point\",\n             col.ind = bank$churn, addEllipses = TRUE,\n             legend.title = \"Churn\")","id":7,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"viz-webr-ind","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"X <- make_X()\npca <- prcomp(X, scale. = TRUE)\n\nk <- 4\nL <- pca$rotation[, 1:k] %*% diag(pca$sdev[1:k])\ndimnames(L) <- list(colnames(X), paste0(\"PC\", 1:k))\n\n# try k = 2, 3, 5 and watch how much the rotated solution changes\nprint(round(varimax(L)$loadings, 2), cutoff = 0.3)\n\n# and compare with the oblique solution\nprint(round(promax(L)$loadings, 2), cutoff = 0.3)","id":8,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"rot-webr","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"num_vars <- c(\"age\", \"tenure\", \"income\", \"balance_current\", \"balance_savings\",\n              \"investments\", \"credit_limit\", \"utilization\", \"loan_balance\",\n              \"card_tx\", \"mobile_logins\", \"branch_visits\", \"missed_payments\")\n\npca_raw <- prcomp(bank[, num_vars], scale. = FALSE)\n\n# your turn","id":9,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"ex1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"X <- make_X()\n\nZ <- scale(X)\ne <- eigen(cor(X))\n\n# your turn","id":10,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"ex2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"X   <- make_X()\npca <- prcomp(X, scale. = TRUE)\n\np <- ncol(X)\nbstick <- sapply(1:p, function(k) sum(1 / (k:p)) / p) * 100\n\n# your turn","id":11,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"ex3","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"set.seed(7)\nm <- 500\nV <- rnorm(m)   # vehicle and coverage value\nB <- rnorm(m)   # driving behaviour / risk\n\npolicy <- data.frame(\n  policy_id      = sprintf(\"P%04d\", 1:m),\n  driver_age     = round(pmin(pmax(rnorm(m, 46 - 4 * B, 12), 18), 85)),\n  licence_years  = NA,\n  vehicle_age    = round(pmin(pmax(rnorm(m, 9 - 3 * V, 4), 0), 30)),\n  vehicle_value  = round(exp(rnorm(m, log(14000) + 0.55 * V, 0.45)), -2),\n  annual_premium = round(exp(rnorm(m, log(520) + 0.40 * V + 0.35 * B, 0.30)), 0),\n  coverage_limit = round(exp(rnorm(m, log(50000) + 0.60 * V, 0.35)), -3),\n  deductible     = round(exp(rnorm(m, log(400) - 0.30 * B, 0.40)), -1),\n  annual_km      = round(exp(rnorm(m, log(12000) + 0.35 * B, 0.40)), -2),\n  claims_3y      = rpois(m, exp(log(0.45) + 0.85 * B)),\n  claim_cost_3y  = NA,\n  bonus_malus    = round(pmin(pmax(rnorm(m, 0.90 + 0.16 * B, 0.12), 0.5), 2.0), 2),\n  years_insured  = round(pmin(pmax(rnorm(m, 11 - 2 * B, 5), 0.5), 40), 1)\n)\npolicy$licence_years <- round(pmin(policy$driver_age - 18,\n                                   pmax(rnorm(m, policy$driver_age - 24, 4), 0.5)), 1)\npolicy$claim_cost_3y <- round(policy$claims_3y *\n                              exp(rnorm(m, log(2200) + 0.5 * V, 0.6)), -1)\n\nstr(policy)","id":12,"options":{"autorun":"true","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"ex4","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"X   <- make_X()\npca <- prcomp(X, scale. = TRUE)\n\nk <- 3\nL <- pca$rotation[, 1:k] %*% diag(pca$sdev[1:k])\ndimnames(L) <- list(colnames(X), paste0(\"PC\", 1:k))\n\nvarimax(L)\n\n# your turn","id":13,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"ex5","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
 
 </script>
 <script type="module">
@@ -1946,22 +1946,33 @@ window.Quarto = {
   <li><a href="#the-biplot" id="toc-the-biplot" class="nav-link" data-scroll-target="#the-biplot"><span class="header-section-number">10.7.6</span> The Biplot</a></li>
   </ul></li>
   <li><a href="#interpreting-the-components" id="toc-interpreting-the-components" class="nav-link" data-scroll-target="#interpreting-the-components"><span class="header-section-number">10.8</span> Interpreting the Components</a></li>
-  <li><a href="#practical-issues" id="toc-practical-issues" class="nav-link" data-scroll-target="#practical-issues"><span class="header-section-number">10.9</span> Practical Issues</a>
+  <li><a href="#sec-rotation" id="toc-sec-rotation" class="nav-link" data-scroll-target="#sec-rotation"><span class="header-section-number">10.9</span> Rotating the Components for Interpretation</a>
   <ul>
-  <li><a href="#outliers-and-heavy-tails" id="toc-outliers-and-heavy-tails" class="nav-link" data-scroll-target="#outliers-and-heavy-tails"><span class="header-section-number">10.9.1</span> Outliers and Heavy Tails</a></li>
-  <li><a href="#missing-values" id="toc-missing-values" class="nav-link" data-scroll-target="#missing-values"><span class="header-section-number">10.9.2</span> Missing Values</a></li>
-  <li><a href="#categorical-variables" id="toc-categorical-variables" class="nav-link" data-scroll-target="#categorical-variables"><span class="header-section-number">10.9.3</span> Categorical Variables</a></li>
-  <li><a href="#multicollinearity-and-near-constant-variables" id="toc-multicollinearity-and-near-constant-variables" class="nav-link" data-scroll-target="#multicollinearity-and-near-constant-variables"><span class="header-section-number">10.9.4</span> Multicollinearity and Near-Constant Variables</a></li>
-  <li><a href="#sample-size" id="toc-sample-size" class="nav-link" data-scroll-target="#sample-size"><span class="header-section-number">10.9.5</span> Sample Size</a></li>
+  <li><a href="#simple-structure" id="toc-simple-structure" class="nav-link" data-scroll-target="#simple-structure"><span class="header-section-number">10.9.1</span> Simple Structure</a></li>
+  <li><a href="#the-orthomax-family" id="toc-the-orthomax-family" class="nav-link" data-scroll-target="#the-orthomax-family"><span class="header-section-number">10.9.2</span> The Orthomax Family</a></li>
+  <li><a href="#varimax-on-the-bank-portfolio" id="toc-varimax-on-the-bank-portfolio" class="nav-link" data-scroll-target="#varimax-on-the-bank-portfolio"><span class="header-section-number">10.9.3</span> Varimax on the Bank Portfolio</a></li>
+  <li><a href="#comparing-methods" id="toc-comparing-methods" class="nav-link" data-scroll-target="#comparing-methods"><span class="header-section-number">10.9.4</span> Comparing Methods</a></li>
+  <li><a href="#oblique-rotations" id="toc-oblique-rotations" class="nav-link" data-scroll-target="#oblique-rotations"><span class="header-section-number">10.9.5</span> Oblique Rotations</a></li>
+  <li><a href="#rotated-scores" id="toc-rotated-scores" class="nav-link" data-scroll-target="#rotated-scores"><span class="header-section-number">10.9.6</span> Rotated Scores</a></li>
+  <li><a href="#when-to-rotate-and-when-not-to" id="toc-when-to-rotate-and-when-not-to" class="nav-link" data-scroll-target="#when-to-rotate-and-when-not-to"><span class="header-section-number">10.9.7</span> When to Rotate, and When Not To</a></li>
   </ul></li>
-  <li><a href="#common-pitfalls" id="toc-common-pitfalls" class="nav-link" data-scroll-target="#common-pitfalls"><span class="header-section-number">10.10</span> Common Pitfalls</a></li>
-  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">10.11</span> Summary</a></li>
-  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">10.12</span> Exercises</a>
+  <li><a href="#practical-issues" id="toc-practical-issues" class="nav-link" data-scroll-target="#practical-issues"><span class="header-section-number">10.10</span> Practical Issues</a>
   <ul>
-  <li><a href="#exercise-1-scaling" id="toc-exercise-1-scaling" class="nav-link" data-scroll-target="#exercise-1-scaling"><span class="header-section-number">10.12.1</span> Exercise 1 — Scaling</a></li>
-  <li><a href="#exercise-2-reproducing-the-output-by-hand" id="toc-exercise-2-reproducing-the-output-by-hand" class="nav-link" data-scroll-target="#exercise-2-reproducing-the-output-by-hand"><span class="header-section-number">10.12.2</span> Exercise 2 — Reproducing the output by hand</a></li>
-  <li><a href="#exercise-3-how-many-components" id="toc-exercise-3-how-many-components" class="nav-link" data-scroll-target="#exercise-3-how-many-components"><span class="header-section-number">10.12.3</span> Exercise 3 — How many components?</a></li>
-  <li><a href="#exercise-4-an-insurance-portfolio" id="toc-exercise-4-an-insurance-portfolio" class="nav-link" data-scroll-target="#exercise-4-an-insurance-portfolio"><span class="header-section-number">10.12.4</span> Exercise 4 — An insurance portfolio</a></li>
+  <li><a href="#outliers-and-heavy-tails" id="toc-outliers-and-heavy-tails" class="nav-link" data-scroll-target="#outliers-and-heavy-tails"><span class="header-section-number">10.10.1</span> Outliers and Heavy Tails</a></li>
+  <li><a href="#missing-values" id="toc-missing-values" class="nav-link" data-scroll-target="#missing-values"><span class="header-section-number">10.10.2</span> Missing Values</a></li>
+  <li><a href="#categorical-variables" id="toc-categorical-variables" class="nav-link" data-scroll-target="#categorical-variables"><span class="header-section-number">10.10.3</span> Categorical Variables</a></li>
+  <li><a href="#multicollinearity-and-near-constant-variables" id="toc-multicollinearity-and-near-constant-variables" class="nav-link" data-scroll-target="#multicollinearity-and-near-constant-variables"><span class="header-section-number">10.10.4</span> Multicollinearity and Near-Constant Variables</a></li>
+  <li><a href="#sample-size" id="toc-sample-size" class="nav-link" data-scroll-target="#sample-size"><span class="header-section-number">10.10.5</span> Sample Size</a></li>
+  </ul></li>
+  <li><a href="#common-pitfalls" id="toc-common-pitfalls" class="nav-link" data-scroll-target="#common-pitfalls"><span class="header-section-number">10.11</span> Common Pitfalls</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">10.12</span> Summary</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">10.13</span> Exercises</a>
+  <ul>
+  <li><a href="#exercise-1-scaling" id="toc-exercise-1-scaling" class="nav-link" data-scroll-target="#exercise-1-scaling"><span class="header-section-number">10.13.1</span> Exercise 1 — Scaling</a></li>
+  <li><a href="#exercise-2-reproducing-the-output-by-hand" id="toc-exercise-2-reproducing-the-output-by-hand" class="nav-link" data-scroll-target="#exercise-2-reproducing-the-output-by-hand"><span class="header-section-number">10.13.2</span> Exercise 2 — Reproducing the output by hand</a></li>
+  <li><a href="#exercise-3-how-many-components" id="toc-exercise-3-how-many-components" class="nav-link" data-scroll-target="#exercise-3-how-many-components"><span class="header-section-number">10.13.3</span> Exercise 3 — How many components?</a></li>
+  <li><a href="#exercise-4-an-insurance-portfolio" id="toc-exercise-4-an-insurance-portfolio" class="nav-link" data-scroll-target="#exercise-4-an-insurance-portfolio"><span class="header-section-number">10.13.4</span> Exercise 4 — An insurance portfolio</a></li>
+  <li><a href="#exercise-5-rotation-and-interpretation" id="toc-exercise-5-rotation-and-interpretation" class="nav-link" data-scroll-target="#exercise-5-rotation-and-interpretation"><span class="header-section-number">10.13.5</span> Exercise 5 — Rotation and interpretation</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -2927,7 +2938,7 @@ The dotted line at $1$ marks the variance of either original variable. Every dir
 In $p$ dimensions exactly the same thing happens: the cloud is a $p$-dimensional ellipsoid and PCA turns it until its longest axis lies along the first coordinate, its next longest along the second, and so on. What is lost above three dimensions is only our ability to look at it directly — hence the correlation circle and the biplot of @sec-visualising, which are two-dimensional windows onto that same rotation.
 :::
 
-```vebnoghp
+```yiddcamm
 #| label: rot-try
 #| autorun: false
 
@@ -3218,7 +3229,7 @@ Tip
 <td style="text-align: left;">Interpretability</td>
 <td style="text-align: left;">Can you name it?</td>
 <td style="text-align: center;">3</td>
-<td style="text-align: left;">The criterion that decides ties</td>
+<td style="text-align: left;">The criterion that decides ties — but see <a href="#sec-rotation" class="quarto-xref"><span>Section 10.9</span></a></td>
 </tr>
 </tbody>
 </table>
@@ -3226,6 +3237,7 @@ Tip
 </div>
 </div>
 <p>We retain <strong>three</strong> components for interpretation. Had the goal been prediction rather than explanation, keeping the fourth would have been defensible: a component that resists naming can still carry usable signal.</p>
+<p>That is not quite the end of the question. <a href="#sec-rotation" class="quarto-xref"><span>Section 10.9</span></a> reopens it: a component that cannot be named <em>as it stands</em> may become nameable once the axes inside the retained subspace are rotated, and the fourth component of this portfolio is exactly such a case.</p>
 </section>
 </section>
 <section id="sec-visualising" class="level2" data-number="10.7">
@@ -3301,8 +3313,8 @@ missed      0.089 0.005 0.528</code></pre>
 <section id="communalities" class="level3" data-number="10.7.3">
 <h3 data-number="10.7.3" class="anchored" data-anchor-id="communalities"><span class="header-section-number">10.7.3</span> Communalities</h3>
 <p>The sum of the squared cosines of a variable over the retained components has a name of its own: it is the <strong>communality</strong> of that variable, <span class="math display">\[
-h_j^2 = \sum_{k=1}^{m} \cos^2(j, k) = \sum_{k=1}^{m} a_{jk}^{2}\lambda_k ,
-\]</span> where <span class="math inline">\(m\)</span> is the number of components kept. It is the proportion of variable <span class="math inline">\(j\)</span>’s variance that the retained components account for, and <span class="math inline">\(1 - h_j^2\)</span> — the part they leave behind — is called the variable’s <strong>uniqueness</strong> or <em>specific variance</em>.</p>
+h_j^2 = \sum_{c=1}^{k} \cos^2(j, c) = \sum_{c=1}^{k} a_{jc}^{2}\lambda_c ,
+\]</span> where <span class="math inline">\(k\)</span> is the number of components kept. It is the proportion of variable <span class="math inline">\(j\)</span>’s variance that the retained components account for, and <span class="math inline">\(1 - h_j^2\)</span> — the part they leave behind — is called the variable’s <strong>uniqueness</strong> or <em>specific variance</em>.</p>
 <p>The name records what the quantity measures: the part of a variable that it holds <em>in common</em> with the others, in the sense that the retained components — which are built from all the variables at once — can reproduce it. What is left over, the uniqueness, is the part of the variable that the shared structure does not reach.</p>
 <p>Two properties follow directly from the definition:</p>
 <ul>
@@ -3569,35 +3581,419 @@ Tip
 </div>
 <div class="callout-body-container callout-body">
 <p>The interpretation above recovers, almost exactly, the four latent factors used to generate the data (<code>W</code> affluence, <code>A</code> life stage, <code>D</code> digital propensity, <code>R</code> credit risk) — although <code>A</code> and <code>D</code> were deliberately entangled and PCA, which is restricted to <em>orthogonal</em> directions, splits them across PC2 and PC4 rather than isolating each.</p>
-<p>This is the honest limitation of the method: PCA recovers latent structure only up to a rotation, and there is no reason for the true drivers of a phenomenon to be orthogonal to one another. Methods that relax orthogonality, such as independent component analysis, exist precisely for this reason.</p>
+<p>PCA recovers latent structure only up to a rotation. That is a real limitation, but it is also an opening: if the retained subspace is right and only the axes inside it are awkwardly placed, the axes can be turned. <a href="#sec-rotation" class="quarto-xref"><span>Section 10.9</span></a> does exactly that, and recovers all four factors — <code>A</code> included.</p>
 </div>
 </div>
 </section>
-<section id="practical-issues" class="level2" data-number="10.9">
-<h2 data-number="10.9" class="anchored" data-anchor-id="practical-issues"><span class="header-section-number">10.9</span> Practical Issues</h2>
-<section id="outliers-and-heavy-tails" class="level3" data-number="10.9.1">
-<h3 data-number="10.9.1" class="anchored" data-anchor-id="outliers-and-heavy-tails"><span class="header-section-number">10.9.1</span> Outliers and Heavy Tails</h3>
+<section id="sec-rotation" class="level2" data-number="10.9">
+<h2 data-number="10.9" class="anchored" data-anchor-id="sec-rotation"><span class="header-section-number">10.9</span> Rotating the Components for Interpretation</h2>
+<p>Three of our four components had a clear reading; the fourth did not. That is a common outcome, and there is a standard response to it: keep the same set of retained components but <strong>turn the axes inside the subspace they span</strong> until the loadings fall into a pattern that is easier to name.</p>
+<p>This is a different operation from the rotation of <a href="#sec-first-pc" class="quarto-xref"><span>Section 10.4.1</span></a>. There, rotating the axes <em>was</em> the PCA — the whole <span class="math inline">\(p\)</span>-dimensional basis was turned so that the first axis caught the most variance. Here we take the <span class="math inline">\(k\)</span> retained components as given and rotate only within them, deliberately giving up the maximum-variance ordering in exchange for readability.</p>
+<section id="simple-structure" class="level3" data-number="10.9.1">
+<h3 data-number="10.9.1" class="anchored" data-anchor-id="simple-structure"><span class="header-section-number">10.9.1</span> Simple Structure</h3>
+<p>The target is what <span class="citation" data-cites="thurstone1947">Thurstone (<a href="#ref-thurstone1947" role="doc-biblioref">1947</a>)</span> called <strong>simple structure</strong>: a loadings matrix in which</p>
+<ul>
+<li>each variable loads strongly on <strong>one</strong> component and near zero on the others,</li>
+<li>each component has a handful of large loadings and many small ones,</li>
+<li>few variables load on several components at once.</li>
+</ul>
+<p>A matrix like that almost reads itself. The unrotated one rarely looks like that, because the first component is built to absorb as much variance as it can from <em>every</em> variable, which guarantees it has many moderate loadings.</p>
+<p>Write <span class="math inline">\(\mathbf{L} = \mathbf{A}_k \boldsymbol{\Lambda}_k^{1/2}\)</span> for the <span class="math inline">\(p \times k\)</span> matrix of loadings on the retained components — the variable-component correlations of <a href="#sec-visualising" class="quarto-xref"><span>Section 10.7</span></a>. A rotation replaces it by <span class="math display">\[
+\mathbf{L}^{*} = \mathbf{L}\,\mathbf{T},
+\]</span> with <span class="math inline">\(\mathbf{T}\)</span> a <span class="math inline">\(k \times k\)</span> orthogonal matrix chosen to make <span class="math inline">\(\mathbf{L}^{*}\)</span> as close to simple structure as some criterion can measure. Throughout this section <span class="math inline">\(k\)</span> is the <em>number</em> of retained components (the <code>k</code> of the code) and components are indexed by <span class="math inline">\(c\)</span>.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>“Loadings” is used for two different matrices.</strong> Earlier in the chapter it meant <code>pca$rotation</code>, the eigenvectors, whose columns have unit length. Here it means <span class="math inline">\(\mathbf{A}_k\boldsymbol{\Lambda}_k^{1/2}\)</span>, whose entries are correlations and whose columns have squared sum <span class="math inline">\(\lambda_c\)</span>. Both are standard and both are called loadings; rotation is defined on the second, because simple structure is a statement about correlations. When you compare a printed table with <code>pca$rotation</code>, check which one you are holding.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>What a rotation preserves</strong></p>
+<ul>
+<li>the subspace spanned by the retained components, so the fitted values and the reconstruction error are unchanged;</li>
+<li>every variable’s communality <span class="math inline">\(h_j^2\)</span>, and therefore the total variance retained.</li>
+</ul>
+<p><strong>What it gives up</strong></p>
+<ul>
+<li>the ordering: rotated components are no longer sorted by variance, and none of them is the maximum-variance direction any more;</li>
+<li>the eigenvector property: they are no longer principal components, which is why they are conventionally written RC1, RC2, … rather than PC1, PC2, …;</li>
+<li>uniqueness of the story: <span class="math inline">\(k\)</span> must be chosen <em>before</em> rotating, and a different <span class="math inline">\(k\)</span> gives a different rotated solution — not a nested one.</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="the-orthomax-family" class="level3" data-number="10.9.2">
+<h3 data-number="10.9.2" class="anchored" data-anchor-id="the-orthomax-family"><span class="header-section-number">10.9.2</span> The Orthomax Family</h3>
+<p>Most orthogonal rotations maximise one criterion with one parameter changed: <span class="math display">\[
+Q(\mathbf{L}^{*}) \;=\; \sum_{c=1}^{k}\sum_{j=1}^{p} l_{jc}^{*4} \;-\; \frac{\gamma}{p}\sum_{c=1}^{k}\left(\sum_{j=1}^{p} l_{jc}^{*2}\right)^{2}.
+\]</span> Different <span class="math inline">\(\gamma\)</span> give the named methods:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 18%">
+<col style="width: 13%">
+<col style="width: 18%">
+<col style="width: 48%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Method</th>
+<th style="text-align: center;"><span class="math inline">\(\gamma\)</span></th>
+<th style="text-align: left;">Simplifies</th>
+<th style="text-align: left;">Behaviour</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Quartimax</strong></td>
+<td style="text-align: center;"><span class="math inline">\(0\)</span></td>
+<td style="text-align: left;">rows (variables)</td>
+<td style="text-align: left;">Each variable loads on as few components as possible. Tends to leave one large general component.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Varimax</strong></td>
+<td style="text-align: center;"><span class="math inline">\(1\)</span></td>
+<td style="text-align: left;">columns (components)</td>
+<td style="text-align: left;">Each component gets a few large loadings. The default choice, and the one that most reliably produces nameable components.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Equamax</strong></td>
+<td style="text-align: center;"><span class="math inline">\(k/2\)</span></td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">A compromise; spreads variance more evenly across components. Can be unstable.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Parsimax</strong></td>
+<td style="text-align: center;"><span class="math inline">\(p(k-1)/(p+k-2)\)</span></td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">A further compromise, weighted by the problem’s dimensions.</td>
+</tr>
+</tbody>
+</table>
+<p>Varimax <span class="citation" data-cites="kaiser1958">(<a href="#ref-kaiser1958" role="doc-biblioref">Kaiser 1958</a>)</span> is the one to reach for unless you have a reason not to.</p>
+<p><code>GPArotation</code> parameterises the same family through the Crawford-Ferguson constant <span class="math inline">\(\kappa = \gamma/p\)</span>, which is why equamax appears below as <code>kappa = k / (2 * ncol(X))</code> rather than as <span class="math inline">\(\gamma = k/2\)</span>. The two are the same rotation.</p>
+</section>
+<section id="varimax-on-the-bank-portfolio" class="level3" data-number="10.9.3">
+<h3 data-number="10.9.3" class="anchored" data-anchor-id="varimax-on-the-bank-portfolio"><span class="header-section-number">10.9.3</span> Varimax on the Bank Portfolio</h3>
+<p>We rotate <strong>four</strong> components rather than three. The reason is the one <a href="#sec-how-many" class="quarto-xref"><span>Section 10.6</span></a> left unresolved: Kaiser retained four, broken-stick three, and we kept three because the fourth could not be named. Rotation changes that calculation, as we are about to see.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>k <span class="ot">&lt;-</span> <span class="dv">4</span></span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>L <span class="ot">&lt;-</span> pca<span class="sc">$</span>rotation[, <span class="dv">1</span><span class="sc">:</span>k] <span class="sc">%*%</span> <span class="fu">diag</span>(pca<span class="sc">$</span>sdev[<span class="dv">1</span><span class="sc">:</span>k])</span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dimnames</span>(L) <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="fu">colnames</span>(X), <span class="fu">paste0</span>(<span class="st">"PC"</span>, <span class="dv">1</span><span class="sc">:</span>k))</span>
+<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-5"><a href="#cb68-5" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(L, <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>               PC1    PC2    PC3    PC4
+age          0.454 -0.683 -0.094 -0.485
+tenure       0.389 -0.673 -0.130 -0.543
+log_income   0.834  0.153 -0.006  0.193
+log_current  0.715  0.228 -0.095  0.118
+log_savings  0.847 -0.004 -0.038  0.020
+log_invest   0.829  0.052 -0.012  0.077
+log_limit    0.842  0.144 -0.016  0.159
+utilization -0.323 -0.009 -0.820  0.037
+log_loan     0.328  0.034 -0.695  0.181
+card_tx      0.239  0.829 -0.125 -0.375
+mobile      -0.036  0.800 -0.128 -0.465
+branch       0.112 -0.763 -0.055  0.131
+missed      -0.298 -0.074 -0.727  0.059</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>vm <span class="ot">&lt;-</span> <span class="fu">varimax</span>(L)</span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>RC <span class="ot">&lt;-</span> vm<span class="sc">$</span>loadings[, ]</span>
+<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(RC) <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"RC"</span>, <span class="dv">1</span><span class="sc">:</span>k)</span>
+<span id="cb70-4"><a href="#cb70-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb70-5"><a href="#cb70-5" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(RC, <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>               RC1    RC2    RC3    RC4
+age          0.196 -0.242  0.016 -0.906
+tenure       0.123 -0.198 -0.020 -0.928
+log_income   0.866  0.028  0.079 -0.019
+log_current  0.753  0.138 -0.012 -0.008
+log_savings  0.809  0.007  0.070 -0.247
+log_invest   0.813  0.015  0.086 -0.163
+log_limit    0.863  0.041  0.075 -0.054
+utilization -0.222  0.047 -0.852  0.015
+log_loan     0.427 -0.003 -0.664 -0.033
+card_tx      0.270  0.903 -0.024  0.107
+mobile      -0.018  0.927 -0.051  0.107
+branch       0.022 -0.680 -0.073 -0.382
+missed      -0.211 -0.027 -0.762 -0.002</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="pca_files/figure-html/rot-heatmap-1.png" class="img-fluid figure-img" width="912"></p>
+<figcaption>Loadings on four retained components, before and after a varimax rotation. The rotated panel is what simple structure looks like: one strong cell per row.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The rotated solution is far easier to read, and the change is not cosmetic:</p>
+<ul>
+<li><strong>RC1 — affluence.</strong> Unchanged in substance: income, savings, investments, limit, current balance, all above <span class="math inline">\(0.75\)</span>. Age has dropped out of it (<span class="math inline">\(0.45 \to 0.20\)</span>).</li>
+<li><strong>RC2 — digital engagement.</strong> Now almost pure: <code>card_tx</code> <span class="math inline">\(0.90\)</span>, <code>mobile</code> <span class="math inline">\(0.93\)</span>, <code>branch</code> <span class="math inline">\(-0.68\)</span>. Age and tenure, which contributed <span class="math inline">\(-0.68\)</span> and <span class="math inline">\(-0.67\)</span> to the unrotated PC2, have fallen to <span class="math inline">\(-0.24\)</span> and <span class="math inline">\(-0.20\)</span>.</li>
+<li><strong>RC3 — credit strain.</strong> Essentially untouched.</li>
+<li><strong>RC4 — life stage.</strong> The component that could not be named is now the cleanest of the four: <code>age</code> <span class="math inline">\(-0.91\)</span>, <code>tenure</code> <span class="math inline">\(-0.93\)</span>, and nothing else above <span class="math inline">\(0.4\)</span>. A high RC4 is a young, recently acquired client.</li>
+</ul>
+<p>Rotation has separated the two constructs that the unrotated solution smeared across PC2 and PC4. Now check what it cost:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rbind</span>(<span class="at">unrotated =</span> <span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> <span class="fu">colSums</span>(L<span class="sc">^</span><span class="dv">2</span>)  <span class="sc">/</span> <span class="fu">ncol</span>(X), <span class="dv">1</span>),</span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">varimax   =</span> <span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> <span class="fu">colSums</span>(RC<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> <span class="fu">ncol</span>(X), <span class="dv">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           PC1  PC2  PC3  PC4
+unrotated 31.2 22.6 13.5  7.9
+varimax   29.1 17.4 13.7 15.0</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">total_unrotated =</span> <span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> <span class="fu">sum</span>(L<span class="sc">^</span><span class="dv">2</span>)  <span class="sc">/</span> <span class="fu">ncol</span>(X), <span class="dv">1</span>),</span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">total_varimax   =</span> <span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> <span class="fu">sum</span>(RC<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> <span class="fu">ncol</span>(X), <span class="dv">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>total_unrotated   total_varimax 
+           75.1            75.1 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(<span class="fu">abs</span>(<span class="fu">rowSums</span>(RC<span class="sc">^</span><span class="dv">2</span>) <span class="sc">-</span> <span class="fu">rowSums</span>(L<span class="sc">^</span><span class="dv">2</span>)))     <span class="co"># communalities</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 6.661338e-16</code></pre>
+</div>
+</div>
+<p>The total retained variance is <span class="math inline">\(75.1\%\)</span> either way and no communality moves by more than <span class="math inline">\(10^{-15}\)</span>. What changed is the <em>split</em>: the first component gave up <span class="math inline">\(31.2\% \to 29.1\%\)</span> and the second <span class="math inline">\(22.6\% \to 17.4\%\)</span>, while the fourth rose from <span class="math inline">\(7.9\%\)</span> to <span class="math inline">\(15.0\%\)</span> — and RC4 now explains more than RC3, so the components are genuinely no longer in order.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This is the honest argument for keeping the fourth component. Unrotated it was a <span class="math inline">\(7.9\%\)</span> residual nobody could name; rotated it is a <span class="math inline">\(15.0\%\)</span> life-stage factor with two loadings above <span class="math inline">\(0.9\)</span>. The number of components to retain and the decision to rotate are not independent questions.</p>
+</div>
+</div>
+</section>
+<section id="comparing-methods" class="level3" data-number="10.9.4">
+<h3 data-number="10.9.4" class="anchored" data-anchor-id="comparing-methods"><span class="header-section-number">10.9.4</span> Comparing Methods</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GPArotation)</span>
+<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a>crit <span class="ot">&lt;-</span> <span class="cf">function</span>(M) <span class="fu">sum</span>(<span class="fu">apply</span>(M<span class="sc">^</span><span class="dv">2</span>, <span class="dv">2</span>, <span class="cf">function</span>(z) <span class="fu">mean</span>(z<span class="sc">^</span><span class="dv">2</span>) <span class="sc">-</span> <span class="fu">mean</span>(z)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb78-4"><a href="#cb78-4" aria-hidden="true" tabindex="-1"></a>cplx <span class="ot">&lt;-</span> <span class="cf">function</span>(M) <span class="fu">mean</span>(<span class="fu">rowSums</span>(M<span class="sc">^</span><span class="dv">2</span>)<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="fu">rowSums</span>(M<span class="sc">^</span><span class="dv">4</span>))   <span class="co"># Hoffman complexity</span></span>
+<span id="cb78-5"><a href="#cb78-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb78-6"><a href="#cb78-6" aria-hidden="true" tabindex="-1"></a>sols <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">Unrotated =</span> L,</span>
+<span id="cb78-7"><a href="#cb78-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">Varimax   =</span> <span class="fu">varimax</span>(L, <span class="at">normalize =</span> <span class="cn">FALSE</span>)<span class="sc">$</span>loadings[, ],</span>
+<span id="cb78-8"><a href="#cb78-8" aria-hidden="true" tabindex="-1"></a>             <span class="at">Quartimax =</span> <span class="fu">quartimax</span>(L)<span class="sc">$</span>loadings[, ],</span>
+<span id="cb78-9"><a href="#cb78-9" aria-hidden="true" tabindex="-1"></a>             <span class="at">Equamax   =</span> <span class="fu">cfT</span>(L, <span class="at">kappa =</span> k <span class="sc">/</span> (<span class="dv">2</span> <span class="sc">*</span> <span class="fu">ncol</span>(X)))<span class="sc">$</span>loadings[, ])</span>
+<span id="cb78-10"><a href="#cb78-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb78-11"><a href="#cb78-11" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(</span>
+<span id="cb78-12"><a href="#cb78-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">criterion  =</span> <span class="fu">round</span>(<span class="fu">sapply</span>(sols, crit), <span class="dv">4</span>),</span>
+<span id="cb78-13"><a href="#cb78-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">complexity =</span> <span class="fu">round</span>(<span class="fu">sapply</span>(sols, cplx), <span class="dv">3</span>),</span>
+<span id="cb78-14"><a href="#cb78-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">var_first  =</span> <span class="fu">round</span>(<span class="fu">sapply</span>(sols, <span class="cf">function</span>(M) <span class="dv">100</span> <span class="sc">*</span> <span class="fu">sum</span>(M[, <span class="dv">1</span>]<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> <span class="fu">ncol</span>(X)), <span class="dv">1</span>),</span>
+<span id="cb78-15"><a href="#cb78-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">var_fourth =</span> <span class="fu">round</span>(<span class="fu">sapply</span>(sols, <span class="cf">function</span>(M) <span class="dv">100</span> <span class="sc">*</span> <span class="fu">sum</span>(M[, <span class="dv">4</span>]<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> <span class="fu">ncol</span>(X)), <span class="dv">1</span>),</span>
+<span id="cb78-16"><a href="#cb78-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">total      =</span> <span class="fu">round</span>(<span class="fu">sapply</span>(sols, <span class="cf">function</span>(M) <span class="dv">100</span> <span class="sc">*</span> <span class="fu">sum</span>(M<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> <span class="fu">ncol</span>(X)), <span class="dv">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          criterion complexity var_first var_fourth total
+Unrotated    0.2245      1.511      31.2        7.9  75.1
+Varimax      0.3434      1.215      28.5       15.8  75.1
+Quartimax    0.3427      1.207      29.1       15.4  75.1
+Equamax      0.3425      1.229      27.9       16.3  75.1</code></pre>
+</div>
+</div>
+<p>The varimax row here is the <em>unnormalised</em> variant, so that all four solutions are scored on the same criterion; the rotation used above is the normalised default, which is why its first component carries <span class="math inline">\(29.1\%\)</span> rather than <span class="math inline">\(28.5\%\)</span>.</p>
+<p><em>Complexity</em> is the average number of components a variable loads on: it falls from <span class="math inline">\(1.51\)</span> unrotated to about <span class="math inline">\(1.21\)</span> under any of the three rotations. On this portfolio the three orthogonal methods give practically the same answer — quartimax leaves slightly more variance on the first component, equamax slightly less, exactly as their definitions predict. <strong>When the three disagree materially, that is a sign the solution is not stable enough to name.</strong></p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>stats::varimax()</code> applies <strong>Kaiser normalisation</strong> by default (<code>normalize = TRUE</code>): rows are scaled to unit length before rotating and rescaled afterwards, so that variables with small communalities still get a say. <code>GPArotation</code> does not normalise by default. The two therefore optimise slightly different things — on this data the raw criterion reaches <span class="math inline">\(0.3434\)</span> without normalisation and <span class="math inline">\(0.3420\)</span> with it. Neither is wrong, but a comparison across packages must hold the setting fixed.</p>
+</div>
+</div>
+</section>
+<section id="oblique-rotations" class="level3" data-number="10.9.5">
+<h3 data-number="10.9.5" class="anchored" data-anchor-id="oblique-rotations"><span class="header-section-number">10.9.5</span> Oblique Rotations</h3>
+<p>Orthogonal rotation keeps the components uncorrelated. That is a convenience, not a fact about the world: real constructs are often related, and forcing right angles can prevent simple structure from being reached at all. <strong>Oblique</strong> rotations — <em>promax</em> <span class="citation" data-cites="hendrickson1964">(<a href="#ref-hendrickson1964" role="doc-biblioref">Hendrickson and White 1964</a>)</span>, <em>oblimin</em>, <em>quartimin</em> — drop the constraint.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a>pm  <span class="ot">&lt;-</span> <span class="fu">promax</span>(L)</span>
+<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a>Phi <span class="ot">&lt;-</span> <span class="fu">solve</span>(<span class="fu">t</span>(pm<span class="sc">$</span>rotmat) <span class="sc">%*%</span> pm<span class="sc">$</span>rotmat)      <span class="co"># component correlation matrix</span></span>
+<span id="cb80-3"><a href="#cb80-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dimnames</span>(Phi) <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="fu">paste0</span>(<span class="st">"RC"</span>, <span class="dv">1</span><span class="sc">:</span>k), <span class="fu">paste0</span>(<span class="st">"RC"</span>, <span class="dv">1</span><span class="sc">:</span>k))</span>
+<span id="cb80-4"><a href="#cb80-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-5"><a href="#cb80-5" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(pm<span class="sc">$</span>loadings[, ], <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>               PC1    PC2    PC3    PC4
+age          0.046  0.013  0.020 -0.951
+tenure      -0.039  0.076 -0.013 -0.997
+log_income   0.889 -0.039  0.057  0.094
+log_current  0.762  0.088 -0.030  0.066
+log_savings  0.785  0.018  0.052 -0.170
+log_invest   0.805 -0.001  0.067 -0.076
+log_limit    0.877 -0.012  0.054  0.051
+utilization -0.199  0.064 -0.848 -0.006
+log_loan     0.465 -0.030 -0.676  0.039
+card_tx      0.176  0.932 -0.026 -0.055
+mobile      -0.127  0.984 -0.044 -0.102
+branch       0.043 -0.623 -0.075 -0.268
+missed      -0.185 -0.012 -0.758 -0.008</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(Phi, <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       RC1   RC2   RC3    RC4
+RC1  1.000 0.116 0.059 -0.250
+RC2  0.116 1.000 0.011  0.433
+RC3  0.059 0.011 1.000  0.019
+RC4 -0.250 0.433 0.019  1.000</code></pre>
+</div>
+</div>
+<p>Promax sharpens the loadings further — <code>tenure</code> reaches <span class="math inline">\(-0.997\)</span> on RC4 and <code>mobile</code> <span class="math inline">\(0.984\)</span> on RC2 — and it reports something an orthogonal rotation cannot: the components are correlated, and one pair substantially so. RC2 (digital) and RC4 (life stage) correlate at <span class="math inline">\(0.43\)</span>.</p>
+<p>That number is not noise. The data were generated with <code>D</code> depending on <code>A</code> through the term <span class="math inline">\(-0.45\,\mathrm{A}\)</span>, so the true correlation between digital propensity and life stage is <span class="math inline">\(-0.45\)</span>; RC4 loads <em>negatively</em> on age, making it a “youth” axis, which flips the sign. The oblique rotation has recovered a feature of the data-generating process that the orthogonal solutions, PCA and varimax alike, were constrained from showing.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>With an oblique rotation, read the <strong>pattern</strong> matrix (unique contribution of each component, printed above) for interpretation and the <strong>structure</strong> matrix (plain variable–component correlations, <span class="math inline">\(\mathbf{L}^{*}\boldsymbol{\Phi}\)</span>) for a description of association. They differ precisely because the components overlap, and for the same reason the per-component variance shares no longer add up to the total — shared variance would be counted twice.</p>
+</div>
+</div>
+</section>
+<section id="rotated-scores" class="level3" data-number="10.9.6">
+<h3 data-number="10.9.6" class="anchored" data-anchor-id="rotated-scores"><span class="header-section-number">10.9.6</span> Rotated Scores</h3>
+<p>The loadings say what the components mean; the scores are what you carry into the next analysis — a clustering, a scorecard, a segmentation table. They rotate too, and there is one trap in doing it.</p>
+<p>The scores of <code>prcomp()</code> are <span class="math inline">\(\mathbf{Y} = \mathbf{Z}\mathbf{A}\)</span>, whose columns have variances <span class="math inline">\(\lambda_1, \ldots, \lambda_k\)</span>. But the matrix we rotated was <span class="math inline">\(\mathbf{L} = \mathbf{A}_k\boldsymbol{\Lambda}_k^{1/2}\)</span> — correlations, not eigenvectors — and loadings and scores have to stay in step: whatever scaling the loadings absorb, the scores must give up. The scores that pair with <span class="math inline">\(\mathbf{L}\)</span> are therefore the <strong>standardised</strong> ones, and the rotation acts on them from the right: <span class="math display">\[
+\mathbf{Y}^{*} = \mathbf{Z}\,\mathbf{A}_k\,\boldsymbol{\Lambda}_k^{-1/2},
+\qquad\qquad
+\mathbf{Y}^{*}_{\text{rot}} = \mathbf{Y}^{*}\mathbf{T}.
+\]</span> Because <span class="math inline">\(\mathbf{T}\)</span> is orthogonal, <span class="math inline">\(\mathbf{Y}^{*}_{\text{rot}}\mathbf{L}^{*\top} = \mathbf{Y}^{*}\mathbf{T}\mathbf{T}^{\top}\mathbf{L}^{\top} = \mathbf{Y}^{*}\mathbf{L}^{\top}\)</span> — the fitted values are exactly those of the unrotated solution, which is the same invariance seen from the other side.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a>Ystar    <span class="ot">&lt;-</span> <span class="fu">scale</span>(X) <span class="sc">%*%</span> pca<span class="sc">$</span>rotation[, <span class="dv">1</span><span class="sc">:</span>k] <span class="sc">%*%</span> <span class="fu">diag</span>(<span class="dv">1</span> <span class="sc">/</span> pca<span class="sc">$</span>sdev[<span class="dv">1</span><span class="sc">:</span>k])</span>
+<span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a>RCscores <span class="ot">&lt;-</span> Ystar <span class="sc">%*%</span> vm<span class="sc">$</span>rotmat</span>
+<span id="cb84-3"><a href="#cb84-3" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(RCscores) <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"RC"</span>, <span class="dv">1</span><span class="sc">:</span>k)</span>
+<span id="cb84-4"><a href="#cb84-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb84-5"><a href="#cb84-5" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">apply</span>(RCscores, <span class="dv">2</span>, sd), <span class="dv">3</span>)                            <span class="co"># unit variance</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>RC1 RC2 RC3 RC4 
+  1   1   1   1 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="fu">signif</span>(<span class="fu">max</span>(<span class="fu">abs</span>(<span class="fu">cor</span>(RCscores)[<span class="fu">upper.tri</span>(<span class="fu">diag</span>(k))])), <span class="dv">3</span>)      <span class="co"># still uncorrelated</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 8.31e-16</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb88"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="fu">signif</span>(<span class="fu">max</span>(<span class="fu">abs</span>(RCscores <span class="sc">%*%</span> <span class="fu">t</span>(RC) <span class="sc">-</span> Ystar <span class="sc">%*%</span> <span class="fu">t</span>(L))), <span class="dv">3</span>)    <span class="co"># same fitted values</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 7.11e-15</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Two score conventions, and they are not interchangeable.</strong> <code>prcomp()$x</code> returns scores with variance <span class="math inline">\(\lambda_k\)</span>, so the first column is genuinely more spread out than the second — that is what makes a biplot readable. The rotated scores above have variance <span class="math inline">\(1\)</span> in <em>every</em> column, because they are the partners of correlation-scaled loadings.</p>
+<p>Neither is more correct, but switching between them silently rescales everything downstream: <span class="math inline">\(k\)</span>-means on unit-variance scores weights all four components equally, while <span class="math inline">\(k\)</span>-means on <code>prcomp()$x</code> weights them by <span class="math inline">\(\lambda\)</span>. Decide which you want, and say which you used.</p>
+</div>
+</div>
+<p>Because the scores are standardised and the loadings are correlations, each column reads directly as a score on a named construct. RC4 correlates <span class="math inline">\(-0.906\)</span> with age — it <em>is</em> a youth-and-recency index, on a scale where <span class="math inline">\(0\)</span> is the average client and <span class="math inline">\(\pm 1\)</span> is one standard deviation. These are the columns to hand to a clustering or a scorecard, with one caveat: rotated components are no longer ordered by importance, so “take the first two” has stopped being a defensible way to choose among them.</p>
+<p>For an oblique rotation the same reasoning applies with <span class="math inline">\((\mathbf{T}^{\top})^{-1}\)</span> in place of <span class="math inline">\(\mathbf{T}\)</span>, and the columns that come out are no longer uncorrelated: <span class="math display">\[
+\mathbf{Y}^{*}_{\text{obl}} = \mathbf{Y}^{*}\left(\mathbf{T}^{\top}\right)^{-1},
+\qquad
+\operatorname{Cor}\!\left(\mathbf{Y}^{*}_{\text{obl}}\right) = \boldsymbol{\Phi}.
+\]</span></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb90"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a>PMscores <span class="ot">&lt;-</span> Ystar <span class="sc">%*%</span> <span class="fu">solve</span>(<span class="fu">t</span>(pm<span class="sc">$</span>rotmat))</span>
+<span id="cb90-2"><a href="#cb90-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb90-3"><a href="#cb90-3" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">apply</span>(PMscores, <span class="dv">2</span>, sd), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1 1 1 1</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb92"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="fu">signif</span>(<span class="fu">max</span>(<span class="fu">abs</span>(<span class="fu">cor</span>(PMscores) <span class="sc">-</span> Phi)), <span class="dv">3</span>)   <span class="co"># their correlations are exactly Phi</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 6.66e-16</code></pre>
+</div>
+</div>
+<p>The promax scores reproduce <span class="math inline">\(\boldsymbol{\Phi}\)</span> to machine precision, the <span class="math inline">\(0.43\)</span> between digital engagement and life stage included. Anything downstream that assumes uncorrelated inputs has to account for that — which is the price of the more faithful description.</p>
+</section>
+<section id="when-to-rotate-and-when-not-to" class="level3" data-number="10.9.7">
+<h3 data-number="10.9.7" class="anchored" data-anchor-id="when-to-rotate-and-when-not-to"><span class="header-section-number">10.9.7</span> When to Rotate, and When Not To</h3>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Caution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Rotate</strong> when the goal is to name and communicate constructs — a segmentation brief, a questionnaire’s underlying dimensions, a set of risk factors for a tariff discussion.</p>
+<p><strong>Do not rotate</strong> when the goal depends on the properties rotation destroys:</p>
+<ul>
+<li>compression, where you want the fewest axes carrying the most variance;</li>
+<li>a single index — a first component used as a wealth or vulnerability score — since after rotation no component is the best single summary;</li>
+<li>any downstream use of the ordering, such as taking “the first two components”.</li>
+</ul>
+<p>And whichever you do, say so. “The first four components explain 75%” and “the first four varimax-rotated components explain 75%, split 29/17/14/15 rather than 31/23/14/8” describe different objects.</p>
+</div>
+</div>
+<div id="qwebr-insertion-location-8"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+</section>
+</section>
+<section id="practical-issues" class="level2" data-number="10.10">
+<h2 data-number="10.10" class="anchored" data-anchor-id="practical-issues"><span class="header-section-number">10.10</span> Practical Issues</h2>
+<section id="outliers-and-heavy-tails" class="level3" data-number="10.10.1">
+<h3 data-number="10.10.1" class="anchored" data-anchor-id="outliers-and-heavy-tails"><span class="header-section-number">10.10.1</span> Outliers and Heavy Tails</h3>
 <p>PCA maximises variance, and variance is not a robust quantity. A single record far from the rest can rotate a component towards itself, producing a “component” that describes one client.</p>
 <p>Suppose data-entry errors inflate the savings balance and the investment holdings of client <code>C0001</code> to €50 million and €30 million; the true values are €22 020 and €77 560. We introduce the same error twice — once in the untransformed variables, once in the log-transformed ones — and compare.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>Xr <span class="ot">&lt;-</span> bank[, num_vars]                 <span class="co"># untransformed</span></span>
-<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>Xr_bad <span class="ot">&lt;-</span> Xr</span>
-<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a>Xr_bad<span class="sc">$</span>balance_savings[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fl">50e6</span>      <span class="co"># true value 22 020</span></span>
-<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a>Xr_bad<span class="sc">$</span>investments[<span class="dv">1</span>]     <span class="ot">&lt;-</span> <span class="fl">30e6</span>      <span class="co"># true value 77 560</span></span>
-<span id="cb68-5"><a href="#cb68-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-6"><a href="#cb68-6" aria-hidden="true" tabindex="-1"></a>X_bad <span class="ot">&lt;-</span> X                             <span class="co"># log-transformed</span></span>
-<span id="cb68-7"><a href="#cb68-7" aria-hidden="true" tabindex="-1"></a>X_bad<span class="sc">$</span>log_savings[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">log</span>(<span class="fl">50e6</span>)</span>
-<span id="cb68-8"><a href="#cb68-8" aria-hidden="true" tabindex="-1"></a>X_bad<span class="sc">$</span>log_invest[<span class="dv">1</span>]  <span class="ot">&lt;-</span> <span class="fu">log</span>(<span class="fl">30e6</span>)</span>
-<span id="cb68-9"><a href="#cb68-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-10"><a href="#cb68-10" aria-hidden="true" tabindex="-1"></a>pca_r  <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(Xr,     <span class="at">scale. =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb68-11"><a href="#cb68-11" aria-hidden="true" tabindex="-1"></a>pca_rb <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(Xr_bad, <span class="at">scale. =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb68-12"><a href="#cb68-12" aria-hidden="true" tabindex="-1"></a>pca_lb <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(X_bad,  <span class="at">scale. =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb68-13"><a href="#cb68-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-14"><a href="#cb68-14" aria-hidden="true" tabindex="-1"></a>pv <span class="ot">&lt;-</span> <span class="cf">function</span>(p) <span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> p<span class="sc">$</span>sdev[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="dv">13</span>, <span class="dv">1</span>)</span>
-<span id="cb68-15"><a href="#cb68-15" aria-hidden="true" tabindex="-1"></a><span class="fu">rbind</span>(<span class="at">untransformed_clean     =</span> <span class="fu">pv</span>(pca_r),</span>
-<span id="cb68-16"><a href="#cb68-16" aria-hidden="true" tabindex="-1"></a>      <span class="at">untransformed_corrupted =</span> <span class="fu">pv</span>(pca_rb),</span>
-<span id="cb68-17"><a href="#cb68-17" aria-hidden="true" tabindex="-1"></a>      <span class="at">log_clean               =</span> <span class="fu">pv</span>(pca),</span>
-<span id="cb68-18"><a href="#cb68-18" aria-hidden="true" tabindex="-1"></a>      <span class="at">log_corrupted           =</span> <span class="fu">pv</span>(pca_lb))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb94"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a>Xr <span class="ot">&lt;-</span> bank[, num_vars]                 <span class="co"># untransformed</span></span>
+<span id="cb94-2"><a href="#cb94-2" aria-hidden="true" tabindex="-1"></a>Xr_bad <span class="ot">&lt;-</span> Xr</span>
+<span id="cb94-3"><a href="#cb94-3" aria-hidden="true" tabindex="-1"></a>Xr_bad<span class="sc">$</span>balance_savings[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fl">50e6</span>      <span class="co"># true value 22 020</span></span>
+<span id="cb94-4"><a href="#cb94-4" aria-hidden="true" tabindex="-1"></a>Xr_bad<span class="sc">$</span>investments[<span class="dv">1</span>]     <span class="ot">&lt;-</span> <span class="fl">30e6</span>      <span class="co"># true value 77 560</span></span>
+<span id="cb94-5"><a href="#cb94-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb94-6"><a href="#cb94-6" aria-hidden="true" tabindex="-1"></a>X_bad <span class="ot">&lt;-</span> X                             <span class="co"># log-transformed</span></span>
+<span id="cb94-7"><a href="#cb94-7" aria-hidden="true" tabindex="-1"></a>X_bad<span class="sc">$</span>log_savings[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">log</span>(<span class="fl">50e6</span>)</span>
+<span id="cb94-8"><a href="#cb94-8" aria-hidden="true" tabindex="-1"></a>X_bad<span class="sc">$</span>log_invest[<span class="dv">1</span>]  <span class="ot">&lt;-</span> <span class="fu">log</span>(<span class="fl">30e6</span>)</span>
+<span id="cb94-9"><a href="#cb94-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb94-10"><a href="#cb94-10" aria-hidden="true" tabindex="-1"></a>pca_r  <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(Xr,     <span class="at">scale. =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb94-11"><a href="#cb94-11" aria-hidden="true" tabindex="-1"></a>pca_rb <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(Xr_bad, <span class="at">scale. =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb94-12"><a href="#cb94-12" aria-hidden="true" tabindex="-1"></a>pca_lb <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(X_bad,  <span class="at">scale. =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb94-13"><a href="#cb94-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb94-14"><a href="#cb94-14" aria-hidden="true" tabindex="-1"></a>pv <span class="ot">&lt;-</span> <span class="cf">function</span>(q) <span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> q<span class="sc">$</span>sdev[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="fu">ncol</span>(X), <span class="dv">1</span>)</span>
+<span id="cb94-15"><a href="#cb94-15" aria-hidden="true" tabindex="-1"></a><span class="fu">rbind</span>(<span class="at">untransformed_clean     =</span> <span class="fu">pv</span>(pca_r),</span>
+<span id="cb94-16"><a href="#cb94-16" aria-hidden="true" tabindex="-1"></a>      <span class="at">untransformed_corrupted =</span> <span class="fu">pv</span>(pca_rb),</span>
+<span id="cb94-17"><a href="#cb94-17" aria-hidden="true" tabindex="-1"></a>      <span class="at">log_clean               =</span> <span class="fu">pv</span>(pca),</span>
+<span id="cb94-18"><a href="#cb94-18" aria-hidden="true" tabindex="-1"></a>      <span class="at">log_corrupted           =</span> <span class="fu">pv</span>(pca_lb))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                        [,1] [,2] [,3]
 untransformed_clean     26.8 22.7 13.2
@@ -3608,8 +4004,8 @@ log_corrupted           30.8 22.6 13.5</code></pre>
 </div>
 <p>On the log scale the corrupted record barely registers: the variance explained by the first three components moves from <span class="math inline">\(31.2\%\)</span>, <span class="math inline">\(22.6\%\)</span>, <span class="math inline">\(13.5\%\)</span> to <span class="math inline">\(30.8\%\)</span>, <span class="math inline">\(22.6\%\)</span>, <span class="math inline">\(13.5\%\)</span>. On the untransformed scale the solution falls apart. Compare the first component before and after:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cbind</span>(<span class="at">clean =</span> <span class="fu">round</span>(pca_r<span class="sc">$</span>rotation[, <span class="dv">1</span>], <span class="dv">3</span>),</span>
-<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">corrupted =</span> <span class="fu">round</span>(pca_rb<span class="sc">$</span>rotation[, <span class="dv">1</span>], <span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb96"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cbind</span>(<span class="at">clean =</span> <span class="fu">round</span>(pca_r<span class="sc">$</span>rotation[, <span class="dv">1</span>], <span class="dv">3</span>),</span>
+<span id="cb96-2"><a href="#cb96-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">corrupted =</span> <span class="fu">round</span>(pca_rb<span class="sc">$</span>rotation[, <span class="dv">1</span>], <span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                 clean corrupted
 age              0.206     0.432
@@ -3626,7 +4022,7 @@ mobile_logins    0.013    -0.462
 branch_visits    0.024     0.446
 missed_payments -0.133     0.012</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(pca_r<span class="sc">$</span>rotation[, <span class="dv">1</span>], pca_rb<span class="sc">$</span>rotation[, <span class="dv">1</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb98"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(pca_r<span class="sc">$</span>rotation[, <span class="dv">1</span>], pca_rb<span class="sc">$</span>rotation[, <span class="dv">1</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] -0.01780224</code></pre>
 </div>
@@ -3634,12 +4030,12 @@ missed_payments -0.133     0.012</code></pre>
 <p>The correlation between the two versions of PC1 is <span class="math inline">\(-0.02\)</span>: the affluence factor has not been perturbed, it has been <strong>displaced entirely</strong>, and the first component of the corrupted analysis is now the age-versus-digital contrast. The affluence structure did not merely move down the ordering — the corrupted variables, having almost all their standardised variance concentrated in one point, are now nearly constant across the other <span class="math inline">\(599\)</span> clients and no longer correlate with anything.</p>
 <p>Where did the corrupted client go? Into a component of its own:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(pca_rb<span class="sc">$</span>x[<span class="dv">1</span>, ] <span class="sc">/</span> <span class="fu">apply</span>(pca_rb<span class="sc">$</span>x, <span class="dv">2</span>, sd), <span class="dv">1</span>)   <span class="co"># its scores, in standard deviations</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb100"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(pca_rb<span class="sc">$</span>x[<span class="dv">1</span>, ] <span class="sc">/</span> <span class="fu">apply</span>(pca_rb<span class="sc">$</span>x, <span class="dv">2</span>, sd), <span class="dv">1</span>)   <span class="co"># its scores, in standard deviations</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> PC1  PC2  PC3  PC4  PC5  PC6  PC7  PC8  PC9 PC10 PC11 PC12 PC13 
 -2.6 -1.0 24.3  0.6 -0.1  0.2  0.5 -0.2 -0.2 -0.2  0.0  0.0 -0.1 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(pca_rb<span class="sc">$</span>rotation[, <span class="dv">3</span>], <span class="dv">3</span>)                     <span class="co"># the component it created</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb102"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(pca_rb<span class="sc">$</span>rotation[, <span class="dv">3</span>], <span class="dv">3</span>)                     <span class="co"># the component it created</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>            age          tenure          income balance_current balance_savings 
           0.031           0.032           0.000          -0.056           0.703 
@@ -3651,12 +4047,12 @@ missed_payments -0.133     0.012</code></pre>
 </div>
 <p>The third component of the corrupted analysis takes <span class="math inline">\(15.3\%\)</span> of the total variance, loads <span class="math inline">\(0.70\)</span> on each of the two corrupted variables and essentially zero on everything else, and the offending client sits <span class="math inline">\(24\)</span> standard deviations along it. That component is not a description of the portfolio; it is a description of one typing mistake.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
-<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pca_r<span class="sc">$</span>x[, <span class="dv">1</span>], pca_r<span class="sc">$</span>x[, <span class="dv">2</span>], <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="st">"grey60"</span>, <span class="at">cex =</span> <span class="fl">0.6</span>,</span>
-<span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"PC1"</span>, <span class="at">ylab =</span> <span class="st">"PC2"</span>, <span class="at">main =</span> <span class="st">"Clean data: PC1 vs PC2"</span>)</span>
-<span id="cb78-4"><a href="#cb78-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pca_rb<span class="sc">$</span>x[, <span class="dv">1</span>], pca_rb<span class="sc">$</span>x[, <span class="dv">3</span>], <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="st">"grey60"</span>, <span class="at">cex =</span> <span class="fl">0.6</span>,</span>
-<span id="cb78-5"><a href="#cb78-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"PC1"</span>, <span class="at">ylab =</span> <span class="st">"PC3"</span>, <span class="at">main =</span> <span class="st">"Corrupted data: PC1 vs PC3"</span>)</span>
-<span id="cb78-6"><a href="#cb78-6" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(pca_rb<span class="sc">$</span>x[<span class="dv">1</span>, <span class="dv">1</span>], pca_rb<span class="sc">$</span>x[<span class="dv">1</span>, <span class="dv">3</span>], <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="st">"red3"</span>, <span class="at">cex =</span> <span class="fl">1.6</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb104"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb104-2"><a href="#cb104-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pca_r<span class="sc">$</span>x[, <span class="dv">1</span>], pca_r<span class="sc">$</span>x[, <span class="dv">2</span>], <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="st">"grey60"</span>, <span class="at">cex =</span> <span class="fl">0.6</span>,</span>
+<span id="cb104-3"><a href="#cb104-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"PC1"</span>, <span class="at">ylab =</span> <span class="st">"PC2"</span>, <span class="at">main =</span> <span class="st">"Clean data: PC1 vs PC2"</span>)</span>
+<span id="cb104-4"><a href="#cb104-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pca_rb<span class="sc">$</span>x[, <span class="dv">1</span>], pca_rb<span class="sc">$</span>x[, <span class="dv">3</span>], <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="st">"grey60"</span>, <span class="at">cex =</span> <span class="fl">0.6</span>,</span>
+<span id="cb104-5"><a href="#cb104-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"PC1"</span>, <span class="at">ylab =</span> <span class="st">"PC3"</span>, <span class="at">main =</span> <span class="st">"Corrupted data: PC1 vs PC3"</span>)</span>
+<span id="cb104-6"><a href="#cb104-6" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(pca_rb<span class="sc">$</span>x[<span class="dv">1</span>, <span class="dv">1</span>], pca_rb<span class="sc">$</span>x[<span class="dv">1</span>, <span class="dv">3</span>], <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="st">"red3"</span>, <span class="at">cex =</span> <span class="fl">1.6</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -3665,7 +4061,7 @@ missed_payments -0.133     0.012</code></pre>
 </figure>
 </div>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb105"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>All of this followed from an error in two cells of a table of <span class="math inline">\(7\,800\)</span> values.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
@@ -3689,12 +4085,12 @@ Tip
 <li>Consider a robust PCA, based on a robust covariance estimator such as the MCD, when contamination is suspected and cannot be cleaned.</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="co"># reconstruction error per client using three components</span></span>
-<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a>Zhat <span class="ot">&lt;-</span> pca<span class="sc">$</span>x[, <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>] <span class="sc">%*%</span> <span class="fu">t</span>(pca<span class="sc">$</span>rotation[, <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>])</span>
-<span id="cb80-3"><a href="#cb80-3" aria-hidden="true" tabindex="-1"></a>err  <span class="ot">&lt;-</span> <span class="fu">rowSums</span>((<span class="fu">scale</span>(X) <span class="sc">-</span> Zhat)<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb80-4"><a href="#cb80-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb80-5"><a href="#cb80-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(bank[<span class="fu">order</span>(err, <span class="at">decreasing =</span> <span class="cn">TRUE</span>), <span class="fu">c</span>(<span class="st">"client_id"</span>, <span class="st">"segment"</span>, <span class="st">"utilization"</span>,</span>
-<span id="cb80-6"><a href="#cb80-6" aria-hidden="true" tabindex="-1"></a>                                           <span class="st">"missed_payments"</span>, <span class="st">"mobile_logins"</span>)], <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb106"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="co"># reconstruction error per client using three components</span></span>
+<span id="cb106-2"><a href="#cb106-2" aria-hidden="true" tabindex="-1"></a>Zhat <span class="ot">&lt;-</span> pca<span class="sc">$</span>x[, <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>] <span class="sc">%*%</span> <span class="fu">t</span>(pca<span class="sc">$</span>rotation[, <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>])</span>
+<span id="cb106-3"><a href="#cb106-3" aria-hidden="true" tabindex="-1"></a>err  <span class="ot">&lt;-</span> <span class="fu">rowSums</span>((<span class="fu">scale</span>(X) <span class="sc">-</span> Zhat)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb106-4"><a href="#cb106-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb106-5"><a href="#cb106-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(bank[<span class="fu">order</span>(err, <span class="at">decreasing =</span> <span class="cn">TRUE</span>), <span class="fu">c</span>(<span class="st">"client_id"</span>, <span class="st">"segment"</span>, <span class="st">"utilization"</span>,</span>
+<span id="cb106-6"><a href="#cb106-6" aria-hidden="true" tabindex="-1"></a>                                           <span class="st">"missed_payments"</span>, <span class="st">"mobile_logins"</span>)], <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    client_id  segment utilization missed_payments mobile_logins
 272     C0272     Mass        76.5               3           184
@@ -3706,23 +4102,23 @@ Tip
 </div>
 <p>These are the clients least well described by the three-component summary — the natural shortlist for an anomaly review.</p>
 </section>
-<section id="missing-values" class="level3" data-number="10.9.2">
-<h3 data-number="10.9.2" class="anchored" data-anchor-id="missing-values"><span class="header-section-number">10.9.2</span> Missing Values</h3>
+<section id="missing-values" class="level3" data-number="10.10.2">
+<h3 data-number="10.10.2" class="anchored" data-anchor-id="missing-values"><span class="header-section-number">10.10.2</span> Missing Values</h3>
 <p><code>prcomp()</code> has no mechanism for missing data: it removes any row with an <code>NA</code>, which can be a substantial part of the sample when many variables are involved. The options are those of the Missing Values chapter — deletion, single imputation, or multiple imputation — with one addition specific to PCA: iterative PCA imputation, which fills the missing cells with the values predicted by a low-rank reconstruction and iterates until convergence (implemented in the <code>missMDA</code> package).</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a>X_na <span class="ot">&lt;-</span> X</span>
-<span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb82-3"><a href="#cb82-3" aria-hidden="true" tabindex="-1"></a>X_na[<span class="fu">sample</span>(<span class="fu">nrow</span>(X), <span class="dv">60</span>), <span class="st">"log_income"</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
-<span id="cb82-4"><a href="#cb82-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb82-5"><a href="#cb82-5" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(<span class="fu">na.omit</span>(X_na))          <span class="co"># rows surviving listwise deletion</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb108"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a>X_na <span class="ot">&lt;-</span> X</span>
+<span id="cb108-2"><a href="#cb108-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb108-3"><a href="#cb108-3" aria-hidden="true" tabindex="-1"></a>X_na[<span class="fu">sample</span>(<span class="fu">nrow</span>(X), <span class="dv">60</span>), <span class="st">"log_income"</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb108-4"><a href="#cb108-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb108-5"><a href="#cb108-5" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(<span class="fu">na.omit</span>(X_na))          <span class="co"># rows surviving listwise deletion</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 540</code></pre>
 </div>
 </div>
 <p>Losing <span class="math inline">\(10\%\)</span> of the sample to missingness in <em>one</em> variable is already noticeable; with missingness spread over several variables the loss compounds quickly.</p>
 </section>
-<section id="categorical-variables" class="level3" data-number="10.9.3">
-<h3 data-number="10.9.3" class="anchored" data-anchor-id="categorical-variables"><span class="header-section-number">10.9.3</span> Categorical Variables</h3>
+<section id="categorical-variables" class="level3" data-number="10.10.3">
+<h3 data-number="10.10.3" class="anchored" data-anchor-id="categorical-variables"><span class="header-section-number">10.10.3</span> Categorical Variables</h3>
 <p>PCA is defined for numeric variables. <code>segment</code>, <code>region</code> and <code>churn</code> cannot enter the analysis directly. Three options:</p>
 <ul>
 <li><strong>Leave them out and use them for illustration</strong>, as we did above — colouring the individuals plot by segment. This is the safest choice and often the most informative.</li>
@@ -3730,19 +4126,19 @@ Tip
 <li><strong>Use a method designed for the data type</strong>: Multiple Correspondence Analysis (MCA) for a set of categorical variables, or Factor Analysis of Mixed Data (FAMD) when numeric and categorical variables must be analysed together. Both are available in the <code>FactoMineR</code> package.</li>
 </ul>
 </section>
-<section id="multicollinearity-and-near-constant-variables" class="level3" data-number="10.9.4">
-<h3 data-number="10.9.4" class="anchored" data-anchor-id="multicollinearity-and-near-constant-variables"><span class="header-section-number">10.9.4</span> Multicollinearity and Near-Constant Variables</h3>
+<section id="multicollinearity-and-near-constant-variables" class="level3" data-number="10.10.4">
+<h3 data-number="10.10.4" class="anchored" data-anchor-id="multicollinearity-and-near-constant-variables"><span class="header-section-number">10.10.4</span> Multicollinearity and Near-Constant Variables</h3>
 <p>PCA tolerates perfect collinearity — the corresponding eigenvalue is simply zero — but a variable with zero variance breaks the standardisation, since dividing by <span class="math inline">\(s_j = 0\)</span> is undefined. Check before scaling:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span>(<span class="fu">apply</span>(X, <span class="dv">2</span>, sd) <span class="sc">==</span> <span class="dv">0</span>)   <span class="co"># integer(0): no constant columns</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb110"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span>(<span class="fu">apply</span>(X, <span class="dv">2</span>, sd) <span class="sc">==</span> <span class="dv">0</span>)   <span class="co"># integer(0): no constant columns</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>named integer(0)</code></pre>
 </div>
 </div>
 <p>Also worth avoiding is including a variable twice in different guises (an amount and its logarithm, a total and its components). PCA will faithfully report that they are the same variable, and they will jointly dominate a component for no substantive reason.</p>
 </section>
-<section id="sample-size" class="level3" data-number="10.9.5">
-<h3 data-number="10.9.5" class="anchored" data-anchor-id="sample-size"><span class="header-section-number">10.9.5</span> Sample Size</h3>
+<section id="sample-size" class="level3" data-number="10.10.5">
+<h3 data-number="10.10.5" class="anchored" data-anchor-id="sample-size"><span class="header-section-number">10.10.5</span> Sample Size</h3>
 <p>PCA estimates <span class="math inline">\(p(p+1)/2\)</span> covariances from <span class="math inline">\(n\)</span> observations. With <span class="math inline">\(p = 13\)</span> that is <span class="math inline">\(91\)</span> quantities; <span class="math inline">\(n = 600\)</span> is comfortable. Rules of thumb suggest at least <span class="math inline">\(5\)</span>–<span class="math inline">\(10\)</span> observations per variable, and more when the correlations are weak. With <span class="math inline">\(n &lt; p\)</span> the correlation matrix is singular and at most <span class="math inline">\(n-1\)</span> eigenvalues are non-zero — PCA still runs, but the later components are pure artefact.</p>
 <!-- COMMENTED OUT: section "PCA as a Preprocessing Step".
      To restore: delete this comment opener and the closing marker below, then
@@ -3825,8 +4221,8 @@ When the aim is prediction rather than description, consider *partial least squa
 END OF COMMENTED-OUT SECTION -->
 </section>
 </section>
-<section id="common-pitfalls" class="level2" data-number="10.10">
-<h2 data-number="10.10" class="anchored" data-anchor-id="common-pitfalls"><span class="header-section-number">10.10</span> Common Pitfalls</h2>
+<section id="common-pitfalls" class="level2" data-number="10.11">
+<h2 data-number="10.11" class="anchored" data-anchor-id="common-pitfalls"><span class="header-section-number">10.11</span> Common Pitfalls</h2>
 <div class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -3850,16 +4246,16 @@ Caution
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The correct way to use PCA inside a predictive workflow</span></span>
-<span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
-<span id="cb86-3"><a href="#cb86-3" aria-hidden="true" tabindex="-1"></a>idx        <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(X), <span class="fl">0.7</span> <span class="sc">*</span> <span class="fu">nrow</span>(X))</span>
-<span id="cb86-4"><a href="#cb86-4" aria-hidden="true" tabindex="-1"></a>pca_train  <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(X[idx, ], <span class="at">scale. =</span> <span class="cn">TRUE</span>)          <span class="co"># fitted on training data only</span></span>
-<span id="cb86-5"><a href="#cb86-5" aria-hidden="true" tabindex="-1"></a>scores_tr  <span class="ot">&lt;-</span> pca_train<span class="sc">$</span>x[, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]</span>
-<span id="cb86-6"><a href="#cb86-6" aria-hidden="true" tabindex="-1"></a>scores_te  <span class="ot">&lt;-</span> <span class="fu">predict</span>(pca_train, <span class="at">newdata =</span> X[<span class="sc">-</span>idx, ])[, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb112"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The correct way to use PCA inside a predictive workflow</span></span>
+<span id="cb112-2"><a href="#cb112-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb112-3"><a href="#cb112-3" aria-hidden="true" tabindex="-1"></a>idx        <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(X), <span class="fl">0.7</span> <span class="sc">*</span> <span class="fu">nrow</span>(X))</span>
+<span id="cb112-4"><a href="#cb112-4" aria-hidden="true" tabindex="-1"></a>pca_train  <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(X[idx, ], <span class="at">scale. =</span> <span class="cn">TRUE</span>)          <span class="co"># fitted on training data only</span></span>
+<span id="cb112-5"><a href="#cb112-5" aria-hidden="true" tabindex="-1"></a>scores_tr  <span class="ot">&lt;-</span> pca_train<span class="sc">$</span>x[, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]</span>
+<span id="cb112-6"><a href="#cb112-6" aria-hidden="true" tabindex="-1"></a>scores_te  <span class="ot">&lt;-</span> <span class="fu">predict</span>(pca_train, <span class="at">newdata =</span> X[<span class="sc">-</span>idx, ])[, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="summary" class="level2" data-number="10.11">
-<h2 data-number="10.11" class="anchored" data-anchor-id="summary"><span class="header-section-number">10.11</span> Summary</h2>
+<section id="summary" class="level2" data-number="10.12">
+<h2 data-number="10.12" class="anchored" data-anchor-id="summary"><span class="header-section-number">10.12</span> Summary</h2>
 <ul>
 <li>PCA replaces <span class="math inline">\(p\)</span> correlated variables by <span class="math inline">\(p\)</span> uncorrelated components, ordered by the variance they explain, and is useful only to the extent that the original variables are correlated.</li>
 <li>The components are the eigenvectors of the covariance (or correlation) matrix, and the variance each explains is the corresponding eigenvalue. Equivalently, they come from the SVD of the centred data matrix.</li>
@@ -3868,24 +4264,25 @@ Caution
 <li>Choose the number of components with several criteria at once — scree, cumulative variance, Kaiser, broken stick — and let interpretability settle the disagreements.</li>
 <li>Loadings describe variables, scores describe observations, <code>cos2</code> measures how well a variable is represented, contributions measure how much a variable builds a component, and the communality <span class="math inline">\(h_j^2\)</span> — the sum of a variable’s squared cosines over the retained components — measures how much of that variable the reduced solution recovers.</li>
 <li>In our bank portfolio, three components explaining <span class="math inline">\(67\%\)</span> of the variance recover an <em>affluence</em> axis, a <em>digital engagement versus branch</em> axis, and a <em>credit strain</em> axis.</li>
+<li>Rotating the retained components — varimax and its relatives — buys interpretability by giving up the variance ordering. It leaves the subspace, the communalities and the total retained variance untouched, and redistributes variance among the components. Here it turns an unnameable fourth component into the clearest factor of the four.</li>
 <li>PCA is unsupervised: the largest component need not be the most useful for any particular downstream task.</li>
 </ul>
 </section>
-<section id="exercises" class="level2" data-number="10.12">
-<h2 data-number="10.12" class="anchored" data-anchor-id="exercises"><span class="header-section-number">10.12</span> Exercises</h2>
-<section id="exercise-1-scaling" class="level3" data-number="10.12.1">
-<h3 data-number="10.12.1" class="anchored" data-anchor-id="exercise-1-scaling"><span class="header-section-number">10.12.1</span> Exercise 1 — Scaling</h3>
+<section id="exercises" class="level2" data-number="10.13">
+<h2 data-number="10.13" class="anchored" data-anchor-id="exercises"><span class="header-section-number">10.13</span> Exercises</h2>
+<section id="exercise-1-scaling" class="level3" data-number="10.13.1">
+<h3 data-number="10.13.1" class="anchored" data-anchor-id="exercise-1-scaling"><span class="header-section-number">10.13.1</span> Exercise 1 — Scaling</h3>
 <p>Run a PCA on the raw (untransformed, unscaled) bank variables and compare it with the PCA on the correlation matrix of the transformed data.</p>
 <ol type="1">
 <li>What percentage of variance does the first component explain in each case?</li>
 <li>Which variables have loadings above <span class="math inline">\(0.3\)</span> on PC1 in each case?</li>
 <li>Convert the six monetary variables (<code>income</code>, <code>balance_current</code>, <code>balance_savings</code>, <code>investments</code>, <code>credit_limit</code>, <code>loan_balance</code>) from euros to <em>thousands</em> of euros and re-run both analyses. Which one changes, and why?</li>
 </ol>
-<div id="qwebr-insertion-location-8"></div>
+<div id="qwebr-insertion-location-9"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
-<section id="exercise-2-reproducing-the-output-by-hand" class="level3" data-number="10.12.2">
-<h3 data-number="10.12.2" class="anchored" data-anchor-id="exercise-2-reproducing-the-output-by-hand"><span class="header-section-number">10.12.2</span> Exercise 2 — Reproducing the output by hand</h3>
+<section id="exercise-2-reproducing-the-output-by-hand" class="level3" data-number="10.13.2">
+<h3 data-number="10.13.2" class="anchored" data-anchor-id="exercise-2-reproducing-the-output-by-hand"><span class="header-section-number">10.13.2</span> Exercise 2 — Reproducing the output by hand</h3>
 <p>Using only <code>cor()</code>, <code>eigen()</code> and matrix multiplication:</p>
 <ol type="1">
 <li>Compute the eigenvalues of the correlation matrix of <code>X</code> and verify that they sum to <span class="math inline">\(13\)</span>.</li>
@@ -3893,7 +4290,7 @@ Caution
 <li>Verify that the score columns have variances equal to the eigenvalues, and that their pairwise correlations are zero.</li>
 <li>Verify that <span class="math inline">\(\cos^2(j,k) = a_{jk}^2\lambda_k\)</span> equals the squared correlation between variable <span class="math inline">\(j\)</span> and score <span class="math inline">\(k\)</span>.</li>
 </ol>
-<div id="qwebr-insertion-location-9"></div>
+<div id="qwebr-insertion-location-10"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <div class="callout callout-style-simple callout-note no-icon">
 <div class="callout-body d-flex">
@@ -3906,8 +4303,8 @@ Caution
 </div>
 </div>
 </section>
-<section id="exercise-3-how-many-components" class="level3" data-number="10.12.3">
-<h3 data-number="10.12.3" class="anchored" data-anchor-id="exercise-3-how-many-components"><span class="header-section-number">10.12.3</span> Exercise 3 — How many components?</h3>
+<section id="exercise-3-how-many-components" class="level3" data-number="10.13.3">
+<h3 data-number="10.13.3" class="anchored" data-anchor-id="exercise-3-how-many-components"><span class="header-section-number">10.13.3</span> Exercise 3 — How many components?</h3>
 <p>For the PCA of <code>X</code>:</p>
 <ol type="1">
 <li>Produce the scree plot and state where you would place the elbow.</li>
@@ -3915,13 +4312,13 @@ Caution
 <li>How many components are needed to reach <span class="math inline">\(80\%\)</span> of the total variance? Is that a reasonable target here?</li>
 <li>Examine the loadings of PC5 and PC6. Can you name either of them? Does that change your answer to (1)?</li>
 </ol>
-<div id="qwebr-insertion-location-10"></div>
+<div id="qwebr-insertion-location-11"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
-<section id="exercise-4-an-insurance-portfolio" class="level3" data-number="10.12.4">
-<h3 data-number="10.12.4" class="anchored" data-anchor-id="exercise-4-an-insurance-portfolio"><span class="header-section-number">10.12.4</span> Exercise 4 — An insurance portfolio</h3>
+<section id="exercise-4-an-insurance-portfolio" class="level3" data-number="10.13.4">
+<h3 data-number="10.13.4" class="anchored" data-anchor-id="exercise-4-an-insurance-portfolio"><span class="header-section-number">10.13.4</span> Exercise 4 — An insurance portfolio</h3>
 <p>Adapt the analysis to an insurance setting. The code below generates a portfolio of <span class="math inline">\(500\)</span> motor policies.</p>
-<div id="qwebr-insertion-location-11"></div>
+<div id="qwebr-insertion-location-12"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <ol type="1">
 <li>Which variables should be log-transformed before the PCA? Justify with a skewness calculation.</li>
@@ -3929,19 +4326,33 @@ Caution
 <li>Fit the PCA on the correlation matrix, decide how many components to keep, and name them.</li>
 <li>Produce the correlation circle and the biplot, colouring policies by <code>claims_3y &gt; 0</code>.</li>
 <li>Compare your components with the two latent variables (<code>V</code>, <code>B</code>) used to generate the data. Did PCA recover them?</li>
+<li>Rotate your retained components with varimax. Does the rotated solution separate the vehicle-and-coverage dimension from the driving-behaviour dimension more cleanly than the unrotated one? Compare each solution’s correlations with <code>V</code> and <code>B</code>.</li>
 </ol>
-<!-- COMMENTED OUT: Exercise 5.
+</section>
+<section id="exercise-5-rotation-and-interpretation" class="level3" data-number="10.13.5">
+<h3 data-number="10.13.5" class="anchored" data-anchor-id="exercise-5-rotation-and-interpretation"><span class="header-section-number">10.13.5</span> Exercise 5 — Rotation and interpretation</h3>
+<ol type="1">
+<li>Build the loadings matrix <span class="math inline">\(\mathbf{L}\)</span> for <strong>three</strong> retained components and apply a varimax rotation. Compare it with the four-component rotation of <a href="#sec-rotation" class="quarto-xref"><span>Section 10.9</span></a>. Does a clean life-stage factor appear? What does that tell you about the order in which “how many components?” and “rotate or not?” have to be decided?</li>
+<li>Verify on your own solution that the rotation leaves every communality and the total retained variance unchanged, while changing the share carried by each component.</li>
+<li>Rotate with quartimax and with equamax as well. Which of the three leaves the most variance on the first component, and why is that exactly what its criterion is built to do?</li>
+<li>Run <code>varimax()</code> with <code>normalize = TRUE</code> and with <code>normalize = FALSE</code>. Report both criterion values and explain which variables Kaiser normalisation is protecting.</li>
+<li>Apply <code>promax()</code>. Report the component correlation matrix. Which pair of components is most strongly correlated, and does the code that generated <code>bank</code> account for it?</li>
+<li>A colleague writes: <em>“the first rotated component explains 29.1% of the variance, so it is the most important dimension in the portfolio.”</em> Give two reasons to be careful with that sentence.</li>
+</ol>
+<div id="qwebr-insertion-location-13"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<!-- COMMENTED OUT: Exercise 6.
      To restore: delete this comment opener and the closing marker at the end of the file.
 
-### Exercise 5 — Components and churn
+### Exercise 6 — Components and churn
 
 1. Fit a logistic regression of `churn` on the first four principal components and on the thirteen original variables. Compare AIC and the significance of the coefficients.
 2. Which component is most strongly associated with churn? Express what that means in words, using the interpretation of that component.
 3. PC1 is not significant. Is that a failure of PCA? Explain.
 4. Split the data into $70\%$ training and $30\%$ test. Fit the PCA on the training set only, apply it to the test set with `predict()`, and compare the test-set accuracy of the two models. Why would fitting the PCA on the full data set be wrong?
 
-```vebnoghp
-#| label: ex5
+```yiddcamm
+#| label: ex6
 #| autorun: false
 
 pca <- prcomp(X, scale. = TRUE)
@@ -3962,17 +4373,26 @@ Cattell, Raymond B. 1966. <span>“The Scree Test for the Number of Factors.”<
 <div id="ref-eckart1936" class="csl-entry" role="listitem">
 Eckart, Carl, and Gale Young. 1936. <span>“The Approximation of One Matrix by Another of Lower Rank.”</span> <em>Psychometrika</em> 1 (3): 211–18.
 </div>
+<div id="ref-hendrickson1964" class="csl-entry" role="listitem">
+Hendrickson, Alan E., and Paul O. White. 1964. <span>“Promax: A Quick Method for Rotation to Oblique Simple Structure.”</span> <em>British Journal of Statistical Psychology</em> 17 (1): 65–70.
+</div>
 <div id="ref-hotelling1933" class="csl-entry" role="listitem">
 Hotelling, Harold. 1933. <span>“Analysis of a Complex of Statistical Variables into Principal Components.”</span> <em>Journal of Educational Psychology</em> 24 (6): 417–41.
 </div>
 <div id="ref-jolliffe2002" class="csl-entry" role="listitem">
 Jolliffe, Ian T. 2002. <em>Principal Component Analysis</em>. 2nd ed. Springer.
 </div>
+<div id="ref-kaiser1958" class="csl-entry" role="listitem">
+Kaiser, Henry F. 1958. <span>“The Varimax Criterion for Analytic Rotation in Factor Analysis.”</span> <em>Psychometrika</em> 23 (3): 187–200.
+</div>
 <div id="ref-kaiser1960" class="csl-entry" role="listitem">
 Kaiser, Henry F. 1960. <span>“The Application of Electronic Computers to Factor Analysis.”</span> <em>Educational and Psychological Measurement</em> 20 (1): 141–51.
 </div>
 <div id="ref-pearson1901" class="csl-entry" role="listitem">
 Pearson, Karl. 1901. <span>“On Lines and Planes of Closest Fit to Systems of Points in Space.”</span> <em>The London, Edinburgh, and Dublin Philosophical Magazine and Journal of Science</em> 2 (11): 559–72.
+</div>
+<div id="ref-thurstone1947" class="csl-entry" role="listitem">
+Thurstone, Louis L. 1947. <em>Multiple-Factor Analysis: A Development and Expansion of the Vectors of Mind</em>. University of Chicago Press.
 </div>
 </div>
 </section>
