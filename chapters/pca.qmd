@@ -355,7 +355,7 @@ round(pca_unscaled$rotation[, 1:2], 3)
 The first component absorbs $66.7\%$ of the variance and loads almost entirely on `balance_savings` and `investments`. Age, utilisation and every count variable have loadings indistinguishable from zero — not because they carry no information, but because they are measured in small numbers.
 
 :::{.callout-warning}
-When variables are measured in different units, **always** use the correlation matrix (`scale. = TRUE` in `prcomp`, or `cor = TRUE` in `princomp`). Otherwise the analysis reflects your choice of units rather than the structure of the data: converting income from euros to thousands of euros would change the result completely.
+When variables are measured in different units, **always** use the correlation matrix (`scale. = TRUE` in `prcomp`, or `cor = TRUE` in `princomp`). Otherwise the analysis reflects your choice of units rather than the structure of the data: converting income from euros to thousands of euros removes it from the first component altogether (its loading falls from $0.17$ to $0$), although nothing about the clients has changed.
 
 The covariance matrix is appropriate only when all variables share the same unit and their differences in variability are themselves meaningful — for example, daily returns of a set of equities, or changes in yields across maturities.
 :::
@@ -1120,14 +1120,14 @@ This is the honest limitation of the method: PCA recovers latent structure only 
 
 PCA maximises variance, and variance is not a robust quantity. A single record far from the rest can rotate a component towards itself, producing a "component" that describes one client.
 
-Suppose a data-entry error adds three zeros to the savings balance and the investment holdings of client `C0001`. We introduce the same error twice — once in the untransformed variables, once in the log-transformed ones — and compare.
+Suppose data-entry errors inflate the savings balance and the investment holdings of client `C0001` to €50 million and €30 million; the true values are €22 020 and €77 560. We introduce the same error twice — once in the untransformed variables, once in the log-transformed ones — and compare.
 
 ```{r}
 #| label: outlier-setup
 Xr <- bank[, num_vars]                 # untransformed
 Xr_bad <- Xr
-Xr_bad$balance_savings[1] <- 50e6      # should be 50 000
-Xr_bad$investments[1]     <- 30e6      # should be 30 000
+Xr_bad$balance_savings[1] <- 50e6      # true value 22 020
+Xr_bad$investments[1]     <- 30e6      # true value 77 560
 
 X_bad <- X                             # log-transformed
 X_bad$log_savings[1] <- log(50e6)
@@ -1183,7 +1183,7 @@ par(mfrow = c(1, 1))
 All of this followed from an error in two cells of a table of $7\,800$ values.
 
 :::{.callout-tip}
-Notice what the log transform bought us. It did not remove the outlier — client `C0001` still has an absurd balance — but it compressed the error from a factor of $1000$ on the euro scale to an additive shift of $\log(1000) \approx 6.9$ on the log scale, which is large but not catastrophic. Transformation is a cheap and effective first defence against exactly this failure mode. It is not a substitute for looking at the data.
+Notice what the log transform bought us. It did not remove the outlier — client `C0001` still has an absurd balance — but it compressed errors of a factor of about $2300$ (savings) and $390$ (investments) on the euro scale to additive shifts of $\log(2271) \approx 7.7$ and $\log(387) \approx 6.0$ on the log scale, which are large but not catastrophic. Transformation is a cheap and effective first defence against exactly this failure mode. It is not a substitute for looking at the data.
 :::
 
 Practical defences:
@@ -1366,7 +1366,7 @@ Run a PCA on the raw (untransformed, unscaled) bank variables and compare it wit
 
 1. What percentage of variance does the first component explain in each case?
 2. Which variables have loadings above $0.3$ on PC1 in each case?
-3. Convert `income` and all balances from euros to *thousands* of euros and re-run both analyses. Which one changes, and why?
+3. Convert the six monetary variables (`income`, `balance_current`, `balance_savings`, `investments`, `credit_limit`, `loan_balance`) from euros to *thousands* of euros and re-run both analyses. Which one changes, and why?
 
 ```{webr-r}
 #| label: ex1
