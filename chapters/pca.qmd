@@ -5,7 +5,8 @@ filters:
 ---
 
 ```{r setup, include=FALSE}
-required_packages <- c("ggplot2", "dplyr", "factoextra", "corrplot", "gridExtra", "tibble")
+required_packages <- c("ggplot2", "dplyr", "factoextra", "corrplot", "gridExtra",
+                       "GPArotation", "tibble")
 
 for (pkg in required_packages) {
   if (!require(pkg, character.only = TRUE)) {
@@ -860,12 +861,14 @@ Broken-stick retains **three** components; Kaiser retains **four**. The disagree
 | Cumulative % | Reach 70–80% | 3–4 | Threshold is a convention |
 | Kaiser | $\lambda_k > 1$ | 4 | Only for the correlation matrix; tends to over-retain |
 | Broken stick | $\lambda_k/p > b_k$ | 3 | Stricter, generally reliable |
-| Interpretability | Can you name it? | 3 | The criterion that decides ties |
+| Interpretability | Can you name it? | 3 | The criterion that decides ties — but see @sec-rotation |
 
 When criteria disagree, prefer the solution you can explain to the business. A component nobody can name is rarely worth carrying into the next stage of the analysis.
 :::
 
 We retain **three** components for interpretation. Had the goal been prediction rather than explanation, keeping the fourth would have been defensible: a component that resists naming can still carry usable signal.
+
+That is not quite the end of the question. @sec-rotation reopens it: a component that cannot be named *as it stands* may become nameable once the axes inside the retained subspace are rotated, and the fourth component of this portfolio is exactly such a case.
 
 ## Visualising a PCA {#sec-visualising}
 
@@ -927,9 +930,9 @@ round(var_info$cos2[, 1:3], 3)
 
 The sum of the squared cosines of a variable over the retained components has a name of its own: it is the **communality** of that variable,
 $$
-h_j^2 = \sum_{k=1}^{m} \cos^2(j, k) = \sum_{k=1}^{m} a_{jk}^{2}\lambda_k ,
+h_j^2 = \sum_{c=1}^{k} \cos^2(j, c) = \sum_{c=1}^{k} a_{jc}^{2}\lambda_c ,
 $$
-where $m$ is the number of components kept. It is the proportion of variable $j$'s variance that the retained components account for, and $1 - h_j^2$ — the part they leave behind — is called the variable's **uniqueness** or *specific variance*.
+where $k$ is the number of components kept. It is the proportion of variable $j$'s variance that the retained components account for, and $1 - h_j^2$ — the part they leave behind — is called the variable's **uniqueness** or *specific variance*.
 
 The name records what the quantity measures: the part of a variable that it holds *in common* with the others, in the sense that the retained components — which are built from all the variables at once — can reproduce it. What is left over, the uniqueness, is the part of the variable that the shared structure does not reach.
 
@@ -1111,8 +1114,275 @@ If you flip a component for readability, flip **both** the loadings and the scor
 :::{.callout-tip}
 The interpretation above recovers, almost exactly, the four latent factors used to generate the data (`W` affluence, `A` life stage, `D` digital propensity, `R` credit risk) — although `A` and `D` were deliberately entangled and PCA, which is restricted to *orthogonal* directions, splits them across PC2 and PC4 rather than isolating each.
 
-This is the honest limitation of the method: PCA recovers latent structure only up to a rotation, and there is no reason for the true drivers of a phenomenon to be orthogonal to one another. Methods that relax orthogonality, such as independent component analysis, exist precisely for this reason.
+PCA recovers latent structure only up to a rotation. That is a real limitation, but it is also an opening: if the retained subspace is right and only the axes inside it are awkwardly placed, the axes can be turned. @sec-rotation does exactly that, and recovers all four factors — `A` included.
 :::
+
+## Rotating the Components for Interpretation {#sec-rotation}
+
+Three of our four components had a clear reading; the fourth did not. That is a common outcome, and there is a standard response to it: keep the same set of retained components but **turn the axes inside the subspace they span** until the loadings fall into a pattern that is easier to name.
+
+This is a different operation from the rotation of @sec-first-pc. There, rotating the axes *was* the PCA — the whole $p$-dimensional basis was turned so that the first axis caught the most variance. Here we take the $k$ retained components as given and rotate only within them, deliberately giving up the maximum-variance ordering in exchange for readability.
+
+### Simple Structure
+
+The target is what @thurstone1947 called **simple structure**: a loadings matrix in which
+
+- each variable loads strongly on **one** component and near zero on the others,
+- each component has a handful of large loadings and many small ones,
+- few variables load on several components at once.
+
+A matrix like that almost reads itself. The unrotated one rarely looks like that, because the first component is built to absorb as much variance as it can from *every* variable, which guarantees it has many moderate loadings.
+
+Write $\mathbf{L} = \mathbf{A}_k \boldsymbol{\Lambda}_k^{1/2}$ for the $p \times k$ matrix of loadings on the retained components — the variable-component correlations of @sec-visualising. A rotation replaces it by
+$$
+\mathbf{L}^{*} = \mathbf{L}\,\mathbf{T},
+$$
+with $\mathbf{T}$ a $k \times k$ orthogonal matrix chosen to make $\mathbf{L}^{*}$ as close to simple structure as some criterion can measure. Throughout this section $k$ is the *number* of retained components (the `k` of the code) and components are indexed by $c$.
+
+:::{.callout-warning}
+**"Loadings" is used for two different matrices.** Earlier in the chapter it meant `pca$rotation`, the eigenvectors, whose columns have unit length. Here it means $\mathbf{A}_k\boldsymbol{\Lambda}_k^{1/2}$, whose entries are correlations and whose columns have squared sum $\lambda_c$. Both are standard and both are called loadings; rotation is defined on the second, because simple structure is a statement about correlations. When you compare a printed table with `pca$rotation`, check which one you are holding.
+:::
+
+:::{.callout-note}
+**What a rotation preserves**
+
+- the subspace spanned by the retained components, so the fitted values and the reconstruction error are unchanged;
+- every variable's communality $h_j^2$, and therefore the total variance retained.
+
+**What it gives up**
+
+- the ordering: rotated components are no longer sorted by variance, and none of them is the maximum-variance direction any more;
+- the eigenvector property: they are no longer principal components, which is why they are conventionally written RC1, RC2, … rather than PC1, PC2, …;
+- uniqueness of the story: $k$ must be chosen *before* rotating, and a different $k$ gives a different rotated solution — not a nested one.
+:::
+
+### The Orthomax Family
+
+Most orthogonal rotations maximise one criterion with one parameter changed:
+$$
+Q(\mathbf{L}^{*}) \;=\; \sum_{c=1}^{k}\sum_{j=1}^{p} l_{jc}^{*4} \;-\; \frac{\gamma}{p}\sum_{c=1}^{k}\left(\sum_{j=1}^{p} l_{jc}^{*2}\right)^{2}.
+$$
+Different $\gamma$ give the named methods:
+
+| Method | $\gamma$ | Simplifies | Behaviour |
+|:-------------|:--------:|:-------------|:-----------------------------------|
+| **Quartimax** | $0$ | rows (variables) | Each variable loads on as few components as possible. Tends to leave one large general component. |
+| **Varimax** | $1$ | columns (components) | Each component gets a few large loadings. The default choice, and the one that most reliably produces nameable components. |
+| **Equamax** | $k/2$ | both | A compromise; spreads variance more evenly across components. Can be unstable. |
+| **Parsimax** | $p(k-1)/(p+k-2)$ | both | A further compromise, weighted by the problem's dimensions. |
+
+Varimax [@kaiser1958] is the one to reach for unless you have a reason not to.
+
+`GPArotation` parameterises the same family through the Crawford-Ferguson constant $\kappa = \gamma/p$, which is why equamax appears below as `kappa = k / (2 * ncol(X))` rather than as $\gamma = k/2$. The two are the same rotation.
+
+### Varimax on the Bank Portfolio
+
+We rotate **four** components rather than three. The reason is the one @sec-how-many left unresolved: Kaiser retained four, broken-stick three, and we kept three because the fourth could not be named. Rotation changes that calculation, as we are about to see.
+
+```{r}
+#| label: rot-loadings
+k <- 4
+L <- pca$rotation[, 1:k] %*% diag(pca$sdev[1:k])
+dimnames(L) <- list(colnames(X), paste0("PC", 1:k))
+
+round(L, 3)
+```
+
+```{r}
+#| label: rot-varimax
+vm <- varimax(L)
+RC <- vm$loadings[, ]
+colnames(RC) <- paste0("RC", 1:k)
+
+round(RC, 3)
+```
+
+```{r}
+#| label: rot-heatmap
+#| echo: false
+#| fig-cap: "Loadings on four retained components, before and after a varimax rotation. The rotated panel is what simple structure looks like: one strong cell per row."
+#| fig-width: 9.5
+#| fig-height: 5.4
+long <- rbind(
+  data.frame(var = rownames(L),  comp = rep(colnames(L), each = nrow(L)),
+             val = as.vector(L),  panel = "Unrotated"),
+  data.frame(var = rownames(RC), comp = rep(colnames(RC), each = nrow(RC)),
+             val = as.vector(RC), panel = "Varimax rotated"))
+long$var  <- factor(long$var, levels = rev(colnames(X)))
+long$comp <- factor(long$comp, levels = c(colnames(L), colnames(RC)))
+
+ggplot(long, aes(comp, var, fill = val)) +
+  geom_tile(colour = "white", linewidth = 0.4) +
+  geom_text(aes(label = sprintf("%.2f", val)), size = 2.9,
+            colour = ifelse(abs(long$val) > 0.55, "white", "grey25")) +
+  scale_fill_gradient2(low = "steelblue", mid = "white", high = "red3",
+                       midpoint = 0, limits = c(-1, 1), name = "loading") +
+  facet_wrap(~ panel, scales = "free_x") +
+  labs(x = NULL, y = NULL,
+       title = "Loadings before and after a varimax rotation",
+       subtitle = "four retained components; the same subspace, redescribed") +
+  theme_minimal() +
+  theme(panel.grid = element_blank())
+```
+
+The rotated solution is far easier to read, and the change is not cosmetic:
+
+- **RC1 — affluence.** Unchanged in substance: income, savings, investments, limit, current balance, all above $0.75$. Age has dropped out of it ($0.45 \to 0.20$).
+- **RC2 — digital engagement.** Now almost pure: `card_tx` $0.90$, `mobile` $0.93$, `branch` $-0.68$. Age and tenure, which contributed $-0.68$ and $-0.67$ to the unrotated PC2, have fallen to $-0.24$ and $-0.20$.
+- **RC3 — credit strain.** Essentially untouched.
+- **RC4 — life stage.** The component that could not be named is now the cleanest of the four: `age` $-0.91$, `tenure` $-0.93$, and nothing else above $0.4$. A high RC4 is a young, recently acquired client.
+
+Rotation has separated the two constructs that the unrotated solution smeared across PC2 and PC4. Now check what it cost:
+
+```{r}
+#| label: rot-invariants
+rbind(unrotated = round(100 * colSums(L^2)  / ncol(X), 1),
+      varimax   = round(100 * colSums(RC^2) / ncol(X), 1))
+
+c(total_unrotated = round(100 * sum(L^2)  / ncol(X), 1),
+  total_varimax   = round(100 * sum(RC^2) / ncol(X), 1))
+
+max(abs(rowSums(RC^2) - rowSums(L^2)))     # communalities
+```
+
+The total retained variance is $75.1\%$ either way and no communality moves by more than $10^{-15}$. What changed is the *split*: the first component gave up $31.2\% \to 29.1\%$ and the second $22.6\% \to 17.4\%$, while the fourth rose from $7.9\%$ to $15.0\%$ — and RC4 now explains more than RC3, so the components are genuinely no longer in order.
+
+:::{.callout-tip}
+This is the honest argument for keeping the fourth component. Unrotated it was a $7.9\%$ residual nobody could name; rotated it is a $15.0\%$ life-stage factor with two loadings above $0.9$. The number of components to retain and the decision to rotate are not independent questions.
+:::
+
+### Comparing Methods
+
+```{r}
+#| label: rot-family
+#| message: false
+library(GPArotation)
+
+crit <- function(M) sum(apply(M^2, 2, function(z) mean(z^2) - mean(z)^2))
+cplx <- function(M) mean(rowSums(M^2)^2 / rowSums(M^4))   # Hoffman complexity
+
+sols <- list(Unrotated = L,
+             Varimax   = varimax(L, normalize = FALSE)$loadings[, ],
+             Quartimax = quartimax(L)$loadings[, ],
+             Equamax   = cfT(L, kappa = k / (2 * ncol(X)))$loadings[, ])
+
+data.frame(
+  criterion  = round(sapply(sols, crit), 4),
+  complexity = round(sapply(sols, cplx), 3),
+  var_first  = round(sapply(sols, function(M) 100 * sum(M[, 1]^2) / ncol(X)), 1),
+  var_fourth = round(sapply(sols, function(M) 100 * sum(M[, 4]^2) / ncol(X)), 1),
+  total      = round(sapply(sols, function(M) 100 * sum(M^2) / ncol(X)), 1))
+```
+
+The varimax row here is the *unnormalised* variant, so that all four solutions are scored on the same criterion; the rotation used above is the normalised default, which is why its first component carries $29.1\%$ rather than $28.5\%$.
+
+*Complexity* is the average number of components a variable loads on: it falls from $1.51$ unrotated to about $1.21$ under any of the three rotations. On this portfolio the three orthogonal methods give practically the same answer — quartimax leaves slightly more variance on the first component, equamax slightly less, exactly as their definitions predict. **When the three disagree materially, that is a sign the solution is not stable enough to name.**
+
+:::{.callout-warning}
+`stats::varimax()` applies **Kaiser normalisation** by default (`normalize = TRUE`): rows are scaled to unit length before rotating and rescaled afterwards, so that variables with small communalities still get a say. `GPArotation` does not normalise by default. The two therefore optimise slightly different things — on this data the raw criterion reaches $0.3434$ without normalisation and $0.3420$ with it. Neither is wrong, but a comparison across packages must hold the setting fixed.
+:::
+
+### Oblique Rotations
+
+Orthogonal rotation keeps the components uncorrelated. That is a convenience, not a fact about the world: real constructs are often related, and forcing right angles can prevent simple structure from being reached at all. **Oblique** rotations — *promax* [@hendrickson1964], *oblimin*, *quartimin* — drop the constraint.
+
+```{r}
+#| label: rot-promax
+pm  <- promax(L)
+Phi <- solve(t(pm$rotmat) %*% pm$rotmat)      # component correlation matrix
+dimnames(Phi) <- list(paste0("RC", 1:k), paste0("RC", 1:k))
+
+round(pm$loadings[, ], 3)
+round(Phi, 3)
+```
+
+Promax sharpens the loadings further — `tenure` reaches $-0.997$ on RC4 and `mobile` $0.984$ on RC2 — and it reports something an orthogonal rotation cannot: the components are correlated, and one pair substantially so. RC2 (digital) and RC4 (life stage) correlate at $0.43$.
+
+That number is not noise. The data were generated with `D` depending on `A` through the term $-0.45\,\mathrm{A}$, so the true correlation between digital propensity and life stage is $-0.45$; RC4 loads *negatively* on age, making it a "youth" axis, which flips the sign. The oblique rotation has recovered a feature of the data-generating process that the orthogonal solutions, PCA and varimax alike, were constrained from showing.
+
+:::{.callout-note}
+With an oblique rotation, read the **pattern** matrix (unique contribution of each component, printed above) for interpretation and the **structure** matrix (plain variable–component correlations, $\mathbf{L}^{*}\boldsymbol{\Phi}$) for a description of association. They differ precisely because the components overlap, and for the same reason the per-component variance shares no longer add up to the total — shared variance would be counted twice.
+:::
+
+### Rotated Scores
+
+The loadings say what the components mean; the scores are what you carry into the next analysis — a clustering, a scorecard, a segmentation table. They rotate too, and there is one trap in doing it.
+
+The scores of `prcomp()` are $\mathbf{Y} = \mathbf{Z}\mathbf{A}$, whose columns have variances $\lambda_1, \ldots, \lambda_k$. But the matrix we rotated was $\mathbf{L} = \mathbf{A}_k\boldsymbol{\Lambda}_k^{1/2}$ — correlations, not eigenvectors — and loadings and scores have to stay in step: whatever scaling the loadings absorb, the scores must give up. The scores that pair with $\mathbf{L}$ are therefore the **standardised** ones, and the rotation acts on them from the right:
+$$
+\mathbf{Y}^{*} = \mathbf{Z}\,\mathbf{A}_k\,\boldsymbol{\Lambda}_k^{-1/2},
+\qquad\qquad
+\mathbf{Y}^{*}_{\text{rot}} = \mathbf{Y}^{*}\mathbf{T}.
+$$
+Because $\mathbf{T}$ is orthogonal, $\mathbf{Y}^{*}_{\text{rot}}\mathbf{L}^{*\top} = \mathbf{Y}^{*}\mathbf{T}\mathbf{T}^{\top}\mathbf{L}^{\top} = \mathbf{Y}^{*}\mathbf{L}^{\top}$ — the fitted values are exactly those of the unrotated solution, which is the same invariance seen from the other side.
+
+```{r}
+#| label: rot-scores
+Ystar    <- scale(X) %*% pca$rotation[, 1:k] %*% diag(1 / pca$sdev[1:k])
+RCscores <- Ystar %*% vm$rotmat
+colnames(RCscores) <- paste0("RC", 1:k)
+
+round(apply(RCscores, 2, sd), 3)                            # unit variance
+signif(max(abs(cor(RCscores)[upper.tri(diag(k))])), 3)      # still uncorrelated
+signif(max(abs(RCscores %*% t(RC) - Ystar %*% t(L))), 3)    # same fitted values
+```
+
+:::{.callout-warning}
+**Two score conventions, and they are not interchangeable.** `prcomp()$x` returns scores with variance $\lambda_k$, so the first column is genuinely more spread out than the second — that is what makes a biplot readable. The rotated scores above have variance $1$ in *every* column, because they are the partners of correlation-scaled loadings.
+
+Neither is more correct, but switching between them silently rescales everything downstream: $k$-means on unit-variance scores weights all four components equally, while $k$-means on `prcomp()$x` weights them by $\lambda$. Decide which you want, and say which you used.
+:::
+
+Because the scores are standardised and the loadings are correlations, each column reads directly as a score on a named construct. RC4 correlates $-0.906$ with age — it *is* a youth-and-recency index, on a scale where $0$ is the average client and $\pm 1$ is one standard deviation. These are the columns to hand to a clustering or a scorecard, with one caveat: rotated components are no longer ordered by importance, so "take the first two" has stopped being a defensible way to choose among them.
+
+For an oblique rotation the same reasoning applies with $(\mathbf{T}^{\top})^{-1}$ in place of $\mathbf{T}$, and the columns that come out are no longer uncorrelated:
+$$
+\mathbf{Y}^{*}_{\text{obl}} = \mathbf{Y}^{*}\left(\mathbf{T}^{\top}\right)^{-1},
+\qquad
+\operatorname{Cor}\!\left(\mathbf{Y}^{*}_{\text{obl}}\right) = \boldsymbol{\Phi}.
+$$
+
+```{r}
+#| label: rot-scores-oblique
+PMscores <- Ystar %*% solve(t(pm$rotmat))
+
+round(apply(PMscores, 2, sd), 3)
+signif(max(abs(cor(PMscores) - Phi)), 3)   # their correlations are exactly Phi
+```
+
+The promax scores reproduce $\boldsymbol{\Phi}$ to machine precision, the $0.43$ between digital engagement and life stage included. Anything downstream that assumes uncorrelated inputs has to account for that — which is the price of the more faithful description.
+
+### When to Rotate, and When Not To
+
+:::{.callout-caution}
+**Rotate** when the goal is to name and communicate constructs — a segmentation brief, a questionnaire's underlying dimensions, a set of risk factors for a tariff discussion.
+
+**Do not rotate** when the goal depends on the properties rotation destroys:
+
+- compression, where you want the fewest axes carrying the most variance;
+- a single index — a first component used as a wealth or vulnerability score — since after rotation no component is the best single summary;
+- any downstream use of the ordering, such as taking "the first two components".
+
+And whichever you do, say so. "The first four components explain 75%" and "the first four varimax-rotated components explain 75%, split 29/17/14/15 rather than 31/23/14/8" describe different objects.
+:::
+
+```{webr-r}
+#| label: rot-webr
+#| autorun: false
+
+X <- make_X()
+pca <- prcomp(X, scale. = TRUE)
+
+k <- 4
+L <- pca$rotation[, 1:k] %*% diag(pca$sdev[1:k])
+dimnames(L) <- list(colnames(X), paste0("PC", 1:k))
+
+# try k = 2, 3, 5 and watch how much the rotated solution changes
+print(round(varimax(L)$loadings, 2), cutoff = 0.3)
+
+# and compare with the oblique solution
+print(round(promax(L)$loadings, 2), cutoff = 0.3)
+```
 
 ## Practical Issues
 
@@ -1137,7 +1407,7 @@ pca_r  <- prcomp(Xr,     scale. = TRUE)
 pca_rb <- prcomp(Xr_bad, scale. = TRUE)
 pca_lb <- prcomp(X_bad,  scale. = TRUE)
 
-pv <- function(p) round(100 * p$sdev[1:3]^2 / 13, 1)
+pv <- function(q) round(100 * q$sdev[1:3]^2 / ncol(X), 1)
 rbind(untransformed_clean     = pv(pca_r),
       untransformed_corrupted = pv(pca_rb),
       log_clean               = pv(pca),
@@ -1356,6 +1626,7 @@ scores_te  <- predict(pca_train, newdata = X[-idx, ])[, 1:4]
 - Choose the number of components with several criteria at once — scree, cumulative variance, Kaiser, broken stick — and let interpretability settle the disagreements.
 - Loadings describe variables, scores describe observations, `cos2` measures how well a variable is represented, contributions measure how much a variable builds a component, and the communality $h_j^2$ — the sum of a variable's squared cosines over the retained components — measures how much of that variable the reduced solution recovers.
 - In our bank portfolio, three components explaining $67\%$ of the variance recover an *affluence* axis, a *digital engagement versus branch* axis, and a *credit strain* axis.
+- Rotating the retained components — varimax and its relatives — buys interpretability by giving up the variance ordering. It leaves the subspace, the communalities and the total retained variance untouched, and redistributes variance among the components. Here it turns an unnameable fourth component into the clearest factor of the four.
 - PCA is unsupervised: the largest component need not be the most useful for any particular downstream task.
 
 ## Exercises
@@ -1419,6 +1690,7 @@ For the PCA of `X`:
 #| label: ex3
 #| autorun: false
 
+X   <- make_X()
 pca <- prcomp(X, scale. = TRUE)
 
 p <- ncol(X)
@@ -1468,11 +1740,37 @@ str(policy)
 3. Fit the PCA on the correlation matrix, decide how many components to keep, and name them.
 4. Produce the correlation circle and the biplot, colouring policies by `claims_3y > 0`.
 5. Compare your components with the two latent variables (`V`, `B`) used to generate the data. Did PCA recover them?
+6. Rotate your retained components with varimax. Does the rotated solution separate the vehicle-and-coverage dimension from the driving-behaviour dimension more cleanly than the unrotated one? Compare each solution's correlations with `V` and `B`.
 
-<!-- COMMENTED OUT: Exercise 5.
+### Exercise 5 — Rotation and interpretation
+
+1. Build the loadings matrix $\mathbf{L}$ for **three** retained components and apply a varimax rotation. Compare it with the four-component rotation of @sec-rotation. Does a clean life-stage factor appear? What does that tell you about the order in which "how many components?" and "rotate or not?" have to be decided?
+2. Verify on your own solution that the rotation leaves every communality and the total retained variance unchanged, while changing the share carried by each component.
+3. Rotate with quartimax and with equamax as well. Which of the three leaves the most variance on the first component, and why is that exactly what its criterion is built to do?
+4. Run `varimax()` with `normalize = TRUE` and with `normalize = FALSE`. Report both criterion values and explain which variables Kaiser normalisation is protecting.
+5. Apply `promax()`. Report the component correlation matrix. Which pair of components is most strongly correlated, and does the code that generated `bank` account for it?
+6. A colleague writes: *"the first rotated component explains 29.1% of the variance, so it is the most important dimension in the portfolio."* Give two reasons to be careful with that sentence.
+
+```{webr-r}
+#| label: ex5
+#| autorun: false
+
+X   <- make_X()
+pca <- prcomp(X, scale. = TRUE)
+
+k <- 3
+L <- pca$rotation[, 1:k] %*% diag(pca$sdev[1:k])
+dimnames(L) <- list(colnames(X), paste0("PC", 1:k))
+
+varimax(L)
+
+# your turn
+```
+
+<!-- COMMENTED OUT: Exercise 6.
      To restore: delete this comment opener and the closing marker at the end of the file.
 
-### Exercise 5 — Components and churn
+### Exercise 6 — Components and churn
 
 1. Fit a logistic regression of `churn` on the first four principal components and on the thirteen original variables. Compare AIC and the significance of the coefficients.
 2. Which component is most strongly associated with churn? Express what that means in words, using the interpretation of that component.
@@ -1480,7 +1778,7 @@ str(policy)
 4. Split the data into $70\%$ training and $30\%$ test. Fit the PCA on the training set only, apply it to the test set with `predict()`, and compare the test-set accuracy of the two models. Why would fitting the PCA on the full data set be wrong?
 
 ```{webr-r}
-#| label: ex5
+#| label: ex6
 #| autorun: false
 
 pca <- prcomp(X, scale. = TRUE)
