@@ -1965,14 +1965,15 @@ window.Quarto = {
   <li><a href="#sample-size" id="toc-sample-size" class="nav-link" data-scroll-target="#sample-size"><span class="header-section-number">10.10.5</span> Sample Size</a></li>
   </ul></li>
   <li><a href="#common-pitfalls" id="toc-common-pitfalls" class="nav-link" data-scroll-target="#common-pitfalls"><span class="header-section-number">10.11</span> Common Pitfalls</a></li>
-  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">10.12</span> Summary</a></li>
-  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">10.13</span> Exercises</a>
+  <li><a href="#beyond-pca-other-routes-to-fewer-dimensions" id="toc-beyond-pca-other-routes-to-fewer-dimensions" class="nav-link" data-scroll-target="#beyond-pca-other-routes-to-fewer-dimensions"><span class="header-section-number">10.12</span> Beyond PCA: Other Routes to Fewer Dimensions</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">10.13</span> Summary</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">10.14</span> Exercises</a>
   <ul>
-  <li><a href="#exercise-1-scaling" id="toc-exercise-1-scaling" class="nav-link" data-scroll-target="#exercise-1-scaling"><span class="header-section-number">10.13.1</span> Exercise 1 — Scaling</a></li>
-  <li><a href="#exercise-2-reproducing-the-output-by-hand" id="toc-exercise-2-reproducing-the-output-by-hand" class="nav-link" data-scroll-target="#exercise-2-reproducing-the-output-by-hand"><span class="header-section-number">10.13.2</span> Exercise 2 — Reproducing the output by hand</a></li>
-  <li><a href="#exercise-3-how-many-components" id="toc-exercise-3-how-many-components" class="nav-link" data-scroll-target="#exercise-3-how-many-components"><span class="header-section-number">10.13.3</span> Exercise 3 — How many components?</a></li>
-  <li><a href="#exercise-4-an-insurance-portfolio" id="toc-exercise-4-an-insurance-portfolio" class="nav-link" data-scroll-target="#exercise-4-an-insurance-portfolio"><span class="header-section-number">10.13.4</span> Exercise 4 — An insurance portfolio</a></li>
-  <li><a href="#exercise-5-rotation-and-interpretation" id="toc-exercise-5-rotation-and-interpretation" class="nav-link" data-scroll-target="#exercise-5-rotation-and-interpretation"><span class="header-section-number">10.13.5</span> Exercise 5 — Rotation and interpretation</a></li>
+  <li><a href="#exercise-1-scaling" id="toc-exercise-1-scaling" class="nav-link" data-scroll-target="#exercise-1-scaling"><span class="header-section-number">10.14.1</span> Exercise 1 — Scaling</a></li>
+  <li><a href="#exercise-2-reproducing-the-output-by-hand" id="toc-exercise-2-reproducing-the-output-by-hand" class="nav-link" data-scroll-target="#exercise-2-reproducing-the-output-by-hand"><span class="header-section-number">10.14.2</span> Exercise 2 — Reproducing the output by hand</a></li>
+  <li><a href="#exercise-3-how-many-components" id="toc-exercise-3-how-many-components" class="nav-link" data-scroll-target="#exercise-3-how-many-components"><span class="header-section-number">10.14.3</span> Exercise 3 — How many components?</a></li>
+  <li><a href="#exercise-4-an-insurance-portfolio" id="toc-exercise-4-an-insurance-portfolio" class="nav-link" data-scroll-target="#exercise-4-an-insurance-portfolio"><span class="header-section-number">10.14.4</span> Exercise 4 — An insurance portfolio</a></li>
+  <li><a href="#exercise-5-rotation-and-interpretation" id="toc-exercise-5-rotation-and-interpretation" class="nav-link" data-scroll-target="#exercise-5-rotation-and-interpretation"><span class="header-section-number">10.14.5</span> Exercise 5 — Rotation and interpretation</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -2968,7 +2969,7 @@ The dotted line at $1$ marks the variance of either original variable. Every dir
 In $p$ dimensions exactly the same thing happens: the cloud is a $p$-dimensional ellipsoid and PCA turns it until its longest axis lies along the first coordinate, its next longest along the second, and so on. What is lost above three dimensions is only our ability to look at it directly — hence the correlation circle and the biplot of @sec-visualising, which are two-dimensional windows onto that same rotation.
 :::
 
-```vzfduhcw
+```huhwynko
 #| label: rot-try
 #| autorun: false
 
@@ -4349,8 +4350,99 @@ Caution
 </div>
 </div>
 </section>
-<section id="summary" class="level2" data-number="10.12">
-<h2 data-number="10.12" class="anchored" data-anchor-id="summary"><span class="header-section-number">10.12</span> Summary</h2>
+<section id="beyond-pca-other-routes-to-fewer-dimensions" class="level2" data-number="10.12">
+<h2 data-number="10.12" class="anchored" data-anchor-id="beyond-pca-other-routes-to-fewer-dimensions"><span class="header-section-number">10.12</span> Beyond PCA: Other Routes to Fewer Dimensions</h2>
+<p>PCA makes three commitments: the new variables are <em>linear</em> combinations of the old ones, the criterion is <em>global</em> variance, and the whole <span class="math inline">\(n \times p\)</span> matrix has to be decomposed at once. Each one is relaxed by a family of methods, and on large data the third becomes the binding constraint.</p>
+<p><strong>Multidimensional scaling (MDS)</strong> starts from a matrix of distances rather than from the variables themselves. Classical MDS — also called principal coordinates analysis — applied to Euclidean distances is not a rival to PCA; it <em>is</em> PCA:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb109"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb109-1"><a href="#cb109-1" aria-hidden="true" tabindex="-1"></a>mds <span class="ot">&lt;-</span> <span class="fu">cmdscale</span>(<span class="fu">dist</span>(<span class="fu">scale</span>(X)), <span class="at">k =</span> <span class="dv">2</span>)</span>
+<span id="cb109-2"><a href="#cb109-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb109-3"><a href="#cb109-3" aria-hidden="true" tabindex="-1"></a><span class="fu">signif</span>(<span class="fu">max</span>(<span class="fu">abs</span>(<span class="fu">abs</span>(mds) <span class="sc">-</span> <span class="fu">abs</span>(pca<span class="sc">$</span>x[, <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]))), <span class="dv">3</span>)   <span class="co"># identical, up to the sign of each axis</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4.99e-14</code></pre>
+</div>
+</div>
+<p>The interesting case is the one PCA cannot reach. Feed MDS a dissimilarity that is <em>not</em> Euclidean — Gower’s coefficient for mixed numeric and categorical data, a correlation distance, an edit distance between strings — and you get a map of the clients even though no variable matrix exists. <em>Non-metric</em> MDS goes further still, preserving only the rank order of the dissimilarities, which is the right choice when the dissimilarities are ordinal.</p>
+<p><strong>Nonlinear methods</strong> drop the linearity. Kernel PCA runs an ordinary PCA in a feature space reached through a kernel. <em>t</em>-SNE and UMAP take a different view again: rather than preserving variance or global distance, they try to keep each point’s <em>near neighbours</em> near, which is what makes them so effective at showing clusters in high-dimensional data. UMAP is the faster of the two, keeps more of the global structure, and — unlike <em>t</em>-SNE — can place new points on an existing map.</p>
+<p><strong>On large data</strong>, the pressure is usually computational rather than conceptual, and it comes in two forms. With many rows and columns, a truncated or randomised SVD returns the leading <span class="math inline">\(k\)</span> components without ever forming the full decomposition, and works on sparse matrices that would not fit in memory as a dense one. With very many columns, random projection is cheaper still: project onto random directions and, by the Johnson–Lindenstrauss lemma, pairwise distances survive to within a controllable error. Autoencoders — neural networks trained to reconstruct their own input through a narrow layer — are the nonlinear version of the same idea, and scale to data far beyond what <code>prcomp</code> will hold.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 23%">
+<col style="width: 45%">
+<col style="width: 31%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Method</th>
+<th style="text-align: left;">Idea</th>
+<th style="text-align: left;">In R</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Classical MDS</td>
+<td style="text-align: left;">Coordinates from a distance matrix; Euclidean case = PCA</td>
+<td style="text-align: left;"><code>cmdscale</code> (<strong>stats</strong>)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Non-metric MDS</td>
+<td style="text-align: left;">Preserve the rank order of dissimilarities</td>
+<td style="text-align: left;"><code>isoMDS</code> (<strong>MASS</strong>), <code>metaMDS</code> (<strong>vegan</strong>), <strong>smacof</strong></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Kernel PCA</td>
+<td style="text-align: left;">PCA in a feature space defined by a kernel</td>
+<td style="text-align: left;"><code>kpca</code> (<strong>kernlab</strong>)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><em>t</em>-SNE</td>
+<td style="text-align: left;">Preserve local neighbourhoods, for visualisation</td>
+<td style="text-align: left;"><code>Rtsne</code> (<strong>Rtsne</strong>)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">UMAP</td>
+<td style="text-align: left;">As above, faster, and can map new points</td>
+<td style="text-align: left;"><code>umap</code> (<strong>uwot</strong>)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Truncated / randomised SVD</td>
+<td style="text-align: left;">The same leading components, computed cheaply</td>
+<td style="text-align: left;"><code>prcomp_irlba</code> (<strong>irlba</strong>), <strong>RSpectra</strong></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Autoencoder</td>
+<td style="text-align: left;">Nonlinear compression learned by a network</td>
+<td style="text-align: left;"><strong>keras</strong>, <strong>torch</strong></td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><em>t</em>-SNE and UMAP are for <strong>looking</strong>, not for measuring. They have no loadings, so no component can be named; they are stochastic, so two runs differ; and the distances between clusters, along with the apparent sizes of the clusters, carry no reliable meaning. Both depend strongly on a neighbourhood-size setting (<code>perplexity</code>, <code>n_neighbors</code>) that can manufacture groups that are not there.</p>
+<p>For the kind of tabular client data in this chapter, PCA remains the default — it is deterministic, its components have loadings you can interpret, and <code>predict</code> applies the same transformation to new clients. Reach for a neighbour-embedding method when the goal is a picture of a high-dimensional space, and report it as a picture.</p>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><strong>Packages and commands.</strong> <code>cmdscale</code> and <code>dist</code> are in <strong>stats</strong>; <code>isoMDS</code> is in <strong>MASS</strong>, which ships with R. Everything else is an install: <strong>vegan</strong> or <strong>smacof</strong> for non-metric MDS, <strong>kernlab</strong> for <code>kpca</code>, <strong>Rtsne</strong> and <strong>uwot</strong> for <em>t</em>-SNE and UMAP, <strong>irlba</strong> (<code>prcomp_irlba</code>) or <strong>RSpectra</strong> for truncated SVD on large or sparse matrices, <strong>keras</strong> or <strong>torch</strong> for autoencoders.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="summary" class="level2" data-number="10.13">
+<h2 data-number="10.13" class="anchored" data-anchor-id="summary"><span class="header-section-number">10.13</span> Summary</h2>
 <ul>
 <li>PCA replaces <span class="math inline">\(p\)</span> correlated variables by <span class="math inline">\(p\)</span> uncorrelated components, ordered by the variance they explain, and is useful only to the extent that the original variables are correlated.</li>
 <li>The components are the eigenvectors of the covariance (or correlation) matrix, and the variance each explains is the corresponding eigenvalue. Equivalently, they come from the SVD of the centred data matrix.</li>
@@ -4363,10 +4455,10 @@ Caution
 <li>PCA is unsupervised: the largest component need not be the most useful for any particular downstream task.</li>
 </ul>
 </section>
-<section id="exercises" class="level2" data-number="10.13">
-<h2 data-number="10.13" class="anchored" data-anchor-id="exercises"><span class="header-section-number">10.13</span> Exercises</h2>
-<section id="exercise-1-scaling" class="level3" data-number="10.13.1">
-<h3 data-number="10.13.1" class="anchored" data-anchor-id="exercise-1-scaling"><span class="header-section-number">10.13.1</span> Exercise 1 — Scaling</h3>
+<section id="exercises" class="level2" data-number="10.14">
+<h2 data-number="10.14" class="anchored" data-anchor-id="exercises"><span class="header-section-number">10.14</span> Exercises</h2>
+<section id="exercise-1-scaling" class="level3" data-number="10.14.1">
+<h3 data-number="10.14.1" class="anchored" data-anchor-id="exercise-1-scaling"><span class="header-section-number">10.14.1</span> Exercise 1 — Scaling</h3>
 <p>Run a PCA on the raw (untransformed, unscaled) bank variables and compare it with the PCA on the correlation matrix of the transformed data.</p>
 <ol type="1">
 <li>What percentage of variance does the first component explain in each case?</li>
@@ -4376,8 +4468,8 @@ Caution
 <div id="qwebr-insertion-location-9"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
-<section id="exercise-2-reproducing-the-output-by-hand" class="level3" data-number="10.13.2">
-<h3 data-number="10.13.2" class="anchored" data-anchor-id="exercise-2-reproducing-the-output-by-hand"><span class="header-section-number">10.13.2</span> Exercise 2 — Reproducing the output by hand</h3>
+<section id="exercise-2-reproducing-the-output-by-hand" class="level3" data-number="10.14.2">
+<h3 data-number="10.14.2" class="anchored" data-anchor-id="exercise-2-reproducing-the-output-by-hand"><span class="header-section-number">10.14.2</span> Exercise 2 — Reproducing the output by hand</h3>
 <p>Using only <code>cor()</code>, <code>eigen()</code> and matrix multiplication:</p>
 <ol type="1">
 <li>Compute the eigenvalues of the correlation matrix of <code>X</code> and verify that they sum to <span class="math inline">\(13\)</span>.</li>
@@ -4398,8 +4490,8 @@ Caution
 </div>
 </div>
 </section>
-<section id="exercise-3-how-many-components" class="level3" data-number="10.13.3">
-<h3 data-number="10.13.3" class="anchored" data-anchor-id="exercise-3-how-many-components"><span class="header-section-number">10.13.3</span> Exercise 3 — How many components?</h3>
+<section id="exercise-3-how-many-components" class="level3" data-number="10.14.3">
+<h3 data-number="10.14.3" class="anchored" data-anchor-id="exercise-3-how-many-components"><span class="header-section-number">10.14.3</span> Exercise 3 — How many components?</h3>
 <p>For the PCA of <code>X</code>:</p>
 <ol type="1">
 <li>Produce the scree plot and state where you would place the elbow.</li>
@@ -4410,8 +4502,8 @@ Caution
 <div id="qwebr-insertion-location-11"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
-<section id="exercise-4-an-insurance-portfolio" class="level3" data-number="10.13.4">
-<h3 data-number="10.13.4" class="anchored" data-anchor-id="exercise-4-an-insurance-portfolio"><span class="header-section-number">10.13.4</span> Exercise 4 — An insurance portfolio</h3>
+<section id="exercise-4-an-insurance-portfolio" class="level3" data-number="10.14.4">
+<h3 data-number="10.14.4" class="anchored" data-anchor-id="exercise-4-an-insurance-portfolio"><span class="header-section-number">10.14.4</span> Exercise 4 — An insurance portfolio</h3>
 <p>Adapt the analysis to an insurance setting. The code below generates a portfolio of <span class="math inline">\(500\)</span> motor policies.</p>
 <div id="qwebr-insertion-location-12"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
@@ -4424,8 +4516,8 @@ Caution
 <li>Rotate your retained components with varimax. Does the rotated solution separate the vehicle-and-coverage dimension from the driving-behaviour dimension more cleanly than the unrotated one? Compare each solution’s correlations with <code>V</code> and <code>B</code>.</li>
 </ol>
 </section>
-<section id="exercise-5-rotation-and-interpretation" class="level3" data-number="10.13.5">
-<h3 data-number="10.13.5" class="anchored" data-anchor-id="exercise-5-rotation-and-interpretation"><span class="header-section-number">10.13.5</span> Exercise 5 — Rotation and interpretation</h3>
+<section id="exercise-5-rotation-and-interpretation" class="level3" data-number="10.14.5">
+<h3 data-number="10.14.5" class="anchored" data-anchor-id="exercise-5-rotation-and-interpretation"><span class="header-section-number">10.14.5</span> Exercise 5 — Rotation and interpretation</h3>
 <ol type="1">
 <li>Build the loadings matrix <span class="math inline">\(\mathbf{L}\)</span> for <strong>three</strong> retained components and apply a varimax rotation. Compare it with the four-component rotation of <a href="#sec-rotation" class="quarto-xref"><span>Section 10.9</span></a>. Does a clean life-stage factor appear? What does that tell you about the order in which “how many components?” and “rotate or not?” have to be decided?</li>
 <li>Verify on your own solution that the rotation leaves every communality and the total retained variance unchanged, while changing the share carried by each component.</li>
@@ -4446,7 +4538,7 @@ Caution
 3. PC1 is not significant. Is that a failure of PCA? Explain.
 4. Split the data into $70\%$ training and $30\%$ test. Fit the PCA on the training set only, apply it to the test set with `predict()`, and compare the test-set accuracy of the two models. Why would fitting the PCA on the full data set be wrong?
 
-```vzfduhcw
+```huhwynko
 #| label: ex6
 #| autorun: false
 
