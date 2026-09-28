@@ -1645,6 +1645,45 @@ scores_te  <- predict(pca_train, newdata = X[-idx, ])[, 1:4]
 **Packages and commands.** The train/test pattern is the only code here: fit `prcomp` on the training rows, then apply the *same* transformation to the test rows with `predict(pca_train, newdata = )`. Never refit.
 :::
 
+## Beyond PCA: Other Routes to Fewer Dimensions
+
+PCA makes three commitments: the new variables are *linear* combinations of the old ones, the criterion is *global* variance, and the whole $n \times p$ matrix has to be decomposed at once. Each one is relaxed by a family of methods, and on large data the third becomes the binding constraint.
+
+**Multidimensional scaling (MDS)** starts from a matrix of distances rather than from the variables themselves. Classical MDS — also called principal coordinates analysis — applied to Euclidean distances is not a rival to PCA; it *is* PCA:
+
+```{r}
+#| label: mds-check
+mds <- cmdscale(dist(scale(X)), k = 2)
+
+signif(max(abs(abs(mds) - abs(pca$x[, 1:2]))), 3)   # identical, up to the sign of each axis
+```
+
+The interesting case is the one PCA cannot reach. Feed MDS a dissimilarity that is *not* Euclidean — Gower's coefficient for mixed numeric and categorical data, a correlation distance, an edit distance between strings — and you get a map of the clients even though no variable matrix exists. *Non-metric* MDS goes further still, preserving only the rank order of the dissimilarities, which is the right choice when the dissimilarities are ordinal.
+
+**Nonlinear methods** drop the linearity. Kernel PCA runs an ordinary PCA in a feature space reached through a kernel. *t*-SNE and UMAP take a different view again: rather than preserving variance or global distance, they try to keep each point's *near neighbours* near, which is what makes them so effective at showing clusters in high-dimensional data. UMAP is the faster of the two, keeps more of the global structure, and — unlike *t*-SNE — can place new points on an existing map.
+
+**On large data**, the pressure is usually computational rather than conceptual, and it comes in two forms. With many rows and columns, a truncated or randomised SVD returns the leading $k$ components without ever forming the full decomposition, and works on sparse matrices that would not fit in memory as a dense one. With very many columns, random projection is cheaper still: project onto random directions and, by the Johnson–Lindenstrauss lemma, pairwise distances survive to within a controllable error. Autoencoders — neural networks trained to reconstruct their own input through a narrow layer — are the nonlinear version of the same idea, and scale to data far beyond what `prcomp` will hold.
+
+| Method | Idea | In R |
+|:------------------|:------------------------------------|:-------------------------|
+| Classical MDS | Coordinates from a distance matrix; Euclidean case = PCA | `cmdscale` (**stats**) |
+| Non-metric MDS | Preserve the rank order of dissimilarities | `isoMDS` (**MASS**), `metaMDS` (**vegan**), **smacof** |
+| Kernel PCA | PCA in a feature space defined by a kernel | `kpca` (**kernlab**) |
+| *t*-SNE | Preserve local neighbourhoods, for visualisation | `Rtsne` (**Rtsne**) |
+| UMAP | As above, faster, and can map new points | `umap` (**uwot**) |
+| Truncated / randomised SVD | The same leading components, computed cheaply | `prcomp_irlba` (**irlba**), **RSpectra** |
+| Autoencoder | Nonlinear compression learned by a network | **keras**, **torch** |
+
+:::{.callout-warning}
+*t*-SNE and UMAP are for **looking**, not for measuring. They have no loadings, so no component can be named; they are stochastic, so two runs differ; and the distances between clusters, along with the apparent sizes of the clusters, carry no reliable meaning. Both depend strongly on a neighbourhood-size setting (`perplexity`, `n_neighbors`) that can manufacture groups that are not there.
+
+For the kind of tabular client data in this chapter, PCA remains the default — it is deterministic, its components have loadings you can interpret, and `predict` applies the same transformation to new clients. Reach for a neighbour-embedding method when the goal is a picture of a high-dimensional space, and report it as a picture.
+:::
+
+:::{.callout-note appearance="minimal"}
+**Packages and commands.** `cmdscale` and `dist` are in **stats**; `isoMDS` is in **MASS**, which ships with R. Everything else is an install: **vegan** or **smacof** for non-metric MDS, **kernlab** for `kpca`, **Rtsne** and **uwot** for *t*-SNE and UMAP, **irlba** (`prcomp_irlba`) or **RSpectra** for truncated SVD on large or sparse matrices, **keras** or **torch** for autoencoders.
+:::
+
 ## Summary
 
 - PCA replaces $p$ correlated variables by $p$ uncorrelated components, ordered by the variance they explain, and is useful only to the extent that the original variables are correlated.
