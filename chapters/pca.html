@@ -2324,6 +2324,16 @@ Note
 <p>An observation that is poorly reconstructed from the first few components — that is, one lying far from the low-dimensional subspace where ordinary clients live — is a natural candidate for investigation.</p>
 <p><strong>Questionnaire and survey analysis</strong></p>
 <p>Identifying the latent dimensions behind a battery of customer-satisfaction items, which are typically far more numerous than the concepts they measure.</p>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><strong>Packages and commands.</strong> No code in this section. The chapter uses <strong>stats</strong> for the analysis itself (<code>prcomp</code>, later <code>varimax</code> and <code>promax</code>), <strong>dplyr</strong> for the data preparation, <strong>factoextra</strong> and <strong>corrplot</strong> for the standard PCA figures, <strong>gridExtra</strong> to place figures side by side, and <strong>GPArotation</strong> for the rotation criteria that <strong>stats</strong> does not provide. All are installed and loaded by the setup chunk at the top of the chapter.</p>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="the-data-a-retail-bank-client-portfolio" class="level2" data-number="10.2">
@@ -2561,6 +2571,16 @@ Tip
 <p>If the correlation matrix were the identity — all variables mutually uncorrelated — PCA would have nothing to do: every component would explain exactly <span class="math inline">\(1/p\)</span> of the variance and no reduction would be possible. <strong>PCA is useful precisely to the extent that the variables are correlated.</strong></p>
 <div id="qwebr-insertion-location-3"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><strong>Packages and commands.</strong> Simulation with <code>set.seed</code>, <code>rnorm</code>, <code>rpois</code>, <code>runif</code> and <code>sample</code>; marginal distributions with <code>summary</code> and <code>sapply</code>; the log transform with <strong>dplyr</strong>’s <code>transmute</code>; the correlation matrix with <code>cor</code> and <strong>corrplot</strong>’s <code>corrplot(method = "color", order = "hclust")</code>, whose <code>order</code> argument is what makes the blocks visible.</p>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="notation-centering-and-scaling" class="level2" data-number="10.3">
@@ -2630,6 +2650,16 @@ Warning
 </div>
 </div>
 <p>From here on, every PCA is on the correlation matrix of the transformed matrix <code>X</code>.</p>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><strong>Packages and commands.</strong> <code>scale</code> centres and standardises a matrix, and <code>apply(X, 2, var)</code> shows why that matters here. <code>prcomp(X, scale. = TRUE)</code> runs the PCA on the correlation matrix and <code>scale. = FALSE</code> on the covariance matrix; the older <code>princomp</code> makes the same choice through <code>cor = TRUE</code>.</p>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="the-algebra-of-pca" class="level2" data-number="10.4">
@@ -2938,7 +2968,7 @@ The dotted line at $1$ marks the variance of either original variable. Every dir
 In $p$ dimensions exactly the same thing happens: the cloud is a $p$-dimensional ellipsoid and PCA turns it until its longest axis lies along the first coordinate, its next longest along the second, and so on. What is lost above three dimensions is only our ability to look at it directly — hence the correlation circle and the biplot of @sec-visualising, which are two-dimensional windows onto that same rotation.
 :::
 
-```nseprnsc
+```vzfduhcw
 #| label: rot-try
 #| autorun: false
 
@@ -2958,6 +2988,16 @@ plot(scale(pair), pch = 19, col = "grey60", cex = 0.6, asp = 1,
 abline(0,  1, col = "red3",     lwd = 2)
 abline(0, -1, col = "steelblue", lwd = 2)
 ``` -->
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><strong>Packages and commands.</strong> <code>cor</code> followed by <code>eigen</code> gives the eigenvalues (<code>$values</code>) and loadings (<code>$vectors</code>) by hand; <code>svd</code> gives the same through singular values (<code>$d</code>); <code>prcomp</code> does it in one call and is the one to use. <code>dist</code> checks that the rotation leaves every distance alone. The two-dimensional figure is <strong>ggplot2</strong> plus <strong>gridExtra</strong>’s <code>grid.arrange</code>, and depends on <code>coord_equal</code> — without a 1:1 aspect ratio a rotation does not look like one.</p>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="scores-loadings-and-explained-variance" class="level2" data-number="10.5">
@@ -3086,6 +3126,16 @@ k = 8  mean squared error = 0.093   variance retained = 90.7%</code></pre>
 <p>The error and the retained variance are two views of the same quantity: retaining <span class="math inline">\(67.2\%\)</span> of the variance with three components means leaving <span class="math inline">\(32.8\%\)</span> of it — a mean squared error of <span class="math inline">\(0.327\)</span> on standardised data — in the discarded directions.</p>
 <div id="qwebr-insertion-location-5"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><strong>Packages and commands.</strong> <code>prcomp</code> returns <code>$rotation</code> (loadings), <code>$x</code> (scores) and <code>$sdev</code> (square roots of the eigenvalues). <code>summary</code> prints the variance table; <strong>factoextra</strong>’s <code>get_eigenvalue</code> returns the same thing as a data frame. Reconstruction is plain matrix algebra: <code>pca$x[, 1:k] %*% t(pca$rotation[, 1:k])</code>.</p>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="sec-how-many" class="level2" data-number="10.6">
@@ -3238,6 +3288,16 @@ Tip
 </div>
 <p>We retain <strong>three</strong> components for interpretation. Had the goal been prediction rather than explanation, keeping the fourth would have been defensible: a component that resists naming can still carry usable signal.</p>
 <p>That is not quite the end of the question. <a href="#sec-rotation" class="quarto-xref"><span>Section 10.9</span></a> reopens it: a component that cannot be named <em>as it stands</em> may become nameable once the axes inside the retained subspace are rotated, and the fourth component of this portfolio is exactly such a case.</p>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><strong>Packages and commands.</strong> <strong>factoextra</strong>’s <code>fviz_eig(choice = "eigenvalue")</code> draws the scree plot; <code>cumsum</code> and <strong>ggplot2</strong> draw the cumulative curve. The Kaiser count is <code>sum(pca$sdev^2 &gt; 1)</code>, and the broken-stick values need no package at all — just <code>sapply</code> over the formula.</p>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="sec-visualising" class="level2" data-number="10.7">
@@ -3471,6 +3531,16 @@ Note
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <div id="qwebr-insertion-location-7"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><strong>Packages and commands.</strong> All from <strong>factoextra</strong>: <code>fviz_pca_var</code> (correlation circle), <code>fviz_contrib</code> (contributions), <code>fviz_pca_ind</code> (individuals, with <code>col.ind</code> and <code>addEllipses</code>) and <code>fviz_pca_biplot</code> (biplot). <code>get_pca_var</code> returns the numbers behind those figures in <code>$coord</code>, <code>$cos2</code> and <code>$contrib</code>. <code>corrplot(is.corr = FALSE)</code> displays a cos2 matrix, and <code>aggregate</code> summarises scores by an external grouping.</p>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="interpreting-the-components" class="level2" data-number="10.8">
@@ -3582,6 +3652,16 @@ Tip
 <div class="callout-body-container callout-body">
 <p>The interpretation above recovers, almost exactly, the four latent factors used to generate the data (<code>W</code> affluence, <code>A</code> life stage, <code>D</code> digital propensity, <code>R</code> credit risk) — although <code>A</code> and <code>D</code> were deliberately entangled and PCA, which is restricted to <em>orthogonal</em> directions, splits them across PC2 and PC4 rather than isolating each.</p>
 <p>PCA recovers latent structure only up to a rotation. That is a real limitation, but it is also an opening: if the retained subspace is right and only the axes inside it are awkwardly placed, the axes can be turned. <a href="#sec-rotation" class="quarto-xref"><span>Section 10.9</span></a> does exactly that, and recovers all four factors — <code>A</code> included.</p>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><strong>Packages and commands.</strong> No new tools: interpretation is reading <code>pca$rotation</code>, and flipping a component for readability is a minus sign applied to both <code>$rotation[, k]</code> and <code>$x[, k]</code>.</p>
+</div>
 </div>
 </div>
 </section>
@@ -3884,31 +3964,32 @@ Note
 </section>
 <section id="rotated-scores" class="level3" data-number="10.9.6">
 <h3 data-number="10.9.6" class="anchored" data-anchor-id="rotated-scores"><span class="header-section-number">10.9.6</span> Rotated Scores</h3>
-<p>The loadings say what the components mean; the scores are what you carry into the next analysis — a clustering, a scorecard, a segmentation table. They rotate too, and there is one trap in doing it.</p>
-<p>The scores of <code>prcomp()</code> are <span class="math inline">\(\mathbf{Y} = \mathbf{Z}\mathbf{A}\)</span>, whose columns have variances <span class="math inline">\(\lambda_1, \ldots, \lambda_k\)</span>. But the matrix we rotated was <span class="math inline">\(\mathbf{L} = \mathbf{A}_k\boldsymbol{\Lambda}_k^{1/2}\)</span> — correlations, not eigenvectors — and loadings and scores have to stay in step: whatever scaling the loadings absorb, the scores must give up. The scores that pair with <span class="math inline">\(\mathbf{L}\)</span> are therefore the <strong>standardised</strong> ones, and the rotation acts on them from the right: <span class="math display">\[
+<p>The scores rotate with the loadings, and they are what you carry into the next analysis. Since the matrix we rotated was <span class="math inline">\(\mathbf{L} = \mathbf{A}_k\boldsymbol{\Lambda}_k^{1/2}\)</span> rather than the eigenvectors themselves, its partner is the <strong>standardised</strong> score matrix, and the rotation multiplies it on the right: <span class="math display">\[
 \mathbf{Y}^{*} = \mathbf{Z}\,\mathbf{A}_k\,\boldsymbol{\Lambda}_k^{-1/2},
-\qquad\qquad
+\qquad
 \mathbf{Y}^{*}_{\text{rot}} = \mathbf{Y}^{*}\mathbf{T}.
-\]</span> Because <span class="math inline">\(\mathbf{T}\)</span> is orthogonal, <span class="math inline">\(\mathbf{Y}^{*}_{\text{rot}}\mathbf{L}^{*\top} = \mathbf{Y}^{*}\mathbf{T}\mathbf{T}^{\top}\mathbf{L}^{\top} = \mathbf{Y}^{*}\mathbf{L}^{\top}\)</span> — the fitted values are exactly those of the unrotated solution, which is the same invariance seen from the other side.</p>
+\]</span> For an oblique rotation the same holds with <span class="math inline">\((\mathbf{T}^{\top})^{-1}\)</span> in place of <span class="math inline">\(\mathbf{T}\)</span>, and the columns come out correlated — their correlation matrix is exactly <span class="math inline">\(\boldsymbol{\Phi}\)</span>.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a>Ystar    <span class="ot">&lt;-</span> <span class="fu">scale</span>(X) <span class="sc">%*%</span> pca<span class="sc">$</span>rotation[, <span class="dv">1</span><span class="sc">:</span>k] <span class="sc">%*%</span> <span class="fu">diag</span>(<span class="dv">1</span> <span class="sc">/</span> pca<span class="sc">$</span>sdev[<span class="dv">1</span><span class="sc">:</span>k])</span>
-<span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a>RCscores <span class="ot">&lt;-</span> Ystar <span class="sc">%*%</span> vm<span class="sc">$</span>rotmat</span>
-<span id="cb84-3"><a href="#cb84-3" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(RCscores) <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"RC"</span>, <span class="dv">1</span><span class="sc">:</span>k)</span>
-<span id="cb84-4"><a href="#cb84-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb84-5"><a href="#cb84-5" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">apply</span>(RCscores, <span class="dv">2</span>, sd), <span class="dv">3</span>)                            <span class="co"># unit variance</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a>RCscores <span class="ot">&lt;-</span> Ystar <span class="sc">%*%</span> vm<span class="sc">$</span>rotmat              <span class="co"># varimax</span></span>
+<span id="cb84-3"><a href="#cb84-3" aria-hidden="true" tabindex="-1"></a>PMscores <span class="ot">&lt;-</span> Ystar <span class="sc">%*%</span> <span class="fu">solve</span>(<span class="fu">t</span>(pm<span class="sc">$</span>rotmat))    <span class="co"># promax</span></span>
+<span id="cb84-4"><a href="#cb84-4" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(RCscores) <span class="ot">&lt;-</span> <span class="fu">colnames</span>(PMscores) <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"RC"</span>, <span class="dv">1</span><span class="sc">:</span>k)</span>
+<span id="cb84-5"><a href="#cb84-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb84-6"><a href="#cb84-6" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">apply</span>(RCscores, <span class="dv">2</span>, sd), <span class="dv">3</span>)                          <span class="co"># unit variance</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>RC1 RC2 RC3 RC4 
   1   1   1   1 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="fu">signif</span>(<span class="fu">max</span>(<span class="fu">abs</span>(<span class="fu">cor</span>(RCscores)[<span class="fu">upper.tri</span>(<span class="fu">diag</span>(k))])), <span class="dv">3</span>)      <span class="co"># still uncorrelated</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="fu">signif</span>(<span class="fu">max</span>(<span class="fu">abs</span>(<span class="fu">cor</span>(RCscores)[<span class="fu">upper.tri</span>(<span class="fu">diag</span>(k))])), <span class="dv">3</span>)    <span class="co"># still uncorrelated</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 8.31e-16</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb88"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="fu">signif</span>(<span class="fu">max</span>(<span class="fu">abs</span>(RCscores <span class="sc">%*%</span> <span class="fu">t</span>(RC) <span class="sc">-</span> Ystar <span class="sc">%*%</span> <span class="fu">t</span>(L))), <span class="dv">3</span>)    <span class="co"># same fitted values</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb88"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="fu">signif</span>(<span class="fu">max</span>(<span class="fu">abs</span>(<span class="fu">cor</span>(PMscores) <span class="sc">-</span> Phi)), <span class="dv">3</span>)                  <span class="co"># promax: exactly Phi</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 7.11e-15</code></pre>
+<pre><code>[1] 6.66e-16</code></pre>
 </div>
 </div>
+<p>Each column now reads as a score on a named construct: RC4 correlates <span class="math inline">\(-0.906\)</span> with age, so it is a youth-and-recency index on a standard-deviation scale. The promax scores carry the <span class="math inline">\(0.43\)</span> between digital engagement and life stage, so anything downstream that assumes uncorrelated inputs has to allow for it.</p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -3919,29 +4000,9 @@ Warning
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>Two score conventions, and they are not interchangeable.</strong> <code>prcomp()$x</code> returns scores with variance <span class="math inline">\(\lambda_k\)</span>, so the first column is genuinely more spread out than the second — that is what makes a biplot readable. The rotated scores above have variance <span class="math inline">\(1\)</span> in <em>every</em> column, because they are the partners of correlation-scaled loadings.</p>
-<p>Neither is more correct, but switching between them silently rescales everything downstream: <span class="math inline">\(k\)</span>-means on unit-variance scores weights all four components equally, while <span class="math inline">\(k\)</span>-means on <code>prcomp()$x</code> weights them by <span class="math inline">\(\lambda\)</span>. Decide which you want, and say which you used.</p>
+<p><strong>Two score conventions.</strong> <code>prcomp()$x</code> returns scores with variance <span class="math inline">\(\lambda_c\)</span>; the ones above have variance <span class="math inline">\(1\)</span> in every column, because they are the partners of correlation-scaled loadings. Neither is wrong, but they are not interchangeable — <span class="math inline">\(k\)</span>-means on the first weights the components by <span class="math inline">\(\lambda\)</span>, on the second equally. Say which you used.</p>
 </div>
 </div>
-<p>Because the scores are standardised and the loadings are correlations, each column reads directly as a score on a named construct. RC4 correlates <span class="math inline">\(-0.906\)</span> with age — it <em>is</em> a youth-and-recency index, on a scale where <span class="math inline">\(0\)</span> is the average client and <span class="math inline">\(\pm 1\)</span> is one standard deviation. These are the columns to hand to a clustering or a scorecard, with one caveat: rotated components are no longer ordered by importance, so “take the first two” has stopped being a defensible way to choose among them.</p>
-<p>For an oblique rotation the same reasoning applies with <span class="math inline">\((\mathbf{T}^{\top})^{-1}\)</span> in place of <span class="math inline">\(\mathbf{T}\)</span>, and the columns that come out are no longer uncorrelated: <span class="math display">\[
-\mathbf{Y}^{*}_{\text{obl}} = \mathbf{Y}^{*}\left(\mathbf{T}^{\top}\right)^{-1},
-\qquad
-\operatorname{Cor}\!\left(\mathbf{Y}^{*}_{\text{obl}}\right) = \boldsymbol{\Phi}.
-\]</span></p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb90"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a>PMscores <span class="ot">&lt;-</span> Ystar <span class="sc">%*%</span> <span class="fu">solve</span>(<span class="fu">t</span>(pm<span class="sc">$</span>rotmat))</span>
-<span id="cb90-2"><a href="#cb90-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb90-3"><a href="#cb90-3" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">apply</span>(PMscores, <span class="dv">2</span>, sd), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 1 1 1 1</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb92"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="fu">signif</span>(<span class="fu">max</span>(<span class="fu">abs</span>(<span class="fu">cor</span>(PMscores) <span class="sc">-</span> Phi)), <span class="dv">3</span>)   <span class="co"># their correlations are exactly Phi</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 6.66e-16</code></pre>
-</div>
-</div>
-<p>The promax scores reproduce <span class="math inline">\(\boldsymbol{\Phi}\)</span> to machine precision, the <span class="math inline">\(0.43\)</span> between digital engagement and life stage included. Anything downstream that assumes uncorrelated inputs has to account for that — which is the price of the more faithful description.</p>
 </section>
 <section id="when-to-rotate-and-when-not-to" class="level3" data-number="10.9.7">
 <h3 data-number="10.9.7" class="anchored" data-anchor-id="when-to-rotate-and-when-not-to"><span class="header-section-number">10.9.7</span> When to Rotate, and When Not To</h3>
@@ -3967,6 +4028,16 @@ Caution
 </div>
 <div id="qwebr-insertion-location-8"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><strong>Packages and commands.</strong> <strong>stats</strong> provides <code>varimax</code> (with <code>normalize</code> controlling Kaiser normalisation) and <code>promax</code>; both return <code>$loadings</code> and <code>$rotmat</code>. <strong>GPArotation</strong> supplies the rest of the family — <code>quartimax</code>, and <code>cfT(kappa = )</code> for equamax — as well as the oblique <code>oblimin</code> and <code>quartimin</code>. The component correlation matrix is <code>solve(t(rotmat) %*% rotmat)</code>, and rotated scores need <code>solve</code> and <code>t</code> as shown above.</p>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="practical-issues" class="level2" data-number="10.10">
@@ -3976,24 +4047,24 @@ Caution
 <p>PCA maximises variance, and variance is not a robust quantity. A single record far from the rest can rotate a component towards itself, producing a “component” that describes one client.</p>
 <p>Suppose data-entry errors inflate the savings balance and the investment holdings of client <code>C0001</code> to €50 million and €30 million; the true values are €22 020 and €77 560. We introduce the same error twice — once in the untransformed variables, once in the log-transformed ones — and compare.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb94"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a>Xr <span class="ot">&lt;-</span> bank[, num_vars]                 <span class="co"># untransformed</span></span>
-<span id="cb94-2"><a href="#cb94-2" aria-hidden="true" tabindex="-1"></a>Xr_bad <span class="ot">&lt;-</span> Xr</span>
-<span id="cb94-3"><a href="#cb94-3" aria-hidden="true" tabindex="-1"></a>Xr_bad<span class="sc">$</span>balance_savings[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fl">50e6</span>      <span class="co"># true value 22 020</span></span>
-<span id="cb94-4"><a href="#cb94-4" aria-hidden="true" tabindex="-1"></a>Xr_bad<span class="sc">$</span>investments[<span class="dv">1</span>]     <span class="ot">&lt;-</span> <span class="fl">30e6</span>      <span class="co"># true value 77 560</span></span>
-<span id="cb94-5"><a href="#cb94-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb94-6"><a href="#cb94-6" aria-hidden="true" tabindex="-1"></a>X_bad <span class="ot">&lt;-</span> X                             <span class="co"># log-transformed</span></span>
-<span id="cb94-7"><a href="#cb94-7" aria-hidden="true" tabindex="-1"></a>X_bad<span class="sc">$</span>log_savings[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">log</span>(<span class="fl">50e6</span>)</span>
-<span id="cb94-8"><a href="#cb94-8" aria-hidden="true" tabindex="-1"></a>X_bad<span class="sc">$</span>log_invest[<span class="dv">1</span>]  <span class="ot">&lt;-</span> <span class="fu">log</span>(<span class="fl">30e6</span>)</span>
-<span id="cb94-9"><a href="#cb94-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb94-10"><a href="#cb94-10" aria-hidden="true" tabindex="-1"></a>pca_r  <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(Xr,     <span class="at">scale. =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb94-11"><a href="#cb94-11" aria-hidden="true" tabindex="-1"></a>pca_rb <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(Xr_bad, <span class="at">scale. =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb94-12"><a href="#cb94-12" aria-hidden="true" tabindex="-1"></a>pca_lb <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(X_bad,  <span class="at">scale. =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb94-13"><a href="#cb94-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb94-14"><a href="#cb94-14" aria-hidden="true" tabindex="-1"></a>pv <span class="ot">&lt;-</span> <span class="cf">function</span>(q) <span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> q<span class="sc">$</span>sdev[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="fu">ncol</span>(X), <span class="dv">1</span>)</span>
-<span id="cb94-15"><a href="#cb94-15" aria-hidden="true" tabindex="-1"></a><span class="fu">rbind</span>(<span class="at">untransformed_clean     =</span> <span class="fu">pv</span>(pca_r),</span>
-<span id="cb94-16"><a href="#cb94-16" aria-hidden="true" tabindex="-1"></a>      <span class="at">untransformed_corrupted =</span> <span class="fu">pv</span>(pca_rb),</span>
-<span id="cb94-17"><a href="#cb94-17" aria-hidden="true" tabindex="-1"></a>      <span class="at">log_clean               =</span> <span class="fu">pv</span>(pca),</span>
-<span id="cb94-18"><a href="#cb94-18" aria-hidden="true" tabindex="-1"></a>      <span class="at">log_corrupted           =</span> <span class="fu">pv</span>(pca_lb))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb90"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a>Xr <span class="ot">&lt;-</span> bank[, num_vars]                 <span class="co"># untransformed</span></span>
+<span id="cb90-2"><a href="#cb90-2" aria-hidden="true" tabindex="-1"></a>Xr_bad <span class="ot">&lt;-</span> Xr</span>
+<span id="cb90-3"><a href="#cb90-3" aria-hidden="true" tabindex="-1"></a>Xr_bad<span class="sc">$</span>balance_savings[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fl">50e6</span>      <span class="co"># true value 22 020</span></span>
+<span id="cb90-4"><a href="#cb90-4" aria-hidden="true" tabindex="-1"></a>Xr_bad<span class="sc">$</span>investments[<span class="dv">1</span>]     <span class="ot">&lt;-</span> <span class="fl">30e6</span>      <span class="co"># true value 77 560</span></span>
+<span id="cb90-5"><a href="#cb90-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb90-6"><a href="#cb90-6" aria-hidden="true" tabindex="-1"></a>X_bad <span class="ot">&lt;-</span> X                             <span class="co"># log-transformed</span></span>
+<span id="cb90-7"><a href="#cb90-7" aria-hidden="true" tabindex="-1"></a>X_bad<span class="sc">$</span>log_savings[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">log</span>(<span class="fl">50e6</span>)</span>
+<span id="cb90-8"><a href="#cb90-8" aria-hidden="true" tabindex="-1"></a>X_bad<span class="sc">$</span>log_invest[<span class="dv">1</span>]  <span class="ot">&lt;-</span> <span class="fu">log</span>(<span class="fl">30e6</span>)</span>
+<span id="cb90-9"><a href="#cb90-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb90-10"><a href="#cb90-10" aria-hidden="true" tabindex="-1"></a>pca_r  <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(Xr,     <span class="at">scale. =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb90-11"><a href="#cb90-11" aria-hidden="true" tabindex="-1"></a>pca_rb <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(Xr_bad, <span class="at">scale. =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb90-12"><a href="#cb90-12" aria-hidden="true" tabindex="-1"></a>pca_lb <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(X_bad,  <span class="at">scale. =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb90-13"><a href="#cb90-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb90-14"><a href="#cb90-14" aria-hidden="true" tabindex="-1"></a>pv <span class="ot">&lt;-</span> <span class="cf">function</span>(q) <span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> q<span class="sc">$</span>sdev[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="fu">ncol</span>(X), <span class="dv">1</span>)</span>
+<span id="cb90-15"><a href="#cb90-15" aria-hidden="true" tabindex="-1"></a><span class="fu">rbind</span>(<span class="at">untransformed_clean     =</span> <span class="fu">pv</span>(pca_r),</span>
+<span id="cb90-16"><a href="#cb90-16" aria-hidden="true" tabindex="-1"></a>      <span class="at">untransformed_corrupted =</span> <span class="fu">pv</span>(pca_rb),</span>
+<span id="cb90-17"><a href="#cb90-17" aria-hidden="true" tabindex="-1"></a>      <span class="at">log_clean               =</span> <span class="fu">pv</span>(pca),</span>
+<span id="cb90-18"><a href="#cb90-18" aria-hidden="true" tabindex="-1"></a>      <span class="at">log_corrupted           =</span> <span class="fu">pv</span>(pca_lb))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                        [,1] [,2] [,3]
 untransformed_clean     26.8 22.7 13.2
@@ -4004,8 +4075,8 @@ log_corrupted           30.8 22.6 13.5</code></pre>
 </div>
 <p>On the log scale the corrupted record barely registers: the variance explained by the first three components moves from <span class="math inline">\(31.2\%\)</span>, <span class="math inline">\(22.6\%\)</span>, <span class="math inline">\(13.5\%\)</span> to <span class="math inline">\(30.8\%\)</span>, <span class="math inline">\(22.6\%\)</span>, <span class="math inline">\(13.5\%\)</span>. On the untransformed scale the solution falls apart. Compare the first component before and after:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb96"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cbind</span>(<span class="at">clean =</span> <span class="fu">round</span>(pca_r<span class="sc">$</span>rotation[, <span class="dv">1</span>], <span class="dv">3</span>),</span>
-<span id="cb96-2"><a href="#cb96-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">corrupted =</span> <span class="fu">round</span>(pca_rb<span class="sc">$</span>rotation[, <span class="dv">1</span>], <span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb92"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cbind</span>(<span class="at">clean =</span> <span class="fu">round</span>(pca_r<span class="sc">$</span>rotation[, <span class="dv">1</span>], <span class="dv">3</span>),</span>
+<span id="cb92-2"><a href="#cb92-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">corrupted =</span> <span class="fu">round</span>(pca_rb<span class="sc">$</span>rotation[, <span class="dv">1</span>], <span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                 clean corrupted
 age              0.206     0.432
@@ -4022,7 +4093,7 @@ mobile_logins    0.013    -0.462
 branch_visits    0.024     0.446
 missed_payments -0.133     0.012</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb98"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(pca_r<span class="sc">$</span>rotation[, <span class="dv">1</span>], pca_rb<span class="sc">$</span>rotation[, <span class="dv">1</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb94"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(pca_r<span class="sc">$</span>rotation[, <span class="dv">1</span>], pca_rb<span class="sc">$</span>rotation[, <span class="dv">1</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] -0.01780224</code></pre>
 </div>
@@ -4030,12 +4101,12 @@ missed_payments -0.133     0.012</code></pre>
 <p>The correlation between the two versions of PC1 is <span class="math inline">\(-0.02\)</span>: the affluence factor has not been perturbed, it has been <strong>displaced entirely</strong>, and the first component of the corrupted analysis is now the age-versus-digital contrast. The affluence structure did not merely move down the ordering — the corrupted variables, having almost all their standardised variance concentrated in one point, are now nearly constant across the other <span class="math inline">\(599\)</span> clients and no longer correlate with anything.</p>
 <p>Where did the corrupted client go? Into a component of its own:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb100"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(pca_rb<span class="sc">$</span>x[<span class="dv">1</span>, ] <span class="sc">/</span> <span class="fu">apply</span>(pca_rb<span class="sc">$</span>x, <span class="dv">2</span>, sd), <span class="dv">1</span>)   <span class="co"># its scores, in standard deviations</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb96"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(pca_rb<span class="sc">$</span>x[<span class="dv">1</span>, ] <span class="sc">/</span> <span class="fu">apply</span>(pca_rb<span class="sc">$</span>x, <span class="dv">2</span>, sd), <span class="dv">1</span>)   <span class="co"># its scores, in standard deviations</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> PC1  PC2  PC3  PC4  PC5  PC6  PC7  PC8  PC9 PC10 PC11 PC12 PC13 
 -2.6 -1.0 24.3  0.6 -0.1  0.2  0.5 -0.2 -0.2 -0.2  0.0  0.0 -0.1 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb102"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(pca_rb<span class="sc">$</span>rotation[, <span class="dv">3</span>], <span class="dv">3</span>)                     <span class="co"># the component it created</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb98"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(pca_rb<span class="sc">$</span>rotation[, <span class="dv">3</span>], <span class="dv">3</span>)                     <span class="co"># the component it created</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>            age          tenure          income balance_current balance_savings 
           0.031           0.032           0.000          -0.056           0.703 
@@ -4047,12 +4118,12 @@ missed_payments -0.133     0.012</code></pre>
 </div>
 <p>The third component of the corrupted analysis takes <span class="math inline">\(15.3\%\)</span> of the total variance, loads <span class="math inline">\(0.70\)</span> on each of the two corrupted variables and essentially zero on everything else, and the offending client sits <span class="math inline">\(24\)</span> standard deviations along it. That component is not a description of the portfolio; it is a description of one typing mistake.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb104"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
-<span id="cb104-2"><a href="#cb104-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pca_r<span class="sc">$</span>x[, <span class="dv">1</span>], pca_r<span class="sc">$</span>x[, <span class="dv">2</span>], <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="st">"grey60"</span>, <span class="at">cex =</span> <span class="fl">0.6</span>,</span>
-<span id="cb104-3"><a href="#cb104-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"PC1"</span>, <span class="at">ylab =</span> <span class="st">"PC2"</span>, <span class="at">main =</span> <span class="st">"Clean data: PC1 vs PC2"</span>)</span>
-<span id="cb104-4"><a href="#cb104-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pca_rb<span class="sc">$</span>x[, <span class="dv">1</span>], pca_rb<span class="sc">$</span>x[, <span class="dv">3</span>], <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="st">"grey60"</span>, <span class="at">cex =</span> <span class="fl">0.6</span>,</span>
-<span id="cb104-5"><a href="#cb104-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"PC1"</span>, <span class="at">ylab =</span> <span class="st">"PC3"</span>, <span class="at">main =</span> <span class="st">"Corrupted data: PC1 vs PC3"</span>)</span>
-<span id="cb104-6"><a href="#cb104-6" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(pca_rb<span class="sc">$</span>x[<span class="dv">1</span>, <span class="dv">1</span>], pca_rb<span class="sc">$</span>x[<span class="dv">1</span>, <span class="dv">3</span>], <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="st">"red3"</span>, <span class="at">cex =</span> <span class="fl">1.6</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb100"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb100-2"><a href="#cb100-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pca_r<span class="sc">$</span>x[, <span class="dv">1</span>], pca_r<span class="sc">$</span>x[, <span class="dv">2</span>], <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="st">"grey60"</span>, <span class="at">cex =</span> <span class="fl">0.6</span>,</span>
+<span id="cb100-3"><a href="#cb100-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"PC1"</span>, <span class="at">ylab =</span> <span class="st">"PC2"</span>, <span class="at">main =</span> <span class="st">"Clean data: PC1 vs PC2"</span>)</span>
+<span id="cb100-4"><a href="#cb100-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pca_rb<span class="sc">$</span>x[, <span class="dv">1</span>], pca_rb<span class="sc">$</span>x[, <span class="dv">3</span>], <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="st">"grey60"</span>, <span class="at">cex =</span> <span class="fl">0.6</span>,</span>
+<span id="cb100-5"><a href="#cb100-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"PC1"</span>, <span class="at">ylab =</span> <span class="st">"PC3"</span>, <span class="at">main =</span> <span class="st">"Corrupted data: PC1 vs PC3"</span>)</span>
+<span id="cb100-6"><a href="#cb100-6" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(pca_rb<span class="sc">$</span>x[<span class="dv">1</span>, <span class="dv">1</span>], pca_rb<span class="sc">$</span>x[<span class="dv">1</span>, <span class="dv">3</span>], <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="st">"red3"</span>, <span class="at">cex =</span> <span class="fl">1.6</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -4061,7 +4132,7 @@ missed_payments -0.133     0.012</code></pre>
 </figure>
 </div>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb105"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb101"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>All of this followed from an error in two cells of a table of <span class="math inline">\(7\,800\)</span> values.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
@@ -4085,12 +4156,12 @@ Tip
 <li>Consider a robust PCA, based on a robust covariance estimator such as the MCD, when contamination is suspected and cannot be cleaned.</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb106"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="co"># reconstruction error per client using three components</span></span>
-<span id="cb106-2"><a href="#cb106-2" aria-hidden="true" tabindex="-1"></a>Zhat <span class="ot">&lt;-</span> pca<span class="sc">$</span>x[, <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>] <span class="sc">%*%</span> <span class="fu">t</span>(pca<span class="sc">$</span>rotation[, <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>])</span>
-<span id="cb106-3"><a href="#cb106-3" aria-hidden="true" tabindex="-1"></a>err  <span class="ot">&lt;-</span> <span class="fu">rowSums</span>((<span class="fu">scale</span>(X) <span class="sc">-</span> Zhat)<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb106-4"><a href="#cb106-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb106-5"><a href="#cb106-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(bank[<span class="fu">order</span>(err, <span class="at">decreasing =</span> <span class="cn">TRUE</span>), <span class="fu">c</span>(<span class="st">"client_id"</span>, <span class="st">"segment"</span>, <span class="st">"utilization"</span>,</span>
-<span id="cb106-6"><a href="#cb106-6" aria-hidden="true" tabindex="-1"></a>                                           <span class="st">"missed_payments"</span>, <span class="st">"mobile_logins"</span>)], <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb102"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="co"># reconstruction error per client using three components</span></span>
+<span id="cb102-2"><a href="#cb102-2" aria-hidden="true" tabindex="-1"></a>Zhat <span class="ot">&lt;-</span> pca<span class="sc">$</span>x[, <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>] <span class="sc">%*%</span> <span class="fu">t</span>(pca<span class="sc">$</span>rotation[, <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>])</span>
+<span id="cb102-3"><a href="#cb102-3" aria-hidden="true" tabindex="-1"></a>err  <span class="ot">&lt;-</span> <span class="fu">rowSums</span>((<span class="fu">scale</span>(X) <span class="sc">-</span> Zhat)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb102-4"><a href="#cb102-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-5"><a href="#cb102-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(bank[<span class="fu">order</span>(err, <span class="at">decreasing =</span> <span class="cn">TRUE</span>), <span class="fu">c</span>(<span class="st">"client_id"</span>, <span class="st">"segment"</span>, <span class="st">"utilization"</span>,</span>
+<span id="cb102-6"><a href="#cb102-6" aria-hidden="true" tabindex="-1"></a>                                           <span class="st">"missed_payments"</span>, <span class="st">"mobile_logins"</span>)], <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    client_id  segment utilization missed_payments mobile_logins
 272     C0272     Mass        76.5               3           184
@@ -4106,11 +4177,11 @@ Tip
 <h3 data-number="10.10.2" class="anchored" data-anchor-id="missing-values"><span class="header-section-number">10.10.2</span> Missing Values</h3>
 <p><code>prcomp()</code> has no mechanism for missing data: it removes any row with an <code>NA</code>, which can be a substantial part of the sample when many variables are involved. The options are those of the Missing Values chapter — deletion, single imputation, or multiple imputation — with one addition specific to PCA: iterative PCA imputation, which fills the missing cells with the values predicted by a low-rank reconstruction and iterates until convergence (implemented in the <code>missMDA</code> package).</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb108"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a>X_na <span class="ot">&lt;-</span> X</span>
-<span id="cb108-2"><a href="#cb108-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb108-3"><a href="#cb108-3" aria-hidden="true" tabindex="-1"></a>X_na[<span class="fu">sample</span>(<span class="fu">nrow</span>(X), <span class="dv">60</span>), <span class="st">"log_income"</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
-<span id="cb108-4"><a href="#cb108-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb108-5"><a href="#cb108-5" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(<span class="fu">na.omit</span>(X_na))          <span class="co"># rows surviving listwise deletion</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb104"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a>X_na <span class="ot">&lt;-</span> X</span>
+<span id="cb104-2"><a href="#cb104-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb104-3"><a href="#cb104-3" aria-hidden="true" tabindex="-1"></a>X_na[<span class="fu">sample</span>(<span class="fu">nrow</span>(X), <span class="dv">60</span>), <span class="st">"log_income"</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb104-4"><a href="#cb104-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb104-5"><a href="#cb104-5" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(<span class="fu">na.omit</span>(X_na))          <span class="co"># rows surviving listwise deletion</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 540</code></pre>
 </div>
@@ -4130,7 +4201,7 @@ Tip
 <h3 data-number="10.10.4" class="anchored" data-anchor-id="multicollinearity-and-near-constant-variables"><span class="header-section-number">10.10.4</span> Multicollinearity and Near-Constant Variables</h3>
 <p>PCA tolerates perfect collinearity — the corresponding eigenvalue is simply zero — but a variable with zero variance breaks the standardisation, since dividing by <span class="math inline">\(s_j = 0\)</span> is undefined. Check before scaling:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb110"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span>(<span class="fu">apply</span>(X, <span class="dv">2</span>, sd) <span class="sc">==</span> <span class="dv">0</span>)   <span class="co"># integer(0): no constant columns</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb106"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span>(<span class="fu">apply</span>(X, <span class="dv">2</span>, sd) <span class="sc">==</span> <span class="dv">0</span>)   <span class="co"># integer(0): no constant columns</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>named integer(0)</code></pre>
 </div>
@@ -4140,6 +4211,16 @@ Tip
 <section id="sample-size" class="level3" data-number="10.10.5">
 <h3 data-number="10.10.5" class="anchored" data-anchor-id="sample-size"><span class="header-section-number">10.10.5</span> Sample Size</h3>
 <p>PCA estimates <span class="math inline">\(p(p+1)/2\)</span> covariances from <span class="math inline">\(n\)</span> observations. With <span class="math inline">\(p = 13\)</span> that is <span class="math inline">\(91\)</span> quantities; <span class="math inline">\(n = 600\)</span> is comfortable. Rules of thumb suggest at least <span class="math inline">\(5\)</span>–<span class="math inline">\(10\)</span> observations per variable, and more when the correlations are weak. With <span class="math inline">\(n &lt; p\)</span> the correlation matrix is singular and at most <span class="math inline">\(n-1\)</span> eigenvalues are non-zero — PCA still runs, but the later components are pure artefact.</p>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><strong>Packages and commands.</strong> <code>na.omit</code> shows the cost of listwise deletion, <code>apply(X, 2, sd)</code> finds constant columns, and the per-client reconstruction error is <code>rowSums((scale(X) - Zhat)^2)</code>. Named but not used here: <strong>missMDA</strong> for iterative PCA imputation, <strong>FactoMineR</strong> for <code>MCA</code> and <code>FAMD</code> on categorical and mixed data, and a robust covariance estimator such as the MCD for robust PCA.</p>
+</div>
+</div>
+</div>
 <!-- COMMENTED OUT: section "PCA as a Preprocessing Step".
      To restore: delete this comment opener and the closing marker below, then
      put the braces back on the 5 opening code fences (r becomes {r}) so knitr
@@ -4218,6 +4299,10 @@ Four components fit as well as thirteen variables, with nine fewer parameters.
 When the aim is prediction rather than description, consider *partial least squares* (PLS), which builds components that maximise covariance with the response, or simply a regularised regression (ridge, lasso) on the original variables.
 :::
 
+:::{.callout-note appearance="minimal"}
+**Packages and commands.** `kmeans(scores, centers = , nstart = )` clusters the score matrix, `table` cross-tabulates the result against a known grouping, and `glm(family = binomial)` with `AIC` fits and compares the regressions on components.
+:::
+
 END OF COMMENTED-OUT SECTION -->
 </section>
 </section>
@@ -4246,12 +4331,22 @@ Caution
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb112"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The correct way to use PCA inside a predictive workflow</span></span>
-<span id="cb112-2"><a href="#cb112-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
-<span id="cb112-3"><a href="#cb112-3" aria-hidden="true" tabindex="-1"></a>idx        <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(X), <span class="fl">0.7</span> <span class="sc">*</span> <span class="fu">nrow</span>(X))</span>
-<span id="cb112-4"><a href="#cb112-4" aria-hidden="true" tabindex="-1"></a>pca_train  <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(X[idx, ], <span class="at">scale. =</span> <span class="cn">TRUE</span>)          <span class="co"># fitted on training data only</span></span>
-<span id="cb112-5"><a href="#cb112-5" aria-hidden="true" tabindex="-1"></a>scores_tr  <span class="ot">&lt;-</span> pca_train<span class="sc">$</span>x[, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]</span>
-<span id="cb112-6"><a href="#cb112-6" aria-hidden="true" tabindex="-1"></a>scores_te  <span class="ot">&lt;-</span> <span class="fu">predict</span>(pca_train, <span class="at">newdata =</span> X[<span class="sc">-</span>idx, ])[, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb108"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The correct way to use PCA inside a predictive workflow</span></span>
+<span id="cb108-2"><a href="#cb108-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb108-3"><a href="#cb108-3" aria-hidden="true" tabindex="-1"></a>idx        <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(X), <span class="fl">0.7</span> <span class="sc">*</span> <span class="fu">nrow</span>(X))</span>
+<span id="cb108-4"><a href="#cb108-4" aria-hidden="true" tabindex="-1"></a>pca_train  <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(X[idx, ], <span class="at">scale. =</span> <span class="cn">TRUE</span>)          <span class="co"># fitted on training data only</span></span>
+<span id="cb108-5"><a href="#cb108-5" aria-hidden="true" tabindex="-1"></a>scores_tr  <span class="ot">&lt;-</span> pca_train<span class="sc">$</span>x[, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]</span>
+<span id="cb108-6"><a href="#cb108-6" aria-hidden="true" tabindex="-1"></a>scores_te  <span class="ot">&lt;-</span> <span class="fu">predict</span>(pca_train, <span class="at">newdata =</span> X[<span class="sc">-</span>idx, ])[, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><strong>Packages and commands.</strong> The train/test pattern is the only code here: fit <code>prcomp</code> on the training rows, then apply the <em>same</em> transformation to the test rows with <code>predict(pca_train, newdata = )</code>. Never refit.</p>
+</div>
+</div>
 </div>
 </section>
 <section id="summary" class="level2" data-number="10.12">
@@ -4351,7 +4446,7 @@ Caution
 3. PC1 is not significant. Is that a failure of PCA? Explain.
 4. Split the data into $70\%$ training and $30\%$ test. Fit the PCA on the training set only, apply it to the test set with `predict()`, and compare the test-set accuracy of the two models. Why would fitting the PCA on the full data set be wrong?
 
-```nseprnsc
+```vzfduhcw
 #| label: ex6
 #| autorun: false
 
