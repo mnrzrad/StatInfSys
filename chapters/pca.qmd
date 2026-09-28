@@ -74,6 +74,10 @@ An observation that is poorly reconstructed from the first few components — th
 
 Identifying the latent dimensions behind a battery of customer-satisfaction items, which are typically far more numerous than the concepts they measure.
 
+:::{.callout-note appearance="minimal"}
+**Packages and commands.** No code in this section. The chapter uses **stats** for the analysis itself (`prcomp`, later `varimax` and `promax`), **dplyr** for the data preparation, **factoextra** and **corrplot** for the standard PCA figures, **gridExtra** to place figures side by side, and **GPArotation** for the rotation criteria that **stats** does not provide. All are installed and loaded by the setup chunk at the top of the chapter.
+:::
+
 ## The Data: A Retail Bank Client Portfolio
 
 Throughout this chapter we work with a simulated portfolio of $600$ retail bank clients. The data are generated rather than downloaded so that every result in this chapter is exactly reproducible in your browser, but the variables, their units and their correlation structure are typical of a real retail banking table.
@@ -317,6 +321,10 @@ Xsub <- data.frame(age = bank$age, tenure = bank$tenure,
 round(cor(Xsub), 2)
 ```
 
+:::{.callout-note appearance="minimal"}
+**Packages and commands.** Simulation with `set.seed`, `rnorm`, `rpois`, `runif` and `sample`; marginal distributions with `summary` and `sapply`; the log transform with **dplyr**'s `transmute`; the correlation matrix with `cor` and **corrplot**'s `corrplot(method = "color", order = "hclust")`, whose `order` argument is what makes the blocks visible.
+:::
+
 ## Notation, Centering and Scaling
 
 Let $\mathbf{X}$ be an $n \times p$ data matrix: $n$ clients in rows, $p$ variables in columns. Write $\mathbf{x}_i = (x_{i1}, \ldots, x_{ip})^{\top}$ for the record of client $i$, and $\bar{x}_j$ and $s_j$ for the sample mean and standard deviation of variable $j$.
@@ -362,6 +370,10 @@ The covariance matrix is appropriate only when all variables share the same unit
 :::
 
 From here on, every PCA is on the correlation matrix of the transformed matrix `X`.
+
+:::{.callout-note appearance="minimal"}
+**Packages and commands.** `scale` centres and standardises a matrix, and `apply(X, 2, var)` shows why that matters here. `prcomp(X, scale. = TRUE)` runs the PCA on the correlation matrix and `scale. = FALSE` on the covariance matrix; the older `princomp` makes the same choice through `cor = TRUE`.
+:::
 
 ## The Algebra of PCA
 
@@ -701,6 +713,10 @@ abline(0,  1, col = "red3",     lwd = 2)
 abline(0, -1, col = "steelblue", lwd = 2)
 ``` -->
 
+:::{.callout-note appearance="minimal"}
+**Packages and commands.** `cor` followed by `eigen` gives the eigenvalues (`$values`) and loadings (`$vectors`) by hand; `svd` gives the same through singular values (`$d`); `prcomp` does it in one call and is the one to use. `dist` checks that the rotation leaves every distance alone. The two-dimensional figure is **ggplot2** plus **gridExtra**'s `grid.arrange`, and depends on `coord_equal` — without a 1:1 aspect ratio a rotation does not look like one.
+:::
+
 ## Scores, Loadings and Explained Variance
 
 Three objects come out of a PCA, and confusing them is the most common source of error in reading PCA output.
@@ -777,6 +793,10 @@ summary(pca)
 # scores of the first five clients on the first three components
 round(pca$x[1:5, 1:3], 3)
 ```
+
+:::{.callout-note appearance="minimal"}
+**Packages and commands.** `prcomp` returns `$rotation` (loadings), `$x` (scores) and `$sdev` (square roots of the eigenvalues). `summary` prints the variance table; **factoextra**'s `get_eigenvalue` returns the same thing as a data frame. Reconstruction is plain matrix algebra: `pca$x[, 1:k] %*% t(pca$rotation[, 1:k])`.
+:::
 
 ## How Many Components to Retain? {#sec-how-many}
 
@@ -869,6 +889,10 @@ When criteria disagree, prefer the solution you can explain to the business. A c
 We retain **three** components for interpretation. Had the goal been prediction rather than explanation, keeping the fourth would have been defensible: a component that resists naming can still carry usable signal.
 
 That is not quite the end of the question. @sec-rotation reopens it: a component that cannot be named *as it stands* may become nameable once the axes inside the retained subspace are rotated, and the fourth component of this portfolio is exactly such a case.
+
+:::{.callout-note appearance="minimal"}
+**Packages and commands.** **factoextra**'s `fviz_eig(choice = "eigenvalue")` draws the scree plot; `cumsum` and **ggplot2** draw the cumulative curve. The Kaiser count is `sum(pca$sdev^2 > 1)`, and the broken-stick values need no package at all — just `sapply` over the formula.
+:::
 
 ## Visualising a PCA {#sec-visualising}
 
@@ -1072,6 +1096,10 @@ fviz_pca_ind(pca, axes = c(2, 3), geom.ind = "point",
              legend.title = "Churn")
 ```
 
+:::{.callout-note appearance="minimal"}
+**Packages and commands.** All from **factoextra**: `fviz_pca_var` (correlation circle), `fviz_contrib` (contributions), `fviz_pca_ind` (individuals, with `col.ind` and `addEllipses`) and `fviz_pca_biplot` (biplot). `get_pca_var` returns the numbers behind those figures in `$coord`, `$cos2` and `$contrib`. `corrplot(is.corr = FALSE)` displays a cos2 matrix, and `aggregate` summarises scores by an external grouping.
+:::
+
 ## Interpreting the Components
 
 A principal component has no meaning until someone gives it one. Interpretation proceeds by reading the loadings of a component and asking what the highly weighted variables have in common. Loadings below roughly $0.3$ in absolute value are usually ignored as noise.
@@ -1115,6 +1143,10 @@ If you flip a component for readability, flip **both** the loadings and the scor
 The interpretation above recovers, almost exactly, the four latent factors used to generate the data (`W` affluence, `A` life stage, `D` digital propensity, `R` credit risk) — although `A` and `D` were deliberately entangled and PCA, which is restricted to *orthogonal* directions, splits them across PC2 and PC4 rather than isolating each.
 
 PCA recovers latent structure only up to a rotation. That is a real limitation, but it is also an opening: if the retained subspace is right and only the axes inside it are awkwardly placed, the axes can be turned. @sec-rotation does exactly that, and recovers all four factors — `A` included.
+:::
+
+:::{.callout-note appearance="minimal"}
+**Packages and commands.** No new tools: interpretation is reading `pca$rotation`, and flipping a component for readability is a minus sign applied to both `$rotation[, k]` and `$x[, k]`.
 :::
 
 ## Rotating the Components for Interpretation {#sec-rotation}
@@ -1306,51 +1338,31 @@ With an oblique rotation, read the **pattern** matrix (unique contribution of ea
 
 ### Rotated Scores
 
-The loadings say what the components mean; the scores are what you carry into the next analysis — a clustering, a scorecard, a segmentation table. They rotate too, and there is one trap in doing it.
-
-The scores of `prcomp()` are $\mathbf{Y} = \mathbf{Z}\mathbf{A}$, whose columns have variances $\lambda_1, \ldots, \lambda_k$. But the matrix we rotated was $\mathbf{L} = \mathbf{A}_k\boldsymbol{\Lambda}_k^{1/2}$ — correlations, not eigenvectors — and loadings and scores have to stay in step: whatever scaling the loadings absorb, the scores must give up. The scores that pair with $\mathbf{L}$ are therefore the **standardised** ones, and the rotation acts on them from the right:
+The scores rotate with the loadings, and they are what you carry into the next analysis. Since the matrix we rotated was $\mathbf{L} = \mathbf{A}_k\boldsymbol{\Lambda}_k^{1/2}$ rather than the eigenvectors themselves, its partner is the **standardised** score matrix, and the rotation multiplies it on the right:
 $$
 \mathbf{Y}^{*} = \mathbf{Z}\,\mathbf{A}_k\,\boldsymbol{\Lambda}_k^{-1/2},
-\qquad\qquad
+\qquad
 \mathbf{Y}^{*}_{\text{rot}} = \mathbf{Y}^{*}\mathbf{T}.
 $$
-Because $\mathbf{T}$ is orthogonal, $\mathbf{Y}^{*}_{\text{rot}}\mathbf{L}^{*\top} = \mathbf{Y}^{*}\mathbf{T}\mathbf{T}^{\top}\mathbf{L}^{\top} = \mathbf{Y}^{*}\mathbf{L}^{\top}$ — the fitted values are exactly those of the unrotated solution, which is the same invariance seen from the other side.
+For an oblique rotation the same holds with $(\mathbf{T}^{\top})^{-1}$ in place of $\mathbf{T}$, and the columns come out correlated — their correlation matrix is exactly $\boldsymbol{\Phi}$.
 
 ```{r}
 #| label: rot-scores
 Ystar    <- scale(X) %*% pca$rotation[, 1:k] %*% diag(1 / pca$sdev[1:k])
-RCscores <- Ystar %*% vm$rotmat
-colnames(RCscores) <- paste0("RC", 1:k)
+RCscores <- Ystar %*% vm$rotmat              # varimax
+PMscores <- Ystar %*% solve(t(pm$rotmat))    # promax
+colnames(RCscores) <- colnames(PMscores) <- paste0("RC", 1:k)
 
-round(apply(RCscores, 2, sd), 3)                            # unit variance
-signif(max(abs(cor(RCscores)[upper.tri(diag(k))])), 3)      # still uncorrelated
-signif(max(abs(RCscores %*% t(RC) - Ystar %*% t(L))), 3)    # same fitted values
+round(apply(RCscores, 2, sd), 3)                          # unit variance
+signif(max(abs(cor(RCscores)[upper.tri(diag(k))])), 3)    # still uncorrelated
+signif(max(abs(cor(PMscores) - Phi)), 3)                  # promax: exactly Phi
 ```
+
+Each column now reads as a score on a named construct: RC4 correlates $-0.906$ with age, so it is a youth-and-recency index on a standard-deviation scale. The promax scores carry the $0.43$ between digital engagement and life stage, so anything downstream that assumes uncorrelated inputs has to allow for it.
 
 :::{.callout-warning}
-**Two score conventions, and they are not interchangeable.** `prcomp()$x` returns scores with variance $\lambda_k$, so the first column is genuinely more spread out than the second — that is what makes a biplot readable. The rotated scores above have variance $1$ in *every* column, because they are the partners of correlation-scaled loadings.
-
-Neither is more correct, but switching between them silently rescales everything downstream: $k$-means on unit-variance scores weights all four components equally, while $k$-means on `prcomp()$x` weights them by $\lambda$. Decide which you want, and say which you used.
+**Two score conventions.** `prcomp()$x` returns scores with variance $\lambda_c$; the ones above have variance $1$ in every column, because they are the partners of correlation-scaled loadings. Neither is wrong, but they are not interchangeable — $k$-means on the first weights the components by $\lambda$, on the second equally. Say which you used.
 :::
-
-Because the scores are standardised and the loadings are correlations, each column reads directly as a score on a named construct. RC4 correlates $-0.906$ with age — it *is* a youth-and-recency index, on a scale where $0$ is the average client and $\pm 1$ is one standard deviation. These are the columns to hand to a clustering or a scorecard, with one caveat: rotated components are no longer ordered by importance, so "take the first two" has stopped being a defensible way to choose among them.
-
-For an oblique rotation the same reasoning applies with $(\mathbf{T}^{\top})^{-1}$ in place of $\mathbf{T}$, and the columns that come out are no longer uncorrelated:
-$$
-\mathbf{Y}^{*}_{\text{obl}} = \mathbf{Y}^{*}\left(\mathbf{T}^{\top}\right)^{-1},
-\qquad
-\operatorname{Cor}\!\left(\mathbf{Y}^{*}_{\text{obl}}\right) = \boldsymbol{\Phi}.
-$$
-
-```{r}
-#| label: rot-scores-oblique
-PMscores <- Ystar %*% solve(t(pm$rotmat))
-
-round(apply(PMscores, 2, sd), 3)
-signif(max(abs(cor(PMscores) - Phi)), 3)   # their correlations are exactly Phi
-```
-
-The promax scores reproduce $\boldsymbol{\Phi}$ to machine precision, the $0.43$ between digital engagement and life stage included. Anything downstream that assumes uncorrelated inputs has to account for that — which is the price of the more faithful description.
 
 ### When to Rotate, and When Not To
 
@@ -1383,6 +1395,10 @@ print(round(varimax(L)$loadings, 2), cutoff = 0.3)
 # and compare with the oblique solution
 print(round(promax(L)$loadings, 2), cutoff = 0.3)
 ```
+
+:::{.callout-note appearance="minimal"}
+**Packages and commands.** **stats** provides `varimax` (with `normalize` controlling Kaiser normalisation) and `promax`; both return `$loadings` and `$rotmat`. **GPArotation** supplies the rest of the family — `quartimax`, and `cfT(kappa = )` for equamax — as well as the oblique `oblimin` and `quartimin`. The component correlation matrix is `solve(t(rotmat) %*% rotmat)`, and rotated scores need `solve` and `t` as shown above.
+:::
 
 ## Practical Issues
 
@@ -1513,6 +1529,10 @@ Also worth avoiding is including a variable twice in different guises (an amount
 
 PCA estimates $p(p+1)/2$ covariances from $n$ observations. With $p = 13$ that is $91$ quantities; $n = 600$ is comfortable. Rules of thumb suggest at least $5$–$10$ observations per variable, and more when the correlations are weak. With $n < p$ the correlation matrix is singular and at most $n-1$ eigenvalues are non-zero — PCA still runs, but the later components are pure artefact.
 
+:::{.callout-note appearance="minimal"}
+**Packages and commands.** `na.omit` shows the cost of listwise deletion, `apply(X, 2, sd)` finds constant columns, and the per-client reconstruction error is `rowSums((scale(X) - Zhat)^2)`. Named but not used here: **missMDA** for iterative PCA imputation, **FactoMineR** for `MCA` and `FAMD` on categorical and mixed data, and a robust covariance estimator such as the MCD for robust PCA.
+:::
+
 <!-- COMMENTED OUT: section "PCA as a Preprocessing Step".
      To restore: delete this comment opener and the closing marker below, then
      put the braces back on the 5 opening code fences (r becomes {r}) so knitr
@@ -1591,6 +1611,10 @@ Four components fit as well as thirteen variables, with nine fewer parameters.
 When the aim is prediction rather than description, consider *partial least squares* (PLS), which builds components that maximise covariance with the response, or simply a regularised regression (ridge, lasso) on the original variables.
 :::
 
+:::{.callout-note appearance="minimal"}
+**Packages and commands.** `kmeans(scores, centers = , nstart = )` clusters the score matrix, `table` cross-tabulates the result against a known grouping, and `glm(family = binomial)` with `AIC` fits and compares the regressions on components.
+:::
+
 END OF COMMENTED-OUT SECTION -->
 
 ## Common Pitfalls
@@ -1616,6 +1640,10 @@ pca_train  <- prcomp(X[idx, ], scale. = TRUE)          # fitted on training data
 scores_tr  <- pca_train$x[, 1:4]
 scores_te  <- predict(pca_train, newdata = X[-idx, ])[, 1:4]
 ```
+
+:::{.callout-note appearance="minimal"}
+**Packages and commands.** The train/test pattern is the only code here: fit `prcomp` on the training rows, then apply the *same* transformation to the test rows with `predict(pca_train, newdata = )`. Never refit.
+:::
 
 ## Summary
 
