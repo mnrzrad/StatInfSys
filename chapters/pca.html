@@ -1975,6 +1975,7 @@ window.Quarto = {
   <li><a href="#exercise-4-an-insurance-portfolio" id="toc-exercise-4-an-insurance-portfolio" class="nav-link" data-scroll-target="#exercise-4-an-insurance-portfolio"><span class="header-section-number">10.14.4</span> Exercise 4 — An insurance portfolio</a></li>
   <li><a href="#exercise-5-rotation-and-interpretation" id="toc-exercise-5-rotation-and-interpretation" class="nav-link" data-scroll-target="#exercise-5-rotation-and-interpretation"><span class="header-section-number">10.14.5</span> Exercise 5 — Rotation and interpretation</a></li>
   </ul></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
 </nav>
     </div>
@@ -2286,7 +2287,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 
 <p><em>Principal Component Analysis</em> (PCA) is a technique used to replace a set of correlated variables by a smaller set of new, uncorrelated variables — the <em>principal components</em> — that retain as much of the original variability as possible.</p>
 <p>Where clustering looks for structure among the <strong>rows</strong> of a data set (which clients resemble each other?), PCA looks for structure among the <strong>columns</strong> (which variables carry the same information?). The two questions are complementary, and in practice PCA is very often the step that comes <em>before</em> clustering or classification.</p>
-<p>PCA was introduced by <span class="citation" data-cites="pearson1901">Pearson (<a href="#ref-pearson1901" role="doc-biblioref">1901</a>)</span> as a problem of fitting lines and planes to a cloud of points, and developed in its modern statistical form by <span class="citation" data-cites="hotelling1933">Hotelling (<a href="#ref-hotelling1933" role="doc-biblioref">1933</a>)</span>. A comprehensive treatment is given by <span class="citation" data-cites="jolliffe2002">Jolliffe (<a href="#ref-jolliffe2002" role="doc-biblioref">2002</a>)</span>.</p>
+<p>PCA was introduced by <span class="citation" data-cites="pearson1901">Pearson (<a href="pca.html#ref-pearson1901" role="doc-biblioref">1901</a>)</span> as a problem of fitting lines and planes to a cloud of points, and developed in its modern statistical form by <span class="citation" data-cites="hotelling1933">Hotelling (<a href="pca.html#ref-hotelling1933" role="doc-biblioref">1933</a>)</span>. A comprehensive treatment is given by <span class="citation" data-cites="jolliffe2002">Jolliffe (<a href="pca.html#ref-jolliffe2002" role="doc-biblioref">2002</a>)</span>.</p>
 <section id="why-reduce-dimension" class="level2" data-number="10.1">
 <h2 data-number="10.1" class="anchored" data-anchor-id="why-reduce-dimension"><span class="header-section-number">10.1</span> Why Reduce Dimension?</h2>
 <p>A retail bank stores dozens — often hundreds — of numeric attributes per client: balances across several account types, transaction counts by channel, credit exposure, tenure, product holdings, contact history. An insurer stores a similar volume per policy. Working with all of them at once creates four practical difficulties.</p>
@@ -2700,7 +2701,7 @@ Note
 <p>Two readings of the same result:</p>
 <ul>
 <li><strong>Maximum variance</strong>: the first component is the direction along which the clients are most spread out.</li>
-<li><strong>Best fit</strong>: the first component is also the line that minimises the sum of squared <em>perpendicular</em> distances from the points to the line. This is the geometry of <span class="citation" data-cites="pearson1901">Pearson (<a href="#ref-pearson1901" role="doc-biblioref">1901</a>)</span>, and it is not the same as the line fitted by ordinary least squares, which minimises <em>vertical</em> distances to a designated response variable.</li>
+<li><strong>Best fit</strong>: the first component is also the line that minimises the sum of squared <em>perpendicular</em> distances from the points to the line. This is the geometry of <span class="citation" data-cites="pearson1901">Pearson (<a href="pca.html#ref-pearson1901" role="doc-biblioref">1901</a>)</span>, and it is not the same as the line fitted by ordinary least squares, which minimises <em>vertical</em> distances to a designated response variable.</li>
 </ul>
 <p>Both descriptions define the same direction, which is why PCA can be presented either as variance maximisation or as low-dimensional approximation.</p>
 </div>
@@ -2777,11 +2778,11 @@ Note
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(<span class="fu">abs</span>(e<span class="sc">$</span>values <span class="sc">-</span> pca<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span>))                        <span class="co"># eigenvalues agree</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 9.325873e-15</code></pre>
+<pre><code>[1] 8.437695e-15</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(<span class="fu">abs</span>(<span class="fu">abs</span>(e<span class="sc">$</span>vectors[, <span class="dv">1</span>]) <span class="sc">-</span> <span class="fu">abs</span>(pca<span class="sc">$</span>rotation[, <span class="dv">1</span>]))) <span class="co"># first direction agrees</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 7.771561e-16</code></pre>
+<pre><code>[1] 8.604228e-16</code></pre>
 </div>
 </div>
 <p>Both differences are of the order of <span class="math inline">\(10^{-14}\)</span> — machine precision. And through the SVD:</p>
@@ -2969,7 +2970,7 @@ The dotted line at $1$ marks the variance of either original variable. Every dir
 In $p$ dimensions exactly the same thing happens: the cloud is a $p$-dimensional ellipsoid and PCA turns it until its longest axis lies along the first coordinate, its next longest along the second, and so on. What is lost above three dimensions is only our ability to look at it directly — hence the correlation circle and the biplot of @sec-visualising, which are two-dimensional windows onto that same rotation.
 :::
 
-```mhxcdqmp
+```wkczukza
 #| label: rot-try
 #| autorun: false
 
@@ -3107,7 +3108,7 @@ Note
 <h3 data-number="10.5.4" class="anchored" data-anchor-id="reconstruction"><span class="header-section-number">10.5.4</span> Reconstruction</h3>
 <p>Keeping only <span class="math inline">\(k\)</span> components and rotating back gives an approximation to the standardised data: <span class="math display">\[
 \hat{\mathbf{Z}}_{(k)} = \mathbf{Y}_{(k)}\,\mathbf{A}_{(k)}^{\top},
-\]</span> where <span class="math inline">\(\mathbf{Y}_{(k)}\)</span> holds the first <span class="math inline">\(k\)</span> score columns and <span class="math inline">\(\mathbf{A}_{(k)}\)</span> the first <span class="math inline">\(k\)</span> loading columns. The Eckart–Young theorem <span class="citation" data-cites="eckart1936">(<a href="#ref-eckart1936" role="doc-biblioref">Eckart and Young 1936</a>)</span> states that this is the <strong>best possible rank-<span class="math inline">\(k\)</span> approximation</strong> of <span class="math inline">\(\mathbf{Z}\)</span> in the least-squares sense: no other set of <span class="math inline">\(k\)</span> linear combinations reconstructs the data with smaller squared error.</p>
+\]</span> where <span class="math inline">\(\mathbf{Y}_{(k)}\)</span> holds the first <span class="math inline">\(k\)</span> score columns and <span class="math inline">\(\mathbf{A}_{(k)}\)</span> the first <span class="math inline">\(k\)</span> loading columns. The Eckart–Young theorem <span class="citation" data-cites="eckart1936">(<a href="pca.html#ref-eckart1936" role="doc-biblioref">Eckart and Young 1936</a>)</span> states that this is the <strong>best possible rank-<span class="math inline">\(k\)</span> approximation</strong> of <span class="math inline">\(\mathbf{Z}\)</span> in the least-squares sense: no other set of <span class="math inline">\(k\)</span> linear combinations reconstructs the data with smaller squared error.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>Z <span class="ot">&lt;-</span> <span class="fu">scale</span>(X)</span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (k <span class="cf">in</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">8</span>)) {</span>
@@ -3144,7 +3145,7 @@ k = 8  mean squared error = 0.093   variance retained = 90.7%</code></pre>
 <p>There is no test that settles this question. The usual practice is to look at several criteria and take a decision that is defensible both statistically and substantively.</p>
 <section id="the-scree-plot" class="level3" data-number="10.6.1">
 <h3 data-number="10.6.1" class="anchored" data-anchor-id="the-scree-plot"><span class="header-section-number">10.6.1</span> The Scree Plot</h3>
-<p>Plot the eigenvalues against their index and look for an “elbow” — the point after which the curve flattens into a scree slope of small, roughly equal eigenvalues <span class="citation" data-cites="cattell1966">(<a href="#ref-cattell1966" role="doc-biblioref">Cattell 1966</a>)</span>. Components before the elbow are taken as signal, those after as noise.</p>
+<p>Plot the eigenvalues against their index and look for an “elbow” — the point after which the curve flattens into a scree slope of small, roughly equal eigenvalues <span class="citation" data-cites="cattell1966">(<a href="pca.html#ref-cattell1966" role="doc-biblioref">Cattell 1966</a>)</span>. Components before the elbow are taken as signal, those after as noise.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_eig</span>(pca, <span class="at">addlabels =</span> <span class="cn">TRUE</span>, <span class="at">choice =</span> <span class="st">"eigenvalue"</span>,</span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">barfill =</span> <span class="st">"steelblue"</span>, <span class="at">barcolor =</span> <span class="st">"steelblue"</span>) <span class="sc">+</span></span>
@@ -3186,7 +3187,7 @@ k = 8  mean squared error = 0.093   variance retained = 90.7%</code></pre>
 </section>
 <section id="the-kaiser-criterion" class="level3" data-number="10.6.3">
 <h3 data-number="10.6.3" class="anchored" data-anchor-id="the-kaiser-criterion"><span class="header-section-number">10.6.3</span> The Kaiser Criterion</h3>
-<p>On the correlation matrix, retain components with <span class="math inline">\(\lambda_k &gt; 1\)</span> <span class="citation" data-cites="kaiser1960">(<a href="#ref-kaiser1960" role="doc-biblioref">Kaiser 1960</a>)</span>. The logic is direct: a component explaining less than one standardised variable’s worth of variance is not a summary of anything.</p>
+<p>On the correlation matrix, retain components with <span class="math inline">\(\lambda_k &gt; 1\)</span> <span class="citation" data-cites="kaiser1960">(<a href="pca.html#ref-kaiser1960" role="doc-biblioref">Kaiser 1960</a>)</span>. The logic is direct: a component explaining less than one standardised variable’s worth of variance is not a summary of anything.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(pca<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span> <span class="sc">&gt;</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -3672,7 +3673,7 @@ Tip
 <p>This is a different operation from the rotation of <a href="#sec-first-pc" class="quarto-xref"><span>Section 10.4.1</span></a>. There, rotating the axes <em>was</em> the PCA — the whole <span class="math inline">\(p\)</span>-dimensional basis was turned so that the first axis caught the most variance. Here we take the <span class="math inline">\(k\)</span> retained components as given and rotate only within them, deliberately giving up the maximum-variance ordering in exchange for readability.</p>
 <section id="simple-structure" class="level3" data-number="10.9.1">
 <h3 data-number="10.9.1" class="anchored" data-anchor-id="simple-structure"><span class="header-section-number">10.9.1</span> Simple Structure</h3>
-<p>The target is what <span class="citation" data-cites="thurstone1947">Thurstone (<a href="#ref-thurstone1947" role="doc-biblioref">1947</a>)</span> called <strong>simple structure</strong>: a loadings matrix in which</p>
+<p>The target is what <span class="citation" data-cites="thurstone1947">Thurstone (<a href="pca.html#ref-thurstone1947" role="doc-biblioref">1947</a>)</span> called <strong>simple structure</strong>: a loadings matrix in which</p>
 <ul>
 <li>each variable loads strongly on <strong>one</strong> component and near zero on the others,</li>
 <li>each component has a handful of large loadings and many small ones,</li>
@@ -3766,7 +3767,7 @@ Q(\mathbf{L}^{*}) \;=\; \sum_{c=1}^{k}\sum_{j=1}^{p} l_{jc}^{*4} \;-\; \frac{\ga
 </tr>
 </tbody>
 </table>
-<p>Varimax <span class="citation" data-cites="kaiser1958">(<a href="#ref-kaiser1958" role="doc-biblioref">Kaiser 1958</a>)</span> is the one to reach for unless you have a reason not to.</p>
+<p>Varimax <span class="citation" data-cites="kaiser1958">(<a href="pca.html#ref-kaiser1958" role="doc-biblioref">Kaiser 1958</a>)</span> is the one to reach for unless you have a reason not to.</p>
 <p><code>GPArotation</code> parameterises the same family through the Crawford-Ferguson constant <span class="math inline">\(\kappa = \gamma/p\)</span>, which is why equamax appears below as <code>kappa = k / (2 * ncol(X))</code> rather than as <span class="math inline">\(\gamma = k/2\)</span>. The two are the same rotation.</p>
 </section>
 <section id="varimax-on-the-bank-portfolio" class="level3" data-number="10.9.3">
@@ -3852,7 +3853,7 @@ varimax   29.1 17.4 13.7 15.0</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(<span class="fu">abs</span>(<span class="fu">rowSums</span>(RC<span class="sc">^</span><span class="dv">2</span>) <span class="sc">-</span> <span class="fu">rowSums</span>(L<span class="sc">^</span><span class="dv">2</span>)))     <span class="co"># communalities</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 6.661338e-16</code></pre>
+<pre><code>[1] 7.771561e-16</code></pre>
 </div>
 </div>
 <p>The total retained variance is <span class="math inline">\(75.1\%\)</span> either way and no communality moves by more than <span class="math inline">\(10^{-15}\)</span>. What changed is the <em>split</em>: the first component gave up <span class="math inline">\(31.2\% \to 29.1\%\)</span> and the second <span class="math inline">\(22.6\% \to 17.4\%\)</span>, while the fourth rose from <span class="math inline">\(7.9\%\)</span> to <span class="math inline">\(15.0\%\)</span> — and RC4 now explains more than RC3, so the components are genuinely no longer in order.</p>
@@ -3915,7 +3916,7 @@ Warning
 </section>
 <section id="oblique-rotations" class="level3" data-number="10.9.5">
 <h3 data-number="10.9.5" class="anchored" data-anchor-id="oblique-rotations"><span class="header-section-number">10.9.5</span> Oblique Rotations</h3>
-<p>Orthogonal rotation keeps the components uncorrelated. That is a convenience, not a fact about the world: real constructs are often related, and forcing right angles can prevent simple structure from being reached at all. <strong>Oblique</strong> rotations — <em>promax</em> <span class="citation" data-cites="hendrickson1964">(<a href="#ref-hendrickson1964" role="doc-biblioref">Hendrickson and White 1964</a>)</span>, <em>oblimin</em>, <em>quartimin</em> — drop the constraint.</p>
+<p>Orthogonal rotation keeps the components uncorrelated. That is a convenience, not a fact about the world: real constructs are often related, and forcing right angles can prevent simple structure from being reached at all. <strong>Oblique</strong> rotations — <em>promax</em> <span class="citation" data-cites="hendrickson1964">(<a href="pca.html#ref-hendrickson1964" role="doc-biblioref">Hendrickson and White 1964</a>)</span>, <em>oblimin</em>, <em>quartimin</em> — drop the constraint.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a>pm  <span class="ot">&lt;-</span> <span class="fu">promax</span>(L)</span>
 <span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a>Phi <span class="ot">&lt;-</span> <span class="fu">solve</span>(<span class="fu">t</span>(pm<span class="sc">$</span>rotmat) <span class="sc">%*%</span> pm<span class="sc">$</span>rotmat)      <span class="co"># component correlation matrix</span></span>
@@ -3983,11 +3984,11 @@ Note
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="fu">signif</span>(<span class="fu">max</span>(<span class="fu">abs</span>(<span class="fu">cor</span>(RCscores)[<span class="fu">upper.tri</span>(<span class="fu">diag</span>(k))])), <span class="dv">3</span>)    <span class="co"># still uncorrelated</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 8.31e-16</code></pre>
+<pre><code>[1] 4.58e-16</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb88"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="fu">signif</span>(<span class="fu">max</span>(<span class="fu">abs</span>(<span class="fu">cor</span>(PMscores) <span class="sc">-</span> Phi)), <span class="dv">3</span>)                  <span class="co"># promax: exactly Phi</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 6.66e-16</code></pre>
+<pre><code>[1] 8.88e-16</code></pre>
 </div>
 </div>
 <p>Each column now reads as a score on a named construct: RC4 correlates <span class="math inline">\(-0.906\)</span> with age, so it is a youth-and-recency index on a standard-deviation scale. The promax scores carry the <span class="math inline">\(0.43\)</span> between digital engagement and life stage, so anything downstream that assumes uncorrelated inputs has to allow for it.</p>
@@ -4359,7 +4360,7 @@ Caution
 <span id="cb109-2"><a href="#cb109-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb109-3"><a href="#cb109-3" aria-hidden="true" tabindex="-1"></a><span class="fu">signif</span>(<span class="fu">max</span>(<span class="fu">abs</span>(<span class="fu">abs</span>(mds) <span class="sc">-</span> <span class="fu">abs</span>(pca<span class="sc">$</span>x[, <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]))), <span class="dv">3</span>)   <span class="co"># identical, up to the sign of each axis</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 4.99e-14</code></pre>
+<pre><code>[1] 3.47e-14</code></pre>
 </div>
 </div>
 <p>The interesting case is the one PCA cannot reach. Feed MDS a dissimilarity that is <em>not</em> Euclidean — Gower’s coefficient for mixed numeric and categorical data, a correlation distance, an edit distance between strings — and you get a map of the clients even though no variable matrix exists. <em>Non-metric</em> MDS goes further still, preserving only the rank order of the dissimilarities, which is the right choice when the dissimilarities are ordinal.</p>
@@ -4538,7 +4539,7 @@ Warning
 3. PC1 is not significant. Is that a failure of PCA? Explain.
 4. Split the data into $70\%$ training and $30\%$ test. Fit the PCA on the training set only, apply it to the test set with `predict()`, and compare the test-set accuracy of the two models. Why would fitting the PCA on the full data set be wrong?
 
-```mhxcdqmp
+```wkczukza
 #| label: ex6
 #| autorun: false
 
@@ -4551,38 +4552,128 @@ summary(m_pc)
 ```
 
 END OF COMMENTED-OUT EXERCISE -->
-
-
+</section>
+</section>
+<section id="references" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="references">References</h2>
 <div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-Bezdek2002" class="csl-entry" role="listitem">
+Bezdek, J. C., and R. J. Hathaway. 2002. <span>“VAT: A Tool for Visual
+Assessment of (Cluster) Tendency.”</span> <em>Proceedings of the 2002
+International Joint Conference on Neural Networks. IJCNN’02 (Cat.
+No.02CH37290)</em> 3: 2225–30.
+</div>
+<div id="ref-brock2008clvalid" class="csl-entry" role="listitem">
+Brock, Guy, Vasyl Pihur, Susmita Datta, and Somnath Datta. 2008.
+<span>“clValid: An r Package for Cluster Validation.”</span> <em>Journal
+of Statistical Software</em> 25 (4): 1–22. <a href="https://doi.org/10.18637/jss.v025.i04">https://doi.org/10.18637/jss.v025.i04</a>.
+</div>
 <div id="ref-cattell1966" class="csl-entry" role="listitem">
-Cattell, Raymond B. 1966. <span>“The Scree Test for the Number of Factors.”</span> <em>Multivariate Behavioral Research</em> 1 (2): 245–76.
+Cattell, Raymond B. 1966. <span>“The Scree Test for the Number of
+Factors.”</span> <em>Multivariate Behavioral Research</em> 1 (2):
+245–76.
+</div>
+<div id="ref-charrad2014nbclust" class="csl-entry" role="listitem">
+Charrad, Malika, Nadia Ghazzali, Véronique Boiteau, and Azam Niknafs.
+2014. <span>“NbClust: An r Package for Determining the Relevant Number
+of Clusters in a Data Set.”</span> <em>Journal of Statistical
+Software</em> 61 (6): 1–36. <a href="https://doi.org/10.18637/jss.v061.i06">https://doi.org/10.18637/jss.v061.i06</a>.
 </div>
 <div id="ref-eckart1936" class="csl-entry" role="listitem">
-Eckart, Carl, and Gale Young. 1936. <span>“The Approximation of One Matrix by Another of Lower Rank.”</span> <em>Psychometrika</em> 1 (3): 211–18.
+Eckart, Carl, and Gale Young. 1936. <span>“The Approximation of One
+Matrix by Another of Lower Rank.”</span> <em>Psychometrika</em> 1 (3):
+211–18.
+</div>
+<div id="ref-Gower1971" class="csl-entry" role="listitem">
+Gower, J. C. 1971. <span>“A General Coefficient of Similarity and Some
+of Its Properties.”</span> <em>Biometrics</em> 27 (4): 857–71.
+</div>
+<div id="ref-hartigan1979" class="csl-entry" role="listitem">
+Hartigan, John A., and Manchek A. Wong. 1979. <span>“A
+<span>K</span>-Means Clustering Algorithm.”</span> <em>Applied
+Statistics</em> 28: 100–108.
 </div>
 <div id="ref-hendrickson1964" class="csl-entry" role="listitem">
-Hendrickson, Alan E., and Paul O. White. 1964. <span>“Promax: A Quick Method for Rotation to Oblique Simple Structure.”</span> <em>British Journal of Statistical Psychology</em> 17 (1): 65–70.
+Hendrickson, Alan E., and Paul O. White. 1964. <span>“Promax: A Quick
+Method for Rotation to Oblique Simple Structure.”</span> <em>British
+Journal of Statistical Psychology</em> 17 (1): 65–70.
 </div>
 <div id="ref-hotelling1933" class="csl-entry" role="listitem">
-Hotelling, Harold. 1933. <span>“Analysis of a Complex of Statistical Variables into Principal Components.”</span> <em>Journal of Educational Psychology</em> 24 (6): 417–41.
+Hotelling, Harold. 1933. <span>“Analysis of a Complex of Statistical
+Variables into Principal Components.”</span> <em>Journal of Educational
+Psychology</em> 24 (6): 417–41.
 </div>
 <div id="ref-jolliffe2002" class="csl-entry" role="listitem">
-Jolliffe, Ian T. 2002. <em>Principal Component Analysis</em>. 2nd ed. Springer.
+Jolliffe, Ian T. 2002. <em>Principal Component Analysis</em>. 2nd ed.
+Springer.
 </div>
 <div id="ref-kaiser1958" class="csl-entry" role="listitem">
-Kaiser, Henry F. 1958. <span>“The Varimax Criterion for Analytic Rotation in Factor Analysis.”</span> <em>Psychometrika</em> 23 (3): 187–200.
+Kaiser, Henry F. 1958. <span>“The Varimax Criterion for Analytic
+Rotation in Factor Analysis.”</span> <em>Psychometrika</em> 23 (3):
+187–200.
 </div>
 <div id="ref-kaiser1960" class="csl-entry" role="listitem">
-Kaiser, Henry F. 1960. <span>“The Application of Electronic Computers to Factor Analysis.”</span> <em>Educational and Psychological Measurement</em> 20 (1): 141–51.
+Kaiser, Henry F. 1960. <span>“The Application of Electronic Computers to
+Factor Analysis.”</span> <em>Educational and Psychological
+Measurement</em> 20 (1): 141–51.
+</div>
+<div id="ref-kaufman1990" class="csl-entry" role="listitem">
+Kaufman, Leonard, and Peter J. Rousseeuw. 1990. <em>Finding Groups in
+Data: An Introduction to Cluster Analysis</em>. Wiley.
+</div>
+<div id="ref-macqueen1967" class="csl-entry" role="listitem">
+MacQueen, J. 1967. <span>“Some Methods for Classification and Analysis
+of Multivariate Observations.”</span> In <em>Proceedings of the Fifth
+Berkeley Symposium on Mathematical Statistics and Probability</em>,
+edited by L. M. Le Cam and J. Neyman, vol. 1. University of California
+Press.
+</div>
+<div id="ref-Midway2022" class="csl-entry" role="listitem">
+Midway, Steve. 2022. <em>Data Analysis in r</em>. <a href="https://bookdown.org/steve_midway/DAR/">https://bookdown.org/steve_midway/DAR/</a>.
 </div>
 <div id="ref-pearson1901" class="csl-entry" role="listitem">
-Pearson, Karl. 1901. <span>“On Lines and Planes of Closest Fit to Systems of Points in Space.”</span> <em>The London, Edinburgh, and Dublin Philosophical Magazine and Journal of Science</em> 2 (11): 559–72.
+Pearson, Karl. 1901. <span>“On Lines and Planes of Closest Fit to
+Systems of Points in Space.”</span> <em>The London, Edinburgh, and
+Dublin Philosophical Magazine and Journal of Science</em> 2 (11):
+559–72.
+</div>
+<div id="ref-Peng2012" class="csl-entry" role="listitem">
+Peng, Roger D. 2012. <em>Exploratory Data Analysis with
+<span>R</span></em>. <a href="https://bookdown.org/rdpeng/exdata/">https://bookdown.org/rdpeng/exdata/</a>.
+</div>
+<div id="ref-theodoridis2008pattern" class="csl-entry" role="listitem">
+Theodoridis, Sergios, and Konstantinos Koutroumbas. 2008. <em>Pattern
+Recognition</em>. 4th ed. Academic Press.
 </div>
 <div id="ref-thurstone1947" class="csl-entry" role="listitem">
-Thurstone, Louis L. 1947. <em>Multiple-Factor Analysis: A Development and Expansion of the Vectors of Mind</em>. University of Chicago Press.
+Thurstone, Louis L. 1947. <em>Multiple-Factor Analysis: A Development
+and Expansion of the Vectors of Mind</em>. University of Chicago Press.
+</div>
+<div id="ref-tibshirani2001gap" class="csl-entry" role="listitem">
+Tibshirani, Robert, Guenther Walther, and Trevor Hastie. 2001.
+<span>“Estimating the Number of Data Clusters via the Gap
+Statistic.”</span> <em>Journal of the Royal Statistical Society: Series
+B (Statistical Methodology)</em> 63 (2): 411–23.
+</div>
+<div id="ref-Tufte2006" class="csl-entry" role="listitem">
+Tufte, Edward. 2006. <em>Beautiful Evidence</em>. Graphics Press LLC.
+</div>
+<div id="ref-Tukey1977" class="csl-entry" role="listitem">
+Tukey, John Wilder. 1977. <em>Exploratory Data Analysis</em>.
+Addison-Wesley Publishing Company.
+</div>
+<div id="ref-Wickham2023" class="csl-entry" role="listitem">
+Wickham, Hadley, Mine Cetinkaya-Rundel, and Garrett Grolemund. 2023.
+<em>R for Data Science: Import, Tidy, Transform, Visualize, and Model
+Data</em>. 2nd ed. <a href="https://r4ds.hadley.nz/">https://r4ds.hadley.nz/</a>.
+</div>
+<div id="ref-Wickham2019" class="csl-entry" role="listitem">
+Wickham, Hadley, Danielle Navarro, and Thomas Lin Pederson. 2019.
+<em>Ggplot2: Elegant Graphics for Data Analysis</em>. 3rd ed. <a href="https://ggplot2-book.org/">https://ggplot2-book.org/</a>.
 </div>
 </div>
-</section>
+
+
 </section>
 
 </main> <!-- /main -->

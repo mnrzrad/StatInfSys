@@ -2606,7 +2606,7 @@ Instead, we use measures that handle <strong>qualitative comparisons</strong> di
 </section>
 <section id="gower-distance" class="level4" data-number="11.2.3.2">
 <h4 data-number="11.2.3.2" class="anchored" data-anchor-id="gower-distance"><span class="header-section-number">11.2.3.2</span> <strong>Gower Distance</strong></h4>
-<p>The <strong>Gower distance</strong> <span class="citation" data-cites="Gower1971">(<a href="#ref-Gower1971" role="doc-biblioref">Gower 1971</a>)</span> allows comparing <strong>mixed-type data</strong> (numerical, categorical, binomial).</p>
+<p>The <strong>Gower distance</strong> <span class="citation" data-cites="Gower1971">(<a href="pca.html#ref-Gower1971" role="doc-biblioref">Gower 1971</a>)</span> allows comparing <strong>mixed-type data</strong> (numerical, categorical, binomial).</p>
 <p>For two observations <span class="math inline">\(i\)</span> and <span class="math inline">\(k\)</span>, and each variable <span class="math inline">\(k\)</span>, Gower’s method computes a partial <em>similarity score</em> <span class="math inline">\(s_{ijk}\)</span> as follows:</p>
 <ul>
 <li><p><strong>Numeric variables (continuous or discrete)</strong>: <span class="math display">\[
@@ -2859,8 +2859,8 @@ D_{ij} = d(\mathbf{x}_i, \mathbf{x}_j)
 <p><em>Partitioning clustering</em> are clustering methods used to classify observations, within a dataset, into multiple groups based ion their similrity. The algorithms require the analyst to specify the number of clusters to be generated.</p>
 <p>The commonly used partitioning clustering includes:</p>
 <ul>
-<li><span class="math inline">\(K\)</span>-means clustering <span class="citation" data-cites="macqueen1967">(<a href="#ref-macqueen1967" role="doc-biblioref">MacQueen 1967</a>)</span> in which ,each cluster is represented by the center or means of the data points belonging to the cluster. The <span class="math inline">\(K\)</span>-means method is sensitive to anomalous data points and outliers.</li>
-<li><span class="math inline">\(K\)</span>-medoids clustering or PAM (Partitioning Around Medoids) <span class="citation" data-cites="kaufman1990">(<a href="#ref-kaufman1990" role="doc-biblioref">Kaufman and Rousseeuw 1990</a>)</span> in which , each cluster is reprsented by one of the objects in the cluster. PAM is less sensitive to outliers compared to <span class="math inline">\(K\)</span>-means.</li>
+<li><span class="math inline">\(K\)</span>-means clustering <span class="citation" data-cites="macqueen1967">(<a href="pca.html#ref-macqueen1967" role="doc-biblioref">MacQueen 1967</a>)</span> in which ,each cluster is represented by the center or means of the data points belonging to the cluster. The <span class="math inline">\(K\)</span>-means method is sensitive to anomalous data points and outliers.</li>
+<li><span class="math inline">\(K\)</span>-medoids clustering or PAM (Partitioning Around Medoids) <span class="citation" data-cites="kaufman1990">(<a href="pca.html#ref-kaufman1990" role="doc-biblioref">Kaufman and Rousseeuw 1990</a>)</span> in which , each cluster is reprsented by one of the objects in the cluster. PAM is less sensitive to outliers compared to <span class="math inline">\(K\)</span>-means.</li>
 <li>CLARA (Clustering Large Applications) algorithm, which is an extension to PAM adapted for large data sets.</li>
 </ul>
 <section id="k-means-clustering" class="level3" data-number="11.3.1">
@@ -2870,7 +2870,7 @@ D_{ij} = d(\mathbf{x}_i, \mathbf{x}_j)
 <section id="k-means-basic-ideas" class="level4" data-number="11.3.1.1">
 <h4 data-number="11.3.1.1" class="anchored" data-anchor-id="k-means-basic-ideas"><span class="header-section-number">11.3.1.1</span> <span class="math inline">\(K\)</span>-means basic ideas</h4>
 <p>This basic idea behind <span class="math inline">\(K\)</span>-means clustering consists of defining clusters so that the total intra-cluster variation (known as <em>total within-cluster variation</em>) is minimized.</p>
-<p>There are several <span class="math inline">\(K\)</span>-means algorithms available. The standard algorithm is the <em>Hartigan-Wong algorithm</em> <span class="citation" data-cites="hartigan1979">(<a href="#ref-hartigan1979" role="doc-biblioref">Hartigan and Wong 1979</a>)</span> which defines the total within-cluster variation as the sum of squared distances Euclidean distances between items and the corresponding centroid: <span class="math display">\[
+<p>There are several <span class="math inline">\(K\)</span>-means algorithms available. The standard algorithm is the <em>Hartigan-Wong algorithm</em> <span class="citation" data-cites="hartigan1979">(<a href="pca.html#ref-hartigan1979" role="doc-biblioref">Hartigan and Wong 1979</a>)</span> which defines the total within-cluster variation as the sum of squared distances Euclidean distances between items and the corresponding centroid: <span class="math display">\[
 W(C_k) = \sum_{x_i \in C_k} (x_i - \mu_k)^2
 \]</span> where <span class="math inline">\(x_i\)</span> design a data point belonging to the cluster <span class="math inline">\(C_k\)</span> and <span class="math inline">\(\mu_k\)</span> is the mean value of the points assigned to the cluster <span class="math inline">\(C_k\)</span>.</p>
 <p>Each observation (<span class="math inline">\(x_i\)</span>) is assigned to a given cluster such that the sum of squares (SS) distances of the observation to their assigned cluster <span class="math inline">\(\mu_k\)</span> is minimum.</p>
@@ -3388,7 +3388,7 @@ Tip
 m_k = \arg\min_{\mathbf{x}_i \in C_k} \sum_{\mathbf{x}_j \in C_k} d(\mathbf{x}_i,\mathbf{x}_j)
 \]</span> where <span class="math inline">\(C_k\)</span> is the set of points assigned to cluster <span class="math inline">\(k\)</span>, and <span class="math inline">\(d(\mathbf{x}_i,\mathbf{x}_j)\)</span> is a chosen distance or dissimilarity measure (e.g., Euclidean, Manhattan, etc.)</p>
 <p><span class="math inline">\(K\)</span>-medoid is a robust alternative to <span class="math inline">\(K\)</span>-means clustering. This means that, the algorithm of clusters to be generated (like in <span class="math inline">\(K\)</span>-means clustering). A useful approach to determine the optimal number of clusters is the <em>silhouette</em> method.</p>
-<p>The most common <span class="math inline">\(K\)</span>-medoids clustering methods is the PAM (Partitioning Around Medoids) algorithm <span class="citation" data-cites="kaufman1990">(<a href="#ref-kaufman1990" role="doc-biblioref">Kaufman and Rousseeuw 1990</a>)</span></p>
+<p>The most common <span class="math inline">\(K\)</span>-medoids clustering methods is the PAM (Partitioning Around Medoids) algorithm <span class="citation" data-cites="kaufman1990">(<a href="pca.html#ref-kaufman1990" role="doc-biblioref">Kaufman and Rousseeuw 1990</a>)</span></p>
 <section id="pam-algorithm" class="level4" data-number="11.3.2.1">
 <h4 data-number="11.3.2.1" class="anchored" data-anchor-id="pam-algorithm"><span class="header-section-number">11.3.2.1</span> PAM Algorithm</h4>
 <p>The PAM algorithm is based on the search for <span class="math inline">\(K\)</span> representative objects or medoids among the observations of the data set. After finding a set of <span class="math inline">\(K\)</span> medoids, clusters are constructed by assigning each observation to the nearest medoid. Next, each selected medoid <span class="math inline">\(m\)</span> and each non-medoid data point are swapped and the objective function is computed. The objective function corresponds to the sum of the dissimilarities of all objects to their nearest medoid. The <em>SWAP</em> step attemps to improve the quality of the clustering by exchanging selected objects (medoids) and non-selected objects. If the objective function can be reduced by interchanging a selected object with an unselected object, then the swap is carried out. This is continued until the objective function can no longer be decreased. The goal is to find <span class="math inline">\(k\)</span> representative objects which minimize the sum of the dissimilarities of the observations to their closest representative object.</p>
@@ -3973,7 +3973,7 @@ $updated_assignments
 </section>
 <section id="estimating-the-optimal-number-of-clusters" class="level4" data-number="11.3.2.4">
 <h4 data-number="11.3.2.4" class="anchored" data-anchor-id="estimating-the-optimal-number-of-clusters"><span class="header-section-number">11.3.2.4</span> Estimating the optimal number of clusters</h4>
-<p>To estimate the optimal number of clusters, we will use the average silhouette method. The idea is to compute PAM algorithm using different values of clusters <span class="math inline">\(k\)</span>. Next, the average clusters silhouette is drawn according to the number of clusters. The average silhouette measures the quality of a clustering. A high average silhouette width indicates a good clustering. The optimal number of clusters <span class="math inline">\(k\)</span> is the one that maximize the average silhouette over a range of possible values for <span class="math inline">\(k\)</span> <span class="citation" data-cites="kaufman1990">(<a href="#ref-kaufman1990" role="doc-biblioref">Kaufman and Rousseeuw 1990</a>)</span>.</p>
+<p>To estimate the optimal number of clusters, we will use the average silhouette method. The idea is to compute PAM algorithm using different values of clusters <span class="math inline">\(k\)</span>. Next, the average clusters silhouette is drawn according to the number of clusters. The average silhouette measures the quality of a clustering. A high average silhouette width indicates a good clustering. The optimal number of clusters <span class="math inline">\(k\)</span> is the one that maximize the average silhouette over a range of possible values for <span class="math inline">\(k\)</span> <span class="citation" data-cites="kaufman1990">(<a href="pca.html#ref-kaufman1990" role="doc-biblioref">Kaufman and Rousseeuw 1990</a>)</span>.</p>
 <p>The R function <code>factoextra::fviz_nbclust()</code> provides a convenient solution to estimate the optimal number of clusters.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cluster)</span>
@@ -4081,7 +4081,7 @@ H = \frac{\sum_{i=1}^n y_i}{\sum_{i=1}^n x_i + \sum_{i=1}^n y_i}
 </section>
 <section id="visual-methods" class="level5" data-number="11.4.1.1.2">
 <h5 data-number="11.4.1.1.2" class="anchored" data-anchor-id="visual-methods"><span class="header-section-number">11.4.1.1.2</span> Visual methods</h5>
-<p>The algorithm of the visual assessment of cluster tendency (VAT) approach <span class="citation" data-cites="Bezdek2002">(<a href="#ref-Bezdek2002" role="doc-biblioref">Bezdek and Hathaway 2002</a>)</span> is as follow:</p>
+<p>The algorithm of the visual assessment of cluster tendency (VAT) approach <span class="citation" data-cites="Bezdek2002">(<a href="pca.html#ref-Bezdek2002" role="doc-biblioref">Bezdek and Hathaway 2002</a>)</span> is as follow:</p>
 <ol type="1">
 <li>Compute the dissimilarity (DM) matrix between the observations in the dataset using the Euclidean distance meature</li>
 <li>Reorder the DM so that similar objects are close to one another. This process create an ordered dissimilarity (ODM)</li>
@@ -4140,14 +4140,14 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Note that the <em>elbow method</em> is sometimes ambiguous. An alternative is the average silhoutte method <span class="citation" data-cites="kaufman1990">(<a href="#ref-kaufman1990" role="doc-biblioref">Kaufman and Rousseeuw 1990</a>)</span> which can be also used with any clustering approach.</p>
+<p>Note that the <em>elbow method</em> is sometimes ambiguous. An alternative is the average silhoutte method <span class="citation" data-cites="kaufman1990">(<a href="pca.html#ref-kaufman1990" role="doc-biblioref">Kaufman and Rousseeuw 1990</a>)</span> which can be also used with any clustering approach.</p>
 </div>
 </div>
 </section>
 <section id="average-silhouette-method" class="level4" data-number="11.4.2.2">
 <h4 data-number="11.4.2.2" class="anchored" data-anchor-id="average-silhouette-method"><span class="header-section-number">11.4.2.2</span> Average silhouette method</h4>
 <p>The average silhoutte approach measures the quality of a clustering. That is, it determines how well each observation lies within its cluster. A high average silhouette width indicates a good clustering.</p>
-<p>Average silhouette methods computes the average silhouette of observations for different values of <span class="math inline">\(k\)</span>. The optimal number of clusters <span class="math inline">\(k\)</span> is one that maximize the average silhouette over a range of possible values for <span class="math inline">\(k\)</span> <span class="citation" data-cites="kaufman1990">(<a href="#ref-kaufman1990" role="doc-biblioref">Kaufman and Rousseeuw 1990</a>)</span>.</p>
+<p>Average silhouette methods computes the average silhouette of observations for different values of <span class="math inline">\(k\)</span>. The optimal number of clusters <span class="math inline">\(k\)</span> is one that maximize the average silhouette over a range of possible values for <span class="math inline">\(k\)</span> <span class="citation" data-cites="kaufman1990">(<a href="pca.html#ref-kaufman1990" role="doc-biblioref">Kaufman and Rousseeuw 1990</a>)</span>.</p>
 <p>The average silhouette method is similar to the <em>elbow</em> method and can be computed as follow:</p>
 <ol type="1">
 <li>Compute clustering algorithm (e.g.&nbsp;<span class="math inline">\(k\)</span>-means clustering) for different values of <span class="math inline">\(k\)</span>. For instance, by varying from <span class="math inline">\(1\)</span> to <span class="math inline">\(10\)</span> clusters.</li>
@@ -4158,7 +4158,7 @@ Tip
 </section>
 <section id="gap-statistic-method" class="level4" data-number="11.4.2.3">
 <h4 data-number="11.4.2.3" class="anchored" data-anchor-id="gap-statistic-method"><span class="header-section-number">11.4.2.3</span> Gap statistic method</h4>
-<p>The <em>gap statistic</em> <span class="citation" data-cites="tibshirani2001gap">(<a href="#ref-tibshirani2001gap" role="doc-biblioref">Tibshirani et al. 2001</a>)</span> can be applied to any clustering method.</p>
+<p>The <em>gap statistic</em> <span class="citation" data-cites="tibshirani2001gap">(<a href="pca.html#ref-tibshirani2001gap" role="doc-biblioref">Tibshirani et al. 2001</a>)</span> can be applied to any clustering method.</p>
 <p>The <em>gap statistic</em> compares the total within intra-cluster variation for different values of <span class="math inline">\(k\)</span> with their expected values under null reference distribution of the data. The estimate of the optimal clusters will be value that maximize the gap statistic (i.e., that yields the largest gap statistic). This means that the clustering structure is far away from the random uniform distribution of points.</p>
 <p>The algorithm works as follows:</p>
 <ol type="1">
@@ -4188,7 +4188,7 @@ Note
 <p>There are two functions for determing the optimal number of clusters:</p>
 <ol type="1">
 <li><code>factoextra::fviz_nbclust()</code> function: It can be used to compute the three differet methods for any partitioning clustering methods.</li>
-<li><code>NbClust::NbClust()</code> function <span class="citation" data-cites="charrad2014nbclust">(<a href="#ref-charrad2014nbclust" role="doc-biblioref">Charrad et al. 2014</a>)</span>: It provides <span class="math inline">\(30\)</span> indices for determining the relevant number of clusters and proposes to users the best clustering sheme from the different results obtained by varying all combinations of number of clusters, distance measures, and clustering methods. It can simultanously computes all the indices and determine the number of clusters in a single function call.</li>
+<li><code>NbClust::NbClust()</code> function <span class="citation" data-cites="charrad2014nbclust">(<a href="pca.html#ref-charrad2014nbclust" role="doc-biblioref">Charrad et al. 2014</a>)</span>: It provides <span class="math inline">\(30\)</span> indices for determining the relevant number of clusters and proposes to users the best clustering sheme from the different results obtained by varying all combinations of number of clusters, distance measures, and clustering methods. It can simultanously computes all the indices and determine the number of clusters in a single function call.</li>
 </ol>
 <p>The simplified format is as:</p>
 <div class="cell">
@@ -4242,7 +4242,7 @@ Note
 <section id="cluster-validation-statistics" class="level3" data-number="11.4.3">
 <h3 data-number="11.4.3" class="anchored" data-anchor-id="cluster-validation-statistics"><span class="header-section-number">11.4.3</span> Cluster Validation Statistics</h3>
 <p>The term <em>cluster validation</em> is used to design the procedure of evaluating the goodness of clustering algorithm results. This is important to avoid finding patterns in a random data, as well as, in the situation where you want to compare two clustering algorithms.</p>
-<p>Based on <span class="citation" data-cites="theodoridis2008pattern">Theodoridis and Koutroumbas (<a href="#ref-theodoridis2008pattern" role="doc-biblioref">2008</a>)</span>, <span class="citation" data-cites="brock2008clvalid">Brock et al. (<a href="#ref-brock2008clvalid" role="doc-biblioref">2008</a>)</span>, <span class="citation" data-cites="charrad2014nbclust">Charrad et al. (<a href="#ref-charrad2014nbclust" role="doc-biblioref">2014</a>)</span>; clustering validation statistics can be categorized into <span class="math inline">\(3\)</span> classes:</p>
+<p>Based on <span class="citation" data-cites="theodoridis2008pattern">Theodoridis and Koutroumbas (<a href="pca.html#ref-theodoridis2008pattern" role="doc-biblioref">2008</a>)</span>, <span class="citation" data-cites="brock2008clvalid">Brock et al. (<a href="pca.html#ref-brock2008clvalid" role="doc-biblioref">2008</a>)</span>, <span class="citation" data-cites="charrad2014nbclust">Charrad et al. (<a href="pca.html#ref-charrad2014nbclust" role="doc-biblioref">2014</a>)</span>; clustering validation statistics can be categorized into <span class="math inline">\(3\)</span> classes:</p>
 <ol type="1">
 <li><strong>Internal cluster validation</strong>. which uses the internal information of the clustering process to evaluate the goodness of a clustering structure without reference to external information. It can be also used for estimating the number of clusters and the appropriate clustering algorithm without any external data.</li>
 <li><strong>External cluster validation</strong>, which consists of comparing the results of a clutser analsis to an externally known result, such as externally provided class labels. It measures the extent to which cluster labels match externally supplied class labels. Since we know the “true” cluster number in advance, this approach is mainly used for selecting the right clustering algorithm for a specific data set.</li>
@@ -4515,7 +4515,7 @@ Important
 </section>
 <section id="choosing-the-best-clustering-algorithms" class="level3" data-number="11.4.4">
 <h3 data-number="11.4.4" class="anchored" data-anchor-id="choosing-the-best-clustering-algorithms"><span class="header-section-number">11.4.4</span> Choosing the Best Clustering Algorithms</h3>
-<p>Choosing the best clustering method for a given data can be a hard task for the analyst. This article describes the R package clValid <span class="citation" data-cites="brock2008clvalid">(<a href="#ref-brock2008clvalid" role="doc-biblioref">Brock et al. 2008</a>)</span>, which can be used to compare simultaneously multiple clustering algorithms in a single function call for identifying the best clustering approach and the optimal number of clusters.</p>
+<p>Choosing the best clustering method for a given data can be a hard task for the analyst. This article describes the R package clValid <span class="citation" data-cites="brock2008clvalid">(<a href="pca.html#ref-brock2008clvalid" role="doc-biblioref">Brock et al. 2008</a>)</span>, which can be used to compare simultaneously multiple clustering algorithms in a single function call for identifying the best clustering approach and the optimal number of clusters.</p>
 <section id="measures-for-comparing-clustering-algorithms" class="level4" data-number="11.4.4.1">
 <h4 data-number="11.4.4.1" class="anchored" data-anchor-id="measures-for-comparing-clustering-algorithms"><span class="header-section-number">11.4.4.1</span> Measures for comparing clustering algorithms</h4>
 <p>The <code>clValid</code> package compares clustering algorithms using two cluster validation measures:</p>
@@ -4598,7 +4598,7 @@ Note
 <h2 data-number="11.5" class="anchored" data-anchor-id="references"><span class="header-section-number">11.5</span> References</h2>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
 <div id="ref-Bezdek2002" class="csl-entry" role="listitem">
 Bezdek, J. C., and R. J. Hathaway. 2002. <span>“VAT: A Tool for Visual Assessment of (Cluster) Tendency.”</span> <em>Proceedings of the 2002 International Joint Conference on Neural Networks. IJCNN’02 (Cat. No.02CH37290)</em> 3: 2225–30.
 </div>
