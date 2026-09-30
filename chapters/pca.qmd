@@ -1859,3 +1859,8 @@ summary(m_pc)
 ```
 
 END OF COMMENTED-OUT EXERCISE -->
+
+## References {.unnumbered}
+
+::: {#refs}
+:::
