@@ -396,7 +396,7 @@ The logic is this. If variables $i$ and $j$ are correlated *because* both reflec
 
 The overall index compares the two sums of squares over all pairs $i \neq j$:
 $$
-\text{KMO} = \frac{\sum_{i \neq j} r_{ij}^2}{\sum_{i \neq j} r_{ij}^2 + \sum_{i \neq j} a_{ij}^2} ,
+\text{KMO} = \frac{\sum_{i}\sum_{j \neq i} r_{ij}^2}{\sum_{i}\sum_{j \neq i} r_{ij}^2 + \sum_{i}\sum_{j \neq i} a_{ij}^2} ,
 $$
 and the **measure of sampling adequacy** of a single variable restricts the sums to its own column:
 $$
@@ -413,6 +413,8 @@ Both lie between $0$ and $1$. Values near $1$ mean the partial correlations are 
 | $0.50$ – $0.59$ | miserable |
 | $< 0.50$ | unacceptable |
 
+These labels are Kaiser's verbal conventions from factor analysis, not inferential cut-offs: no sampling distribution stands behind them, and a *middling* value does not stop PCA from finding clear components, as the rest of this chapter shows.
+
 ```{r}
 #| label: kmo
 kmo <- function(X) {
@@ -425,9 +427,9 @@ kmo <- function(X) {
        msa     = colSums(R^2) / (colSums(R^2) + colSums(A^2)))
 }
 
-k <- kmo(X)
-round(k$overall, 3)
-round(sort(k$msa), 3)
+kmo_X <- kmo(X)
+round(kmo_X$overall, 3)
+round(sort(kmo_X$msa), 3)
 round(kmo(noise)$overall, 3)
 ```
 
@@ -437,16 +439,16 @@ The per-variable values are more instructive than the overall one. The five mone
 
 ```{r}
 #| label: partial-cor
-R <- cor(X)
-Q <- solve(R)
-A <- -Q / sqrt(diag(Q) %o% diag(Q))
+Rm <- cor(X)
+Qm <- solve(Rm)
+Am <- -Qm / sqrt(diag(Qm) %o% diag(Qm))   # partial correlations
 
 pairs <- rbind(c("age", "tenure"), c("card_tx", "mobile"),
                c("utilization", "missed"), c("utilization", "log_loan"),
                c("log_savings", "log_invest"))
 data.frame(pair    = paste(pairs[, 1], "-", pairs[, 2]),
-           raw     = round(R[pairs], 2),
-           partial = round(A[pairs], 2))
+           raw     = round(Rm[pairs], 2),
+           partial = round(Am[pairs], 2))
 ```
 
 `age` and `tenure` are correlated at $0.86$, and after removing the other eleven variables they are still correlated at $0.81$: older clients have simply been clients for longer, and no other variable explains that. The same holds for `card_tx` and `mobile` ($0.82 \to 0.79$) and for the credit-strain trio. The monetary pair, by contrast, falls from $0.65$ to $0.20$: most of what links savings and investments is the affluence that every other monetary variable also measures.
