@@ -325,6 +325,174 @@ round(cor(Xsub), 2)
 **Packages and commands.** Simulation with `set.seed`, `rnorm`, `rpois`, `runif` and `sample`; marginal distributions with `summary` and `sapply`; the log transform with **dplyr**'s `transmute`; the correlation matrix with `cor` and **corrplot**'s `corrplot(method = "color", order = "hclust")`, whose `order` argument is what makes the blocks visible.
 :::
 
+## Pre-PCA Diagnostic Tests {#sec-pre-pca-tests}
+
+The previous section ended on a qualitative statement: PCA is useful to the extent that the variables are correlated. Two classical diagnostics turn that statement into numbers, and they are routinely reported before a PCA:
+
+- **Bartlett's test of sphericity** asks whether there is *any* correlation to summarise;
+- the **Kaiser–Meyer–Olkin (KMO) measure** asks whether that correlation is *shared* across many variables, which is what a small number of components can capture, or confined to isolated pairs.
+
+Both come from the factor-analysis tradition. They do not decide whether PCA can be computed — it always can — but whether it is likely to produce a useful reduction.
+
+### Bartlett's Test of Sphericity
+
+Bartlett's test [@bartlett1950] tests the hypothesis that the population correlation matrix is the identity:
+$$
+H_0: \boldsymbol{\rho} = \mathbf{I}_p
+\qquad \text{versus} \qquad
+H_1: \boldsymbol{\rho} \neq \mathbf{I}_p .
+$$
+Under $H_0$ the variables are uncorrelated and, in the language of the previous section, PCA has nothing to do. The test statistic is built from the determinant of the sample correlation matrix $\mathbf{R}$:
+$$
+\chi^2 = -\left(n - 1 - \frac{2p + 5}{6}\right) \ln |\mathbf{R}| ,
+$$
+which, under $H_0$ and multivariate normality, is approximately $\chi^2$-distributed with $p(p-1)/2$ degrees of freedom.
+
+The determinant is the natural quantity to look at. It equals the product of the eigenvalues of $\mathbf{R}$, so $|\mathbf{R}| = 1$ when the variables are uncorrelated and $|\mathbf{R}| \to 0$ as they become redundant — that is, as some eigenvalues approach zero. A small determinant means a large statistic.
+
+```{r}
+#| label: bartlett
+bartlett_sphericity <- function(X) {
+  R    <- cor(X)
+  n    <- nrow(X)
+  p    <- ncol(X)
+  stat <- -(n - 1 - (2 * p + 5) / 6) * log(det(R))
+  df   <- p * (p - 1) / 2
+  c(det = det(R), chisq = stat, df = df,
+    p.value = pchisq(stat, df, lower.tail = FALSE))
+}
+
+signif(bartlett_sphericity(X), 4)
+```
+
+The determinant is $0.0007$, the statistic is $\chi^2 = 4316$ on $78$ degrees of freedom, and the $p$-value is zero to machine precision. The hypothesis of no correlation is rejected overwhelmingly.
+
+That conclusion is less informative than it looks. The test has enormous power at realistic sample sizes, so it rejects for correlations far too weak to be worth summarising. Compare a matrix of pure noise of the same shape with the first $30$ clients of our portfolio:
+
+```{r}
+#| label: bartlett-compare
+set.seed(1)
+noise <- matrix(rnorm(600 * 13), nrow = 600, ncol = 13)
+signif(bartlett_sphericity(noise), 4)       # 600 x 13, no structure
+signif(bartlett_sphericity(X[1:30, ]), 4)   # only 30 clients
+```
+
+On noise the test correctly fails to reject ($\chi^2 = 76.7$, $p = 0.52$); on just $30$ clients it already rejects with $p \approx 10^{-21}$. Passing Bartlett's test is therefore a **minimum requirement**, not a recommendation: if it does *not* reject, stop — there is nothing for PCA to find. If it does, move on to KMO.
+
+:::{.callout-warning}
+`stats::bartlett.test()` is **not** this test. It is Bartlett's test for *homogeneity of variances* across groups, by the same author, and applying it to a data frame returns a meaningless result without an error. Use the function above or `psych::cortest.bartlett()`.
+
+The $\chi^2$ approximation also assumes multivariate normality. Our count variables and the bounded `utilization` are clearly not normal, so treat the $p$-value as approximate — which, given how far it sits from any threshold, changes nothing here.
+:::
+
+### The Kaiser–Meyer–Olkin Measure of Sampling Adequacy
+
+The KMO measure [@kaiser1970; @kaiser1974] compares the ordinary correlations with the **partial correlations** — the correlation between two variables after the linear effect of all the others has been removed. The partial correlations are read off the inverse of the correlation matrix, $\mathbf{Q} = \mathbf{R}^{-1}$:
+$$
+a_{ij} = -\frac{q_{ij}}{\sqrt{q_{ii}\, q_{jj}}} .
+$$
+
+The logic is this. If variables $i$ and $j$ are correlated *because* both reflect a common underlying dimension that other variables also reflect, then controlling for those other variables removes most of the link and $a_{ij}$ is small. If instead the two are linked only to each other, the partial correlation stays as large as the raw one. Components summarise the first kind of correlation, not the second.
+
+The overall index compares the two sums of squares over all pairs $i \neq j$:
+$$
+\text{KMO} = \frac{\sum_{i \neq j} r_{ij}^2}{\sum_{i \neq j} r_{ij}^2 + \sum_{i \neq j} a_{ij}^2} ,
+$$
+and the **measure of sampling adequacy** of a single variable restricts the sums to its own column:
+$$
+\text{MSA}_j = \frac{\sum_{i \neq j} r_{ij}^2}{\sum_{i \neq j} r_{ij}^2 + \sum_{i \neq j} a_{ij}^2} .
+$$
+Both lie between $0$ and $1$. Values near $1$ mean the partial correlations are negligible compared with the raw ones; a value of $0.5$ is what uncorrelated noise produces. Kaiser's own labels for the scale are still the ones in use:
+
+| KMO | Kaiser's verdict |
+|:-----------|:-----------------|
+| $\geq 0.90$ | marvellous |
+| $0.80$ – $0.89$ | meritorious |
+| $0.70$ – $0.79$ | middling |
+| $0.60$ – $0.69$ | mediocre |
+| $0.50$ – $0.59$ | miserable |
+| $< 0.50$ | unacceptable |
+
+```{r}
+#| label: kmo
+kmo <- function(X) {
+  R <- cor(X)
+  Q <- solve(R)
+  A <- -Q / sqrt(diag(Q) %o% diag(Q))   # partial correlations
+  diag(R) <- 0
+  diag(A) <- 0
+  list(overall = sum(R^2) / (sum(R^2) + sum(A^2)),
+       msa     = colSums(R^2) / (colSums(R^2) + colSums(A^2)))
+}
+
+k <- kmo(X)
+round(k$overall, 3)
+round(sort(k$msa), 3)
+round(kmo(noise)$overall, 3)
+```
+
+The overall KMO is $0.784$: *middling*, close to *meritorious*, and comfortably adequate for PCA. Pure noise gives $0.491$, as expected.
+
+The per-variable values are more instructive than the overall one. The five monetary variables all score between $0.89$ and $0.93$: their raw correlations with one another lie between $0.51$ and $0.71$, but their partial correlations only between $0.06$ and $0.31$, because the block explains each pair jointly. The lowest scores — `utilization` ($0.61$), `mobile` ($0.64$), `tenure` ($0.66$), `card_tx` ($0.66$), `age` ($0.67$) and `missed` ($0.68$) — belong to variables whose correlation is concentrated in one or two partners:
+
+```{r}
+#| label: partial-cor
+R <- cor(X)
+Q <- solve(R)
+A <- -Q / sqrt(diag(Q) %o% diag(Q))
+
+pairs <- rbind(c("age", "tenure"), c("card_tx", "mobile"),
+               c("utilization", "missed"), c("utilization", "log_loan"),
+               c("log_savings", "log_invest"))
+data.frame(pair    = paste(pairs[, 1], "-", pairs[, 2]),
+           raw     = round(R[pairs], 2),
+           partial = round(A[pairs], 2))
+```
+
+`age` and `tenure` are correlated at $0.86$, and after removing the other eleven variables they are still correlated at $0.81$: older clients have simply been clients for longer, and no other variable explains that. The same holds for `card_tx` and `mobile` ($0.82 \to 0.79$) and for the credit-strain trio. The monetary pair, by contrast, falls from $0.65$ to $0.20$: most of what links savings and investments is the affluence that every other monetary variable also measures.
+
+A low MSA does not make a variable useless to PCA — these same variables will define the digital-engagement and credit-strain components later in the chapter. It says that their correlation is *local*, so that it takes a component to describe a small group of variables rather than a large one. The usual rule is to consider dropping variables with $\text{MSA}_j < 0.5$, one at a time and starting from the lowest, recomputing after each removal. None of ours comes close, so all thirteen are kept.
+
+:::{.callout-important}
+## When the diagnostics cannot be computed
+
+KMO needs $\mathbf{R}^{-1}$ and Bartlett needs $\ln|\mathbf{R}|$, so both fail when $\mathbf{R}$ is singular: when $p \geq n$, or when one variable is an exact linear combination of others — a total alongside its parts, or a full set of dummy variables. `solve` then stops with an error and `det` returns zero. Remove the redundancy first. PCA itself still runs in these cases, and is often exactly the right tool for them; it is only the diagnostics that break.
+:::
+
+```{webr-r}
+#| label: pre-pca-tests-webr
+#| autorun: false
+
+X <- make_X()
+
+bartlett_sphericity <- function(X) {
+  R    <- cor(X)
+  n    <- nrow(X); p <- ncol(X)
+  stat <- -(n - 1 - (2 * p + 5) / 6) * log(det(R))
+  df   <- p * (p - 1) / 2
+  c(chisq = stat, df = df, p.value = pchisq(stat, df, lower.tail = FALSE))
+}
+
+kmo <- function(X) {
+  R <- cor(X); Q <- solve(R)
+  A <- -Q / sqrt(diag(Q) %o% diag(Q))
+  diag(R) <- 0; diag(A) <- 0
+  list(overall = sum(R^2) / (sum(R^2) + sum(A^2)),
+       msa     = colSums(R^2) / (colSums(R^2) + colSums(A^2)))
+}
+
+bartlett_sphericity(X)
+round(sort(kmo(X)$msa), 3)
+
+# Try it: drop `tenure`. Which variable's MSA changes most, and why?
+# Then try keeping only the five monetary variables.
+round(kmo(X[, setdiff(names(X), "tenure")])$overall, 3)
+```
+
+:::{.callout-note appearance="minimal"}
+**Packages and commands.** Both diagnostics need only base R: `cor`, `det` and `pchisq` for Bartlett's statistic, and `solve` with the outer product `%o%` for the partial correlations behind KMO. The **psych** package wraps them as `cortest.bartlett(R, n = )` and `KMO(X)`. Do not confuse either with `stats::bartlett.test`, which tests equality of variances.
+:::
+
 ## Notation, Centering and Scaling
 
 Let $\mathbf{X}$ be an $n \times p$ data matrix: $n$ clients in rows, $p$ variables in columns. Write $\mathbf{x}_i = (x_{i1}, \ldots, x_{ip})^{\top}$ for the record of client $i$, and $\bar{x}_j$ and $s_j$ for the sample mean and standard deviation of variable $j$.
@@ -1687,6 +1855,7 @@ For the kind of tabular client data in this chapter, PCA remains the default —
 ## Summary
 
 - PCA replaces $p$ correlated variables by $p$ uncorrelated components, ordered by the variance they explain, and is useful only to the extent that the original variables are correlated.
+- Check suitability before fitting. Bartlett's test of sphericity must reject, but at realistic sample sizes it nearly always does; the KMO measure ($0.78$ here) and the per-variable MSA say whether the correlation is shared widely enough for a few components to summarise it.
 - The components are the eigenvectors of the covariance (or correlation) matrix, and the variance each explains is the corresponding eigenvalue. Equivalently, they come from the SVD of the centred data matrix.
 - Centering is mandatory. Scaling is mandatory whenever the variables are in different units, which for client data is nearly always. Log-transform skewed monetary variables first.
 - The eigenvalues of a correlation matrix sum to $p$, so a component with $\lambda > 1$ explains more than one original variable.
