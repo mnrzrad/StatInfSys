@@ -2664,7 +2664,7 @@ a_{ij} = -\frac{q_{ij}}{\sqrt{q_{ii}\, q_{jj}}} .
 \]</span></p>
 <p>The logic is this. If variables <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span> are correlated <em>because</em> both reflect a common underlying dimension that other variables also reflect, then controlling for those other variables removes most of the link and <span class="math inline">\(a_{ij}\)</span> is small. If instead the two are linked only to each other, the partial correlation stays as large as the raw one. Components summarise the first kind of correlation, not the second.</p>
 <p>The overall index compares the two sums of squares over all pairs <span class="math inline">\(i \neq j\)</span>: <span class="math display">\[
-\text{KMO} = \frac{\sum_{i \neq j} r_{ij}^2}{\sum_{i \neq j} r_{ij}^2 + \sum_{i \neq j} a_{ij}^2} ,
+\text{KMO} = \frac{\sum_{i}\sum_{j \neq i} r_{ij}^2}{\sum_{i}\sum_{j \neq i} r_{ij}^2 + \sum_{i}\sum_{j \neq i} a_{ij}^2} ,
 \]</span> and the <strong>measure of sampling adequacy</strong> of a single variable restricts the sums to its own column: <span class="math display">\[
 \text{MSA}_j = \frac{\sum_{i \neq j} r_{ij}^2}{\sum_{i \neq j} r_{ij}^2 + \sum_{i \neq j} a_{ij}^2} .
 \]</span> Both lie between <span class="math inline">\(0\)</span> and <span class="math inline">\(1\)</span>. Values near <span class="math inline">\(1\)</span> mean the partial correlations are negligible compared with the raw ones; a value of <span class="math inline">\(0.5\)</span> is what uncorrelated noise produces. Kaiser’s own labels for the scale are still the ones in use:</p>
@@ -2702,6 +2702,7 @@ a_{ij} = -\frac{q_{ij}}{\sqrt{q_{ii}\, q_{jj}}} .
 </tr>
 </tbody>
 </table>
+<p>These labels are Kaiser’s verbal conventions from factor analysis, not inferential cut-offs: no sampling distribution stands behind them, and a <em>middling</em> value does not stop PCA from finding clear components, as the rest of this chapter shows.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>kmo <span class="ot">&lt;-</span> <span class="cf">function</span>(X) {</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  R <span class="ot">&lt;-</span> <span class="fu">cor</span>(X)</span>
@@ -2713,12 +2714,12 @@ a_{ij} = -\frac{q_{ij}}{\sqrt{q_{ii}\, q_{jj}}} .
 <span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">msa     =</span> <span class="fu">colSums</span>(R<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> (<span class="fu">colSums</span>(R<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> <span class="fu">colSums</span>(A<span class="sc">^</span><span class="dv">2</span>)))</span>
 <span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>k <span class="ot">&lt;-</span> <span class="fu">kmo</span>(X)</span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(k<span class="sc">$</span>overall, <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>kmo_X <span class="ot">&lt;-</span> <span class="fu">kmo</span>(X)</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(kmo_X<span class="sc">$</span>overall, <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.784</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">sort</span>(k<span class="sc">$</span>msa), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">sort</span>(kmo_X<span class="sc">$</span>msa), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>utilization      mobile      tenure     card_tx         age      missed 
       0.610       0.644       0.655       0.656       0.674       0.677 
@@ -2735,16 +2736,16 @@ log_current
 <p>The overall KMO is <span class="math inline">\(0.784\)</span>: <em>middling</em>, close to <em>meritorious</em>, and comfortably adequate for PCA. Pure noise gives <span class="math inline">\(0.491\)</span>, as expected.</p>
 <p>The per-variable values are more instructive than the overall one. The five monetary variables all score between <span class="math inline">\(0.89\)</span> and <span class="math inline">\(0.93\)</span>: their raw correlations with one another lie between <span class="math inline">\(0.51\)</span> and <span class="math inline">\(0.71\)</span>, but their partial correlations only between <span class="math inline">\(0.06\)</span> and <span class="math inline">\(0.31\)</span>, because the block explains each pair jointly. The lowest scores — <code>utilization</code> (<span class="math inline">\(0.61\)</span>), <code>mobile</code> (<span class="math inline">\(0.64\)</span>), <code>tenure</code> (<span class="math inline">\(0.66\)</span>), <code>card_tx</code> (<span class="math inline">\(0.66\)</span>), <code>age</code> (<span class="math inline">\(0.67\)</span>) and <code>missed</code> (<span class="math inline">\(0.68\)</span>) — belong to variables whose correlation is concentrated in one or two partners:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>R <span class="ot">&lt;-</span> <span class="fu">cor</span>(X)</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>Q <span class="ot">&lt;-</span> <span class="fu">solve</span>(R)</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="sc">-</span>Q <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">diag</span>(Q) <span class="sc">%o%</span> <span class="fu">diag</span>(Q))</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>Rm <span class="ot">&lt;-</span> <span class="fu">cor</span>(X)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>Qm <span class="ot">&lt;-</span> <span class="fu">solve</span>(Rm)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>Am <span class="ot">&lt;-</span> <span class="sc">-</span>Qm <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">diag</span>(Qm) <span class="sc">%o%</span> <span class="fu">diag</span>(Qm))   <span class="co"># partial correlations</span></span>
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>pairs <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">c</span>(<span class="st">"age"</span>, <span class="st">"tenure"</span>), <span class="fu">c</span>(<span class="st">"card_tx"</span>, <span class="st">"mobile"</span>),</span>
 <span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>               <span class="fu">c</span>(<span class="st">"utilization"</span>, <span class="st">"missed"</span>), <span class="fu">c</span>(<span class="st">"utilization"</span>, <span class="st">"log_loan"</span>),</span>
 <span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>               <span class="fu">c</span>(<span class="st">"log_savings"</span>, <span class="st">"log_invest"</span>))</span>
 <span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">pair    =</span> <span class="fu">paste</span>(pairs[, <span class="dv">1</span>], <span class="st">"-"</span>, pairs[, <span class="dv">2</span>]),</span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>           <span class="at">raw     =</span> <span class="fu">round</span>(R[pairs], <span class="dv">2</span>),</span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>           <span class="at">partial =</span> <span class="fu">round</span>(A[pairs], <span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>           <span class="at">raw     =</span> <span class="fu">round</span>(Rm[pairs], <span class="dv">2</span>),</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>           <span class="at">partial =</span> <span class="fu">round</span>(Am[pairs], <span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                      pair  raw partial
 1             age - tenure 0.86    0.81
@@ -3168,7 +3169,7 @@ The dotted line at $1$ marks the variance of either original variable. Every dir
 In $p$ dimensions exactly the same thing happens: the cloud is a $p$-dimensional ellipsoid and PCA turns it until its longest axis lies along the first coordinate, its next longest along the second, and so on. What is lost above three dimensions is only our ability to look at it directly — hence the correlation circle and the biplot of @sec-visualising, which are two-dimensional windows onto that same rotation.
 :::
 
-```dyjlfqjs
+```czqgzsol
 #| label: rot-try
 #| autorun: false
 
@@ -4738,7 +4739,7 @@ Warning
 3. PC1 is not significant. Is that a failure of PCA? Explain.
 4. Split the data into $70\%$ training and $30\%$ test. Fit the PCA on the training set only, apply it to the test set with `predict()`, and compare the test-set accuracy of the two models. Why would fitting the PCA on the full data set be wrong?
 
-```dyjlfqjs
+```czqgzsol
 #| label: ex6
 #| autorun: false
 
