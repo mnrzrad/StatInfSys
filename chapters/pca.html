@@ -2601,13 +2601,13 @@ Tip
 <section id="bartletts-test-of-sphericity" class="level3" data-number="10.3.1">
 <h3 data-number="10.3.1" class="anchored" data-anchor-id="bartletts-test-of-sphericity"><span class="header-section-number">10.3.1</span> Bartlett’s Test of Sphericity</h3>
 <p>Bartlett’s test <span class="citation" data-cites="bartlett1950">(<a href="pca.html#ref-bartlett1950" role="doc-biblioref">Bartlett 1950</a>)</span> tests the hypothesis that the population correlation matrix is the identity: <span class="math display">\[
-H_0: \boldsymbol{\rho} = \mathbf{I}_p
+H_0: \mathbf{R} = \mathbf{I}_p
 \qquad \text{versus} \qquad
-H_1: \boldsymbol{\rho} \neq \mathbf{I}_p .
-\]</span> Under <span class="math inline">\(H_0\)</span> the variables are uncorrelated and, in the language of the previous section, PCA has nothing to do. The test statistic is built from the determinant of the sample correlation matrix <span class="math inline">\(\mathbf{R}\)</span>: <span class="math display">\[
-\chi^2 = -\left(n - 1 - \frac{2p + 5}{6}\right) \ln |\mathbf{R}| ,
+H_1: \mathbf{R} \neq \mathbf{I}_p .
+\]</span> Under <span class="math inline">\(H_0\)</span> the variables are uncorrelated and, in the language of the previous section, PCA has nothing to do. The test statistic is built from the determinant of the sample correlation matrix <span class="math inline">\(\hat{\mathbf{R}}\)</span>: <span class="math display">\[
+\chi^2 = -\left(n - 1 - \frac{2p + 5}{6}\right) \ln |\hat{\mathbf{R}}| ,
 \]</span> which, under <span class="math inline">\(H_0\)</span> and multivariate normality, is approximately <span class="math inline">\(\chi^2\)</span>-distributed with <span class="math inline">\(p(p-1)/2\)</span> degrees of freedom.</p>
-<p>The determinant is the natural quantity to look at. It equals the product of the eigenvalues of <span class="math inline">\(\mathbf{R}\)</span>, so <span class="math inline">\(|\mathbf{R}| = 1\)</span> when the variables are uncorrelated and <span class="math inline">\(|\mathbf{R}| \to 0\)</span> as they become redundant — that is, as some eigenvalues approach zero. A small determinant means a large statistic.</p>
+<p>The determinant is the natural quantity to look at. It equals the product of the eigenvalues of <span class="math inline">\(\hat{\mathbf{R}}\)</span>, so <span class="math inline">\(|\hat{\mathbf{R}}| = 1\)</span> when the variables are uncorrelated and <span class="math inline">\(|\hat{\mathbf{R}}| \to 0\)</span> as they become redundant — that is, as some eigenvalues approach zero. A small determinant means a large statistic.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>bartlett_sphericity <span class="ot">&lt;-</span> <span class="cf">function</span>(X) {</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  R    <span class="ot">&lt;-</span> <span class="fu">cor</span>(X)</span>
@@ -3169,7 +3169,7 @@ The dotted line at $1$ marks the variance of either original variable. Every dir
 In $p$ dimensions exactly the same thing happens: the cloud is a $p$-dimensional ellipsoid and PCA turns it until its longest axis lies along the first coordinate, its next longest along the second, and so on. What is lost above three dimensions is only our ability to look at it directly — hence the correlation circle and the biplot of @sec-visualising, which are two-dimensional windows onto that same rotation.
 :::
 
-```wdquvrdy
+```ytirahmm
 #| label: rot-try
 #| autorun: false
 
@@ -4565,73 +4565,7 @@ Caution
 <p>The interesting case is the one PCA cannot reach. Feed MDS a dissimilarity that is <em>not</em> Euclidean — Gower’s coefficient for mixed numeric and categorical data, a correlation distance, an edit distance between strings — and you get a map of the clients even though no variable matrix exists. <em>Non-metric</em> MDS goes further still, preserving only the rank order of the dissimilarities, which is the right choice when the dissimilarities are ordinal.</p>
 <p><strong>Nonlinear methods</strong> drop the linearity. Kernel PCA runs an ordinary PCA in a feature space reached through a kernel. <em>t</em>-SNE and UMAP take a different view again: rather than preserving variance or global distance, they try to keep each point’s <em>near neighbours</em> near, which is what makes them so effective at showing clusters in high-dimensional data. UMAP is the faster of the two, keeps more of the global structure, and — unlike <em>t</em>-SNE — can place new points on an existing map.</p>
 <p><strong>On large data</strong>, the pressure is usually computational rather than conceptual, and it comes in two forms. With many rows and columns, a truncated or randomised SVD returns the leading <span class="math inline">\(k\)</span> components without ever forming the full decomposition, and works on sparse matrices that would not fit in memory as a dense one. With very many columns, random projection is cheaper still: project onto random directions and, by the Johnson–Lindenstrauss lemma, pairwise distances survive to within a controllable error. Autoencoders — neural networks trained to reconstruct their own input through a narrow layer — are the nonlinear version of the same idea, and scale to data far beyond what <code>prcomp</code> will hold.</p>
-<p><strong>NIPALS</strong> — <em>nonlinear iterative partial least squares</em> <span class="citation" data-cites="wold1966">(<a href="pca.html#ref-wold1966" role="doc-biblioref">Wold 1966</a>)</span> — is the oldest of the algorithms that compute only the leading components, and the simplest to write down. It never forms <span class="math inline">\(\mathbf{S}\)</span> and never calls an eigen-solver. It extracts the components one at a time, finding each by alternating two least-squares regressions. Start from the residual matrix <span class="math inline">\(\mathbf{E}_0 = \mathbf{Z}\)</span> and, for <span class="math inline">\(h = 1, \ldots, k\)</span>:</p>
-<ol type="1">
-<li>Take a column of <span class="math inline">\(\mathbf{E}_{h-1}\)</span> — usually the one with the largest variance — as a first guess at the score vector <span class="math inline">\(\mathbf{y}\)</span>.</li>
-<li>Regress every column of <span class="math inline">\(\mathbf{E}_{h-1}\)</span> on <span class="math inline">\(\mathbf{y}\)</span>, and normalise the coefficients to unit length to obtain the loadings: <span class="math display">\[
-\mathbf{a} = \frac{\mathbf{E}_{h-1}^{\top}\mathbf{y}}{\mathbf{y}^{\top}\mathbf{y}},
-\qquad
-\mathbf{a} \leftarrow \frac{\mathbf{a}}{\lVert \mathbf{a} \rVert}.
-\]</span></li>
-<li>Regress every row of <span class="math inline">\(\mathbf{E}_{h-1}\)</span> on <span class="math inline">\(\mathbf{a}\)</span> to update the scores: <span class="math inline">\(\mathbf{y} = \mathbf{E}_{h-1}\mathbf{a} / (\mathbf{a}^{\top}\mathbf{a}) = \mathbf{E}_{h-1}\mathbf{a}\)</span>.</li>
-<li>Repeat steps 2 and 3 until <span class="math inline">\(\mathbf{y}\)</span> stops changing, and set <span class="math inline">\(\mathbf{a}_h = \mathbf{a}\)</span>, <span class="math inline">\(\mathbf{y}_h = \mathbf{y}\)</span>.</li>
-<li><em>Deflate</em>: remove what the component explains, <span class="math inline">\(\mathbf{E}_h = \mathbf{E}_{h-1} - \mathbf{y}_h \mathbf{a}_h^{\top}\)</span>, and return to step 1 for the next component.</li>
-</ol>
-<p>Substituting step 3 into step 2 shows why this works: <span class="math inline">\(\mathbf{a} \propto \mathbf{E}_{h-1}^{\top}\mathbf{E}_{h-1}\,\mathbf{a}\)</span>, so each pass multiplies <span class="math inline">\(\mathbf{a}\)</span> by <span class="math inline">\((n-1)\)</span> times the covariance matrix of the residuals and rescales it. This is the <em>power method</em>. Repeated multiplication by a symmetric matrix turns any starting vector towards the eigenvector of the largest eigenvalue, because that part of the vector grows fastest, and at the fixed point <span class="math inline">\(\mathbf{S}\mathbf{a} = \lambda\mathbf{a}\)</span> — the eigenvalue equation of <a href="#sec-first-pc" class="quarto-xref"><span>Section 10.5.1</span></a>. Deflation subtracts <span class="math inline">\(\lambda_h \mathbf{a}_h \mathbf{a}_h^{\top}\)</span> from the covariance matrix, so the largest eigenvalue left for the next round is <span class="math inline">\(\lambda_{h+1}\)</span>. The error shrinks by a factor of roughly <span class="math inline">\(\lambda_{h+1}/\lambda_h\)</span> per pass: convergence is quick when consecutive eigenvalues are well separated and slow when they are close.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb125"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb125-1"><a href="#cb125-1" aria-hidden="true" tabindex="-1"></a>nipals <span class="ot">&lt;-</span> <span class="cf">function</span>(Z, k, <span class="at">tol =</span> <span class="fl">1e-12</span>, <span class="at">max_iter =</span> <span class="dv">1000</span>) {</span>
-<span id="cb125-2"><a href="#cb125-2" aria-hidden="true" tabindex="-1"></a>  obs <span class="ot">&lt;-</span> <span class="sc">!</span><span class="fu">is.na</span>(Z)                       <span class="co"># which cells are observed</span></span>
-<span id="cb125-3"><a href="#cb125-3" aria-hidden="true" tabindex="-1"></a>  E   <span class="ot">&lt;-</span> Z; E[<span class="sc">!</span>obs] <span class="ot">&lt;-</span> <span class="dv">0</span>                 <span class="co"># a missing cell adds nothing to any sum</span></span>
-<span id="cb125-4"><a href="#cb125-4" aria-hidden="true" tabindex="-1"></a>  A <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="fu">ncol</span>(Z), k, <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="fu">colnames</span>(Z), <span class="fu">paste0</span>(<span class="st">"PC"</span>, <span class="dv">1</span><span class="sc">:</span>k)))</span>
-<span id="cb125-5"><a href="#cb125-5" aria-hidden="true" tabindex="-1"></a>  Y <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="fu">nrow</span>(Z), k)</span>
-<span id="cb125-6"><a href="#cb125-6" aria-hidden="true" tabindex="-1"></a>  iter <span class="ot">&lt;-</span> <span class="fu">integer</span>(k)</span>
-<span id="cb125-7"><a href="#cb125-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (h <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>k) {</span>
-<span id="cb125-8"><a href="#cb125-8" aria-hidden="true" tabindex="-1"></a>    y <span class="ot">&lt;-</span> E[, <span class="fu">which.max</span>(<span class="fu">colSums</span>(E<span class="sc">^</span><span class="dv">2</span>))]    <span class="co"># step 1: start from the most variable column</span></span>
-<span id="cb125-9"><a href="#cb125-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (it <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>max_iter) {</span>
-<span id="cb125-10"><a href="#cb125-10" aria-hidden="true" tabindex="-1"></a>      a     <span class="ot">&lt;-</span> <span class="fu">crossprod</span>(E, y) <span class="sc">/</span> <span class="fu">crossprod</span>(obs, y<span class="sc">^</span><span class="dv">2</span>)   <span class="co"># step 2: regress columns on y</span></span>
-<span id="cb125-11"><a href="#cb125-11" aria-hidden="true" tabindex="-1"></a>      a     <span class="ot">&lt;-</span> a <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>(a<span class="sc">^</span><span class="dv">2</span>))</span>
-<span id="cb125-12"><a href="#cb125-12" aria-hidden="true" tabindex="-1"></a>      y_new <span class="ot">&lt;-</span> (E <span class="sc">%*%</span> a) <span class="sc">/</span> (obs <span class="sc">%*%</span> a<span class="sc">^</span><span class="dv">2</span>)               <span class="co"># step 3: regress rows on a</span></span>
-<span id="cb125-13"><a href="#cb125-13" aria-hidden="true" tabindex="-1"></a>      done  <span class="ot">&lt;-</span> <span class="fu">sum</span>((y_new <span class="sc">-</span> y)<span class="sc">^</span><span class="dv">2</span>) <span class="sc">&lt;</span> tol <span class="sc">*</span> <span class="fu">sum</span>(y_new<span class="sc">^</span><span class="dv">2</span>) <span class="co"># step 4: converged?</span></span>
-<span id="cb125-14"><a href="#cb125-14" aria-hidden="true" tabindex="-1"></a>      y     <span class="ot">&lt;-</span> y_new</span>
-<span id="cb125-15"><a href="#cb125-15" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (done) <span class="cf">break</span></span>
-<span id="cb125-16"><a href="#cb125-16" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb125-17"><a href="#cb125-17" aria-hidden="true" tabindex="-1"></a>    A[, h] <span class="ot">&lt;-</span> a; Y[, h] <span class="ot">&lt;-</span> y; iter[h] <span class="ot">&lt;-</span> it</span>
-<span id="cb125-18"><a href="#cb125-18" aria-hidden="true" tabindex="-1"></a>    E <span class="ot">&lt;-</span> (E <span class="sc">-</span> y <span class="sc">%*%</span> <span class="fu">t</span>(a)) <span class="sc">*</span> obs          <span class="co"># step 5: deflate</span></span>
-<span id="cb125-19"><a href="#cb125-19" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb125-20"><a href="#cb125-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">loadings =</span> A, <span class="at">scores =</span> Y,</span>
-<span id="cb125-21"><a href="#cb125-21" aria-hidden="true" tabindex="-1"></a>       <span class="at">eigenvalues =</span> <span class="fu">colSums</span>(Y<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> (<span class="fu">nrow</span>(Z) <span class="sc">-</span> <span class="dv">1</span>), <span class="at">iter =</span> iter)</span>
-<span id="cb125-22"><a href="#cb125-22" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb125-23"><a href="#cb125-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-24"><a href="#cb125-24" aria-hidden="true" tabindex="-1"></a>fit_nip <span class="ot">&lt;-</span> <span class="fu">nipals</span>(<span class="fu">scale</span>(X), <span class="at">k =</span> <span class="dv">4</span>)</span>
-<span id="cb125-25"><a href="#cb125-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-26"><a href="#cb125-26" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(fit_nip<span class="sc">$</span>eigenvalues, <span class="dv">3</span>)                                  <span class="co"># as in prcomp</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 4.051 2.935 1.755 1.025</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb127"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb127-1"><a href="#cb127-1" aria-hidden="true" tabindex="-1"></a>fit_nip<span class="sc">$</span>iter                                                   <span class="co"># passes per component</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 35 23 21 29</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb129"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb129-1"><a href="#cb129-1" aria-hidden="true" tabindex="-1"></a><span class="fu">signif</span>(<span class="fu">max</span>(<span class="fu">abs</span>(<span class="fu">abs</span>(fit_nip<span class="sc">$</span>loadings) <span class="sc">-</span> <span class="fu">abs</span>(pca<span class="sc">$</span>rotation[, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]))), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 2.1e-06</code></pre>
-</div>
-</div>
-<p>Four components, the same eigenvalues as <code>prcomp</code>, and loadings that agree to five decimal places. The agreement is set by the convergence tolerance we chose, not by machine precision as it was for <code>eigen</code> and <code>svd</code> in “Doing It by Hand”. Each component took a few dozen passes.</p>
-<p>The same two regressions give NIPALS its second use: missing data. Each regression is a sum over cells, and a sum can skip the cells that are missing. The loading of variable <span class="math inline">\(j\)</span> is estimated from the clients who have a value of <span class="math inline">\(j\)</span>, and the score of client <span class="math inline">\(i\)</span> from the variables that client <span class="math inline">\(i\)</span> has. The function above already does this: <code>obs</code> records the observed cells, and the missing ones are set to zero so that they drop out of every sum. Applied to <code>X_na</code>, the matrix from the Missing Values section with <span class="math inline">\(60\)</span> incomes deleted:</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb131"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb131-1"><a href="#cb131-1" aria-hidden="true" tabindex="-1"></a>fit_na <span class="ot">&lt;-</span> <span class="fu">nipals</span>(<span class="fu">scale</span>(X_na), <span class="at">k =</span> <span class="dv">3</span>)</span>
-<span id="cb131-2"><a href="#cb131-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb131-3"><a href="#cb131-3" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(fit_na<span class="sc">$</span>scores)                                            <span class="co"># no client is lost</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 600</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb133"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb133-1"><a href="#cb133-1" aria-hidden="true" tabindex="-1"></a><span class="fu">signif</span>(<span class="fu">max</span>(<span class="fu">abs</span>(<span class="fu">abs</span>(fit_na<span class="sc">$</span>loadings) <span class="sc">-</span> <span class="fu">abs</span>(pca<span class="sc">$</span>rotation[, <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]))), <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.0088</code></pre>
-</div>
-</div>
-<p>All <span class="math inline">\(600\)</span> clients receive scores, where <code>prcomp</code> would drop <span class="math inline">\(60\)</span> of them, and the loadings differ from the complete-data ones by less than <span class="math inline">\(0.01\)</span>. Two caveats. With missing cells the components are no longer exactly orthogonal, and the estimate degrades as the proportion of missing cells grows. And, like any method that simply skips the gaps, NIPALS assumes the cells are missing at random; it does nothing about a pattern of missingness that is itself informative. The same alternating scheme, with a response variable added, is the origin of partial least squares regression.</p>
+<p><strong>NIPALS</strong> — <em>nonlinear iterative partial least squares</em> <span class="citation" data-cites="wold1966">(<a href="pca.html#ref-wold1966" role="doc-biblioref">Wold 1966</a>)</span> — is the oldest algorithm that computes only the leading components. It never forms <span class="math inline">\(\mathbf{S}\)</span>. Each component is found by alternating two least-squares regressions on the residual matrix <span class="math inline">\(\mathbf{E}\)</span>, which starts as <span class="math inline">\(\mathbf{Z}\)</span>. Given a guess at the scores <span class="math inline">\(\mathbf{y}\)</span>, regress each column of <span class="math inline">\(\mathbf{E}\)</span> on <span class="math inline">\(\mathbf{y}\)</span> and normalise the coefficients to obtain the loadings <span class="math inline">\(\mathbf{a}\)</span>; then regress each row of <span class="math inline">\(\mathbf{E}\)</span> on <span class="math inline">\(\mathbf{a}\)</span> to update the scores, <span class="math inline">\(\mathbf{y} = \mathbf{E}\mathbf{a}\)</span>. Repeat until <span class="math inline">\(\mathbf{y}\)</span> settles, then <em>deflate</em>, <span class="math inline">\(\mathbf{E} \leftarrow \mathbf{E} - \mathbf{y}\mathbf{a}^{\top}\)</span>, and start on the next component. Combining the two regressions gives <span class="math inline">\(\mathbf{a} \propto \mathbf{E}^{\top}\mathbf{E}\,\mathbf{a}\)</span>, so this is the power method, converging to the eigenvector of the largest remaining eigenvalue at a rate set by the ratio of the next eigenvalue to that one. Because each regression is a sum over cells, it can simply skip missing ones, and NIPALS gives a PCA of incomplete data without deleting any client — provided the cells are missing at random.</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 23%">
@@ -4708,7 +4642,7 @@ Warning
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-body-container">
-<p><strong>Packages and commands.</strong> <code>cmdscale</code> and <code>dist</code> are in <strong>stats</strong>; <code>isoMDS</code> is in <strong>MASS</strong>, which ships with R. Everything else is an install: <strong>vegan</strong> or <strong>smacof</strong> for non-metric MDS, <strong>kernlab</strong> for <code>kpca</code>, <strong>Rtsne</strong> and <strong>uwot</strong> for <em>t</em>-SNE and UMAP, <strong>irlba</strong> (<code>prcomp_irlba</code>) or <strong>RSpectra</strong> for truncated SVD on large or sparse matrices, <strong>nipals</strong> or <strong>ade4</strong> (<code>nipals</code>) and the Bioconductor package <strong>pcaMethods</strong> for NIPALS — the hand-written <code>nipals</code> above uses only base R — <strong>keras</strong> or <strong>torch</strong> for autoencoders.</p>
+<p><strong>Packages and commands.</strong> <code>cmdscale</code> and <code>dist</code> are in <strong>stats</strong>; <code>isoMDS</code> is in <strong>MASS</strong>, which ships with R. Everything else is an install: <strong>vegan</strong> or <strong>smacof</strong> for non-metric MDS, <strong>kernlab</strong> for <code>kpca</code>, <strong>Rtsne</strong> and <strong>uwot</strong> for <em>t</em>-SNE and UMAP, <strong>irlba</strong> (<code>prcomp_irlba</code>) or <strong>RSpectra</strong> for truncated SVD on large or sparse matrices, <strong>nipals</strong> or <strong>ade4</strong> (<code>nipals</code>) and the Bioconductor package <strong>pcaMethods</strong> for NIPALS, <strong>keras</strong> or <strong>torch</strong> for autoencoders.</p>
 </div>
 </div>
 </div>
@@ -4811,7 +4745,7 @@ Warning
 3. PC1 is not significant. Is that a failure of PCA? Explain.
 4. Split the data into $70\%$ training and $30\%$ test. Fit the PCA on the training set only, apply it to the test set with `predict()`, and compare the test-set accuracy of the two models. Why would fitting the PCA on the full data set be wrong?
 
-```wdquvrdy
+```ytirahmm
 #| label: ex6
 #| autorun: false
 
