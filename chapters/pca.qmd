@@ -1834,6 +1834,67 @@ The interesting case is the one PCA cannot reach. Feed MDS a dissimilarity that 
 
 **On large data**, the pressure is usually computational rather than conceptual, and it comes in two forms. With many rows and columns, a truncated or randomised SVD returns the leading $k$ components without ever forming the full decomposition, and works on sparse matrices that would not fit in memory as a dense one. With very many columns, random projection is cheaper still: project onto random directions and, by the Johnson–Lindenstrauss lemma, pairwise distances survive to within a controllable error. Autoencoders — neural networks trained to reconstruct their own input through a narrow layer — are the nonlinear version of the same idea, and scale to data far beyond what `prcomp` will hold.
 
+**NIPALS** — *nonlinear iterative partial least squares* [@wold1966] — is the oldest of the algorithms that compute only the leading components, and the simplest to write down. It never forms $\mathbf{S}$ and never calls an eigen-solver. It extracts the components one at a time, finding each by alternating two least-squares regressions. Start from the residual matrix $\mathbf{E}_0 = \mathbf{Z}$ and, for $h = 1, \ldots, k$:
+
+1. Take a column of $\mathbf{E}_{h-1}$ — usually the one with the largest variance — as a first guess at the score vector $\mathbf{y}$.
+2. Regress every column of $\mathbf{E}_{h-1}$ on $\mathbf{y}$, and normalise the coefficients to unit length to obtain the loadings:
+$$
+\mathbf{a} = \frac{\mathbf{E}_{h-1}^{\top}\mathbf{y}}{\mathbf{y}^{\top}\mathbf{y}},
+\qquad
+\mathbf{a} \leftarrow \frac{\mathbf{a}}{\lVert \mathbf{a} \rVert}.
+$$
+3. Regress every row of $\mathbf{E}_{h-1}$ on $\mathbf{a}$ to update the scores: $\mathbf{y} = \mathbf{E}_{h-1}\mathbf{a} / (\mathbf{a}^{\top}\mathbf{a}) = \mathbf{E}_{h-1}\mathbf{a}$.
+4. Repeat steps 2 and 3 until $\mathbf{y}$ stops changing, and set $\mathbf{a}_h = \mathbf{a}$, $\mathbf{y}_h = \mathbf{y}$.
+5. *Deflate*: remove what the component explains, $\mathbf{E}_h = \mathbf{E}_{h-1} - \mathbf{y}_h \mathbf{a}_h^{\top}$, and return to step 1 for the next component.
+
+Substituting step 3 into step 2 shows why this works: $\mathbf{a} \propto \mathbf{E}_{h-1}^{\top}\mathbf{E}_{h-1}\,\mathbf{a}$, so each pass multiplies $\mathbf{a}$ by $(n-1)$ times the covariance matrix of the residuals and rescales it. This is the *power method*. Repeated multiplication by a symmetric matrix turns any starting vector towards the eigenvector of the largest eigenvalue, because that part of the vector grows fastest, and at the fixed point $\mathbf{S}\mathbf{a} = \lambda\mathbf{a}$ — the eigenvalue equation of @sec-first-pc. Deflation subtracts $\lambda_h \mathbf{a}_h \mathbf{a}_h^{\top}$ from the covariance matrix, so the largest eigenvalue left for the next round is $\lambda_{h+1}$. The error shrinks by a factor of roughly $\lambda_{h+1}/\lambda_h$ per pass: convergence is quick when consecutive eigenvalues are well separated and slow when they are close.
+
+```{r}
+#| label: nipals
+nipals <- function(Z, k, tol = 1e-12, max_iter = 1000) {
+  obs <- !is.na(Z)                       # which cells are observed
+  E   <- Z; E[!obs] <- 0                 # a missing cell adds nothing to any sum
+  A <- matrix(0, ncol(Z), k, dimnames = list(colnames(Z), paste0("PC", 1:k)))
+  Y <- matrix(0, nrow(Z), k)
+  iter <- integer(k)
+  for (h in 1:k) {
+    y <- E[, which.max(colSums(E^2))]    # step 1: start from the most variable column
+    for (it in 1:max_iter) {
+      a     <- crossprod(E, y) / crossprod(obs, y^2)   # step 2: regress columns on y
+      a     <- a / sqrt(sum(a^2))
+      y_new <- (E %*% a) / (obs %*% a^2)               # step 3: regress rows on a
+      done  <- sum((y_new - y)^2) < tol * sum(y_new^2) # step 4: converged?
+      y     <- y_new
+      if (done) break
+    }
+    A[, h] <- a; Y[, h] <- y; iter[h] <- it
+    E <- (E - y %*% t(a)) * obs          # step 5: deflate
+  }
+  list(loadings = A, scores = Y,
+       eigenvalues = colSums(Y^2) / (nrow(Z) - 1), iter = iter)
+}
+
+fit_nip <- nipals(scale(X), k = 4)
+
+round(fit_nip$eigenvalues, 3)                                  # as in prcomp
+fit_nip$iter                                                   # passes per component
+signif(max(abs(abs(fit_nip$loadings) - abs(pca$rotation[, 1:4]))), 3)
+```
+
+Four components, the same eigenvalues as `prcomp`, and loadings that agree to five decimal places. The agreement is set by the convergence tolerance we chose, not by machine precision as it was for `eigen` and `svd` in "Doing It by Hand". Each component took a few dozen passes.
+
+The same two regressions give NIPALS its second use: missing data. Each regression is a sum over cells, and a sum can skip the cells that are missing. The loading of variable $j$ is estimated from the clients who have a value of $j$, and the score of client $i$ from the variables that client $i$ has. The function above already does this: `obs` records the observed cells, and the missing ones are set to zero so that they drop out of every sum. Applied to `X_na`, the matrix from the Missing Values section with $60$ incomes deleted:
+
+```{r}
+#| label: nipals-missing
+fit_na <- nipals(scale(X_na), k = 3)
+
+nrow(fit_na$scores)                                            # no client is lost
+signif(max(abs(abs(fit_na$loadings) - abs(pca$rotation[, 1:3]))), 2)
+```
+
+All $600$ clients receive scores, where `prcomp` would drop $60$ of them, and the loadings differ from the complete-data ones by less than $0.01$. Two caveats. With missing cells the components are no longer exactly orthogonal, and the estimate degrades as the proportion of missing cells grows. And, like any method that simply skips the gaps, NIPALS assumes the cells are missing at random; it does nothing about a pattern of missingness that is itself informative. The same alternating scheme, with a response variable added, is the origin of partial least squares regression.
+
 | Method | Idea | In R |
 |:------------------|:------------------------------------|:-------------------------|
 | Classical MDS | Coordinates from a distance matrix; Euclidean case = PCA | `cmdscale` (**stats**) |
@@ -1842,6 +1903,7 @@ The interesting case is the one PCA cannot reach. Feed MDS a dissimilarity that 
 | *t*-SNE | Preserve local neighbourhoods, for visualisation | `Rtsne` (**Rtsne**) |
 | UMAP | As above, faster, and can map new points | `umap` (**uwot**) |
 | Truncated / randomised SVD | The same leading components, computed cheaply | `prcomp_irlba` (**irlba**), **RSpectra** |
+| NIPALS | Leading components one at a time by alternating regressions; tolerates missing cells | `nipals` (**nipals**, **ade4**), `pca(method = "nipals")` (**pcaMethods**) |
 | Autoencoder | Nonlinear compression learned by a network | **keras**, **torch** |
 
 :::{.callout-warning}
@@ -1851,7 +1913,7 @@ For the kind of tabular client data in this chapter, PCA remains the default —
 :::
 
 :::{.callout-note appearance="minimal"}
-**Packages and commands.** `cmdscale` and `dist` are in **stats**; `isoMDS` is in **MASS**, which ships with R. Everything else is an install: **vegan** or **smacof** for non-metric MDS, **kernlab** for `kpca`, **Rtsne** and **uwot** for *t*-SNE and UMAP, **irlba** (`prcomp_irlba`) or **RSpectra** for truncated SVD on large or sparse matrices, **keras** or **torch** for autoencoders.
+**Packages and commands.** `cmdscale` and `dist` are in **stats**; `isoMDS` is in **MASS**, which ships with R. Everything else is an install: **vegan** or **smacof** for non-metric MDS, **kernlab** for `kpca`, **Rtsne** and **uwot** for *t*-SNE and UMAP, **irlba** (`prcomp_irlba`) or **RSpectra** for truncated SVD on large or sparse matrices, **nipals** or **ade4** (`nipals`) and the Bioconductor package **pcaMethods** for NIPALS — the hand-written `nipals` above uses only base R — **keras** or **torch** for autoencoders.
 :::
 
 ## Summary
