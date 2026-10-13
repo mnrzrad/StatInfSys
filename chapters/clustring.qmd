@@ -5,7 +5,10 @@ filters:
 ---
 
 ```{r setup, include=FALSE}
-required_packages <- c("cluster", "lsa", "GGally", "factoextra", "stats", "tibble", 'dplyr', 'kmed', 'hopkins', 'fpc', 'mclust', 'clValid')
+required_packages <- c("ggplot2", "dplyr", "tibble", "patchwork", "GGally", "lsa",
+                       "palmerpenguins",
+                       "cluster", "factoextra", "hopkins", "NbClust", "fpc",
+                       "clValid", "kmed")
 
 for (pkg in required_packages) {
   if (!require(pkg, character.only = TRUE)) {
@@ -17,7 +20,7 @@ for (pkg in required_packages) {
 
 # Clustering
 
-Cluster analysis, or *Clustering*, is a technique used to find groups of objects such that the objects within the same group are similar (or closely realted) to one another, while the objects from different groups are dissimilar (or unrelated).
+Cluster analysis, or *Clustering*, is a technique used to find groups of objects such that the objects within the same group are similar (or closely related) to one another, while the objects from different groups are dissimilar (or unrelated).
 
 ## Applications of Clustering
 
@@ -68,6 +71,10 @@ By grouping related documents, search engines can return more *contextually rele
 
 **Example**:  
 Document clustering for semantic search or grouping research papers by field of study.
+
+:::{.callout-note appearance="minimal"}
+**Packages and commands.** No code in this section. The chapter uses **stats** for the core computations (`dist`, `kmeans`, `cov`), **cluster** for dissimilarities and medoids (`daisy`, `pam`, `silhouette`), **factoextra** for distance matrices, cluster plots and the choice of $k$ (`get_dist`, `fviz_dist`, `fviz_cluster`, `fviz_nbclust`, `eclust`), **hopkins** for the clustering-tendency test, **NbClust**, **fpc** and **clValid** for validation indices, **lsa** for cosine similarity, **palmerpenguins** for the running example, and **ggplot2**, **patchwork**, **GGally**, **dplyr** and **tibble** for figures and data handling. All are installed and loaded by the setup chunk at the top of the chapter.
+:::
 
 ## Distance and Similarity in Clustering
 
@@ -159,7 +166,7 @@ $$
 Different clustering algorithms may behave very differently depending on the metric used.  
 Below are the most widely used **distance measures**.
 
-#### **Euclidean Distance**
+#### Euclidean Distance
 
 The most common metric, representing the straight-line distance between two points in $\mathbb{R}^p$:
 $$
@@ -194,7 +201,7 @@ dist_euclidean_factoextra <- get_dist(df, method = 'euclidean')
 cat("Euclidean distance using 'factoextra::get_dist()' function:", dist_euclidean_factoextra)
 ```
 
-#### **Manhattan (or City-Block) Distance**
+#### Manhattan (or City-Block) Distance
 This distance sums the absolute differences across all coordinates:
 $$
 d_M(\mathbf{x}, \mathbf{y}) = \sum_{i=1}^{p} |x_i - y_i|
@@ -289,7 +296,7 @@ ggplot() +
   labs(title = "Euclidean vs Manhattan Distance (Two Interpretations)",x = "", y = "")
 ```
 
-#### **Minkowski Distance**
+#### Minkowski Distance
 
 A generalization of Euclidean and Manhattan distances, controlled by a parameter $r$:
 $$
@@ -303,7 +310,7 @@ $$
 - Larger values of $r$ emphasize large coordinate differences.
 
 ```{webr-r}
-#| label: manhattan-distance
+#| label: minkowski-distance
 #| autorun: true
 #| warning: false
 #| message: false
@@ -330,101 +337,52 @@ cat("Minkowski distance using 'dist()' function (p = 10):", dist_minkowski_10, '
 
 # Using the package "factoextra" 
 library(factoextra)
-dist_minkowski_5_factoextra <- get_dist(df, method = 'manhattan', p = 5)
-cat("Minkowski distance using 'factoextra::get_dist()' function:", dist_minkowski_5_factoextra, '\n') 
+dist_minkowski_5_factoextra <- get_dist(df, method = 'minkowski', p = 5)
+cat("Minkowski distance using 'factoextra::get_dist()' function:", dist_minkowski_5_factoextra, '\n')
 
-dist_minkowski_10_factoextra <- get_dist(df, method = 'manhattan', p = 10)
+dist_minkowski_10_factoextra <- get_dist(df, method = 'minkowski', p = 10)
 cat("Minkowski distance using 'factoextra::get_dist()' function:", dist_minkowski_10_factoextra) 
 ```
 
 ```{r}
-#| label: minkowski-distance
-#| fig-cap: "Shapes of Minkowski (Lp) distances around a point for different p values"
+#| label: minkowski-unit-balls
+#| fig-cap: "Unit balls of the Minkowski distance: all points at distance 1 from the origin, for several values of r."
 #| echo: false
 #| message: false
 #| warning: false
 #| out-width: "80%"
 
-#| label: minkowski-distance-path
-#| fig-cap: "Minkowski distance (Lp) path between two points A and B"
-#| echo: true
-#| message: false
-#| warning: false
-
-#| label: minkowski-comparison
-#| fig-cap: "Comparison of Minkowski (Lp) distances between points A and B for various p values"
-#| echo: true
-#| message: false
-#| warning: false
-
 library(ggplot2)
 
-# Define points
-A <- c(1, 1)
-B <- c(5, 5)
+# Points (x, y) with |x|^r + |y|^r = 1, traced through the angle t
+unit_ball <- function(r, n = 400) {
+  t <- seq(0, 2 * pi, length.out = n)
+  if (is.infinite(r)) {
+    s <- pmax(abs(cos(t)), abs(sin(t)))
+    return(data.frame(x = cos(t) / s, y = sin(t) / s))
+  }
+  data.frame(x = sign(cos(t)) * abs(cos(t))^(2 / r),
+             y = sign(sin(t)) * abs(sin(t))^(2 / r))
+}
 
-# Set of p values to compare
-p_values <- c(1, 2, 5, 10)
-colors <- c("red", "blue", "purple", "darkgreen")
+r_values <- c(1, 2, 5, Inf)
+r_labels <- c("r = 1 (Manhattan)", "r = 2 (Euclidean)", "r = 5", "r = \u221e (Chebyshev)")
+balls <- do.call(rbind, lapply(seq_along(r_values), function(i)
+  cbind(unit_ball(r_values[i]), r = r_labels[i])))
+balls$r <- factor(balls$r, levels = r_labels)
 
-# Compute Minkowski distances
-dx <- abs(B[1] - A[1])
-dy <- abs(B[2] - A[2])
-distances <- sapply(p_values, function(p) (dx^p + dy^p)^(1/p))
-names(distances) <- paste0("p = ", p_values)
-
-# Build the plot
-g <- ggplot() +
-  # Points A and B
-  geom_point(aes(x = A[1], y = A[2]), size = 4, color = "black") +
-  geom_point(aes(x = B[1], y = B[2]), size = 4, color = "black") +
-  annotate("text", x = A[1]-0.3, y = A[2]-0.3, label = "A", fontface = "bold", size = 5) +
-  annotate("text", x = B[1]+0.3, y = B[2]+0.3, label = "B", fontface = "bold", size = 5) +
-  # Euclidean path (p=2, blue straight line)
-  geom_segment(aes(x = A[1], y = A[2], xend = B[1], yend = B[2]),
-               color = "blue", linewidth = 1.3) +
-  # Manhattan (p=1, L-path)
-  geom_segment(aes(x = A[1], y = A[2], xend = A[1], yend = B[2]),
-               color = "red", linewidth = 1.3) +
-  geom_segment(aes(x = A[1], y = B[2], xend = B[1], yend = B[2]),
-               color = "red", linewidth = 1.3)
-
-# Add Minkowski curves for p = 5, 10 (smooth approximations)
-curve_positions <- data.frame(
-  p = rep(c(5, 10), each = 100),
-  t = rep(seq(0, 1, length.out = 100), 2)
-)
-
-# Generate smooth Minkowski-like curves (not exact, illustrative)
-curve_positions <- within(curve_positions, {
-  x <- A[1] + (B[1] - A[1]) * t
-  y <- A[2] + (B[2] - A[2]) * (t^(1/p))
-  col <- ifelse(p == 5, "purple", "darkgreen")
-})
-
-g <- g +
-  geom_path(data = subset(curve_positions, p == 5), aes(x, y), color = "purple", linewidth = 1.3) +
-  geom_path(data = subset(curve_positions, p == 10), aes(x, y), color = "darkgreen", linewidth = 1.3) +
-  # Axes and style
-  scale_x_continuous(breaks = 0:6, limits = c(0, 6)) +
-  scale_y_continuous(breaks = 0:6, limits = c(0, 6)) +
+ggplot(balls, aes(x, y, color = r)) +
+  geom_path(linewidth = 1.2) +
+  geom_point(aes(x = 0, y = 0), color = "black", size = 2) +
+  scale_color_manual(values = c("red", "blue", "purple", "green3")) +
   coord_equal() +
   theme_minimal(base_size = 14) +
-  theme(panel.grid.minor = element_blank(),
-        panel.grid.major = element_line(color = "gray90")) +
-  # Legend substitute
-  annotate("text", x = 3.5, y = 2.9, label = "p = 1 (Manhattan)", color = "red", hjust = 0, size = 4) +
-  annotate("text", x = 3.5, y = 2.6, label = "p = 2 (Euclidean)", color = "blue", hjust = 0, size = 4) +
-  annotate("text", x = 3.5, y = 2.3, label = "p = 5", color = "purple", hjust = 0, size = 4) +
-  annotate("text", x = 3.5, y = 2.0, label = "p = 10", color = "darkgreen", hjust = 0, size = 4) +
-  labs(title = "Minkowski Distance Between A and B for Different p",
-       subtitle = paste("Distances:",
-                        paste(names(distances), round(distances, 2), collapse = " | ")),
-       x = "", y = "")
-
-g
-
+  labs(title = "Minkowski Unit Balls",
+       subtitle = "As r grows, the ball fills out from a diamond to a square",
+       x = "", y = "", color = NULL)
 ```
+
+Each curve is the set of points at Minkowski distance $1$ from the origin. For $r = 1$ it is a diamond, for $r = 2$ a circle, and as $r \to \infty$ it approaches the square of the Chebyshev distance below. The shortest *path* between two points is a straight line for every $r > 1$; what changes with $r$ is the *length* assigned to it.
 
 #### Chebyshev Distance
 
@@ -527,11 +485,11 @@ ggplot() +
        x = "", y = "")
 ```
 
-#### **Mahalanobis Distance**
+#### Mahalanobis Distance
 
 A scale-invariant distance that accounts for correlations between variables:
 $$
-d_{Mah}(\mathbf{x}, \mathbf{y}) = \sqrt{(x - y)^{\top} \boldsymbol{\Sigma}^{-1} (x - y)}
+d_{Mah}(\mathbf{x}, \mathbf{y}) = \sqrt{(\mathbf{x} - \mathbf{y})^{\top} \boldsymbol{\Sigma}^{-1} (\mathbf{x} - \mathbf{y})}
 $$
 where $\boldsymbol{\Sigma}$ is the covariance matrix of the data.
 Two points with the same Mahalanobis distance from the mean are equally likely under a multivariate normal model, regardless of the variable scales or correlations.
@@ -550,6 +508,9 @@ X <- matrix(c(2, 4, 5, 8, 3, 7), ncol = 2, byrow = TRUE)
 cov_matrix <- cov(X)
 d_mahalanobis <- sqrt(t(x - y) %*% solve(cov_matrix) %*% (x - y))
 d_mahalanobis
+
+# Another way: stats::mahalanobis() returns the *squared* distance
+sqrt(mahalanobis(x, center = y, cov = cov_matrix))
 ```
 
 :::{.callout-tip}
@@ -574,7 +535,7 @@ The *cosine similarity* between two vectors $\mathbf{x}$ and $\mathbf{y}$ is def
 $$
 s_{\text{cosine}}(\mathbf{x}, \mathbf{y}) = \frac{\mathbf{x} \cdot \mathbf{y}}{\|\mathbf{x}\| \, \|\mathbf{y}\|}
 $$
-where $\mathbf{x} \cdot \mathbf{y}$ is the **dot product** of the two vectors, and $\|\mathbf{x}\|$ and $\|\mathbf{y}\|$ are their**Euclidean norms*.  
+where $\mathbf{x} \cdot \mathbf{y}$ is the **dot product** of the two vectors, and $\|\mathbf{x}\|$ and $\|\mathbf{y}\|$ are their *Euclidean norms*.
 
 This similarity measures the *cosine of the angle* between the two vectors in a multidimensional space.  
 
@@ -610,9 +571,89 @@ cat("Cosine distance (x,y):", round(1 - cos_xy, 3), "\n")
 cat("Cosine distance (x,z):", round(1 - cos_xz, 3), "\n")
 ```
 
-:::{.callout.tip}
-Cosine-based metrics are particularly useful for *directional data*, where the *pattern* or *orientation* of features matters more than their magnitude —  
+The figure below draws the three vectors as arrows from the origin.
+
+```{r}
+#| label: cosine-vectors
+#| fig-cap: "The vectors x, y and z drawn from the origin. y = 2x points in exactly the same direction as x, so their cosine similarity is 1; z points elsewhere."
+#| echo: false
+#| message: false
+#| warning: false
+#| out-width: "80%"
+
+library(ggplot2)
+
+# Oblique projection of 3D points onto the page:
+# axis 1 points down-left, axis 2 to the right, axis 3 up
+proj <- function(p) c(u = p[2] - 0.6 * p[1], v = p[3] - 0.5 * p[1])
+
+x <- c(1, 2, 3)
+y <- c(2, 4, 6)
+z <- c(3, 0, 0)
+
+vecs <- data.frame(
+  name = c("y = (2, 4, 6)", "x = (1, 2, 3)", "z = (3, 0, 0)"),
+  t(sapply(list(y, x, z), proj))
+)
+vecs$name <- factor(vecs$name, levels = vecs$name)
+
+# Coordinate axes
+axes <- data.frame(
+  label = c("1st coordinate", "2nd coordinate", "3rd coordinate"),
+  t(sapply(list(c(4, 0, 0), c(0, 5, 0), c(0, 0, 7)), proj)),
+  h  = c(1.1, 0, 0.5),
+  vj = c(0.5, 1.6, -0.6)
+)
+
+# Drop lines from each tip to the floor (3rd coordinate = 0)
+drops <- data.frame(
+  t(sapply(list(y, x), proj)),
+  setNames(as.data.frame(t(sapply(list(y, x), function(p) proj(c(p[1:2], 0))))),
+           c("u0", "v0"))
+)
+
+cos_xz <- sum(x * z) / (sqrt(sum(x^2)) * sqrt(sum(z^2)))
+angle_xz <- acos(cos_xz) * 180 / pi
+
+ggplot() +
+  geom_segment(data = axes, aes(x = 0, y = 0, xend = u, yend = v),
+               color = "gray55", linewidth = 0.5,
+               arrow = arrow(length = unit(0.08, "inches"))) +
+  geom_text(data = axes, aes(u, v, label = label, hjust = h, vjust = vj),
+            color = "gray40", size = 3.5) +
+  # Shadows on the floor and drop lines from each tip
+  geom_segment(data = drops, aes(x = 0, y = 0, xend = u0, yend = v0),
+               linetype = "dotted", color = "gray60") +
+  geom_segment(data = drops, aes(x = u, y = v, xend = u0, yend = v0),
+               linetype = "dashed", color = "gray70") +
+  geom_segment(data = vecs, aes(x = 0, y = 0, xend = u, yend = v,
+                                color = name, linewidth = name),
+               arrow = arrow(length = unit(0.15, "inches"))) +
+  geom_text(data = vecs, aes(u, v, label = name, color = name),
+            hjust = -0.15, size = 4, show.legend = FALSE) +
+  scale_color_manual(values = c("steelblue2", "navy", "red3")) +
+  scale_linewidth_manual(values = c(3, 1.2, 1.2)) +
+  coord_equal(clip = "off") +
+  theme_void(base_size = 14) +
+  theme(legend.position = "none",
+        plot.margin = margin(10, 60, 10, 10)) +
+  labs(title = "Cosine Similarity Measures the Angle Between Vectors",
+       subtitle = sprintf(
+         "x and y: angle 0°, cosine similarity 1\nx and z: angle %.1f°, cosine similarity %.3f",
+         angle_xz, cos_xz))
+```
+
+The figure shows why cosine similarity ignores *magnitude*. Because $\mathbf{y} = 2\mathbf{x}$, it is the same arrow twice as long. The angle between them is $0^\circ$, so their cosine distance is $0$, although their Euclidean distance is $\sqrt{14} \approx 3.74$. The vector $\mathbf{z}$ points along the first coordinate only, at an angle of about $74.5^\circ$ from $\mathbf{x}$, so its cosine distance from $\mathbf{x}$ is large ($0.733$). Its Euclidean distance, $\sqrt{17} \approx 4.12$, is barely larger than that between $\mathbf{x}$ and $\mathbf{y}$. The two measures answer different questions: *how far apart are the points?* versus *do they point the same way?*
+
+:::{.callout-tip}
+Cosine-based metrics are particularly useful for *directional data*, where the *pattern* or *orientation* of features matters more than their magnitude —
 for example, in *text mining* (TF-IDF vectors), *recommendation systems*, or *image feature embeddings*.
+:::
+
+The *correlation distance* applies the same idea after centring each observation on its own mean: $d_{\text{cor}}(\mathbf{x}, \mathbf{y}) = 1 - r(\mathbf{x}, \mathbf{y})$, where $r$ is the Pearson correlation between the two vectors. It is available as `factoextra::get_dist(method = "pearson")` (also `"spearman"` and `"kendall"`).
+
+:::{.callout-note appearance="minimal"}
+**Packages and commands.** Every metric is first computed by hand with base R (`sqrt`, `sum`, `abs`, `max`) and then checked against `stats::dist(method = )`, whose options are `"euclidean"`, `"manhattan"`, `"minkowski"` (with `p = `) and `"maximum"` (Chebyshev). **factoextra**'s `get_dist()` accepts the same methods plus the correlation-based ones. The Mahalanobis distance uses `cov` and `solve`, or `stats::mahalanobis()`, which returns the *squared* distance. Cosine similarity comes from **lsa**'s `cosine()`. The figures are **ggplot2**.
 :::
 
 ### Distances for Binary Data
@@ -673,11 +714,15 @@ cat("Simple Matching Distance:", round(d_SMC, 3), "\n")
 
 :::{.callout-note}
 
-- If two binary vectors are identical,$s_{SMC} = 1$ and $d_{sMC} = 0$.
+- If two binary vectors are identical, $s_{SMC} = 1$ and $d_{SMC} = 0$.
 
-- If they are completely opposite, $s_{SMC} = 0$  and $d_{sMC} = 1$.
+- If they are completely opposite, $s_{SMC} = 0$ and $d_{SMC} = 1$.
 
 - The SMC treats $0$s and $1$s symmetrically, so it is best used when both states are equally meaningful.
+:::
+
+:::{.callout-note appearance="minimal"}
+**Packages and commands.** Base R only: the four counts $f_{11}, f_{00}, f_{10}, f_{01}$ are `sum` over logical comparisons such as `o1 == 1 & o2 == 1`. The same distance for a whole data set is `stats::dist(method = "binary")` for the *asymmetric* (Jaccard) version that ignores $0$–$0$ matches, or `cluster::daisy(type = list(symm = ))` and `daisy(type = list(asymm = ))` to choose per variable.
 :::
 
 ### Distances for Categorical Data
@@ -723,7 +768,7 @@ print(paste("Hamming distance:", hamming_distance))
 
 The **Gower distance** [@Gower1971] allows comparing **mixed-type data** (numerical, categorical, binomial).
 
-For two observations $i$ and $k$, and each variable $k$, Gower's method computes a partial *similarity score* $s_{ijk}$ as follows: 
+For two observations $i$ and $j$, and each variable $k$, Gower's method computes a partial *similarity score* $s_{ijk}$ as follows: 
 
 - **Numeric variables (continuous or discrete)**:
 $$
@@ -756,7 +801,7 @@ As an example, consider the following table which shows information about a numb
 - *Age* --  a continuous numeric variable
 - *Handedness* -- a binary variable, whether the individual is left- or right-handed.
 - *Eye colour* - a categorical variable
-- *Knows Python* - a dichotomous variable (while two people who know python may have a similar education, both of them not knowing Python does not imply they have similar backgrounds).
+- *Knows Python* -- a binary variable. Strictly, it is *asymmetric*: two people who know Python may have a similar education, but both of them not knowing Python does not imply they have similar backgrounds. For the hand calculation below we treat it as an ordinary (symmetric) binary variable, and we show the asymmetric version in R afterwards.
 
 | Subject ID | Age | Handedness | Eye Colour | Knows Python |
 |:-----------:|:---:|:-----------:|:------------:|:--------------:|
@@ -794,9 +839,9 @@ $$
 D = 1 - 0.435 = 0.565
 $$
 
-Repeating the calculation for all pairs of indivials, we obtain the distance matrix, which can be used for clustering them into groups. 
+Repeating the calculation for all pairs of individuals, we obtain the distance matrix, which can be used for clustering them into groups.
 
-For calculating Gower distance in R, we can use `daisy()` from the library `cluster`. However, it is important to note that always convert categorical characters to factors before using this function. 
+For calculating Gower distance in R, we can use `daisy()` from the package `cluster`. Always convert character columns to factors before using this function.
 ```{webr-r}
 #| label: gower-mixed-fixed
 #| autorun: true
@@ -824,8 +869,19 @@ subjects <- subjects %>%
 gower_dist <- daisy(subjects[, -1], metric = "gower")  # exclude Subject_ID
 
 print(round(as.matrix(gower_dist), 3))
+
+# Treat Knows_Python as asymmetric binary: a No-No pair is ignored
+gower_asymm <- daisy(subjects[, -1], metric = "gower",
+                     type = list(asymm = "Knows_Python"))
+print(round(as.matrix(gower_asymm), 3))
 ```
-As you see that the individuals who are most similar are 001 and 003 $(D = 0.315)$ and the most different are 004 and 005 $(D = 0.913)$.
+The first matrix reproduces the hand calculation: $D_{001,002} = 0.565$. The individuals who are most similar are 001 and 003 $(D = 0.315)$ and the most different are 004 and 005 $(D = 0.913)$.
+
+In the asymmetric version, only the pair 002–004 changes, because they are the only pair who both answer *No*. That variable is then dropped from their comparison, and their distance rises from $0.620$ to $0.826$.
+
+:::{.callout-note appearance="minimal"}
+**Packages and commands.** Hamming distance is `sum(x != y)` in base R. Gower distance is `cluster::daisy(metric = "gower")`, which needs factors (not characters) for categorical columns, hence **dplyr**'s `mutate(across(where(is.character), as.factor))`; its `type = list(asymm = , symm = , ordratio = )` argument declares asymmetric binary, symmetric binary and ordinal variables. The data frame is built with **tibble**.
+:::
 
 ### Visualizing distance matrices
 
@@ -853,7 +909,7 @@ Visualizing distance matrices helps us:
   
 - **Compare metrics** -- see how distance measures produce different patterns.
   
-- **Build intuitio** -- for what *closeness* or *difference* means in multidimensional space.
+- **Build intuition** -- for what *closeness* or *difference* means in multidimensional space.
 
 ```{webr-r}
 #| label: visualize-gower
@@ -883,9 +939,13 @@ gower_dist <- daisy(subjects[, -1], metric = "gower")
 library(factoextra)
 fviz_dist(gower_dist) 
 ```
-The color level is proportional to the value of the dissimilarity between observations: pure red if $\text{dist}(\mathbf{x}_i, \mathbf{x}_j) = 0$ nad pure blue if $\text{dist}(\mathbf{x}_i, \mathbf{x}_j) = 1$, here. Objects belonging to the same cluster are displayed in consecutive order. 
+The color level is proportional to the value of the dissimilarity between observations: red for small and blue for large dissimilarities (here, pure red when $\text{dist}(\mathbf{x}_i, \mathbf{x}_j) = 0$). By default, `fviz_dist()` reorders the observations (`order = TRUE`) so that similar objects are displayed next to each other.
 
-In this example, subjects `001` and `002` are quite similar (close in age, same eye color). Subject `004` (older, hazel eyes, does not know Python) stands out as most dissimilar from others. 
+In this example, subjects `001` and `003` are the most similar pair (same handedness, both know Python, close in age). Subject `004` (oldest, hazel eyes, does not know Python) stands out as the most dissimilar from the others.
+
+:::{.callout-note appearance="minimal"}
+**Packages and commands.** `cluster::daisy()` (or `stats::dist()` for numeric data) builds the dissimilarity matrix, and **factoextra**'s `fviz_dist()` draws it as a heat map; `as.matrix()` turns a `dist` object into a square matrix for printing. The same `fviz_dist()` plot reappears in the next section as the VAT test for clustering tendency.
+:::
 
 
 ::::: panel-tabset
@@ -941,17 +1001,15 @@ Two students rate three projects as “Good”, “Average”, or “Poor”:
 
 Compute the *Hamming distance* (number of mismatches).
 
-**Hint**: Use 
-```{r}
-#| eval: false
-data[] <- lapply(data, function(col) if (is.character(col)) as.factor(col) else col)
-```
+**Hint**: Store each student's ratings as a character vector and compare them element by element with `!=`.
 
-## Exercise 3
+## Exercise 4
 
-We want to analyse the `flower` dataset which is available at library `cluseter`.
+We want to analyse the `flower` dataset which is available in the package `cluster`.
 
-Based on the following information, a) find the best distance matrix. and b) visulize the distance matrix.
+Based on the following information, a) choose an appropriate distance and compute the distance matrix, and b) visualize the distance matrix.
+
+**Hint**: The data mix numeric, nominal, ordinal and binary variables, so look at the `type` argument of `daisy()`.
 
 ```{r}
 #| label: Exercise4-Gower_distance
@@ -967,14 +1025,217 @@ str(flower)
 ```
 :::::
 
+## Pre-Clustering Tests: Assessing Clustering Tendency {#sec-pre-clustering-tests}
+
+The previous section gave us ways to measure how far apart two observations are. Before we use those distances to *build* groups, we should ask a prior question: are there any groups to find? Assessing this is called assessing the *clustering tendency* of the data, or the feasibility of the cluster analysis.
+
+:::{.callout-important}
+A big issue in cluster analysis is that clustering methods will return clusters even if the data do not contain any. If you blindly apply a clustering method to a data set, it will divide the data into groups, because that is what it is designed to do.
+:::
+
+Two diagnostics are routinely used before clustering:
+
+- the **Hopkins statistic**, a statistical test of whether the data could have come from a uniform (structureless) distribution;
+- the **Visual Assessment of cluster Tendency (VAT)**, which reorders the distance matrix and looks for blocks along its diagonal.
+
+Neither tells us which algorithm to use or how many clusters there are — those questions are taken up in @sec-cluster-validation. They tell us whether clustering is likely to find real structure at all.
+
+### The Data: Palmer Penguins {#sec-penguins-data}
+
+From here on, the running example of the chapter is the *Palmer penguins* data [@horst2020palmerpenguins], from the package **palmerpenguins** (released under the CC0 licence). They contain measurements of $344$ adult penguins of three species — *Adelie*, *Chinstrap* and *Gentoo* — collected by Dr. Kristen Gorman at Palmer Station, Antarctica [@gorman2014]:
+
+| Variable | Type | Description | Unit |
+|:-------------------|:---------|:-----------------------------------|:------|
+| `species` | factor | Adelie, Chinstrap or Gentoo | — |
+| `island` | factor | Biscoe, Dream or Torgersen | — |
+| `bill_length_mm` | numeric | Bill (culmen) length | mm |
+| `bill_depth_mm` | numeric | Bill (culmen) depth | mm |
+| `flipper_length_mm` | numeric | Flipper length | mm |
+| `body_mass_g` | numeric | Body mass | g |
+| `sex` | factor | female or male | — |
+| `year` | integer | Year of the study (2007–2009) | — |
+
+The data suit a clustering chapter well:
+
+- we can cluster the four body measurements *without* the species, and then use `species` as an external reference to see how well the clusters recover it;
+- one species (Gentoo) is clearly separated from the others, while Adelie and Chinstrap overlap, so the "right" number of clusters is genuinely debatable;
+- body mass is measured in grams and the other variables in millimetres, so scaling matters;
+- `island` and `sex` are categorical, for mixed-type distances.
+
+Eleven penguins have at least one missing value (two have no measurements at all, nine more have no recorded sex). Clustering functions such as `kmeans()` and `dist()` do not accept missing values, so we drop these rows and work with $333$ penguins. For a better treatment of missing data, see the Missing Values chapter.
+
+:::{.callout-note}
+Since version 4.5.0, R also ships a `penguins` data set in the base package **datasets**, with shorter column names (`bill_len`, `body_mass`, …). We always write `palmerpenguins::penguins` to make clear which one we use.
+:::
+
+```{webr-r}
+#| label: penguins-data
+#| autorun: true
+#| warning: false
+#| message: false
+
+library(palmerpenguins)
+
+# complete cases only (333 penguins)
+peng <- as.data.frame(na.omit(palmerpenguins::penguins))
+
+# the four body measurements used for clustering
+peng_vars <- c("bill_length_mm", "bill_depth_mm", "flipper_length_mm", "body_mass_g")
+peng_num  <- peng[, peng_vars]
+
+table(peng$species)
+summary(peng_num)
+```
+
+### Two Data Sets to Compare
+
+To see what the diagnostics say when there is structure and when there is none, we compare the penguin measurements with a *random* data set of the same size, in which each variable is drawn uniformly between its observed minimum and maximum. Both are standardized, because both diagnostics depend on Euclidean distances.
+
+```{webr-r}
+#| label: tendency-data
+#| autorun: true
+#| warning: false
+#| message: false
+
+# random data with the same ranges as the penguin measurements
+set.seed(123)
+df_random <- apply(peng_num, 2, function(x) {
+  runif(length(x), min(x), max(x))
+})
+df_random <- as.data.frame(df_random)
+
+# standardize both datasets
+peng_scaled <- scale(peng_num)
+df_random_scaled <- scale(df_random)
+```
+
+### The Hopkins Statistic
+
+The *Hopkins statistic* [@hopkins1954] tests the spatial randomness of the data. It compares how close the real observations are to each other with how close random points are to the real observations.
+
+Let $D$ be a data set with $n$ observations and $d$ variables. The Hopkins statistic is calculated as follows:
+
+1. Sample $m$ observations $p_1, \ldots, p_m$ from $D$ without replacement (typically $m \approx n/10$). For each $p_i$, find its nearest neighbor among the *other* observations of $D$, and denote the distance by $x_i$.
+2. Generate $m$ points $q_1, \ldots, q_m$ uniformly at random within the range of each variable of $D$. For each $q_i$, find its nearest neighbor in $D$, and denote the distance by $y_i$.
+3. Compute
+$$
+H = \frac{\sum_{i=1}^m y_i^{\,d}}{\sum_{i=1}^m x_i^{\,d} + \sum_{i=1}^m y_i^{\,d}}
+$$
+
+Raising the distances to the power $d$ turns them into something proportional to the volume of a $d$-dimensional ball. With that correction, $H$ follows a $\text{Beta}(m, m)$ distribution when the data are uniform [@wright2022hopkins]. The hypotheses are:
+
+- **null hypothesis**: the data set $D$ is uniformly distributed (no meaningful clusters);
+- **alternative hypothesis**: the data set $D$ is not uniformly distributed (it contains structure).
+
+The interpretation follows from the formula:
+
+- $H \approx 0.5$: real observations are no closer to each other than random points are to them, so there is no evidence of clusters;
+- $H$ **close to 1**: real observations have much nearer neighbors ($x_i$ small) than random points do ($y_i$ large), so the data are clustered;
+- $H$ close to $0$: the observations are *more* evenly spaced than random, as on a regular grid.
+
+:::{.callout-warning}
+Older software, such as the **clustertend** package and earlier versions of **factoextra**, reported $1 - H$ and did not raise distances to the power $d$. In those outputs, values near $0$ indicated clustering. Always check which convention a function uses before comparing results across sources [@wright2022hopkins].
+:::
+
+The function `hopkins::hopkins()` computes the statistic and `hopkins::hopkins.pval()` its (two-sided) $p$-value under the $\text{Beta}(m, m)$ null. The simplified format is
+```{r}
+#| eval: false
+hopkins(X, m = ceiling(nrow(X) / 10))
+hopkins.pval(H, m)
+```
+where:
+
+- `X`: a data frame or matrix
+- `m`: the number of observations sampled from the data (and of random points generated)
+- `H`: the value returned by `hopkins()`
+
+**Example**:
+
+```{webr-r}
+#| label: example-of-hopkins
+#| autorun: true
+#| warning: false
+#| message: false
+
+library(hopkins)
+
+m <- ceiling(nrow(peng_scaled) / 10)
+
+# Hopkins statistic for the penguins dataset
+set.seed(123)
+H_peng <- hopkins(peng_scaled, m = m)
+cat("Penguins: H =", round(H_peng, 3),
+    "  p-value =", signif(hopkins.pval(H_peng, m), 3), "\n")
+
+# Hopkins statistic for the random dataset
+set.seed(123)
+H_random <- hopkins(df_random_scaled, m = m)
+cat("Random:   H =", round(H_random, 3),
+    "  p-value =", signif(hopkins.pval(H_random, m), 3), "\n")
+```
+
+The penguin measurements are highly clusterable: $H = 0.995$, and the null hypothesis of uniformity is rejected ($p < 0.001$). The random data give $H = 0.51$ with $p = 0.87$, so there is no evidence of clusters in them, as expected.
+
+:::{.callout-warning}
+The Hopkins statistic tests *uniformity*, not the presence of clusters as such. Data with no groups at all, but with correlated or skewed variables, are not uniform either, and they also give $H$ close to $1$. A high $H$ is necessary for clustering to make sense, but not sufficient: always look at the VAT image below, and later at the silhouette, before concluding that the groups are real.
+:::
+
+:::{.callout-tip}
+The Hopkins statistic is itself random, because it depends on the sampled observations and the generated points. Fix the seed for reproducibility, and for a borderline value, repeat the computation with several seeds before drawing a conclusion.
+:::
+
+### Visual Assessment of Cluster Tendency (VAT)
+
+The VAT algorithm [@Bezdek2002] works as follows:
+
+1. Compute the dissimilarity matrix (DM) between the observations, using the Euclidean distance.
+2. Reorder the DM so that similar objects are close to one another. This creates an ordered dissimilarity matrix (ODM).
+3. Display the ODM as an ordered dissimilarity image (ODI), which is the visual output of VAT.
+
+This is exactly the distance-matrix heat map of the previous section: `dist()` computes the dissimilarity matrix and `factoextra::fviz_dist()`, which reorders the observations by default, displays it.
+
+**Example**: we use the same two data sets as for the Hopkins statistic.
+
+```{webr-r}
+#| label: plot-penguins-data
+#| out-width: "80%"
+#| autorun: true
+#| warning: false
+#| message: false
+
+library(factoextra)
+
+fviz_dist(dist(peng_scaled), show_labels = FALSE) +
+  labs(title = "Penguins data")
+```
+
+```{webr-r}
+#| label: plot-random-data
+#| out-width: "80%"
+#| autorun: true
+#| warning: false
+#| message: false
+
+fviz_dist(dist(df_random_scaled), show_labels = FALSE) + 
+  labs(title = "Random data")
+```
+
+In these plots, red shows high similarity (small dissimilarity) and blue shows low similarity (large dissimilarity).
+
+A clustering tendency shows up as *square red blocks along the diagonal*: groups of observations that are close to each other and far from the rest. The penguins image has a clear block structure. One large block, bounded by blue on every side, contains the Gentoo penguins: they are close to each other and far from everybody else. The remaining birds form red blocks that are also fairly red *between* each other, because Adelie and Chinstrap penguins have similar body measurements. The random data show no such pattern. The image confirms the Hopkins result and also hints at how many clusters are present, a question taken up in @sec-cluster-validation.
+
+:::{.callout-note appearance="minimal"}
+**Packages and commands.** The data are `palmerpenguins::penguins`, with incomplete rows removed by `na.omit`. Random reference data come from `runif` inside `apply`, and both data sets are standardized with `scale`. **hopkins** provides `hopkins(X, m = )` and `hopkins.pval(H, m)`. The VAT image is `stats::dist` followed by **factoextra**'s `fviz_dist(show_labels = FALSE)`. **factoextra**'s `get_clust_tendency(data, n = , graph = TRUE)` returns both in one call, the Hopkins statistic (corrected formula) and the ordered dissimilarity image.
+:::
+
 ## Partition-Based Clustering: $k$-Means and $k$-Medoids
 
-*Partitioning clustering* are clustering methods used to classify observations, within a dataset, into multiple groups based ion their similrity. The algorithms require the analyst to specify the number of clusters to be generated.
+*Partitioning clustering* methods classify the observations of a dataset into multiple groups based on their similarity. The algorithms require the analyst to specify the number of clusters to be generated.
 
-The commonly used partitioning clustering includes: 
+The commonly used partitioning methods include: 
 
-- $K$-means clustering [@macqueen1967] in which ,each cluster is represented by the center or means of the data points belonging to the cluster. The $K$-means method is sensitive to anomalous data points and outliers.
-- $K$-medoids clustering or PAM (Partitioning Around Medoids) [@kaufman1990] in which , each cluster is reprsented by one of the objects in the cluster. PAM is less sensitive to outliers compared to $K$-means.
+- $K$-means clustering [@macqueen1967], in which each cluster is represented by the center (mean) of the data points belonging to the cluster. The $K$-means method is sensitive to anomalous data points and outliers.
+- $K$-medoids clustering or PAM (Partitioning Around Medoids) [@kaufman1990], in which each cluster is represented by one of the objects in the cluster. PAM is less sensitive to outliers than $K$-means.
 - CLARA (Clustering Large Applications) algorithm, which is an extension to PAM adapted for large data sets.
 
 ### $K$-Means Clustering 
@@ -985,22 +1246,22 @@ Each cluster is represented by its *centroid*, which may not be an actual data p
 
 #### $K$-means basic ideas
 
-This basic idea behind $K$-means clustering consists of defining clusters so that the total intra-cluster variation (known as *total within-cluster variation*) is minimized.
+The basic idea behind $K$-means clustering consists of defining clusters so that the total intra-cluster variation (known as *total within-cluster variation*) is minimized.
 
-There are several $K$-means algorithms available. The standard algorithm is the *Hartigan-Wong algorithm* [@hartigan1979] which defines the total within-cluster variation as the sum of squared distances Euclidean distances between items and the corresponding centroid: 
+The within-cluster variation of cluster $C_k$ is the sum of squared Euclidean distances between its points and its centroid: 
 $$
-W(C_k) = \sum_{x_i \in C_k} (x_i - \mu_k)^2
+W(C_k) = \sum_{\mathbf{x}_i \in C_k} \|\mathbf{x}_i - \boldsymbol{\mu}_k\|^2
 $$
-where $x_i$ design a data point belonging to the cluster $C_k$ and $\mu_k$ is the mean value of the points assigned to the cluster $C_k$.
+where $\mathbf{x}_i$ denotes a data point belonging to the cluster $C_k$ and $\boldsymbol{\mu}_k$ is the mean of the points assigned to $C_k$.
 
-Each observation ($x_i$) is assigned to a given cluster such that the sum of squares (SS) distances of the observation to their assigned cluster $\mu_k$ is minimum. 
+Each observation $\mathbf{x}_i$ is assigned to a cluster so that the sum of squared distances of the observations to their assigned centroids is minimum. 
 
-We define the *total within-cluster* variation as follow: 
+We define the *total within-cluster* variation as follows: 
 $$
-\text{tot.withinss} = \sum_{k=1}^K W(C_k) = \sum_{k=1}^K \sum_{x_i \in C_k} (x_i - \mu_k)^2
+\text{tot.withinss} = \sum_{k=1}^K W(C_k) = \sum_{k=1}^K \sum_{\mathbf{x}_i \in C_k} \|\mathbf{x}_i - \boldsymbol{\mu}_k\|^2
 $$
 
-The *total within-cluster sum of square* measures the compactness (i.e. *goodness*) of the clustering and we want it to be as small as possible. 
+The *total within-cluster sum of squares* measures the compactness (i.e. *goodness*) of the clustering and we want it to be as small as possible. 
 
 
 #### $K$-means Algorithm
@@ -1008,49 +1269,32 @@ The *total within-cluster sum of square* measures the compactness (i.e. *goodnes
 Given a dataset $\mathbf{X}= \{\mathbf{x}_1, \mathbf{x}_2, \ldots, \mathbf{x}_n\}$:
 
 1. Choose the number of clusters $K$.  
-2. Initialize $k$ centroids randomly.  
-3. **Assign step:** Assign each observation $\mathbf{x}_i$ to the nearest centroid based on the Euclidean distance between the object and the centroid:
-4. $$
-   c_i = \arg\min_k \|\mathbf{x}_i - \mu_k\|^2
+2. Initialize $K$ centroids randomly (for example, $K$ randomly chosen observations).  
+3. **Assign step:** Assign each observation $\mathbf{x}_i$ to the nearest centroid, using the Euclidean distance:
    $$
-   where $\mu_k$ is the $k$st centroid. 
-5. **Update step:** Recalculate each centroid as the mean of points in its cluster:
+   c_i = \arg\min_k \|\mathbf{x}_i - \boldsymbol{\mu}_k\|^2
    $$
-   \mu_k = \frac{1}{n_k} \sum_{\mathbf{x}_i \in C_k} \mathbf{x}_i
+   where $\boldsymbol{\mu}_k$ is the $k$-th centroid. 
+4. **Update step:** Recalculate each centroid as the mean of the $n_k$ points in its cluster:
    $$
-6. Repeat steps 3–4 until centroids stop changing (convergence) or the maximum number of iterations is reached. 
+   \boldsymbol{\mu}_k = \frac{1}{n_k} \sum_{\mathbf{x}_i \in C_k} \mathbf{x}_i
+   $$
+5. Repeat steps 3–4 until the assignments stop changing (convergence) or the maximum number of iterations is reached. 
+
+These steps are *Lloyd's algorithm* [@lloyd1982], the simplest way to minimize tot.withinss. R's `kmeans()` uses by default the *Hartigan–Wong algorithm* [@hartigan1979], which minimizes the same criterion but also moves single points between clusters whenever that lowers it, and usually reaches a better solution. `kmeans(algorithm = "Lloyd")` runs the version above.
 
 For better understanding, see this [video](https://blog.dailydoseofds.com/p/an-animated-guide-to-kmeans)
 
-```{webr-r}
-#| label: kmeans-example
-#| autorun: true
-#| message: false
-#| warning: false
-#| out-width: "80%"
+<!-- The animation is generated by figs/clustering/kmeans_animation.R -->
+![Lloyd's $K$-means algorithm with $K = 3$ on $150$ simulated points. Diamonds are the centroids; the shaded regions show which centroid is nearest to each location. In each update step, the grey crosses mark the previous centroids and the arrows show how far they moved.](../figs/clustering/kmeans_lloyd.gif){#fig-kmeans-lloyd fig-alt="Animation of the k-means algorithm on three groups of points: three randomly chosen centroids alternate between assigning points to the nearest centroid and moving to the mean of their points, until the three groups are found." width="85%"}
 
-set.seed(42)
+The animation runs the five steps above on three groups of $50$ simulated points.
 
-# Generate synthetic 2D data
-x <- rbind(
-  matrix(rnorm(100, mean = 0, sd = 0.3), ncol = 2),
-  matrix(rnorm(100, mean = 3, sd = 0.3), ncol = 2)
-)
-colnames(x) <- c("x", "y")
+- **Initialization.** The three random starting observations happen to be poorly placed: two of them lie in the same group (on the right), and no centroid starts in the bottom-left group.
+- **Iterations.** At each assign step, every point takes the color of its nearest centroid. At each update step, every centroid moves to the mean of its points. Over the iterations, the blue centroid is pulled from the right-hand group to the bottom-left one.
+- **Convergence.** After $6$ iterations no point changes cluster, and each centroid sits in the middle of one group.
 
-# Apply k-means with 2 clusters
-km <- kmeans(x, centers = 2, nstart = 20)
-
-# Visualize results
-library(ggplot2)
-data <- data.frame(x, cluster = factor(km$cluster))
-ggplot(data, aes(x, y, color = cluster)) +
-  geom_point(size = 3) +
-  geom_point(data = as.data.frame(km$centers), aes(x, y), color = "black", size = 5, shape = 8) +
-  labs(title = "K-Means Clustering",
-       subtitle = "Centroids shown as black stars") +
-  theme_minimal()
-```
+The subtitle tracks the total within-cluster sum of squares: from $933.8$ after the first assignment down to $130.8$ at convergence. It *decreases at every step*, assign and update alike, because each step can only lower it. This is why the algorithm always converges — but only to a *local* minimum, which depends on the starting centroids. A different random start can end with one centroid covering two groups; this is why `kmeans()` should be run with several starts (`nstart`), as discussed below.
 
 #### Properties and Limitations of $K$-Means
 
@@ -1060,8 +1304,7 @@ Although $K$-means is one of the most popular clustering algorithms, its effecti
 
 $K$-Means works best when:
 
-- All variables are numeric
--  and measured on a comparable scale. 
+- All variables are numeric and measured on a comparable scale. 
    
 - The clusters are *spherical* (or roughly circular in 2D).  
   
@@ -1075,7 +1318,7 @@ In clustering, the distance between data points determines how groups are formed
 
 If variables are measured on very different scales (for example, income in euros and age in years), the variable with the largest numerical range will dominate the distance calculation. As a result, the algorithm may ignore other variables, even if they carry meaningful structure. To correct this imbalance, we use **scaling transformations**, which adjust the magnitude or spread of each variable before computing distances.
 
-#### Normalization (Min–Max Scaling)
+##### Normalization (Min–Max Scaling)
 
 Normalization rescales all variables to a fixed range, usually between $0$ and $1$:
 $$
@@ -1084,7 +1327,8 @@ $$
 This transformation preserves the shape of the distribution but ensures all features contribute equally in magnitude to the distance measure.
 It is particularly effective when all features have bounded ranges or similar distributions.
 
-#### Standardization (Z-score Scaling)
+##### Standardization (Z-score Scaling)
+
 Standardization rescales variables so they have mean 0 and standard deviation 1:
 $$
 x' = \frac{x - \bar{x}}{s_x}
@@ -1111,7 +1355,7 @@ We will show the effect of normalization and standardization on the data.
 #| fig-cap: "Original data (different scales)"
 #| autorun: true
 #| out-width: "80%"
-#| warnings: false 
+#| warning: false 
 #| message: false
 library(ggplot2)
 library(dplyr)
@@ -1165,7 +1409,7 @@ ggplot(data_norm, aes(xn, yn, color = cluster_norm)) +
   theme_minimal(base_size = 14) +
   labs(title = "Normalized (0–1) K-Means")
 ```
-It is the time to standarize the dataset before applyong $k$-means. 
+Finally, we standardize the dataset before applying $k$-means. 
 ```{webr-r}
 #| label: kmeans-step4
 #| fig-cap: "Standardized (Z-score) K-Means clustering"
@@ -1186,115 +1430,46 @@ ggplot(data_std, aes(xs, ys, color = cluster_std)) +
   labs(title = "Standardized (Z-score) K-Means")
 ```
 
-#### Measures of Cluster Quality
+#### Implementation of $K$-means in R
 
-To evaluate and compare clustering results, we rely on *internal validation measures* — those that assess how compact and well-separated the clusters are, using only the data itself.
-
-The most common measures include:
-
-##### **Within-Cluster Sum of Squares (WSS)**
-
-The *Within-Cluster Sum of Squares* measures how tightly the data points in a cluster are grouped around their centroid.
-$$
-\text{WSS} = \sum_{k=1}^{K} \sum_{\mathbf{x}_i \in C_k} \|\mathbf{x}_i - \boldsymbol{\mu}_k\|^2
-$$
-where $C_k$ is the set of points in cluster $k$, $\boldsymbol{\mu}_k$ is the centroid of cluster $k$, and $\|\cdot\|^2$ shows the squared Euclidean distance between a point and its centroid.  
-
-A smaller WSS means *more compact clusters*.
-
-##### **Between-Cluster Sum of Squares (BSS)**
-
-The *Between-Cluster Sum of Squares* measures how far apart the cluster centroids are from the overall mean of the dataset.
-$$
-\text{BSS} = \sum_{k=1}^{K} n_k \| \boldsymbol{\mu}_k - \boldsymbol{\mu} \|^2
-$$
-where $n_k$ is the number of points in cluster $k$, $\boldsymbol{\mu}_k$ is the centroid of cluster $k$, and $\boldsymbol{\mu}$ is the global mean of all data points. 
-
-A larger BSS means *better separation* between clusters.
-
-##### **Total Sum of Squares (TSS)**
-
-The *Total Sum of Squares* represents the overall variation in the dataset:
-$$
-\text{TSS} = \sum_{i=1}^{n} \|\mathbf{x}_i - \boldsymbol{\mu}\|^2
-$$
-
-This relationship always holds:
-$$
-\text{TSS} = \text{BSS} + \text{WSS}
-$$
-
-This decomposition allows us to express clustering performance as a proportion of explained variance:
-$$
-\text{Ratio} = \frac{\text{BSS}}{\text{TSS}}
-$$
-
-A higher ratio means that the clusters explain a greater proportion of the data’s variance.
-
-##### **Silhouette Coefficient**
-
-The *Silhouette Coefficient* combines *cohesion* (how close points are within a cluster) and *separation* (how far points are from other clusters):
-$$
-s(i) = \frac{b(i) - a(i)}{\max(a(i), b(i))}
-$$
-where $a(i)$ is the average distance from point $i$ to all other points in its cluster, and $b(i)$ is the smallest average distance from point $i$ to points in another cluster.  
-
-Values range from $–1$ to $1$, where values **close to $1$** indicate that observations are well-clustered, values **around $0$** suggest that points lie near cluster boundaries, and  **negative** values indicate that observations are likely misclassified or assigned to the wrong cluster.
-
-:::{.callout-note}
-**Summary**
-
-| Measure | Description | Ideal Value |
-|:---------|:-------------|:-------------|
-| **WSS** | Compactness within clusters | Low |
-| **BSS** | Separation between clusters | High |
-| **BSS / TSS** | Proportion of explained variance | High |
-| **Silhouette** | Cohesion and separation combined | Close to 1 |
-:::
-
-:::{.callout-important}
-Good clustering minimizes **WSS** and maximizes **BSS**, producing compact, well-separated groups.  
-The **Elbow Method** helps find a balance between simplicity (few clusters) and accuracy (tight, distinct groups).
-:::
-
-**Implementation in R**
-
-The standard R function for $K$-means clustering is `stats::kmeans()` which simplified format is as follow:
+The standard R function for $K$-means clustering is `stats::kmeans()`, whose simplified format is as follows:
 ```{r}
 #| eval: false
 kmeans(x, centers, iter.max = 10, nstart = 1)
 ```
 where:
-- `x`: numeric matrix, numeric data frame or a numeric vevtor
+
+- `x`: numeric matrix, numeric data frame or a numeric vector
 - `centers`: possible values are the number of clusters ($k$) or a set of initial (distinct) cluster centers. If a number, a random set of (distinct) rows in $x$ is chosen as the initial centers. 
-- `iter.max`: the maximum number of iterations allowed. Default value if $10$.
+- `iter.max`: the maximum number of iterations allowed. Default value is $10$.
 - `nstart`: the number of random starting partitions when centers is a number. Trying `nstart > 1` is often recommended. 
 
-To create a beautiful graph of the clusters generated with the `kmeans()` function, will use the `factoextra` package.
+To create a graph of the clusters generated with the `kmeans()` function, we will use the `factoextra` package.
 
 **Computing $K$-means clustering**
 
-As $K$-means clustering algorithm starts with $K$ randomly selected centroids, it is always recommended to use the `set.seed()` function in order to set a seed for `R`'s random number generator. The aim of using this function is to make reproducible the results. 
+As $K$-means clustering algorithm starts with $K$ randomly selected centroids, it is always recommended to use the `set.seed()` function in order to set a seed for `R`'s random number generator, so that the results are reproducible. 
 
 The `R` code below performs $K$-means clustering with $K = 4$:
 ```{r}
 #| eval: false
 set.seed(123)
-km.res <- kmeans(df, k = 4, nstart = 25)
+km.res <- kmeans(df, centers = 4, nstart = 25)
 ```
 
 :::{.callout-tip}
-Actually, $K$-means starts by randomly choosing $K$ points as *initial centroids*. Depending on these starting points, the algorithm can converge to *different local minima* — meaning the results may vary across runs. So, `nstart` means number of random initial sets of centroids to try and then, R will run the algorithm that many times and keep the best result (the one with the lowest total within-cluster sum of squares). 
+Actually, $K$-means starts by randomly choosing $K$ points as *initial centroids*. Depending on these starting points, the algorithm can converge to *different local minima* — meaning the results may vary across runs. So, `nstart` is the number of random initial sets of centroids to try and then, R will run the algorithm that many times and keep the best result (the one with the lowest total within-cluster sum of squares). 
 
 The default value of `nstart` in R is one. But, it is strongly recommended to compute $K$-means clustering with a large value of `nstart` such as $25$ or $50$, in order to have a more stable result.
 :::
 
-With the function `print()`, the results of `kmeans()` that for example in this note, saved in `km.res` 
+The results of `kmeans()`, saved here in `km.res`, can be displayed with the function `print()`:
 ```{r}
 #| eval: false
 print(km.res)
 ```
-The printed output displys:
+The printed output displays:
+
 - the cluster means or centers, that is a matrix which rows are cluster number and columns are variables. 
 - the clustering vector which is a vector of integers (from 1 to $K$) indicating the cluster to which each point is allocated. 
 
@@ -1307,23 +1482,24 @@ aggregate(df, by = list(cluster=km.res$cluster), mean)
 :::
 
 :::{.callout-note}
-It the user is intersted in adding the clusters to the original data, use the following R code
+If you want to add the clusters to the original data, use the following R code
 ```{r}
 #| eval: false 
 cbind(df, cluster = km.res$cluster)
 ```
 :::
 
-`kmeans()` function returns a list of components, including:
+The `kmeans()` function returns a list of components, including:
+
 - *cluster*: a vector of integers (from $1$ to $k$) indicating the cluster to which each point is allocated. 
 - *centers*: a matrix of cluster centers (cluster means)
-- *totss*: the total sum of squares (TSS). It measures the total variance in the data. 
+- *totss*: the total sum of squares (TSS). It measures the total variance in the data (see @sec-quality-measures for the definitions of TSS, WSS and BSS). 
 - *withinss*: vector of within-cluster sum of squares, one component per cluster
 - *tot.withinss*: total within-cluster sum of squares, i.e., $\text{sum}(withinss)$
 - *betweenss*: the between-cluster sum of squares, i.e., *totss - tot.withinss*
 - *size*: the number of observations in each cluster
 
-These components can be accessed as follow:
+These components can be accessed as follows:
 ```{r}
 #| eval: false 
 # Cluster number for each of the observations
@@ -1338,15 +1514,15 @@ km.res$centers
 
 **Visualizing $K$-means Clusters**
 
-It is a good idea to plot the cluster results. These can be used to assess the choice of the number of clusters as well as comparing two different cluster analyses.
+It is a good idea to plot the cluster results. Plots help to judge the choice of the number of clusters and to compare two different cluster analyses.
 
-The idea is to visualize the data in scatter plot with coloring tach data point according to its cluster assignment. 
+The idea is to visualize the data in scatter plot with each data point colored according to its cluster assignment. 
 
-The problem is that the data contains more than 2 variables and the question is what variables to choose for the $x$-$y$ scatter plot. A **solution** is to reduce the number of dimensions by applying a dimensionality reduction algorithm, such as *principal component analysis (PCA)*. 
+The problem is that the data usually contain more than 2 variables and the question is what variables to choose for the $x$-$y$ scatter plot. A **solution** is to reduce the number of dimensions by applying a dimensionality reduction algorithm, such as *principal component analysis (PCA)*. 
 
 In other words, if we have a multi-dimensional dataset, a solution is to perform *PCA* and to plot data points according to the first two principal components coordinates.
 
-The function `factoextra::fviz_cluster()` can be used to easily visulize $K$-means clusters. It takes $K$-means results and the original data as arguments. In the resulting plot, observations are represented by points, using orincipal components if the number of variables is greater than $2$. It is also possible to draw concentration ellipse around each cluster. 
+The function `factoextra::fviz_cluster()` can be used to easily visualize $K$-means clusters. It takes $K$-means results and the original data as arguments. In the resulting plot, observations are represented by points, using principal components if the number of variables is greater than $2$. It is also possible to draw concentration ellipse around each cluster. 
 
 ```{r}
 #| eval: false 
@@ -1360,18 +1536,18 @@ ggtheme = theme_minimal()
 ```
 
 :::{.callout-important}
-$K$-means clustering is very simple and fast algorithm. It can efficiently deal with very large data sets. 
+$K$-means clustering is a very simple and fast algorithm. It can efficiently deal with very large data sets. 
 :::
 
 
 :::{.callout-important}
 $K$-means has some weaknesses, including:
 
-- It assumes prior knowledge of the data and requires the analyst to choose the appropriate number of cluster ($k$) in advance. 
+- It assumes prior knowledge of the data and requires the analyst to choose the appropriate number of clusters ($k$) in advance. 
 
-*Solution*: Compute $K$-means for a range of $K$ values, for example by varying $k$ between $2$ and $10$. Then choose the best $k$ by comparing the clustering results obtained for different $k$ values.
+*Solution*: Compute $K$-means for a range of $K$ values, for example by varying $k$ between $2$ and $10$. Then choose the best $k$ by comparing the clustering results obtained for different $k$ values (@sec-choosing-k).
 
-- The final results obtained is sensitive to the initial random selection of cluster centers. *Why is this a problem?* Because, for every different run of the algorithm on the same data set, you may choose different set of initial centers. This may lead to different clustering results on different runs of the algorithm.
+- The final result is sensitive to the initial random selection of cluster centers. *Why is this a problem?* Because, for every different run of the algorithm on the same data set, you may choose different set of initial centers. This may lead to different clustering results on different runs of the algorithm.
 
 *Solution*: Compute $K$-means algorithm several times with different initial cluster centers. The run with the lowest total within-cluster sum of square is selected as the final clustering solution.
 
@@ -1381,123 +1557,86 @@ $K$-means has some weaknesses, including:
 
 :::
 
-#### Analysis of `iris` Dataset
+#### Analysis of the Penguins Dataset {#sec-kmeans-penguins}
 
-The classic `iris` dataset contains $150$ flower observations from three species (*setosa*, *versicolor*, *virginica*).  Each observation has four numeric features: `Sepal.Length`, `Sepal.Width`, `Petal.Length`, and `Petal.Width`
+We now apply $K$-means to the Palmer penguins (@sec-penguins-data): $333$ penguins of three species (*Adelie*, *Chinstrap*, *Gentoo*), each described by four numeric features: `bill_length_mm`, `bill_depth_mm`, `flipper_length_mm` and `body_mass_g`. We cluster the four measurements only, and keep `species` aside: it plays no part in the clustering, and is used only to *validate* the result in @sec-cluster-validation.
 
 ```{webr-r}
-#| label: iris-prepare
+#| label: penguins-prepare
 #| autorun: true
 #| message: false
 #| warning: false
 
-# Load dataset
-data("iris")
+library(palmerpenguins)
 
-# Select only numeric features for clustering
-iris_data <- iris[, 1:4]
+# complete cases and the four numeric features
+peng <- as.data.frame(na.omit(palmerpenguins::penguins))
+peng_vars <- c("bill_length_mm", "bill_depth_mm", "flipper_length_mm", "body_mass_g")
+peng_num  <- peng[, peng_vars]
+
+# the variables are on very different scales
+round(sapply(peng_num, sd), 1)
 ```
 
-Suppose that we do not know that there are three groups and the goal is to determine the optimal number of clusters using *Elbow method*
+**Why we must scale first**
+
+Body mass is measured in grams, with a standard deviation of about $805$, while bill depth has a standard deviation of about $2$ mm. Without scaling, the Euclidean distance is almost entirely body mass:
 
 ```{webr-r}
-#| label: iris-elbow
-#| autorun: true
-#| message: false
-#| warning: false
-#| out-width: "90%"
-
-library(ggplot2)
-
-# Compute WSS for k = 1:10
-
-wss <- sapply(1:10, function(k) {
-kmeans(iris_data, centers = k, nstart = 20)$tot.withinss
-})
-
-# Create Elbow plot
-
-elbow_df <- data.frame(k = 1:10, WSS = wss)
-
-ggplot(elbow_df, aes(k, WSS)) +
-geom_line(color = "steelblue", linewidth = 1.2) +
-geom_point(size = 3, color = "tomato") +
-scale_x_continuous(breaks = 1:10) +
-labs(title = "Elbow Method — Iris Dataset",
-x = "Number of clusters (k)",
-y = "Total Within-Cluster Sum of Squares (WSS)") +
-theme_minimal()
-```
-
-The plot represents the variance within the clusters. It decreases as $k$ increases, but it can be seen a bend (or *elbow*) at $k = 3$, matching the three known species.
-
-Another way to visualize the elbow method for choosing the optimal number of clusters is by using the function `factoextra::fviz_nbclust()`. We can also add a vertical dashed line to indicate the chosen value of $k$.
-
-```{webr-r}
-#| label: elbow-fviz 
-#| autorun:true 
-#| messages: false 
-#| warning: false 
-#| out-width: "80%"
-
-library(factoextra)
-
-fviz_nbclust(iris_data, kmeans, method = 'wss') + 
-  geom_vline(xintercept = 3, linetype = 2) +
-labs(
-title = "Elbow Method for Determining Optimal k",
-subtitle = "Dashed line indicates the chosen number of clusters (k = 4)"
-)
-```
-
-Now, we apply $k$-means algorithm with $k = 3$.
-
-```{webr-r}
-#| label: iris-kmeans
+#| label: penguins-raw-vs-scaled
 #| autorun: true
 #| message: false
 #| warning: false
 
-set.seed(42)
-km_iris <- kmeans(iris_data, centers = 3, nstart = 20)
+set.seed(123)
+km_raw <- kmeans(peng_num, centers = 3, nstart = 25)
+round(km_raw$centers, 1)
+table(species = peng$species, cluster = km_raw$cluster)
+```
+
+On the raw data, the clusters are essentially three body-mass classes — about $3.5$, $4.4$ and $5.4$ kg. The Gentoo penguins, the heaviest, are split between the two heavier classes, and Adelie and Chinstrap penguins are mixed in the other two. The algorithm has found weight classes, not groups of similar penguins, because the other three variables barely count in the distance. From now on we work with the standardized measurements.
+
+**Fitting $K$-means**
+
+$K$-means needs the number of clusters in advance. We use $K = 3$, the number of species. In a real application the number of groups is unknown: @sec-choosing-k shows how to estimate it from the data, and @sec-penguins-k applies those methods to the penguins.
+
+```{webr-r}
+#| label: penguins-kmeans
+#| autorun: true
+#| message: false
+#| warning: false
+
+peng_scaled <- scale(peng_num)
+
+set.seed(123)
+km_peng <- kmeans(peng_scaled, centers = 3, nstart = 25)
 
 # Print the results
-print(km_iris)
+print(km_peng)
 ```
 
+The clusters have $85$, $129$ and $119$ penguins. The cluster means are on the standardized scale: a value of $1.16$ for `flipper_length_mm` means $1.16$ standard deviations above the average flipper length. To describe the clusters in the original units, average the raw data by cluster:
+
 ```{webr-r}
-#| label: iris-kmeans
+#| label: penguins-kmeans-profiles
 #| autorun: true
 #| message: false
 #| warning: false
 
 # Add cluster assignments to the dataset
-iris_clustered <- cbind(iris, cluster = factor(km_iris$cluster))
+peng_clustered <- cbind(peng, cluster = factor(km_peng$cluster))
 
-# Show first few results
-head(iris_clustered)
+# Cluster profiles in the original units
+aggregate(peng_num, by = list(cluster = km_peng$cluster), mean)
 ```
 
-We compute cluster quality measures.
+The profiles can be read without looking at the species:
 
-```{webr-r}
-#| label: iris-measures
-#| autorun: true
-#| message: false
-#| warning: false
+- **cluster 3** ($119$ penguins): large birds — flippers of $217$ mm, body mass of $5.1$ kg — with shallow bills ($15.0$ mm);
+- **cluster 2** ($129$ penguins): small birds with short bills ($38.3$ mm);
+- **cluster 1** ($85$ penguins): small birds with long ($47.7$ mm) and deep ($18.7$ mm) bills.
 
-# Total, within, and between-cluster sums of squares
-
-TSS <- sum(scale(iris_data, scale = FALSE)^2)
-WSS <- km_iris$tot.withinss
-BSS <- TSS - WSS
-ratio <- BSS / TSS
-
-cat("TSS:", round(TSS, 2), "\n")
-cat("WSS:", round(WSS, 2), "\n")
-cat("BSS:", round(BSS, 2), "\n")
-cat("Explained variance (BSS/TSS):", round(ratio, 3), "\n")
-```
+Anyone who knows penguins will recognize the Gentoo, the Adelie and the Chinstrap. Whether the clusters really *are* the species is a question of external validation (@sec-external-validation).
 
 :::{.callout-note}
 
@@ -1505,7 +1644,7 @@ cat("Explained variance (BSS/TSS):", round(ratio, 3), "\n")
 
 *Discriminative features* are those that *best separate groups or clusters* in your data. They are the variables that most strongly differentiate one cluster (or class) from another.
 
-There are two most famous approach to find discriminative features:
+There are two common approaches to finding discriminative features:
 
 - Exploratory approach
   
@@ -1520,21 +1659,30 @@ There are two most famous approach to find discriminative features:
 #| out-width: "80%"
 
 library(GGally)
-ggpairs(iris, aes(color = Species))
+ggpairs(peng, columns = peng_vars, aes(color = species, alpha = 0.6))
 ```
 In this plot, you will notice that:
 
-- Setosa is perfectly separated in the `Petal.Length`–`Petal.Width` plane.
+- *Gentoo* penguins are separated from the other two species by flipper length, body mass and bill depth: they are large birds with long flippers and shallow bills.
 
-- Versicolor and Virginica overlap slightly but still show visible separation.
+- *Adelie* penguins are separated from the other two species by bill length: they have short bills.
 
-That is why we often choose `Petal.Length` and `Petal.Width` for visualization — they are the most discriminative pair of features.
+- No single variable separates all three species, but the `bill_length_mm`–`bill_depth_mm` plane does.
+
+That is why we choose `bill_length_mm` and `bill_depth_mm` for visualization: together, they are the most discriminative pair of features.
 
 **Statistical approach**
-We can quantify which features are most discriminative by computing, for each variable:
-- The between-group variance (BSS)
-- The within-group variance (WSS)
-and comparing their ratio.
+
+We can quantify which features are most discriminative by computing, for each variable separately:
+
+- the between-group variation (how far the species means are from the overall mean), and
+- the within-group variance (how spread out each species is around its own mean),
+
+and comparing them through their ratio:
+$$
+\text{Ratio}_j = \frac{\sum_{g} (\bar{x}_{gj} - \bar{x}_j)^2}{\frac{1}{G}\sum_{g} s^2_{gj}}
+$$
+where $\bar{x}_{gj}$ and $s^2_{gj}$ are the mean and variance of variable $j$ in species $g$, $\bar{x}_j$ is its overall mean, and $G = 3$ is the number of species.
 
 ```{webr-r}
 #| label: discriminative-measures
@@ -1545,43 +1693,30 @@ and comparing their ratio.
 # Compute ratio of between- to within-group variance for each feature
 library(dplyr)
 
-iris_var <- iris %>%
-  group_by(Species) %>%
-  summarise(across(where(is.numeric), mean))
+peng_means <- peng %>%
+  group_by(species) %>%
+  summarise(across(all_of(peng_vars), mean))
 
-# Between-class variance
-overall_means <- colMeans(iris[, 1:4])
-between_var <- colSums((as.matrix(iris_var[, -1]) - overall_means)^2)
+# Between-class variation: subtract the overall mean of each *column*
+# (sweep() is needed: `matrix - vector` recycles the vector down the
+#  columns, which would subtract the wrong means)
+overall_means <- colMeans(peng_num)
+between_var <- colSums(sweep(as.matrix(peng_means[, -1]), 2, overall_means)^2)
 
 # Within-class variance
-within_var <- sapply(iris[, 1:4], function(v) tapply(v, iris$Species, var))
+within_var <- sapply(peng_num, function(v) tapply(v, peng$species, var))
 within_var <- colMeans(within_var)
 
 # Ratio
 discriminative_ratio <- between_var / within_var
-discriminative_ratio
+round(sort(discriminative_ratio, decreasing = TRUE), 2)
 ```
-The higher this ratio, the better that feature separates the species.
+The higher this ratio, the better that feature separates the species on its own.
 
-In this results, `Petal.Width` is clearly the most discriminative feature.
-
-At first glance, it seems that `Sepal.Width` (124.96) should be more discriminative than `Petal.Length` (79.51) because its ratio is higher — but this needs context
-
-**What the ratio measures?** The ratio 
-BSS/WSS
-BSS/WSS for each feature is:
-$$
-\text{Ratio} = \frac{Between-Class Variance}{Within-Class Variance}
-$$
-This tells you, for that one variable alone, how distinct the species means are compared to the variability within each species.
-
-So, mathematically, if `Sepal.Width` has a higher ratio, it means that species differ more in `Sepal.Width` (on average) than they do within themselves. **But "discriminative" depends on combined separability**
-
-The tricky part is that `Sepal.Width` alone does not visually separate the species well, even if its numeric ratio looks high.
-Let us check the data visually:
+`flipper_length_mm` has the highest ratio ($9.0$), but the other three are not far behind (between $6.1$ and $6.8$). The ratio is a single number per variable, and it hides *which* species a variable separates. The density plots show the difference:
 
 ```{webr-r}
-#| label: sepal-length-plots
+#| label: penguins-density-plots
 #| autorun: true
 #| message: false
 #| warning: false
@@ -1589,24 +1724,24 @@ Let us check the data visually:
 
 library(ggplot2)
 
-# Compare Sepal.Width vs Petal.Length
-ggplot(iris, aes(Sepal.Width, fill = Species)) +
+# Compare flipper length and bill length
+ggplot(peng, aes(flipper_length_mm, fill = species)) +
   geom_density(alpha = 0.5) +
-  labs(title = "Distribution of Sepal.Width by Species") +
+  labs(title = "Distribution of flipper_length_mm by Species") +
   theme_minimal()
 
-ggplot(iris, aes(Petal.Length, fill = Species)) +
+ggplot(peng, aes(bill_length_mm, fill = species)) +
   geom_density(alpha = 0.5) +
-  labs(title = "Distribution of Petal.Length by Species") +
+  labs(title = "Distribution of bill_length_mm by Species") +
   theme_minimal()
 ```
 You see that:
-- For `Sepal.Width`, there is a lot of overlap between Versicolor and Virginica.
-The means differ, but not enough to separate groups clearly.
 
-- For `Petal.Length`, Setosa is completely separated, and Versicolor/Virginica overlap less.
+- For `flipper_length_mm`, *Gentoo* is well separated, but *Adelie* and *Chinstrap* overlap heavily.
 
-So even though `Sepal.Width`’s ratio is high, its overlap pattern means it is less useful for distinguishing all three species.
+- For `bill_length_mm`, *Adelie* is well separated, but *Chinstrap* and *Gentoo* overlap heavily.
+
+Each variable separates one species from the other two, which is why we need at least two of them to tell all three apart.
 
 :::{.callout-tip}
 The *BSS/WSS ratio* is a helpful indicator, but not the whole story.
@@ -1615,129 +1750,50 @@ Always complement numerical measures with *visual inspection*.
 
 :::
 
-Now, based on the most discriminative features, `Petal.Length` and `Petal.Width`, we visualize the clusters.
+Now, based on the most discriminative pair of features, `bill_length_mm` and `bill_depth_mm`, we visualize the clusters. The shape of each point shows the true species.
 
 ```{webr-r}
-#| label: iris-plots
+#| label: penguins-plots
 #| autorun: true
 #| message: false
 #| warning: false
 #| out-width: "80%"
-
-ggplot(iris_clustered, aes(Petal.Length, Petal.Width, color = cluster)) +
-geom_point(size = 3) +
-labs(title = "K-Means Clustering of Iris Data (k = 3)",
-subtitle = "Color shows cluster assignment") +
-theme_minimal()
-```
-
-
-Another way to visulize $K$-means clusters is using the function `fviz_cluster()` that used the PCA (the `iris_data` has 4 variables) with the following code 
-
-```{webr-r}
-#| label: fviz_clust_iris
-#| autorun: true
-#| warnings: false 
-#| message: false
-#| out-width: "80%"
-fviz_cluster(km_iris, data = iris_data,
-palette = c("#2E9FDF", "#00AFBB", "#E7B800"),
-ellipse.type = "euclid", # Concentration ellipse
-star.plot = FALSE, # Add segments from centroids to items
-repel = TRUE, # Avoid label overplotting (slow)
-ggtheme = theme_minimal()
-)
-```
-
-
-
-
-We can also evaluat  clustering with the Silhouette coefficient
-
-```{webr-r}
-#| label: silhouette-iris
-#| autorun: true
-#| message: false
-#| warning: false
-
-library(cluster)
-set.seed(42)
-
-# K-means result for k = 3 (from previous section)
-km_iris <- kmeans(iris[, 1:4], centers = 3, nstart = 20)
-
-# Compute silhouette width
-sil_iris <- silhouette(km_iris$cluster, dist(iris[, 1:4]))
-
-# Display summary statistics
-summary(sil_iris)
-```
-
-```{webr-r}
-#| label: silhouette-plot
-#| autorun: true
-#| fig-cap: "Silhouette plot for K-Means clustering (k = 3) on the Iris dataset"
-#| out-width: "80%"
-plot(sil_iris, border = NA, main = "Silhouette Plot — Iris Dataset (k = 3)")
-```
-The *average silhouette width *(displayed in the summary) gives an overall quality score.
-
-- Values > $0.5$ indicate clear, well-separated clusters.
-
-- Values around $0.25$–$0.5$ indicate overlapping clusters.
-
-- Values < $0.25$ indicate poor structure or misclassification.
-
-In the `iris` dataset, the average silhouette is typically around $0.55$–$0.60$,
-confirming that 
-$k=3$ is a reasonable choice.
-
-- *Setosa* usually has near-perfect silhouette values, while *Versicolor* and *Virginica* show some overlap — as expected.
-
-We can compute the average silhouette width for different numbers of clusters.
-
-```{webr-r}
-#| label: silhouette-elbow
-#| autorun: true
-#| message: false
-#| warning: false
-#| out-width: "80%"
-
-sil_widths <- sapply(2:10, function(k) {
-km <- kmeans(iris[, 1:4], centers = k, nstart = 20)
-ss <- silhouette(km$cluster, dist(iris[, 1:4]))
-mean(ss[, "sil_width"])
-})
-
-sil_df <- data.frame(k = 2:10, Silhouette = sil_widths)
 
 library(ggplot2)
-ggplot(sil_df, aes(k, Silhouette)) +
-geom_line(color = "steelblue", linewidth = 1.2) +
-geom_point(size = 3, color = "tomato") +
-scale_x_continuous(breaks = 2:10) +
-labs(title = "Average Silhouette Width by Number of Clusters",
-x = "Number of clusters (k)",
-y = "Average Silhouette Width") +
-theme_minimal()
+
+ggplot(peng_clustered, aes(bill_length_mm, bill_depth_mm,
+                           color = cluster, shape = species)) +
+  geom_point(size = 2.5, alpha = 0.8) +
+  labs(title = "K-Means Clustering of Penguins Data (k = 3)",
+       subtitle = "Color shows cluster assignment, shape shows species") +
+  theme_minimal()
+```
+
+Another way to visualize $K$-means clusters is the function `fviz_cluster()`, which plots the first two principal components (since `peng_scaled` has 4 variables):
+
+```{webr-r}
+#| label: fviz_clust_penguins
+#| autorun: true
+#| warning: false 
+#| message: false
+#| out-width: "80%"
 
 library(factoextra)
 
-fviz_nbclust(iris_data, kmeans, method = 'silhouette')
+fviz_cluster(km_peng, data = peng_scaled,
+             palette = c("#2E9FDF", "#00AFBB", "#E7B800"),
+             ellipse.type = "euclid", # Concentration ellipse
+             star.plot = FALSE,       # Add segments from centroids to items
+             geom = "point",
+             ggtheme = theme_minimal()
+)
 ```
 
-Based on the Silhouette plots, the highest average silhouette width occurs at $k = 2$. This means that, mathematically, dividing the data into two clusters gives the tightest and most well-separated grouping according to the Silhouette metric.
+This completes the $K$-means fit. Two questions remain: is $K = 3$ a good choice, and how good is the resulting partition? Both are answered in @sec-cluster-validation, where `km_peng` is validated side by side with the $K$-medoids solution of the next section.
 
-However, **the best numerical score does not always mean the most meaningful clustering**. 
-
-At $k =2$, the algorithm merges two of the real Iris species (versicolor and virginica) into a single cluster. The result has high compactness, but low interpretive accuracy.
-
-At $k = 3$, the average silhouette width is slightly lower, but the clusters correspond more closely to the true biological species. This result is more meaningful, even if slightly less compact.
-
-Thus, the *Silhouette Coefficient* and the *Elbow Method* together suggest that: 
-- $k=2$ yields the most compact clustering,
-- but $k=3$ represents the optimal trade-off between cluster compactness and real-world interpretability
-
+:::{.callout-note appearance="minimal"}
+**Packages and commands.** `stats::kmeans(x, centers = , nstart = , iter.max = )` fits the model (`algorithm = "Lloyd"` selects the textbook version); its result holds `$cluster`, `$centers`, `$totss`, `$withinss`, `$tot.withinss`, `$betweenss` and `$size`. `scale()` standardizes the variables, and `aggregate()` gives cluster profiles in the original units. **factoextra**'s `fviz_cluster()` draws the clusters on the first two principal components. The scatter and density plots are **ggplot2**, the pairs plot is **GGally**'s `ggpairs()`, and the per-species means use **dplyr**'s `group_by()` and `summarise()` together with `sweep()`.
+:::
 
 ::::: panel-tabset
 ## Exercise 1
@@ -1756,6 +1812,8 @@ Standardize all numeric features before applying $k$-Means using this R code:
 
 us_data <- scale(USArrests)
 ```
+Then use the methods of @sec-choosing-k to choose $k$:
+
 **Elbow Method**
 
 - Compute the total within-cluster sum of squares (WSS) for $k=1$ to $10$.
@@ -1768,11 +1826,11 @@ us_data <- scale(USArrests)
 
 - Compute the average silhouette width for $k=2$ to $10$.
   
-- Plot the results using the same approach as in the Iris example.
+- Plot the results using the same approach as in the penguins example of @sec-penguins-k.
   
 - Identify the $k$ that maximizes the silhouette width.
 
-## Exercise  2
+## Exercise 2
 This exercise demonstrates how $k$-Means clustering can be used beyond data analysis — for image compression.
 
 Each color in an image can be treated as a data point in RGB space, and clustering reduces the number of colors while preserving the main structure.
@@ -1786,7 +1844,7 @@ library(ggplot2)
 library(dplyr)
 
 
-# Read example image from R base (or provide your own file path)
+# Download an example image (or provide your own file path)
 url <- "https://upload.wikimedia.org/wikipedia/commons/3/3f/JPEG_example_flower.jpg"
 temp <- tempfile(fileext = ".jpg")
 download.file(url, temp, mode = "wb")
@@ -1809,21 +1867,24 @@ img_sample <- img_df %>% sample_n(5000)
 
 Apply $k$-means clustering to the RGB values of the image (`img_sample`) for $k = 2$ to $10$, using `nstart = 10`.  Then, use both the **Elbow Method** and the **Silhouette Coefficient** to decide which $k$ gives the best balance between cluster compactness and separation. Do both methods suggest the same number of clusters? 
 
-When you decide about the optimal $k$, with the following code, you can compare the original and compressed image. 
+When you have decided on the optimal $k$, the following code compares the original and the compressed image. The clustering is fitted on the sample, so every pixel of the full image must then be assigned to its nearest centroid.
 
 ```{r}
 #| eval: false 
 
 set.seed(123)
 
-
-k <- 'put the optimal value you found'
+k <- 4   # replace with the optimal value you found
 km_colors <- kmeans(img_sample, centers = k, nstart = 10)
+centers <- km_colors$centers
 
+# Assign every pixel of the full image to its nearest centroid
+pixels <- as.matrix(img_df)
+d2 <- sapply(seq_len(k), function(j) rowSums(sweep(pixels, 2, centers[j, ])^2))
+nearest <- max.col(-d2)
 
 # Replace each pixel with its cluster centroid color
-compressed_img <- km_colors$centers[km_colors$cluster, ]
-compressed_img <- array(compressed_img, dim = dim(img))
+compressed_img <- array(centers[nearest, ], dim = dim(img))
 
 par(mfrow = c(1, 2))
 plot(0, type = "n", xlim = c(0, 1), ylim = c(0, 1),
@@ -1847,29 +1908,26 @@ m_k = \arg\min_{\mathbf{x}_i \in C_k} \sum_{\mathbf{x}_j \in C_k} d(\mathbf{x}_i
 $$
 where $C_k$ is the set of points assigned to cluster $k$, and $d(\mathbf{x}_i,\mathbf{x}_j)$ is a chosen distance or dissimilarity measure (e.g., Euclidean, Manhattan, etc.)
 
-$K$-medoid is a robust alternative to $K$-means clustering. This means that, the algorithm of clusters to be generated (like in $K$-means clustering). A useful approach to determine the optimal number of clusters is the *silhouette* method. 
+$K$-medoids is a robust alternative to $K$-means clustering. Like $K$-means, it requires the user to specify the number of clusters to be generated. A useful approach to determine the optimal number of clusters is the *silhouette* method (@sec-choosing-k). 
 
-The most common $K$-medoids clustering methods is the PAM (Partitioning Around Medoids) algorithm [@kaufman1990]
+The most common $K$-medoids clustering method is the PAM (Partitioning Around Medoids) algorithm [@kaufman1990].
 
 #### PAM Algorithm
 
-The PAM algorithm is based on the search for $K$ representative objects or medoids among the observations of the data set. After finding a set of $K$ medoids, clusters are constructed by assigning each observation to the nearest medoid. Next, each selected medoid $m$ and each non-medoid data point are swapped and the objective function is computed. The objective function corresponds to the sum of the dissimilarities of all objects to their nearest medoid. The *SWAP* step attemps to improve the quality of the clustering by exchanging selected objects (medoids) and non-selected objects. If the objective function can be reduced by interchanging a selected object with an unselected object, then the swap is carried out. This is continued until the objective function can no longer be decreased. The goal is to find $k$ representative objects which minimize the sum of the dissimilarities of the observations to their closest representative object.
+The PAM algorithm is based on the search for $K$ representative objects or medoids among the observations of the data set. After finding a set of $K$ medoids, clusters are constructed by assigning each observation to the nearest medoid. Next, each selected medoid $m$ and each non-medoid data point are swapped and the objective function is computed. The objective function corresponds to the sum of the dissimilarities of all objects to their nearest medoid. The *SWAP* step attempts to improve the quality of the clustering by exchanging selected objects (medoids) and non-selected objects. If the objective function can be reduced by interchanging a selected object with an unselected object, then the swap is carried out. This is continued until the objective function can no longer be decreased. The goal is to find $k$ representative objects which minimize the sum of the dissimilarities of the observations to their closest representative object.
 
-In summary, PAM algorithm is:
+In summary, the PAM algorithm is:
 
-1. **Initialize:**
-Select $k$ representative objects (medoids) randomly from the dataset.
-2. Calculate the distance (dissimilarity) matrix if it was not provided.
-2. **Assign:**
-Assign each remaining point to the nearest medoid based on the chosen distance metric.
-3. **Update:**
-For each cluster, try swapping the medoid with another point from the same cluster and compute the total cost:
+1. Calculate the distance (dissimilarity) matrix if it was not provided.
+2. **Initialize (BUILD):** Select $k$ initial medoids. `cluster::pam()` chooses them greedily, one at a time, each time adding the object that lowers the cost most; a random choice also works.
+3. **Assign:** Assign each remaining point to the nearest medoid, which gives the total cost
 $$
 \text{Cost} = \sum_{i=1}^n \min_k d(\mathbf{x}_i, m_k)
 $$
-If a swap reduces the cost, keep it.
-4. **Iterate:** 
-Repeat assignment and update steps until the medoids no longer change.
+4. **SWAP:** For every pair (medoid $m$, non-medoid $o$), compute the cost obtained by replacing $m$ with $o$. If the best such swap reduces the cost, carry it out.
+5. **Iterate:** Repeat steps 3–4 until no swap reduces the cost.
+
+A simpler variant, often called the *alternating* $K$-medoids algorithm, restricts step 4 to candidates *inside each cluster*: each medoid is replaced by the cluster member with the smallest sum of distances to the other members, and then the points are reassigned. It is faster, but can stop at a worse solution than PAM. The hand-worked example below uses this variant because it is easy to follow on paper.
 
 :::{.callout-important}
 The $K$-medoids algorithm minimizes a **sum of dissimilarities**, not squared distances.
@@ -1877,15 +1935,18 @@ Thus, the cluster representative is always a real observation, which makes the m
 :::
 
 :::{.callout-note}
-The PAM algorithm works with a matrix of dissimilarity, and to compute this matrix the algorithm can use two metrics: 
-1. The euclidean distance
+The PAM algorithm works with a dissimilarity matrix. When it is given raw data, `pam()` computes this matrix with one of two metrics: 
+
+1. The Euclidean distance
 2. The Manhattan distance
 
-In practice, you should get similar results most of time, using either euclidean or Manhattan distance. If the dataset contains outliers, Manhattan distance should give more robust results, whereas euclidean would be influenced by unusual values.
+It can also take any precomputed dissimilarity, such as a Gower matrix from `daisy()`, which is how PAM handles mixed-type data.
+
+In practice, you should get similar results most of the time using either Euclidean or Manhattan distance. If the dataset contains outliers, Manhattan distance should give more robust results, whereas Euclidean distance would be influenced by unusual values.
 :::
 
 #### Example 
-Consider the following example
+Consider the following ten points:
 
 |   | X | Y |
 |:-:|:-:|:-:|
@@ -1895,7 +1956,7 @@ Consider the following example
 | 4 | 8 | 5 |
 | 5 | 2 | 5 |
 | 6 | 3 | 8 |
-| 7 | 8 | 8 |
+| 7 | 5 | 8 |
 | 8 | 4 | 4 |
 | 9 | 10 | 4 |
 | 10 | 9 | 6 |
@@ -1907,7 +1968,7 @@ Consider the following example
 
 library(tibble)
 
-# Dataset (same as your table)
+# Dataset (same as the table)
 
 points <- tibble::tibble(
 ID = 1:10,
@@ -1918,7 +1979,7 @@ Y = c(3, 4, 6, 5, 5, 8, 8, 4, 4, 6)
 points
 ```
 
-Assume $k = 2$ and use the specified points ($m_1 = (4,6)$) and $m_2 = (9,3)$
+Assume $k = 2$ and start from the medoids $m_1 = (4,6)$ (point 3) and $m_2 = (9,3)$ (point 1).
 
 ```{r}
 #| label: example_PAM_plot
@@ -1932,8 +1993,8 @@ library(ggplot2)
 
 # Define medoid points
 medoids <- data.frame(
-X = c(4, 6),
-Y = c(9, 3),
+X = c(4, 9),
+Y = c(6, 3),
 label = c("Medoid 1", "Medoid 2")
 )
 
@@ -1955,7 +2016,7 @@ theme_minimal() +
 theme(legend.position = "bottom")
 ```
 
-Let consider we use *Manhattan distance* because it is easy to compute and commonly used with $K$-medoids. 
+We use the *Manhattan distance* because it is easy to compute and commonly used with $K$-medoids. 
 
 **Step 1** -- **Assign each point to the nearest medoid**
 
@@ -1979,13 +2040,14 @@ Clusters after assignment is:
 
 The total cost (sum of within-cluster distances) is
 $$
-C_1 + C_2 = 9 + 11 = 20
+C_1 + C_2 = 11 + 10 = 21
 $$
 where: 
-- $C_1 = 0 + 3 + 3 + 3 + 2  = 11$
-- $C_2 = 0 + 2 + 2 + 2 + 3 = 9$ 
 
-** Step2** -- Update (try swaps)
+- $C_1 = 0 + 3 + 3 + 3 + 2 = 11$ (points 3, 5, 6, 7, 8)
+- $C_2 = 0 + 2 + 3 + 2 + 3 = 10$ (points 1, 2, 4, 9, 10)
+
+**Step 2** -- **Update (try swaps within each cluster)**
 
 We evaluate each point in a cluster as a potential medoid, computing the sum of Manhattan distances to all other points in that cluster.
 
@@ -2031,10 +2093,10 @@ After updating the medoids, the next step is to recompute the total cost (sum of
 
 The total cost (sum of within-cluster distances) is
 $$
-C_1 + C_2 = (0+1+3+3+3+2) + (2+0+1+2+3) = 19
+C_1 + C_2 = (0+3+3+3+2) + (2+0+1+2+3) = 11 + 8 = 19
 $$
 
-the following R code helps to do the computations. 
+The following R code does the same computations.
 ```{r}
 #| label: kmedoids-total-cost
 #| echo: true
@@ -2081,16 +2143,16 @@ list(
 )
 ```
 
-Since there is an improvement in the total cost, we continue with the new medoids: $(4,6)$ and $(8,4)$.
+Since the total cost improved from $21$ to $19$, we continue with the new medoids $(4,6)$ and $(8,4)$.
 
-**Exercise** Continue this process and find the best medoids.
+**Exercise** Repeat Step 2 with the new medoids. Do the clusters or medoids change? Check your answer with `pam(points[, c("X", "Y")], k = 2, metric = "manhattan")`: which medoids and total cost does the full PAM algorithm find?
 
 
 #### Implementation PAM in R 
 
-The function `cluster::pam()` and `fpc::pamk()` can be used compute PAM.
+The functions `cluster::pam()` and `fpc::pamk()` can be used to compute PAM.
 
-The function `pamk()` does not require a user to decide the number of clusters $K$. 
+The function `pamk()` does not require the user to decide the number of clusters $K$: it chooses it by the average silhouette width.
 
 The simplified format of `pam()` is
 ```{r}
@@ -2101,8 +2163,8 @@ where:
 
 - `x`: possible value includes: numeric data matrix or numeric data frame, or dissimilarity matrix -- in this case `x` is typically the output of `daisy()` or `dist()`.
 - `k`: the number of clusters
-- `metric`: the distance matrix to be used. Available options are `"euclidean"` and `"manhattan"`.
-- `stand`: logical value; if `TRUE`, the variables (columns) in `x` are standardized before calculating the dissilarities. Ignored when `x` is a dissimilarity matrix.
+- `metric`: the distance metric to be used. Available options are `"euclidean"` and `"manhattan"`.
+- `stand`: logical value; if `TRUE`, the variables (columns) in `x` are standardized before calculating the dissimilarities. Ignored when `x` is a dissimilarity matrix.
 
 Similar to $K$-means, the following `R` code computes PAM algorithm 
 ```{r}
@@ -2116,8 +2178,8 @@ print(pam.res)
 
 The printed output shows: 
 
-- the cluster medoids: a matrix, which rows are the medoids and columns are varibles
-- the clustering vector: a vector of integers (from $1$ to $k$) indicating the cluster to which point is allocated.
+- the cluster medoids: a matrix whose rows are the medoids and whose columns are variables
+- the clustering vector: a vector of integers (from $1$ to $k$) indicating the cluster to which each point is allocated.
 
 The function `pam()` returns an object of class *pam* which components include: 
 
@@ -2131,10 +2193,10 @@ These components can be accessed as
 pam.res$medoids
 
 # Cluster numbers
-pm.res$clustering
+pam.res$clustering
 ```
 
-To create a beautiful graph of the clusters generated with the `pam()` function, similar to $K$-means, the function `factoextra::fviz_cluster()` can be used as 
+To create a graph of the clusters generated with the `pam()` function, similar to $K$-means, the function `factoextra::fviz_cluster()` can be used as 
 
 ```{r}
 #| eval: false 
@@ -2146,105 +2208,138 @@ fviz_cluster(pam.res,
 )
 ```
 
-#### Estimating the optimal number of clusters
+#### Analysis of the Penguins Dataset {#sec-pam-penguins}
 
-To estimate the optimal number of clusters, we will use the average silhouette method. The idea is to compute PAM algorithm using different values of clusters $k$. Next, the average clusters silhouette is drawn according to the number of clusters. The average silhouette measures the quality of a clustering. A high average silhouette width indicates a good clustering. The optimal number of clusters $k$ is the one that maximize the average silhouette over a range of possible values for $k$ [@kaufman1990].
+We now run PAM on the same standardized penguin measurements (`peng_scaled`, from @sec-kmeans-penguins), again with $k = 3$, so that the two methods can be compared directly in @sec-cluster-validation.
 
-The R function `factoextra::fviz_nbclust()` provides a convenient solution to estimate the optimal number of clusters. 
-```{r}
-#| eval: false 
+Unlike $K$-means, PAM needs no random seed: its BUILD step chooses the initial medoids deterministically, so it gives the same result every time.
+
+```{webr-r}
+#| label: pam-penguins
+#| autorun: true
+#| message: false
+#| warning: false
+
 library(cluster)
-library(factoextra)
-fviz_nbclust(df, pam, method = "silhouette")+
-theme_classic()
+
+# Apply k-medoids clustering (PAM = Partitioning Around Medoids)
+pam_result <- pam(peng_scaled, k = 3, metric = "euclidean")
+
+# Objective after the BUILD and after the SWAP step
+pam_result$objective
+
+# Size, dissimilarities, diameter and separation of each cluster
+pam_result$clusinfo
 ```
 
-#### Example of PAM in R
-Here, we apply PAM algoritm to `iris` dataset and we expect to have similar results to $K$-means since there is no outlier in this dataset.
+The two outputs follow the PAM algorithm described above:
+
+- `objective` is the average distance between a penguin and its medoid. The BUILD step reaches $1.027$, and the SWAP step improves it to $0.992$, about $3.5\%$ better.
+- `clusinfo` describes each cluster. `max_diss` and `av_diss` are the largest and average distance to the medoid. `diameter` is the largest distance between two members of the cluster. `separation` is the smallest distance between a member and a point of another cluster. Clusters 1 and 2 are only $0.40$ apart, while cluster 3 is at least $1.45$ away from every other penguin: it is isolated.
+
+The medoids are real penguins, so they can be shown in the original units, next to the cluster profiles:
+
+```{webr-r}
+#| label: pam-medoids
+#| autorun: true
+#| message: false
+#| warning: false
+
+# The medoids are real penguins: show them in the original units
+peng[pam_result$id.med, c("species", peng_vars)]
+
+# Cluster profiles in the original units
+aggregate(peng_num, by = list(cluster = pam_result$clustering), mean)
+```
+
+The three medoids are an Adelie, a Chinstrap and a Gentoo, one representative per species. The profiles match those of $K$-means:
+
+- **cluster 1** ($146$ penguins): short bills ($38.7$ mm), Adelie-like;
+- **cluster 2** ($68$ penguins): long ($49.0$ mm) and deep ($18.6$ mm) bills, Chinstrap-like;
+- **cluster 3** ($119$ penguins): large birds with shallow bills, Gentoo-like. This profile is identical to that of $K$-means cluster 3: the two methods agree on exactly the same $119$ penguins.
 
 ```{webr-r}
 #| label: pam-basic
 #| autorun: true
 #| message: false
 #| warning: false
-#| fig-cap: "k-Medoids clustering using the PAM algorithm on the iris dataset."
+#| fig-cap: "k-Medoids clustering using the PAM algorithm on the penguins dataset."
 #| out-width: "80%"
 
-library(cluster)
 library(ggplot2)
 
-iris_data <- iris[, 1:4]
+peng_pam <- peng
+peng_pam$cluster <- as.factor(pam_result$clustering)
 
-# Apply k-medoids clustering (PAM = Partitioning Around Medoids)
-set.seed(123)
-pam_result <- pam(iris_data, k = 3, metric = "euclidean")
-
-iris_pam <- iris
-iris_pam$cluster <- as.factor(pam_result$clustering)
-
-# Visualize clusters (Petal.Length vs Petal.Width)
-ggplot(iris_pam, aes(Petal.Length, Petal.Width, color = cluster, shape = Species)) +
-  geom_point(size = 3, alpha = 0.7) +
-  geom_point(data = as.data.frame(pam_result$medoids), 
-             aes(Petal.Length, Petal.Width), 
+# Visualize clusters (bill length vs bill depth)
+ggplot(peng_pam, aes(bill_length_mm, bill_depth_mm, color = cluster, shape = species)) +
+  geom_point(size = 2.5, alpha = 0.7) +
+  geom_point(data = peng[pam_result$id.med, ], 
+             aes(bill_length_mm, bill_depth_mm), 
+             inherit.aes = FALSE,
              color = "black", size = 5, shape = 8) +
   labs(title = "k-Medoids Clustering (PAM)", 
        subtitle = "Medoids shown as black stars",
-       x = "Petal Length", y = "Petal Width") +
+       x = "Bill length (mm)", y = "Bill depth (mm)") +
   theme_minimal(base_size = 14)
 ```
 
-Similar to $K$-means, we can use the funtion `fviz_cluster()` with the following code:
+Similar to $K$-means, we can use the function `fviz_cluster()` with the following code:
 ```{webr-r}
-#|label: fviz_PCA
+#| label: fviz_PCA
 #| autorun: true
 #| message: false
 #| warning: false
 #| fig-cap: "k-Medoids clustering using the PAM algorithm via PCA."
 #| out-width: "80%"
 
-fviz_cluster(pam_result, data = iris_pm,
+library(factoextra)
+
+fviz_cluster(pam_result, data = peng_scaled,
              palette = c("#2E9FDF", "#00AFBB", "#E7B800"),
              ellipse.type = "euclid", # Concentration ellipse
-             star.plot = FALSE, # Add segments from centroids to items
-             repel = TRUE, # Avoid label overplotting (slow)
+             star.plot = FALSE,       # Add segments from centroids to items
+             geom = "point",
              ggtheme = theme_minimal()
 )       
 ```
-As you see, the black stars represent the *medoids* — actual data points from the dataset.
-
 Unlike $k$-means, the medoid is a real observation, not an artificial centroid.
 
+**Comparing the $K$-means and $K$-medoids partitions**
 
-**Visual Comparison: k-Means vs k-Medoids**
+Cross-tabulating the two partitions shows where they agree. This is not yet a validation, because neither partition is the "truth":
+
 ```{webr-r}
 #| label: kmeans-vs-pam
 #| autorun: true
 #| fig-cap: "Comparison between k-Means and k-Medoids clustering on the same dataset."
 #| out-width: "80%"
 
-set.seed(123)
-kmeans_result <- kmeans(iris_data, centers = 3, nstart = 20)
+# Where do the two partitions agree? (km_peng from the K-means section)
+table(kmeans = km_peng$cluster, pam = pam_result$clustering)
 
-iris_compare <- iris
-iris_compare$kmeans_cluster <- as.factor(kmeans_result$cluster)
-iris_compare$kmedoids_cluster <- as.factor(pam_result$clustering)
+peng_compare <- peng
+peng_compare$kmeans_cluster <- as.factor(km_peng$cluster)
+peng_compare$kmedoids_cluster <- as.factor(pam_result$clustering)
+
+# Centroids in the original units, for plotting
+centroids <- aggregate(peng_num, by = list(cluster = km_peng$cluster), mean)
 
 # Combine plots side by side
 library(patchwork)
 
-p1 <- ggplot(iris_compare, aes(Petal.Length, Petal.Width, color = kmeans_cluster)) +
-  geom_point(size = 3, alpha = 0.7) +
-  geom_point(data = as.data.frame(kmeans_result$centers),
-             aes(Petal.Length, Petal.Width),
+p1 <- ggplot(peng_compare, aes(bill_length_mm, bill_depth_mm, color = kmeans_cluster)) +
+  geom_point(size = 2.5, alpha = 0.7) +
+  geom_point(data = centroids,
+             aes(bill_length_mm, bill_depth_mm), inherit.aes = FALSE,
              color = "black", size = 5, shape = 8) +
   labs(title = "k-Means", subtitle = "Centroids (means) shown as black stars") +
   theme_minimal(base_size = 13)
 
-p2 <- ggplot(iris_compare, aes(Petal.Length, Petal.Width, color = kmedoids_cluster)) +
-  geom_point(size = 3, alpha = 0.7) +
-  geom_point(data = as.data.frame(pam_result$medoids),
-             aes(Petal.Length, Petal.Width),
+p2 <- ggplot(peng_compare, aes(bill_length_mm, bill_depth_mm, color = kmedoids_cluster)) +
+  geom_point(size = 2.5, alpha = 0.7) +
+  geom_point(data = peng[pam_result$id.med, ],
+             aes(bill_length_mm, bill_depth_mm), inherit.aes = FALSE,
              color = "black", size = 5, shape = 8) +
   labs(title = "k-Medoids (PAM)", subtitle = "Medoids (real points) shown as black stars") +
   theme_minimal(base_size = 13)
@@ -2252,541 +2347,457 @@ p2 <- ggplot(iris_compare, aes(Petal.Length, Petal.Width, color = kmedoids_clust
 p1 + p2
 ```
 
+The two methods agree on $316$ of the $333$ penguins: the same $119$ in the Gentoo-like cluster, and the same $129$ in the core of the Adelie-like cluster. They disagree on $17$ penguins, which $K$-means puts in its Chinstrap-like cluster and PAM in its Adelie-like cluster. As a result, the $K$-means Chinstrap-like cluster ($85$ penguins) is larger than PAM's ($68$). Which of the two partitions is better is the subject of @sec-cluster-validation.
+
 #### Exercise
 
-The dataset has a mix of numerical, ordinal, and categorical features:
-`Age`, `Sex`, `ChestPain`, `Thal`, `RestBP`, `Chol`, `MaxHR`, `AHD` (disease outcome), etc.
+The `heart` dataset from the package `kmed` (Cleveland heart disease data, $297$ patients) has a mix of numerical, binary and categorical features: `age`, `sex`, `cp` (chest pain type), `trestbps` (resting blood pressure), `chol`, `thalach` (maximum heart rate), `thal`, …, and `class` (disease outcome, from $0$ to $4$).
 
-Do the PAM algorithm for this dataset
+1. Remove `class`, and compute the Gower distance between patients with `daisy()`.
+2. Apply the PAM algorithm to this distance matrix, choosing $k$ with the average silhouette width.
+3. Cross-tabulate the clusters against `class`. Do the clusters separate healthy patients (`class == 0`) from the others?
 
 ```{webr-r}
 #| label: pam-heart-optimal
-#| fig-cap: "Finding optimal k and discriminative features in the Heart Disease dataset using PAM (Gower distance)."
 #| autorun: true
 #| message: false
 #| warning: false
-#| out-width: "80%"
 
 library(cluster)
-library(ggplot2)
-library(dplyr)
-library(factoextra)
-
 library(kmed)
 
 # Load dataset
 data("heart")
-
+str(heart)
 ```
 
-
-## Cluster Validation
-
-The cluster validation consists of measuring the goodness of clustering results. 
-
-Before applying any clustering algorithm to a dataset, the first thing to do is to assess the *clustering tendency*. That is, whether applying clustering is suitable for the data. If *yes*, then how many clusters are there. Next, you can perform clustering methods. Finally, you can use a number of measures to evaluate the goodness of the clustering results.
-
-### Assessing Clustering Tendency
-
-Before applying any clustering method on your data, it is important to evaluate whether the datasets contains meaningful (i.e. non-random structures) or not. If
-yes, then how many clusters are there. This process is defined as the assessing of
-clustering tendency or the feasibility of the clustering analysis.
-
-:::{.callout-important}
-A big issue, in cluster analysis, is that clustering methods will return clusters even if the data does not contain any clusters. In other words, if you blindly apply a clustering method on a data set, it will divide the data into clusters because that is what it supposed to do.
+:::{.callout-note appearance="minimal"}
+**Packages and commands.** **cluster**'s `pam(x, k = , metric = "euclidean" | "manhattan")` fits PAM, on raw data or on a dissimilarity matrix from `daisy()` or `dist()`; its result holds `$medoids`, `$id.med`, `$clustering`, `$objective` (after BUILD and SWAP), `$clusinfo` and `$silinfo`. **fpc**'s `pamk()` also chooses $k$. **factoextra** provides `fviz_cluster()`, and `table()` cross-tabulates two partitions. The hand-worked example uses **tibble** and **dplyr** (`rowwise`, `mutate`, `if_else`), and the side-by-side comparison with $k$-means uses **patchwork**'s `p1 + p2`. The exercise data come from **kmed**.
 :::
 
-#### Methods for assessing clustering tendency
-There are two methods for evaluating the clustering tendency:
+## Cluster Validation {#sec-cluster-validation}
 
-- a statistical method like *Hopkins statistic*
-- a visual method like *Visual Assessment of Cluster Tendency (VAT)* algorithm
+Cluster validation consists of measuring the goodness of clustering results. This is important to avoid finding patterns in random data, and to compare two clustering algorithms. A complete cluster analysis has three stages:
 
-##### Statistical methods
+1. assess the *clustering tendency*, i.e. whether clustering is suitable for the data at all (@sec-pre-clustering-tests);
+2. decide how many clusters there are;
+3. run the clustering method and evaluate the goodness of its result.
 
-The *Hopkins statistic* is used to assess the clustering tendency of a dataset by measuring the probability that a given dataset is generated by a uniform data distribution. In other words, it tests the spatial randomness of the data. 
+This section covers stages 2 and 3. Much of its structure follows @kassambara2017.
 
-Let $D$ be a real dataset. The *Hopkins statistic* can be calculated as follows:
+Based on @theodoridis2008pattern, @brock2008clvalid and @charrad2014nbclust, clustering validation statistics can be categorized into $3$ classes:
 
-1. Sample uniformly $n$ points ($p_1$, $\ldots$, $p_n$) from $D$.
-2. For each point $p_i \in D$, find its nearest neighbor $p_j$; then compute the distance between $p_i$ and $p_j$ and denote it as $x_i = \text{dist}(p_i, p_j)$
-3. Generate a simulated dataset ($\text{random}_{D}$) drawn from a random uniform distribution with $n$ points ($q_1$, $\ldots$, $q_n$) and the same variation as the original real dataset $D$.
-4. For each point $q_i \in \text{random}_D$, find its nearest neighbour $q_j$ in $D$; then compute the distance between $q_i$ and $q_j$ and denote it as $y_i = \text{dist}(q_i, q_j)$
-5. Calculate the *Hopkins statistic* (denoted by $H$) as the mean nearst neighbour distance in the random dataset divided by the sum of the mean nearst neighbour disrances in the real and across the simulated dataset.
+1. **Internal cluster validation**, which uses the internal information of the clustering process to evaluate the goodness of a clustering structure without reference to external information. It can also be used for estimating the number of clusters and the appropriate clustering algorithm without any external data.
+2. **External cluster validation**, which consists of comparing the results of a cluster analysis to an externally known result, such as externally provided class labels. It measures the extent to which cluster labels match externally supplied class labels. Since we know the “true” cluster number in advance, this approach is mainly used for selecting the right clustering algorithm for a specific data set.
+3. **Relative cluster validation**, which evaluates the clustering structure by varying different parameter values for the same algorithm (e.g., varying the number of clusters $k$). It is generally used for determining the optimal number of clusters.
 
-The formula is defind as follow:
-$$
-H = \frac{\sum_{i=1}^n y_i}{\sum_{i=1}^n x_i + \sum_{i=1}^n y_i}
-$$
+In this section, @sec-quality-measures defines the internal and external measures, @sec-choosing-k is relative validation, and @sec-choosing-algorithms compares algorithms with internal and stability measures. In the penguins analysis, @sec-penguins-k, @sec-internal-validation and @sec-external-validation apply relative, internal and external validation in turn.
 
-A value of $H$ about $0.5$ means that $\sum_{i=1}^n y_i$ and $\sum_{i=1}^n x_i$ are close to each other, and thus the data $D$ is uniformaly distributed. 
+The first part of the section defines the measures and the methods, with their strengths and limitations (@sec-quality-measures to @sec-validation-glance). @sec-penguins-validation then applies all of them to the penguins; the strengths-and-limitations boxes already quote some of its results as examples.
 
-The null and the alternative hypotheses are defined as follow:
+### Measures of Cluster Quality {#sec-quality-measures}
 
-- **null hypothesis**: the dataset $D$ is uniformly distributed (i.e. no meaninful clusters)
-- **alternative hypotheis**: the dataset $D$ is not uniformly distributed (i.e. contains meaningful clusters)
+Recall that the goal of partitioning algorithms is to split the dataset into clusters of observations, such that:
 
-> If the value of *Hopkins statistic* is close to zero, then we can reject the null hypothesis and conclude that the dataset $D$ is significantlt a clusterable data.
+- the observations in the same cluster are as similar as possible;
+- the observations in different clusters are highly distinct.
 
-:::{.callout}
-The `R` function `hopkins::hopkins()` can be used to statistically evaluate clustering tendency. The simplified format is
-```{r}
-#| eval: false
-hopkins(data, m)
-```
-where: 
+Thus, the average distance within clusters should be *as small as* possible, and the average distance between clusters should be *as large as* possible. Internal validation measures reflect the **compactness**, the **separation** and the **connectivity** of the partition:
 
-- `data`: a dataframe of matrix
-- `m`: the number of points to be selected from the data
-:::
+1. **Compactness** or **cluster cohesion** measures how close the objects within the same cluster are. A lower within-cluster variation indicates good compactness. The indices are based on distances such as the cluster-wise within average or median distances between observations.
+2. **Separation** measures how well-separated a cluster is from other clusters. The indices used as separation measures include:
+   - distances between cluster centers;
+   - the pairwise minimum distances between objects in different clusters.
+3. **Connectivity** measures to what extent items are placed in the same cluster as their nearest neighbors in the data space.
 
-**Example**:
-
-Consider a generated dataset to compare with the `iris` dataset.
-
-```{webr-r}
-#| label: example-of hopkins 
-#| autorun: true
-#| warnings: false
-#| messages: false 
-
-# the iris dataset 
-df_iris <- iris[, 1:4]
-
-# random data generated from the iris dataset
-df_random <- apply(df_iris, 2, function(x){
-  runif(length(x), min(x), max(x))
-})
-df_random <- as.data.frame(df_random)
-
-# standardize the dataset
-df_iris_scaled <- scale(df_iris)
-df_random_scaled <- scale(df_random)
-
-library(hopkins)
-
-# compute Hopkins statistic for iris dataset
-set.seed(123)
-cat("The iris dataset:", hopkins(df_iris_scaled, m = nrow(df_iris_scaled) - 1), "\n")
-
-# Compute Hopkins statistic for a random dataset
-set.seed(123)
-cat("The random dataset:", hopkins(df_random_scaled, m = nrow(df_random_scaled) - 1))
-```
-It can be seen that the `iris` dataset is highly clusterable (the $H$ value = $0.18$ which is far below the threshold $0.5$). However, the random dataset is not clusterable ($H = 0.5$).
-
-##### Visual methods
-
-The algorithm of the visual assessment of cluster tendency (VAT) approach [@Bezdek2002] is as follow:
-
-1. Compute the dissimilarity (DM) matrix between the observations in the dataset using the Euclidean distance meature
-2. Reorder the DM so that similar objects are close to one another. This process create an ordered dissimilarity (ODM)
-3. The ODM is displayed as an ordered dissimilarity image (ODI), which is the visual oFutput of VAT.
-
-:::{.callout}
-For the visual assessment of clustering tendency, first, the dissimilarity matrix between observations should be computed using the function `dist()`. Next, the function `factoextra::fviz_dist()` is used to display the dissimilarity matrix.
-:::
-
-**Example**: 
-Following the example provided in the statistical methods, we use those datasets, here.
-
-```{webr-r}
-#| label: plot-iris-data
-#| out-width: "80%"
-#| autorun: true
-fviz_dist(dist(df_iris_scaled), show_labels = FALSE) +
-  labs(title = "Iris data")
-```
-
-```{webr-r}
-#| label: plot_random-data
-#| out-width: "80%"
-#| warnings: false 
-#| autorun: true
-fviz_dist(dist(df_random_scaled), show_labels = FALSE) + 
-  labs(title = "Random data")
-```
-In these plots, red color shows high similarity (i.e., low dissimilarity) and blue colors means low similarity. 
-
-THe colour level is proportional to the value of the dissilarity between observations: pure red if $\text{dist}(x_i, x_j) = 0$ and pure blue if $\text{dist}(x_i,x_j) = 1$. Observations belonging to the same cluster are displayed in consecutive order. 
-
-The dissimilarity matrix image confirms that there is a cluster structure in the `iris` dataset but not un the random one. 
-
-The *VAT* algorithm detects the clustering tendency in a visual form by computing the number of square shaped dark blocks along the diagonal in a *VAT* image.
-
-### Determing the optimal number of clusters
-
-*Determing the optimal number of clusters in a dataset* is a fundamental issue in partitioning clustering, such as $k$-means clustering, which requires the user to specify the number of clusters $k$ to be generated. 
-
-Unfortunately, there is no definitive answer to this question. The optimal number of clusters is somehow subjective and depends on the method used for measuring similarities and the parameters used for partitioning. 
-
-The methods include direct methods and statistical testing methods: 
-
-- *Direct methods*: consists of optimizing a criterion, such as the within cluster sums of squares or the average silhouette. The corresponding methods are named *elbow* and *silhouette* methods, respectively. 
-- *Statistical testing methods*: consists of computing evidence against null hypothesis. An example is *gap statistic*
-
-In addition to *elbow*, *silhouette*, and *gap statistic* methods, there are more than $30$ other indices and methods that have been published for identifying the optimal number of clusters. There are some R codes for computing all these $30$ indices in order to decide the best number of clusters using the ``*majority rule*".
-
-#### Elbow method 
-
-Recall that, the basic idea behind partitioning methods, such as $K$-means clustering, is to define clusters such that the total intra-cluster variation [or total within-cluster sum of square (WSS)] is minimized. The total WSS measures the compactness of the clustering and we want it to be as small as possible.
-
-The Elbow method looks at the total WSS as a function of the number of clusters: One should choose a number of clusters so that adding another cluster does not improve much better the total WSS.
-
-The optimal number of clusters can be defined as follow:
-
-1. Compute clustering algorithm (e.g. $K$-means clustering) for different values of $k$. For example, by varying $k$ from $1$ to $10$ clusters.
-2. For each $k$, calculate the total within-cluster sum of square (WSS).
-3. Plot the curve of WSS according to the number of clusters $k$.
-4. The location of a bend (knee) in the plot is generally considered as an indicator of the appropraite number of clusters. 
-
-:::{.callout-tip}
-Note that the *elbow method* is sometimes ambiguous. An alternative is the average silhoutte method [@kaufman1990] which can be also used with any clustering approach.
-:::
-
-#### Average silhouette method
-
-The average silhoutte approach measures the quality of a clustering. That is, it determines how well each observation lies within its cluster. A high average silhouette width indicates a good clustering. 
-
-Average silhouette methods computes the average silhouette of observations for different values of $k$. The optimal number of clusters $k$ is one that maximize the average silhouette over a range of possible values for $k$ [@kaufman1990].
-
-The average silhouette method is similar to the *elbow* method and can be computed as follow:
-
-1. Compute clustering algorithm (e.g. $k$-means clustering) for different values of $k$. For instance, by varying from $1$ to $10$ clusters.
-2. For each $k$, calculate the average silhouette of observations (*avg.sil*)
-3. Plot the curve of *avg.sil* according to the number of clusters $k$.
-4. The location of the maximum is considered as the appropraite number of clusters. 
-
-#### Gap statistic method
-
-The *gap statistic* [@tibshirani2001gap] can be applied to any clustering method. 
-
-The *gap statistic* compares the total within intra-cluster variation for different values of $k$ with their expected values under null reference distribution of the data. The estimate of the optimal clusters will be value that maximize the gap statistic (i.e., that yields the largest gap statistic). This means that the clustering structure is far away from the random uniform distribution of points. 
-
-The algorithm works as follows:
-
-1. Cluster the observed data, varying the number of clusters ($k$) from $1$ to $k_{\max}$, and compute the corresponding total within intra-cluster variation $W_k$. 
-2. Generate $B$ reference datasets with a random uniform distribution. Cluster each of these reference dataset with varying number of clusters $k = 1, \ldots, k_{\max}$, and compute the corresponding total within intra-cluster variation $W_{kb}$. 
-3. Compute the estimated gap statistic as the deviation of the observed $W_k$ value from its expected value $W_{kb}$ under the null hypothesis: 
-$$
-\text{Gap}(k) = \frac{1}{B} \sum_{b=1}^{B} \log(W_{kb}^*) - \log(W_k)
-$$
-Compute also the standard deviation of the statistics. 
-4. Choose the number of clusters as the smallest value of $k$ such that the gap statistic is within one standard deviation of the gap at $k+1$: $\text{Gap}(k) \ge \text{Gap}(k+1) - s_{k+1}$.
-
-:::{.callout-note}
-Note that using $B = 500$ gives quite precise results so that the gap plot is basically unchanged after an another run.
-:::
-
-#### Computing the number of clusters using R 
-
-There are two functions for determing the optimal number of clusters:
-
-1. `factoextra::fviz_nbclust()` function: It can be used to compute the three differet methods for any partitioning clustering methods. 
-2. `NbClust::NbClust()` function [@charrad2014nbclust]: It provides $30$ indices for determining the relevant number of clusters and proposes to users the best clustering sheme from the different results obtained by varying all combinations of number of clusters, distance measures, and clustering methods. It can simultanously computes all the indices and determine the number of clusters in a single function call. 
-
-The simplified format is as:
-```{r}
-#| eval: false
-fvix_nbclust(x, FUNcluster, method = c('silhouette', 'wss', 'gap_stat'))
-```
-where:
-
-- `x`: numeric matrix or dataframe 
-- `FUNcluster`: a partitioning function. Allowed values include *kmeans*, *pam*, and others. 
-- `method`: the method to be used for determing the optimal number of clusters.
-
-The R code below determine the optimal number of clusters for $k$-means clustering:
-
-```{webr-r}
-#| label: plot1 
-#| autorun: true
-#| out-width: "80%"
-
-# Elbow method 
-fviz_nbclust(df_iris_scaled, kmeans, method = 'wss') + 
-  geom_vline(xintercept = 3, linetype = 2) + 
-  labs(subtitle = 'Elbow method')
-```
-
-```{webr-r}
-#| label: plot2 
-#| autorun: true
-#| out-width: "80%"
-
-# Silhouette method
-fviz_nbclust(df_iris_scaled, kmeans, method = 'silhouette') + 
-  labs(subtitle = 'Silhouette method')
-```
-
-```{webr-r}
-#| label: plot3 
-#| autorun: true
-#| out-width: "80%"
-
-# Gap statistic
-# nboot = 50 to keep the function speedy.
-# recommended value: nboot= 500 for your analysis.
-# Use verbose = FALSE to hide computing progression.
-fviz_nbclust(df_iris_scaled, kmeans, nstart = 25, method = 'gap_stat', nboot = 50) + 
-  labs(subtitle = 'Gap statistic method')
-```
-
-The results show that:
-
-- *Elbow method* suggested $4$ clusters
-- *Silhouette method* suggested $2$ clusters
-- *Gap statistic method* suggested $2$ clusters
-
-According to these observatios, it is possible to define $k = 2$ as the optimal number of clusters in the `iris` dataset although, we know that the dataset has three clusters but based on the plots of the data, choosing $k=2$ makes sense. 
-
-:::{.callout-note}
-The disadvantage of elbow and average silhouette methods is that, they measure a global clustering characteristic only. A more sophisticated method is to use the gap statistic which provides a statistical procedure to formalize the elbow/silhouette heuristic in order to estimate the optimal number of clusters.
-:::
-
-The simplified format of the function `NBClust()` is
-```{r}
-#| eval: false 
-NbClust(data = NULL, diss = NULL, distance = 'euclidean', min.nc = 2, max.nc = 15, method = NULL)
-```
-where: 
-- `data`: matrix
-- `diss`: dissimilarity matrix to be used. By default, `diss=NULL`, but if it is replaced by a dissimilarity matrix, distance should be `NULL`
-- `distance`: the distance measure to be used to compute the dissimilarity matrix. Possible values include `"euclidean"`, `"manhattan"` or `NULL`.
-- `min.nc` and `max.nc`: minimal and maximal number of clusters, respectively.
-- `method`: The cluster analysis method to be used including `"ward.D"`, `"ward.D2"`,
-`"single"`, `"complete"`, `"average"`, `"kmeans"`, and more.
-
-To compute `NbClust()` for $k$-means, use `method = "kmeans"`.
-
-Th R code below computes `NbClust()` for $k$-means: 
-```{webr-r}
-#| autorun: true
-#| out-width: "80%"
-#| warning: false
-#| messages: false 
-
-library("NbClust")
-
-nb <- NbClust(df_iris_scaled, distance = 'euclidean', min.nc = 2, max.nc = 10, method = 'kmeans')
-
-# The result of NbClust using the function fviz_nbclust() 
-
-library("factoextra")
-fviz_nbclust(nb)
-```
-Based on this output, the best number of clusters is $2$.
-
-### Cluster Validation Statistics
-
-The term *cluster validation* is used to design the procedure of evaluating the goodness of clustering algorithm results. This is important to avoid finding patterns in a random data, as well as, in the situation where you want to compare two clustering algorithms.
-
-Based on @theodoridis2008pattern, @brock2008clvalid, @charrad2014nbclust; clustering validation statistics can be categorized into $3$ classes:
-
-1. **Internal cluster validation**. which uses the internal information of the clustering process to evaluate the goodness of a clustering structure without reference to external information. It can be also used for estimating the number of clusters and the appropriate clustering algorithm without any external data.
-2. **External cluster validation**, which consists of comparing the results of a clutser analsis to an externally known result, such as externally provided class labels. It measures the extent to which cluster labels match externally supplied class labels. Since we know the “true” cluster number in advance, this approach
-is mainly used for selecting the right clustering algorithm for a specific data set.
-3. **Relative cluster validation**, which evaluates the clustering structure by varying different parameter values for the same algorithm (e.g.,: varying the number of clusters $k$). It is generally used for determining the optimal number of clusters.
-
-#### Internal measures for cluster validation
-
-Recall that the goal of partitioning algoritms is to split the dataset into clusters of observations, such that:
-
-- the observations in the same cluster are similar as much as possible 
-- the observation in the different clusters are highly distict
-
-Thus, the average distance within cluster should be *as samll as* possible, and the average distance between clusters should be *as large as* possible. 
-
-Internal validation measures reflect often the **compactness**, the **connectedness** and the **separation** of the cluster partitions.
-
-1. **Compactness** or **cluster cohesion**: Measures how close are the objects within the same cluster. A lower within-cluster variation is an indicator of a good compactness (i.e., a good clustering). The different indices for evaluating the compactness of clusters are base on distance measures such as the cluster-wise within average/median distances between observations.
-2. **Separation**: Measures how well-separated a cluster is from other clusters. The indices used as separation measures include:
-  - distances between cluster centers
-  - the pairwise minimum distances between objects in different clusters
-3. **Connectivity**: corresponds to what extent items are placed in the same cluster as their nearest neighbors in the data space. The connectivity has a value between $0$ and $\infty$ and should be minimized.
-
-Generally most of the indices used for internal clustering validation combine compactness and speration measures as follow: 
+Most indices used for internal validation combine compactness and separation, in the general form
 $$
 \text{Index} = \frac{\alpha \times \text{Separation}}{\beta \times \text{Compactness}}
 $$
 where $\alpha$ and $\beta$ are weights.
 
-There are two commonly used indices for assessing the goodness of clustering: 
+#### Sums of Squares: WSS, BSS and TSS
 
-- the *silhouette width**
-- the *Dunn index*
+The *Within-Cluster Sum of Squares* measures how tightly the data points in a cluster are grouped around their centroid. It is the quantity that $K$-means minimizes:
+$$
+\text{WSS} = \sum_{k=1}^{K} \sum_{\mathbf{x}_i \in C_k} \|\mathbf{x}_i - \boldsymbol{\mu}_k\|^2
+$$
+where $C_k$ is the set of points in cluster $k$, $\boldsymbol{\mu}_k$ is the centroid (mean) of cluster $k$, and $\|\cdot\|^2$ is the squared Euclidean distance between a point and its centroid. A smaller WSS means *more compact clusters*.
 
-These internal measure can be used also to determine the *optimal number of clusters* in the data. 
+The *Between-Cluster Sum of Squares* measures how far apart the cluster centroids are from the overall mean of the dataset:
+$$
+\text{BSS} = \sum_{k=1}^{K} n_k \| \boldsymbol{\mu}_k - \boldsymbol{\mu} \|^2
+$$
+where $n_k$ is the number of points in cluster $k$ and $\boldsymbol{\mu}$ is the global mean of all data points. A larger BSS means *better separation* between clusters.
 
-##### Silhouette coefficient
+The *Total Sum of Squares* represents the overall variation in the dataset:
+$$
+\text{TSS} = \sum_{i=1}^{n} \|\mathbf{x}_i - \boldsymbol{\mu}\|^2
+$$
+It does not depend on the clustering, and the decomposition
+$$
+\text{TSS} = \text{BSS} + \text{WSS}
+$$
+always holds. It expresses clustering performance as a proportion of explained variation, $\text{BSS}/\text{TSS}$: a higher ratio means that the clusters explain a greater proportion of the data's variation. Since TSS is fixed, minimizing WSS and maximizing BSS are the same goal.
 
-The silhouette analysis measures how well an observation is clustered and it estimates the *average distance between clusters*. The silhouette plot displays a measure of how close each point in one cluster is to points in the neighboring clusters.
+These sums can be computed for *any* partition, not only for one produced by $K$-means: replace each $\boldsymbol{\mu}_k$ by the mean of the points in cluster $k$.
 
-For each observation $\mathbf{x}_i$, the silhouette width $s_i$ is calculated as follows:
+:::{.callout-tip appearance="simple"}
+## Strengths and limitations of the sums of squares
 
-1. For each observation $\mathbf{x}_i$, calculate the average dissimilarity $a_i$ between $\mathbf{x}_i$ and all other points of the cluster to which $\mathbf{x}_i$ belongs.
-2. For all other clusters $C$, to which $\mathbf{x}_i$ does not belong, calculate the average dissimilarity $d(\mathbf{x}_i,C)$ of $\mathbf{x}_i$ to all observations of $C$. The smallest of these $d(\mathbf{x}_i,C)$ is defined as $b_i = \min_C d(\mathbf{x}_i,C)$ The value of $b_i$ can be seen as the dissimilarity between $\mathbf{x}_i$ and its “*neighbor*” cluster, i.e., the nearest one to which it does not belong.
-3. Finally the silhouette width of the observation $\mathbf{x}_i$ is defined by the formula:
+**Strengths**
+
+- Simple and fast to compute, and returned directly by `kmeans()`.
+- The decomposition TSS $=$ BSS $+$ WSS is exact, so BSS/TSS has a clear meaning: the proportion of variation explained by the clusters, like $R^2$ in regression.
+
+**Limitations**
+
+- WSS always decreases when $k$ increases, down to $0$ when every observation is its own cluster. WSS and BSS/TSS can therefore compare partitions with the *same* $k$, but not choose $k$ on their own.
+- They are based on squared Euclidean distances to the cluster means. They favor compact, roughly spherical clusters, are sensitive to outliers and to the scale of the variables, and have no natural meaning for other dissimilarities, such as Gower's.
+- They are biased towards $K$-means, which minimizes WSS by construction. A method that optimizes a different criterion, such as PAM, will look slightly worse even when its partition is better.
+:::
+
+#### Silhouette Coefficient
+
+The *silhouette* measures how well each observation fits its own cluster compared with the nearest other cluster [@rousseeuw1987; @kaufman1990]. It combines *cohesion* and *separation*, and works with any dissimilarity. For each observation $\mathbf{x}_i$:
+
+1. Calculate the average dissimilarity $a_i$ between $\mathbf{x}_i$ and all other points of the cluster to which $\mathbf{x}_i$ belongs.
+2. For every other cluster $C$, calculate the average dissimilarity $d(\mathbf{x}_i, C)$ of $\mathbf{x}_i$ to all observations of $C$. The smallest of these, $b_i = \min_C d(\mathbf{x}_i, C)$, is the dissimilarity between $\mathbf{x}_i$ and its *neighbor* cluster, i.e., the nearest one to which it does not belong.
+3. The silhouette width of $\mathbf{x}_i$ is
 $$
 S_i = \frac{b_i - a_i}{\max(a_i, b_i)}
 $$
 
+$S_i$ ranges from $-1$ to $1$:
 
-Silhouette width can be interpreted as follow:
+- $S_i$ close to $1$: the observation is well clustered, much closer to its own cluster than to the neighbor;
+- $S_i$ around $0$: the observation lies between two clusters;
+- $S_i$ negative: the observation is closer, on average, to the neighbor cluster; it is probably in the wrong cluster.
 
-- Observations with a large $S_i$ (almost $1$) are very well clustered.
-- A small $S_i$ (around $0$) means that the observation lies between two clusters.
-- Observations with a negative $S_i$ are probably placed in the wrong cluster.
+The *average silhouette width* over all observations summarizes the whole partition. @kaufman1990 propose the following reading:
 
-##### Dunn Index 
+| Average silhouette width | Interpretation |
+|:--|:--|
+| $0.71$–$1.00$ | a strong structure has been found |
+| $0.51$–$0.70$ | a reasonable structure has been found |
+| $0.26$–$0.50$ | the structure is weak and could be artificial |
+| $\leq 0.25$ | no substantial structure has been found |
 
-The *Dunn index* is another internal clustering validation measure which can be computed as follow:
+:::{.callout-tip appearance="simple"}
+## Strengths and limitations of the silhouette
 
-1. For each cluster, compute the distance between each of the observations in the cluster and the observations in the other clusters
-2. Use the minimum of this pairwise distance as the inter-cluster separation (*min.separation*)
-3. For each cluster, compute the distance between the observations in the same cluster. 
-4. Use the maximal intra-cluster distance (i.e. maximum diameter) as the intra-cluster compactness
-5. Calculate the *Dunn index* ($D$) as follow: 
+**Strengths**
+
+- It works at three levels: one width per observation (which flags points that are probably misclassified), an average per cluster, and an average for the whole partition.
+- It is bounded between $-1$ and $1$, with an established interpretation scale.
+- It works with any dissimilarity and any clustering method, and it can compare partitions with different numbers of clusters.
+
+**Limitations**
+
+- It needs all $n(n-1)/2$ pairwise distances, which becomes expensive for large data sets.
+- It favors compact, convex, well-separated clusters. Elongated or non-convex clusters, such as chains or rings, get low widths even when the partition is correct.
+- It is not defined for $k = 1$, so it cannot conclude that the data have no clusters at all.
+- It tends to prefer the coarsest clear-cut structure: for the penguins it picks $k = 2$, merging Adelie and Chinstrap.
+:::
+
+#### Dunn Index 
+
+The *Dunn index* [@dunn1974] compares the closest pair of points in different clusters with the widest cluster:
+
+1. For each pair of clusters, compute the distances between the observations of one and the observations of the other, and take the minimum. The smallest of these values over all pairs is the inter-cluster separation (*min.separation*).
+2. For each cluster, compute the distances between its observations, and take the maximum (the *diameter* of the cluster). The largest diameter is the intra-cluster compactness (*max.diameter*).
+3. The *Dunn index* is
 $$
-D = \frac{min.separation}{max.diameter}
+D = \frac{\text{min.separation}}{\text{max.diameter}}
 $$
 
 :::{.callout-important}
-If the dataset contains compact and well-separated clusters, the diameter of the clusters is expected to be small and the distance between the clusters is expected to be large. Thus, *Dunn index* should be maximized.
+If the dataset contains compact and well-separated clusters, the diameter of the clusters is expected to be small and the distance between the clusters is expected to be large. Thus, the *Dunn index* should be maximized. Because it uses only a minimum and a maximum, it is very sensitive to a single point lying between two clusters.
 :::
 
-#### External measures for clustering validation
-The aim is to compare the udentified clusters (e.g. by $k$-means, PAM, etc.) to an external reference. 
+:::{.callout-tip appearance="simple"}
+## Strengths and limitations of the Dunn index
 
-It is possible to quantify the agreement between partitioning clusters and external reference using either the corrected *Rand index* and *Meila's variation index VI*, which are implemented in R function `fpc::cluster.stats()`. 
+**Strengths**
 
-The corrected *Rand index* varies from $-1$ (no agreement) to $1$ (perfect agreement).
+- It is a single, intuitive ratio of separation to compactness, and works with any dissimilarity.
+- It is a *worst-case* measure: a high value guarantees that *every* pair of clusters is well separated relative to the widest cluster.
+
+**Limitations**
+
+- Because it depends on one minimum and one maximum, a single outlier or a single pair of close points from different clusters can change it completely. For the penguins, the Dunn index of $K$-means is less than half that of PAM because of one close pair across a boundary.
+- It has no reference scale: unlike the silhouette, there is no threshold for a "good" value, only comparisons between partitions of the same data.
+- It needs all pairwise distances, and the diameter penalizes large or elongated clusters even when they are well separated.
+:::
+
+#### Connectivity
+
+*Connectivity* [@brock2008clvalid] measures whether nearby points are clustered together. For each observation, look at its $L$ nearest neighbors (by default $L = 10$). Each neighbor that is in a *different* cluster adds a penalty, which is larger for closer neighbors ($1$ for the nearest, $1/2$ for the second, …, $1/L$ for the $L$-th). Connectivity is the sum of all penalties. It lies between $0$ and $\infty$ and should be minimized; a value of $0$ means that no observation has any of its $L$ nearest neighbors in another cluster.
+
+:::{.callout-tip appearance="simple"}
+## Strengths and limitations of connectivity
+
+**Strengths**
+
+- It measures *local* consistency: whether neighbors end up in the same cluster. It therefore still makes sense for elongated or non-convex clusters, where compactness measures fail.
+- It works with any dissimilarity.
+
+**Limitations**
+
+- The value depends on the neighborhood size $L$, which is an arbitrary choice.
+- It has no upper bound and no reference scale, so only comparisons between partitions are meaningful.
+- It is $0$ for $k = 1$ and tends to increase with $k$, so on its own it favors few clusters. It ignores compactness, and should be read together with a compactness or separation measure.
+:::
+
+#### External Measures: the Corrected Rand Index and VI
+
+External measures compare the identified clusters (e.g. by $K$-means, PAM, etc.) with an external reference partition, such as known class labels.
+
+- The *corrected (adjusted) Rand index* [@hubert1985] counts the pairs of observations on which the two partitions agree (both put the pair together, or both separate it), corrected for the agreement expected by chance. It equals $1$ for perfect agreement, and is close to $0$ (possibly slightly negative) when the agreement is no better than chance.
+- *Meilă's variation of information (VI)* [@meila2007] is a distance between partitions, based on information theory: $0$ for identical partitions, larger for more disagreement.
+
+External validation needs labels that are usually not available — if they were, we would use classification rather than clustering. It is mainly used to select a suitable clustering algorithm on data where the answer is known, as with the penguin species.
+
+:::{.callout-tip appearance="simple"}
+## Strengths and limitations of the corrected Rand index
+
+**Strengths**
+
+- It is corrected for chance: a random partition scores about $0$, whatever the number and sizes of the clusters.
+- It does not depend on how the clusters are numbered, and it can compare partitions with different numbers of clusters.
+- It is the most widely used external index, which makes results comparable across studies.
+
+**Limitations**
+
+- It needs a reference partition, which a real clustering problem rarely has.
+- It assumes that the reference is *the* right answer. Data can contain several valid structures — for the penguins, sex as well as species — and a clustering that finds a different one is penalized.
+- It is a single number: it says how much the partitions disagree, not where. Always look at the cross-tabulation as well.
+:::
+
+:::{.callout-tip appearance="simple"}
+## Strengths and limitations of VI
+
+**Strengths**
+
+- It is a true distance between partitions (it satisfies the triangle inequality), so values for different clusterings of the same data can be compared directly.
+- It does not depend on how the clusters are numbered.
+
+**Limitations**
+
+- It also needs a reference partition.
+- It is not normalized: its maximum grows with the number of observations and of clusters, so values from different data sets are not comparable.
+- Unlike the corrected Rand index, it is not corrected for chance.
+:::
 
 :::{.callout-note}
-External clustering validation can be used to select suitable clustering algorithm for a given dataset.
+**Summary**
+
+| Measure | Type | Description | Ideal Value |
+|:---------|:------|:-------------|:-------------|
+| **WSS** | internal | Compactness within clusters | Low |
+| **BSS** | internal | Separation between clusters | High |
+| **BSS / TSS** | internal | Proportion of explained variation | High |
+| **Silhouette** | internal | Cohesion and separation combined | Close to 1 |
+| **Dunn index** | internal | Smallest separation over largest diameter | High |
+| **Connectivity** | internal | Neighbors placed in other clusters | Low (0 is best) |
+| **Corrected Rand index** | external | Pairwise agreement with a reference, corrected for chance | Close to 1 |
+| **VI** | external | Information distance to a reference | Close to 0 |
 :::
 
+:::{.callout-note appearance="minimal"}
+**Packages and commands.** No code in this subsection. The measures are computed for the penguins in @sec-penguins-validation, with `kmeans()` itself (`$totss`, `$tot.withinss`, `$betweenss`), **cluster**'s `silhouette()`, **fpc**'s `cluster.stats()` (Dunn index, corrected Rand index, VI) and **clValid**'s `connectivity()` and `clValid()`.
+:::
 
-#### Implementation in R  
+### Determining the Optimal Number of Clusters {#sec-choosing-k}
 
-The main package for computing clustering validation statistics is `fpc`.
+*Determining the optimal number of clusters in a dataset* is a fundamental issue in partitioning clustering, such as $k$-means clustering, which requires the user to specify the number of clusters $k$ to be generated. 
+
+Unfortunately, there is no definitive answer to this question. The optimal number of clusters is somewhat subjective and depends on the method used for measuring similarities and the parameters used for partitioning. 
+
+The methods include direct methods and statistical testing methods: 
+
+- *Direct methods*: consist of optimizing a criterion, such as the within cluster sums of squares or the average silhouette. The corresponding methods are named *elbow* and *silhouette* methods, respectively. 
+- *Statistical testing methods*: consist of computing evidence against a null hypothesis of no clustering. An example is the *gap statistic*.
+
+In addition to *elbow*, *silhouette*, and *gap statistic* methods, many other indices have been published for identifying the optimal number of clusters. The `NbClust` package computes up to $30$ of them at once and proposes the best number of clusters by *majority rule*.
+
+#### Elbow method 
+
+Recall that the basic idea behind partitioning methods, such as $K$-means clustering, is to define clusters such that the total intra-cluster variation [or total within-cluster sum of squares (WSS)] is minimized. The total WSS measures the compactness of the clustering and we want it to be as small as possible.
+
+The Elbow method looks at the total WSS as a function of the number of clusters: one should choose a number of clusters so that adding another cluster does not improve the total WSS much.
+
+The optimal number of clusters can be defined as follows:
+
+1. Run the clustering algorithm (e.g. $K$-means clustering) for different values of $k$. For example, by varying $k$ from $1$ to $10$ clusters.
+2. For each $k$, calculate the total within-cluster sum of squares (WSS).
+3. Plot the curve of WSS according to the number of clusters $k$.
+4. The location of a bend (knee) in the plot is generally considered as an indicator of the appropriate number of clusters. 
 
 :::{.callout-tip}
-There is another function that does enhanced clustering is `factoextra::eclust()` which provides several advantages:
-
-- It simplifies the workflow of clustering analysis.
-- It can be used to cumpute different methods of clustering in a single line function call
-- Compared to the standard partitioning functions ($k$-means, PAM, ...) which requires the user to specify the optimal number of clusters, the function `eclust()` computes automatically the gap statistic for estimating the right number of clusters.
-- It provides silhouette information for all partitioning methods and hierarchical clustering
-- It draws beautiful graphs using `ggplot2` package
+Note that the *elbow method* is sometimes ambiguous. An alternative is the average silhouette method [@kaufman1990], which can also be used with any clustering approach.
 :::
 
-The simplified format of the `eclust()` function is:
+:::{.callout-tip appearance="simple"}
+## Strengths and limitations of the elbow method
+
+**Strengths**
+
+- Simple, cheap and visual: it only needs WSS for a range of $k$.
+- It shows the whole trade-off between the number of clusters and their compactness, not just one answer.
+
+**Limitations**
+
+- The elbow is a subjective judgment, and is often ambiguous: for the penguins, both $k = 2$ and $k = 3$ are defensible.
+- It inherits the limitations of WSS: squared Euclidean distances, a preference for spherical clusters, and a bias towards $K$-means.
+- It has no way to say that the data contain no clusters.
+- With $K$-means, a poor local minimum at one $k$ can create a spurious bend; use a large `nstart`.
+:::
+
+#### Average silhouette method
+
+The average silhouette approach measures the quality of a clustering. That is, it determines how well each observation lies within its cluster. A high average silhouette width indicates a good clustering. 
+
+The average silhouette method computes the average silhouette of observations for different values of $k$. The optimal number of clusters $k$ is the one that maximizes the average silhouette over a range of possible values for $k$ [@kaufman1990].
+
+The average silhouette method is similar to the *elbow* method and can be computed as follows:
+
+1. Run the clustering algorithm (e.g. $k$-means clustering) for different values of $k$. For instance, by varying $k$ from $2$ to $10$ clusters (the silhouette is not defined for $k = 1$).
+2. For each $k$, calculate the average silhouette of observations (*avg.sil*)
+3. Plot the curve of *avg.sil* according to the number of clusters $k$.
+4. The location of the maximum is considered as the appropriate number of clusters. 
+
+:::{.callout-tip appearance="simple"}
+## Strengths and limitations of the average silhouette method
+
+**Strengths**
+
+- It gives an objective rule (take the maximum) instead of a visual judgment.
+- It works with any clustering method and any dissimilarity.
+
+**Limitations**
+
+- It inherits the limitations of the silhouette: it cannot choose $k = 1$, it favors compact, convex, well-separated clusters, and it is expensive for large data sets.
+- It often prefers a small $k$ when one group is much more separated than the others: for the penguins, it chooses $k = 2$.
+- A flat curve, with several values of $k$ close to the maximum, means that the data do not determine $k$ clearly; the maximum alone hides this.
+:::
+
+#### Gap statistic method
+
+The *gap statistic* [@tibshirani2001gap] can be applied to any clustering method. 
+
+The elbow and average silhouette methods only measure a global characteristic of each partition, and leave the decision to a heuristic: a visual bend, or a maximum. The gap statistic formalizes this decision as a statistical procedure, by comparing the data with reference data that have no clusters.
+
+The *gap statistic* compares the total within-cluster variation for different values of $k$ with its expected value under a null reference distribution of the data (no clusters). A large gap means that the clustering structure is far away from a random uniform distribution of points. 
+
+The algorithm works as follows:
+
+1. Cluster the observed data, varying the number of clusters ($k$) from $1$ to $k_{\max}$, and compute the corresponding total within-cluster variation $W_k$. 
+2. Generate $B$ reference datasets with a random uniform distribution. Cluster each of these reference datasets with varying number of clusters $k = 1, \ldots, k_{\max}$, and compute the corresponding total within-cluster variation $W^*_{kb}$. 
+3. Compute the estimated gap statistic as the deviation of the observed $W_k$ value from its expected value under the null hypothesis: 
+$$
+\text{Gap}(k) = \frac{1}{B} \sum_{b=1}^{B} \log(W_{kb}^*) - \log(W_k)
+$$
+Compute also $\text{sd}_k$, the standard deviation of the $B$ values $\log(W^*_{kb})$, and the standard error $s_k = \text{sd}_k \sqrt{1 + 1/B}$, which also accounts for the simulation error of using only $B$ reference datasets. 
+4. Choose the number of clusters as the smallest value of $k$ such that the gap statistic is within one standard deviation of the gap at $k+1$: $\text{Gap}(k) \ge \text{Gap}(k+1) - s_{k+1}$.
+
+Step 4 is the rule recommended by @tibshirani2001gap. It usually gives a smaller $k$ than simply taking the $k$ with the largest gap, and it is the default in `factoextra::fviz_nbclust()` and `cluster::maxSE()` (`method = "firstSEmax"`).
+
+:::{.callout-note}
+Note that using $B = 500$ gives quite precise results, so that the gap plot is basically unchanged after another run.
+:::
+
+:::{.callout-tip appearance="simple"}
+## Strengths and limitations of the gap statistic
+
+**Strengths**
+
+- It is a formal comparison with a reference distribution without clusters, rather than a heuristic.
+- It can choose $k = 1$, i.e. conclude that the data have no cluster structure — which the elbow and silhouette methods cannot do.
+- The one-standard-error rule takes the simulation uncertainty into account.
+
+**Limitations**
+
+- It is computationally expensive: $B$ reference data sets, each clustered for every $k$.
+- It is random, so the result depends on the seed and on $B$.
+- The answer depends on the reference distribution. By default, `clusGap()` draws uniformly in a box aligned with the principal components of the data (`spaceH0 = "scaledPCA"`); `spaceH0 = "original"` uses the range of each variable instead, and can give a different $k$.
+- It is based on $\log(W_k)$, so it inherits the assumptions of WSS. It also picks up any finer structure in the data: for the penguins, it suggests $5$ clusters, reflecting sex within species.
+:::
+
+#### Computing the Number of Clusters in R
+
+There are two functions for determining the optimal number of clusters:
+
+1. `factoextra::fviz_nbclust()`: it computes the three methods above for any partitioning clustering method, including `kmeans` and `pam`. 
+2. `NbClust::NbClust()` [@charrad2014nbclust]: it provides up to $30$ indices for determining the relevant number of clusters. For a given distance measure and clustering method, it computes all the indices for each number of clusters in the chosen range, in a single function call, and proposes the number that most indices vote for. 
+
+The simplified format of `fviz_nbclust()` is:
 ```{r}
 #| eval: false
-eclust(x, FUNcluster = 'kmeans', hc_metric = 'euclidean', ...)
+fviz_nbclust(x, FUNcluster, method = c('silhouette', 'wss', 'gap_stat'))
 ```
 where:
 
-- `x`: numeric vector, data matrix, or data frame 
-- `FUNcluster`: a clustering function including `"kmeans"`, `"pam"`, `"clara"`, `"fanny"`, `"hclust"`, `"agnes"`, and `"diana"`
-- `hc_metric`: character string specifying the metric to be used for calculating dissimilarities between observations. Allowed values are those accepted by function `dist()`, including `"euclidean"`, `"manhattan"`, `"maximum"`, `"canberra"`, `"binary"`, `"minkowski"` and correlation-based distance measures including `"perason"`, `"spearman"`, or `"kendall"`. This parameter is used only when `FUNcluster` is a hierarchical clustering function such as one of `hclust`, `agnes`, or `diana`.
-- `...`: other arguments to be passed to `FUNcluster`.
+- `x`: numeric matrix or dataframe 
+- `FUNcluster`: a partitioning function. Allowed values include *kmeans*, *pam*, and others. 
+- `method`: the method to be used for determining the optimal number of clusters.
 
-The function `eclust()` returns an object of class *eclust* containing the result of the standard function used. It includes:
+:::{.callout-tip}
+Pass `nstart = 25` (or more) when `FUNcluster = kmeans`. With the default single start, $k$-means can stop in a poor local minimum for some $k$, which produces spurious bends in the elbow curve. PAM needs no such argument: it is deterministic.
+:::
 
-- *cluster*: the cluster assignment of observations after cutting the tree (in hirarical clustering)
-- *nbclust*: the number of clusters
-- *silinfo*: the silhouette information of observations
-- *size*: the size of clusters
-- *data*: a matrix containing the original or the standardized data (if `stand = TRUE`)
-- *gap\_stat*: containing gap statistic
-
-We countine our example with `iris` dataset as
-```{webr-r}
-#| label: example_eclust
-#| autorun: true 
-#| messages: false
-#| warnings: false 
-#| out-width: "80%"
-
-# k-means clustering on iris dataset
-km.res <- eclust(df_iris_scaled, FUNclust = 'kmeans', k = 3, nstart = 25, graph = FALSE)
-
-# Visualize k-means clusters
-fviz_cluster(km.res, geom = "point", ellipse.type = "norm",
-palette = "jco", ggtheme = theme_minimal())
-```
-
-#### Cluster validation
-
-##### Silhouette plot
-
-Recall that the silhouette coefficient ($S_i$) measures how similar an observation $\mathbf{x}_i$ is to the other observations in its own cluster versus those in the neighbor cluster. $S_i$ values range from $1$ to $-1$:
-
-- A value of $S_i$ close to $1$ indicates that the observation is well clustered. In the other words, the observation $\mathbf{x}_i$ is similar to the other observations in its group.
-- A value of $S_i$ close to $-1$ indicates that the observation is poorly clustered, and that assignment to some other cluster would probably improve the overall results. It is possible to draw silhouette coefficients of observations using the function `factoextra::fviz_silhouette()`, which will also print a summary of the silhouette analysis output. To avoid this, you can use the option `print.summary = FALSE`.
-```{webr-r}
-#| label: example_eclust-2
-#| autorun: true 
-#| messages: false
-#| warnings: false 
-#| out-width: "80%"
-
-fviz_silhouette(km.res, palette = "jco",
-ggtheme = theme_classic())
-```
-
-Silhouette information can be extracted as follow:
-
-```{webr-r}
-#| label: example_eclust-3
-#| autorun: true 
-#| messages: false
-#| warnings: false 
-#| out-width: "80%"
-
-# Silhouette information
-silinfo <- km.res$silinfo
-names(silinfo)
-# Silhouette widths of each observation
-head(silinfo$widths[, 1:3], 10)
-# Average silhouette width of each cluster
-silinfo$clus.avg.widths
-# The total average (mean of all individual silhouette widths)
-silinfo$avg.width
-# The size of each clusters
-km.res$size
-```
-
-It can be seen that several samples, in cluster 2, have a negative silhouette coefficient.
-This means that they are not in the right cluster. We can find the name of these
-samples and determine the clusters they are closer (neighbor cluster), as follow:
-
-```{webr-r}
-#| label: example_eclust-4
-#| autorun: true 
-#| messages: false
-#| warnings: false 
-#| out-width: "80%"
-
-# Silhouette width of observation
-sil <- km.res$silinfo$widths[, 1:3]
-# Objects with negative silhouette
-neg_sil_index <- which(sil[, 'sil_width'] < 0)
-sil[neg_sil_index, , drop = FALSE]
-```
-
-##### Computing Dunn index and other cluster validation statistics
-
-The function `fpc::cluster.stats()` and the function `NbClust::NbClust()` can be used to compute *Dunn index* and many other indices.
-
-The simplified format is
+The simplified format of the function `NbClust()` is
 ```{r}
 #| eval: false 
-cluster.stats(d = NULL, clustering, al.clustering = NULL)
+NbClust(data = NULL, diss = NULL, distance = 'euclidean', min.nc = 2, max.nc = 15, method = NULL)
 ```
 where: 
+
+- `data`: matrix
+- `diss`: dissimilarity matrix to be used. By default, `diss=NULL`, but if it is replaced by a dissimilarity matrix, distance should be `NULL`
+- `distance`: the distance measure to be used to compute the dissimilarity matrix: `"euclidean"`, `"maximum"`, `"manhattan"`, `"canberra"`, `"binary"`, `"minkowski"`, or `NULL` when `diss` is given.
+- `min.nc` and `max.nc`: minimal and maximal number of clusters, respectively.
+- `method`: The cluster analysis method to be used including `"ward.D"`, `"ward.D2"`,
+`"single"`, `"complete"`, `"average"`, `"kmeans"`, and more.
+
+`NbClust()` supports $k$-means (`method = "kmeans"`) and hierarchical methods, but not PAM.
+
+:::{.callout-tip appearance="simple"}
+## Strengths and limitations of NbClust
+
+**Strengths**
+
+- It computes up to $30$ indices in one call ($26$ with the default `index = "all"`), so the choice of $k$ does not rest on a single criterion.
+- The distribution of votes shows the competing solutions: for the penguins, $k = 2$, $3$ and $6$.
+
+**Limitations**
+
+- The majority rule treats all indices as independent and equally valid, but many of them are closely related, so the same information can be counted several times.
+- A narrow majority — for the penguins, $9$ votes against $6$ and $6$ — can look more decisive than it is.
+- It supports only $K$-means and hierarchical methods, not PAM.
+- It is slow for large data sets, and some indices (Hubert, D index) are graphical and need a visual judgment rather than a vote.
+:::
+
+:::{.callout-note appearance="minimal"}
+**Packages and commands.** **factoextra**'s `fviz_nbclust(x, FUNcluster = kmeans | pam, method = "wss" | "silhouette" | "gap_stat")` draws all three criteria; extra arguments such as `nstart` and `nboot` are passed through. The gap statistic itself is **cluster**'s `clusGap(x, FUNcluster, K.max = , B = )`, and `maxSE()` applies the one-standard-error rule. **NbClust**'s `NbClust(data, distance = , min.nc = , max.nc = , method = )` computes up to $30$ indices at once, and `fviz_nbclust(nb)` plots its majority vote.
+:::
+
+### Computing Validation Statistics in R {#sec-validation-in-r}
+
+The internal and external measures of @sec-quality-measures are available in a few functions:
+
+- the sums of squares are part of the `kmeans()` output (`$totss`, `$tot.withinss`, `$betweenss`); for any other partition they can be computed from the cluster means;
+- `cluster::silhouette(clusters, dist)` returns the silhouette width of every observation, with its cluster and neighbor cluster; for a `pam` object, `silhouette(pam_object)` (or `$silinfo`) gives the same. `factoextra::fviz_silhouette()` plots either one;
+- `clValid::connectivity(distance = , clusters = )` computes the connectivity;
+- `fpc::cluster.stats()` computes the Dunn index, the external indices and many other statistics.
+
+The simplified format of `cluster.stats()` is
+```{r}
+#| eval: false 
+cluster.stats(d = NULL, clustering, alt.clustering = NULL)
+```
+where: 
+
 - `d`: a distance object between cases as generated by the `dist()` function
 - `clustering`: vector containing the cluster number of each observation
 - `alt.clustering`: vector such as for clustering, indicating an alternative clustering
@@ -2798,103 +2809,30 @@ The function `cluster.stats()` returns a list containing many components useful 
 - *average.distance, median.distance*: vector containing the cluster-wise within average/median distances
 - *average.between*: average distance between clusters. We want it to be as large as possible
 - *average.within*: average distance within clusters. We want it to be as small as possible
-- *clus.avg.silwidths*: vector of cluster average silhouette widths. Recall that, the *silhouette width* is also an estimate of the average distance between clusters. Its value is comprised between $1$ and $-1$ with a value of $1$ indicating a very good cluster
+- *avg.silwidth*, *clus.avg.silwidths*: average silhouette width, overall and by cluster
 - *within.cluster.ss*: a generalization of the within clusters sum of squares ($k$-means objective function), which is obtained if $d$ is a Euclidean distance matrix
-- *dunn, dunn2*: Dunn index
-- *corrected.rand, vi*: Two indexes to assess the similarity of two clustering: the corrected Rand index and Meila’s VI
+- *separation*, *diameter*: for each cluster, the minimum distance to another cluster and the maximum distance within it
+- *dunn, dunn2*: Dunn index, and a variant based on average distances
+- *corrected.rand, vi*: Two indexes to assess the similarity of two clusterings: the corrected Rand index and Meila’s VI
 
-The clustering quality statistic for $k$-means can be computed. Look at the **within.cluster.ss** (within clusters sum of squares), the **average.within** (average distance within clusters) and **clus.avg.silwidths** (vector of cluster average silhouette widths).
-
-```{r}
-#| label: example_eclust-4
-#| autorun: true 
-#| messages: false
-#| warnings: false 
-#| out-width: "80%"
-library(fpc)
-
-df_iris <- iris[, 1:4]
-# standardize the dataset
-df_iris_scaled <- scale(df_iris)
-
-km.res <- eclust(df_iris_scaled, FUNclust = 'kmeans', k = 3, nstart = 25, graph = FALSE)
-
-# Statistics for k-means clustering
-km_stats <- cluster.stats(dist(df_iris_scaled), km.res$cluster)
-# Dun index
-km_stats$dunn
-```
-
-#### External clustering validation
-
-Among the values returned by the function `cluster.stats()`, there are two indexes to assess the similarity of two clustering, namely the corrected Rand index and Meila’s
-VI.
-
-We know that the `iris` data contains exactly $3$ groups of species. *Does the $k$-means clustering matches with the true structure of the data?* We can use the function `cluster.stats()` to answer to this question. 
-
-Let start by computing a cross-tabulation between $k$-means clusters and the reference Species labels:
-
-```{webr-r}
-#| autorun: true 
-#| messages: false
-#| warnings: false 
-table(iris$Species, km.res$cluster)
-```
-It can be seen that:
-- All setosa species ($n = 50$) has been classified in cluster 1.
-- A large number of versicolor species ($n = 39$) has been classified in cluster 3. Some of them ($n = 11$) have been classified in cluster 2.
-- A large number of virginica species ($n = 36$) has been classified in cluster 2. Some of them ($n = 14$) have been classified in cluster 3. It is possible to quantify the agreement between Species and $k$-means clusters
-
-It is possible to quantify the agreement between Species and $k$-means clusters using either the corrected Rand index and Meila’s VI provided as follow:
-```{r}
-#| autorun: true 
-#| messages: false
-#| warnings: false 
-library("fpc")
-
-df_iris <- iris[, 1:4]
-# standardize the dataset
-df_iris_scaled <- scale(df_iris)
-
-km.res <- eclust(df_iris_scaled, FUNclust = 'kmeans', k = 3, nstart = 25, graph = FALSE)
-
-# Compute cluster stats
-species <- as.numeric(iris$Species)
-clust_stats <- cluster.stats(d = dist(df_iris_scaled),
-species, km.res$cluster)
-# Corrected Rand index
-clust_stats$corrected.rand
-# VI
-clust_stats$vi
-```
-
-:::{.callout-important}
-The corrected Rand index provides a measure for assessing the similarity between two partitions, adjusted for chance. Its range is $-1$ (no agreement) to $1$ (perfect agreement).
+:::{.callout-tip}
+The function `factoextra::eclust()` wraps the whole workflow in one call: `eclust(x, FUNcluster = "kmeans" | "pam" | "hclust" | ..., k = )` runs the clustering, computes the gap statistic when `k` is not given, stores the silhouette information in `$silinfo`, and can draw the result. Its output can be passed directly to `fviz_cluster()` and `fviz_silhouette()`. Note that `eclust()` sets its own random seed (`seed = 123` by default), so its cluster numbers may differ from those of a separate `kmeans()` call.
 :::
 
-The same analysis can be computed for PAM clustering
-```{r}
-#| echo: true 
-#| messages: false
-#| warnings: false 
-library("fpc")
-# Agreement between species and pam clusters
-pam.res <- eclust(df_iris_scaled, "pam", k = 3, graph = FALSE)
-table(iris$Species, pam.res$cluster)
-cluster.stats(d = dist(df_iris_scaled),
-species, pam.res$cluster)$vi
-```
+:::{.callout-note appearance="minimal"}
+**Packages and commands.** **cluster**'s `silhouette()`, **factoextra**'s `fviz_silhouette()` and `eclust()`, **fpc**'s `cluster.stats(d, clustering, alt.clustering)`, and **clValid**'s `connectivity()`.
+:::
 
-### Choosing the Best Clustering Algorithms
+### Choosing the Best Clustering Algorithms {#sec-choosing-algorithms}
 
-Choosing the best clustering method for a given data can be a hard task for the analyst. This article describes the R package clValid [@brock2008clvalid], which can be used to compare simultaneously multiple clustering algorithms in a single function call for identifying the best clustering approach and the optimal number of clusters.
+Choosing the best clustering method for given data can be a hard task for the analyst. The R package `clValid` [@brock2008clvalid] can be used to compare simultaneously multiple clustering algorithms in a single function call for identifying the best clustering approach and the optimal number of clusters.
 
 #### Measures for comparing clustering algorithms
 
 The `clValid` package compares clustering algorithms using two cluster validation measures:
 
-1. *Internal measures*, which uses intrinsic information in the data to assess the quality of the clustering. Internal measures include the connectivity, the silhouette coefficient and the Dunn index.
-2. *Stability measures*, a special version of internal measures, which evaluates the consistency of a clustering result by comparing it with the clusters obtained after each column is removed, one at a time.
+1. *Internal measures*, which use intrinsic information in the data to assess the quality of the clustering. Internal measures include the connectivity, the silhouette coefficient and the Dunn index.
+2. *Stability measures*, a special version of internal measures, which evaluate the consistency of a clustering result by comparing it with the clusters obtained after each column is removed, one at a time.
 
 Cluster stability measures include:
 
@@ -2908,82 +2846,458 @@ The APN, AD, and ADM are all based on the cross-classification table of the orig
 - The APN measures the average proportion of observations not placed in the same cluster by clustering based on the full data and clustering based on the data with a single column removed.
 - The AD measures the average distance between observations placed in the same cluster under both cases (full data set and removal of one column).
 - The ADM measures the average distance between cluster centers for observations placed in the same cluster under both cases.
-- The FOM measures the average intra-cluster variance of the deleted column,
-where the clustering is based on the remaining (undeleted) columns.
+- The FOM measures the average intra-cluster variance of the deleted column, where the clustering is based on the remaining (undeleted) columns.
 
 :::{.callout-important}
-The values of APN, ADM and FOM ranges from $0$ to $1$, with smaller value corresponding with highly consistent clustering results. AD has a value between $0$ and $\infty$, and smaller values are also preferred.
+The APN lies between $0$ and $1$. The AD, ADM and FOM are distances, measured in the units of the data, and lie between $0$ and $\infty$. For all four, smaller values correspond to more consistent clustering results. Because AD, ADM and FOM depend on the units, compare them only between clusterings of the same (e.g. standardized) data.
+:::
+
+:::{.callout-tip appearance="simple"}
+## Strengths and limitations of the clValid stability measures
+
+**Strengths**
+
+- They measure something the other indices do not: how much the clustering depends on each individual variable.
+- `clValid()` compares several algorithms and several values of $k$ in one call, with the same measures for all.
+
+**Limitations**
+
+- They were designed for data with many columns that carry similar information, such as gene-expression samples. With few variables, removing one discards a large part of the information: with the four penguin measurements, each deletion removes a quarter of the data.
+- AD and FOM decrease almost automatically as $k$ grows, so they tend to favor the largest $k$ tried.
+- The computation is repeated once per column, for every method and every $k$.
+- `clValid()` refits each method with its own settings — for $K$-means, a single start from a hierarchical clustering — so its results can differ from the partition you actually use.
 :::
 
 :::{.callout-note}
-Note that, the `clValid` package provides also biological validation measures, which evaluates the ability of a clustering algorithm to produce biologically meaningful clusters. An application is microarray or RNAseq data where observations corresponds
-to genes.
+The `clValid` package also provides biological validation measures, which evaluate the ability of a clustering algorithm to produce biologically meaningful clusters. An application is microarray or RNA-seq data, where the observations correspond to genes.
 :::
 
 #### Compare clustering algorithms in R
 
-The simplified format of function `cvlValid::clVaild()` is:
+The simplified format of the function `clValid::clValid()` is:
 ```{r}
 #| eval: false 
-clVaild(obj, nClust, clMethods = 'kmeans', validation = 'stability', maxitems = 600, metric = "euclidean", method = "average")
+clValid(obj, nClust, clMethods = 'kmeans', validation = 'stability', maxitems = 600, metric = "euclidean", method = "average")
 ```
 where: 
 
-- `obj`: A numeric matrix or data frame. Rows are the items to be clustered and columns are samples.
+- `obj`: A numeric matrix or data frame. Rows are the items to be clustered and columns are the variables (called *samples* in the package documentation, which was written for gene-expression data).
 - `nClust`: A numeric vector specifying the numbers of clusters to be evaluated. e.g., 2:10
 - `clMethods`: The clustering method to be used. Available options are `"hierarchical"`, `"kmeans"`, `"diana"`, `"fanny"`, `"som"`, `"model"`, `"sota"`, `"pam"`, `"clara"`, and `"agnes"`, with multiple choices allowed.
 - `validation`: The type of validation measures to be used. Allowed values are `"internal"`, `"stability"`, and `"biological"`, with multiple choices allowed.
-- `maxitems`: The maximum number of items (rows in matrix) which can be
-clustered.
+- `maxitems`: The maximum number of items (rows in matrix) which can be clustered.
 - `metric`: The metric used to determine the distance matrix. Possible choices are `"euclidean"`, `"correlation"`, and `"manhattan"`.
 - `method`: For hierarchical clustering (hclust and agnes), the agglomeration method to be used. Available choices are `"ward"`, `"single"`, `"complete"` and `"average"`.
 
-For example, consider the `iris` dataset.  We start by cluster internal measures, which include the connectivity, silhouette width and Dunn index. It is possible to compute simultaneously these internal measures for multiple clustering algorithms in combination with a range of cluster numbers.
+:::{.callout-note appearance="minimal"}
+**Packages and commands.** **clValid**'s `clValid(obj, nClust = , clMethods = , validation = "internal" | "stability" | "biological")` fits every method for every $k$ and computes the corresponding measures; `summary()` prints them all and `optimalScores()` keeps only the best score of each measure, with the method and $k$ that achieve it.
+:::
 
-The `clValid()` function can be used for the `iris` as follows:
+### Validation Methods at a Glance {#sec-validation-glance}
+
+No single method settles the question. The table summarizes what each validation method of this section answers, with its main strength and its main limitation; in practice, combine several of them and look at the data.
+
+| Method | Question it answers | Main strength | Main limitation |
+|:--|:--|:--|:--|
+| WSS, BSS/TSS | How compact is a partition? | Simple, exact decomposition of variation | Always improves with $k$; favors $K$-means |
+| Silhouette | Does each point fit its cluster? | Per-point diagnostic with an interpretation scale | Favors convex clusters; undefined for $k = 1$ |
+| Dunn index | Is the worst separation large relative to the widest cluster? | Guarantees separation of *every* pair of clusters | Decided by a single pair of points |
+| Connectivity | Are neighbors clustered together? | Works for non-convex clusters | Depends on $L$; favors few clusters |
+| Corrected Rand index | Does the partition match a reference? | Corrected for chance | Needs labels; assumes a single right answer |
+| VI | How far is the partition from a reference? | A true distance between partitions | Needs labels; not normalized |
+| Elbow method | Where does adding clusters stop paying off? | Cheap and visual | Subjective; often ambiguous |
+| Average silhouette method | Which $k$ gives the best-fitting partition? | Objective rule, any method | Cannot choose $k = 1$; tends to favor small $k$ |
+| Gap statistic | Which $k$ differs most from no structure? | Can conclude "no clusters" | Expensive, random, depends on the reference |
+| NbClust | What do two dozen indices vote for? | Consensus over many criteria | Correlated indices; no PAM |
+| clValid stability | Does the result depend on single variables? | Measures robustness, not just fit | Unsuited to few variables; favors large $k$ |
+
+### Validation of the Penguins Clusterings {#sec-penguins-validation}
+
+We now apply all the methods of this section to the two penguin clusterings of @sec-kmeans-penguins and @sec-pam-penguins: the $K$-means solution `km_peng` and the PAM solution `pam_result`, both with $k = 3$ on the standardized measurements. The chunk below recreates both objects, so that this section can be run on its own.
+
 ```{webr-r}
+#| label: validation-setup
+#| autorun: true
+#| message: false
+#| warning: false
+
+library(cluster)
+
+peng <- as.data.frame(na.omit(palmerpenguins::penguins))
+peng_vars <- c("bill_length_mm", "bill_depth_mm", "flipper_length_mm", "body_mass_g")
+peng_num <- peng[, peng_vars]
+peng_scaled <- scale(peng_num)
+
+set.seed(123)
+km_peng <- kmeans(peng_scaled, centers = 3, nstart = 25)
+pam_result <- pam(peng_scaled, k = 3)
+
+# The distance matrix used by every diagnostic below
+d_peng <- dist(peng_scaled)
+```
+
+#### Choosing the Number of Clusters {#sec-penguins-k}
+
+We first ask how many clusters the data support. The R code below applies the three methods of @sec-choosing-k to the penguins, for $K$-means (left) and for PAM (right):
+
+```{webr-r}
+#| label: penguins-elbow
+#| autorun: true
+#| message: false
+#| warning: false
+#| out-width: "100%"
+#| fig-width: 10
+#| fig-height: 4.5
+
+library(factoextra)
+library(patchwork)
+
+# Elbow method 
+p_km  <- fviz_nbclust(peng_scaled, kmeans, nstart = 25, method = 'wss') + 
+  geom_vline(xintercept = 3, linetype = 2) + 
+  labs(title = "K-means", subtitle = 'Elbow method')
+p_pam <- fviz_nbclust(peng_scaled, pam, method = 'wss') + 
+  geom_vline(xintercept = 3, linetype = 2) + 
+  labs(title = "PAM", subtitle = 'Elbow method')
+p_km + p_pam
+```
+
+```{webr-r}
+#| label: penguins-silhouette
+#| autorun: true
+#| message: false
+#| warning: false
+#| out-width: "100%"
+#| fig-width: 10
+#| fig-height: 4.5
+
+# Silhouette method
+p_km  <- fviz_nbclust(peng_scaled, kmeans, nstart = 25, method = 'silhouette') + 
+  labs(title = "K-means", subtitle = 'Silhouette method')
+p_pam <- fviz_nbclust(peng_scaled, pam, method = 'silhouette') + 
+  labs(title = "PAM", subtitle = 'Silhouette method')
+p_km + p_pam
+```
+
+```{webr-r}
+#| label: penguins-gap
+#| autorun: true
+#| message: false
+#| warning: false
+#| out-width: "100%"
+#| fig-width: 10
+#| fig-height: 4.5
+
+# Gap statistic
+# nboot = 50 to keep the function speedy.
+# recommended value: nboot = 500 for your analysis.
+# Use verbose = FALSE to hide computing progression.
+set.seed(123)
+p_km  <- fviz_nbclust(peng_scaled, kmeans, nstart = 25, method = 'gap_stat',
+                      nboot = 50, verbose = FALSE) + 
+  labs(title = "K-means", subtitle = 'Gap statistic method')
+set.seed(123)
+p_pam <- fviz_nbclust(peng_scaled, pam, method = 'gap_stat',
+                      nboot = 50, verbose = FALSE) + 
+  labs(title = "PAM", subtitle = 'Gap statistic method')
+p_km + p_pam
+```
+
+The two algorithms tell the same story:
+
+| Method | $K$-means | PAM |
+|:--|:--|:--|
+| Elbow | $2$ or $3$: WSS falls by $777$, $181$ and then $77$ | $2$ or $3$: WSS falls by $777$, $180$ and then $64$ |
+| Silhouette | $2$ (average width $0.531$; $0.446$ at $k = 3$) | $2$ (average width $0.531$; $0.459$ at $k = 3$) |
+| Gap statistic | $5$ | $5$ |
+
+At $k = 2$ the two algorithms find exactly the same partition, hence the identical silhouette.
+
+The three methods disagree, and each answer has a reading:
+
+- $k = 2$ is the most clear-cut partition: *Gentoo* against the rest;
+- $k = 3$ corresponds to the three species;
+- the larger $k$ of the gap statistic reflects structure *within* species: in all three, males are larger than females.
+
+The last point is easy to check by clustering with $k = 6$ and cross-tabulating against species and sex together:
+
+```{webr-r}
+#| label: penguins-species-sex
+#| autorun: true
+#| message: false
+#| warning: false
+
+group <- interaction(peng$species, peng$sex)
+
+set.seed(123)
+km6 <- kmeans(peng_scaled, centers = 6, nstart = 25)
+table(group = group, kmeans = km6$cluster)
+
+pam6 <- pam(peng_scaled, k = 6)
+table(group = group, pam = pam6$clustering)
+```
+
+With both algorithms, most of the six clusters are dominated by a single species–sex group; the main exception is that some male Adelie penguins join the females of their species. The penguin data therefore have a *hierarchy* of structure — species, then sex within species — and the "optimal" $k$ depends on the level we are interested in. This is typical of real data. The methods give evidence; the choice of $k$ also depends on the purpose of the analysis.
+
+`NbClust()` then collects the votes of its indices for $K$-means:
+```{webr-r}
+#| label: nbclust-kmeans
+#| autorun: true
+#| out-width: "80%"
+#| warning: false
+#| message: false 
+
+library("NbClust")
+
+nb <- NbClust(peng_scaled, distance = 'euclidean', min.nc = 2, max.nc = 10, method = 'kmeans')
+
+# The result of NbClust using the function fviz_nbclust() 
+fviz_nbclust(nb)
+```
+With the default `index = "all"`, NbClust computes $26$ indices. Two of them (Hubert and D index) are graphical and do not vote, so $24$ indices vote. The best number of clusters is $2$ ($9$ votes), but the vote is split: $6$ indices propose $k = 3$ and another $6$ propose $k = 6$ — the species and the species–sex levels seen above — and the remaining $3$ votes go to $4$, $5$ and $10$.
+
+Since our purpose is to recover groups of penguins that differ in their measurements as the species do, we keep $k = 3$ for the rest of the section.
+
+#### Internal Validation {#sec-internal-validation}
+
+We now evaluate the two $k = 3$ solutions with the internal measures of @sec-quality-measures. None of them uses the species.
+
+##### Sums of Squares
+
+`kmeans()` returns the sums of squares directly. For PAM, we compute WSS from its partition, using the cluster *means* (not the medoids) so that the two numbers are comparable:
+
+```{webr-r}
+#| label: internal-ss
+#| autorun: true
+#| message: false
+#| warning: false
+
+# WSS of any partition, around the cluster means
+wss_of <- function(cl) sum(sapply(split(as.data.frame(peng_scaled), cl),
+                                  function(g) sum(scale(g, scale = FALSE)^2)))
+
+TSS <- km_peng$totss            # does not depend on the clustering
+WSS <- c(kmeans = km_peng$tot.withinss, pam = wss_of(pam_result$clustering))
+BSS <- TSS - WSS
+
+round(rbind(WSS = WSS, BSS = BSS, `BSS/TSS` = BSS / TSS), 3)
+```
+
+On standardized data, TSS $= (n - 1)\,p = 332 \times 4 = 1328$. The $K$-means partition has a slightly lower WSS ($369.7$ against $371.5$) and therefore a slightly higher BSS/TSS ($0.722$ against $0.720$). This is expected: WSS is exactly what $K$-means minimizes, while PAM minimizes the sum of (unsquared) distances to the medoids. Both partitions explain $72\%$ of the total variation.
+
+##### Silhouette
+
+For $K$-means, `cluster::silhouette()` computes the widths from the cluster vector and the distance matrix; a `pam` object already contains them in `$silinfo`. `factoextra::fviz_silhouette()` draws either one:
+
+```{webr-r}
+#| label: internal-silhouette
+#| autorun: true
+#| message: false
+#| warning: false
+#| out-width: "100%"
+#| fig-width: 10
+#| fig-height: 4.5
+
+library(factoextra)
+library(patchwork)
+
+sil_km  <- silhouette(km_peng$cluster, d_peng)
+sil_pam <- silhouette(pam_result)            # same as pam_result$silinfo
+
+# Average silhouette width of each cluster, and overall
+summary(sil_km)$clus.avg.widths
+summary(sil_km)$avg.width
+summary(sil_pam)$clus.avg.widths
+summary(sil_pam)$avg.width
+
+g1 <- fviz_silhouette(sil_km, print.summary = FALSE) + labs(title = "K-means")
+g2 <- fviz_silhouette(sil_pam, print.summary = FALSE) + labs(title = "PAM")
+g1 + g2
+```
+
+The average silhouette is $0.446$ for $K$-means and $0.459$ for PAM. In both, the Gentoo-like cluster is the best defined ($0.567$), while the two clusters that share the Adelie and Chinstrap penguins are lower: $0.428$ and $0.305$ for $K$-means, $0.401$ and $0.397$ for PAM. In the terms of @kaufman1990, both partitions have a *weak* structure overall ($0.26$–$0.50$), because the Adelie–Chinstrap boundary is not sharp. The Gentoo cluster alone reaches the *reasonable* band.
+
+Observations with a negative silhouette are probably in the wrong cluster. We can list them, together with the neighbor cluster they are closer to:
+
+```{webr-r}
+#| label: internal-negative-silhouette
+#| autorun: true
+#| message: false
+#| warning: false
+
+# Penguins with a negative silhouette width: row number in `peng`,
+# cluster, neighbor cluster and width, plus their species
+negative_sil <- function(sil) {
+  # silhouette(pam_object) is sorted by cluster; its row names keep the row numbers
+  id  <- if (is.null(rownames(sil))) seq_len(nrow(sil)) else as.integer(rownames(sil))
+  neg <- sil[, "sil_width"] < 0
+  data.frame(row = id[neg], sil[neg, , drop = FALSE],
+             species = peng$species[id[neg]])
+}
+
+negative_sil(sil_km)
+negative_sil(sil_pam)
+```
+
+$K$-means has $4$ such penguins (rows $74$, $86$, $146$ and $272$ of `peng`), all in its Chinstrap-like cluster 1 and closer to cluster 2; PAM has only $1$ (row $104$). All five widths are close to $0$ (the most negative is $-0.06$): these penguins lie on the Adelie–Chinstrap boundary rather than deep inside the wrong cluster.
+
+The `species` column shows that a negative silhouette flags a *boundary* point, not necessarily a mistake. Three of the four $K$-means penguins are Adelie penguins in the Chinstrap-like cluster, but the fourth is a Chinstrap in the Chinstrap-like cluster. The PAM penguin is an Adelie in the Adelie-like cluster: correctly placed with respect to its species, but closer on average to the other cluster.
+
+##### Dunn Index, Connectivity and Other Statistics
+
+We compute the statistics of @sec-validation-in-r for both partitions, add the connectivity from **clValid**, and collect the main ones in a table:
+
+```{webr-r}
+#| label: internal-stats
+#| autorun: true
+#| message: false
+#| warning: false
+
+library(fpc)
+library(clValid)
+
+stats_km  <- cluster.stats(d_peng, km_peng$cluster)
+stats_pam <- cluster.stats(d_peng, pam_result$clustering)
+
+summarise_stats <- function(st, cl) c(
+  within.ss      = st$within.cluster.ss,
+  average.within = st$average.within,
+  average.between = st$average.between,
+  avg.silwidth   = st$avg.silwidth,
+  min.separation = min(st$separation),
+  max.diameter   = max(st$diameter),
+  dunn           = st$dunn,
+  dunn2          = st$dunn2,
+  connectivity   = connectivity(distance = d_peng, clusters = cl)
+)
+
+round(cbind(kmeans = summarise_stats(stats_km, km_peng$cluster),
+            pam    = summarise_stats(stats_pam, pam_result$clustering)), 3)
+```
+
+- Both partitions have the same largest diameter ($4.65$), because they share the same Gentoo-like cluster.
+- The Dunn index of PAM ($0.086$) is more than twice that of $K$-means ($0.037$). The difference comes entirely from the minimum separation: $0.40$ for PAM against $0.17$ for $K$-means, which places two very similar penguins on opposite sides of its Adelie–Chinstrap boundary. The variant `dunn2`, based on average distances, points the same way ($1.71$ against $1.53$).
+- The connectivity is also lower for PAM ($21.0$ against $34.2$): fewer penguins have close neighbors in another cluster.
+
+On these internal measures, PAM gives the better partition. The only exception is WSS, the quantity $K$-means is designed to minimize.
+
+#### External Validation Against the Species {#sec-external-validation}
+
+We know that the penguins belong to exactly $3$ species. *Do the $K$-means and PAM clusterings match this true structure?* Let us start by cross-tabulating each partition against the species:
+
+```{webr-r}
+#| label: penguins-crosstab
 #| autorun: true 
-#| messages: false
+#| message: false
+#| warning: false 
+table(species = peng$species, kmeans = km_peng$cluster)
+table(species = peng$species, pam = pam_result$clustering)
+```
+
+It can be seen that:
+
+- Both methods put all $119$ *Gentoo* penguins in one cluster, and nobody else in it.
+- $K$-means places $124$ *Adelie* penguins in its Adelie-like cluster 2 and $22$ in its Chinstrap-like cluster 1; $63$ *Chinstrap* penguins are in cluster 1 and $5$ in cluster 2. In total, $27$ penguins are in the "wrong" cluster.
+- PAM misplaces only $10$ penguins: $5$ Adelie in its Chinstrap-like cluster 2 and $5$ Chinstrap in its Adelie-like cluster 1.
+
+The corrected Rand index and Meila's VI quantify the agreement. Both are returned by `cluster.stats()` when the species are given as `alt.clustering`:
+
+```{webr-r}
+#| label: external-indices
+#| autorun: true 
+#| message: false
+#| warning: false 
+library(fpc)
+
+species <- as.numeric(peng$species)
+
+ext_km  <- cluster.stats(d = d_peng, species, km_peng$cluster)
+ext_pam <- cluster.stats(d = d_peng, species, pam_result$clustering)
+
+round(rbind(corrected.rand = c(kmeans = ext_km$corrected.rand, pam = ext_pam$corrected.rand),
+            vi             = c(kmeans = ext_km$vi,             pam = ext_pam$vi)), 3)
+```
+
+The corrected Rand index is $0.80$ for $K$-means and $0.92$ for PAM, and VI is $0.45$ against $0.24$. Both methods agree strongly with the species, and PAM clearly more so, as the internal measures suggested.
+
+#### Comparing Algorithms with clValid
+
+Finally, we let `clValid()` (@sec-choosing-algorithms) compare $K$-means and PAM for $k = 2, \ldots, 6$. We start with the internal measures, which include the connectivity, silhouette width and Dunn index. It is possible to compute simultaneously these internal measures for multiple clustering algorithms in combination with a range of cluster numbers.
+
+The `clValid()` function can be used for the penguins data as follows:
+```{webr-r}
+#| label: clvalid-internal
+#| autorun: true 
+#| message: false
 #| warning: false 
 
 library(clValid)
 # Compute clValid
 clmethods <- c("kmeans","pam")
-intern <- clValid(df_iris_scaled, nClust = 2:6, clMethods = clmethods, validation = "internal")
+intern <- clValid(peng_scaled, nClust = 2:6, clMethods = clmethods, validation = "internal")
 # Summary
 summary(intern)
 ```
 
-All the measures indicate $k = 2$ performs best for $k$-means becasue it hase *lowest connectivity*, *highest Dunn*, and *highest silhouette*. The PAM algorithm shows $k = 2$ as optimal under all three metrics. Overall, the $k$-means is slightly better than PAM in connectivity and silhouette. 
+All three internal measures are optimized with $k = 2$: the *lowest connectivity* ($0$), the *highest Dunn index* ($0.27$) and the *highest silhouette* ($0.53$). At $k = 2$, $k$-means and PAM find the same partition, so their scores tie and `optimalScores()` reports $k$-means, the first method listed. A connectivity of exactly $0$ means that no penguin has any of its $10$ nearest neighbors in the other cluster.
 
-The `iris` dataset, when analyzed with these internal metric, exhibits two conpact and well-separated groups rather than three (the known biological species). This is common because: 
-- Two of the species (*versicolor* and *virginica*) have overlapping features, so algorithms often merge them. 
-- *setosa* forms one very distinct cluster.
+The penguins dataset, when analyzed with these internal metrics, exhibits two compact and well-separated groups rather than three (the known species). This is common because: 
+
+- Two of the species (*Adelie* and *Chinstrap*) have overlapping measurements, so algorithms often merge them. 
+- *Gentoo* forms one very distinct cluster.
+
+Internal measures reward compact, well-separated groups; they cannot know that the Adelie–Chinstrap distinction matters. The external validation of @sec-external-validation, where PAM with $k = 3$ matched the species best, answers a different question.
+
+:::{.callout-note}
+`clValid()` refits every method itself. For $k$-means it uses a *single* start, taken from a hierarchical clustering of the data, instead of `nstart` random starts. At $k = 3$ it therefore finds a different partition from `km_peng`, with a slightly *higher* WSS ($370.9$ against $369.7$) — and it reports a silhouette of $0.458$ and a Dunn index of $0.076$, instead of the $0.446$ and $0.037$ computed above. This partition happens to match the species better than `km_peng` does: the solution with the lowest WSS is not necessarily the most meaningful one.
+:::
 
 
-The stability measures can be computed as follow:
+The stability measures can be computed as follows:
 ```{webr-r}
+#| label: clvalid-stability
 #| autorun: true 
-#| messages: false
+#| message: false
 #| warning: false 
 
 library(clValid)
 # Compute clValid
 clmethods <- c("kmeans","pam")
-stab <- clValid(df_iris_scaled, nClust = 2:6, clMethods = clmethods,
+stab <- clValid(peng_scaled, nClust = 2:6, clMethods = clmethods,
 validation = "stability")
 # Display only optimal Scores
 optimalScores(stab)
 ```
 
-The outputs shows that
-- APN = $0.0128$ ($k$-means, k = 2) is extremely small which it means clusters are very stable under resampling.
-- ADM = $0.055$ ($k$-means, k = 2) confirms that average distances between means hardly change.
-- AD = $1.00$ (PAM, $k = 6$) and FOM = $0.45$ (PAM, $k = 6$) indicate PAM is slightly more stable when $6$ clusters are allowed, though at the cost of over-fragmenting the data.
+The output shows that:
 
-The stability measures (APN, AD, ADM, FOM) confirm that the *k-means* method with two clusters
-is the most robust to resampling. Although *PAM* shows slightly lower instability at k = 6,
-this likely represents over-partitioning rather than a meaningful improvement in model stability.
+- APN = $0.033$ ($k$-means, $k = 2$) is very small, which means that almost no penguin changes cluster when a column is removed.
+- ADM = $0.127$ ($k$-means, $k = 2$) confirms that the cluster means hardly move.
+- AD = $1.17$ (PAM, $k = 6$) and FOM = $0.55$ ($k$-means, $k = 6$) favor $6$ clusters. Both measures decrease almost automatically as $k$ grows (more clusters mean smaller within-cluster distances), so they tend to favor the largest $k$ tried.
+
+The stability measures confirm that the two-cluster solution (Gentoo against the rest) is the most robust to the deletion of a variable. The optima at $k = 6$ reflect the size of the clusters rather than a meaningful improvement in stability — although, as we saw, $6$ clusters also have a biological reading (species and sex).
+
+#### Summary: $K$-means vs PAM on the Penguins
+
+The table collects the diagnostics of this section for the two $k = 3$ solutions, `km_peng` and `pam_result`:
+
+| Diagnostic | Type | $K$-means | PAM | Better |
+|:--|:--|--:|--:|:--|
+| WSS | internal | $369.7$ | $371.5$ | $K$-means |
+| BSS / TSS | internal | $0.722$ | $0.720$ | $K$-means |
+| Average silhouette width | internal | $0.446$ | $0.459$ | PAM |
+| Observations with negative silhouette | internal | $4$ | $1$ | PAM |
+| Dunn index | internal | $0.037$ | $0.086$ | PAM |
+| Connectivity | internal | $34.2$ | $21.0$ | PAM |
+| Penguins outside their species' cluster | external | $27$ | $10$ | PAM |
+| Corrected Rand index (species) | external | $0.80$ | $0.92$ | PAM |
+| VI (species) | external | $0.45$ | $0.24$ | PAM |
+
+$K$-means wins only on its own objective, the WSS (and BSS/TSS, which is the same criterion, since TSS is fixed), and by less than $1\%$. On every other internal measure, and on the agreement with the species, PAM gives the better partition of the penguins. Both methods agree on the number of clusters (@sec-penguins-k): the data support $k = 2$ most strongly, $k = 3$ when the goal is to separate the species, and around $k = 5$–$6$ when the differences between males and females are of interest.
+
+:::{.callout-note appearance="minimal"}
+**Packages and commands.** The two penguin clusterings are refitted with `kmeans()` and **cluster**'s `pam()`. Choosing $k$ uses **factoextra**'s `fviz_nbclust()` (with **patchwork** to place the two algorithms side by side), `interaction()` to cross species and sex, and **NbClust**'s `NbClust()`. Internal validation uses the `kmeans()` sums of squares, `split()` and `scale(scale = FALSE)` for the PAM partition, `silhouette()` and `fviz_silhouette()`, **fpc**'s `cluster.stats()` and **clValid**'s `connectivity()`. External validation uses `table()` and `cluster.stats(d, clustering, alt.clustering)`. The comparison of algorithms uses `clValid()`, `summary()` and `optimalScores()`.
+:::
 
 
 ## References
