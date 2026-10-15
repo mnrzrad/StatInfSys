@@ -22,7 +22,7 @@ book:
         - chapters/pca.qmd
     - part: "Clustering"
       chapters:
-        - chapters/clustring.qmd
+        - chapters/clustering.qmd
         - chapters/clustering_projects.qmd
     - part: "Classification"
       chapters:
