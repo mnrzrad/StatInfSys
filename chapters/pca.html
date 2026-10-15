@@ -90,7 +90,7 @@ div.csl-indent {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../chapters/clustring.html" rel="next">
+<link href="../chapters/clustering.html" rel="next">
 <link href="../chapters/Decision_trees.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -1843,7 +1843,7 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/clustring.html" class="sidebar-item-text sidebar-link">
+  <a href="../chapters/clustering.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Clustering</span></span></a>
   </div>
 </li>
@@ -3169,7 +3169,7 @@ The dotted line at $1$ marks the variance of either original variable. Every dir
 In $p$ dimensions exactly the same thing happens: the cloud is a $p$-dimensional ellipsoid and PCA turns it until its longest axis lies along the first coordinate, its next longest along the second, and so on. What is lost above three dimensions is only our ability to look at it directly — hence the correlation circle and the biplot of @sec-visualising, which are two-dimensional windows onto that same rotation.
 :::
 
-```ytirahmm
+```mcjespic
 #| label: rot-try
 #| autorun: false
 
@@ -4745,7 +4745,7 @@ Warning
 3. PC1 is not significant. Is that a failure of PCA? Explain.
 4. Split the data into $70\%$ training and $30\%$ test. Fit the PCA on the training set only, apply it to the test set with `predict()`, and compare the test-set accuracy of the two models. Why would fitting the PCA on the full data set be wrong?
 
-```ytirahmm
+```mcjespic
 #| label: ex6
 #| autorun: false
 
@@ -4790,10 +4790,20 @@ Charrad, Malika, Nadia Ghazzali, Véronique Boiteau, and Azam Niknafs.
 of Clusters in a Data Set.”</span> <em>Journal of Statistical
 Software</em> 61 (6): 1–36. <a href="https://doi.org/10.18637/jss.v061.i06">https://doi.org/10.18637/jss.v061.i06</a>.
 </div>
+<div id="ref-dunn1974" class="csl-entry" role="listitem">
+Dunn, J. C. 1974. <span>“Well-Separated Clusters and Optimal Fuzzy
+Partitions.”</span> <em>Journal of Cybernetics</em> 4 (1): 95–104.
+</div>
 <div id="ref-eckart1936" class="csl-entry" role="listitem">
 Eckart, Carl, and Gale Young. 1936. <span>“The Approximation of One
 Matrix by Another of Lower Rank.”</span> <em>Psychometrika</em> 1 (3):
 211–18.
+</div>
+<div id="ref-gorman2014" class="csl-entry" role="listitem">
+Gorman, Kristen B., Tony D. Williams, and William R. Fraser. 2014.
+<span>“Ecological Sexual Dimorphism and Environmental Variability Within
+a Community of <span>Antarctic</span> Penguins (Genus
+<em>Pygoscelis</em>).”</span> <em>PLoS ONE</em> 9 (3): e90081. <a href="https://doi.org/10.1371/journal.pone.0090081">https://doi.org/10.1371/journal.pone.0090081</a>.
 </div>
 <div id="ref-Gower1971" class="csl-entry" role="listitem">
 Gower, J. C. 1971. <span>“A General Coefficient of Similarity and Some
@@ -4809,10 +4819,24 @@ Hendrickson, Alan E., and Paul O. White. 1964. <span>“Promax: A Quick
 Method for Rotation to Oblique Simple Structure.”</span> <em>British
 Journal of Statistical Psychology</em> 17 (1): 65–70.
 </div>
+<div id="ref-hopkins1954" class="csl-entry" role="listitem">
+Hopkins, Brian, and John Gordon Skellam. 1954. <span>“A New Method for
+Determining the Type of Distribution of Plant Individuals.”</span>
+<em>Annals of Botany</em> 18 (2): 213–27.
+</div>
+<div id="ref-horst2020palmerpenguins" class="csl-entry" role="listitem">
+Horst, Allison Marie, Alison Presmanes Hill, and Kristen B. Gorman.
+2020. <em>Palmerpenguins: Palmer Archipelago (Antarctica) Penguin
+Data</em>. <a href="https://doi.org/10.5281/zenodo.3960218">https://doi.org/10.5281/zenodo.3960218</a>.
+</div>
 <div id="ref-hotelling1933" class="csl-entry" role="listitem">
 Hotelling, Harold. 1933. <span>“Analysis of a Complex of Statistical
 Variables into Principal Components.”</span> <em>Journal of Educational
 Psychology</em> 24 (6): 417–41.
+</div>
+<div id="ref-hubert1985" class="csl-entry" role="listitem">
+Hubert, Lawrence, and Phipps Arabie. 1985. <span>“Comparing
+Partitions.”</span> <em>Journal of Classification</em> 2 (1): 193–218.
 </div>
 <div id="ref-jolliffe2002" class="csl-entry" role="listitem">
 Jolliffe, Ian T. 2002. <em>Principal Component Analysis</em>. 2nd ed.
@@ -4836,9 +4860,18 @@ Kaiser, Henry F. 1970. <span>“A Second Generation Little Jiffy.”</span>
 Kaiser, Henry F. 1974. <span>“An Index of Factorial Simplicity.”</span>
 <em>Psychometrika</em> 39 (1): 31–36.
 </div>
+<div id="ref-kassambara2017" class="csl-entry" role="listitem">
+Kassambara, Alboukadel. 2017. <em>Practical Guide to Cluster Analysis in
+<span>R</span>: Unsupervised Machine Learning</em>. STHDA.
+</div>
 <div id="ref-kaufman1990" class="csl-entry" role="listitem">
 Kaufman, Leonard, and Peter J. Rousseeuw. 1990. <em>Finding Groups in
 Data: An Introduction to Cluster Analysis</em>. Wiley.
+</div>
+<div id="ref-lloyd1982" class="csl-entry" role="listitem">
+Lloyd, Stuart P. 1982. <span>“Least Squares Quantization in
+<span>PCM</span>.”</span> <em>IEEE Transactions on Information
+Theory</em> 28 (2): 129–37.
 </div>
 <div id="ref-macqueen1967" class="csl-entry" role="listitem">
 MacQueen, J. 1967. <span>“Some Methods for Classification and Analysis
@@ -4846,6 +4879,11 @@ of Multivariate Observations.”</span> In <em>Proceedings of the Fifth
 Berkeley Symposium on Mathematical Statistics and Probability</em>,
 edited by L. M. Le Cam and J. Neyman, vol. 1. University of California
 Press.
+</div>
+<div id="ref-meila2007" class="csl-entry" role="listitem">
+Meilă, Marina. 2007. <span>“Comparing Clusterings—an Information Based
+Distance.”</span> <em>Journal of Multivariate Analysis</em> 98 (5):
+873–95.
 </div>
 <div id="ref-Midway2022" class="csl-entry" role="listitem">
 Midway, Steve. 2022. <em>Data Analysis in r</em>. <a href="https://bookdown.org/steve_midway/DAR/">https://bookdown.org/steve_midway/DAR/</a>.
@@ -4859,6 +4897,11 @@ Dublin Philosophical Magazine and Journal of Science</em> 2 (11):
 <div id="ref-Peng2012" class="csl-entry" role="listitem">
 Peng, Roger D. 2012. <em>Exploratory Data Analysis with
 <span>R</span></em>. <a href="https://bookdown.org/rdpeng/exdata/">https://bookdown.org/rdpeng/exdata/</a>.
+</div>
+<div id="ref-rousseeuw1987" class="csl-entry" role="listitem">
+Rousseeuw, Peter J. 1987. <span>“Silhouettes: A Graphical Aid to the
+Interpretation and Validation of Cluster Analysis.”</span> <em>Journal
+of Computational and Applied Mathematics</em> 20: 53–65.
 </div>
 <div id="ref-theodoridis2008pattern" class="csl-entry" role="listitem">
 Theodoridis, Sergios, and Konstantinos Koutroumbas. 2008. <em>Pattern
@@ -4894,6 +4937,10 @@ Wickham, Hadley, Danielle Navarro, and Thomas Lin Pederson. 2019.
 Wold, Herman. 1966. <span>“Estimation of Principal Components and
 Related Models by Iterative Least Squares.”</span> In <em>Multivariate
 Analysis</em>, edited by P. R. Krishnaiah. Academic Press.
+</div>
+<div id="ref-wright2022hopkins" class="csl-entry" role="listitem">
+Wright, Kevin. 2022. <span>“Will the Real <span>Hopkins</span> Statistic
+Please Stand Up?”</span> <em>The R Journal</em> 14 (3): 282–92.
 </div>
 </div>
 
@@ -5308,7 +5355,7 @@ Analysis</em>, edited by P. R. Krishnaiah. Academic Press.
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../chapters/clustring.html" class="pagination-link" aria-label="Clustering">
+      <a href="../chapters/clustering.html" class="pagination-link" aria-label="Clustering">
         <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Clustering</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
