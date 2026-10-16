@@ -981,7 +981,7 @@ Two species are described by four binary characteristics:
 | Warm-blooded | 0 | 1 |
 
 1. Compute manually:  
-   - \( f_{11}, f_{00}, f_{10}, f_{01} \)
+   - $f_{11}, f_{00}, f_{10}, f_{01}$
    - The *Simple Matching Coefficient (SMC)*  
    - The *Simple Matching Distance (SMD)* 
 
@@ -1134,7 +1134,7 @@ The interpretation follows from the formula:
 - $H$ close to $0$: the observations are *more* evenly spaced than random, as on a regular grid.
 
 :::{.callout-warning}
-Older software, such as the **clustertend** package and earlier versions of **factoextra**, reported $1 - H$ and did not raise distances to the power $d$. In those outputs, values near $0$ indicated clustering. Always check which convention a function uses before comparing results across sources [@wright2022hopkins].
+Older software does not always follow this definition. The **clustertend** package and early versions of **factoextra** reported $1 - H$, so that values near $0$ indicated clustering. **factoextra** up to version 1.0.7 reports $H$, but does not raise the distances to the power $d$: its values are less extreme and do not follow the $\text{Beta}(m, m)$ null distribution (for the penguins below, $0.80$ instead of $0.995$). Always check which convention a function uses before comparing results across sources [@wright2022hopkins].
 :::
 
 The function `hopkins::hopkins()` computes the statistic and `hopkins::hopkins.pval()` its (two-sided) $p$-value under the $\text{Beta}(m, m)$ null. The simplified format is
@@ -1225,7 +1225,7 @@ In these plots, red shows high similarity (small dissimilarity) and blue shows l
 A clustering tendency shows up as *square red blocks along the diagonal*: groups of observations that are close to each other and far from the rest. The penguins image has a clear block structure. One large block, bounded by blue on every side, contains the Gentoo penguins: they are close to each other and far from everybody else. The remaining birds form red blocks that are also fairly red *between* each other, because Adelie and Chinstrap penguins have similar body measurements. The random data show no such pattern. The image confirms the Hopkins result and also hints at how many clusters are present, a question taken up in @sec-cluster-validation.
 
 :::{.callout-note appearance="minimal"}
-**Packages and commands.** The data are `palmerpenguins::penguins`, with incomplete rows removed by `na.omit`. Random reference data come from `runif` inside `apply`, and both data sets are standardized with `scale`. **hopkins** provides `hopkins(X, m = )` and `hopkins.pval(H, m)`. The VAT image is `stats::dist` followed by **factoextra**'s `fviz_dist(show_labels = FALSE)`. **factoextra**'s `get_clust_tendency(data, n = , graph = TRUE)` returns both in one call, the Hopkins statistic (corrected formula) and the ordered dissimilarity image.
+**Packages and commands.** The data are `palmerpenguins::penguins`, with incomplete rows removed by `na.omit`. Random reference data come from `runif` inside `apply`, and both data sets are standardized with `scale`. **hopkins** provides `hopkins(X, m = )` and `hopkins.pval(H, m)`. The VAT image is `stats::dist` followed by **factoextra**'s `fviz_dist(show_labels = FALSE)`. **factoextra**'s `get_clust_tendency(data, n = , graph = TRUE)` returns both in one call, the Hopkins statistic and the ordered dissimilarity image. Its Hopkins statistic uses the corrected formula only from the recent CRAN versions (2.2.0); webR currently installs version 1.0.7, which returns $0.80$ for the penguins against $0.995$ from `hopkins()`. Use `hopkins()` for the statistic.
 :::
 
 ## Partition-Based Clustering: $k$-Means and $k$-Medoids
@@ -1860,7 +1860,7 @@ B = as.vector(img[,,3])
 
 # Sample only a few thousand pixels to avoid memory explosion
 set.seed(123)
-img_sample <- img_df %>% sample_n(5000)
+img_sample <- img_df %>% slice_sample(n = 5000)
 ```
 
 **Determine the optimal number of clusters.**
@@ -2699,9 +2699,11 @@ $$
 \text{Gap}(k) = \frac{1}{B} \sum_{b=1}^{B} \log(W_{kb}^*) - \log(W_k)
 $$
 Compute also $\text{sd}_k$, the standard deviation of the $B$ values $\log(W^*_{kb})$, and the standard error $s_k = \text{sd}_k \sqrt{1 + 1/B}$, which also accounts for the simulation error of using only $B$ reference datasets. 
-4. Choose the number of clusters as the smallest value of $k$ such that the gap statistic is within one standard deviation of the gap at $k+1$: $\text{Gap}(k) \ge \text{Gap}(k+1) - s_{k+1}$.
+4. Choose the number of clusters as the smallest value of $k$ such that the gap statistic is within one standard error of the gap at $k+1$: $\text{Gap}(k) \ge \text{Gap}(k+1) - s_{k+1}$.
 
-Step 4 is the rule recommended by @tibshirani2001gap. It usually gives a smaller $k$ than simply taking the $k$ with the largest gap, and it is the default in `factoextra::fviz_nbclust()` and `cluster::maxSE()` (`method = "firstSEmax"`).
+Step 4 is the rule recommended by @tibshirani2001gap (`method = "Tibs2001SEmax"` in `cluster::maxSE()`). It usually gives a smaller $k$ than simply taking the $k$ with the largest gap.
+
+It is *not*, however, the default of `factoextra::fviz_nbclust()`, nor of `print()` on a `clusGap()` result. Both use `method = "firstSEmax"`: find the first local maximum of the gap curve, then choose the smallest $k$ whose gap is within one standard error of that maximum. The two rules often agree, but not always: for PAM on the penguins (@sec-penguins-k), `"firstSEmax"` gives $k = 5$ and Tibshirani's rule gives $k = 3$. To apply Tibshirani's rule, compute the gap with `cluster::clusGap()` and pass `method = "Tibs2001SEmax"` to `maxSE()`.
 
 :::{.callout-note}
 Note that using $B = 500$ gives quite precise results, so that the gap plot is basically unchanged after another run.
@@ -2721,7 +2723,8 @@ Note that using $B = 500$ gives quite precise results, so that the gap plot is b
 - It is computationally expensive: $B$ reference data sets, each clustered for every $k$.
 - It is random, so the result depends on the seed and on $B$.
 - The answer depends on the reference distribution. By default, `clusGap()` draws uniformly in a box aligned with the principal components of the data (`spaceH0 = "scaledPCA"`); `spaceH0 = "original"` uses the range of each variable instead, and can give a different $k$.
-- It is based on $\log(W_k)$, so it inherits the assumptions of WSS. It also picks up any finer structure in the data: for the penguins, it suggests $5$ clusters, reflecting sex within species.
+- It is based on $\log(W_k)$, so it inherits the assumptions of WSS. It also picks up any finer structure in the data: for the penguins with $K$-means, it suggests $5$ clusters, reflecting sex within species.
+- Different selection rules applied to the same gap curve can give different $k$ (see step 4).
 :::
 
 #### Computing the Number of Clusters in R
@@ -2779,7 +2782,7 @@ where:
 :::
 
 :::{.callout-note appearance="minimal"}
-**Packages and commands.** **factoextra**'s `fviz_nbclust(x, FUNcluster = kmeans | pam, method = "wss" | "silhouette" | "gap_stat")` draws all three criteria; extra arguments such as `nstart` and `nboot` are passed through. The gap statistic itself is **cluster**'s `clusGap(x, FUNcluster, K.max = , B = )`, and `maxSE()` applies the one-standard-error rule. **NbClust**'s `NbClust(data, distance = , min.nc = , max.nc = , method = )` computes up to $30$ indices at once, and `fviz_nbclust(nb)` plots its majority vote.
+**Packages and commands.** **factoextra**'s `fviz_nbclust(x, FUNcluster = kmeans | pam, method = "wss" | "silhouette" | "gap_stat")` draws all three criteria; extra arguments such as `nstart` and `nboot` are passed through. The gap statistic itself is **cluster**'s `clusGap(x, FUNcluster, K.max = , B = )`, `fviz_gap_stat()` plots its result, and `maxSE(f, SE.f, method = )` applies a selection rule: `"Tibs2001SEmax"` for Tibshirani's rule, `"firstSEmax"` for the default of `fviz_nbclust()`. In **factoextra** 1.0.7, the version webR installs, a `maxSE` argument given to `fviz_nbclust()` is also forwarded to the clustering function and fails, so use `clusGap()` and `maxSE()` to change the rule. **NbClust**'s `NbClust(data, distance = , min.nc = , max.nc = , method = )` computes up to $30$ indices at once, and `fviz_nbclust(nb)` plots its majority vote.
 :::
 
 ### Computing Validation Statistics in R {#sec-validation-in-r}
@@ -2996,12 +2999,30 @@ set.seed(123)
 p_km  <- fviz_nbclust(peng_scaled, kmeans, nstart = 25, method = 'gap_stat',
                       nboot = 50, verbose = FALSE) + 
   labs(title = "K-means", subtitle = 'Gap statistic method')
+# For PAM, keep the gap values to compare selection rules below
 set.seed(123)
-p_pam <- fviz_nbclust(peng_scaled, pam, method = 'gap_stat',
-                      nboot = 50, verbose = FALSE) + 
+gap_pam <- clusGap(peng_scaled, pam, K.max = 10, B = 50, verbose = FALSE)
+p_pam <- fviz_gap_stat(gap_pam) +
   labs(title = "PAM", subtitle = 'Gap statistic method')
 p_km + p_pam
 ```
+
+Both plots mark the $k$ chosen by the `"firstSEmax"` rule. Tibshirani's rule, applied to the same PAM gap values, stops earlier:
+
+```{webr-r}
+#| label: penguins-gap-rules
+#| autorun: true
+#| message: false
+#| warning: false
+
+tab <- gap_pam$Tab
+round(tab[1:6, c("gap", "SE.sim")], 4)
+
+c(firstSEmax    = maxSE(tab[, "gap"], tab[, "SE.sim"], method = "firstSEmax"),
+  Tibs2001SEmax = maxSE(tab[, "gap"], tab[, "SE.sim"], method = "Tibs2001SEmax"))
+```
+
+At $k = 3$, $\text{Gap}(3) = 0.634$ is already within one standard error of $\text{Gap}(4) - s_4 = 0.647 - 0.019 = 0.628$, so Tibshirani's rule stops there. The `"firstSEmax"` rule goes on to the first local maximum, at $k = 5$. For $K$-means both rules give $k = 5$.
 
 The two algorithms tell the same story:
 
@@ -3009,7 +3030,7 @@ The two algorithms tell the same story:
 |:--|:--|:--|
 | Elbow | $2$ or $3$: WSS falls by $777$, $181$ and then $77$ | $2$ or $3$: WSS falls by $777$, $180$ and then $64$ |
 | Silhouette | $2$ (average width $0.531$; $0.446$ at $k = 3$) | $2$ (average width $0.531$; $0.459$ at $k = 3$) |
-| Gap statistic | $5$ | $5$ |
+| Gap statistic | $5$ (both rules) | $5$ (`"firstSEmax"`); $3$ (Tibshirani) |
 
 At $k = 2$ the two algorithms find exactly the same partition, hence the identical silhouette.
 
@@ -3017,7 +3038,7 @@ The three methods disagree, and each answer has a reading:
 
 - $k = 2$ is the most clear-cut partition: *Gentoo* against the rest;
 - $k = 3$ corresponds to the three species;
-- the larger $k$ of the gap statistic reflects structure *within* species: in all three, males are larger than females.
+- the larger $k$ of the gap statistic under the default rule reflects structure *within* species: in all three, males are larger than females.
 
 The last point is easy to check by clustering with $k = 6$ and cross-tabulating against species and sex together:
 
