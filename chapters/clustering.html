@@ -2399,13 +2399,13 @@ The table below summarizes their relationship and how each measure behaves in cl
 <p>A <strong>similarity measure</strong> <span class="math inline">\(s(\mathbf{x}, \mathbf{y})\)</span> expresses how close or related two points are.<br>
 It usually satisfies: <span class="math display">\[
 \begin{aligned}
-1.\;&amp; s(\mathbf{x}, \mathbf{y}) \ge 0 &amp;&amp; \text{(non-negativity)} \\
+1.\;&amp; s(\mathbf{x}, \mathbf{y}) \in [0, 1] &amp;&amp; \text{(boundedness)} \\
 2.\;&amp; s(\mathbf{x}, \mathbf{y}) = s(\mathbf{y}, \mathbf{x}) &amp;&amp; \text{(symmetry)} \\
-3.\;&amp; s(\mathbf{x}, \mathbf{y}) \in [0, 1] &amp;&amp; \text{(boundedness)} \\
-4.\;&amp; s(\mathbf{x}, \mathbf{x}) = 1 &amp;&amp; \text{(maximum self-similarity)}
+3.\;&amp; s(\mathbf{x}, \mathbf{x}) = 1 &amp;&amp; \text{(maximum self-similarity)}
 \end{aligned}
-\]</span> A simple transformation links both concepts: <span class="math display">\[
-s(\mathbf{x}, \mathbf{y}) = \frac{1}{1 + d(\mathbf{x}, \mathbf{y})}, \quad \text{where } s(\mathbf{x}, \mathbf{y}) \in [0, 1].
+\]</span> Some measures of resemblance, such as cosine similarity and correlation (introduced below), take values in <span class="math inline">\([-1, 1]\)</span> instead, and are negative for vectors that point in opposite directions. The linear transformation <span class="math inline">\((1 + s)/2\)</span> maps them to <span class="math inline">\([0, 1]\)</span>, after which they are similarities in the above sense.</p>
+<p>A simple transformation links both concepts: <span class="math display">\[
+s(\mathbf{x}, \mathbf{y}) = \frac{1}{1 + d(\mathbf{x}, \mathbf{y})}, \quad \text{where } s(\mathbf{x}, \mathbf{y}) \in (0, 1].
 \]</span></p>
 <section id="common-distance-metrics" class="level3" data-number="11.2.1">
 <h3 data-number="11.2.1" class="anchored" data-anchor-id="common-distance-metrics"><span class="header-section-number">11.2.1</span> Common Distance Metrics</h3>
@@ -2550,6 +2550,7 @@ s_{\text{cosine}}(\mathbf{x}, \mathbf{y}) = \frac{\mathbf{x} \cdot \mathbf{y}}{\
 <li><p>A value of <strong>0</strong> means the vectors are <strong>orthogonal</strong> (no similarity).</p></li>
 <li><p>A value of <strong>–1</strong> means they point in <strong>opposite directions</strong> (perfectly dissimilar).</p></li>
 </ul>
+<p>Because it can be negative, cosine similarity becomes a similarity in <span class="math inline">\([0, 1]\)</span> only after rescaling: <span class="math inline">\((1 + s_{\text{cosine}})/2\)</span> equals <span class="math inline">\(1\)</span> for the same direction, <span class="math inline">\(0.5\)</span> for orthogonal vectors and <span class="math inline">\(0\)</span> for opposite directions. For non-negative data, such as word counts, the cosine is already in <span class="math inline">\([0, 1]\)</span>.</p>
 <p>The corresponding <em>cosine distance</em> is: <span class="math display">\[
 d_{\text{cosine}}(\mathbf{x}, \mathbf{y}) = 1 - s_{\text{cosine}}(\mathbf{x}, \mathbf{y})
 \]</span></p>
@@ -2580,7 +2581,7 @@ Tip
 <p>Cosine-based metrics are particularly useful for <em>directional data</em>, where the <em>pattern</em> or <em>orientation</em> of features matters more than their magnitude — for example, in <em>text mining</em> (TF-IDF vectors), <em>recommendation systems</em>, or <em>image feature embeddings</em>.</p>
 </div>
 </div>
-<p>The <em>correlation distance</em> applies the same idea after centring each observation on its own mean: <span class="math inline">\(d_{\text{cor}}(\mathbf{x}, \mathbf{y}) = 1 - r(\mathbf{x}, \mathbf{y})\)</span>, where <span class="math inline">\(r\)</span> is the Pearson correlation between the two vectors. It is available as <code>factoextra::get_dist(method = "pearson")</code> (also <code>"spearman"</code> and <code>"kendall"</code>).</p>
+<p>The <em>correlation distance</em> applies the same idea after centring each observation on its own mean: <span class="math inline">\(d_{\text{cor}}(\mathbf{x}, \mathbf{y}) = 1 - r(\mathbf{x}, \mathbf{y})\)</span>, where <span class="math inline">\(r\)</span> is the Pearson correlation between the two vectors. Like the cosine, <span class="math inline">\(r\)</span> lies in <span class="math inline">\([-1, 1]\)</span>, and <span class="math inline">\((1 + r)/2\)</span> turns it into a similarity in <span class="math inline">\([0, 1]\)</span>. The correlation distance is available as <code>factoextra::get_dist(method = "pearson")</code> (also <code>"spearman"</code> and <code>"kendall"</code>).</p>
 <div class="callout callout-style-simple callout-note no-icon">
 <div class="callout-body d-flex">
 <div class="callout-icon-container">
@@ -3519,7 +3520,7 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The <em>BSS/WSS ratio</em> is a helpful indicator, but not the whole story. Always complement numerical measures with <em>visual inspection</em>.</p>
+<p>The <em>between-to-within ratio</em> is a helpful indicator, but not the whole story. Always complement numerical measures with <em>visual inspection</em>.</p>
 </div>
 </div>
 </div>
@@ -4264,7 +4265,7 @@ $updated_assignments
 <h4 data-number="11.4.2.5" class="anchored" data-anchor-id="exercise"><span class="header-section-number">11.4.2.5</span> Exercise</h4>
 <p>The <code>heart</code> dataset from the package <code>kmed</code> (Cleveland heart disease data, <span class="math inline">\(297\)</span> patients) has a mix of numerical, binary and categorical features: <code>age</code>, <code>sex</code>, <code>cp</code> (chest pain type), <code>trestbps</code> (resting blood pressure), <code>chol</code>, <code>thalach</code> (maximum heart rate), <code>thal</code>, …, and <code>class</code> (disease outcome, from <span class="math inline">\(0\)</span> to <span class="math inline">\(4\)</span>).</p>
 <ol type="1">
-<li>Remove <code>class</code>, and compute the Gower distance between patients with <code>daisy()</code>.</li>
+<li>Remove <code>class</code>, and compute the Gower distance between patients with <code>daisy()</code>. The binary variables <code>sex</code>, <code>fbs</code> and <code>exang</code> are stored as logicals, and <code>daisy()</code> treats logical variables as <em>asymmetric</em> binary by default, so for two women (both <code>FALSE</code>) <code>sex</code> would be dropped from the comparison instead of counting as a match. Declare <code>sex</code> symmetric with <code>type = list(symm = "sex")</code>, and decide whether <code>fbs</code> (high fasting blood sugar) and <code>exang</code> (exercise-induced angina) should stay asymmetric.</li>
 <li>Apply the PAM algorithm to this distance matrix, choosing <span class="math inline">\(k\)</span> with the average silhouette width.</li>
 <li>Cross-tabulate the clusters against <code>class</code>. Do the clusters separate healthy patients (<code>class == 0</code>) from the others?</li>
 </ol>
