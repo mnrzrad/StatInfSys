@@ -150,15 +150,16 @@ A **similarity measure** $s(\mathbf{x}, \mathbf{y})$ expresses how close or rela
 It usually satisfies:
 $$
 \begin{aligned}
-1.\;& s(\mathbf{x}, \mathbf{y}) \ge 0 && \text{(non-negativity)} \\
+1.\;& s(\mathbf{x}, \mathbf{y}) \in [0, 1] && \text{(boundedness)} \\
 2.\;& s(\mathbf{x}, \mathbf{y}) = s(\mathbf{y}, \mathbf{x}) && \text{(symmetry)} \\
-3.\;& s(\mathbf{x}, \mathbf{y}) \in [0, 1] && \text{(boundedness)} \\
-4.\;& s(\mathbf{x}, \mathbf{x}) = 1 && \text{(maximum self-similarity)}
+3.\;& s(\mathbf{x}, \mathbf{x}) = 1 && \text{(maximum self-similarity)}
 \end{aligned}
 $$
+Some measures of resemblance, such as cosine similarity and correlation (introduced below), take values in $[-1, 1]$ instead, and are negative for vectors that point in opposite directions. The linear transformation $(1 + s)/2$ maps them to $[0, 1]$, after which they are similarities in the above sense.
+
 A simple transformation links both concepts:
 $$
-s(\mathbf{x}, \mathbf{y}) = \frac{1}{1 + d(\mathbf{x}, \mathbf{y})}, \quad \text{where } s(\mathbf{x}, \mathbf{y}) \in [0, 1].
+s(\mathbf{x}, \mathbf{y}) = \frac{1}{1 + d(\mathbf{x}, \mathbf{y})}, \quad \text{where } s(\mathbf{x}, \mathbf{y}) \in (0, 1].
 $$
 
 ### Common Distance Metrics
@@ -545,6 +546,8 @@ This similarity measures the *cosine of the angle* between the two vectors in a 
    
 - A value of **–1** means they point in **opposite directions** (perfectly dissimilar).
 
+Because it can be negative, cosine similarity becomes a similarity in $[0, 1]$ only after rescaling: $(1 + s_{\text{cosine}})/2$ equals $1$ for the same direction, $0.5$ for orthogonal vectors and $0$ for opposite directions. For non-negative data, such as word counts, the cosine is already in $[0, 1]$.
+
 The corresponding *cosine distance* is:
 $$
 d_{\text{cosine}}(\mathbf{x}, \mathbf{y}) = 1 - s_{\text{cosine}}(\mathbf{x}, \mathbf{y})
@@ -650,7 +653,7 @@ Cosine-based metrics are particularly useful for *directional data*, where the *
 for example, in *text mining* (TF-IDF vectors), *recommendation systems*, or *image feature embeddings*.
 :::
 
-The *correlation distance* applies the same idea after centring each observation on its own mean: $d_{\text{cor}}(\mathbf{x}, \mathbf{y}) = 1 - r(\mathbf{x}, \mathbf{y})$, where $r$ is the Pearson correlation between the two vectors. It is available as `factoextra::get_dist(method = "pearson")` (also `"spearman"` and `"kendall"`).
+The *correlation distance* applies the same idea after centring each observation on its own mean: $d_{\text{cor}}(\mathbf{x}, \mathbf{y}) = 1 - r(\mathbf{x}, \mathbf{y})$, where $r$ is the Pearson correlation between the two vectors. Like the cosine, $r$ lies in $[-1, 1]$, and $(1 + r)/2$ turns it into a similarity in $[0, 1]$. The correlation distance is available as `factoextra::get_dist(method = "pearson")` (also `"spearman"` and `"kendall"`).
 
 :::{.callout-note appearance="minimal"}
 **Packages and commands.** Every metric is first computed by hand with base R (`sqrt`, `sum`, `abs`, `max`) and then checked against `stats::dist(method = )`, whose options are `"euclidean"`, `"manhattan"`, `"minkowski"` (with `p = `) and `"maximum"` (Chebyshev). **factoextra**'s `get_dist()` accepts the same methods plus the correlation-based ones. The Mahalanobis distance uses `cov` and `solve`, or `stats::mahalanobis()`, which returns the *squared* distance. Cosine similarity comes from **lsa**'s `cosine()`. The figures are **ggplot2**.
@@ -1744,7 +1747,7 @@ You see that:
 Each variable separates one species from the other two, which is why we need at least two of them to tell all three apart.
 
 :::{.callout-tip}
-The *BSS/WSS ratio* is a helpful indicator, but not the whole story.
+The *between-to-within ratio* is a helpful indicator, but not the whole story.
 Always complement numerical measures with *visual inspection*.
 :::
 
@@ -2353,7 +2356,7 @@ The two methods agree on $316$ of the $333$ penguins: the same $119$ in the Gent
 
 The `heart` dataset from the package `kmed` (Cleveland heart disease data, $297$ patients) has a mix of numerical, binary and categorical features: `age`, `sex`, `cp` (chest pain type), `trestbps` (resting blood pressure), `chol`, `thalach` (maximum heart rate), `thal`, …, and `class` (disease outcome, from $0$ to $4$).
 
-1. Remove `class`, and compute the Gower distance between patients with `daisy()`.
+1. Remove `class`, and compute the Gower distance between patients with `daisy()`. The binary variables `sex`, `fbs` and `exang` are stored as logicals, and `daisy()` treats logical variables as *asymmetric* binary by default, so for two women (both `FALSE`) `sex` would be dropped from the comparison instead of counting as a match. Declare `sex` symmetric with `type = list(symm = "sex")`, and decide whether `fbs` (high fasting blood sugar) and `exang` (exercise-induced angina) should stay asymmetric.
 2. Apply the PAM algorithm to this distance matrix, choosing $k$ with the average silhouette width.
 3. Cross-tabulate the clusters against `class`. Do the clusters separate healthy patients (`class == 0`) from the others?
 
