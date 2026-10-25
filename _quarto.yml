@@ -16,7 +16,6 @@ book:
         - chapters/Exam-Sample.qmd
         - chapters/Outlier_Detection.qmd
         - chapters/missing_values.qmd
-        - chapters/Decision_trees.qmd
     - part: "Dimension Reduction"
       chapters:
         - chapters/pca.qmd
@@ -27,6 +26,9 @@ book:
     - part: "Classification"
       chapters:
         - chapters/chapter5_logistic_regression.qmd
+    - part: "Tree-Based Methods"
+      chapters:
+        - chapters/Decision_trees.qmd
     - part: "Data"
       chapters: 
         - chapters/chapter1_data_ethics.qmd
