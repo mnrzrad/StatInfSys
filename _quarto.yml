@@ -19,10 +19,10 @@ book:
     - part: "Dimension Reduction"
       chapters:
         - chapters/pca.qmd
-    - part: "Clustering"
-      chapters:
         - chapters/clustering.qmd
-        - chapters/clustering_projects.qmd
+    # - part: "Clustering"
+    #   chapters:
+    #     - chapters/clustering_projects.qmd
     - part: "Classification"
       chapters:
         - chapters/chapter5_logistic_regression.qmd
