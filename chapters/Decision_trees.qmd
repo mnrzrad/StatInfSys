@@ -22,6 +22,8 @@ A *decision tree* predicts an outcome by asking a sequence of simple questions a
 
 A single tree, however, is rarely the most accurate model available. Its predictions change a great deal when the training data change slightly. The second half of the chapter shows how to fix that by combining many trees: *bagging* and *random forests* average trees grown on bootstrap samples, and *boosting* grows trees one after another, each correcting the errors of the previous ones. Two modern implementations of boosting, **XGBoost** and **LightGBM**, are today the standard first choice for prediction on tabular data.
 
+Along the way, the chapter introduces the tools used to evaluate any predictive model: training, validation and test sets, cross-validation, and performance metrics for predicted classes, probabilities and numbers.
+
 The chapter follows Chapter 8 of @james2021islr and Chapters 9–12 of @boehmke2019hands. The algorithm for growing a single tree is CART, introduced by @breiman1984cart.
 
 ## Anatomy of a Decision Tree
@@ -70,7 +72,7 @@ We use three data sets from the package **ISLR2**, the companion package of @jam
 The original Boston data, as distributed in **MASS**, contain a variable `black`, defined as $1000(B - 0.63)^2$ where $B$ is the proportion of Black residents. Its parabolic form encodes the original authors' assumption about how racial self-segregation affects house prices, an assumption they did not test. The version in **ISLR2** leaves the variable out, and we use that version (see also the Data Ethics chapter).
 :::
 
-Every method is evaluated on data it has not seen. As in the labs of @james2021islr, each data set is split in half at random, and the same split is used for every model. For Boston, `set.seed(1)` gives the same split as the corresponding lab, and where we use the same method — a random forest with `mtry = 6`, for example — the numbers below match theirs.
+Every method is evaluated on data it has not seen. As in the labs of @james2021islr, each data set is split in half at random, and the same split is used for every model. For Boston, `set.seed(1)` gives the same split as the corresponding lab, and where we use the same method — a random forest with `mtry = 6`, for example — the numbers below match theirs. Why the data are split, and how the training half is used to make choices, is the subject of @sec-splitting.
 
 ```{r}
 #| label: data
@@ -136,6 +138,230 @@ rbind(train = c(hitters = nrow(hit_train), carseats = nrow(car_train), boston = 
 
 :::{.callout-note appearance="minimal"}
 **Packages and commands.** The data come from **ISLR2** (`Hitters`, `Carseats`, `Boston`). `na.omit` drops the players without a salary, `factor(ifelse(...))` builds the binary response, and `set.seed` followed by `sample(n, n / 2)` draws the training rows; negative indexing, `data[-idx, ]`, gives the test rows.
+:::
+
+## Training, Validation and Test Sets {#sec-splitting}
+
+A model is built to predict observations it has not seen. Its error on the observations it was fitted to, the *training error*, is a poor guide to how well it does that: it measures how closely the model has adapted to those particular observations, and a flexible model can adapt very closely. A tree grown until each leaf holds a single observation has a training error of zero, and yet it predicts new observations badly (@sec-pruning). What we want to know is the *test error*: the expected error on new observations from the same population. It can only be estimated with observations that played no part in building the model.
+
+### Three Sets for Three Tasks
+
+Besides fitting the model, building a predictive model involves two tasks that need data of their own [@hastie2009elements, Section 7.2]:
+
+- **model selection**: comparing candidate models and choosing their *tuning parameters* — the size of a tree, the number of predictors sampled by a random forest, the learning rate of boosting;
+- **model assessment**: estimating the test error of the final model, once it has been chosen.
+
+When data are plentiful, they are split at random into three parts, one for each task. @hastie2009elements suggest $50\%$, $25\%$ and $25\%$ as a typical split.
+
+| Set | Used to | Typical share |
+|:-----------|:----------------------------------------------------|-----:|
+| training | fit every candidate model: find its splits and leaf predictions | $50\%$ |
+| validation | estimate the error of every candidate, and choose the best one | $25\%$ |
+| test | estimate the error of the chosen model, once, at the end | $25\%$ |
+
+The test set must be kept apart from the validation set because the validation error of the winning model is itself optimistic. It is the smallest of several noisy estimates, and it is the smallest partly by luck. A test set that has never been used to make a choice gives an honest estimate.
+
+When data are scarce, setting a quarter of them aside for validation is wasteful. The validation set is then replaced by *cross-validation* inside the training set, described below, and the data are split in two only. That is what this chapter does: each data set is split in half, every choice is made on the training half — by cross-validation, or by the out-of-bag error of @sec-oob — and the test half is used only to compare the final models.
+
+### The Validation-Set Approach
+
+To see the three sets at work, we split the Boston training half once more: two thirds of its $253$ tracts for fitting the candidate models, and the remaining third for validating them. The test half is not touched. The candidates are regression trees that differ in a single tuning parameter, the minimum number $m$ of tracts in a leaf (`minbucket` in the function `rpart()`, which is presented in the next section). With $m = 1$ a leaf can hold a single tract and the tree can follow the training data very closely; with a large $m$ the tree has only a few large leaves.
+
+```{r}
+#| label: validation-split
+library(rpart)
+library(ggplot2)
+
+set.seed(1)
+val_idx <- sample(nrow(bos_train), round(nrow(bos_train) / 3))
+bos_fit <- bos_train[-val_idx, ]   # 169 tracts to fit the candidate trees
+bos_val <- bos_train[val_idx, ]    #  84 tracts to validate them
+
+mse <- function(pred, obs) mean((pred - obs)^2)
+
+# a tree whose leaves hold at least m tracts (cp = 0: no other limit on its size)
+leaf_tree <- function(data, m) {
+  rpart(medv ~ ., data = data, control = rpart.control(cp = 0, minbucket = m, xval = 0))
+}
+
+m_grid <- c(1, 2, 3, 5, 7, 10, 15, 20, 30, 50)
+val_curve <- t(sapply(m_grid, function(m) {
+  fit <- leaf_tree(bos_fit, m)
+  c(m          = m,
+    leaves     = sum(fit$frame$var == "<leaf>"),
+    training   = mse(predict(fit), bos_fit$medv),
+    validation = mse(predict(fit, bos_val), bos_val$medv))
+}))
+round(val_curve, 2)
+```
+
+```{r}
+#| label: validation-curve
+#| fig-cap: "Training and validation MSE of regression trees for the Boston data, against the minimum leaf size m (log scale). The trees are fitted to 169 tracts of the training half and validated on the other 84. The dotted line marks the leaf size with the smallest validation error."
+#| fig-width: 7
+#| fig-height: 4
+m_best <- unname(val_curve[which.min(val_curve[, "validation"]), "m"])
+
+curves <- data.frame(m   = rep(m_grid, 2),
+                     mse = c(val_curve[, "training"], val_curve[, "validation"]),
+                     set = rep(c("training", "validation"), each = length(m_grid)))
+ggplot(curves, aes(m, mse, colour = set)) +
+  geom_line(linewidth = 0.8) +
+  geom_point() +
+  geom_vline(xintercept = m_best, linetype = "dotted") +
+  scale_x_log10(breaks = m_grid) +
+  labs(x = "minimum leaf size m", y = "MSE", colour = NULL) +
+  theme_minimal()
+```
+
+From left to right the trees become smaller, from $110$ leaves with $m = 1$ to two leaves with $m = 50$. The training error only increases: the larger the tree, the closer it follows the data it was grown on, down to an MSE of $0.22$ for $m = 1$. The validation error is U-shaped. It is high on the left, where large trees fit the noise of the $169$ tracts (*overfitting*: low bias, high variance), and high on the right, where trees with two or three leaves miss most of the structure (*underfitting*: high bias). It is lowest at $m = 7$, with a tree of $12$ leaves.
+
+Once $m$ is chosen, the tree is grown again on the whole training half — more data give a better tree — and the test half is used, once, to estimate its error:
+
+```{r}
+#| label: validation-final
+bos_final <- leaf_tree(bos_train, m_best)
+c(m        = m_best,
+  leaves   = sum(bos_final$frame$var == "<leaf>"),
+  test_mse = mse(predict(bos_final, bos_test), bos_test$medv))
+```
+
+The final tree has $20$ leaves and a test MSE of $32.8$. It is more than twice the validation error of $14.2$. Part of the gap is the optimism of the validation error after a choice has been made; most of it comes from the test half of Boston, which is harder to predict than the training half (@sec-oob).
+
+### Cross-Validation
+
+The validation-set approach has two drawbacks [@james2021islr, Section 5.1]. The models are fitted to only part of the training data, so they are worse than the model that will finally be used, and the validation error tends to *overestimate* its test error. And the estimate depends on which observations happen to fall in the validation set: with $84$ tracts, a few hard tracts more or less change it noticeably.
+
+**$K$-fold cross-validation** uses every observation for both purposes. The training set is divided at random into $K$ groups, or *folds*, of about equal size. Each fold in turn serves as the validation set for a model fitted to the other $K - 1$ folds, giving $K$ estimates $\text{MSE}_1, \ldots, \text{MSE}_K$, and the cross-validation estimate is their average,
+$$
+\text{CV}_{(K)} = \frac{1}{K} \sum_{k=1}^{K} \text{MSE}_k .
+$$
+Every observation is used for validation exactly once and for fitting $K - 1$ times. With $K = n$, each fold holds a single observation: this is *leave-one-out cross-validation* (LOOCV). The usual choices, $K = 5$ or $K = 10$, are cheaper and have been found to give a good balance between the bias and the variance of the estimate [@james2021islr, Section 5.1.4].
+
+```{r}
+#| label: cv-folds
+cv_mse <- function(data, m, folds) {
+  mean(sapply(unique(folds), function(k) {
+    fit <- leaf_tree(data[folds != k, ], m)
+    mse(predict(fit, data[folds == k, ]), data$medv[folds == k])
+  }))
+}
+
+set.seed(1)
+folds <- sample(rep(1:10, length.out = nrow(bos_train)))   # a fold number for every tract
+table(folds)
+
+cv_curve <- sapply(m_grid, function(m) cv_mse(bos_train, m, folds))
+round(rbind(m = m_grid, cv_mse = cv_curve), 2)
+```
+
+The same folds are used for every value of $m$, so that the comparison between candidates is not blurred by differences between folds. To compare the stability of the two approaches, we repeat each of them ten times, with ten different random validation sets and ten different random assignments of the tracts to folds:
+
+```{r}
+#| label: cv-variability
+#| fig-cap: "Left: validation MSE for ten random validation sets of 84 tracts. Right: 10-fold cross-validation MSE for ten random assignments of the tracts to folds. Both use the Boston training half; each line is one repetition."
+#| fig-width: 8
+#| fig-height: 3.8
+one_run <- function(s) {
+  set.seed(s)
+  vi <- sample(nrow(bos_train), round(nrow(bos_train) / 3))
+  set.seed(s)
+  f  <- sample(rep(1:10, length.out = nrow(bos_train)))
+  val <- sapply(m_grid, function(m)
+    mse(predict(leaf_tree(bos_train[-vi, ], m), bos_train[vi, ]), bos_train$medv[vi]))
+  cv  <- sapply(m_grid, function(m) cv_mse(bos_train, m, f))
+  data.frame(run = s, m = rep(m_grid, 2), mse = c(val, cv),
+             method = rep(c("validation set", "10-fold cross-validation"), each = length(m_grid)))
+}
+runs <- do.call(rbind, lapply(1:10, one_run))
+runs$method <- factor(runs$method, levels = c("validation set", "10-fold cross-validation"))
+
+ggplot(runs, aes(m, mse, group = run)) +
+  geom_line(colour = "grey35", alpha = 0.7) +
+  facet_wrap(~ method) +
+  scale_x_log10(breaks = m_grid) +
+  labs(x = "minimum leaf size m", y = "estimated MSE") +
+  theme_minimal()
+
+# the leaf size chosen by each repetition (one column per repetition)
+chosen <- sapply(split(runs, runs$method), function(d)
+  sapply(split(d, d$run), function(r) r$m[which.min(r$mse)]))
+t(chosen)
+```
+
+The ten validation curves differ in level and in shape, and the leaf size they choose ranges from $1$ to $7$. The ten cross-validation curves have the same shape and choose $m = 3$, $5$ or $7$. Averaging them — *repeated cross-validation* — would give a still more stable estimate.
+
+Cross-validation is used throughout the chapter. `rpart()` runs a 10-fold cross-validation every time it grows a tree, which @sec-pruning uses to choose the size of the tree; random forests offer a cheaper alternative, the out-of-bag error (@sec-oob); and **gbm**, **xgboost** and **lightgbm** have cross-validation functions of their own.
+
+### Stratified Splits
+
+A random split can, by chance, give the two halves different distributions of the response. In Carseats, $41\%$ of the $400$ stores have high sales; the training half has $41.5\%$ and the test half $40.5\%$, which is close. Over many random splits, however, the proportion in the training half varies quite a lot:
+
+```{r}
+#| label: stratified
+set.seed(1)
+props <- replicate(1000, mean(carseats$High[sample(400, 200)] == "Yes"))
+quantile(props, c(0.025, 0.5, 0.975))
+
+# sample half of the rows of each class separately
+stratified_half <- function(y) {
+  unlist(lapply(split(seq_along(y), y), function(rows) sample(rows, round(length(rows) / 2))))
+}
+
+set.seed(1)
+strat_idx <- stratified_half(carseats$High)
+c(train = mean(carseats$High[strat_idx] == "Yes"), test = mean(carseats$High[-strat_idx] == "Yes"))
+```
+
+In $95\%$ of random splits the training half has between $36.5\%$ and $45.5\%$ of high-sales stores. A *stratified* split samples separately within each class, so that both halves have exactly the class proportions of the whole data set. Stratifying matters most when one class is rare — in a data set with $6\%$ of positive cases, such as the `Caravan` data of Exercise 6, a random training set may contain very few of them — and for cross-validation folds, which are smaller still. For a numeric response, the same idea is applied to groups defined by its quantiles, for example the quartiles of `medv`. We keep the simple random splits of the labs of @james2021islr, so that the numbers can be compared with theirs.
+
+The iris data of the next section have $50$ flowers of each species. A stratified split puts $25$ of each species in each half; we use these halves to evaluate the iris tree in @sec-metrics.
+
+```{r}
+#| label: iris-split
+set.seed(1)
+iris_idx   <- stratified_half(iris$Species)
+iris_train <- iris[iris_idx, ]
+iris_test  <- iris[-iris_idx, ]
+table(iris_train$Species)
+```
+
+### Rules for an Honest Estimate
+
+- **Use the test set once.** If several models are compared on the test set and the best one is kept, its test error is optimistic for the same reason as a validation error.
+- **Learn everything from the training data.** Every step that learns from data is part of the model: imputing missing values, standardising the predictors, *selecting* predictors<!-- (@sec-selection) -->, choosing tuning parameters. Each step must use the training set alone, and with cross-validation it must be repeated inside every fold. When information from the test set reaches the model this way, the estimate is optimistic; this is called *data leakage*.
+- **Respect the structure of the data.** A random split assumes that the observations are independent. With data ordered in time, the model should be fitted to the past and tested on the future. With several rows per unit — the same patient on several visits, the same store in several weeks — all the rows of a unit go to the same side of the split. The rows of our three data sets are distinct players, census tracts and stores.
+- **Mind the size of the test set.** A larger training set gives a better model, a larger test set a more precise estimate of its error. With a few hundred observations, test errors are noisy; @sec-metrics shows how to attach a standard error to them.
+
+```{webr-r}
+#| label: validation-webr
+#| autorun: false
+#| message: false
+#| warning: false
+library(rpart)
+
+# Try it: change the seed, the share of the validation set (1/3) or the number
+# of folds K, and see which leaf size each approach chooses
+set.seed(1)
+vi <- sample(nrow(bos_train), round(nrow(bos_train) / 3))
+K  <- 10
+folds <- sample(rep(1:K, length.out = nrow(bos_train)))
+
+m_grid <- c(1, 2, 3, 5, 7, 10, 15, 20, 30, 50)
+errors <- t(sapply(m_grid, function(m) {
+  ctrl <- rpart.control(cp = 0, minbucket = m, xval = 0)
+  fit  <- rpart(medv ~ ., data = bos_train[-vi, ], control = ctrl)
+  cv   <- mean(sapply(1:K, function(k) {
+    f <- rpart(medv ~ ., data = bos_train[folds != k, ], control = ctrl)
+    mean((predict(f, bos_train[folds == k, ]) - bos_train$medv[folds == k])^2)
+  }))
+  c(m = m, validation = mean((predict(fit, bos_train[vi, ]) - bos_train$medv[vi])^2), cv = cv)
+}))
+round(errors, 2)
+```
+
+:::{.callout-note appearance="minimal"}
+**Packages and commands.** All in base R and **rpart**. `sample(n, size)` draws the rows of a random split, and `sample(rep(1:K, length.out = n))` assigns every row to one of $K$ folds; `split(seq_along(y), y)` groups the rows by class for a stratified split. `rpart.control(cp = 0, minbucket = m, xval = 0)` grows a tree limited only by its leaf size, without the internal cross-validation; `sapply` evaluates every candidate, and `which.min` picks the best one. The packages **rsample** (`initial_split(data, prop, strata = )`, `vfold_cv()`), used by @boehmke2019hands, and **caret** (`createDataPartition()`, `createFolds()`) provide the same splits ready-made.
 :::
 
 ## Regression Trees
@@ -384,14 +610,12 @@ To judge the tree we predict the test set and compare with two benchmarks: a lin
 
 ```{r}
 #| label: boston-tree-mse
-mse <- function(pred, obs) mean((pred - obs)^2)
-
-c(tree   = mse(predict(bos_tree, bos_test), bos_test$medv),
+c(tree  = mse(predict(bos_tree, bos_test), bos_test$medv),
   linear = mse(predict(lm(medv ~ ., data = bos_train), bos_test), bos_test$medv),
   null   = mse(mean(bos_train$medv), bos_test$medv))
 ```
 
-The test MSE of the tree is $35.29$: its predictions are, on a root-mean-square basis, $\sqrt{35.29} \approx 5.94$ thousand dollars away from the true median values. The tree is far better than the null model, but it is beaten by a plain linear regression ($27.65$). We will see that pruning hardly changes this, and that a forest of trees changes it a lot.
+The test MSE of the tree is $35.29$: its predictions are, on a root-mean-square basis, $\sqrt{35.29} \approx 5.94$ thousand dollars away from the true median values. The tree is far better than the null model, but it is beaten by a plain linear regression ($27.65$). We will see that pruning hardly changes this, and that a forest of trees changes it a lot.<!-- (Over $100$ other random splits of the data, however, the tree beats the linear regression two times out of three: see @sec-split-sensitivity.) -->
 
 The appearance of the tree is controlled by the arguments of `rpart.plot()`, whose simplified format is
 ```{r}
@@ -609,6 +833,648 @@ mean(predict(fit, car_test, type = "class") == car_test$High)
 :::{.callout-note appearance="minimal"}
 **Packages and commands.** `rpart(method = "class")` grows a classification tree with the Gini index, or with the entropy when `parms = list(split = "information")`. `predict(fit, newdata, type = "class")` returns the predicted classes and `type = "prob"` the class proportions of the leaves; `table` cross-tabulates predictions and true classes, and `mean(pred == obs)` gives the accuracy. `rpart.plot(extra = 104)` shows all class probabilities, `extra = 106` only the probability of the second class. The impurity measures are short base-R functions.
 :::
+
+## Performance and Prediction Metrics {#sec-metrics}
+
+So far a classification tree has been judged by its accuracy and a regression tree by its test MSE. A single number hides a great deal: which kinds of error the model makes, how confident it is when it is wrong, how large its typical error is. This section collects the main measures of performance — for predicted classes, for predicted probabilities and for predicted numbers. They are computed on the test set or, when they are used to choose a model, by cross-validation on the training set. The measure used to choose a model should be the one used to assess it, and both should reflect what an error costs in the application.
+
+### The Confusion Matrix
+
+For a binary response, one class is called *positive* — usually the event of interest, here `High = "Yes"` — and the other *negative*. Every prediction then has one of four outcomes:
+
+| | actual positive | actual negative |
+|:---------------------|:---------------------:|:---------------------:|
+| **predicted positive** | true positive (TP) | false positive (FP) |
+| **predicted negative** | false negative (FN) | true negative (TN) |
+
+The table of the four counts is the *confusion matrix*, and most measures of performance are ratios of its cells:
+
+| Measure | Formula | Question it answers |
+|:---------------------------|:----------------------|:--------------------------------------|
+| accuracy | $(\text{TP} + \text{TN}) / n$ | what share of the predictions is correct? |
+| error rate | $(\text{FP} + \text{FN}) / n$ | what share is wrong? |
+| sensitivity (recall, true positive rate) | $\text{TP} / (\text{TP} + \text{FN})$ | what share of the actual positives is found? |
+| specificity (true negative rate) | $\text{TN} / (\text{TN} + \text{FP})$ | what share of the actual negatives is recognised? |
+| precision (positive predictive value) | $\text{TP} / (\text{TP} + \text{FP})$ | what share of the predicted positives is correct? |
+| negative predictive value | $\text{TN} / (\text{TN} + \text{FN})$ | what share of the predicted negatives is correct? |
+| $F_1$ score | $\dfrac{2 \cdot \text{precision} \cdot \text{sensitivity}}{\text{precision} + \text{sensitivity}}$ | the harmonic mean of precision and sensitivity |
+| balanced accuracy | $(\text{sensitivity} + \text{specificity}) / 2$ | accuracy with the two classes weighted equally |
+
+The *false positive rate* is $1 - \text{specificity}$. *Cohen's kappa* [@cohen1960kappa] compares the accuracy with the accuracy $p_e$ that would be expected by chance given the row and column totals of the matrix, $\kappa = (\text{accuracy} - p_e) / (1 - p_e)$: it is $0$ for agreement no better than chance and $1$ for perfect agreement.
+
+The function below computes all of them, and we apply it to the predictions of the Carseats tree of the previous section:
+
+```{r}
+#| label: class-metrics
+class_metrics <- function(pred, obs, positive = "Yes") {
+  TP <- sum(pred == positive & obs == positive)
+  TN <- sum(pred != positive & obs != positive)
+  FP <- sum(pred == positive & obs != positive)
+  FN <- sum(pred != positive & obs == positive)
+  n  <- TP + TN + FP + FN
+  sensitivity <- TP / (TP + FN)
+  specificity <- TN / (TN + FP)
+  precision   <- TP / (TP + FP)
+  p_chance    <- ((TP + FP) * (TP + FN) + (TN + FN) * (TN + FP)) / n^2
+  c(accuracy          = (TP + TN) / n,
+    sensitivity       = sensitivity,
+    specificity       = specificity,
+    precision         = precision,
+    npv               = TN / (TN + FN),
+    F1                = 2 * precision * sensitivity / (precision + sensitivity),
+    balanced_accuracy = (sensitivity + specificity) / 2,
+    kappa             = ((TP + TN) / n - p_chance) / (1 - p_chance))
+}
+
+table(predicted = car_pred, actual = car_test$High)
+round(class_metrics(car_pred, car_test$High), 3)
+```
+
+Of the $81$ test stores with high sales, the tree finds $52$: a sensitivity of $64.2\%$. Of the $119$ other stores it recognises $81$: a specificity of $68.1\%$. When it predicts high sales it is right in $52$ of $90$ cases, a precision of $57.8\%$. Its accuracy of $66.5\%$ should be compared with the *no-information rate*, the accuracy of predicting the majority class for every store: "No" is right for $119$ of the $200$ test stores, $59.5\%$. The kappa of $0.32$ says the same thing in another way — the tree is about a third of the way from chance to perfect agreement.
+
+Which measure matters most depends on the cost of each kind of error. If a prediction of high sales means sending extra stock to a store, a false positive wastes stock and a false negative loses sales; a screening test for a disease must above all have a high sensitivity. When one class is rare, the accuracy is particularly misleading. With $6\%$ of positive cases, as in the `Caravan` data of Exercise 6, a "model" that predicts "No" for everybody is $94\%$ accurate and has a sensitivity of $0$.
+
+**The precision of a test estimate.** The test accuracy is a proportion of $n$ test observations, with standard error $\sqrt{\text{accuracy}\,(1 - \text{accuracy}) / n}$:
+
+```{r}
+#| label: accuracy-se
+car_acc <- mean(car_pred == car_test$High)
+c(accuracy       = car_acc,
+  std_error      = sqrt(car_acc * (1 - car_acc) / nrow(car_test)),
+  no_information = max(table(car_test$High)) / nrow(car_test))
+```
+
+The standard error is $3.3$ percentage points, so an approximate $95\%$ confidence interval for the accuracy of the tree runs from about $60\%$ to $73\%$. Differences of a few stores between two trees — such as the six stores, three percentage points, between the Gini and the entropy trees of the previous section — are well within this margin. The standard error of a test MSE is computed in the same way, as the standard deviation of the squared errors divided by $\sqrt{n}$; @sec-compare uses it to compare the final models.
+
+**More than two classes.** With $K$ classes the confusion matrix is $K \times K$. Sensitivity and precision are computed for each class against all the others together, and can be averaged over the classes (*macro-averaging*). We grow the iris tree on the stratified training half of @sec-splitting and evaluate it on the other half:
+
+```{r}
+#| label: iris-metrics
+iris_half_tree <- rpart(Species ~ ., data = iris_train, method = "class")
+iris_half_tree
+
+iris_cm <- table(predicted = predict(iris_half_tree, iris_test, type = "class"),
+                 actual    = iris_test$Species)
+iris_cm
+
+per_class <- rbind(sensitivity = diag(iris_cm) / colSums(iris_cm),
+                   precision   = diag(iris_cm) / rowSums(iris_cm))
+round(cbind(per_class, macro_average = rowMeans(per_class)), 3)
+sum(diag(iris_cm)) / sum(iris_cm)   # accuracy
+```
+
+Grown on $75$ flowers, the tree splits twice on `Petal.Length`, where the tree grown on all $150$ flowers used `Petal.Width` for its second split. It classifies $70$ of the $75$ test flowers correctly ($93.3\%$, against $96\%$ on the data the full tree was grown on). All the errors are between versicolor and virginica: four versicolor flowers are classified as virginica, so the sensitivity for versicolor is $84\%$ and the precision for virginica $85.7\%$.
+
+### Thresholds, ROC Curves and AUC
+
+A classification tree predicts the class with the larger probability, which for two classes means using a *threshold* of $0.5$. Other thresholds give other classifiers: lowering it predicts "Yes" more often, which raises the sensitivity and lowers the specificity. The *receiver operating characteristic* (ROC) curve shows this trade-off for every possible threshold, by plotting the sensitivity against the false positive rate. The *area under the curve* (AUC) summarises it in one number: $0.5$ for a classifier that guesses at random, $1$ for one that separates the classes perfectly. The AUC is also the probability that a randomly chosen positive observation receives a higher predicted probability than a randomly chosen negative one, with ties counting one half [@fawcett2006roc].
+
+We compare the tree with a logistic regression on the same predictors (Classification chapter). Both functions below are written directly from these definitions:
+
+```{r}
+#| label: roc
+#| fig-cap: "ROC curves of the Carseats classification tree and of a logistic regression, on the test set. Each point on the tree's curve is one of its possible thresholds; the dashed diagonal is a classifier that guesses at random."
+#| fig-width: 6.5
+#| fig-height: 4.5
+car_prob   <- predict(car_tree, car_test, type = "prob")[, "Yes"]
+car_logit  <- glm(High ~ ., data = car_train, family = binomial)
+logit_prob <- predict(car_logit, car_test, type = "response")
+
+# false positive rate and sensitivity when "Yes" is predicted for prob >= threshold
+roc_points <- function(prob, obs, positive = "Yes") {
+  thresholds <- c(Inf, sort(unique(prob), decreasing = TRUE))
+  data.frame(threshold   = thresholds,
+             fpr         = sapply(thresholds, function(t) mean(prob[obs != positive] >= t)),
+             sensitivity = sapply(thresholds, function(t) mean(prob[obs == positive] >= t)))
+}
+
+# probability that a random positive gets a higher score than a random negative
+auc <- function(prob, obs, positive = "Yes") {
+  r  <- rank(prob)                     # tied scores share their average rank
+  n1 <- sum(obs == positive)
+  n0 <- sum(obs != positive)
+  (sum(r[obs == positive]) - n1 * (n1 + 1) / 2) / (n1 * n0)
+}
+
+round(roc_points(car_prob, car_test$High), 3)
+c(tree = auc(car_prob, car_test$High), logistic = auc(logit_prob, car_test$High))
+
+roc <- rbind(cbind(model = "classification tree", roc_points(car_prob,   car_test$High)),
+             cbind(model = "logistic regression", roc_points(logit_prob, car_test$High)))
+ggplot(roc, aes(fpr, sensitivity, colour = model)) +
+  geom_abline(linetype = "dashed", colour = "grey60") +
+  geom_path(linewidth = 0.8) +
+  geom_point(data = roc[roc$model == "classification tree", ]) +
+  coord_equal() +
+  labs(x = "false positive rate (1 - specificity)", y = "sensitivity", colour = NULL) +
+  theme_minimal()
+```
+
+The tree has only six different probabilities, one per leaf, so it has only seven possible classifiers, from "No" for every store to "Yes" for every store; its ROC curve joins them by straight lines. The usual threshold of $0.5$ gives the point with a false positive rate of $31.9\%$ and a sensitivity of $64.2\%$. A threshold of $0.14$ would find $75\%$ of the high-sales stores, at the price of predicting high sales for $65\%$ of the others. The logistic regression is better at every threshold: its AUC is $0.96$, against $0.66$ for the tree.
+
+### Probabilities: Brier Score, Log-Loss and Calibration
+
+When the predicted probabilities themselves are used — to rank stores, or to compute expected sales — they should be assessed as probabilities. With $y_i = 1$ for a positive and $0$ for a negative observation, the two standard measures are the *Brier score* [@brier1950verification] and the *log-loss*,
+$$
+\text{Brier} = \frac{1}{n} \sum_{i=1}^{n} (\hat{p}_i - y_i)^2 ,
+\qquad
+\text{log-loss} = -\frac{1}{n} \sum_{i=1}^{n} \left[ y_i \log \hat{p}_i + (1 - y_i) \log (1 - \hat{p}_i) \right] .
+$$
+Both are $0$ for perfect, fully confident predictions. The log-loss is the Bernoulli deviance that logistic regression and boosting for classification minimise (@sec-boosting), divided by $n$. It punishes confident mistakes severely, and is infinite if an event happens to which the model gave probability $0$ — a real risk for a tree, whose pure leaves predict exactly $0$ or $1$. As a benchmark we use the null model, which gives every store the proportion of high-sales stores in the training set, $41.5\%$:
+
+```{r}
+#| label: prob-metrics
+brier   <- function(prob, y) mean((prob - y)^2)
+logloss <- function(prob, y) -mean(y * log(prob) + (1 - y) * log(1 - prob))
+
+y01       <- as.integer(car_test$High == "Yes")
+null_prob <- rep(mean(car_train$High == "Yes"), nrow(car_test))
+
+round(rbind(tree     = c(brier = brier(car_prob, y01),   logloss = logloss(car_prob, y01),
+                         auc   = auc(car_prob, car_test$High)),
+            logistic = c(brier(logit_prob, y01), logloss(logit_prob, y01), auc(logit_prob, car_test$High)),
+            null     = c(brier(null_prob, y01),  logloss(null_prob, y01),  auc(null_prob, car_test$High))), 3)
+```
+
+The tree's probabilities are *worse* than those of the null model, by both measures ($0.248$ against $0.241$, and $0.725$ against $0.675$), even though its classes beat the no-information rate. The reason is *calibration*. A model is well calibrated when, among the observations to which it gives a probability $p$, a share of about $p$ are positive. For a tree the check takes one line per leaf:
+
+```{r}
+#| label: calibration
+leaf_prob <- factor(round(car_prob, 3))    # one level per leaf
+data.frame(predicted   = as.numeric(levels(leaf_prob)),
+           observed    = round(as.vector(tapply(y01, leaf_prob, mean)), 3),
+           test_stores = as.vector(table(leaf_prob)))
+```
+
+The leaves that promise $83\%$ and $85\%$ of high-sales stores deliver $59\%$ and $69\%$, and the leaf that promises $11\%$ delivers $32\%$. The leaf proportions are too extreme because they are computed from the same stores that were used to choose the splits, and every split was chosen precisely because it made its two children look as pure as possible; leaves with $10$ or $12$ training stores make this worse. Averaging the probabilities of many trees, as bagging and random forests do, gives far better calibrated probabilities. For a model with many different probabilities, the predictions are grouped into bins (deciles, for example), and the observed share of positives is plotted against the mean predicted probability of each bin: a *calibration plot*.
+
+### Prediction Metrics for a Numeric Response
+
+For a numeric response, the measures are built from the test residuals $e_i = y_i - \hat{y}_i$:
+$$
+\text{MSE} = \frac{1}{n} \sum_{i=1}^{n} e_i^2 , \qquad
+\text{RMSE} = \sqrt{\text{MSE}} , \qquad
+\text{MAE} = \frac{1}{n} \sum_{i=1}^{n} |e_i| , \qquad
+\text{bias} = \frac{1}{n} \sum_{i=1}^{n} e_i , \qquad
+R^2_{\text{test}} = 1 - \frac{\text{MSE}}{\text{MSE}_{\text{null}}} .
+$$
+
+- The **MSE** is the criterion that a regression tree minimises when it chooses its splits. Because it squares the errors, a few large errors can dominate it.
+- The **RMSE** ranks models as the MSE does, but is expressed in the units of the response.
+- The **mean absolute error** (MAE) is the average size of an error, also in the units of the response; large errors count in proportion to their size, not to its square. The *median* absolute error is the size of a typical error, and ignores the largest ones altogether.
+- The **bias** is positive when the model predicts too low on average.
+- $R^2_{\text{test}}$ is the share of the test MSE of the null model, $\text{MSE}_{\text{null}}$, that the model removes; the null model predicts every observation by the mean of the training set. Unlike the $R^2$ of a fitted linear model, it can be negative: a model can predict new data worse than the mean does.
+
+```{r}
+#| label: regression-metrics
+reg_metrics <- function(pred, obs, train_mean) {
+  e <- obs - pred
+  c(MSE       = mean(e^2),
+    RMSE      = sqrt(mean(e^2)),
+    MAE       = mean(abs(e)),
+    median_AE = median(abs(e)),
+    bias      = mean(e),
+    R2        = 1 - mean(e^2) / mean((obs - train_mean)^2))
+}
+
+bos_lm   <- lm(medv ~ ., data = bos_train)
+bos_mean <- mean(bos_train$medv)
+round(rbind(tree   = reg_metrics(predict(bos_tree, bos_test), bos_test$medv, bos_mean),
+            linear = reg_metrics(predict(bos_lm, bos_test),   bos_test$medv, bos_mean),
+            null   = reg_metrics(bos_mean,                    bos_test$medv, bos_mean)), 2)
+```
+
+The three measures of the size of the errors tell different stories. By MSE, the linear regression is clearly better than the tree ($27.65$ against $35.29$). By MAE the two are tied ($3.68$ against $3.69$, that is, about $\$3\,700$). By the median absolute error the tree is better ($2.37$ against $2.91$). The tree predicts the typical tract at least as well as the linear regression, but it makes a few very large errors, and the MSE squares them. Both models remove about two thirds of the error of the null model, and all three have a positive bias: the test tracts are on average worth $\$1\,490$ more than the training tracts.
+
+```{r}
+#| label: observed-predicted
+#| fig-cap: "Observed against predicted median value for the 253 Boston test tracts. The tree can only predict seven different values, one per leaf. The dashed line marks perfect predictions."
+#| fig-width: 8
+#| fig-height: 4
+obs_pred <- data.frame(observed  = rep(bos_test$medv, 2),
+                       predicted = c(predict(bos_tree, bos_test), predict(bos_lm, bos_test)),
+                       model     = rep(c("regression tree", "linear regression"), each = nrow(bos_test)))
+ggplot(obs_pred, aes(predicted, observed)) +
+  geom_abline(linetype = "dashed", colour = "grey50") +
+  geom_point(alpha = 0.5) +
+  facet_wrap(~ model) +
+  coord_equal() +
+  labs(x = "predicted medv ($1000s)", y = "observed medv ($1000s)") +
+  theme_minimal()
+```
+
+The largest errors of both models are tracts whose value is capped at $50$: the three largest errors of the tree, and four of the five largest of the linear regression. The tree predicts $\$21\,400$ for each of those three tracts.
+
+**The scale of the response.** For Hitters the response is the logarithm of the salary. A residual $e_i$ on the log scale means that the predicted salary is off by a factor $\exp(e_i)$, so the metrics on the log scale measure *relative* errors. The predictions can also be transformed back to dollars, and the metrics computed there:
+
+```{r}
+#| label: hitters-metrics
+hit_tree <- rpart(logSalary ~ ., data = hit_train)
+hit_lm   <- lm(logSalary ~ ., data = hit_train)
+hit_mean <- mean(hit_train$logSalary)
+hit_pred <- list(tree = predict(hit_tree, hit_test), linear = predict(hit_lm, hit_test), null = hit_mean)
+
+# on the log scale
+round(t(sapply(hit_pred, reg_metrics, obs = hit_test$logSalary, train_mean = hit_mean)), 3)
+
+# in dollars
+salary <- 1000 * exp(hit_test$logSalary)
+round(t(sapply(hit_pred, function(p) {
+  e <- salary - 1000 * exp(p)
+  c(RMSE = sqrt(mean(e^2)), MAE = mean(abs(e)), median_pct_error = 100 * median(abs(e) / salary))
+})))
+```
+
+On the log scale the tree removes $66\%$ of the error of the null model and the linear regression only $33\%$. The tree's MAE of $0.40$ means that a typical prediction is off by a factor of about $\exp(0.40) \approx 1.5$, and in dollars its median error is $35\%$ of the salary. In dollars, the linear regression is *worse than the null model* by both RMSE and MAE: a few of its predictions are much too high on the log scale, and the exponential turns them into enormous errors in dollars. A metric should be computed on the scale on which the predictions will be used.
+
+:::{.callout-note appearance="minimal"}
+**Packages and commands.** The measures are short base-R functions: `table(predicted = , actual = )` builds the confusion matrix, `diag`, `rowSums` and `colSums` give the per-class counts, `rank` computes the AUC, and `tapply` the observed share of positives in each leaf. `predict(fit, type = "prob")` (**rpart**) and `predict(fit, type = "response")` (`glm`) return probabilities. Ready-made versions are in **yardstick** (`conf_mat()`, `sens()`, `spec()`, `precision()`, `f_meas()`, `roc_curve()`, `roc_auc()`, `mn_log_loss()`, `rmse()`, `mae()`, `rsq()`), **pROC** (`roc()`, `auc()`, `ci.auc()`) and **caret** (`confusionMatrix()`).
+:::
+
+```{webr-r}
+#| label: metrics-webr
+#| autorun: false
+#| message: false
+#| warning: false
+library(rpart)
+
+# Try it: change the threshold (0.15, 0.7, 0.85) and see how sensitivity,
+# specificity and precision move. Which threshold maximises the accuracy?
+fit  <- rpart(High ~ ., data = car_train, method = "class")
+prob <- predict(fit, car_test, type = "prob")[, "Yes"]
+
+threshold <- 0.5
+pred <- factor(ifelse(prob > threshold, "Yes", "No"), levels = c("No", "Yes"))
+cm   <- table(predicted = pred, actual = car_test$High)
+cm
+round(c(accuracy    = sum(diag(cm)) / sum(cm),
+        sensitivity = cm["Yes", "Yes"] / sum(cm[, "Yes"]),
+        specificity = cm["No", "No"] / sum(cm[, "No"]),
+        precision   = cm["Yes", "Yes"] / sum(cm["Yes", ])), 3)
+```
+
+<!-- Section commented out: Variable Selection and Sensitivity Analysis.
+To restore it, delete this line and the matching end-of-comment line before "## Pruning and Complexity Reduction",
+and restore the references to @sec-selection and @sec-split-sensitivity marked with comments in the
+splitting section, the regression section and the summary. Note: knitr still runs the chunks inside this comment.
+
+## Variable Selection and Sensitivity Analysis {#sec-selection}
+
+A fitted tree shows which predictors it uses and what it predicts. Two further questions are asked of any predictive model. Does it need all of its predictors? That is the question of *variable selection*. And how much do its predictions, and the conclusions drawn from it, change when its inputs change? That is the question of *sensitivity analysis*.
+
+### Why Select Variables?
+
+A model with fewer predictors is easier to explain, cheaper to use — every predictor must be measured for every new observation — and less exposed to errors in the predictors. Sometimes it is also more accurate: every irrelevant predictor gives a greedy algorithm one more chance to choose a split that looks good only by chance. Methods of variable selection fall into three families [@guyon2003introduction]:
+
+- **filter methods** rank the predictors one at a time, independently of the final model, and keep the best ones;
+- **wrapper methods** search over *subsets* of predictors, scoring each subset by the cross-validated error of the model fitted to it;
+- **embedded methods** select the predictors as part of fitting the model. Trees are an example, and so is the lasso.
+
+### Embedded Selection: the Variables a Tree Uses
+
+The column `var` of `fit$frame` lists the variable split at each node. The Boston tree of the regression section uses four of the twelve predictors, and a tree grown on these four alone makes exactly the same predictions:
+
+```{r}
+#| label: tree-vars
+vars_used <- function(fit) setdiff(unique(as.character(fit$frame$var)), "<leaf>")
+used <- vars_used(bos_tree)
+used
+
+bos_tree_used <- rpart(reformulate(used, response = "medv"), data = bos_train)
+all.equal(predict(bos_tree_used, bos_test), predict(bos_tree, bos_test))
+
+vars_used(car_tree)
+```
+
+The other eight predictors could be left out, and need not even be measured, without changing a single prediction. The Carseats tree uses four of its ten predictors: `Price`, `CompPrice`, `Age` and `ShelveLoc`.
+
+A predictor that a tree does not use is not necessarily uninformative, however. It may have been *masked* by a correlated predictor that does the same job slightly better. The Hitters tree splits on `CRuns` and `CAtBat`, but not on `CHits`, whose correlation with `CAtBat` is $0.995$. We grow the tree again without `CRuns` and `CAtBat`:
+
+```{r}
+#| label: masking
+vars_used(hit_tree)
+
+hit_masked <- rpart(logSalary ~ . - CRuns - CAtBat, data = hit_train)
+vars_used(hit_masked)
+c(all_predictors        = mse(predict(hit_tree, hit_test), hit_test$logSalary),
+  without_CRuns_CAtBat  = mse(predict(hit_masked, hit_test), hit_test$logSalary))
+```
+
+`CHits` and `CRBI` take their place, and the test MSE is almost the same ($0.282$ against $0.274$). The variable importance scores of @sec-importance give masked predictors credit through their surrogate splits.
+
+### Filter and Wrapper Methods
+
+The search for the best root split of the Hitters data, in the regression section, ranked each numeric predictor by the best split it allows on its own. That is a filter method, and its top five predictors were `CAtBat`, `CHits`, `CRuns`, `CWalks` and `CRBI`. Filters are fast, but blind to two things:
+
+```{r}
+#| label: filter-cor
+round(cor(hitters[, c("CAtBat", "CHits", "CRuns", "CWalks", "CRBI")]), 2)
+```
+
+- **redundancy**: the five predictors at the top of the ranking are all career totals, with correlations between $0.89$ and $1.00$; keeping all five adds little to keeping one;
+- **interactions**: a predictor that is useless on its own can be very useful together with another. In the XOR example of @sec-pruning, the best single split barely improves on the root, but two splits together classify every observation correctly except those whose label was flipped.
+
+**Backward elimination** is a wrapper method that avoids both problems:
+
+1. Start with all $p$ predictors, and estimate the cross-validated error of the model.
+2. For each predictor in the current set, estimate the cross-validated error of the model without it. Remove the predictor whose removal gives the lowest error.
+3. Repeat step 2 until a single predictor is left, and choose the subset with the lowest cross-validated error along the way.
+
+*Forward selection* works the other way round, starting from no predictors and adding the most useful one at each step. We apply backward elimination to the default tree for the Hitters data. To make the comparisons between subsets as fair as possible, all of them are evaluated on the same folds, and to make them less noisy, the 10-fold cross-validation is repeated five times:
+
+```{r}
+#| label: backward
+# cross-validated MSE of a default tree on a subset of the predictors;
+# folds has one column of fold numbers per repetition of the cross-validation
+cv_subset <- function(vars, data, folds) {
+  form <- reformulate(vars, response = "logSalary")
+  fold_mse <- function(f, k) {
+    fit <- rpart(form, data = data[f != k, ], control = rpart.control(xval = 0))
+    mse(predict(fit, data[f == k, ]), data$logSalary[f == k])
+  }
+  mean(apply(folds, 2, function(f) mean(sapply(1:10, function(k) fold_mse(f, k)))))
+}
+
+backward_elimination <- function(data, folds) {
+  vars <- setdiff(names(data), "logSalary")
+  path <- list(vars)
+  cv   <- cv_subset(vars, data, folds)
+  while (length(vars) > 1) {
+    cv_without <- sapply(vars, function(v) cv_subset(setdiff(vars, v), data, folds))
+    vars <- setdiff(vars, names(which.min(cv_without)))   # drop the least useful predictor
+    path <- c(path, list(vars))
+    cv   <- c(cv, min(cv_without))
+  }
+  list(path = path, cv = cv)
+}
+
+set.seed(1)
+hit_folds <- replicate(5, sample(rep(1:10, length.out = nrow(hit_train))))
+elim <- backward_elimination(hit_train, hit_folds)
+
+# test MSE along the path, for illustration only: the test set plays no part in the choice
+elim_test <- sapply(elim$path, function(v)
+  mse(predict(rpart(reformulate(v, response = "logSalary"), data = hit_train), hit_test),
+      hit_test$logSalary))
+data.frame(kept     = lengths(elim$path),
+           removed  = c("", mapply(setdiff, head(elim$path, -1), tail(elim$path, -1))),
+           cv_mse   = round(elim$cv, 3),
+           test_mse = round(elim_test, 3))
+
+elim$path[[which.min(elim$cv)]]
+```
+
+The cross-validated MSE falls from $0.350$ with all $19$ predictors to $0.282$ with three: `AtBat`, `CAtBat` and `CRBI` — a career total that measures experience, a career total that measures production, and the number of times at bat in the last season. On the test set, the tree with these three predictors has an MSE of $0.240$, against $0.274$ for the tree with all $19$. The first predictor removed is `CRuns`, the variable at the root of the full tree: with `CAtBat` and `CHits` available, it is not needed.
+
+The elimination fitted $50$ trees for each of the $190$ subsets it scored, $9\,500$ trees in all. The selected subset depends on the folds:
+
+```{r}
+#| label: backward-seeds
+sapply(2:3, function(s) {
+  set.seed(s)
+  folds <- replicate(5, sample(rep(1:10, length.out = nrow(hit_train))))
+  e <- backward_elimination(hit_train, folds)
+  paste(e$path[[which.min(e$cv)]], collapse = ", ")
+})
+```
+
+With other random folds, the elimination keeps `Hits` instead of `AtBat`, and once also `Division`; `CAtBat` and `CRBI` are kept every time. When several subsets are almost equally good, which one wins is partly luck, and the selected subset should not be over-interpreted.
+
+### Selection Must Happen Inside the Cross-Validation
+
+The cross-validated error of the selected subset, $0.282$, is an optimistic estimate of its test error, for the same reason as the validation error of @sec-splitting: it is the smallest of $190$ noisy estimates computed on the same folds. An honest estimate of the error of the *whole procedure* — selection followed by fitting — requires data that played no part in the selection: a test set, or an outer cross-validation in each fold of which the whole elimination is repeated (*nested cross-validation*).
+
+The danger is greatest when the predictors are selected *before* the cross-validation, using all the observations. The next simulation has $200$ observations — as many as the Carseats training set — with a class assigned at random, $100$ of each, and $1000$ predictors of pure noise. No model can have an error rate below $50\%$ on new data. We select the $10$ predictors whose means differ most between the two classes, by the $t$-statistic, and estimate the error rate of a tree on them by 10-fold cross-validation, either selecting once on all $200$ observations (the wrong way) or repeating the selection inside each fold, on its training part only (the right way). The experiment is repeated on $20$ simulated data sets:
+
+```{r}
+#| label: selection-bias
+# absolute t-statistic of the difference in means between the classes, for every column of X
+t_stat <- function(X, y) {
+  a <- X[y == "Yes", , drop = FALSE]
+  b <- X[y == "No", , drop = FALSE]
+  abs(colMeans(a) - colMeans(b)) / sqrt(apply(a, 2, var) / nrow(a) + apply(b, 2, var) / nrow(b))
+}
+
+cv_error_rate <- function(X, y, folds, select_inside) {
+  top_all <- order(t_stat(X, y), decreasing = TRUE)[1:10]     # selected with every observation
+  mean(sapply(1:10, function(k) {
+    train <- folds != k
+    top   <- if (select_inside) order(t_stat(X[train, ], y[train]), decreasing = TRUE)[1:10] else top_all
+    d     <- data.frame(y = y, X[, top])
+    fit   <- rpart(y ~ ., data = d[train, ], method = "class")
+    mean(predict(fit, d[!train, ], type = "class") != y[!train])
+  }))
+}
+
+set.seed(1)
+sim <- t(replicate(20, {
+  X <- matrix(rnorm(200 * 1000), nrow = 200)               # 1000 predictors of pure noise
+  y <- factor(sample(rep(c("No", "Yes"), 100)))              # classes assigned at random
+  folds <- sample(rep(1:10, length.out = 200))
+  c(wrong_way = cv_error_rate(X, y, folds, select_inside = FALSE),
+    right_way = cv_error_rate(X, y, folds, select_inside = TRUE))
+}))
+round(colMeans(sim), 3)
+```
+
+Selected the wrong way, the predictors appear to predict the class, with an average cross-validated error rate of about $40\%$. Selected the right way, the error rate is about $50\%$, as it should be. The wrong way lets the validation folds take part in the selection: the ten predictors were chosen because they happen to separate the classes among *all* $200$ observations, including those that later serve for validation. This is the "wrong and right way to do cross-validation" of @hastie2009elements [Section 7.10.2]. @ambroise2002selection found the mistake in published studies of gene-expression data, in which thousands of genes are screened for a few dozen patients. It is a form of the data leakage of @sec-splitting.
+
+### Sensitivity of the Predictions {#sec-sensitivity}
+
+*Sensitivity analysis* asks how much the output of a model changes when one of its inputs changes [@saltelli2008global]. For a predictive model, the inputs are of two kinds: the values of the predictors of the observations being predicted, and the data and choices used to build the model. We start with the first.
+
+**One predictor at a time.** The simplest analysis changes one predictor at a time, keeping the others fixed. We increase each Boston predictor by one standard deviation (of the training set) in every test tract, and record how much the predictions change, on average. The indicator `chas`, which can only be $0$ or $1$, is left out.
+
+```{r}
+#| label: oat
+bos_vars <- setdiff(names(bos_train), c("medv", "chas"))
+shift_one <- function(data, v) {
+  data[[v]] <- data[[v]] + sd(bos_train[[v]])
+  data
+}
+
+oat <- sapply(bos_vars, function(v) {
+  tree_change <- predict(bos_tree, shift_one(bos_test, v)) - predict(bos_tree, bos_test)
+  c(tree   = mean(abs(tree_change)),
+    linear = mean(abs(predict(bos_lm, shift_one(bos_test, v)) - predict(bos_lm, bos_test))),
+    tree_share_changed = mean(tree_change != 0))
+})
+round(oat, 2)
+```
+
+The tree does not respond at all to the seven predictors that it does not use. Among the four it uses, the number of rooms dominates: one more standard deviation of `rm` ($0.7$ rooms) changes the predictions by $\$6\,360$ on average, almost five times as much as `lstat`. For the linear regression every predictor matters, and the change is the same for every tract, $|\hat\beta_j| \times \text{SD}_j$. For the tree the average hides a sharp contrast: the shift in `rm` leaves $38\%$ of the predictions unchanged, and moves the others a lot.
+
+The predictions of a tree are step functions of the predictors: insensitive within a leaf, very sensitive at a cut point. A small error in a predictor can therefore change a prediction a lot:
+
+```{r}
+#| label: rm-perturbation
+rm_plus <- bos_test
+rm_plus$rm <- rm_plus$rm + 0.1                 # a tenth of a room more in every tract
+change <- predict(bos_tree, rm_plus) - predict(bos_tree, bos_test)
+c(tracts_changed = sum(change != 0),
+  largest_change = max(abs(change)),
+  linear_change  = unname(abs(coef(bos_lm)["rm"]) * 0.1))
+```
+
+Adding a tenth of a room to the recorded average of every tract changes the tree's prediction for $19$ of the $253$ tracts, one of them by almost $\$12\,000$; the linear regression changes every prediction by $\$400$. Averaging many trees, as random forests and boosting do, smooths the steps (@sec-interpret-forest).
+
+**What if?** A fitted model can be asked what it predicts under a scenario. For a test store, we let the price vary from $\$60$ to $\$180$, keep everything else about the store fixed, and record the predicted probability of high sales. Doing this for all $200$ test stores, the tree draws only five different curves; we plot one store for each of them:
+
+```{r}
+#| label: what-if-price
+#| fig-cap: "Predicted probability of high sales against the price charged, for five test stores (one per panel), with all their other characteristics kept fixed. The stores are the first with each of the five different curves that the tree draws for the 200 test stores. The tree gives step functions, with jumps at its cut points on Price; the logistic regression gives smooth curves."
+#| fig-width: 9
+#| fig-height: 3.2
+price_grid <- 60:180
+vary_price <- function(i) {
+  store <- car_test[rep(i, length(price_grid)), ]
+  store$Price <- price_grid
+  store
+}
+
+tree_curves <- sapply(seq_len(nrow(car_test)), function(i)
+  predict(car_tree, vary_price(i), type = "prob")[, "Yes"])     # one column per store
+stores <- which(!duplicated(t(tree_curves)))                     # first store with each curve
+length(stores)
+
+ice <- do.call(rbind, lapply(stores, function(i) {
+  data.frame(store       = factor(paste("test store", i), levels = paste("test store", stores)),
+             Price       = rep(price_grid, 2),
+             probability = c(tree_curves[, i], predict(car_logit, vary_price(i), type = "response")),
+             model       = rep(c("classification tree", "logistic regression"), each = length(price_grid)))
+}))
+ggplot(ice, aes(Price, probability, colour = model)) +
+  geom_line(linewidth = 0.8) +
+  facet_wrap(~ store, nrow = 1) +
+  labs(x = "price ($)", y = "P(High = Yes)", colour = NULL) +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+```
+
+These curves are called *individual conditional expectation* (ICE) curves [@goldstein2015peeking]; their average over all observations is the partial dependence plot of @sec-interpret-forest. They show that the two models describe the effect of the price very differently. The logistic regression lowers the probability smoothly as the price rises, and the price at which it falls depends on everything else about the store. The tree has at most three levels per store, with jumps at $\$91.5$ and $\$127$, and it gives the same curve to $85$ of the $200$ test stores, all those whose competitor charges less than $\$121.5$. For one kind of store it even predicts a *higher* chance of high sales above $\$127$ than below: an artefact of a leaf of only $10$ training stores. The scenario of a $10\%$ price rise at every test store makes the difference concrete:
+
+```{r}
+#| label: what-if-scenario
+pricier <- car_test
+pricier$Price <- 1.1 * pricier$Price
+
+tree_after  <- predict(car_tree, pricier, type = "prob")[, "Yes"]
+logit_after <- predict(car_logit, pricier, type = "response")
+rbind(tree     = c(mean_prob_before = mean(car_prob), mean_prob_after = mean(tree_after),
+                   stores_unaffected = sum(tree_after == car_prob),
+                   class_changes = sum((tree_after > 0.5) != (car_prob > 0.5))),
+      logistic = c(mean(logit_prob), mean(logit_after),
+                   sum(logit_after == logit_prob),
+                   sum((logit_after > 0.5) != (logit_prob > 0.5))))
+```
+
+Both models predict that the average probability of high sales falls by about $12.5$ percentage points. They agree on the average, not on how it comes about. In the tree, $154$ of the $200$ stores are unaffected, and the whole effect is concentrated on the $46$ stores whose new price crosses a cut point; in the logistic regression, every store is affected a little. A what-if analysis describes the *model*. Whether the stores themselves would respond in the same way is a causal question, which data that were not collected by experiment can answer only under strong assumptions.
+
+### Sensitivity of the Conclusions to the Data {#sec-split-sensitivity}
+
+The test errors of this chapter come from a single random split of each data set. Would another split lead to the same conclusions? To find out, we repeat the split $100$ times and, on each, compare the default tree with the linear regression (the logistic regression for Carseats):
+
+```{r}
+#| label: split-sensitivity
+#| fig-cap: "Test error of the default tree against that of the linear model (logistic regression for Carseats), over 100 random 50/50 splits of each data set. Above the dashed diagonal, the linear model does better. The red point is the split used in this chapter."
+#| fig-width: 9
+#| fig-height: 3.6
+one_split <- function() {
+  b <- sample(nrow(boston),   nrow(boston) / 2)
+  h <- sample(nrow(hitters),  nrow(hitters) / 2)
+  k <- sample(nrow(carseats), nrow(carseats) / 2)
+  logit_k <- glm(High ~ ., data = carseats[k, ], family = binomial)
+  data.frame(
+    data   = c("Boston (MSE)", "Hitters (MSE)", "Carseats (error rate)"),
+    tree   = c(mse(predict(rpart(medv ~ ., data = boston[b, ]), boston[-b, ]), boston$medv[-b]),
+               mse(predict(rpart(logSalary ~ ., data = hitters[h, ]), hitters[-h, ]), hitters$logSalary[-h]),
+               mean(predict(rpart(High ~ ., data = carseats[k, ]), carseats[-k, ], type = "class") !=
+                      carseats$High[-k])),
+    linear = c(mse(predict(lm(medv ~ ., data = boston[b, ]), boston[-b, ]), boston$medv[-b]),
+               mse(predict(lm(logSalary ~ ., data = hitters[h, ]), hitters[-h, ]), hitters$logSalary[-h]),
+               mean((predict(logit_k, carseats[-k, ], type = "response") > 0.5) !=
+                      (carseats$High[-k] == "Yes"))))
+}
+
+set.seed(1)
+split_runs <- do.call(rbind, replicate(100, one_split(), simplify = FALSE))
+
+ours <- data.frame(data   = c("Boston (MSE)", "Hitters (MSE)", "Carseats (error rate)"),
+                   tree   = c(mse(predict(bos_tree, bos_test), bos_test$medv),
+                              mse(predict(hit_tree, hit_test), hit_test$logSalary),
+                              mean(car_pred != car_test$High)),
+                   linear = c(mse(predict(bos_lm, bos_test), bos_test$medv),
+                              mse(predict(hit_lm, hit_test), hit_test$logSalary),
+                              mean((logit_prob > 0.5) != (car_test$High == "Yes"))))
+
+ggplot(split_runs, aes(linear, tree)) +
+  geom_abline(linetype = "dashed", colour = "grey50") +
+  geom_point(alpha = 0.5) +
+  geom_point(data = ours, colour = "red", size = 3) +
+  facet_wrap(~ data, scales = "free") +
+  labs(x = "test error of the linear model", y = "test error of the tree") +
+  theme_minimal()
+
+t(sapply(split(split_runs, split_runs$data), function(d)
+  c(median_tree = median(d$tree), median_linear = median(d$linear),
+    share_tree_better = mean(d$tree < d$linear))))
+
+# share of the 100 splits on which the Boston tree does worse than on ours
+mean(split_runs$tree[split_runs$data == "Boston (MSE)"] > ours$tree[1])
+```
+
+For Hitters and Carseats, the conclusion holds on every one of the $100$ splits: the tree beats the linear regression on Hitters, and the logistic regression beats the tree on Carseats. For Boston it does not. The tree does better than the linear regression on $66$ of the $100$ splits, and its median test MSE is slightly lower ($24.4$ against $25.4$). The split used in this chapter is one of the worst for the tree: only one random split in a hundred gives it a higher test MSE. The conclusion of the regression section, that the linear regression beats the tree on Boston, is a property of this split rather than of the data. Comparisons between methods on the *same* test set remain fair, but with a few hundred observations a single test set is a noisy referee — which is why @sec-compare attaches standard errors to the differences between models.
+
+The same approach applies to every choice made in an analysis: the validation set or the folds (@sec-splitting), the threshold (@sec-metrics), the impurity measure, the folds of the backward elimination above, the seed of the cross-validation inside `rpart()` (Exercise 2). A conclusion that survives such changes can be stated with confidence; one that does not should be reported together with its uncertainty.
+
+```{webr-r}
+#| label: sensitivity-webr
+#| autorun: false
+#| message: false
+#| warning: false
+library(rpart)
+
+# Try it: how often does the tree beat the linear regression on Boston?
+# Change the number of splits, or grow smaller trees with
+# control = rpart.control(cp = 0.05)
+set.seed(2)
+res <- t(replicate(50, {
+  i <- sample(nrow(boston), nrow(boston) / 2)
+  c(tree   = mean((predict(rpart(medv ~ ., data = boston[i, ]), boston[-i, ]) - boston$medv[-i])^2),
+    linear = mean((predict(lm(medv ~ ., data = boston[i, ]), boston[-i, ]) - boston$medv[-i])^2))
+}))
+summary(res)
+mean(res[, "tree"] < res[, "linear"])
+```
+
+```{webr-r}
+#| label: selection-webr
+#| autorun: false
+#| message: false
+#| warning: false
+library(rpart)
+
+# Try it: one step of backward elimination for Hitters. Which predictor can be
+# removed with the largest gain (or the smallest loss) in cross-validated MSE?
+set.seed(1)
+folds <- sample(rep(1:10, length.out = nrow(hit_train)))
+cv <- function(vars) {
+  form <- reformulate(vars, response = "logSalary")
+  mean(sapply(1:10, function(k) {
+    fit <- rpart(form, data = hit_train[folds != k, ], control = rpart.control(xval = 0))
+    mean((predict(fit, hit_train[folds == k, ]) - hit_train$logSalary[folds == k])^2)
+  }))
+}
+vars <- setdiff(names(hit_train), "logSalary")
+cv(vars)                                                  # all 19 predictors
+round(sort(sapply(vars, function(v) cv(setdiff(vars, v)))), 3)   # without each one
+```
+
+:::{.callout-note appearance="minimal"}
+**Packages and commands.** `fit$frame$var` lists the variables split by an **rpart** tree, and `reformulate(vars, response = )` builds a formula from a vector of names. Backward elimination and the simulation use only base R: `setdiff` removes a predictor, `apply` and `sapply` run the cross-validation, `replicate` repeats it, `colMeans` and `apply(X, 2, var)` compute the $t$-statistics. The sensitivity analyses modify a copy of the test set and call `predict` again. The package **caret** offers recursive feature elimination for many models (`rfe()`), and **pdp** draws ICE curves for any model (`partial(fit, pred.var = , ice = TRUE)`).
+:::
+
+End of the commented-out section Variable Selection and Sensitivity Analysis. -->
 
 ## Pruning and Complexity Reduction {#sec-pruning}
 
@@ -875,7 +1741,7 @@ c(complete_rows = sum(complete.cases(hit_train_na)),
 
 The tree grown on the damaged training set has a test MSE of $0.261$, as good as the one grown on the complete data. The ensemble methods differ in this respect: **randomForest** does not accept missing values (they must be imputed first, for example with `na.roughfix()` or `rfImpute()`), while **xgboost** and **lightgbm** learn, at each split, which branch the missing values should follow. Surrogates help only when other predictors carry the same information; when no predictor resembles the primary one, nothing can replace it. See also the Missing Values chapter.
 
-### Variable Importance
+### Variable Importance {#sec-importance}
 
 A tree with a handful of splits shows its important variables directly. For larger trees, **rpart** computes an importance score for each variable: the sum of the reductions in RSS (or impurity) of all the splits on that variable, plus the reductions of the splits in which the variable is a surrogate, weighted by its `adj`. The **vip** package [@greenwell2020vip] draws it:
 
@@ -1174,7 +2040,7 @@ rbind(default = c(oob_rmse = sqrt(rf_default$prediction.error),
 
 The best combination uses `mtry = 4`, leaves of at least $3$ tracts, and samples of $80\%$ of the training set drawn *without* replacement. Its OOB RMSE ($3.13$) is about $6\%$ lower than that of `ranger`'s defaults ($3.34$), and its test MSE falls from $18.38$ to $17.56$. The gain is real but modest — a random forest with its default settings is already a good model, which is one of the reasons for its popularity. @boehmke2019hands reach the same kind of conclusion for the Ames housing data, where small leaves and samples of less than $100\%$ drawn without replacement also performed best.
 
-### Interpreting a Forest
+### Interpreting a Forest {#sec-interpret-forest}
 
 A forest of $500$ trees cannot be drawn, so we need summaries. Two measures of **variable importance** are standard:
 
@@ -1251,7 +2117,7 @@ The printed output includes the OOB error rate ($21\%$) and the OOB confusion ma
 **Packages and commands.** **randomForest**'s `randomForest(formula, data, ntree = , mtry = , importance = TRUE)` fits bagging (`mtry` equal to the number of predictors) and random forests; printing the fit shows the OOB error, `fit$mse` (regression) and `fit$err.rate` (classification) hold it after every tree, and `plot(fit)` draws it. `randomForest::importance(fit)` returns `%IncMSE` and `IncNodePurity`; **ranger** also has a function called `importance()`, hence the explicit `randomForest::`. **ranger**'s `ranger(formula, data, num.trees = , mtry = , min.node.size = , sample.fraction = , replace = , seed = )` is the fast alternative: `fit$prediction.error` is the OOB MSE, and `predict(fit, newdata)$predictions` the predictions. `expand.grid` builds the tuning grid. **vip**'s `vip()` plots the importance, and the partial dependence is computed directly with `predict` and `sapply` (the **pdp** package provides a general `partial()` function).
 :::
 
-## Boosting
+## Boosting {#sec-boosting}
 
 ### The Idea: Learning Slowly
 
@@ -1765,7 +2631,7 @@ Boosting has more tuning parameters than a random forest, and they interact. @bo
 A test set used to make choices is no longer a test set. Above, every choice — the pruning parameter, `mtry`, the number of trees — was made by cross-validation or the OOB error, on the training half alone, so that the test half could compare the methods fairly at the end.
 :::
 
-### Comparing the Models
+### Comparing the Models {#sec-compare}
 
 The table collects the test errors of every model fitted to the Boston data in this chapter. The standard error of each test MSE is computed from the $253$ squared errors.
 
@@ -1817,7 +2683,9 @@ Every ensemble improves on the pruned tree by $12$ to $16$ percentage points, th
 ## Summary
 
 - A decision tree divides the predictor space into rectangles by recursive binary splitting and predicts a constant in each one: the mean response (regression) or the most common class (classification).
+- The training error is an optimistic estimate of the test error. Models are fitted on a training set, compared and tuned on a validation set or by cross-validation, and assessed once on a test set that played no part in any choice. $K$-fold cross-validation is far more stable than a single validation set; stratified splits keep the class proportions equal.
 - Splits are chosen greedily, to minimise the RSS for regression and the Gini index or entropy for classification; the classification error is too insensitive to grow a tree.
+- Accuracy alone hides the kind of errors a classifier makes. The confusion matrix gives sensitivity, specificity and precision; the ROC curve and the AUC cover every threshold; the Brier score and the log-loss assess the probabilities — those of the default Carseats tree were worse than a constant. For a numeric response, MSE, MAE and the median absolute error can rank models differently, and the scale of the response matters.
 - A fully grown tree overfits. Cost-complexity pruning, with the complexity parameter chosen by cross-validation (`cp` in **rpart**, often with the one-standard-error rule), gives a much smaller tree with similar or better test error: from $243$ to $6$ leaves on Boston, from $39$ to $5$ on Carseats.
 - Trees are easy to explain, need no scaling, handle categorical predictors and interactions, and deal with missing values through surrogate splits. Their weaknesses are lower accuracy and high variance: a slightly different training set can produce a very different tree.
 - Bagging averages deep trees grown on bootstrap samples, and random forests decorrelate them further by sampling the predictors eligible at each split. The out-of-bag error estimates the test error without extra fitting. On Boston, a random forest cut the test MSE of the pruned tree nearly in half.
@@ -1826,9 +2694,17 @@ Every ensemble improves on the pruned tree by $12$ to $16$ percentage points, th
 - Importance measures and partial dependence plots make ensembles interpretable. Prefer permutation importance to impurity importance.
 - No method wins everywhere. On Carseats, whose structure is nearly linear, a logistic regression beat every tree-based model; the ensembles' advantage is largest when the relationship is nonlinear and involves interactions.
 
+<!-- Summary of the commented-out section Variable Selection and Sensitivity Analysis (after the metrics bullet):
+- A tree selects its predictors as it grows. Wrapper methods such as backward elimination search over subsets by cross-validation; any selection must be done inside the training data, and inside each fold, or the estimated error is optimistic.
+- The predictions of a tree are step functions of its predictors: insensitive within a leaf, very sensitive at a cut point. Conclusions can be sensitive to the data too: over $100$ random splits of Boston, the tree beat the linear regression two times out of three, although it lost on the split used in this chapter.
+-->
+
 ## Exercises
 
-### Exercise 1 — Splitting criteria by hand
+::::: panel-tabset
+## Exercise 1
+
+**Splitting criteria by hand**
 
 1. For a two-class node with proportion $p$ of the second class, write the Gini index, the entropy and the classification error as functions of $p$, and plot the three curves on one graph.
 2. A node contains $60$ observations of class $A$ and $40$ of class $B$. Compute its Gini index and entropy.
@@ -1847,7 +2723,9 @@ gini(c(60, 40))
 # your turn
 ```
 
-### Exercise 2 — A regression tree for the Hitters data
+## Exercise 2
+
+**A regression tree for the Hitters data**
 
 1. Grow a regression tree for `logSalary` with all predictors on `hit_train`, and draw it. Which variables are used?
 2. Compute the test MSE on `hit_test`, and compare it with that of a linear regression on the same predictors.
@@ -1867,7 +2745,9 @@ rpart.plot(fit, type = 2, digits = 3)
 # your turn
 ```
 
-### Exercise 3 — Orange juice
+## Exercise 3
+
+**Orange juice**
 
 The data set `OJ` in **ISLR2** records $1070$ purchases of orange juice, of the brands Citrus Hill (`CH`) or Minute Maid (`MM`), with $17$ characteristics of the customer and the product [@james2021islr, Exercise 8.9].
 
@@ -1891,7 +2771,9 @@ set.seed(1)
 # your turn
 ```
 
-### Exercise 4 — Random forests for Boston
+## Exercise 4
+
+**Random forests for Boston**
 
 1. On `bos_train`, fit random forests with `mtry` $\in \{2, 4, 6, 12\}$ and $1000$ trees each. Plot, on one graph, the OOB MSE against the number of trees for the four forests [@james2021islr, Exercise 8.7].
 2. For the same forests, plot the *test* MSE against the number of trees. (Hint: `predict(fit, bos_test, predict.all = TRUE)$individual` gives the predictions of every tree; `apply(..., 1, cumsum)` accumulates them.)
@@ -1911,7 +2793,9 @@ fit2 <- randomForest(medv ~ ., data = bos_train, mtry = 2, ntree = 1000)
 # your turn
 ```
 
-### Exercise 5 — Boosting the Hitters data
+## Exercise 5
+
+**Boosting the Hitters data**
 
 1. Fit boosted models with `gbm()` (`distribution = "gaussian"`, $1000$ trees, `interaction.depth = 1`) to `hit_train`, for a range of learning rates $\lambda$ between $0.001$ and $0.5$ [@james2021islr, Exercise 8.10].
 2. Plot the training MSE and the test MSE against $\lambda$.
@@ -1931,7 +2815,9 @@ lambdas <- c(0.001, 0.005, 0.01, 0.05, 0.1, 0.2, 0.5)
 # your turn
 ```
 
-### Exercise 6 — XGBoost and LightGBM on an imbalanced problem
+## Exercise 6
+
+**XGBoost and LightGBM on an imbalanced problem**
 
 The data set `Caravan` in **ISLR2** records whether $5822$ customers of an insurance company bought a caravan insurance policy (`Purchase`), with $85$ socio-demographic and product-ownership predictors. Only $6\%$ of the customers bought one [@james2021islr, Exercise 8.11]. This exercise must be run in RStudio, because **xgboost** and **lightgbm** do not run in the browser.
 
@@ -1957,5 +2843,6 @@ dtrain <- xgb.DMatrix(X[train, ], label = y[train])
 
 # your turn
 ```
+:::::
 
 ## References {.unnumbered}
