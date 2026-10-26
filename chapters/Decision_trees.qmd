@@ -140,230 +140,6 @@ rbind(train = c(hitters = nrow(hit_train), carseats = nrow(car_train), boston = 
 **Packages and commands.** The data come from **ISLR2** (`Hitters`, `Carseats`, `Boston`). `na.omit` drops the players without a salary, `factor(ifelse(...))` builds the binary response, and `set.seed` followed by `sample(n, n / 2)` draws the training rows; negative indexing, `data[-idx, ]`, gives the test rows.
 :::
 
-## Training, Validation and Test Sets {#sec-splitting}
-
-A model is built to predict observations it has not seen. Its error on the observations it was fitted to, the *training error*, is a poor guide to how well it does that: it measures how closely the model has adapted to those particular observations, and a flexible model can adapt very closely. A tree grown until each leaf holds a single observation has a training error of zero, and yet it predicts new observations badly (@sec-pruning). What we want to know is the *test error*: the expected error on new observations from the same population. It can only be estimated with observations that played no part in building the model.
-
-### Three Sets for Three Tasks
-
-Besides fitting the model, building a predictive model involves two tasks that need data of their own [@hastie2009elements, Section 7.2]:
-
-- **model selection**: comparing candidate models and choosing their *tuning parameters* — the size of a tree, the number of predictors sampled by a random forest, the learning rate of boosting;
-- **model assessment**: estimating the test error of the final model, once it has been chosen.
-
-When data are plentiful, they are split at random into three parts, one for each task. @hastie2009elements suggest $50\%$, $25\%$ and $25\%$ as a typical split.
-
-| Set | Used to | Typical share |
-|:-----------|:----------------------------------------------------|-----:|
-| training | fit every candidate model: find its splits and leaf predictions | $50\%$ |
-| validation | estimate the error of every candidate, and choose the best one | $25\%$ |
-| test | estimate the error of the chosen model, once, at the end | $25\%$ |
-
-The test set must be kept apart from the validation set because the validation error of the winning model is itself optimistic. It is the smallest of several noisy estimates, and it is the smallest partly by luck. A test set that has never been used to make a choice gives an honest estimate.
-
-When data are scarce, setting a quarter of them aside for validation is wasteful. The validation set is then replaced by *cross-validation* inside the training set, described below, and the data are split in two only. That is what this chapter does: each data set is split in half, every choice is made on the training half — by cross-validation, or by the out-of-bag error of @sec-oob — and the test half is used only to compare the final models.
-
-### The Validation-Set Approach
-
-To see the three sets at work, we split the Boston training half once more: two thirds of its $253$ tracts for fitting the candidate models, and the remaining third for validating them. The test half is not touched. The candidates are regression trees that differ in a single tuning parameter, the minimum number $m$ of tracts in a leaf (`minbucket` in the function `rpart()`, which is presented in the next section). With $m = 1$ a leaf can hold a single tract and the tree can follow the training data very closely; with a large $m$ the tree has only a few large leaves.
-
-```{r}
-#| label: validation-split
-library(rpart)
-library(ggplot2)
-
-set.seed(1)
-val_idx <- sample(nrow(bos_train), round(nrow(bos_train) / 3))
-bos_fit <- bos_train[-val_idx, ]   # 169 tracts to fit the candidate trees
-bos_val <- bos_train[val_idx, ]    #  84 tracts to validate them
-
-mse <- function(pred, obs) mean((pred - obs)^2)
-
-# a tree whose leaves hold at least m tracts (cp = 0: no other limit on its size)
-leaf_tree <- function(data, m) {
-  rpart(medv ~ ., data = data, control = rpart.control(cp = 0, minbucket = m, xval = 0))
-}
-
-m_grid <- c(1, 2, 3, 5, 7, 10, 15, 20, 30, 50)
-val_curve <- t(sapply(m_grid, function(m) {
-  fit <- leaf_tree(bos_fit, m)
-  c(m          = m,
-    leaves     = sum(fit$frame$var == "<leaf>"),
-    training   = mse(predict(fit), bos_fit$medv),
-    validation = mse(predict(fit, bos_val), bos_val$medv))
-}))
-round(val_curve, 2)
-```
-
-```{r}
-#| label: validation-curve
-#| fig-cap: "Training and validation MSE of regression trees for the Boston data, against the minimum leaf size m (log scale). The trees are fitted to 169 tracts of the training half and validated on the other 84. The dotted line marks the leaf size with the smallest validation error."
-#| fig-width: 7
-#| fig-height: 4
-m_best <- unname(val_curve[which.min(val_curve[, "validation"]), "m"])
-
-curves <- data.frame(m   = rep(m_grid, 2),
-                     mse = c(val_curve[, "training"], val_curve[, "validation"]),
-                     set = rep(c("training", "validation"), each = length(m_grid)))
-ggplot(curves, aes(m, mse, colour = set)) +
-  geom_line(linewidth = 0.8) +
-  geom_point() +
-  geom_vline(xintercept = m_best, linetype = "dotted") +
-  scale_x_log10(breaks = m_grid) +
-  labs(x = "minimum leaf size m", y = "MSE", colour = NULL) +
-  theme_minimal()
-```
-
-From left to right the trees become smaller, from $110$ leaves with $m = 1$ to two leaves with $m = 50$. The training error only increases: the larger the tree, the closer it follows the data it was grown on, down to an MSE of $0.22$ for $m = 1$. The validation error is U-shaped. It is high on the left, where large trees fit the noise of the $169$ tracts (*overfitting*: low bias, high variance), and high on the right, where trees with two or three leaves miss most of the structure (*underfitting*: high bias). It is lowest at $m = 7$, with a tree of $12$ leaves.
-
-Once $m$ is chosen, the tree is grown again on the whole training half — more data give a better tree — and the test half is used, once, to estimate its error:
-
-```{r}
-#| label: validation-final
-bos_final <- leaf_tree(bos_train, m_best)
-c(m        = m_best,
-  leaves   = sum(bos_final$frame$var == "<leaf>"),
-  test_mse = mse(predict(bos_final, bos_test), bos_test$medv))
-```
-
-The final tree has $20$ leaves and a test MSE of $32.8$. It is more than twice the validation error of $14.2$. Part of the gap is the optimism of the validation error after a choice has been made; most of it comes from the test half of Boston, which is harder to predict than the training half (@sec-oob).
-
-### Cross-Validation
-
-The validation-set approach has two drawbacks [@james2021islr, Section 5.1]. The models are fitted to only part of the training data, so they are worse than the model that will finally be used, and the validation error tends to *overestimate* its test error. And the estimate depends on which observations happen to fall in the validation set: with $84$ tracts, a few hard tracts more or less change it noticeably.
-
-**$K$-fold cross-validation** uses every observation for both purposes. The training set is divided at random into $K$ groups, or *folds*, of about equal size. Each fold in turn serves as the validation set for a model fitted to the other $K - 1$ folds, giving $K$ estimates $\text{MSE}_1, \ldots, \text{MSE}_K$, and the cross-validation estimate is their average,
-$$
-\text{CV}_{(K)} = \frac{1}{K} \sum_{k=1}^{K} \text{MSE}_k .
-$$
-Every observation is used for validation exactly once and for fitting $K - 1$ times. With $K = n$, each fold holds a single observation: this is *leave-one-out cross-validation* (LOOCV). The usual choices, $K = 5$ or $K = 10$, are cheaper and have been found to give a good balance between the bias and the variance of the estimate [@james2021islr, Section 5.1.4].
-
-```{r}
-#| label: cv-folds
-cv_mse <- function(data, m, folds) {
-  mean(sapply(unique(folds), function(k) {
-    fit <- leaf_tree(data[folds != k, ], m)
-    mse(predict(fit, data[folds == k, ]), data$medv[folds == k])
-  }))
-}
-
-set.seed(1)
-folds <- sample(rep(1:10, length.out = nrow(bos_train)))   # a fold number for every tract
-table(folds)
-
-cv_curve <- sapply(m_grid, function(m) cv_mse(bos_train, m, folds))
-round(rbind(m = m_grid, cv_mse = cv_curve), 2)
-```
-
-The same folds are used for every value of $m$, so that the comparison between candidates is not blurred by differences between folds. To compare the stability of the two approaches, we repeat each of them ten times, with ten different random validation sets and ten different random assignments of the tracts to folds:
-
-```{r}
-#| label: cv-variability
-#| fig-cap: "Left: validation MSE for ten random validation sets of 84 tracts. Right: 10-fold cross-validation MSE for ten random assignments of the tracts to folds. Both use the Boston training half; each line is one repetition."
-#| fig-width: 8
-#| fig-height: 3.8
-one_run <- function(s) {
-  set.seed(s)
-  vi <- sample(nrow(bos_train), round(nrow(bos_train) / 3))
-  set.seed(s)
-  f  <- sample(rep(1:10, length.out = nrow(bos_train)))
-  val <- sapply(m_grid, function(m)
-    mse(predict(leaf_tree(bos_train[-vi, ], m), bos_train[vi, ]), bos_train$medv[vi]))
-  cv  <- sapply(m_grid, function(m) cv_mse(bos_train, m, f))
-  data.frame(run = s, m = rep(m_grid, 2), mse = c(val, cv),
-             method = rep(c("validation set", "10-fold cross-validation"), each = length(m_grid)))
-}
-runs <- do.call(rbind, lapply(1:10, one_run))
-runs$method <- factor(runs$method, levels = c("validation set", "10-fold cross-validation"))
-
-ggplot(runs, aes(m, mse, group = run)) +
-  geom_line(colour = "grey35", alpha = 0.7) +
-  facet_wrap(~ method) +
-  scale_x_log10(breaks = m_grid) +
-  labs(x = "minimum leaf size m", y = "estimated MSE") +
-  theme_minimal()
-
-# the leaf size chosen by each repetition (one column per repetition)
-chosen <- sapply(split(runs, runs$method), function(d)
-  sapply(split(d, d$run), function(r) r$m[which.min(r$mse)]))
-t(chosen)
-```
-
-The ten validation curves differ in level and in shape, and the leaf size they choose ranges from $1$ to $7$. The ten cross-validation curves have the same shape and choose $m = 3$, $5$ or $7$. Averaging them — *repeated cross-validation* — would give a still more stable estimate.
-
-Cross-validation is used throughout the chapter. `rpart()` runs a 10-fold cross-validation every time it grows a tree, which @sec-pruning uses to choose the size of the tree; random forests offer a cheaper alternative, the out-of-bag error (@sec-oob); and **gbm**, **xgboost** and **lightgbm** have cross-validation functions of their own.
-
-### Stratified Splits
-
-A random split can, by chance, give the two halves different distributions of the response. In Carseats, $41\%$ of the $400$ stores have high sales; the training half has $41.5\%$ and the test half $40.5\%$, which is close. Over many random splits, however, the proportion in the training half varies quite a lot:
-
-```{r}
-#| label: stratified
-set.seed(1)
-props <- replicate(1000, mean(carseats$High[sample(400, 200)] == "Yes"))
-quantile(props, c(0.025, 0.5, 0.975))
-
-# sample half of the rows of each class separately
-stratified_half <- function(y) {
-  unlist(lapply(split(seq_along(y), y), function(rows) sample(rows, round(length(rows) / 2))))
-}
-
-set.seed(1)
-strat_idx <- stratified_half(carseats$High)
-c(train = mean(carseats$High[strat_idx] == "Yes"), test = mean(carseats$High[-strat_idx] == "Yes"))
-```
-
-In $95\%$ of random splits the training half has between $36.5\%$ and $45.5\%$ of high-sales stores. A *stratified* split samples separately within each class, so that both halves have exactly the class proportions of the whole data set. Stratifying matters most when one class is rare — in a data set with $6\%$ of positive cases, such as the `Caravan` data of Exercise 6, a random training set may contain very few of them — and for cross-validation folds, which are smaller still. For a numeric response, the same idea is applied to groups defined by its quantiles, for example the quartiles of `medv`. We keep the simple random splits of the labs of @james2021islr, so that the numbers can be compared with theirs.
-
-The iris data of the next section have $50$ flowers of each species. A stratified split puts $25$ of each species in each half; we use these halves to evaluate the iris tree in @sec-metrics.
-
-```{r}
-#| label: iris-split
-set.seed(1)
-iris_idx   <- stratified_half(iris$Species)
-iris_train <- iris[iris_idx, ]
-iris_test  <- iris[-iris_idx, ]
-table(iris_train$Species)
-```
-
-### Rules for an Honest Estimate
-
-- **Use the test set once.** If several models are compared on the test set and the best one is kept, its test error is optimistic for the same reason as a validation error.
-- **Learn everything from the training data.** Every step that learns from data is part of the model: imputing missing values, standardising the predictors, *selecting* predictors<!-- (@sec-selection) -->, choosing tuning parameters. Each step must use the training set alone, and with cross-validation it must be repeated inside every fold. When information from the test set reaches the model this way, the estimate is optimistic; this is called *data leakage*.
-- **Respect the structure of the data.** A random split assumes that the observations are independent. With data ordered in time, the model should be fitted to the past and tested on the future. With several rows per unit — the same patient on several visits, the same store in several weeks — all the rows of a unit go to the same side of the split. The rows of our three data sets are distinct players, census tracts and stores.
-- **Mind the size of the test set.** A larger training set gives a better model, a larger test set a more precise estimate of its error. With a few hundred observations, test errors are noisy; @sec-metrics shows how to attach a standard error to them.
-
-```{webr-r}
-#| label: validation-webr
-#| autorun: false
-#| message: false
-#| warning: false
-library(rpart)
-
-# Try it: change the seed, the share of the validation set (1/3) or the number
-# of folds K, and see which leaf size each approach chooses
-set.seed(1)
-vi <- sample(nrow(bos_train), round(nrow(bos_train) / 3))
-K  <- 10
-folds <- sample(rep(1:K, length.out = nrow(bos_train)))
-
-m_grid <- c(1, 2, 3, 5, 7, 10, 15, 20, 30, 50)
-errors <- t(sapply(m_grid, function(m) {
-  ctrl <- rpart.control(cp = 0, minbucket = m, xval = 0)
-  fit  <- rpart(medv ~ ., data = bos_train[-vi, ], control = ctrl)
-  cv   <- mean(sapply(1:K, function(k) {
-    f <- rpart(medv ~ ., data = bos_train[folds != k, ], control = ctrl)
-    mean((predict(f, bos_train[folds == k, ]) - bos_train$medv[folds == k])^2)
-  }))
-  c(m = m, validation = mean((predict(fit, bos_train[vi, ]) - bos_train$medv[vi])^2), cv = cv)
-}))
-round(errors, 2)
-```
-
-:::{.callout-note appearance="minimal"}
-**Packages and commands.** All in base R and **rpart**. `sample(n, size)` draws the rows of a random split, and `sample(rep(1:K, length.out = n))` assigns every row to one of $K$ folds; `split(seq_along(y), y)` groups the rows by class for a stratified split. `rpart.control(cp = 0, minbucket = m, xval = 0)` grows a tree limited only by its leaf size, without the internal cross-validation; `sapply` evaluates every candidate, and `which.min` picks the best one. The packages **rsample** (`initial_split(data, prop, strata = )`, `vfold_cv()`), used by @boehmke2019hands, and **caret** (`createDataPartition()`, `createFolds()`) provide the same splits ready-made.
-:::
-
 ## Regression Trees
 
 ### A First Example: Baseball Salaries
@@ -610,7 +386,9 @@ To judge the tree we predict the test set and compare with two benchmarks: a lin
 
 ```{r}
 #| label: boston-tree-mse
-c(tree  = mse(predict(bos_tree, bos_test), bos_test$medv),
+mse <- function(pred, obs) mean((pred - obs)^2)
+
+c(tree   = mse(predict(bos_tree, bos_test), bos_test$medv),
   linear = mse(predict(lm(medv ~ ., data = bos_train), bos_test), bos_test$medv),
   null   = mse(mean(bos_train$medv), bos_test$medv))
 ```
@@ -834,6 +612,225 @@ mean(predict(fit, car_test, type = "class") == car_test$High)
 **Packages and commands.** `rpart(method = "class")` grows a classification tree with the Gini index, or with the entropy when `parms = list(split = "information")`. `predict(fit, newdata, type = "class")` returns the predicted classes and `type = "prob"` the class proportions of the leaves; `table` cross-tabulates predictions and true classes, and `mean(pred == obs)` gives the accuracy. `rpart.plot(extra = 104)` shows all class probabilities, `extra = 106` only the probability of the second class. The impurity measures are short base-R functions.
 :::
 
+## Training, Validation and Test Sets {#sec-splitting}
+
+A model is built to predict observations it has not seen. Its error on the observations it was fitted to, the *training error*, is a poor guide to how well it does that: it measures how closely the model has adapted to those particular observations, and a flexible model can adapt very closely. A tree grown until each leaf holds a single observation has a training error of zero, and yet it predicts new observations badly (@sec-pruning). What we want to know is the *test error*: the expected error on new observations from the same population. It can only be estimated with observations that played no part in building the model.
+
+### Three Sets for Three Tasks
+
+Besides fitting the model, building a predictive model involves two tasks that need data of their own [@hastie2009elements, Section 7.2]:
+
+- **model selection**: comparing candidate models and choosing their *tuning parameters* — the size of a tree, the number of predictors sampled by a random forest, the learning rate of boosting;
+- **model assessment**: estimating the test error of the final model, once it has been chosen.
+
+When data are plentiful, they are split at random into three parts, one for each task. @hastie2009elements suggest $50\%$, $25\%$ and $25\%$ as a typical split.
+
+| Set | Used to | Typical share |
+|:-----------|:----------------------------------------------------|-----:|
+| training | fit every candidate model: find its splits and leaf predictions | $50\%$ |
+| validation | estimate the error of every candidate, and choose the best one | $25\%$ |
+| test | estimate the error of the chosen model, once, at the end | $25\%$ |
+
+The test set must be kept apart from the validation set because the validation error of the winning model is itself optimistic. It is the smallest of several noisy estimates, and it is the smallest partly by luck. A test set that has never been used to make a choice gives an honest estimate.
+
+When data are scarce, setting a quarter of them aside for validation is wasteful. The validation set is then replaced by *cross-validation* inside the training set, described below, and the data are split in two only. That is what this chapter does: each data set is split in half, every choice is made on the training half — by cross-validation, or by the out-of-bag error of @sec-oob — and the test half is used only to compare the final models.
+
+### The Validation-Set Approach
+
+To see the three sets at work, we split the Boston training half once more: two thirds of its $253$ tracts for fitting the candidate models, and the remaining third for validating them. The test half is not touched. The candidates are regression trees that differ in a single tuning parameter, the minimum number $m$ of tracts in a leaf (the option `minbucket` of `rpart.control()`). With $m = 1$ a leaf can hold a single tract and the tree can follow the training data very closely; with a large $m$ the tree has only a few large leaves.
+
+```{r}
+#| label: validation-split
+set.seed(1)
+val_idx <- sample(nrow(bos_train), round(nrow(bos_train) / 3))
+bos_fit <- bos_train[-val_idx, ]   # 169 tracts to fit the candidate trees
+bos_val <- bos_train[val_idx, ]    #  84 tracts to validate them
+
+# a tree whose leaves hold at least m tracts (cp = 0: no other limit on its size)
+leaf_tree <- function(data, m) {
+  rpart(medv ~ ., data = data, control = rpart.control(cp = 0, minbucket = m, xval = 0))
+}
+
+m_grid <- c(1, 2, 3, 5, 7, 10, 15, 20, 30, 50)
+val_curve <- t(sapply(m_grid, function(m) {
+  fit <- leaf_tree(bos_fit, m)
+  c(m          = m,
+    leaves     = sum(fit$frame$var == "<leaf>"),
+    training   = mse(predict(fit), bos_fit$medv),
+    validation = mse(predict(fit, bos_val), bos_val$medv))
+}))
+round(val_curve, 2)
+```
+
+```{r}
+#| label: validation-curve
+#| fig-cap: "Training and validation MSE of regression trees for the Boston data, against the minimum leaf size m (log scale). The trees are fitted to 169 tracts of the training half and validated on the other 84. The dotted line marks the leaf size with the smallest validation error."
+#| fig-width: 7
+#| fig-height: 4
+m_best <- unname(val_curve[which.min(val_curve[, "validation"]), "m"])
+
+curves <- data.frame(m   = rep(m_grid, 2),
+                     mse = c(val_curve[, "training"], val_curve[, "validation"]),
+                     set = rep(c("training", "validation"), each = length(m_grid)))
+ggplot(curves, aes(m, mse, colour = set)) +
+  geom_line(linewidth = 0.8) +
+  geom_point() +
+  geom_vline(xintercept = m_best, linetype = "dotted") +
+  scale_x_log10(breaks = m_grid) +
+  labs(x = "minimum leaf size m", y = "MSE", colour = NULL) +
+  theme_minimal()
+```
+
+From left to right the trees become smaller, from $110$ leaves with $m = 1$ to two leaves with $m = 50$. The training error only increases: the larger the tree, the closer it follows the data it was grown on, down to an MSE of $0.22$ for $m = 1$. The validation error is U-shaped. It is high on the left, where large trees fit the noise of the $169$ tracts (*overfitting*: low bias, high variance), and high on the right, where trees with two or three leaves miss most of the structure (*underfitting*: high bias). It is lowest at $m = 7$, with a tree of $12$ leaves.
+
+Once $m$ is chosen, the tree is grown again on the whole training half — more data give a better tree — and the test half is used, once, to estimate its error:
+
+```{r}
+#| label: validation-final
+bos_final <- leaf_tree(bos_train, m_best)
+c(m        = m_best,
+  leaves   = sum(bos_final$frame$var == "<leaf>"),
+  test_mse = mse(predict(bos_final, bos_test), bos_test$medv))
+```
+
+The final tree has $20$ leaves and a test MSE of $32.8$. It is more than twice the validation error of $14.2$. Part of the gap is the optimism of the validation error after a choice has been made; most of it comes from the test half of Boston, which is harder to predict than the training half (@sec-oob).
+
+### Cross-Validation
+
+The validation-set approach has two drawbacks [@james2021islr, Section 5.1]. The models are fitted to only part of the training data, so they are worse than the model that will finally be used, and the validation error tends to *overestimate* its test error. And the estimate depends on which observations happen to fall in the validation set: with $84$ tracts, a few hard tracts more or less change it noticeably.
+
+**$K$-fold cross-validation** uses every observation for both purposes. The training set is divided at random into $K$ groups, or *folds*, of about equal size. Each fold in turn serves as the validation set for a model fitted to the other $K - 1$ folds, giving $K$ estimates $\text{MSE}_1, \ldots, \text{MSE}_K$, and the cross-validation estimate is their average,
+$$
+\text{CV}_{(K)} = \frac{1}{K} \sum_{k=1}^{K} \text{MSE}_k .
+$$
+Every observation is used for validation exactly once and for fitting $K - 1$ times. With $K = n$, each fold holds a single observation: this is *leave-one-out cross-validation* (LOOCV). The usual choices, $K = 5$ or $K = 10$, are cheaper and have been found to give a good balance between the bias and the variance of the estimate [@james2021islr, Section 5.1.4].
+
+```{r}
+#| label: cv-folds
+cv_mse <- function(data, m, folds) {
+  mean(sapply(unique(folds), function(k) {
+    fit <- leaf_tree(data[folds != k, ], m)
+    mse(predict(fit, data[folds == k, ]), data$medv[folds == k])
+  }))
+}
+
+set.seed(1)
+folds <- sample(rep(1:10, length.out = nrow(bos_train)))   # a fold number for every tract
+table(folds)
+
+cv_curve <- sapply(m_grid, function(m) cv_mse(bos_train, m, folds))
+round(rbind(m = m_grid, cv_mse = cv_curve), 2)
+```
+
+The same folds are used for every value of $m$, so that the comparison between candidates is not blurred by differences between folds. To compare the stability of the two approaches, we repeat each of them ten times, with ten different random validation sets and ten different random assignments of the tracts to folds:
+
+```{r}
+#| label: cv-variability
+#| fig-cap: "Left: validation MSE for ten random validation sets of 84 tracts. Right: 10-fold cross-validation MSE for ten random assignments of the tracts to folds. Both use the Boston training half; each line is one repetition."
+#| fig-width: 8
+#| fig-height: 3.8
+one_run <- function(s) {
+  set.seed(s)
+  vi <- sample(nrow(bos_train), round(nrow(bos_train) / 3))
+  set.seed(s)
+  f  <- sample(rep(1:10, length.out = nrow(bos_train)))
+  val <- sapply(m_grid, function(m)
+    mse(predict(leaf_tree(bos_train[-vi, ], m), bos_train[vi, ]), bos_train$medv[vi]))
+  cv  <- sapply(m_grid, function(m) cv_mse(bos_train, m, f))
+  data.frame(run = s, m = rep(m_grid, 2), mse = c(val, cv),
+             method = rep(c("validation set", "10-fold cross-validation"), each = length(m_grid)))
+}
+runs <- do.call(rbind, lapply(1:10, one_run))
+runs$method <- factor(runs$method, levels = c("validation set", "10-fold cross-validation"))
+
+ggplot(runs, aes(m, mse, group = run)) +
+  geom_line(colour = "grey35", alpha = 0.7) +
+  facet_wrap(~ method) +
+  scale_x_log10(breaks = m_grid) +
+  labs(x = "minimum leaf size m", y = "estimated MSE") +
+  theme_minimal()
+
+# the leaf size chosen by each repetition (one column per repetition)
+chosen <- sapply(split(runs, runs$method), function(d)
+  sapply(split(d, d$run), function(r) r$m[which.min(r$mse)]))
+t(chosen)
+```
+
+The ten validation curves differ in level and in shape, and the leaf size they choose ranges from $1$ to $7$. The ten cross-validation curves have the same shape and choose $m = 3$, $5$ or $7$. Averaging them — *repeated cross-validation* — would give a still more stable estimate.
+
+Cross-validation is used throughout the chapter. `rpart()` runs a 10-fold cross-validation every time it grows a tree, which @sec-pruning uses to choose the size of the tree; random forests offer a cheaper alternative, the out-of-bag error (@sec-oob); and **gbm**, **xgboost** and **lightgbm** have cross-validation functions of their own.
+
+### Stratified Splits
+
+A random split can, by chance, give the two halves different distributions of the response. In Carseats, $41\%$ of the $400$ stores have high sales; the training half has $41.5\%$ and the test half $40.5\%$, which is close. Over many random splits, however, the proportion in the training half varies quite a lot:
+
+```{r}
+#| label: stratified
+set.seed(1)
+props <- replicate(1000, mean(carseats$High[sample(400, 200)] == "Yes"))
+quantile(props, c(0.025, 0.5, 0.975))
+
+# sample half of the rows of each class separately
+stratified_half <- function(y) {
+  unlist(lapply(split(seq_along(y), y), function(rows) sample(rows, round(length(rows) / 2))))
+}
+
+set.seed(1)
+strat_idx <- stratified_half(carseats$High)
+c(train = mean(carseats$High[strat_idx] == "Yes"), test = mean(carseats$High[-strat_idx] == "Yes"))
+```
+
+In $95\%$ of random splits the training half has between $36.5\%$ and $45.5\%$ of high-sales stores. A *stratified* split samples separately within each class, so that both halves have exactly the class proportions of the whole data set. Stratifying matters most when one class is rare — in a data set with $6\%$ of positive cases, such as the `Caravan` data of Exercise 6, a random training set may contain very few of them — and for cross-validation folds, which are smaller still. For a numeric response, the same idea is applied to groups defined by its quantiles, for example the quartiles of `medv`. We keep the simple random splits of the labs of @james2021islr, so that the numbers can be compared with theirs.
+
+The iris data of the classification section have $50$ flowers of each species. A stratified split puts $25$ of each species in each half; we use these halves to evaluate the iris tree in @sec-metrics.
+
+```{r}
+#| label: iris-split
+set.seed(1)
+iris_idx   <- stratified_half(iris$Species)
+iris_train <- iris[iris_idx, ]
+iris_test  <- iris[-iris_idx, ]
+table(iris_train$Species)
+```
+
+### Rules for an Honest Estimate
+
+- **Use the test set once.** If several models are compared on the test set and the best one is kept, its test error is optimistic for the same reason as a validation error.
+- **Learn everything from the training data.** Every step that learns from data is part of the model: imputing missing values, standardising the predictors, *selecting* predictors<!-- (@sec-selection) -->, choosing tuning parameters. Each step must use the training set alone, and with cross-validation it must be repeated inside every fold. When information from the test set reaches the model this way, the estimate is optimistic; this is called *data leakage*.
+- **Respect the structure of the data.** A random split assumes that the observations are independent. With data ordered in time, the model should be fitted to the past and tested on the future. With several rows per unit — the same patient on several visits, the same store in several weeks — all the rows of a unit go to the same side of the split. The rows of our three data sets are distinct players, census tracts and stores.
+- **Mind the size of the test set.** A larger training set gives a better model, a larger test set a more precise estimate of its error. With a few hundred observations, test errors are noisy; @sec-metrics shows how to attach a standard error to them.
+
+```{webr-r}
+#| label: validation-webr
+#| autorun: false
+#| message: false
+#| warning: false
+library(rpart)
+
+# Try it: change the seed, the share of the validation set (1/3) or the number
+# of folds K, and see which leaf size each approach chooses
+set.seed(1)
+vi <- sample(nrow(bos_train), round(nrow(bos_train) / 3))
+K  <- 10
+folds <- sample(rep(1:K, length.out = nrow(bos_train)))
+
+m_grid <- c(1, 2, 3, 5, 7, 10, 15, 20, 30, 50)
+errors <- t(sapply(m_grid, function(m) {
+  ctrl <- rpart.control(cp = 0, minbucket = m, xval = 0)
+  fit  <- rpart(medv ~ ., data = bos_train[-vi, ], control = ctrl)
+  cv   <- mean(sapply(1:K, function(k) {
+    f <- rpart(medv ~ ., data = bos_train[folds != k, ], control = ctrl)
+    mean((predict(f, bos_train[folds == k, ]) - bos_train$medv[folds == k])^2)
+  }))
+  c(m = m, validation = mean((predict(fit, bos_train[vi, ]) - bos_train$medv[vi])^2), cv = cv)
+}))
+round(errors, 2)
+```
+
+:::{.callout-note appearance="minimal"}
+**Packages and commands.** All in base R and **rpart**. `sample(n, size)` draws the rows of a random split, and `sample(rep(1:K, length.out = n))` assigns every row to one of $K$ folds; `split(seq_along(y), y)` groups the rows by class for a stratified split. `rpart.control(cp = 0, minbucket = m, xval = 0)` grows a tree limited only by its leaf size, without the internal cross-validation; `sapply` evaluates every candidate, and `which.min` picks the best one. The packages **rsample** (`initial_split(data, prop, strata = )`, `vfold_cv()`), used by @boehmke2019hands, and **caret** (`createDataPartition()`, `createFolds()`) provide the same splits ready-made.
+:::
+
 ## Performance and Prediction Metrics {#sec-metrics}
 
 So far a classification tree has been judged by its accuracy and a regression tree by its test MSE. A single number hides a great deal: which kinds of error the model makes, how confident it is when it is wrong, how large its typical error is. This section collects the main measures of performance — for predicted classes, for predicted probabilities and for predicted numbers. They are computed on the test set or, when they are used to choose a model, by cross-validation on the training set. The measure used to choose a model should be the one used to assess it, and both should reflect what an error costs in the application.
@@ -862,7 +859,7 @@ The table of the four counts is the *confusion matrix*, and most measures of per
 
 The *false positive rate* is $1 - \text{specificity}$. *Cohen's kappa* [@cohen1960kappa] compares the accuracy with the accuracy $p_e$ that would be expected by chance given the row and column totals of the matrix, $\kappa = (\text{accuracy} - p_e) / (1 - p_e)$: it is $0$ for agreement no better than chance and $1$ for perfect agreement.
 
-The function below computes all of them, and we apply it to the predictions of the Carseats tree of the previous section:
+The function below computes all of them, and we apply it to the predictions of the Carseats tree of the classification section:
 
 ```{r}
 #| label: class-metrics
@@ -904,7 +901,7 @@ c(accuracy       = car_acc,
   no_information = max(table(car_test$High)) / nrow(car_test))
 ```
 
-The standard error is $3.3$ percentage points, so an approximate $95\%$ confidence interval for the accuracy of the tree runs from about $60\%$ to $73\%$. Differences of a few stores between two trees — such as the six stores, three percentage points, between the Gini and the entropy trees of the previous section — are well within this margin. The standard error of a test MSE is computed in the same way, as the standard deviation of the squared errors divided by $\sqrt{n}$; @sec-compare uses it to compare the final models.
+The standard error is $3.3$ percentage points, so an approximate $95\%$ confidence interval for the accuracy of the tree runs from about $60\%$ to $73\%$. Differences of a few stores between two trees — such as the six stores, three percentage points, between the Gini and the entropy trees of the classification section — are well within this margin. The standard error of a test MSE is computed in the same way, as the standard deviation of the squared errors divided by $\sqrt{n}$; @sec-compare uses it to compare the final models.
 
 **More than two classes.** With $K$ classes the confusion matrix is $K \times K$. Sensitivity and precision are computed for each class against all the others together, and can be averaged over the classes (*macro-averaging*). We grow the iris tree on the stratified training half of @sec-splitting and evaluate it on the other half:
 
@@ -2683,8 +2680,8 @@ Every ensemble improves on the pruned tree by $12$ to $16$ percentage points, th
 ## Summary
 
 - A decision tree divides the predictor space into rectangles by recursive binary splitting and predicts a constant in each one: the mean response (regression) or the most common class (classification).
-- The training error is an optimistic estimate of the test error. Models are fitted on a training set, compared and tuned on a validation set or by cross-validation, and assessed once on a test set that played no part in any choice. $K$-fold cross-validation is far more stable than a single validation set; stratified splits keep the class proportions equal.
 - Splits are chosen greedily, to minimise the RSS for regression and the Gini index or entropy for classification; the classification error is too insensitive to grow a tree.
+- The training error is an optimistic estimate of the test error. Models are fitted on a training set, compared and tuned on a validation set or by cross-validation, and assessed once on a test set that played no part in any choice. $K$-fold cross-validation is far more stable than a single validation set; stratified splits keep the class proportions equal.
 - Accuracy alone hides the kind of errors a classifier makes. The confusion matrix gives sensitivity, specificity and precision; the ROC curve and the AUC cover every threshold; the Brier score and the log-loss assess the probabilities — those of the default Carseats tree were worse than a constant. For a numeric response, MSE, MAE and the median absolute error can rank models differently, and the scale of the response matters.
 - A fully grown tree overfits. Cost-complexity pruning, with the complexity parameter chosen by cross-validation (`cp` in **rpart**, often with the one-standard-error rule), gives a much smaller tree with similar or better test error: from $243$ to $6$ leaves on Boston, from $39$ to $5$ on Carseats.
 - Trees are easy to explain, need no scaling, handle categorical predictors and interactions, and deal with missing values through surrogate splits. Their weaknesses are lower accuracy and high variance: a slightly different training set can produce a very different tree.
