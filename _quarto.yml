@@ -26,8 +26,6 @@ book:
     - part: "Classification"
       chapters:
         - chapters/chapter5_logistic_regression.qmd
-    - part: "Tree-Based Methods"
-      chapters:
         - chapters/Decision_trees.qmd
     - part: "Data"
       chapters: 
