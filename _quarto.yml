@@ -25,8 +25,8 @@ book:
     #     - chapters/clustering_projects.qmd
     - part: "Classification"
       chapters:
-        - chapters/chapter5_logistic_regression.qmd
         - chapters/Decision_trees.qmd
+        # - chapters/chapter5_logistic_regression.qmd
     - part: "Data"
       chapters: 
         - chapters/chapter1_data_ethics.qmd
