@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>10&nbsp; Principal Component Analysis – Statistics and Information Systems</title>
+<title>9&nbsp; Principal Component Analysis – Statistics and Information Systems</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -91,7 +91,7 @@ div.csl-indent {
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
 <link href="../chapters/clustering.html" rel="next">
-<link href="../chapters/Decision_trees.html" rel="prev">
+<link href="../chapters/missing_values.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -101,7 +101,7 @@ div.csl-indent {
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-fd0503e23dce65854c81c5baaade3bdf.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-7b41b65cdd4b030162f185184962183e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -1725,7 +1725,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/pca.html">Dimension Reduction</a></li><li class="breadcrumb-item"><a href="../chapters/pca.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Principal Component Analysis</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/pca.html">Dimension Reduction</a></li><li class="breadcrumb-item"><a href="../chapters/pca.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Principal Component Analysis</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -1807,12 +1807,6 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Missing Values</span></span></a>
   </div>
 </li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/Decision_trees.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Decision Trees</span></span></a>
-  </div>
-</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -1827,7 +1821,13 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/pca.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Principal Component Analysis</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Principal Component Analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/clustering.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Clustering</span></span></a>
   </div>
 </li>
       </ul>
@@ -1835,7 +1835,7 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
- <span class="menu-text">Clustering</span></a>
+ <span class="menu-text">Classification</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -1843,14 +1843,8 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/clustering.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Clustering</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/clustering_projects.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Projects</span></span></a>
+  <a href="../chapters/Decision_trees.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Decision Trees</span></span></a>
   </div>
 </li>
       </ul>
@@ -1858,7 +1852,7 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
- <span class="menu-text">Classification</span></a>
+ <span class="menu-text">Data</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -1866,25 +1860,8 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/chapter5_logistic_regression.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Classification</span></span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
- <span class="menu-text">Data</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../chapters/chapter1_data_ethics.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Data Ethics</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Data Ethics</span></span></a>
   </div>
 </li>
       </ul>
@@ -1899,86 +1876,86 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#why-reduce-dimension" id="toc-why-reduce-dimension" class="nav-link active" data-scroll-target="#why-reduce-dimension"><span class="header-section-number">10.1</span> Why Reduce Dimension?</a>
+  <li><a href="#why-reduce-dimension" id="toc-why-reduce-dimension" class="nav-link active" data-scroll-target="#why-reduce-dimension"><span class="header-section-number">9.1</span> Why Reduce Dimension?</a>
   <ul>
-  <li><a href="#applications-in-banking-and-insurance" id="toc-applications-in-banking-and-insurance" class="nav-link" data-scroll-target="#applications-in-banking-and-insurance"><span class="header-section-number">10.1.1</span> Applications in Banking and Insurance</a></li>
+  <li><a href="#applications-in-banking-and-insurance" id="toc-applications-in-banking-and-insurance" class="nav-link" data-scroll-target="#applications-in-banking-and-insurance"><span class="header-section-number">9.1.1</span> Applications in Banking and Insurance</a></li>
   </ul></li>
-  <li><a href="#the-data-a-retail-bank-client-portfolio" id="toc-the-data-a-retail-bank-client-portfolio" class="nav-link" data-scroll-target="#the-data-a-retail-bank-client-portfolio"><span class="header-section-number">10.2</span> The Data: A Retail Bank Client Portfolio</a>
+  <li><a href="#the-data-a-retail-bank-client-portfolio" id="toc-the-data-a-retail-bank-client-portfolio" class="nav-link" data-scroll-target="#the-data-a-retail-bank-client-portfolio"><span class="header-section-number">9.2</span> The Data: A Retail Bank Client Portfolio</a>
   <ul>
-  <li><a href="#skewness-and-the-log-transform" id="toc-skewness-and-the-log-transform" class="nav-link" data-scroll-target="#skewness-and-the-log-transform"><span class="header-section-number">10.2.1</span> Skewness and the Log Transform</a></li>
-  <li><a href="#the-correlation-matrix" id="toc-the-correlation-matrix" class="nav-link" data-scroll-target="#the-correlation-matrix"><span class="header-section-number">10.2.2</span> The Correlation Matrix</a></li>
+  <li><a href="#skewness-and-the-log-transform" id="toc-skewness-and-the-log-transform" class="nav-link" data-scroll-target="#skewness-and-the-log-transform"><span class="header-section-number">9.2.1</span> Skewness and the Log Transform</a></li>
+  <li><a href="#the-correlation-matrix" id="toc-the-correlation-matrix" class="nav-link" data-scroll-target="#the-correlation-matrix"><span class="header-section-number">9.2.2</span> The Correlation Matrix</a></li>
   </ul></li>
-  <li><a href="#sec-pre-pca-tests" id="toc-sec-pre-pca-tests" class="nav-link" data-scroll-target="#sec-pre-pca-tests"><span class="header-section-number">10.3</span> Pre-PCA Diagnostic Tests</a>
+  <li><a href="#sec-pre-pca-tests" id="toc-sec-pre-pca-tests" class="nav-link" data-scroll-target="#sec-pre-pca-tests"><span class="header-section-number">9.3</span> Pre-PCA Diagnostic Tests</a>
   <ul>
-  <li><a href="#bartletts-test-of-sphericity" id="toc-bartletts-test-of-sphericity" class="nav-link" data-scroll-target="#bartletts-test-of-sphericity"><span class="header-section-number">10.3.1</span> Bartlett’s Test of Sphericity</a></li>
-  <li><a href="#the-kaisermeyerolkin-measure-of-sampling-adequacy" id="toc-the-kaisermeyerolkin-measure-of-sampling-adequacy" class="nav-link" data-scroll-target="#the-kaisermeyerolkin-measure-of-sampling-adequacy"><span class="header-section-number">10.3.2</span> The Kaiser–Meyer–Olkin Measure of Sampling Adequacy</a></li>
+  <li><a href="#bartletts-test-of-sphericity" id="toc-bartletts-test-of-sphericity" class="nav-link" data-scroll-target="#bartletts-test-of-sphericity"><span class="header-section-number">9.3.1</span> Bartlett’s Test of Sphericity</a></li>
+  <li><a href="#the-kaisermeyerolkin-measure-of-sampling-adequacy" id="toc-the-kaisermeyerolkin-measure-of-sampling-adequacy" class="nav-link" data-scroll-target="#the-kaisermeyerolkin-measure-of-sampling-adequacy"><span class="header-section-number">9.3.2</span> The Kaiser–Meyer–Olkin Measure of Sampling Adequacy</a></li>
   </ul></li>
-  <li><a href="#notation-centering-and-scaling" id="toc-notation-centering-and-scaling" class="nav-link" data-scroll-target="#notation-centering-and-scaling"><span class="header-section-number">10.4</span> Notation, Centering and Scaling</a>
+  <li><a href="#notation-centering-and-scaling" id="toc-notation-centering-and-scaling" class="nav-link" data-scroll-target="#notation-centering-and-scaling"><span class="header-section-number">9.4</span> Notation, Centering and Scaling</a>
   <ul>
-  <li><a href="#centering" id="toc-centering" class="nav-link" data-scroll-target="#centering"><span class="header-section-number">10.4.1</span> Centering</a></li>
-  <li><a href="#scaling" id="toc-scaling" class="nav-link" data-scroll-target="#scaling"><span class="header-section-number">10.4.2</span> Scaling</a></li>
+  <li><a href="#centering" id="toc-centering" class="nav-link" data-scroll-target="#centering"><span class="header-section-number">9.4.1</span> Centering</a></li>
+  <li><a href="#scaling" id="toc-scaling" class="nav-link" data-scroll-target="#scaling"><span class="header-section-number">9.4.2</span> Scaling</a></li>
   </ul></li>
-  <li><a href="#the-algebra-of-pca" id="toc-the-algebra-of-pca" class="nav-link" data-scroll-target="#the-algebra-of-pca"><span class="header-section-number">10.5</span> The Algebra of PCA</a>
+  <li><a href="#the-algebra-of-pca" id="toc-the-algebra-of-pca" class="nav-link" data-scroll-target="#the-algebra-of-pca"><span class="header-section-number">9.5</span> The Algebra of PCA</a>
   <ul>
-  <li><a href="#sec-first-pc" id="toc-sec-first-pc" class="nav-link" data-scroll-target="#sec-first-pc"><span class="header-section-number">10.5.1</span> The First Principal Component</a></li>
-  <li><a href="#subsequent-components" id="toc-subsequent-components" class="nav-link" data-scroll-target="#subsequent-components"><span class="header-section-number">10.5.2</span> Subsequent Components</a></li>
-  <li><a href="#total-variance-is-preserved" id="toc-total-variance-is-preserved" class="nav-link" data-scroll-target="#total-variance-is-preserved"><span class="header-section-number">10.5.3</span> Total Variance is Preserved</a></li>
-  <li><a href="#connection-with-the-singular-value-decomposition" id="toc-connection-with-the-singular-value-decomposition" class="nav-link" data-scroll-target="#connection-with-the-singular-value-decomposition"><span class="header-section-number">10.5.4</span> Connection with the Singular Value Decomposition</a></li>
-  <li><a href="#doing-it-by-hand" id="toc-doing-it-by-hand" class="nav-link" data-scroll-target="#doing-it-by-hand"><span class="header-section-number">10.5.5</span> Doing It by Hand</a></li>
-  <li><a href="#a-two-dimensional-picture-of-the-rotation" id="toc-a-two-dimensional-picture-of-the-rotation" class="nav-link" data-scroll-target="#a-two-dimensional-picture-of-the-rotation"><span class="header-section-number">10.5.6</span> A Two-Dimensional Picture of the Rotation</a></li>
+  <li><a href="#sec-first-pc" id="toc-sec-first-pc" class="nav-link" data-scroll-target="#sec-first-pc"><span class="header-section-number">9.5.1</span> The First Principal Component</a></li>
+  <li><a href="#subsequent-components" id="toc-subsequent-components" class="nav-link" data-scroll-target="#subsequent-components"><span class="header-section-number">9.5.2</span> Subsequent Components</a></li>
+  <li><a href="#total-variance-is-preserved" id="toc-total-variance-is-preserved" class="nav-link" data-scroll-target="#total-variance-is-preserved"><span class="header-section-number">9.5.3</span> Total Variance is Preserved</a></li>
+  <li><a href="#connection-with-the-singular-value-decomposition" id="toc-connection-with-the-singular-value-decomposition" class="nav-link" data-scroll-target="#connection-with-the-singular-value-decomposition"><span class="header-section-number">9.5.4</span> Connection with the Singular Value Decomposition</a></li>
+  <li><a href="#doing-it-by-hand" id="toc-doing-it-by-hand" class="nav-link" data-scroll-target="#doing-it-by-hand"><span class="header-section-number">9.5.5</span> Doing It by Hand</a></li>
+  <li><a href="#a-two-dimensional-picture-of-the-rotation" id="toc-a-two-dimensional-picture-of-the-rotation" class="nav-link" data-scroll-target="#a-two-dimensional-picture-of-the-rotation"><span class="header-section-number">9.5.6</span> A Two-Dimensional Picture of the Rotation</a></li>
   </ul></li>
-  <li><a href="#scores-loadings-and-explained-variance" id="toc-scores-loadings-and-explained-variance" class="nav-link" data-scroll-target="#scores-loadings-and-explained-variance"><span class="header-section-number">10.6</span> Scores, Loadings and Explained Variance</a>
+  <li><a href="#scores-loadings-and-explained-variance" id="toc-scores-loadings-and-explained-variance" class="nav-link" data-scroll-target="#scores-loadings-and-explained-variance"><span class="header-section-number">9.6</span> Scores, Loadings and Explained Variance</a>
   <ul>
-  <li><a href="#loadings" id="toc-loadings" class="nav-link" data-scroll-target="#loadings"><span class="header-section-number">10.6.1</span> Loadings</a></li>
-  <li><a href="#scores" id="toc-scores" class="nav-link" data-scroll-target="#scores"><span class="header-section-number">10.6.2</span> Scores</a></li>
-  <li><a href="#fitting-the-pca" id="toc-fitting-the-pca" class="nav-link" data-scroll-target="#fitting-the-pca"><span class="header-section-number">10.6.3</span> Fitting the PCA</a></li>
-  <li><a href="#reconstruction" id="toc-reconstruction" class="nav-link" data-scroll-target="#reconstruction"><span class="header-section-number">10.6.4</span> Reconstruction</a></li>
+  <li><a href="#loadings" id="toc-loadings" class="nav-link" data-scroll-target="#loadings"><span class="header-section-number">9.6.1</span> Loadings</a></li>
+  <li><a href="#scores" id="toc-scores" class="nav-link" data-scroll-target="#scores"><span class="header-section-number">9.6.2</span> Scores</a></li>
+  <li><a href="#fitting-the-pca" id="toc-fitting-the-pca" class="nav-link" data-scroll-target="#fitting-the-pca"><span class="header-section-number">9.6.3</span> Fitting the PCA</a></li>
+  <li><a href="#reconstruction" id="toc-reconstruction" class="nav-link" data-scroll-target="#reconstruction"><span class="header-section-number">9.6.4</span> Reconstruction</a></li>
   </ul></li>
-  <li><a href="#sec-how-many" id="toc-sec-how-many" class="nav-link" data-scroll-target="#sec-how-many"><span class="header-section-number">10.7</span> How Many Components to Retain?</a>
+  <li><a href="#sec-how-many" id="toc-sec-how-many" class="nav-link" data-scroll-target="#sec-how-many"><span class="header-section-number">9.7</span> How Many Components to Retain?</a>
   <ul>
-  <li><a href="#the-scree-plot" id="toc-the-scree-plot" class="nav-link" data-scroll-target="#the-scree-plot"><span class="header-section-number">10.7.1</span> The Scree Plot</a></li>
-  <li><a href="#cumulative-proportion" id="toc-cumulative-proportion" class="nav-link" data-scroll-target="#cumulative-proportion"><span class="header-section-number">10.7.2</span> Cumulative Proportion</a></li>
-  <li><a href="#the-kaiser-criterion" id="toc-the-kaiser-criterion" class="nav-link" data-scroll-target="#the-kaiser-criterion"><span class="header-section-number">10.7.3</span> The Kaiser Criterion</a></li>
-  <li><a href="#the-broken-stick-model" id="toc-the-broken-stick-model" class="nav-link" data-scroll-target="#the-broken-stick-model"><span class="header-section-number">10.7.4</span> The Broken-Stick Model</a></li>
+  <li><a href="#the-scree-plot" id="toc-the-scree-plot" class="nav-link" data-scroll-target="#the-scree-plot"><span class="header-section-number">9.7.1</span> The Scree Plot</a></li>
+  <li><a href="#cumulative-proportion" id="toc-cumulative-proportion" class="nav-link" data-scroll-target="#cumulative-proportion"><span class="header-section-number">9.7.2</span> Cumulative Proportion</a></li>
+  <li><a href="#the-kaiser-criterion" id="toc-the-kaiser-criterion" class="nav-link" data-scroll-target="#the-kaiser-criterion"><span class="header-section-number">9.7.3</span> The Kaiser Criterion</a></li>
+  <li><a href="#the-broken-stick-model" id="toc-the-broken-stick-model" class="nav-link" data-scroll-target="#the-broken-stick-model"><span class="header-section-number">9.7.4</span> The Broken-Stick Model</a></li>
   </ul></li>
-  <li><a href="#sec-visualising" id="toc-sec-visualising" class="nav-link" data-scroll-target="#sec-visualising"><span class="header-section-number">10.8</span> Visualising a PCA</a>
+  <li><a href="#sec-visualising" id="toc-sec-visualising" class="nav-link" data-scroll-target="#sec-visualising"><span class="header-section-number">9.8</span> Visualising a PCA</a>
   <ul>
-  <li><a href="#the-variable-correlation-circle" id="toc-the-variable-correlation-circle" class="nav-link" data-scroll-target="#the-variable-correlation-circle"><span class="header-section-number">10.8.1</span> The Variable Correlation Circle</a></li>
-  <li><a href="#quality-of-representation-cos2" id="toc-quality-of-representation-cos2" class="nav-link" data-scroll-target="#quality-of-representation-cos2"><span class="header-section-number">10.8.2</span> Quality of Representation: <code>cos2</code></a></li>
-  <li><a href="#communalities" id="toc-communalities" class="nav-link" data-scroll-target="#communalities"><span class="header-section-number">10.8.3</span> Communalities</a></li>
-  <li><a href="#contributions" id="toc-contributions" class="nav-link" data-scroll-target="#contributions"><span class="header-section-number">10.8.4</span> Contributions</a></li>
-  <li><a href="#individuals" id="toc-individuals" class="nav-link" data-scroll-target="#individuals"><span class="header-section-number">10.8.5</span> Individuals</a></li>
-  <li><a href="#the-biplot" id="toc-the-biplot" class="nav-link" data-scroll-target="#the-biplot"><span class="header-section-number">10.8.6</span> The Biplot</a></li>
+  <li><a href="#the-variable-correlation-circle" id="toc-the-variable-correlation-circle" class="nav-link" data-scroll-target="#the-variable-correlation-circle"><span class="header-section-number">9.8.1</span> The Variable Correlation Circle</a></li>
+  <li><a href="#quality-of-representation-cos2" id="toc-quality-of-representation-cos2" class="nav-link" data-scroll-target="#quality-of-representation-cos2"><span class="header-section-number">9.8.2</span> Quality of Representation: <code>cos2</code></a></li>
+  <li><a href="#communalities" id="toc-communalities" class="nav-link" data-scroll-target="#communalities"><span class="header-section-number">9.8.3</span> Communalities</a></li>
+  <li><a href="#contributions" id="toc-contributions" class="nav-link" data-scroll-target="#contributions"><span class="header-section-number">9.8.4</span> Contributions</a></li>
+  <li><a href="#individuals" id="toc-individuals" class="nav-link" data-scroll-target="#individuals"><span class="header-section-number">9.8.5</span> Individuals</a></li>
+  <li><a href="#the-biplot" id="toc-the-biplot" class="nav-link" data-scroll-target="#the-biplot"><span class="header-section-number">9.8.6</span> The Biplot</a></li>
   </ul></li>
-  <li><a href="#interpreting-the-components" id="toc-interpreting-the-components" class="nav-link" data-scroll-target="#interpreting-the-components"><span class="header-section-number">10.9</span> Interpreting the Components</a></li>
-  <li><a href="#sec-rotation" id="toc-sec-rotation" class="nav-link" data-scroll-target="#sec-rotation"><span class="header-section-number">10.10</span> Rotating the Components for Interpretation</a>
+  <li><a href="#interpreting-the-components" id="toc-interpreting-the-components" class="nav-link" data-scroll-target="#interpreting-the-components"><span class="header-section-number">9.9</span> Interpreting the Components</a></li>
+  <li><a href="#sec-rotation" id="toc-sec-rotation" class="nav-link" data-scroll-target="#sec-rotation"><span class="header-section-number">9.10</span> Rotating the Components for Interpretation</a>
   <ul>
-  <li><a href="#simple-structure" id="toc-simple-structure" class="nav-link" data-scroll-target="#simple-structure"><span class="header-section-number">10.10.1</span> Simple Structure</a></li>
-  <li><a href="#the-orthomax-family" id="toc-the-orthomax-family" class="nav-link" data-scroll-target="#the-orthomax-family"><span class="header-section-number">10.10.2</span> The Orthomax Family</a></li>
-  <li><a href="#varimax-on-the-bank-portfolio" id="toc-varimax-on-the-bank-portfolio" class="nav-link" data-scroll-target="#varimax-on-the-bank-portfolio"><span class="header-section-number">10.10.3</span> Varimax on the Bank Portfolio</a></li>
-  <li><a href="#comparing-methods" id="toc-comparing-methods" class="nav-link" data-scroll-target="#comparing-methods"><span class="header-section-number">10.10.4</span> Comparing Methods</a></li>
-  <li><a href="#oblique-rotations" id="toc-oblique-rotations" class="nav-link" data-scroll-target="#oblique-rotations"><span class="header-section-number">10.10.5</span> Oblique Rotations</a></li>
-  <li><a href="#rotated-scores" id="toc-rotated-scores" class="nav-link" data-scroll-target="#rotated-scores"><span class="header-section-number">10.10.6</span> Rotated Scores</a></li>
-  <li><a href="#when-to-rotate-and-when-not-to" id="toc-when-to-rotate-and-when-not-to" class="nav-link" data-scroll-target="#when-to-rotate-and-when-not-to"><span class="header-section-number">10.10.7</span> When to Rotate, and When Not To</a></li>
+  <li><a href="#simple-structure" id="toc-simple-structure" class="nav-link" data-scroll-target="#simple-structure"><span class="header-section-number">9.10.1</span> Simple Structure</a></li>
+  <li><a href="#the-orthomax-family" id="toc-the-orthomax-family" class="nav-link" data-scroll-target="#the-orthomax-family"><span class="header-section-number">9.10.2</span> The Orthomax Family</a></li>
+  <li><a href="#varimax-on-the-bank-portfolio" id="toc-varimax-on-the-bank-portfolio" class="nav-link" data-scroll-target="#varimax-on-the-bank-portfolio"><span class="header-section-number">9.10.3</span> Varimax on the Bank Portfolio</a></li>
+  <li><a href="#comparing-methods" id="toc-comparing-methods" class="nav-link" data-scroll-target="#comparing-methods"><span class="header-section-number">9.10.4</span> Comparing Methods</a></li>
+  <li><a href="#oblique-rotations" id="toc-oblique-rotations" class="nav-link" data-scroll-target="#oblique-rotations"><span class="header-section-number">9.10.5</span> Oblique Rotations</a></li>
+  <li><a href="#rotated-scores" id="toc-rotated-scores" class="nav-link" data-scroll-target="#rotated-scores"><span class="header-section-number">9.10.6</span> Rotated Scores</a></li>
+  <li><a href="#when-to-rotate-and-when-not-to" id="toc-when-to-rotate-and-when-not-to" class="nav-link" data-scroll-target="#when-to-rotate-and-when-not-to"><span class="header-section-number">9.10.7</span> When to Rotate, and When Not To</a></li>
   </ul></li>
-  <li><a href="#practical-issues" id="toc-practical-issues" class="nav-link" data-scroll-target="#practical-issues"><span class="header-section-number">10.11</span> Practical Issues</a>
+  <li><a href="#practical-issues" id="toc-practical-issues" class="nav-link" data-scroll-target="#practical-issues"><span class="header-section-number">9.11</span> Practical Issues</a>
   <ul>
-  <li><a href="#outliers-and-heavy-tails" id="toc-outliers-and-heavy-tails" class="nav-link" data-scroll-target="#outliers-and-heavy-tails"><span class="header-section-number">10.11.1</span> Outliers and Heavy Tails</a></li>
-  <li><a href="#missing-values" id="toc-missing-values" class="nav-link" data-scroll-target="#missing-values"><span class="header-section-number">10.11.2</span> Missing Values</a></li>
-  <li><a href="#categorical-variables" id="toc-categorical-variables" class="nav-link" data-scroll-target="#categorical-variables"><span class="header-section-number">10.11.3</span> Categorical Variables</a></li>
-  <li><a href="#multicollinearity-and-near-constant-variables" id="toc-multicollinearity-and-near-constant-variables" class="nav-link" data-scroll-target="#multicollinearity-and-near-constant-variables"><span class="header-section-number">10.11.4</span> Multicollinearity and Near-Constant Variables</a></li>
-  <li><a href="#sample-size" id="toc-sample-size" class="nav-link" data-scroll-target="#sample-size"><span class="header-section-number">10.11.5</span> Sample Size</a></li>
+  <li><a href="#outliers-and-heavy-tails" id="toc-outliers-and-heavy-tails" class="nav-link" data-scroll-target="#outliers-and-heavy-tails"><span class="header-section-number">9.11.1</span> Outliers and Heavy Tails</a></li>
+  <li><a href="#missing-values" id="toc-missing-values" class="nav-link" data-scroll-target="#missing-values"><span class="header-section-number">9.11.2</span> Missing Values</a></li>
+  <li><a href="#categorical-variables" id="toc-categorical-variables" class="nav-link" data-scroll-target="#categorical-variables"><span class="header-section-number">9.11.3</span> Categorical Variables</a></li>
+  <li><a href="#multicollinearity-and-near-constant-variables" id="toc-multicollinearity-and-near-constant-variables" class="nav-link" data-scroll-target="#multicollinearity-and-near-constant-variables"><span class="header-section-number">9.11.4</span> Multicollinearity and Near-Constant Variables</a></li>
+  <li><a href="#sample-size" id="toc-sample-size" class="nav-link" data-scroll-target="#sample-size"><span class="header-section-number">9.11.5</span> Sample Size</a></li>
   </ul></li>
-  <li><a href="#common-pitfalls" id="toc-common-pitfalls" class="nav-link" data-scroll-target="#common-pitfalls"><span class="header-section-number">10.12</span> Common Pitfalls</a></li>
-  <li><a href="#beyond-pca-other-routes-to-fewer-dimensions" id="toc-beyond-pca-other-routes-to-fewer-dimensions" class="nav-link" data-scroll-target="#beyond-pca-other-routes-to-fewer-dimensions"><span class="header-section-number">10.13</span> Beyond PCA: Other Routes to Fewer Dimensions</a></li>
-  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">10.14</span> Summary</a></li>
-  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">10.15</span> Exercises</a>
+  <li><a href="#common-pitfalls" id="toc-common-pitfalls" class="nav-link" data-scroll-target="#common-pitfalls"><span class="header-section-number">9.12</span> Common Pitfalls</a></li>
+  <li><a href="#beyond-pca-other-routes-to-fewer-dimensions" id="toc-beyond-pca-other-routes-to-fewer-dimensions" class="nav-link" data-scroll-target="#beyond-pca-other-routes-to-fewer-dimensions"><span class="header-section-number">9.13</span> Beyond PCA: Other Routes to Fewer Dimensions</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">9.14</span> Summary</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">9.15</span> Exercises</a>
   <ul>
-  <li><a href="#exercise-1-scaling" id="toc-exercise-1-scaling" class="nav-link" data-scroll-target="#exercise-1-scaling"><span class="header-section-number">10.15.1</span> Exercise 1 — Scaling</a></li>
-  <li><a href="#exercise-2-reproducing-the-output-by-hand" id="toc-exercise-2-reproducing-the-output-by-hand" class="nav-link" data-scroll-target="#exercise-2-reproducing-the-output-by-hand"><span class="header-section-number">10.15.2</span> Exercise 2 — Reproducing the output by hand</a></li>
-  <li><a href="#exercise-3-how-many-components" id="toc-exercise-3-how-many-components" class="nav-link" data-scroll-target="#exercise-3-how-many-components"><span class="header-section-number">10.15.3</span> Exercise 3 — How many components?</a></li>
-  <li><a href="#exercise-4-an-insurance-portfolio" id="toc-exercise-4-an-insurance-portfolio" class="nav-link" data-scroll-target="#exercise-4-an-insurance-portfolio"><span class="header-section-number">10.15.4</span> Exercise 4 — An insurance portfolio</a></li>
-  <li><a href="#exercise-5-rotation-and-interpretation" id="toc-exercise-5-rotation-and-interpretation" class="nav-link" data-scroll-target="#exercise-5-rotation-and-interpretation"><span class="header-section-number">10.15.5</span> Exercise 5 — Rotation and interpretation</a></li>
+  <li><a href="#exercise-1-scaling" id="toc-exercise-1-scaling" class="nav-link" data-scroll-target="#exercise-1-scaling"><span class="header-section-number">9.15.1</span> Exercise 1 — Scaling</a></li>
+  <li><a href="#exercise-2-reproducing-the-output-by-hand" id="toc-exercise-2-reproducing-the-output-by-hand" class="nav-link" data-scroll-target="#exercise-2-reproducing-the-output-by-hand"><span class="header-section-number">9.15.2</span> Exercise 2 — Reproducing the output by hand</a></li>
+  <li><a href="#exercise-3-how-many-components" id="toc-exercise-3-how-many-components" class="nav-link" data-scroll-target="#exercise-3-how-many-components"><span class="header-section-number">9.15.3</span> Exercise 3 — How many components?</a></li>
+  <li><a href="#exercise-4-an-insurance-portfolio" id="toc-exercise-4-an-insurance-portfolio" class="nav-link" data-scroll-target="#exercise-4-an-insurance-portfolio"><span class="header-section-number">9.15.4</span> Exercise 4 — An insurance portfolio</a></li>
+  <li><a href="#exercise-5-rotation-and-interpretation" id="toc-exercise-5-rotation-and-interpretation" class="nav-link" data-scroll-target="#exercise-5-rotation-and-interpretation"><span class="header-section-number">9.15.5</span> Exercise 5 — Rotation and interpretation</a></li>
   </ul></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
@@ -2271,9 +2248,9 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 }
 </script>
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/pca.html">Dimension Reduction</a></li><li class="breadcrumb-item"><a href="../chapters/pca.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Principal Component Analysis</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/pca.html">Dimension Reduction</a></li><li class="breadcrumb-item"><a href="../chapters/pca.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Principal Component Analysis</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Principal Component Analysis</span></h1>
+<h1 class="title"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Principal Component Analysis</span></h1>
 </div>
 
 
@@ -2293,8 +2270,8 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <p><em>Principal Component Analysis</em> (PCA) is a technique used to replace a set of correlated variables by a smaller set of new, uncorrelated variables — the <em>principal components</em> — that retain as much of the original variability as possible.</p>
 <p>Where clustering looks for structure among the <strong>rows</strong> of a data set (which clients resemble each other?), PCA looks for structure among the <strong>columns</strong> (which variables carry the same information?). The two questions are complementary, and in practice PCA is very often the step that comes <em>before</em> clustering or classification.</p>
 <p>PCA was introduced by <span class="citation" data-cites="pearson1901">Pearson (<a href="pca.html#ref-pearson1901" role="doc-biblioref">1901</a>)</span> as a problem of fitting lines and planes to a cloud of points, and developed in its modern statistical form by <span class="citation" data-cites="hotelling1933">Hotelling (<a href="pca.html#ref-hotelling1933" role="doc-biblioref">1933</a>)</span>. A comprehensive treatment is given by <span class="citation" data-cites="jolliffe2002">Jolliffe (<a href="pca.html#ref-jolliffe2002" role="doc-biblioref">2002</a>)</span>.</p>
-<section id="why-reduce-dimension" class="level2" data-number="10.1">
-<h2 data-number="10.1" class="anchored" data-anchor-id="why-reduce-dimension"><span class="header-section-number">10.1</span> Why Reduce Dimension?</h2>
+<section id="why-reduce-dimension" class="level2" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="why-reduce-dimension"><span class="header-section-number">9.1</span> Why Reduce Dimension?</h2>
 <p>A retail bank stores dozens — often hundreds — of numeric attributes per client: balances across several account types, transaction counts by channel, credit exposure, tenure, product holdings, contact history. An insurer stores a similar volume per policy. Working with all of them at once creates four practical difficulties.</p>
 <p><strong>Redundancy</strong></p>
 <p>Many variables measure the same underlying thing. A client’s income, current-account balance, savings balance, investment holdings and credit limit are all partial views of a single unobserved quantity we might call <em>affluence</em>. Keeping five columns to describe one construct adds noise, not information.</p>
@@ -2317,8 +2294,8 @@ Note
 <p>PCA does <strong>not</strong> select a subset of the original variables. It builds <em>new</em> variables, each one a weighted combination of all the originals. If your goal is to discard columns and keep the rest (for example, because measuring each variable is expensive), PCA is the wrong tool — you want variable selection instead.</p>
 </div>
 </div>
-<section id="applications-in-banking-and-insurance" class="level3" data-number="10.1.1">
-<h3 data-number="10.1.1" class="anchored" data-anchor-id="applications-in-banking-and-insurance"><span class="header-section-number">10.1.1</span> Applications in Banking and Insurance</h3>
+<section id="applications-in-banking-and-insurance" class="level3" data-number="9.1.1">
+<h3 data-number="9.1.1" class="anchored" data-anchor-id="applications-in-banking-and-insurance"><span class="header-section-number">9.1.1</span> Applications in Banking and Insurance</h3>
 <p><strong>Client segmentation</strong></p>
 <p>Reducing a wide client table to two or three interpretable axes — affluence, digital engagement, credit strain — and then clustering on those axes rather than on the raw variables.</p>
 <p><strong>Credit and behavioural scoring</strong></p>
@@ -2343,8 +2320,8 @@ Note
 </div>
 </section>
 </section>
-<section id="the-data-a-retail-bank-client-portfolio" class="level2" data-number="10.2">
-<h2 data-number="10.2" class="anchored" data-anchor-id="the-data-a-retail-bank-client-portfolio"><span class="header-section-number">10.2</span> The Data: A Retail Bank Client Portfolio</h2>
+<section id="the-data-a-retail-bank-client-portfolio" class="level2" data-number="9.2">
+<h2 data-number="9.2" class="anchored" data-anchor-id="the-data-a-retail-bank-client-portfolio"><span class="header-section-number">9.2</span> The Data: A Retail Bank Client Portfolio</h2>
 <p>Throughout this chapter we work with a simulated portfolio of <span class="math inline">\(600\)</span> retail bank clients. The data are generated rather than downloaded so that every result in this chapter is exactly reproducible in your browser, but the variables, their units and their correlation structure are typical of a real retail banking table.</p>
 <table class="caption-top table">
 <colgroup>
@@ -2490,8 +2467,8 @@ Note
  Max.   :184.00   Max.   :12.0000  </code></pre>
 </div>
 </div>
-<section id="skewness-and-the-log-transform" class="level3" data-number="10.2.1">
-<h3 data-number="10.2.1" class="anchored" data-anchor-id="skewness-and-the-log-transform"><span class="header-section-number">10.2.1</span> Skewness and the Log Transform</h3>
+<section id="skewness-and-the-log-transform" class="level3" data-number="9.2.1">
+<h3 data-number="9.2.1" class="anchored" data-anchor-id="skewness-and-the-log-transform"><span class="header-section-number">9.2.1</span> Skewness and the Log Transform</h3>
 <p>The monetary variables are strongly right-skewed, as monetary variables almost always are: most clients hold modest amounts and a small number hold very large ones.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>skewness <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">mean</span>((x <span class="sc">-</span> <span class="fu">mean</span>(x))<span class="sc">^</span><span class="dv">3</span>) <span class="sc">/</span> <span class="fu">sd</span>(x)<span class="sc">^</span><span class="dv">3</span></span>
@@ -2552,8 +2529,8 @@ Tip
 </div>
 <p>The count variables <code>card_tx</code>, <code>mobile</code> and <code>branch</code> keep some skewness, which is normal for counts and not damaging at this level. We leave them untransformed so that their scale stays interpretable.</p>
 </section>
-<section id="the-correlation-matrix" class="level3" data-number="10.2.2">
-<h3 data-number="10.2.2" class="anchored" data-anchor-id="the-correlation-matrix"><span class="header-section-number">10.2.2</span> The Correlation Matrix</h3>
+<section id="the-correlation-matrix" class="level3" data-number="9.2.2">
+<h3 data-number="9.2.2" class="anchored" data-anchor-id="the-correlation-matrix"><span class="header-section-number">9.2.2</span> The Correlation Matrix</h3>
 <p>PCA is, in the end, a way of reading a correlation matrix. It is worth looking at that matrix directly first.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(corrplot)</span>
@@ -2590,16 +2567,16 @@ Tip
 </div>
 </section>
 </section>
-<section id="sec-pre-pca-tests" class="level2" data-number="10.3">
-<h2 data-number="10.3" class="anchored" data-anchor-id="sec-pre-pca-tests"><span class="header-section-number">10.3</span> Pre-PCA Diagnostic Tests</h2>
+<section id="sec-pre-pca-tests" class="level2" data-number="9.3">
+<h2 data-number="9.3" class="anchored" data-anchor-id="sec-pre-pca-tests"><span class="header-section-number">9.3</span> Pre-PCA Diagnostic Tests</h2>
 <p>The previous section ended on a qualitative statement: PCA is useful to the extent that the variables are correlated. Two classical diagnostics turn that statement into numbers, and they are routinely reported before a PCA:</p>
 <ul>
 <li><strong>Bartlett’s test of sphericity</strong> asks whether there is <em>any</em> correlation to summarise;</li>
 <li>the <strong>Kaiser–Meyer–Olkin (KMO) measure</strong> asks whether that correlation is <em>shared</em> across many variables, which is what a small number of components can capture, or confined to isolated pairs.</li>
 </ul>
 <p>Both come from the factor-analysis tradition. They do not decide whether PCA can be computed — it always can — but whether it is likely to produce a useful reduction.</p>
-<section id="bartletts-test-of-sphericity" class="level3" data-number="10.3.1">
-<h3 data-number="10.3.1" class="anchored" data-anchor-id="bartletts-test-of-sphericity"><span class="header-section-number">10.3.1</span> Bartlett’s Test of Sphericity</h3>
+<section id="bartletts-test-of-sphericity" class="level3" data-number="9.3.1">
+<h3 data-number="9.3.1" class="anchored" data-anchor-id="bartletts-test-of-sphericity"><span class="header-section-number">9.3.1</span> Bartlett’s Test of Sphericity</h3>
 <p>Bartlett’s test <span class="citation" data-cites="bartlett1950">(<a href="pca.html#ref-bartlett1950" role="doc-biblioref">Bartlett 1950</a>)</span> tests the hypothesis that the population correlation matrix is the identity: <span class="math display">\[
 H_0: \mathbf{R} = \mathbf{I}_p
 \qquad \text{versus} \qquad
@@ -2657,8 +2634,8 @@ Warning
 </div>
 </div>
 </section>
-<section id="the-kaisermeyerolkin-measure-of-sampling-adequacy" class="level3" data-number="10.3.2">
-<h3 data-number="10.3.2" class="anchored" data-anchor-id="the-kaisermeyerolkin-measure-of-sampling-adequacy"><span class="header-section-number">10.3.2</span> The Kaiser–Meyer–Olkin Measure of Sampling Adequacy</h3>
+<section id="the-kaisermeyerolkin-measure-of-sampling-adequacy" class="level3" data-number="9.3.2">
+<h3 data-number="9.3.2" class="anchored" data-anchor-id="the-kaisermeyerolkin-measure-of-sampling-adequacy"><span class="header-section-number">9.3.2</span> The Kaiser–Meyer–Olkin Measure of Sampling Adequacy</h3>
 <p>The KMO measure <span class="citation" data-cites="kaiser1970 kaiser1974">(<a href="pca.html#ref-kaiser1970" role="doc-biblioref">Kaiser 1970</a>, <a href="pca.html#ref-kaiser1974" role="doc-biblioref">1974</a>)</span> compares the ordinary correlations with the <strong>partial correlations</strong> — the correlation between two variables after the linear effect of all the others has been removed. The partial correlations are read off the inverse of the correlation matrix, <span class="math inline">\(\mathbf{Q} = \mathbf{R}^{-1}\)</span>: <span class="math display">\[
 a_{ij} = -\frac{q_{ij}}{\sqrt{q_{ii}\, q_{jj}}} .
 \]</span></p>
@@ -2784,17 +2761,17 @@ log_current
 </div>
 </section>
 </section>
-<section id="notation-centering-and-scaling" class="level2" data-number="10.4">
-<h2 data-number="10.4" class="anchored" data-anchor-id="notation-centering-and-scaling"><span class="header-section-number">10.4</span> Notation, Centering and Scaling</h2>
+<section id="notation-centering-and-scaling" class="level2" data-number="9.4">
+<h2 data-number="9.4" class="anchored" data-anchor-id="notation-centering-and-scaling"><span class="header-section-number">9.4</span> Notation, Centering and Scaling</h2>
 <p>Let <span class="math inline">\(\mathbf{X}\)</span> be an <span class="math inline">\(n \times p\)</span> data matrix: <span class="math inline">\(n\)</span> clients in rows, <span class="math inline">\(p\)</span> variables in columns. Write <span class="math inline">\(\mathbf{x}_i = (x_{i1}, \ldots, x_{ip})^{\top}\)</span> for the record of client <span class="math inline">\(i\)</span>, and <span class="math inline">\(\bar{x}_j\)</span> and <span class="math inline">\(s_j\)</span> for the sample mean and standard deviation of variable <span class="math inline">\(j\)</span>.</p>
-<section id="centering" class="level3" data-number="10.4.1">
-<h3 data-number="10.4.1" class="anchored" data-anchor-id="centering"><span class="header-section-number">10.4.1</span> Centering</h3>
+<section id="centering" class="level3" data-number="9.4.1">
+<h3 data-number="9.4.1" class="anchored" data-anchor-id="centering"><span class="header-section-number">9.4.1</span> Centering</h3>
 <p>PCA always begins by <em>centering</em> each variable: <span class="math display">\[
 \tilde{x}_{ij} = x_{ij} - \bar{x}_j .
 \]</span> Centering moves the origin of the coordinate system to the centre of gravity of the cloud of points. It is not optional: the components are directions <em>through the mean</em>, and without centering the first component would mostly point from the origin towards the mean of the data, which tells us nothing about its shape.</p>
 </section>
-<section id="scaling" class="level3" data-number="10.4.2">
-<h3 data-number="10.4.2" class="anchored" data-anchor-id="scaling"><span class="header-section-number">10.4.2</span> Scaling</h3>
+<section id="scaling" class="level3" data-number="9.4.2">
+<h3 data-number="9.4.2" class="anchored" data-anchor-id="scaling"><span class="header-section-number">9.4.2</span> Scaling</h3>
 <p><em>Scaling</em> is optional, and it is the single most consequential decision in a PCA. If we also divide by the standard deviation, <span class="math display">\[
 z_{ij} = \frac{x_{ij} - \bar{x}_j}{s_j},
 \]</span> then every variable has variance <span class="math inline">\(1\)</span>, and PCA is performed on the <strong>correlation matrix</strong>. If we do not, PCA is performed on the <strong>covariance matrix</strong>, and variables with large numerical variance dominate.</p>
@@ -2863,10 +2840,10 @@ Warning
 </div>
 </section>
 </section>
-<section id="the-algebra-of-pca" class="level2" data-number="10.5">
-<h2 data-number="10.5" class="anchored" data-anchor-id="the-algebra-of-pca"><span class="header-section-number">10.5</span> The Algebra of PCA</h2>
-<section id="sec-first-pc" class="level3" data-number="10.5.1">
-<h3 data-number="10.5.1" class="anchored" data-anchor-id="sec-first-pc"><span class="header-section-number">10.5.1</span> The First Principal Component</h3>
+<section id="the-algebra-of-pca" class="level2" data-number="9.5">
+<h2 data-number="9.5" class="anchored" data-anchor-id="the-algebra-of-pca"><span class="header-section-number">9.5</span> The Algebra of PCA</h2>
+<section id="sec-first-pc" class="level3" data-number="9.5.1">
+<h3 data-number="9.5.1" class="anchored" data-anchor-id="sec-first-pc"><span class="header-section-number">9.5.1</span> The First Principal Component</h3>
 <p>Let <span class="math inline">\(\mathbf{Z}\)</span> be the centred and scaled data matrix, and consider a direction in variable space given by a unit vector <span class="math inline">\(\mathbf{a} = (a_1, \ldots, a_p)^{\top}\)</span>, with <span class="math inline">\(\mathbf{a}^{\top}\mathbf{a} = 1\)</span>. Projecting the data onto this direction produces a new variable <span class="math display">\[
 y_i = \mathbf{a}^{\top}\mathbf{z}_i = a_1 z_{i1} + a_2 z_{i2} + \cdots + a_p z_{ip},
 \qquad i = 1, \ldots, n ,
@@ -2906,8 +2883,8 @@ Note
 </div>
 </div>
 </section>
-<section id="subsequent-components" class="level3" data-number="10.5.2">
-<h3 data-number="10.5.2" class="anchored" data-anchor-id="subsequent-components"><span class="header-section-number">10.5.2</span> Subsequent Components</h3>
+<section id="subsequent-components" class="level3" data-number="9.5.2">
+<h3 data-number="9.5.2" class="anchored" data-anchor-id="subsequent-components"><span class="header-section-number">9.5.2</span> Subsequent Components</h3>
 <p>The second component solves the same problem with one extra requirement: it must be <strong>uncorrelated</strong> with the first. Since <span class="math display">\[
 \operatorname{Cov}(\mathbf{a}_1^{\top}\mathbf{z},\; \mathbf{a}_2^{\top}\mathbf{z}) = \mathbf{a}_1^{\top}\mathbf{S}\mathbf{a}_2 = \lambda_1 \mathbf{a}_1^{\top}\mathbf{a}_2,
 \]</span> requiring zero correlation is equivalent to requiring <span class="math inline">\(\mathbf{a}_1^{\top}\mathbf{a}_2 = 0\)</span>: the directions are <strong>orthogonal</strong>. Continuing in this way, the <span class="math inline">\(k\)</span>-th component is the direction of maximum remaining variance among those orthogonal to the first <span class="math inline">\(k-1\)</span>.</p>
@@ -2919,21 +2896,21 @@ Note
 \boldsymbol{\Lambda} = \operatorname{diag}(\lambda_1, \ldots, \lambda_p),
 \]</span> with <span class="math inline">\(\lambda_1 \ge \lambda_2 \ge \cdots \ge \lambda_p \ge 0\)</span> and <span class="math inline">\(\mathbf{A}^{\top}\mathbf{A} = \mathbf{I}\)</span>. The columns of <span class="math inline">\(\mathbf{A}\)</span> are the <span class="math inline">\(p\)</span> principal directions, sorted by the variance they explain, and they form an orthonormal basis: PCA is a <strong>rotation</strong> of the coordinate system, nothing more, until we decide to discard some of the new axes.</p>
 </section>
-<section id="total-variance-is-preserved" class="level3" data-number="10.5.3">
-<h3 data-number="10.5.3" class="anchored" data-anchor-id="total-variance-is-preserved"><span class="header-section-number">10.5.3</span> Total Variance is Preserved</h3>
+<section id="total-variance-is-preserved" class="level3" data-number="9.5.3">
+<h3 data-number="9.5.3" class="anchored" data-anchor-id="total-variance-is-preserved"><span class="header-section-number">9.5.3</span> Total Variance is Preserved</h3>
 <p>Because the trace of a matrix is invariant under this rotation, <span class="math display">\[
 \sum_{k=1}^{p} \lambda_k = \operatorname{tr}(\mathbf{S}) = \sum_{j=1}^{p} s_{jj}.
 \]</span> On the correlation matrix every <span class="math inline">\(s_{jj} = 1\)</span>, so <span class="math display">\[
 \sum_{k=1}^{p} \lambda_k = p .
 \]</span></p>
-<p>With <span class="math inline">\(p = 13\)</span> variables, the eigenvalues of our correlation matrix must sum to <span class="math inline">\(13\)</span>. This gives an immediate benchmark: a component with <span class="math inline">\(\lambda_k = 1\)</span> explains exactly as much variance as one original standardised variable. This is the basis of the Kaiser criterion in <a href="#sec-how-many" class="quarto-xref"><span>Section 10.7</span></a>.</p>
+<p>With <span class="math inline">\(p = 13\)</span> variables, the eigenvalues of our correlation matrix must sum to <span class="math inline">\(13\)</span>. This gives an immediate benchmark: a component with <span class="math inline">\(\lambda_k = 1\)</span> explains exactly as much variance as one original standardised variable. This is the basis of the Kaiser criterion in <a href="#sec-how-many" class="quarto-xref"><span>Section 9.7</span></a>.</p>
 <p>The <strong>proportion of variance explained</strong> by component <span class="math inline">\(k\)</span> is therefore <span class="math display">\[
 \text{PVE}_k = \frac{\lambda_k}{\sum_{m=1}^{p}\lambda_m} = \frac{\lambda_k}{p}
 \quad \text{(correlation matrix)} .
 \]</span></p>
 </section>
-<section id="connection-with-the-singular-value-decomposition" class="level3" data-number="10.5.4">
-<h3 data-number="10.5.4" class="anchored" data-anchor-id="connection-with-the-singular-value-decomposition"><span class="header-section-number">10.5.4</span> Connection with the Singular Value Decomposition</h3>
+<section id="connection-with-the-singular-value-decomposition" class="level3" data-number="9.5.4">
+<h3 data-number="9.5.4" class="anchored" data-anchor-id="connection-with-the-singular-value-decomposition"><span class="header-section-number">9.5.4</span> Connection with the Singular Value Decomposition</h3>
 <p>In practice, software does not form <span class="math inline">\(\mathbf{S}\)</span> and diagonalise it; it applies the <em>singular value decomposition</em> to <span class="math inline">\(\mathbf{Z}\)</span> directly: <span class="math display">\[
 \mathbf{Z} = \mathbf{U}\,\mathbf{D}\,\mathbf{V}^{\top},
 \]</span> with <span class="math inline">\(\mathbf{U}^{\top}\mathbf{U} = \mathbf{V}^{\top}\mathbf{V} = \mathbf{I}\)</span> and <span class="math inline">\(\mathbf{D}\)</span> diagonal with non-negative entries <span class="math inline">\(d_1 \ge \cdots \ge d_p\)</span>. Then <span class="math display">\[
@@ -2954,8 +2931,8 @@ Note
 </div>
 </div>
 </section>
-<section id="doing-it-by-hand" class="level3" data-number="10.5.5">
-<h3 data-number="10.5.5" class="anchored" data-anchor-id="doing-it-by-hand"><span class="header-section-number">10.5.5</span> Doing It by Hand</h3>
+<section id="doing-it-by-hand" class="level3" data-number="9.5.5">
+<h3 data-number="9.5.5" class="anchored" data-anchor-id="doing-it-by-hand"><span class="header-section-number">9.5.5</span> Doing It by Hand</h3>
 <p>Everything above can be verified in a few lines. First the eigen-decomposition of the correlation matrix:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>R_mat <span class="ot">&lt;-</span> <span class="fu">cor</span>(X)</span>
@@ -2977,11 +2954,11 @@ Note
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(<span class="fu">abs</span>(e<span class="sc">$</span>values <span class="sc">-</span> pca<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span>))                        <span class="co"># eigenvalues agree</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 8.437695e-15</code></pre>
+<pre><code>[1] 1.287859e-14</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(<span class="fu">abs</span>(<span class="fu">abs</span>(e<span class="sc">$</span>vectors[, <span class="dv">1</span>]) <span class="sc">-</span> <span class="fu">abs</span>(pca<span class="sc">$</span>rotation[, <span class="dv">1</span>]))) <span class="co"># first direction agrees</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 8.604228e-16</code></pre>
+<pre><code>[1] 4.996004e-16</code></pre>
 </div>
 </div>
 <p>Both differences are of the order of <span class="math inline">\(10^{-14}\)</span> — machine precision. And through the SVD:</p>
@@ -3010,8 +2987,8 @@ Warning
 <div id="qwebr-insertion-location-5"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
-<section id="a-two-dimensional-picture-of-the-rotation" class="level3" data-number="10.5.6">
-<h3 data-number="10.5.6" class="anchored" data-anchor-id="a-two-dimensional-picture-of-the-rotation"><span class="header-section-number">10.5.6</span> A Two-Dimensional Picture of the Rotation</h3>
+<section id="a-two-dimensional-picture-of-the-rotation" class="level3" data-number="9.5.6">
+<h3 data-number="9.5.6" class="anchored" data-anchor-id="a-two-dimensional-picture-of-the-rotation"><span class="header-section-number">9.5.6</span> A Two-Dimensional Picture of the Rotation</h3>
 <p>With thirteen variables the rotation cannot be drawn. With two it can, and the picture is worth more than the algebra. Take just <code>log_income</code> and <code>log_limit</code> — a client’s declared income and the card limit the bank granted them, which are related for an obvious reason.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>pair  <span class="ot">&lt;-</span> X[, <span class="fu">c</span>(<span class="st">"log_income"</span>, <span class="st">"log_limit"</span>)]</span>
@@ -3169,7 +3146,7 @@ The dotted line at $1$ marks the variance of either original variable. Every dir
 In $p$ dimensions exactly the same thing happens: the cloud is a $p$-dimensional ellipsoid and PCA turns it until its longest axis lies along the first coordinate, its next longest along the second, and so on. What is lost above three dimensions is only our ability to look at it directly — hence the correlation circle and the biplot of @sec-visualising, which are two-dimensional windows onto that same rotation.
 :::
 
-```lzcwblap
+```nbzhpjje
 #| label: rot-try
 #| autorun: false
 
@@ -3201,8 +3178,8 @@ abline(0, -1, col = "steelblue", lwd = 2)
 </div>
 </section>
 </section>
-<section id="scores-loadings-and-explained-variance" class="level2" data-number="10.6">
-<h2 data-number="10.6" class="anchored" data-anchor-id="scores-loadings-and-explained-variance"><span class="header-section-number">10.6</span> Scores, Loadings and Explained Variance</h2>
+<section id="scores-loadings-and-explained-variance" class="level2" data-number="9.6">
+<h2 data-number="9.6" class="anchored" data-anchor-id="scores-loadings-and-explained-variance"><span class="header-section-number">9.6</span> Scores, Loadings and Explained Variance</h2>
 <p>Three objects come out of a PCA, and confusing them is the most common source of error in reading PCA output.</p>
 <table class="caption-top table">
 <colgroup>
@@ -3240,18 +3217,18 @@ abline(0, -1, col = "steelblue", lwd = 2)
 </tr>
 </tbody>
 </table>
-<section id="loadings" class="level3" data-number="10.6.1">
-<h3 data-number="10.6.1" class="anchored" data-anchor-id="loadings"><span class="header-section-number">10.6.1</span> Loadings</h3>
+<section id="loadings" class="level3" data-number="9.6.1">
+<h3 data-number="9.6.1" class="anchored" data-anchor-id="loadings"><span class="header-section-number">9.6.1</span> Loadings</h3>
 <p>The loading <span class="math inline">\(a_{jk}\)</span> is the weight of variable <span class="math inline">\(j\)</span> in component <span class="math inline">\(k\)</span>. The vector <span class="math inline">\(\mathbf{a}_k\)</span> has unit length, so the loadings of a component satisfy <span class="math inline">\(\sum_j a_{jk}^2 = 1\)</span>; a variable’s <em>contribution</em> to that component is therefore <span class="math inline">\(100\,a_{jk}^2\)</span> per cent.</p>
 </section>
-<section id="scores" class="level3" data-number="10.6.2">
-<h3 data-number="10.6.2" class="anchored" data-anchor-id="scores"><span class="header-section-number">10.6.2</span> Scores</h3>
+<section id="scores" class="level3" data-number="9.6.2">
+<h3 data-number="9.6.2" class="anchored" data-anchor-id="scores"><span class="header-section-number">9.6.2</span> Scores</h3>
 <p>The score of client <span class="math inline">\(i\)</span> on component <span class="math inline">\(k\)</span> is <span class="math display">\[
 y_{ik} = \mathbf{a}_k^{\top}\mathbf{z}_i = \sum_{j=1}^{p} a_{jk}\, z_{ij}.
 \]</span> Scores are the new data: a client who was described by <span class="math inline">\(13\)</span> numbers is now described by <span class="math inline">\(13\)</span> new numbers, of which we intend to keep only the first few. By construction the scores have mean zero, variance <span class="math inline">\(\lambda_k\)</span>, and zero correlation with each other.</p>
 </section>
-<section id="fitting-the-pca" class="level3" data-number="10.6.3">
-<h3 data-number="10.6.3" class="anchored" data-anchor-id="fitting-the-pca"><span class="header-section-number">10.6.3</span> Fitting the PCA</h3>
+<section id="fitting-the-pca" class="level3" data-number="9.6.3">
+<h3 data-number="9.6.3" class="anchored" data-anchor-id="fitting-the-pca"><span class="header-section-number">9.6.3</span> Fitting the PCA</h3>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>pca <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(X, <span class="at">scale. =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(pca)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -3303,8 +3280,8 @@ Note
 </div>
 </div>
 </section>
-<section id="reconstruction" class="level3" data-number="10.6.4">
-<h3 data-number="10.6.4" class="anchored" data-anchor-id="reconstruction"><span class="header-section-number">10.6.4</span> Reconstruction</h3>
+<section id="reconstruction" class="level3" data-number="9.6.4">
+<h3 data-number="9.6.4" class="anchored" data-anchor-id="reconstruction"><span class="header-section-number">9.6.4</span> Reconstruction</h3>
 <p>Keeping only <span class="math inline">\(k\)</span> components and rotating back gives an approximation to the standardised data: <span class="math display">\[
 \hat{\mathbf{Z}}_{(k)} = \mathbf{Y}_{(k)}\,\mathbf{A}_{(k)}^{\top},
 \]</span> where <span class="math inline">\(\mathbf{Y}_{(k)}\)</span> holds the first <span class="math inline">\(k\)</span> score columns and <span class="math inline">\(\mathbf{A}_{(k)}\)</span> the first <span class="math inline">\(k\)</span> loading columns. The Eckart–Young theorem <span class="citation" data-cites="eckart1936">(<a href="pca.html#ref-eckart1936" role="doc-biblioref">Eckart and Young 1936</a>)</span> states that this is the <strong>best possible rank-<span class="math inline">\(k\)</span> approximation</strong> of <span class="math inline">\(\mathbf{Z}\)</span> in the least-squares sense: no other set of <span class="math inline">\(k\)</span> linear combinations reconstructs the data with smaller squared error.</p>
@@ -3339,11 +3316,11 @@ k = 8  mean squared error = 0.093   variance retained = 90.7%</code></pre>
 </div>
 </section>
 </section>
-<section id="sec-how-many" class="level2" data-number="10.7">
-<h2 data-number="10.7" class="anchored" data-anchor-id="sec-how-many"><span class="header-section-number">10.7</span> How Many Components to Retain?</h2>
+<section id="sec-how-many" class="level2" data-number="9.7">
+<h2 data-number="9.7" class="anchored" data-anchor-id="sec-how-many"><span class="header-section-number">9.7</span> How Many Components to Retain?</h2>
 <p>There is no test that settles this question. The usual practice is to look at several criteria and take a decision that is defensible both statistically and substantively.</p>
-<section id="the-scree-plot" class="level3" data-number="10.7.1">
-<h3 data-number="10.7.1" class="anchored" data-anchor-id="the-scree-plot"><span class="header-section-number">10.7.1</span> The Scree Plot</h3>
+<section id="the-scree-plot" class="level3" data-number="9.7.1">
+<h3 data-number="9.7.1" class="anchored" data-anchor-id="the-scree-plot"><span class="header-section-number">9.7.1</span> The Scree Plot</h3>
 <p>Plot the eigenvalues against their index and look for an “elbow” — the point after which the curve flattens into a scree slope of small, roughly equal eigenvalues <span class="citation" data-cites="cattell1966">(<a href="pca.html#ref-cattell1966" role="doc-biblioref">Cattell 1966</a>)</span>. Components before the elbow are taken as signal, those after as noise.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_eig</span>(pca, <span class="at">addlabels =</span> <span class="cn">TRUE</span>, <span class="at">choice =</span> <span class="st">"eigenvalue"</span>,</span>
@@ -3360,8 +3337,8 @@ k = 8  mean squared error = 0.093   variance retained = 90.7%</code></pre>
 </div>
 </div>
 </section>
-<section id="cumulative-proportion" class="level3" data-number="10.7.2">
-<h3 data-number="10.7.2" class="anchored" data-anchor-id="cumulative-proportion"><span class="header-section-number">10.7.2</span> Cumulative Proportion</h3>
+<section id="cumulative-proportion" class="level3" data-number="9.7.2">
+<h3 data-number="9.7.2" class="anchored" data-anchor-id="cumulative-proportion"><span class="header-section-number">9.7.2</span> Cumulative Proportion</h3>
 <p>Retain as many components as needed to reach a target share of the total variance — commonly <span class="math inline">\(70\%\)</span> or <span class="math inline">\(80\%\)</span>. The threshold is a convention, not a result, and should be chosen with the use in mind: a visualisation may be satisfied with two components, a preprocessing step for modelling usually wants more.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>cum <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">comp =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(X), <span class="at">cum =</span> <span class="fu">cumsum</span>(<span class="dv">100</span> <span class="sc">*</span> pca<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="fu">ncol</span>(X)))</span>
@@ -3384,8 +3361,8 @@ k = 8  mean squared error = 0.093   variance retained = 90.7%</code></pre>
 </div>
 </div>
 </section>
-<section id="the-kaiser-criterion" class="level3" data-number="10.7.3">
-<h3 data-number="10.7.3" class="anchored" data-anchor-id="the-kaiser-criterion"><span class="header-section-number">10.7.3</span> The Kaiser Criterion</h3>
+<section id="the-kaiser-criterion" class="level3" data-number="9.7.3">
+<h3 data-number="9.7.3" class="anchored" data-anchor-id="the-kaiser-criterion"><span class="header-section-number">9.7.3</span> The Kaiser Criterion</h3>
 <p>On the correlation matrix, retain components with <span class="math inline">\(\lambda_k &gt; 1\)</span> <span class="citation" data-cites="kaiser1960">(<a href="pca.html#ref-kaiser1960" role="doc-biblioref">Kaiser 1960</a>)</span>. The logic is direct: a component explaining less than one standardised variable’s worth of variance is not a summary of anything.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(pca<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span> <span class="sc">&gt;</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -3400,8 +3377,8 @@ k = 8  mean squared error = 0.093   variance retained = 90.7%</code></pre>
 </div>
 <p>Four components pass. Note how narrowly: <span class="math inline">\(\lambda_4 = 1.025\)</span>. A criterion that would drop a component if the fourth eigenvalue were <span class="math inline">\(0.99\)</span> and keep it at <span class="math inline">\(1.01\)</span> should not be applied mechanically.</p>
 </section>
-<section id="the-broken-stick-model" class="level3" data-number="10.7.4">
-<h3 data-number="10.7.4" class="anchored" data-anchor-id="the-broken-stick-model"><span class="header-section-number">10.7.4</span> The Broken-Stick Model</h3>
+<section id="the-broken-stick-model" class="level3" data-number="9.7.4">
+<h3 data-number="9.7.4" class="anchored" data-anchor-id="the-broken-stick-model"><span class="header-section-number">9.7.4</span> The Broken-Stick Model</h3>
 <p>If a stick of unit length is broken at random into <span class="math inline">\(p\)</span> pieces, the expected length of the <span class="math inline">\(k\)</span>-th longest piece is <span class="math display">\[
 b_k = \frac{1}{p}\sum_{m=k}^{p} \frac{1}{m}.
 \]</span> Retain component <span class="math inline">\(k\)</span> if it explains more variance than <span class="math inline">\(b_k\)</span> — that is, more than would be expected if the total variance were divided among the <span class="math inline">\(p\)</span> directions purely at random. This is a stricter rule than Kaiser’s, and generally a better-behaved one.</p>
@@ -3480,7 +3457,7 @@ Tip
 <td style="text-align: left;">Interpretability</td>
 <td style="text-align: left;">Can you name it?</td>
 <td style="text-align: center;">3</td>
-<td style="text-align: left;">The criterion that decides ties — but see <a href="#sec-rotation" class="quarto-xref"><span>Section 10.10</span></a></td>
+<td style="text-align: left;">The criterion that decides ties — but see <a href="#sec-rotation" class="quarto-xref"><span>Section 9.10</span></a></td>
 </tr>
 </tbody>
 </table>
@@ -3488,7 +3465,7 @@ Tip
 </div>
 </div>
 <p>We retain <strong>three</strong> components for interpretation. Had the goal been prediction rather than explanation, keeping the fourth would have been defensible: a component that resists naming can still carry usable signal.</p>
-<p>That is not quite the end of the question. <a href="#sec-rotation" class="quarto-xref"><span>Section 10.10</span></a> reopens it: a component that cannot be named <em>as it stands</em> may become nameable once the axes inside the retained subspace are rotated, and the fourth component of this portfolio is exactly such a case.</p>
+<p>That is not quite the end of the question. <a href="#sec-rotation" class="quarto-xref"><span>Section 9.10</span></a> reopens it: a component that cannot be named <em>as it stands</em> may become nameable once the axes inside the retained subspace are rotated, and the fourth component of this portfolio is exactly such a case.</p>
 <div class="callout callout-style-simple callout-note no-icon">
 <div class="callout-body d-flex">
 <div class="callout-icon-container">
@@ -3501,10 +3478,10 @@ Tip
 </div>
 </section>
 </section>
-<section id="sec-visualising" class="level2" data-number="10.8">
-<h2 data-number="10.8" class="anchored" data-anchor-id="sec-visualising"><span class="header-section-number">10.8</span> Visualising a PCA</h2>
-<section id="the-variable-correlation-circle" class="level3" data-number="10.8.1">
-<h3 data-number="10.8.1" class="anchored" data-anchor-id="the-variable-correlation-circle"><span class="header-section-number">10.8.1</span> The Variable Correlation Circle</h3>
+<section id="sec-visualising" class="level2" data-number="9.8">
+<h2 data-number="9.8" class="anchored" data-anchor-id="sec-visualising"><span class="header-section-number">9.8</span> Visualising a PCA</h2>
+<section id="the-variable-correlation-circle" class="level3" data-number="9.8.1">
+<h3 data-number="9.8.1" class="anchored" data-anchor-id="the-variable-correlation-circle"><span class="header-section-number">9.8.1</span> The Variable Correlation Circle</h3>
 <p>Because the data are standardised, the correlation between variable <span class="math inline">\(j\)</span> and component <span class="math inline">\(k\)</span> is <span class="math display">\[
 r(x_j, y_k) = a_{jk}\sqrt{\lambda_k},
 \]</span> and these correlations are the coordinates used to plot variables on the <em>correlation circle</em>. Since a correlation cannot exceed <span class="math inline">\(1\)</span> in absolute value, every variable lies inside a circle of radius <span class="math inline">\(1\)</span>.</p>
@@ -3544,8 +3521,8 @@ r(x_j, y_k) = a_{jk}\sqrt{\lambda_k},
 </div>
 </div>
 </section>
-<section id="quality-of-representation-cos2" class="level3" data-number="10.8.2">
-<h3 data-number="10.8.2" class="anchored" data-anchor-id="quality-of-representation-cos2"><span class="header-section-number">10.8.2</span> Quality of Representation: <code>cos2</code></h3>
+<section id="quality-of-representation-cos2" class="level3" data-number="9.8.2">
+<h3 data-number="9.8.2" class="anchored" data-anchor-id="quality-of-representation-cos2"><span class="header-section-number">9.8.2</span> Quality of Representation: <code>cos2</code></h3>
 <p>The quality with which variable <span class="math inline">\(j\)</span> is represented by component <span class="math inline">\(k\)</span> is the squared correlation <span class="math display">\[
 \cos^2(j, k) = r(x_j, y_k)^2 = a_{jk}^{2}\lambda_k ,
 \]</span> which is exactly the share of variable <span class="math inline">\(j\)</span>’s variance recovered by component <span class="math inline">\(k\)</span>. Summing over all <span class="math inline">\(p\)</span> components gives <span class="math inline">\(1\)</span>; summing over the retained ones gives the quality of representation on the chosen plane.</p>
@@ -3571,8 +3548,8 @@ missed      0.089 0.005 0.528</code></pre>
 </div>
 <p><code>log_savings</code> has <span class="math inline">\(\cos^2 = 0.718\)</span> on PC1: nearly three quarters of its variability is captured by the first component alone. <code>utilization</code> has <span class="math inline">\(\cos^2 = 0.105\)</span> on PC1 but <span class="math inline">\(0.672\)</span> on PC3 — reading it on the first plane would be a mistake.</p>
 </section>
-<section id="communalities" class="level3" data-number="10.8.3">
-<h3 data-number="10.8.3" class="anchored" data-anchor-id="communalities"><span class="header-section-number">10.8.3</span> Communalities</h3>
+<section id="communalities" class="level3" data-number="9.8.3">
+<h3 data-number="9.8.3" class="anchored" data-anchor-id="communalities"><span class="header-section-number">9.8.3</span> Communalities</h3>
 <p>The sum of the squared cosines of a variable over the retained components has a name of its own: it is the <strong>communality</strong> of that variable, <span class="math display">\[
 h_j^2 = \sum_{c=1}^{k} \cos^2(j, c) = \sum_{c=1}^{k} a_{jc}^{2}\lambda_c ,
 \]</span> where <span class="math inline">\(k\)</span> is the number of components kept. It is the proportion of variable <span class="math inline">\(j\)</span>’s variance that the retained components account for, and <span class="math inline">\(1 - h_j^2\)</span> — the part they leave behind — is called the variable’s <strong>uniqueness</strong> or <em>specific variance</em>.</p>
@@ -3618,8 +3595,8 @@ utilization
 </div>
 </div>
 </section>
-<section id="contributions" class="level3" data-number="10.8.4">
-<h3 data-number="10.8.4" class="anchored" data-anchor-id="contributions"><span class="header-section-number">10.8.4</span> Contributions</h3>
+<section id="contributions" class="level3" data-number="9.8.4">
+<h3 data-number="9.8.4" class="anchored" data-anchor-id="contributions"><span class="header-section-number">9.8.4</span> Contributions</h3>
 <p>Where <code>cos2</code> asks <em>how well is this variable explained by the component</em>, contribution asks the reverse: <em>how much of this component is built from that variable</em>. It is <span class="math display">\[
 \text{contrib}(j,k) = 100 \times a_{jk}^{2},
 \]</span> and the contributions of all variables to a given component sum to <span class="math inline">\(100\%\)</span>. The dashed reference line marks <span class="math inline">\(100/p\)</span>, the contribution a variable would have if all contributed equally.</p>
@@ -3655,8 +3632,8 @@ Note
 </div>
 </div>
 </section>
-<section id="individuals" class="level3" data-number="10.8.5">
-<h3 data-number="10.8.5" class="anchored" data-anchor-id="individuals"><span class="header-section-number">10.8.5</span> Individuals</h3>
+<section id="individuals" class="level3" data-number="9.8.5">
+<h3 data-number="9.8.5" class="anchored" data-anchor-id="individuals"><span class="header-section-number">9.8.5</span> Individuals</h3>
 <p>The scores place each client on the new axes. Colouring them by a variable that did <strong>not</strong> take part in the PCA is one of the most useful checks available: if an external, meaningful grouping lines up with a component, the component is measuring something real.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_pca_ind</span>(pca, <span class="at">axes =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>),</span>
@@ -3690,8 +3667,8 @@ Note
 </div>
 <p>Mean PC1 rises from <span class="math inline">\(-1.18\)</span> (Mass) through <span class="math inline">\(1.28\)</span> (Affluent) to <span class="math inline">\(3.25\)</span> (Private), while mean PC2 and PC3 barely move. This is strong external evidence that PC1 is an affluence axis.</p>
 </section>
-<section id="the-biplot" class="level3" data-number="10.8.6">
-<h3 data-number="10.8.6" class="anchored" data-anchor-id="the-biplot"><span class="header-section-number">10.8.6</span> The Biplot</h3>
+<section id="the-biplot" class="level3" data-number="9.8.6">
+<h3 data-number="9.8.6" class="anchored" data-anchor-id="the-biplot"><span class="header-section-number">9.8.6</span> The Biplot</h3>
 <p>A <em>biplot</em> superimposes individuals and variables on the same plane. It is the most informative single figure of a PCA and also the easiest to over-read: the two sets of points are on different scales, and only their <em>relative</em> geometry is meaningful.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_pca_biplot</span>(pca, <span class="at">axes =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>),</span>
@@ -3744,8 +3721,8 @@ Note
 </div>
 </section>
 </section>
-<section id="interpreting-the-components" class="level2" data-number="10.9">
-<h2 data-number="10.9" class="anchored" data-anchor-id="interpreting-the-components"><span class="header-section-number">10.9</span> Interpreting the Components</h2>
+<section id="interpreting-the-components" class="level2" data-number="9.9">
+<h2 data-number="9.9" class="anchored" data-anchor-id="interpreting-the-components"><span class="header-section-number">9.9</span> Interpreting the Components</h2>
 <p>A principal component has no meaning until someone gives it one. Interpretation proceeds by reading the loadings of a component and asking what the highly weighted variables have in common. Loadings below roughly <span class="math inline">\(0.3\)</span> in absolute value are usually ignored as noise.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(pca<span class="sc">$</span>rotation[, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -3852,7 +3829,7 @@ Tip
 </div>
 <div class="callout-body-container callout-body">
 <p>The interpretation above recovers, almost exactly, the four latent factors used to generate the data (<code>W</code> affluence, <code>A</code> life stage, <code>D</code> digital propensity, <code>R</code> credit risk) — although <code>A</code> and <code>D</code> were deliberately entangled and PCA, which is restricted to <em>orthogonal</em> directions, splits them across PC2 and PC4 rather than isolating each.</p>
-<p>PCA recovers latent structure only up to a rotation. That is a real limitation, but it is also an opening: if the retained subspace is right and only the axes inside it are awkwardly placed, the axes can be turned. <a href="#sec-rotation" class="quarto-xref"><span>Section 10.10</span></a> does exactly that, and recovers all four factors — <code>A</code> included.</p>
+<p>PCA recovers latent structure only up to a rotation. That is a real limitation, but it is also an opening: if the retained subspace is right and only the axes inside it are awkwardly placed, the axes can be turned. <a href="#sec-rotation" class="quarto-xref"><span>Section 9.10</span></a> does exactly that, and recovers all four factors — <code>A</code> included.</p>
 </div>
 </div>
 <div class="callout callout-style-simple callout-note no-icon">
@@ -3866,12 +3843,12 @@ Tip
 </div>
 </div>
 </section>
-<section id="sec-rotation" class="level2" data-number="10.10">
-<h2 data-number="10.10" class="anchored" data-anchor-id="sec-rotation"><span class="header-section-number">10.10</span> Rotating the Components for Interpretation</h2>
+<section id="sec-rotation" class="level2" data-number="9.10">
+<h2 data-number="9.10" class="anchored" data-anchor-id="sec-rotation"><span class="header-section-number">9.10</span> Rotating the Components for Interpretation</h2>
 <p>Three of our four components had a clear reading; the fourth did not. That is a common outcome, and there is a standard response to it: keep the same set of retained components but <strong>turn the axes inside the subspace they span</strong> until the loadings fall into a pattern that is easier to name.</p>
-<p>This is a different operation from the rotation of <a href="#sec-first-pc" class="quarto-xref"><span>Section 10.5.1</span></a>. There, rotating the axes <em>was</em> the PCA — the whole <span class="math inline">\(p\)</span>-dimensional basis was turned so that the first axis caught the most variance. Here we take the <span class="math inline">\(k\)</span> retained components as given and rotate only within them, deliberately giving up the maximum-variance ordering in exchange for readability.</p>
-<section id="simple-structure" class="level3" data-number="10.10.1">
-<h3 data-number="10.10.1" class="anchored" data-anchor-id="simple-structure"><span class="header-section-number">10.10.1</span> Simple Structure</h3>
+<p>This is a different operation from the rotation of <a href="#sec-first-pc" class="quarto-xref"><span>Section 9.5.1</span></a>. There, rotating the axes <em>was</em> the PCA — the whole <span class="math inline">\(p\)</span>-dimensional basis was turned so that the first axis caught the most variance. Here we take the <span class="math inline">\(k\)</span> retained components as given and rotate only within them, deliberately giving up the maximum-variance ordering in exchange for readability.</p>
+<section id="simple-structure" class="level3" data-number="9.10.1">
+<h3 data-number="9.10.1" class="anchored" data-anchor-id="simple-structure"><span class="header-section-number">9.10.1</span> Simple Structure</h3>
 <p>The target is what <span class="citation" data-cites="thurstone1947">Thurstone (<a href="pca.html#ref-thurstone1947" role="doc-biblioref">1947</a>)</span> called <strong>simple structure</strong>: a loadings matrix in which</p>
 <ul>
 <li>each variable loads strongly on <strong>one</strong> component and near zero on the others,</li>
@@ -3879,7 +3856,7 @@ Tip
 <li>few variables load on several components at once.</li>
 </ul>
 <p>A matrix like that almost reads itself. The unrotated one rarely looks like that, because the first component is built to absorb as much variance as it can from <em>every</em> variable, which guarantees it has many moderate loadings.</p>
-<p>Write <span class="math inline">\(\mathbf{L} = \mathbf{A}_k \boldsymbol{\Lambda}_k^{1/2}\)</span> for the <span class="math inline">\(p \times k\)</span> matrix of loadings on the retained components — the variable-component correlations of <a href="#sec-visualising" class="quarto-xref"><span>Section 10.8</span></a>. A rotation replaces it by <span class="math display">\[
+<p>Write <span class="math inline">\(\mathbf{L} = \mathbf{A}_k \boldsymbol{\Lambda}_k^{1/2}\)</span> for the <span class="math inline">\(p \times k\)</span> matrix of loadings on the retained components — the variable-component correlations of <a href="#sec-visualising" class="quarto-xref"><span>Section 9.8</span></a>. A rotation replaces it by <span class="math display">\[
 \mathbf{L}^{*} = \mathbf{L}\,\mathbf{T},
 \]</span> with <span class="math inline">\(\mathbf{T}\)</span> a <span class="math inline">\(k \times k\)</span> orthogonal matrix chosen to make <span class="math inline">\(\mathbf{L}^{*}\)</span> as close to simple structure as some criterion can measure. Throughout this section <span class="math inline">\(k\)</span> is the <em>number</em> of retained components (the <code>k</code> of the code) and components are indexed by <span class="math inline">\(c\)</span>.</p>
 <div class="callout callout-style-default callout-warning callout-titled">
@@ -3919,8 +3896,8 @@ Note
 </div>
 </div>
 </section>
-<section id="the-orthomax-family" class="level3" data-number="10.10.2">
-<h3 data-number="10.10.2" class="anchored" data-anchor-id="the-orthomax-family"><span class="header-section-number">10.10.2</span> The Orthomax Family</h3>
+<section id="the-orthomax-family" class="level3" data-number="9.10.2">
+<h3 data-number="9.10.2" class="anchored" data-anchor-id="the-orthomax-family"><span class="header-section-number">9.10.2</span> The Orthomax Family</h3>
 <p>Most orthogonal rotations maximise one criterion with one parameter changed: <span class="math display">\[
 Q(\mathbf{L}^{*}) \;=\; \sum_{c=1}^{k}\sum_{j=1}^{p} l_{jc}^{*4} \;-\; \frac{\gamma}{p}\sum_{c=1}^{k}\left(\sum_{j=1}^{p} l_{jc}^{*2}\right)^{2}.
 \]</span> Different <span class="math inline">\(\gamma\)</span> give the named methods:</p>
@@ -3969,9 +3946,9 @@ Q(\mathbf{L}^{*}) \;=\; \sum_{c=1}^{k}\sum_{j=1}^{p} l_{jc}^{*4} \;-\; \frac{\ga
 <p>Varimax <span class="citation" data-cites="kaiser1958">(<a href="pca.html#ref-kaiser1958" role="doc-biblioref">Kaiser 1958</a>)</span> is the one to reach for unless you have a reason not to.</p>
 <p><code>GPArotation</code> parameterises the same family through the Crawford-Ferguson constant <span class="math inline">\(\kappa = \gamma/p\)</span>, which is why equamax appears below as <code>kappa = k / (2 * ncol(X))</code> rather than as <span class="math inline">\(\gamma = k/2\)</span>. The two are the same rotation.</p>
 </section>
-<section id="varimax-on-the-bank-portfolio" class="level3" data-number="10.10.3">
-<h3 data-number="10.10.3" class="anchored" data-anchor-id="varimax-on-the-bank-portfolio"><span class="header-section-number">10.10.3</span> Varimax on the Bank Portfolio</h3>
-<p>We rotate <strong>four</strong> components rather than three. The reason is the one <a href="#sec-how-many" class="quarto-xref"><span>Section 10.7</span></a> left unresolved: Kaiser retained four, broken-stick three, and we kept three because the fourth could not be named. Rotation changes that calculation, as we are about to see.</p>
+<section id="varimax-on-the-bank-portfolio" class="level3" data-number="9.10.3">
+<h3 data-number="9.10.3" class="anchored" data-anchor-id="varimax-on-the-bank-portfolio"><span class="header-section-number">9.10.3</span> Varimax on the Bank Portfolio</h3>
+<p>We rotate <strong>four</strong> components rather than three. The reason is the one <a href="#sec-how-many" class="quarto-xref"><span>Section 9.7</span></a> left unresolved: Kaiser retained four, broken-stick three, and we kept three because the fourth could not be named. Rotation changes that calculation, as we are about to see.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a>k <span class="ot">&lt;-</span> <span class="dv">4</span></span>
 <span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a>L <span class="ot">&lt;-</span> pca<span class="sc">$</span>rotation[, <span class="dv">1</span><span class="sc">:</span>k] <span class="sc">%*%</span> <span class="fu">diag</span>(pca<span class="sc">$</span>sdev[<span class="dv">1</span><span class="sc">:</span>k])</span>
@@ -4052,7 +4029,7 @@ varimax   29.1 17.4 13.7 15.0</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb90"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(<span class="fu">abs</span>(<span class="fu">rowSums</span>(RC<span class="sc">^</span><span class="dv">2</span>) <span class="sc">-</span> <span class="fu">rowSums</span>(L<span class="sc">^</span><span class="dv">2</span>)))     <span class="co"># communalities</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 7.771561e-16</code></pre>
+<pre><code>[1] 9.992007e-16</code></pre>
 </div>
 </div>
 <p>The total retained variance is <span class="math inline">\(75.1\%\)</span> either way and no communality moves by more than <span class="math inline">\(10^{-15}\)</span>. What changed is the <em>split</em>: the first component gave up <span class="math inline">\(31.2\% \to 29.1\%\)</span> and the second <span class="math inline">\(22.6\% \to 17.4\%\)</span>, while the fourth rose from <span class="math inline">\(7.9\%\)</span> to <span class="math inline">\(15.0\%\)</span> — and RC4 now explains more than RC3, so the components are genuinely no longer in order.</p>
@@ -4070,8 +4047,8 @@ Tip
 </div>
 </div>
 </section>
-<section id="comparing-methods" class="level3" data-number="10.10.4">
-<h3 data-number="10.10.4" class="anchored" data-anchor-id="comparing-methods"><span class="header-section-number">10.10.4</span> Comparing Methods</h3>
+<section id="comparing-methods" class="level3" data-number="9.10.4">
+<h3 data-number="9.10.4" class="anchored" data-anchor-id="comparing-methods"><span class="header-section-number">9.10.4</span> Comparing Methods</h3>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb92"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GPArotation)</span>
 <span id="cb92-2"><a href="#cb92-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -4113,8 +4090,8 @@ Warning
 </div>
 </div>
 </section>
-<section id="oblique-rotations" class="level3" data-number="10.10.5">
-<h3 data-number="10.10.5" class="anchored" data-anchor-id="oblique-rotations"><span class="header-section-number">10.10.5</span> Oblique Rotations</h3>
+<section id="oblique-rotations" class="level3" data-number="9.10.5">
+<h3 data-number="9.10.5" class="anchored" data-anchor-id="oblique-rotations"><span class="header-section-number">9.10.5</span> Oblique Rotations</h3>
 <p>Orthogonal rotation keeps the components uncorrelated. That is a convenience, not a fact about the world: real constructs are often related, and forcing right angles can prevent simple structure from being reached at all. <strong>Oblique</strong> rotations — <em>promax</em> <span class="citation" data-cites="hendrickson1964">(<a href="pca.html#ref-hendrickson1964" role="doc-biblioref">Hendrickson and White 1964</a>)</span>, <em>oblimin</em>, <em>quartimin</em> — drop the constraint.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb94"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a>pm  <span class="ot">&lt;-</span> <span class="fu">promax</span>(L)</span>
@@ -4163,8 +4140,8 @@ Note
 </div>
 </div>
 </section>
-<section id="rotated-scores" class="level3" data-number="10.10.6">
-<h3 data-number="10.10.6" class="anchored" data-anchor-id="rotated-scores"><span class="header-section-number">10.10.6</span> Rotated Scores</h3>
+<section id="rotated-scores" class="level3" data-number="9.10.6">
+<h3 data-number="9.10.6" class="anchored" data-anchor-id="rotated-scores"><span class="header-section-number">9.10.6</span> Rotated Scores</h3>
 <p>The scores rotate with the loadings, and they are what you carry into the next analysis. Since the matrix we rotated was <span class="math inline">\(\mathbf{L} = \mathbf{A}_k\boldsymbol{\Lambda}_k^{1/2}\)</span> rather than the eigenvectors themselves, its partner is the <strong>standardised</strong> score matrix, and the rotation multiplies it on the right: <span class="math display">\[
 \mathbf{Y}^{*} = \mathbf{Z}\,\mathbf{A}_k\,\boldsymbol{\Lambda}_k^{-1/2},
 \qquad
@@ -4183,11 +4160,11 @@ Note
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb100"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a><span class="fu">signif</span>(<span class="fu">max</span>(<span class="fu">abs</span>(<span class="fu">cor</span>(RCscores)[<span class="fu">upper.tri</span>(<span class="fu">diag</span>(k))])), <span class="dv">3</span>)    <span class="co"># still uncorrelated</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 4.58e-16</code></pre>
+<pre><code>[1] 2.13e-15</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb102"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="fu">signif</span>(<span class="fu">max</span>(<span class="fu">abs</span>(<span class="fu">cor</span>(PMscores) <span class="sc">-</span> Phi)), <span class="dv">3</span>)                  <span class="co"># promax: exactly Phi</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 8.88e-16</code></pre>
+<pre><code>[1] 1.89e-15</code></pre>
 </div>
 </div>
 <p>Each column now reads as a score on a named construct: RC4 correlates <span class="math inline">\(-0.906\)</span> with age, so it is a youth-and-recency index on a standard-deviation scale. The promax scores carry the <span class="math inline">\(0.43\)</span> between digital engagement and life stage, so anything downstream that assumes uncorrelated inputs has to allow for it.</p>
@@ -4205,8 +4182,8 @@ Warning
 </div>
 </div>
 </section>
-<section id="when-to-rotate-and-when-not-to" class="level3" data-number="10.10.7">
-<h3 data-number="10.10.7" class="anchored" data-anchor-id="when-to-rotate-and-when-not-to"><span class="header-section-number">10.10.7</span> When to Rotate, and When Not To</h3>
+<section id="when-to-rotate-and-when-not-to" class="level3" data-number="9.10.7">
+<h3 data-number="9.10.7" class="anchored" data-anchor-id="when-to-rotate-and-when-not-to"><span class="header-section-number">9.10.7</span> When to Rotate, and When Not To</h3>
 <div class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -4241,10 +4218,10 @@ Caution
 </div>
 </section>
 </section>
-<section id="practical-issues" class="level2" data-number="10.11">
-<h2 data-number="10.11" class="anchored" data-anchor-id="practical-issues"><span class="header-section-number">10.11</span> Practical Issues</h2>
-<section id="outliers-and-heavy-tails" class="level3" data-number="10.11.1">
-<h3 data-number="10.11.1" class="anchored" data-anchor-id="outliers-and-heavy-tails"><span class="header-section-number">10.11.1</span> Outliers and Heavy Tails</h3>
+<section id="practical-issues" class="level2" data-number="9.11">
+<h2 data-number="9.11" class="anchored" data-anchor-id="practical-issues"><span class="header-section-number">9.11</span> Practical Issues</h2>
+<section id="outliers-and-heavy-tails" class="level3" data-number="9.11.1">
+<h3 data-number="9.11.1" class="anchored" data-anchor-id="outliers-and-heavy-tails"><span class="header-section-number">9.11.1</span> Outliers and Heavy Tails</h3>
 <p>PCA maximises variance, and variance is not a robust quantity. A single record far from the rest can rotate a component towards itself, producing a “component” that describes one client.</p>
 <p>Suppose data-entry errors inflate the savings balance and the investment holdings of client <code>C0001</code> to €50 million and €30 million; the true values are €22 020 and €77 560. We introduce the same error twice — once in the untransformed variables, once in the log-transformed ones — and compare.</p>
 <div class="cell">
@@ -4374,8 +4351,8 @@ Tip
 </div>
 <p>These are the clients least well described by the three-component summary — the natural shortlist for an anomaly review.</p>
 </section>
-<section id="missing-values" class="level3" data-number="10.11.2">
-<h3 data-number="10.11.2" class="anchored" data-anchor-id="missing-values"><span class="header-section-number">10.11.2</span> Missing Values</h3>
+<section id="missing-values" class="level3" data-number="9.11.2">
+<h3 data-number="9.11.2" class="anchored" data-anchor-id="missing-values"><span class="header-section-number">9.11.2</span> Missing Values</h3>
 <p><code>prcomp()</code> has no mechanism for missing data: it removes any row with an <code>NA</code>, which can be a substantial part of the sample when many variables are involved. The options are those of the Missing Values chapter — deletion, single imputation, or multiple imputation — with one addition specific to PCA: iterative PCA imputation, which fills the missing cells with the values predicted by a low-rank reconstruction and iterates until convergence (implemented in the <code>missMDA</code> package).</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb118"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb118-1"><a href="#cb118-1" aria-hidden="true" tabindex="-1"></a>X_na <span class="ot">&lt;-</span> X</span>
@@ -4389,8 +4366,8 @@ Tip
 </div>
 <p>Losing <span class="math inline">\(10\%\)</span> of the sample to missingness in <em>one</em> variable is already noticeable; with missingness spread over several variables the loss compounds quickly.</p>
 </section>
-<section id="categorical-variables" class="level3" data-number="10.11.3">
-<h3 data-number="10.11.3" class="anchored" data-anchor-id="categorical-variables"><span class="header-section-number">10.11.3</span> Categorical Variables</h3>
+<section id="categorical-variables" class="level3" data-number="9.11.3">
+<h3 data-number="9.11.3" class="anchored" data-anchor-id="categorical-variables"><span class="header-section-number">9.11.3</span> Categorical Variables</h3>
 <p>PCA is defined for numeric variables. <code>segment</code>, <code>region</code> and <code>churn</code> cannot enter the analysis directly. Three options:</p>
 <ul>
 <li><strong>Leave them out and use them for illustration</strong>, as we did above — colouring the individuals plot by segment. This is the safest choice and often the most informative.</li>
@@ -4398,8 +4375,8 @@ Tip
 <li><strong>Use a method designed for the data type</strong>: Multiple Correspondence Analysis (MCA) for a set of categorical variables, or Factor Analysis of Mixed Data (FAMD) when numeric and categorical variables must be analysed together. Both are available in the <code>FactoMineR</code> package.</li>
 </ul>
 </section>
-<section id="multicollinearity-and-near-constant-variables" class="level3" data-number="10.11.4">
-<h3 data-number="10.11.4" class="anchored" data-anchor-id="multicollinearity-and-near-constant-variables"><span class="header-section-number">10.11.4</span> Multicollinearity and Near-Constant Variables</h3>
+<section id="multicollinearity-and-near-constant-variables" class="level3" data-number="9.11.4">
+<h3 data-number="9.11.4" class="anchored" data-anchor-id="multicollinearity-and-near-constant-variables"><span class="header-section-number">9.11.4</span> Multicollinearity and Near-Constant Variables</h3>
 <p>PCA tolerates perfect collinearity — the corresponding eigenvalue is simply zero — but a variable with zero variance breaks the standardisation, since dividing by <span class="math inline">\(s_j = 0\)</span> is undefined. Check before scaling:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb120"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb120-1"><a href="#cb120-1" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span>(<span class="fu">apply</span>(X, <span class="dv">2</span>, sd) <span class="sc">==</span> <span class="dv">0</span>)   <span class="co"># integer(0): no constant columns</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -4409,8 +4386,8 @@ Tip
 </div>
 <p>Also worth avoiding is including a variable twice in different guises (an amount and its logarithm, a total and its components). PCA will faithfully report that they are the same variable, and they will jointly dominate a component for no substantive reason.</p>
 </section>
-<section id="sample-size" class="level3" data-number="10.11.5">
-<h3 data-number="10.11.5" class="anchored" data-anchor-id="sample-size"><span class="header-section-number">10.11.5</span> Sample Size</h3>
+<section id="sample-size" class="level3" data-number="9.11.5">
+<h3 data-number="9.11.5" class="anchored" data-anchor-id="sample-size"><span class="header-section-number">9.11.5</span> Sample Size</h3>
 <p>PCA estimates <span class="math inline">\(p(p+1)/2\)</span> covariances from <span class="math inline">\(n\)</span> observations. With <span class="math inline">\(p = 13\)</span> that is <span class="math inline">\(91\)</span> quantities; <span class="math inline">\(n = 600\)</span> is comfortable. Rules of thumb suggest at least <span class="math inline">\(5\)</span>–<span class="math inline">\(10\)</span> observations per variable, and more when the correlations are weak. With <span class="math inline">\(n &lt; p\)</span> the correlation matrix is singular and at most <span class="math inline">\(n-1\)</span> eigenvalues are non-zero — PCA still runs, but the later components are pure artefact.</p>
 <div class="callout callout-style-simple callout-note no-icon">
 <div class="callout-body d-flex">
@@ -4507,8 +4484,8 @@ When the aim is prediction rather than description, consider *partial least squa
 END OF COMMENTED-OUT SECTION -->
 </section>
 </section>
-<section id="common-pitfalls" class="level2" data-number="10.12">
-<h2 data-number="10.12" class="anchored" data-anchor-id="common-pitfalls"><span class="header-section-number">10.12</span> Common Pitfalls</h2>
+<section id="common-pitfalls" class="level2" data-number="9.12">
+<h2 data-number="9.12" class="anchored" data-anchor-id="common-pitfalls"><span class="header-section-number">9.12</span> Common Pitfalls</h2>
 <div class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -4550,8 +4527,8 @@ Caution
 </div>
 </div>
 </section>
-<section id="beyond-pca-other-routes-to-fewer-dimensions" class="level2" data-number="10.13">
-<h2 data-number="10.13" class="anchored" data-anchor-id="beyond-pca-other-routes-to-fewer-dimensions"><span class="header-section-number">10.13</span> Beyond PCA: Other Routes to Fewer Dimensions</h2>
+<section id="beyond-pca-other-routes-to-fewer-dimensions" class="level2" data-number="9.13">
+<h2 data-number="9.13" class="anchored" data-anchor-id="beyond-pca-other-routes-to-fewer-dimensions"><span class="header-section-number">9.13</span> Beyond PCA: Other Routes to Fewer Dimensions</h2>
 <p>PCA makes three commitments: the new variables are <em>linear</em> combinations of the old ones, the criterion is <em>global</em> variance, and the whole <span class="math inline">\(n \times p\)</span> matrix has to be decomposed at once. Each one is relaxed by a family of methods, and on large data the third becomes the binding constraint.</p>
 <p><strong>Multidimensional scaling (MDS)</strong> starts from a matrix of distances rather than from the variables themselves. Classical MDS — also called principal coordinates analysis — applied to Euclidean distances is not a rival to PCA; it <em>is</em> PCA:</p>
 <div class="cell">
@@ -4559,7 +4536,7 @@ Caution
 <span id="cb123-2"><a href="#cb123-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb123-3"><a href="#cb123-3" aria-hidden="true" tabindex="-1"></a><span class="fu">signif</span>(<span class="fu">max</span>(<span class="fu">abs</span>(<span class="fu">abs</span>(mds) <span class="sc">-</span> <span class="fu">abs</span>(pca<span class="sc">$</span>x[, <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]))), <span class="dv">3</span>)   <span class="co"># identical, up to the sign of each axis</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 3.47e-14</code></pre>
+<pre><code>[1] 2.8e-14</code></pre>
 </div>
 </div>
 <p>The interesting case is the one PCA cannot reach. Feed MDS a dissimilarity that is <em>not</em> Euclidean — Gower’s coefficient for mixed numeric and categorical data, a correlation distance, an edit distance between strings — and you get a map of the clients even though no variable matrix exists. <em>Non-metric</em> MDS goes further still, preserving only the rank order of the dissimilarities, which is the right choice when the dissimilarities are ordinal.</p>
@@ -4647,8 +4624,8 @@ Warning
 </div>
 </div>
 </section>
-<section id="summary" class="level2" data-number="10.14">
-<h2 data-number="10.14" class="anchored" data-anchor-id="summary"><span class="header-section-number">10.14</span> Summary</h2>
+<section id="summary" class="level2" data-number="9.14">
+<h2 data-number="9.14" class="anchored" data-anchor-id="summary"><span class="header-section-number">9.14</span> Summary</h2>
 <ul>
 <li>PCA replaces <span class="math inline">\(p\)</span> correlated variables by <span class="math inline">\(p\)</span> uncorrelated components, ordered by the variance they explain, and is useful only to the extent that the original variables are correlated.</li>
 <li>Check suitability before fitting. Bartlett’s test of sphericity must reject, but at realistic sample sizes it nearly always does; the KMO measure (<span class="math inline">\(0.78\)</span> here) and the per-variable MSA say whether the correlation is shared widely enough for a few components to summarise it.</li>
@@ -4662,10 +4639,10 @@ Warning
 <li>PCA is unsupervised: the largest component need not be the most useful for any particular downstream task.</li>
 </ul>
 </section>
-<section id="exercises" class="level2" data-number="10.15">
-<h2 data-number="10.15" class="anchored" data-anchor-id="exercises"><span class="header-section-number">10.15</span> Exercises</h2>
-<section id="exercise-1-scaling" class="level3" data-number="10.15.1">
-<h3 data-number="10.15.1" class="anchored" data-anchor-id="exercise-1-scaling"><span class="header-section-number">10.15.1</span> Exercise 1 — Scaling</h3>
+<section id="exercises" class="level2" data-number="9.15">
+<h2 data-number="9.15" class="anchored" data-anchor-id="exercises"><span class="header-section-number">9.15</span> Exercises</h2>
+<section id="exercise-1-scaling" class="level3" data-number="9.15.1">
+<h3 data-number="9.15.1" class="anchored" data-anchor-id="exercise-1-scaling"><span class="header-section-number">9.15.1</span> Exercise 1 — Scaling</h3>
 <p>Run a PCA on the raw (untransformed, unscaled) bank variables and compare it with the PCA on the correlation matrix of the transformed data.</p>
 <ol type="1">
 <li>What percentage of variance does the first component explain in each case?</li>
@@ -4675,8 +4652,8 @@ Warning
 <div id="qwebr-insertion-location-10"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
-<section id="exercise-2-reproducing-the-output-by-hand" class="level3" data-number="10.15.2">
-<h3 data-number="10.15.2" class="anchored" data-anchor-id="exercise-2-reproducing-the-output-by-hand"><span class="header-section-number">10.15.2</span> Exercise 2 — Reproducing the output by hand</h3>
+<section id="exercise-2-reproducing-the-output-by-hand" class="level3" data-number="9.15.2">
+<h3 data-number="9.15.2" class="anchored" data-anchor-id="exercise-2-reproducing-the-output-by-hand"><span class="header-section-number">9.15.2</span> Exercise 2 — Reproducing the output by hand</h3>
 <p>Using only <code>cor()</code>, <code>eigen()</code> and matrix multiplication:</p>
 <ol type="1">
 <li>Compute the eigenvalues of the correlation matrix of <code>X</code> and verify that they sum to <span class="math inline">\(13\)</span>.</li>
@@ -4697,8 +4674,8 @@ Warning
 </div>
 </div>
 </section>
-<section id="exercise-3-how-many-components" class="level3" data-number="10.15.3">
-<h3 data-number="10.15.3" class="anchored" data-anchor-id="exercise-3-how-many-components"><span class="header-section-number">10.15.3</span> Exercise 3 — How many components?</h3>
+<section id="exercise-3-how-many-components" class="level3" data-number="9.15.3">
+<h3 data-number="9.15.3" class="anchored" data-anchor-id="exercise-3-how-many-components"><span class="header-section-number">9.15.3</span> Exercise 3 — How many components?</h3>
 <p>For the PCA of <code>X</code>:</p>
 <ol type="1">
 <li>Produce the scree plot and state where you would place the elbow.</li>
@@ -4709,8 +4686,8 @@ Warning
 <div id="qwebr-insertion-location-12"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
-<section id="exercise-4-an-insurance-portfolio" class="level3" data-number="10.15.4">
-<h3 data-number="10.15.4" class="anchored" data-anchor-id="exercise-4-an-insurance-portfolio"><span class="header-section-number">10.15.4</span> Exercise 4 — An insurance portfolio</h3>
+<section id="exercise-4-an-insurance-portfolio" class="level3" data-number="9.15.4">
+<h3 data-number="9.15.4" class="anchored" data-anchor-id="exercise-4-an-insurance-portfolio"><span class="header-section-number">9.15.4</span> Exercise 4 — An insurance portfolio</h3>
 <p>Adapt the analysis to an insurance setting. The code below generates a portfolio of <span class="math inline">\(500\)</span> motor policies.</p>
 <div id="qwebr-insertion-location-13"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
@@ -4723,12 +4700,12 @@ Warning
 <li>Rotate your retained components with varimax. Does the rotated solution separate the vehicle-and-coverage dimension from the driving-behaviour dimension more cleanly than the unrotated one? Compare each solution’s correlations with <code>V</code> and <code>B</code>.</li>
 </ol>
 </section>
-<section id="exercise-5-rotation-and-interpretation" class="level3" data-number="10.15.5">
-<h3 data-number="10.15.5" class="anchored" data-anchor-id="exercise-5-rotation-and-interpretation"><span class="header-section-number">10.15.5</span> Exercise 5 — Rotation and interpretation</h3>
+<section id="exercise-5-rotation-and-interpretation" class="level3" data-number="9.15.5">
+<h3 data-number="9.15.5" class="anchored" data-anchor-id="exercise-5-rotation-and-interpretation"><span class="header-section-number">9.15.5</span> Exercise 5 — Rotation and interpretation</h3>
 <ol type="1">
-<li>Build the loadings matrix <span class="math inline">\(\mathbf{L}\)</span> for <strong>three</strong> retained components and apply a varimax rotation. Compare it with the four-component rotation of <a href="#sec-rotation" class="quarto-xref"><span>Section 10.10</span></a>. Does a clean life-stage factor appear? What does that tell you about the order in which “how many components?” and “rotate or not?” have to be decided?</li>
+<li>Build the loadings matrix <span class="math inline">\(\mathbf{L}\)</span> for <strong>three</strong> retained components and apply a varimax rotation. Compare it with the four-component rotation of <a href="#sec-rotation" class="quarto-xref"><span>Section 9.10</span></a>. Does a clean life-stage factor appear? What does that tell you about the order in which “how many components?” and “rotate or not?” have to be decided?</li>
 <li>Verify on your own solution that the rotation leaves every communality and the total retained variance unchanged, while changing the share carried by each component.</li>
-<li>Return to the four-component solution of <a href="#sec-rotation" class="quarto-xref"><span>Section 10.10</span></a> (<code>k &lt;- 4</code>) and rotate it with quartimax and with equamax as well. Which of the three leaves the most variance on the first component, and why is that exactly what its criterion is built to do?</li>
+<li>Return to the four-component solution of <a href="#sec-rotation" class="quarto-xref"><span>Section 9.10</span></a> (<code>k &lt;- 4</code>) and rotate it with quartimax and with equamax as well. Which of the three leaves the most variance on the first component, and why is that exactly what its criterion is built to do?</li>
 <li>On the same four components, run <code>varimax()</code> with <code>normalize = TRUE</code> and with <code>normalize = FALSE</code>. Report both criterion values and explain which variables Kaiser normalisation is protecting.</li>
 <li>Apply <code>promax()</code> to the four-component solution. Report the component correlation matrix. Which pair of components is most strongly correlated, and does the code that generated <code>bank</code> account for it? Repeat with three components: what happens to that correlation, and why?</li>
 <li>A colleague writes: <em>“the first rotated component explains 29.1% of the variance, so it is the most important dimension in the portfolio.”</em> Give two reasons to be careful with that sentence.</li>
@@ -4745,7 +4722,7 @@ Warning
 3. PC1 is not significant. Is that a failure of PCA? Explain.
 4. Split the data into $70\%$ training and $30\%$ test. Fit the PCA on the training set only, apply it to the test set with `predict()`, and compare the test-set accuracy of the two models. Why would fitting the PCA on the full data set be wrong?
 
-```lzcwblap
+```nbzhpjje
 #| label: ex6
 #| autorun: false
 
@@ -4774,6 +4751,27 @@ Assessment of (Cluster) Tendency.”</span> <em>Proceedings of the 2002
 International Joint Conference on Neural Networks. IJCNN’02 (Cat.
 No.02CH37290)</em> 3: 2225–30.
 </div>
+<div id="ref-boehmke2019hands" class="csl-entry" role="listitem">
+Boehmke, Bradley, and Brandon M. Greenwell. 2019. <em>Hands-on Machine
+Learning with <span>R</span></em>. Chapman; Hall/CRC. <a href="https://bradleyboehmke.github.io/HOML/">https://bradleyboehmke.github.io/HOML/</a>.
+</div>
+<div id="ref-breiman1996bagging" class="csl-entry" role="listitem">
+Breiman, Leo. 1996. <span>“Bagging Predictors.”</span> <em>Machine
+Learning</em> 24 (2): 123–40.
+</div>
+<div id="ref-breiman2001random" class="csl-entry" role="listitem">
+Breiman, Leo. 2001. <span>“Random Forests.”</span> <em>Machine
+Learning</em> 45 (1): 5–32.
+</div>
+<div id="ref-breiman1984cart" class="csl-entry" role="listitem">
+Breiman, Leo, Jerome H. Friedman, Richard A. Olshen, and Charles J.
+Stone. 1984. <em>Classification and Regression Trees</em>. Wadsworth.
+</div>
+<div id="ref-brier1950verification" class="csl-entry" role="listitem">
+Brier, Glenn W. 1950. <span>“Verification of Forecasts Expressed in
+Terms of Probability.”</span> <em>Monthly Weather Review</em> 78 (1):
+1–3.
+</div>
 <div id="ref-brock2008clvalid" class="csl-entry" role="listitem">
 Brock, Guy, Vasyl Pihur, Susmita Datta, and Somnath Datta. 2008.
 <span>“clValid: An r Package for Cluster Validation.”</span> <em>Journal
@@ -4790,6 +4788,17 @@ Charrad, Malika, Nadia Ghazzali, Véronique Boiteau, and Azam Niknafs.
 of Clusters in a Data Set.”</span> <em>Journal of Statistical
 Software</em> 61 (6): 1–36. <a href="https://doi.org/10.18637/jss.v061.i06">https://doi.org/10.18637/jss.v061.i06</a>.
 </div>
+<div id="ref-chen2016xgboost" class="csl-entry" role="listitem">
+Chen, Tianqi, and Carlos Guestrin. 2016. <span>“<span>XGBoost</span>: A
+Scalable Tree Boosting System.”</span> <em>Proceedings of the 22nd ACM
+SIGKDD International Conference on Knowledge Discovery and Data
+Mining</em>, 785–94. <a href="https://doi.org/10.1145/2939672.2939785">https://doi.org/10.1145/2939672.2939785</a>.
+</div>
+<div id="ref-cohen1960kappa" class="csl-entry" role="listitem">
+Cohen, Jacob. 1960. <span>“A Coefficient of Agreement for Nominal
+Scales.”</span> <em>Educational and Psychological Measurement</em> 20
+(1): 37–46.
+</div>
 <div id="ref-dunn1974" class="csl-entry" role="listitem">
 Dunn, J. C. 1974. <span>“Well-Separated Clusters and Optimal Fuzzy
 Partitions.”</span> <em>Journal of Cybernetics</em> 4 (1): 95–104.
@@ -4798,6 +4807,30 @@ Partitions.”</span> <em>Journal of Cybernetics</em> 4 (1): 95–104.
 Eckart, Carl, and Gale Young. 1936. <span>“The Approximation of One
 Matrix by Another of Lower Rank.”</span> <em>Psychometrika</em> 1 (3):
 211–18.
+</div>
+<div id="ref-fawcett2006roc" class="csl-entry" role="listitem">
+Fawcett, Tom. 2006. <span>“An Introduction to <span>ROC</span>
+Analysis.”</span> <em>Pattern Recognition Letters</em> 27 (8): 861–74.
+</div>
+<div id="ref-freund1997adaboost" class="csl-entry" role="listitem">
+Freund, Yoav, and Robert E. Schapire. 1997. <span>“A Decision-Theoretic
+Generalization of on-Line Learning and an Application to
+Boosting.”</span> <em>Journal of Computer and System Sciences</em> 55
+(1): 119–39.
+</div>
+<div id="ref-friedman2001greedy" class="csl-entry" role="listitem">
+Friedman, Jerome H. 2001. <span>“Greedy Function Approximation: A
+Gradient Boosting Machine.”</span> <em>The Annals of Statistics</em> 29
+(5): 1189–232.
+</div>
+<div id="ref-friedman2002stochastic" class="csl-entry" role="listitem">
+Friedman, Jerome H. 2002. <span>“Stochastic Gradient Boosting.”</span>
+<em>Computational Statistics &amp; Data Analysis</em> 38 (4): 367–78.
+</div>
+<div id="ref-friedman2000additive" class="csl-entry" role="listitem">
+Friedman, Jerome, Trevor Hastie, and Robert Tibshirani. 2000.
+<span>“Additive Logistic Regression: A Statistical View of
+Boosting.”</span> <em>The Annals of Statistics</em> 28 (2): 337–407.
 </div>
 <div id="ref-gorman2014" class="csl-entry" role="listitem">
 Gorman, Kristen B., Tony D. Williams, and William R. Fraser. 2014.
@@ -4809,10 +4842,25 @@ a Community of <span>Antarctic</span> Penguins (Genus
 Gower, J. C. 1971. <span>“A General Coefficient of Similarity and Some
 of Its Properties.”</span> <em>Biometrics</em> 27 (4): 857–71.
 </div>
+<div id="ref-greenwell2020vip" class="csl-entry" role="listitem">
+Greenwell, Brandon M., and Bradley C. Boehmke. 2020. <span>“Variable
+Importance Plots—an Introduction to the <span class="nocase">vip</span>
+Package.”</span> <em>The R Journal</em> 12 (1): 343–66. <a href="https://doi.org/10.32614/RJ-2020-013">https://doi.org/10.32614/RJ-2020-013</a>.
+</div>
+<div id="ref-harrison1978hedonic" class="csl-entry" role="listitem">
+Harrison, David, and Daniel L. Rubinfeld. 1978. <span>“Hedonic Housing
+Prices and the Demand for Clean Air.”</span> <em>Journal of
+Environmental Economics and Management</em> 5 (1): 81–102.
+</div>
 <div id="ref-hartigan1979" class="csl-entry" role="listitem">
 Hartigan, John A., and Manchek A. Wong. 1979. <span>“A
 <span>K</span>-Means Clustering Algorithm.”</span> <em>Applied
 Statistics</em> 28: 100–108.
+</div>
+<div id="ref-hastie2009elements" class="csl-entry" role="listitem">
+Hastie, Trevor, Robert Tibshirani, and Jerome Friedman. 2009. <em>The
+Elements of Statistical Learning: Data Mining, Inference, and
+Prediction</em>. 2nd ed. Springer.
 </div>
 <div id="ref-hendrickson1964" class="csl-entry" role="listitem">
 Hendrickson, Alan E., and Paul O. White. 1964. <span>“Promax: A Quick
@@ -4837,6 +4885,11 @@ Psychology</em> 24 (6): 417–41.
 <div id="ref-hubert1985" class="csl-entry" role="listitem">
 Hubert, Lawrence, and Phipps Arabie. 1985. <span>“Comparing
 Partitions.”</span> <em>Journal of Classification</em> 2 (1): 193–218.
+</div>
+<div id="ref-james2021islr" class="csl-entry" role="listitem">
+James, Gareth, Daniela Witten, Trevor Hastie, and Robert Tibshirani.
+2021. <em>An Introduction to Statistical Learning: With Applications in
+<span>R</span></em>. 2nd ed. Springer. <a href="https://www.statlearning.com">https://www.statlearning.com</a>.
 </div>
 <div id="ref-jolliffe2002" class="csl-entry" role="listitem">
 Jolliffe, Ian T. 2002. <em>Principal Component Analysis</em>. 2nd ed.
@@ -4867,6 +4920,17 @@ Kassambara, Alboukadel. 2017. <em>Practical Guide to Cluster Analysis in
 <div id="ref-kaufman1990" class="csl-entry" role="listitem">
 Kaufman, Leonard, and Peter J. Rousseeuw. 1990. <em>Finding Groups in
 Data: An Introduction to Cluster Analysis</em>. Wiley.
+</div>
+<div id="ref-ke2017lightgbm" class="csl-entry" role="listitem">
+Ke, Guolin, Qi Meng, Thomas Finley, et al. 2017.
+<span>“<span>LightGBM</span>: A Highly Efficient Gradient Boosting
+Decision Tree.”</span> <em>Advances in Neural Information Processing
+Systems</em> 30: 3146–54.
+</div>
+<div id="ref-liaw2002randomforest" class="csl-entry" role="listitem">
+Liaw, Andy, and Matthew Wiener. 2002. <span>“Classification and
+Regression by <span class="nocase">randomForest</span>.”</span> <em>R
+News</em> 2 (3): 18–22.
 </div>
 <div id="ref-lloyd1982" class="csl-entry" role="listitem">
 Lloyd, Stuart P. 1982. <span>“Least Squares Quantization in
@@ -4902,6 +4966,12 @@ Peng, Roger D. 2012. <em>Exploratory Data Analysis with
 Rousseeuw, Peter J. 1987. <span>“Silhouettes: A Graphical Aid to the
 Interpretation and Validation of Cluster Analysis.”</span> <em>Journal
 of Computational and Applied Mathematics</em> 20: 53–65.
+</div>
+<div id="ref-strobl2007bias" class="csl-entry" role="listitem">
+Strobl, Carolin, Anne-Laure Boulesteix, Achim Zeileis, and Torsten
+Hothorn. 2007. <span>“Bias in Random Forest Variable Importance
+Measures: Illustrations, Sources and a Solution.”</span> <em>BMC
+Bioinformatics</em> 8: 25. <a href="https://doi.org/10.1186/1471-2105-8-25">https://doi.org/10.1186/1471-2105-8-25</a>.
 </div>
 <div id="ref-theodoridis2008pattern" class="csl-entry" role="listitem">
 Theodoridis, Sergios, and Konstantinos Koutroumbas. 2008. <em>Pattern
@@ -4941,6 +5011,12 @@ Analysis</em>, edited by P. R. Krishnaiah. Academic Press.
 <div id="ref-wright2022hopkins" class="csl-entry" role="listitem">
 Wright, Kevin. 2022. <span>“Will the Real <span>Hopkins</span> Statistic
 Please Stand Up?”</span> <em>The R Journal</em> 14 (3): 282–92.
+</div>
+<div id="ref-wright2017ranger" class="csl-entry" role="listitem">
+Wright, Marvin N., and Andreas Ziegler. 2017. <span>“<span class="nocase">ranger</span>: A Fast Implementation of Random Forests
+for High Dimensional Data in <span>C++</span> and
+<span>R</span>.”</span> <em>Journal of Statistical Software</em> 77 (1):
+1–17. <a href="https://doi.org/10.18637/jss.v077.i01">https://doi.org/10.18637/jss.v077.i01</a>.
 </div>
 </div>
 
@@ -5350,13 +5426,13 @@ Please Stand Up?”</span> <em>The R Journal</em> 14 (3): 282–92.
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../chapters/Decision_trees.html" class="pagination-link" aria-label="Decision Trees">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Decision Trees</span></span>
+      <a href="../chapters/missing_values.html" class="pagination-link" aria-label="Missing Values">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Missing Values</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="../chapters/clustering.html" class="pagination-link" aria-label="Clustering">
-        <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Clustering</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Clustering</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>11&nbsp; Clustering – Statistics and Information Systems</title>
+<title>10&nbsp; Clustering – Statistics and Information Systems</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -90,7 +90,7 @@ div.csl-indent {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../chapters/clustering_projects.html" rel="next">
+<link href="../chapters/Decision_trees.html" rel="next">
 <link href="../chapters/pca.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -101,7 +101,7 @@ div.csl-indent {
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-fd0503e23dce65854c81c5baaade3bdf.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-7b41b65cdd4b030162f185184962183e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -1725,7 +1725,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/clustering.html">Clustering</a></li><li class="breadcrumb-item"><a href="../chapters/clustering.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Clustering</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/pca.html">Dimension Reduction</a></li><li class="breadcrumb-item"><a href="../chapters/clustering.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Clustering</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -1807,12 +1807,6 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Missing Values</span></span></a>
   </div>
 </li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/Decision_trees.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Decision Trees</span></span></a>
-  </div>
-</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -1827,7 +1821,13 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/pca.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Principal Component Analysis</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Principal Component Analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/clustering.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Clustering</span></span></a>
   </div>
 </li>
       </ul>
@@ -1835,7 +1835,7 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
- <span class="menu-text">Clustering</span></a>
+ <span class="menu-text">Classification</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -1843,14 +1843,8 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/clustering.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Clustering</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/clustering_projects.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Projects</span></span></a>
+  <a href="../chapters/Decision_trees.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Decision Trees</span></span></a>
   </div>
 </li>
       </ul>
@@ -1858,7 +1852,7 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
- <span class="menu-text">Classification</span></a>
+ <span class="menu-text">Data</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -1866,25 +1860,8 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/chapter5_logistic_regression.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Classification</span></span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
- <span class="menu-text">Data</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../chapters/chapter1_data_ethics.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Data Ethics</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Data Ethics</span></span></a>
   </div>
 </li>
       </ul>
@@ -1899,90 +1876,90 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#applications-of-clustering" id="toc-applications-of-clustering" class="nav-link active" data-scroll-target="#applications-of-clustering"><span class="header-section-number">11.1</span> Applications of Clustering</a></li>
-  <li><a href="#distance-and-similarity-in-clustering" id="toc-distance-and-similarity-in-clustering" class="nav-link" data-scroll-target="#distance-and-similarity-in-clustering"><span class="header-section-number">11.2</span> Distance and Similarity in Clustering</a>
+  <li><a href="#applications-of-clustering" id="toc-applications-of-clustering" class="nav-link active" data-scroll-target="#applications-of-clustering"><span class="header-section-number">10.1</span> Applications of Clustering</a></li>
+  <li><a href="#distance-and-similarity-in-clustering" id="toc-distance-and-similarity-in-clustering" class="nav-link" data-scroll-target="#distance-and-similarity-in-clustering"><span class="header-section-number">10.2</span> Distance and Similarity in Clustering</a>
   <ul>
-  <li><a href="#common-distance-metrics" id="toc-common-distance-metrics" class="nav-link" data-scroll-target="#common-distance-metrics"><span class="header-section-number">11.2.1</span> Common Distance Metrics</a>
+  <li><a href="#common-distance-metrics" id="toc-common-distance-metrics" class="nav-link" data-scroll-target="#common-distance-metrics"><span class="header-section-number">10.2.1</span> Common Distance Metrics</a>
   <ul class="collapse">
-  <li><a href="#euclidean-distance" id="toc-euclidean-distance" class="nav-link" data-scroll-target="#euclidean-distance"><span class="header-section-number">11.2.1.1</span> Euclidean Distance</a></li>
-  <li><a href="#manhattan-or-city-block-distance" id="toc-manhattan-or-city-block-distance" class="nav-link" data-scroll-target="#manhattan-or-city-block-distance"><span class="header-section-number">11.2.1.2</span> Manhattan (or City-Block) Distance</a></li>
-  <li><a href="#minkowski-distance" id="toc-minkowski-distance" class="nav-link" data-scroll-target="#minkowski-distance"><span class="header-section-number">11.2.1.3</span> Minkowski Distance</a></li>
-  <li><a href="#chebyshev-distance" id="toc-chebyshev-distance" class="nav-link" data-scroll-target="#chebyshev-distance"><span class="header-section-number">11.2.1.4</span> Chebyshev Distance</a></li>
-  <li><a href="#mahalanobis-distance" id="toc-mahalanobis-distance" class="nav-link" data-scroll-target="#mahalanobis-distance"><span class="header-section-number">11.2.1.5</span> Mahalanobis Distance</a></li>
-  <li><a href="#cosine-and-correlation-distance" id="toc-cosine-and-correlation-distance" class="nav-link" data-scroll-target="#cosine-and-correlation-distance"><span class="header-section-number">11.2.1.6</span> Cosine and Correlation Distance</a></li>
+  <li><a href="#euclidean-distance" id="toc-euclidean-distance" class="nav-link" data-scroll-target="#euclidean-distance"><span class="header-section-number">10.2.1.1</span> Euclidean Distance</a></li>
+  <li><a href="#manhattan-or-city-block-distance" id="toc-manhattan-or-city-block-distance" class="nav-link" data-scroll-target="#manhattan-or-city-block-distance"><span class="header-section-number">10.2.1.2</span> Manhattan (or City-Block) Distance</a></li>
+  <li><a href="#minkowski-distance" id="toc-minkowski-distance" class="nav-link" data-scroll-target="#minkowski-distance"><span class="header-section-number">10.2.1.3</span> Minkowski Distance</a></li>
+  <li><a href="#chebyshev-distance" id="toc-chebyshev-distance" class="nav-link" data-scroll-target="#chebyshev-distance"><span class="header-section-number">10.2.1.4</span> Chebyshev Distance</a></li>
+  <li><a href="#mahalanobis-distance" id="toc-mahalanobis-distance" class="nav-link" data-scroll-target="#mahalanobis-distance"><span class="header-section-number">10.2.1.5</span> Mahalanobis Distance</a></li>
+  <li><a href="#cosine-and-correlation-distance" id="toc-cosine-and-correlation-distance" class="nav-link" data-scroll-target="#cosine-and-correlation-distance"><span class="header-section-number">10.2.1.6</span> Cosine and Correlation Distance</a></li>
   </ul></li>
-  <li><a href="#distances-for-binary-data" id="toc-distances-for-binary-data" class="nav-link" data-scroll-target="#distances-for-binary-data"><span class="header-section-number">11.2.2</span> Distances for Binary Data</a>
+  <li><a href="#distances-for-binary-data" id="toc-distances-for-binary-data" class="nav-link" data-scroll-target="#distances-for-binary-data"><span class="header-section-number">10.2.2</span> Distances for Binary Data</a>
   <ul class="collapse">
-  <li><a href="#simple-matching-coefficient-similarity" id="toc-simple-matching-coefficient-similarity" class="nav-link" data-scroll-target="#simple-matching-coefficient-similarity"><span class="header-section-number">11.2.2.1</span> <strong>Simple Matching Coefficient (Similarity)</strong></a></li>
-  <li><a href="#simple-matching-distance" id="toc-simple-matching-distance" class="nav-link" data-scroll-target="#simple-matching-distance"><span class="header-section-number">11.2.2.2</span> <strong>Simple Matching Distance</strong></a></li>
+  <li><a href="#simple-matching-coefficient-similarity" id="toc-simple-matching-coefficient-similarity" class="nav-link" data-scroll-target="#simple-matching-coefficient-similarity"><span class="header-section-number">10.2.2.1</span> <strong>Simple Matching Coefficient (Similarity)</strong></a></li>
+  <li><a href="#simple-matching-distance" id="toc-simple-matching-distance" class="nav-link" data-scroll-target="#simple-matching-distance"><span class="header-section-number">10.2.2.2</span> <strong>Simple Matching Distance</strong></a></li>
   </ul></li>
-  <li><a href="#distances-for-categorical-data" id="toc-distances-for-categorical-data" class="nav-link" data-scroll-target="#distances-for-categorical-data"><span class="header-section-number">11.2.3</span> Distances for Categorical Data</a>
+  <li><a href="#distances-for-categorical-data" id="toc-distances-for-categorical-data" class="nav-link" data-scroll-target="#distances-for-categorical-data"><span class="header-section-number">10.2.3</span> Distances for Categorical Data</a>
   <ul class="collapse">
-  <li><a href="#hamming-distance" id="toc-hamming-distance" class="nav-link" data-scroll-target="#hamming-distance"><span class="header-section-number">11.2.3.1</span> <strong>Hamming Distance</strong></a></li>
-  <li><a href="#gower-distance" id="toc-gower-distance" class="nav-link" data-scroll-target="#gower-distance"><span class="header-section-number">11.2.3.2</span> <strong>Gower Distance</strong></a></li>
+  <li><a href="#hamming-distance" id="toc-hamming-distance" class="nav-link" data-scroll-target="#hamming-distance"><span class="header-section-number">10.2.3.1</span> <strong>Hamming Distance</strong></a></li>
+  <li><a href="#gower-distance" id="toc-gower-distance" class="nav-link" data-scroll-target="#gower-distance"><span class="header-section-number">10.2.3.2</span> <strong>Gower Distance</strong></a></li>
   </ul></li>
-  <li><a href="#visualizing-distance-matrices" id="toc-visualizing-distance-matrices" class="nav-link" data-scroll-target="#visualizing-distance-matrices"><span class="header-section-number">11.2.4</span> Visualizing distance matrices</a></li>
+  <li><a href="#visualizing-distance-matrices" id="toc-visualizing-distance-matrices" class="nav-link" data-scroll-target="#visualizing-distance-matrices"><span class="header-section-number">10.2.4</span> Visualizing distance matrices</a></li>
   </ul></li>
-  <li><a href="#sec-pre-clustering-tests" id="toc-sec-pre-clustering-tests" class="nav-link" data-scroll-target="#sec-pre-clustering-tests"><span class="header-section-number">11.3</span> Pre-Clustering Tests: Assessing Clustering Tendency</a>
+  <li><a href="#sec-pre-clustering-tests" id="toc-sec-pre-clustering-tests" class="nav-link" data-scroll-target="#sec-pre-clustering-tests"><span class="header-section-number">10.3</span> Pre-Clustering Tests: Assessing Clustering Tendency</a>
   <ul>
-  <li><a href="#sec-penguins-data" id="toc-sec-penguins-data" class="nav-link" data-scroll-target="#sec-penguins-data"><span class="header-section-number">11.3.1</span> The Data: Palmer Penguins</a></li>
-  <li><a href="#two-data-sets-to-compare" id="toc-two-data-sets-to-compare" class="nav-link" data-scroll-target="#two-data-sets-to-compare"><span class="header-section-number">11.3.2</span> Two Data Sets to Compare</a></li>
-  <li><a href="#the-hopkins-statistic" id="toc-the-hopkins-statistic" class="nav-link" data-scroll-target="#the-hopkins-statistic"><span class="header-section-number">11.3.3</span> The Hopkins Statistic</a></li>
-  <li><a href="#visual-assessment-of-cluster-tendency-vat" id="toc-visual-assessment-of-cluster-tendency-vat" class="nav-link" data-scroll-target="#visual-assessment-of-cluster-tendency-vat"><span class="header-section-number">11.3.4</span> Visual Assessment of Cluster Tendency (VAT)</a></li>
+  <li><a href="#sec-penguins-data" id="toc-sec-penguins-data" class="nav-link" data-scroll-target="#sec-penguins-data"><span class="header-section-number">10.3.1</span> The Data: Palmer Penguins</a></li>
+  <li><a href="#two-data-sets-to-compare" id="toc-two-data-sets-to-compare" class="nav-link" data-scroll-target="#two-data-sets-to-compare"><span class="header-section-number">10.3.2</span> Two Data Sets to Compare</a></li>
+  <li><a href="#the-hopkins-statistic" id="toc-the-hopkins-statistic" class="nav-link" data-scroll-target="#the-hopkins-statistic"><span class="header-section-number">10.3.3</span> The Hopkins Statistic</a></li>
+  <li><a href="#visual-assessment-of-cluster-tendency-vat" id="toc-visual-assessment-of-cluster-tendency-vat" class="nav-link" data-scroll-target="#visual-assessment-of-cluster-tendency-vat"><span class="header-section-number">10.3.4</span> Visual Assessment of Cluster Tendency (VAT)</a></li>
   </ul></li>
-  <li><a href="#partition-based-clustering-k-means-and-k-medoids" id="toc-partition-based-clustering-k-means-and-k-medoids" class="nav-link" data-scroll-target="#partition-based-clustering-k-means-and-k-medoids"><span class="header-section-number">11.4</span> Partition-Based Clustering: <span class="math inline">\(k\)</span>-Means and <span class="math inline">\(k\)</span>-Medoids</a>
+  <li><a href="#partition-based-clustering-k-means-and-k-medoids" id="toc-partition-based-clustering-k-means-and-k-medoids" class="nav-link" data-scroll-target="#partition-based-clustering-k-means-and-k-medoids"><span class="header-section-number">10.4</span> Partition-Based Clustering: <span class="math inline">\(k\)</span>-Means and <span class="math inline">\(k\)</span>-Medoids</a>
   <ul>
-  <li><a href="#k-means-clustering" id="toc-k-means-clustering" class="nav-link" data-scroll-target="#k-means-clustering"><span class="header-section-number">11.4.1</span> <span class="math inline">\(K\)</span>-Means Clustering</a>
+  <li><a href="#k-means-clustering" id="toc-k-means-clustering" class="nav-link" data-scroll-target="#k-means-clustering"><span class="header-section-number">10.4.1</span> <span class="math inline">\(K\)</span>-Means Clustering</a>
   <ul class="collapse">
-  <li><a href="#k-means-basic-ideas" id="toc-k-means-basic-ideas" class="nav-link" data-scroll-target="#k-means-basic-ideas"><span class="header-section-number">11.4.1.1</span> <span class="math inline">\(K\)</span>-means basic ideas</a></li>
-  <li><a href="#k-means-algorithm" id="toc-k-means-algorithm" class="nav-link" data-scroll-target="#k-means-algorithm"><span class="header-section-number">11.4.1.2</span> <span class="math inline">\(K\)</span>-means Algorithm</a></li>
-  <li><a href="#properties-and-limitations-of-k-means" id="toc-properties-and-limitations-of-k-means" class="nav-link" data-scroll-target="#properties-and-limitations-of-k-means"><span class="header-section-number">11.4.1.3</span> Properties and Limitations of <span class="math inline">\(K\)</span>-Means</a></li>
-  <li><a href="#implementation-of-k-means-in-r" id="toc-implementation-of-k-means-in-r" class="nav-link" data-scroll-target="#implementation-of-k-means-in-r"><span class="header-section-number">11.4.1.4</span> Implementation of <span class="math inline">\(K\)</span>-means in R</a></li>
-  <li><a href="#sec-kmeans-penguins" id="toc-sec-kmeans-penguins" class="nav-link" data-scroll-target="#sec-kmeans-penguins"><span class="header-section-number">11.4.1.5</span> Analysis of the Penguins Dataset</a></li>
+  <li><a href="#k-means-basic-ideas" id="toc-k-means-basic-ideas" class="nav-link" data-scroll-target="#k-means-basic-ideas"><span class="header-section-number">10.4.1.1</span> <span class="math inline">\(K\)</span>-means basic ideas</a></li>
+  <li><a href="#k-means-algorithm" id="toc-k-means-algorithm" class="nav-link" data-scroll-target="#k-means-algorithm"><span class="header-section-number">10.4.1.2</span> <span class="math inline">\(K\)</span>-means Algorithm</a></li>
+  <li><a href="#properties-and-limitations-of-k-means" id="toc-properties-and-limitations-of-k-means" class="nav-link" data-scroll-target="#properties-and-limitations-of-k-means"><span class="header-section-number">10.4.1.3</span> Properties and Limitations of <span class="math inline">\(K\)</span>-Means</a></li>
+  <li><a href="#implementation-of-k-means-in-r" id="toc-implementation-of-k-means-in-r" class="nav-link" data-scroll-target="#implementation-of-k-means-in-r"><span class="header-section-number">10.4.1.4</span> Implementation of <span class="math inline">\(K\)</span>-means in R</a></li>
+  <li><a href="#sec-kmeans-penguins" id="toc-sec-kmeans-penguins" class="nav-link" data-scroll-target="#sec-kmeans-penguins"><span class="header-section-number">10.4.1.5</span> Analysis of the Penguins Dataset</a></li>
   </ul></li>
-  <li><a href="#k-medoids-clustering" id="toc-k-medoids-clustering" class="nav-link" data-scroll-target="#k-medoids-clustering"><span class="header-section-number">11.4.2</span> <span class="math inline">\(K\)</span>-Medoids Clustering</a>
+  <li><a href="#k-medoids-clustering" id="toc-k-medoids-clustering" class="nav-link" data-scroll-target="#k-medoids-clustering"><span class="header-section-number">10.4.2</span> <span class="math inline">\(K\)</span>-Medoids Clustering</a>
   <ul class="collapse">
-  <li><a href="#pam-algorithm" id="toc-pam-algorithm" class="nav-link" data-scroll-target="#pam-algorithm"><span class="header-section-number">11.4.2.1</span> PAM Algorithm</a></li>
-  <li><a href="#example" id="toc-example" class="nav-link" data-scroll-target="#example"><span class="header-section-number">11.4.2.2</span> Example</a></li>
-  <li><a href="#implementation-pam-in-r" id="toc-implementation-pam-in-r" class="nav-link" data-scroll-target="#implementation-pam-in-r"><span class="header-section-number">11.4.2.3</span> Implementation PAM in R</a></li>
-  <li><a href="#sec-pam-penguins" id="toc-sec-pam-penguins" class="nav-link" data-scroll-target="#sec-pam-penguins"><span class="header-section-number">11.4.2.4</span> Analysis of the Penguins Dataset</a></li>
-  <li><a href="#exercise" id="toc-exercise" class="nav-link" data-scroll-target="#exercise"><span class="header-section-number">11.4.2.5</span> Exercise</a></li>
+  <li><a href="#pam-algorithm" id="toc-pam-algorithm" class="nav-link" data-scroll-target="#pam-algorithm"><span class="header-section-number">10.4.2.1</span> PAM Algorithm</a></li>
+  <li><a href="#example" id="toc-example" class="nav-link" data-scroll-target="#example"><span class="header-section-number">10.4.2.2</span> Example</a></li>
+  <li><a href="#implementation-pam-in-r" id="toc-implementation-pam-in-r" class="nav-link" data-scroll-target="#implementation-pam-in-r"><span class="header-section-number">10.4.2.3</span> Implementation PAM in R</a></li>
+  <li><a href="#sec-pam-penguins" id="toc-sec-pam-penguins" class="nav-link" data-scroll-target="#sec-pam-penguins"><span class="header-section-number">10.4.2.4</span> Analysis of the Penguins Dataset</a></li>
+  <li><a href="#exercise" id="toc-exercise" class="nav-link" data-scroll-target="#exercise"><span class="header-section-number">10.4.2.5</span> Exercise</a></li>
   </ul></li>
   </ul></li>
-  <li><a href="#sec-cluster-validation" id="toc-sec-cluster-validation" class="nav-link" data-scroll-target="#sec-cluster-validation"><span class="header-section-number">11.5</span> Cluster Validation</a>
+  <li><a href="#sec-cluster-validation" id="toc-sec-cluster-validation" class="nav-link" data-scroll-target="#sec-cluster-validation"><span class="header-section-number">10.5</span> Cluster Validation</a>
   <ul>
-  <li><a href="#sec-quality-measures" id="toc-sec-quality-measures" class="nav-link" data-scroll-target="#sec-quality-measures"><span class="header-section-number">11.5.1</span> Measures of Cluster Quality</a>
+  <li><a href="#sec-quality-measures" id="toc-sec-quality-measures" class="nav-link" data-scroll-target="#sec-quality-measures"><span class="header-section-number">10.5.1</span> Measures of Cluster Quality</a>
   <ul class="collapse">
-  <li><a href="#sums-of-squares-wss-bss-and-tss" id="toc-sums-of-squares-wss-bss-and-tss" class="nav-link" data-scroll-target="#sums-of-squares-wss-bss-and-tss"><span class="header-section-number">11.5.1.1</span> Sums of Squares: WSS, BSS and TSS</a></li>
-  <li><a href="#silhouette-coefficient" id="toc-silhouette-coefficient" class="nav-link" data-scroll-target="#silhouette-coefficient"><span class="header-section-number">11.5.1.2</span> Silhouette Coefficient</a></li>
-  <li><a href="#dunn-index" id="toc-dunn-index" class="nav-link" data-scroll-target="#dunn-index"><span class="header-section-number">11.5.1.3</span> Dunn Index</a></li>
-  <li><a href="#connectivity" id="toc-connectivity" class="nav-link" data-scroll-target="#connectivity"><span class="header-section-number">11.5.1.4</span> Connectivity</a></li>
-  <li><a href="#external-measures-the-corrected-rand-index-and-vi" id="toc-external-measures-the-corrected-rand-index-and-vi" class="nav-link" data-scroll-target="#external-measures-the-corrected-rand-index-and-vi"><span class="header-section-number">11.5.1.5</span> External Measures: the Corrected Rand Index and VI</a></li>
+  <li><a href="#sums-of-squares-wss-bss-and-tss" id="toc-sums-of-squares-wss-bss-and-tss" class="nav-link" data-scroll-target="#sums-of-squares-wss-bss-and-tss"><span class="header-section-number">10.5.1.1</span> Sums of Squares: WSS, BSS and TSS</a></li>
+  <li><a href="#silhouette-coefficient" id="toc-silhouette-coefficient" class="nav-link" data-scroll-target="#silhouette-coefficient"><span class="header-section-number">10.5.1.2</span> Silhouette Coefficient</a></li>
+  <li><a href="#dunn-index" id="toc-dunn-index" class="nav-link" data-scroll-target="#dunn-index"><span class="header-section-number">10.5.1.3</span> Dunn Index</a></li>
+  <li><a href="#connectivity" id="toc-connectivity" class="nav-link" data-scroll-target="#connectivity"><span class="header-section-number">10.5.1.4</span> Connectivity</a></li>
+  <li><a href="#external-measures-the-corrected-rand-index-and-vi" id="toc-external-measures-the-corrected-rand-index-and-vi" class="nav-link" data-scroll-target="#external-measures-the-corrected-rand-index-and-vi"><span class="header-section-number">10.5.1.5</span> External Measures: the Corrected Rand Index and VI</a></li>
   </ul></li>
-  <li><a href="#sec-choosing-k" id="toc-sec-choosing-k" class="nav-link" data-scroll-target="#sec-choosing-k"><span class="header-section-number">11.5.2</span> Determining the Optimal Number of Clusters</a>
+  <li><a href="#sec-choosing-k" id="toc-sec-choosing-k" class="nav-link" data-scroll-target="#sec-choosing-k"><span class="header-section-number">10.5.2</span> Determining the Optimal Number of Clusters</a>
   <ul class="collapse">
-  <li><a href="#elbow-method" id="toc-elbow-method" class="nav-link" data-scroll-target="#elbow-method"><span class="header-section-number">11.5.2.1</span> Elbow method</a></li>
-  <li><a href="#average-silhouette-method" id="toc-average-silhouette-method" class="nav-link" data-scroll-target="#average-silhouette-method"><span class="header-section-number">11.5.2.2</span> Average silhouette method</a></li>
-  <li><a href="#gap-statistic-method" id="toc-gap-statistic-method" class="nav-link" data-scroll-target="#gap-statistic-method"><span class="header-section-number">11.5.2.3</span> Gap statistic method</a></li>
-  <li><a href="#computing-the-number-of-clusters-in-r" id="toc-computing-the-number-of-clusters-in-r" class="nav-link" data-scroll-target="#computing-the-number-of-clusters-in-r"><span class="header-section-number">11.5.2.4</span> Computing the Number of Clusters in R</a></li>
+  <li><a href="#elbow-method" id="toc-elbow-method" class="nav-link" data-scroll-target="#elbow-method"><span class="header-section-number">10.5.2.1</span> Elbow method</a></li>
+  <li><a href="#average-silhouette-method" id="toc-average-silhouette-method" class="nav-link" data-scroll-target="#average-silhouette-method"><span class="header-section-number">10.5.2.2</span> Average silhouette method</a></li>
+  <li><a href="#gap-statistic-method" id="toc-gap-statistic-method" class="nav-link" data-scroll-target="#gap-statistic-method"><span class="header-section-number">10.5.2.3</span> Gap statistic method</a></li>
+  <li><a href="#computing-the-number-of-clusters-in-r" id="toc-computing-the-number-of-clusters-in-r" class="nav-link" data-scroll-target="#computing-the-number-of-clusters-in-r"><span class="header-section-number">10.5.2.4</span> Computing the Number of Clusters in R</a></li>
   </ul></li>
-  <li><a href="#sec-validation-in-r" id="toc-sec-validation-in-r" class="nav-link" data-scroll-target="#sec-validation-in-r"><span class="header-section-number">11.5.3</span> Computing Validation Statistics in R</a></li>
-  <li><a href="#sec-choosing-algorithms" id="toc-sec-choosing-algorithms" class="nav-link" data-scroll-target="#sec-choosing-algorithms"><span class="header-section-number">11.5.4</span> Choosing the Best Clustering Algorithms</a>
+  <li><a href="#sec-validation-in-r" id="toc-sec-validation-in-r" class="nav-link" data-scroll-target="#sec-validation-in-r"><span class="header-section-number">10.5.3</span> Computing Validation Statistics in R</a></li>
+  <li><a href="#sec-choosing-algorithms" id="toc-sec-choosing-algorithms" class="nav-link" data-scroll-target="#sec-choosing-algorithms"><span class="header-section-number">10.5.4</span> Choosing the Best Clustering Algorithms</a>
   <ul class="collapse">
-  <li><a href="#measures-for-comparing-clustering-algorithms" id="toc-measures-for-comparing-clustering-algorithms" class="nav-link" data-scroll-target="#measures-for-comparing-clustering-algorithms"><span class="header-section-number">11.5.4.1</span> Measures for comparing clustering algorithms</a></li>
-  <li><a href="#compare-clustering-algorithms-in-r" id="toc-compare-clustering-algorithms-in-r" class="nav-link" data-scroll-target="#compare-clustering-algorithms-in-r"><span class="header-section-number">11.5.4.2</span> Compare clustering algorithms in R</a></li>
+  <li><a href="#measures-for-comparing-clustering-algorithms" id="toc-measures-for-comparing-clustering-algorithms" class="nav-link" data-scroll-target="#measures-for-comparing-clustering-algorithms"><span class="header-section-number">10.5.4.1</span> Measures for comparing clustering algorithms</a></li>
+  <li><a href="#compare-clustering-algorithms-in-r" id="toc-compare-clustering-algorithms-in-r" class="nav-link" data-scroll-target="#compare-clustering-algorithms-in-r"><span class="header-section-number">10.5.4.2</span> Compare clustering algorithms in R</a></li>
   </ul></li>
-  <li><a href="#sec-validation-glance" id="toc-sec-validation-glance" class="nav-link" data-scroll-target="#sec-validation-glance"><span class="header-section-number">11.5.5</span> Validation Methods at a Glance</a></li>
-  <li><a href="#sec-penguins-validation" id="toc-sec-penguins-validation" class="nav-link" data-scroll-target="#sec-penguins-validation"><span class="header-section-number">11.5.6</span> Validation of the Penguins Clusterings</a>
+  <li><a href="#sec-validation-glance" id="toc-sec-validation-glance" class="nav-link" data-scroll-target="#sec-validation-glance"><span class="header-section-number">10.5.5</span> Validation Methods at a Glance</a></li>
+  <li><a href="#sec-penguins-validation" id="toc-sec-penguins-validation" class="nav-link" data-scroll-target="#sec-penguins-validation"><span class="header-section-number">10.5.6</span> Validation of the Penguins Clusterings</a>
   <ul class="collapse">
-  <li><a href="#sec-penguins-k" id="toc-sec-penguins-k" class="nav-link" data-scroll-target="#sec-penguins-k"><span class="header-section-number">11.5.6.1</span> Choosing the Number of Clusters</a></li>
-  <li><a href="#sec-internal-validation" id="toc-sec-internal-validation" class="nav-link" data-scroll-target="#sec-internal-validation"><span class="header-section-number">11.5.6.2</span> Internal Validation</a></li>
-  <li><a href="#sec-external-validation" id="toc-sec-external-validation" class="nav-link" data-scroll-target="#sec-external-validation"><span class="header-section-number">11.5.6.3</span> External Validation Against the Species</a></li>
-  <li><a href="#comparing-algorithms-with-clvalid" id="toc-comparing-algorithms-with-clvalid" class="nav-link" data-scroll-target="#comparing-algorithms-with-clvalid"><span class="header-section-number">11.5.6.4</span> Comparing Algorithms with clValid</a></li>
-  <li><a href="#summary-k-means-vs-pam-on-the-penguins" id="toc-summary-k-means-vs-pam-on-the-penguins" class="nav-link" data-scroll-target="#summary-k-means-vs-pam-on-the-penguins"><span class="header-section-number">11.5.6.5</span> Summary: <span class="math inline">\(K\)</span>-means vs PAM on the Penguins</a></li>
+  <li><a href="#sec-penguins-k" id="toc-sec-penguins-k" class="nav-link" data-scroll-target="#sec-penguins-k"><span class="header-section-number">10.5.6.1</span> Choosing the Number of Clusters</a></li>
+  <li><a href="#sec-internal-validation" id="toc-sec-internal-validation" class="nav-link" data-scroll-target="#sec-internal-validation"><span class="header-section-number">10.5.6.2</span> Internal Validation</a></li>
+  <li><a href="#sec-external-validation" id="toc-sec-external-validation" class="nav-link" data-scroll-target="#sec-external-validation"><span class="header-section-number">10.5.6.3</span> External Validation Against the Species</a></li>
+  <li><a href="#comparing-algorithms-with-clvalid" id="toc-comparing-algorithms-with-clvalid" class="nav-link" data-scroll-target="#comparing-algorithms-with-clvalid"><span class="header-section-number">10.5.6.4</span> Comparing Algorithms with clValid</a></li>
+  <li><a href="#summary-k-means-vs-pam-on-the-penguins" id="toc-summary-k-means-vs-pam-on-the-penguins" class="nav-link" data-scroll-target="#summary-k-means-vs-pam-on-the-penguins"><span class="header-section-number">10.5.6.5</span> Summary: <span class="math inline">\(K\)</span>-means vs PAM on the Penguins</a></li>
   </ul></li>
   </ul></li>
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">11.6</span> References</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">10.6</span> References</a></li>
   </ul>
 </nav>
     </div>
@@ -2273,9 +2250,9 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 }
 </script>
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/clustering.html">Clustering</a></li><li class="breadcrumb-item"><a href="../chapters/clustering.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Clustering</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/pca.html">Dimension Reduction</a></li><li class="breadcrumb-item"><a href="../chapters/clustering.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Clustering</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Clustering</span></h1>
+<h1 class="title"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Clustering</span></h1>
 </div>
 
 
@@ -2293,8 +2270,8 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 
 
 <p>Cluster analysis, or <em>Clustering</em>, is a technique used to find groups of objects such that the objects within the same group are similar (or closely related) to one another, while the objects from different groups are dissimilar (or unrelated).</p>
-<section id="applications-of-clustering" class="level2" data-number="11.1">
-<h2 data-number="11.1" class="anchored" data-anchor-id="applications-of-clustering"><span class="header-section-number">11.1</span> Applications of Clustering</h2>
+<section id="applications-of-clustering" class="level2" data-number="10.1">
+<h2 data-number="10.1" class="anchored" data-anchor-id="applications-of-clustering"><span class="header-section-number">10.1</span> Applications of Clustering</h2>
 <p>Clustering techniques are widely used across multiple disciplines to discover patterns, structure data, and support decision-making. Below are some common and illustrative applications.</p>
 <p><strong>Customer Segmentation</strong></p>
 <p>In marketing and business analytics, clustering helps identify groups of customers with similar behaviors, preferences, or purchasing habits. This segmentation allows companies to optimize advertising strategies, personalize product offerings, and design campaigns for specific focus groups.</p>
@@ -2332,8 +2309,8 @@ Document clustering for semantic search or grouping research papers by field of 
 </div>
 </div>
 </section>
-<section id="distance-and-similarity-in-clustering" class="level2" data-number="11.2">
-<h2 data-number="11.2" class="anchored" data-anchor-id="distance-and-similarity-in-clustering"><span class="header-section-number">11.2</span> Distance and Similarity in Clustering</h2>
+<section id="distance-and-similarity-in-clustering" class="level2" data-number="10.2">
+<h2 data-number="10.2" class="anchored" data-anchor-id="distance-and-similarity-in-clustering"><span class="header-section-number">10.2</span> Distance and Similarity in Clustering</h2>
 <p>The notion of <em>distance</em> or <em>similarity</em> lies at the heart of clustering. Since clustering aims to group similar observations together, we must have a way to measure how close or far two observations are from each other in the feature space. These measures quantify the degree of resemblance (similarity) or difference (dissimilarity) between data points.</p>
 <blockquote class="blockquote">
 <p>The main goal is to partition a set of data points into clusters where <strong>intra-cluster</strong> distances (distances between points within the same cluster) are <strong>minimized</strong>, and <strong>inter-cluster</strong> distances (distances between points from different clusters) are <strong>maximized</strong>.</p>
@@ -2407,12 +2384,12 @@ It usually satisfies: <span class="math display">\[
 <p>A simple transformation links both concepts: <span class="math display">\[
 s(\mathbf{x}, \mathbf{y}) = \frac{1}{1 + d(\mathbf{x}, \mathbf{y})}, \quad \text{where } s(\mathbf{x}, \mathbf{y}) \in (0, 1].
 \]</span></p>
-<section id="common-distance-metrics" class="level3" data-number="11.2.1">
-<h3 data-number="11.2.1" class="anchored" data-anchor-id="common-distance-metrics"><span class="header-section-number">11.2.1</span> Common Distance Metrics</h3>
+<section id="common-distance-metrics" class="level3" data-number="10.2.1">
+<h3 data-number="10.2.1" class="anchored" data-anchor-id="common-distance-metrics"><span class="header-section-number">10.2.1</span> Common Distance Metrics</h3>
 <p>Different clustering algorithms may behave very differently depending on the metric used.<br>
 Below are the most widely used <strong>distance measures</strong>.</p>
-<section id="euclidean-distance" class="level4" data-number="11.2.1.1">
-<h4 data-number="11.2.1.1" class="anchored" data-anchor-id="euclidean-distance"><span class="header-section-number">11.2.1.1</span> Euclidean Distance</h4>
+<section id="euclidean-distance" class="level4" data-number="10.2.1.1">
+<h4 data-number="10.2.1.1" class="anchored" data-anchor-id="euclidean-distance"><span class="header-section-number">10.2.1.1</span> Euclidean Distance</h4>
 <p>The most common metric, representing the straight-line distance between two points in <span class="math inline">\(\mathbb{R}^p\)</span>: <span class="math display">\[
 d_E(\mathbf{x}, \mathbf{y}) = \sqrt{\sum_{i=1}^{p} (x_i - y_i)^2}
 \]</span></p>
@@ -2432,8 +2409,8 @@ Note
 <div id="qwebr-insertion-location-1"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
-<section id="manhattan-or-city-block-distance" class="level4" data-number="11.2.1.2">
-<h4 data-number="11.2.1.2" class="anchored" data-anchor-id="manhattan-or-city-block-distance"><span class="header-section-number">11.2.1.2</span> Manhattan (or City-Block) Distance</h4>
+<section id="manhattan-or-city-block-distance" class="level4" data-number="10.2.1.2">
+<h4 data-number="10.2.1.2" class="anchored" data-anchor-id="manhattan-or-city-block-distance"><span class="header-section-number">10.2.1.2</span> Manhattan (or City-Block) Distance</h4>
 <p>This distance sums the absolute differences across all coordinates: <span class="math display">\[
 d_M(\mathbf{x}, \mathbf{y}) = \sum_{i=1}^{p} |x_i - y_i|
 \]</span></p>
@@ -2463,8 +2440,8 @@ Note
 </div>
 </div>
 </section>
-<section id="minkowski-distance" class="level4" data-number="11.2.1.3">
-<h4 data-number="11.2.1.3" class="anchored" data-anchor-id="minkowski-distance"><span class="header-section-number">11.2.1.3</span> Minkowski Distance</h4>
+<section id="minkowski-distance" class="level4" data-number="10.2.1.3">
+<h4 data-number="10.2.1.3" class="anchored" data-anchor-id="minkowski-distance"><span class="header-section-number">10.2.1.3</span> Minkowski Distance</h4>
 <p>A generalization of Euclidean and Manhattan distances, controlled by a parameter <span class="math inline">\(r\)</span>: <span class="math display">\[
 d_r(\mathbf{x}, \mathbf{y}) = \left( \sum_{i=1}^{p} |x_i - y_i|^r \right)^{1/r}
 \]</span></p>
@@ -2487,8 +2464,8 @@ d_r(\mathbf{x}, \mathbf{y}) = \left( \sum_{i=1}^{p} |x_i - y_i|^r \right)^{1/r}
 </div>
 <p>Each curve is the set of points at Minkowski distance <span class="math inline">\(1\)</span> from the origin. For <span class="math inline">\(r = 1\)</span> it is a diamond, for <span class="math inline">\(r = 2\)</span> a circle, and as <span class="math inline">\(r \to \infty\)</span> it approaches the square of the Chebyshev distance below. The shortest <em>path</em> between two points is a straight line for every <span class="math inline">\(r &gt; 1\)</span>; what changes with <span class="math inline">\(r\)</span> is the <em>length</em> assigned to it.</p>
 </section>
-<section id="chebyshev-distance" class="level4" data-number="11.2.1.4">
-<h4 data-number="11.2.1.4" class="anchored" data-anchor-id="chebyshev-distance"><span class="header-section-number">11.2.1.4</span> Chebyshev Distance</h4>
+<section id="chebyshev-distance" class="level4" data-number="10.2.1.4">
+<h4 data-number="10.2.1.4" class="anchored" data-anchor-id="chebyshev-distance"><span class="header-section-number">10.2.1.4</span> Chebyshev Distance</h4>
 <p>Also known as the <span class="math inline">\(L_\infty\)</span> norm, this distance takes the largest coordinate difference: <span class="math display">\[
 d_C(\mathbf{x}, \mathbf{y}) = \max_i |x_i - y_i|
 \]</span> It measures how far apart two points are along the dimension where they differ most.</p>
@@ -2505,8 +2482,8 @@ d_C(\mathbf{x}, \mathbf{y}) = \max_i |x_i - y_i|
 </div>
 </div>
 </section>
-<section id="mahalanobis-distance" class="level4" data-number="11.2.1.5">
-<h4 data-number="11.2.1.5" class="anchored" data-anchor-id="mahalanobis-distance"><span class="header-section-number">11.2.1.5</span> Mahalanobis Distance</h4>
+<section id="mahalanobis-distance" class="level4" data-number="10.2.1.5">
+<h4 data-number="10.2.1.5" class="anchored" data-anchor-id="mahalanobis-distance"><span class="header-section-number">10.2.1.5</span> Mahalanobis Distance</h4>
 <p>A scale-invariant distance that accounts for correlations between variables: <span class="math display">\[
 d_{Mah}(\mathbf{x}, \mathbf{y}) = \sqrt{(\mathbf{x} - \mathbf{y})^{\top} \boldsymbol{\Sigma}^{-1} (\mathbf{x} - \mathbf{y})}
 \]</span> where <span class="math inline">\(\boldsymbol{\Sigma}\)</span> is the covariance matrix of the data. Two points with the same Mahalanobis distance from the mean are equally likely under a multivariate normal model, regardless of the variable scales or correlations.</p>
@@ -2538,8 +2515,8 @@ Tip
 </div>
 </div>
 </section>
-<section id="cosine-and-correlation-distance" class="level4" data-number="11.2.1.6">
-<h4 data-number="11.2.1.6" class="anchored" data-anchor-id="cosine-and-correlation-distance"><span class="header-section-number">11.2.1.6</span> Cosine and Correlation Distance</h4>
+<section id="cosine-and-correlation-distance" class="level4" data-number="10.2.1.6">
+<h4 data-number="10.2.1.6" class="anchored" data-anchor-id="cosine-and-correlation-distance"><span class="header-section-number">10.2.1.6</span> Cosine and Correlation Distance</h4>
 <p>For data where <em>direction</em> or <em>orientation</em> matters more than magnitude — such as text represented by TF-IDF vectors or normalized embeddings — Euclidean distance is not ideal. Instead, we use <em>cosine similarity</em> or <em>correlation distance</em>.</p>
 <p>The <em>cosine similarity</em> between two vectors <span class="math inline">\(\mathbf{x}\)</span> and <span class="math inline">\(\mathbf{y}\)</span> is defined as <span class="math display">\[
 s_{\text{cosine}}(\mathbf{x}, \mathbf{y}) = \frac{\mathbf{x} \cdot \mathbf{y}}{\|\mathbf{x}\| \, \|\mathbf{y}\|}
@@ -2594,8 +2571,8 @@ Tip
 </div>
 </section>
 </section>
-<section id="distances-for-binary-data" class="level3" data-number="11.2.2">
-<h3 data-number="11.2.2" class="anchored" data-anchor-id="distances-for-binary-data"><span class="header-section-number">11.2.2</span> Distances for Binary Data</h3>
+<section id="distances-for-binary-data" class="level3" data-number="10.2.2">
+<h3 data-number="10.2.2" class="anchored" data-anchor-id="distances-for-binary-data"><span class="header-section-number">10.2.2</span> Distances for Binary Data</h3>
 <p>When the data are <strong>binary</strong> (0 or 1), such as presence/absence, success/failure, or yes/no attributes, specialized similarity and distance measures are used.</p>
 <p>Let <span class="math inline">\(o_1, o_2 \in \{0,1\}^d\)</span> be two binary observations described by <span class="math inline">\(d\)</span> attributes.</p>
 <p>We define: <span class="math display">\[
@@ -2606,15 +2583,15 @@ f_{10} &amp;= \text{number of attributes where } o_1 = 1 \text{ and } o_2 = 0, \
 f_{01} &amp;= \text{number of attributes where } o_1 = 0 \text{ and } o_2 = 1.
 \end{aligned}
 \]</span></p>
-<section id="simple-matching-coefficient-similarity" class="level4" data-number="11.2.2.1">
-<h4 data-number="11.2.2.1" class="anchored" data-anchor-id="simple-matching-coefficient-similarity"><span class="header-section-number">11.2.2.1</span> <strong>Simple Matching Coefficient (Similarity)</strong></h4>
+<section id="simple-matching-coefficient-similarity" class="level4" data-number="10.2.2.1">
+<h4 data-number="10.2.2.1" class="anchored" data-anchor-id="simple-matching-coefficient-similarity"><span class="header-section-number">10.2.2.1</span> <strong>Simple Matching Coefficient (Similarity)</strong></h4>
 <p><span class="math display">\[
 s_{SMC}(o_1, o_2) = \frac{f_{11} + f_{00}}{f_{11} + f_{00} + f_{10} + f_{01}} = \frac{f_{11} + f_{00}}{d}
 \]</span></p>
 <p>This coefficient measures the proportion of attributes where the two observations match — whether both are 1s or both are 0s.</p>
 </section>
-<section id="simple-matching-distance" class="level4" data-number="11.2.2.2">
-<h4 data-number="11.2.2.2" class="anchored" data-anchor-id="simple-matching-distance"><span class="header-section-number">11.2.2.2</span> <strong>Simple Matching Distance</strong></h4>
+<section id="simple-matching-distance" class="level4" data-number="10.2.2.2">
+<h4 data-number="10.2.2.2" class="anchored" data-anchor-id="simple-matching-distance"><span class="header-section-number">10.2.2.2</span> <strong>Simple Matching Distance</strong></h4>
 <p><span class="math display">\[
 d_{SMC}(o_1, o_2) = 1 - s_{SMC}(o_1, o_2) = \frac{f_{01} + f_{10}}{d}
 \]</span> This represents the proportion of mismatches between two binary objects.</p>
@@ -2649,13 +2626,13 @@ Note
 </div>
 </section>
 </section>
-<section id="distances-for-categorical-data" class="level3" data-number="11.2.3">
-<h3 data-number="11.2.3" class="anchored" data-anchor-id="distances-for-categorical-data"><span class="header-section-number">11.2.3</span> Distances for Categorical Data</h3>
+<section id="distances-for-categorical-data" class="level3" data-number="10.2.3">
+<h3 data-number="10.2.3" class="anchored" data-anchor-id="distances-for-categorical-data"><span class="header-section-number">10.2.3</span> Distances for Categorical Data</h3>
 <p>When data contain <strong>categorical</strong> or <strong>mixed-type variables</strong>, standard numeric distances (like Euclidean) are not suitable.<br>
 Instead, we use measures that handle <strong>qualitative comparisons</strong> directly.</p>
 <p>Let <span class="math inline">\(\mathbf{x} = (x_1, \ldots, x_p)\)</span> and <span class="math inline">\(\mathbf{y} = (y_1, \ldots, y_p)\)</span> be two observations described by <span class="math inline">\(p\)</span> categorical or mixed-type attributes.</p>
-<section id="hamming-distance" class="level4" data-number="11.2.3.1">
-<h4 data-number="11.2.3.1" class="anchored" data-anchor-id="hamming-distance"><span class="header-section-number">11.2.3.1</span> <strong>Hamming Distance</strong></h4>
+<section id="hamming-distance" class="level4" data-number="10.2.3.1">
+<h4 data-number="10.2.3.1" class="anchored" data-anchor-id="hamming-distance"><span class="header-section-number">10.2.3.1</span> <strong>Hamming Distance</strong></h4>
 <p>The <strong>Hamming distance</strong> counts the number of mismatches between two vectors: <span class="math display">\[
 \text{d}_{Hamming}(\mathbf{x}, \mathbf{y}) = \sum_{i=1}^{p} \delta(x_i, y_i)
 \]</span> where <span class="math display">\[
@@ -2668,8 +2645,8 @@ Instead, we use measures that handle <strong>qualitative comparisons</strong> di
 <div id="qwebr-insertion-location-8"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
-<section id="gower-distance" class="level4" data-number="11.2.3.2">
-<h4 data-number="11.2.3.2" class="anchored" data-anchor-id="gower-distance"><span class="header-section-number">11.2.3.2</span> <strong>Gower Distance</strong></h4>
+<section id="gower-distance" class="level4" data-number="10.2.3.2">
+<h4 data-number="10.2.3.2" class="anchored" data-anchor-id="gower-distance"><span class="header-section-number">10.2.3.2</span> <strong>Gower Distance</strong></h4>
 <p>The <strong>Gower distance</strong> <span class="citation" data-cites="Gower1971">(<a href="pca.html#ref-Gower1971" role="doc-biblioref">Gower 1971</a>)</span> allows comparing <strong>mixed-type data</strong> (numerical, categorical, binomial).</p>
 <p>For two observations <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span>, and each variable <span class="math inline">\(k\)</span>, Gower’s method computes a partial <em>similarity score</em> <span class="math inline">\(s_{ijk}\)</span> as follows:</p>
 <ul>
@@ -2780,8 +2757,8 @@ D = 1 - 0.435 = 0.565
 </div>
 </section>
 </section>
-<section id="visualizing-distance-matrices" class="level3" data-number="11.2.4">
-<h3 data-number="11.2.4" class="anchored" data-anchor-id="visualizing-distance-matrices"><span class="header-section-number">11.2.4</span> Visualizing distance matrices</h3>
+<section id="visualizing-distance-matrices" class="level3" data-number="10.2.4">
+<h3 data-number="10.2.4" class="anchored" data-anchor-id="visualizing-distance-matrices"><span class="header-section-number">10.2.4</span> Visualizing distance matrices</h3>
 <p>Datasets usually contain many observations (more than just two points).</p>
 <p>When we compute pairwise distances between all observations, we obtain a <em>distance matrix</em> — a square table where each cell represents the dissimilarity between two observations.</p>
 <p>Mathematically, if a dataset has <span class="math inline">\(n\)</span> observations, the distance matrix has <span class="math inline">\(n \times n\)</span> entries: <span class="math display">\[
@@ -2937,8 +2914,8 @@ D_{ij} = d(\mathbf{x}_i, \mathbf{x}_j)
 </div>
 </section>
 </section>
-<section id="sec-pre-clustering-tests" class="level2" data-number="11.3">
-<h2 data-number="11.3" class="anchored" data-anchor-id="sec-pre-clustering-tests"><span class="header-section-number">11.3</span> Pre-Clustering Tests: Assessing Clustering Tendency</h2>
+<section id="sec-pre-clustering-tests" class="level2" data-number="10.3">
+<h2 data-number="10.3" class="anchored" data-anchor-id="sec-pre-clustering-tests"><span class="header-section-number">10.3</span> Pre-Clustering Tests: Assessing Clustering Tendency</h2>
 <p>The previous section gave us ways to measure how far apart two observations are. Before we use those distances to <em>build</em> groups, we should ask a prior question: are there any groups to find? Assessing this is called assessing the <em>clustering tendency</em> of the data, or the feasibility of the cluster analysis.</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -2958,9 +2935,9 @@ Important
 <li>the <strong>Hopkins statistic</strong>, a statistical test of whether the data could have come from a uniform (structureless) distribution;</li>
 <li>the <strong>Visual Assessment of cluster Tendency (VAT)</strong>, which reorders the distance matrix and looks for blocks along its diagonal.</li>
 </ul>
-<p>Neither tells us which algorithm to use or how many clusters there are — those questions are taken up in <a href="#sec-cluster-validation" class="quarto-xref"><span>Section 11.5</span></a>. They tell us whether clustering is likely to find real structure at all.</p>
-<section id="sec-penguins-data" class="level3" data-number="11.3.1">
-<h3 data-number="11.3.1" class="anchored" data-anchor-id="sec-penguins-data"><span class="header-section-number">11.3.1</span> The Data: Palmer Penguins</h3>
+<p>Neither tells us which algorithm to use or how many clusters there are — those questions are taken up in <a href="#sec-cluster-validation" class="quarto-xref"><span>Section 10.5</span></a>. They tell us whether clustering is likely to find real structure at all.</p>
+<section id="sec-penguins-data" class="level3" data-number="10.3.1">
+<h3 data-number="10.3.1" class="anchored" data-anchor-id="sec-penguins-data"><span class="header-section-number">10.3.1</span> The Data: Palmer Penguins</h3>
 <p>From here on, the running example of the chapter is the <em>Palmer penguins</em> data <span class="citation" data-cites="horst2020palmerpenguins">(<a href="pca.html#ref-horst2020palmerpenguins" role="doc-biblioref">Horst et al. 2020</a>)</span>, from the package <strong>palmerpenguins</strong> (released under the CC0 licence). They contain measurements of <span class="math inline">\(344\)</span> adult penguins of three species — <em>Adelie</em>, <em>Chinstrap</em> and <em>Gentoo</em> — collected by Dr.&nbsp;Kristen Gorman at Palmer Station, Antarctica <span class="citation" data-cites="gorman2014">(<a href="pca.html#ref-gorman2014" role="doc-biblioref">Gorman et al. 2014</a>)</span>:</p>
 <table class="caption-top table">
 <colgroup>
@@ -3052,14 +3029,14 @@ Note
 <div id="qwebr-insertion-location-11"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
-<section id="two-data-sets-to-compare" class="level3" data-number="11.3.2">
-<h3 data-number="11.3.2" class="anchored" data-anchor-id="two-data-sets-to-compare"><span class="header-section-number">11.3.2</span> Two Data Sets to Compare</h3>
+<section id="two-data-sets-to-compare" class="level3" data-number="10.3.2">
+<h3 data-number="10.3.2" class="anchored" data-anchor-id="two-data-sets-to-compare"><span class="header-section-number">10.3.2</span> Two Data Sets to Compare</h3>
 <p>To see what the diagnostics say when there is structure and when there is none, we compare the penguin measurements with a <em>random</em> data set of the same size, in which each variable is drawn uniformly between its observed minimum and maximum. Both are standardized, because both diagnostics depend on Euclidean distances.</p>
 <div id="qwebr-insertion-location-12"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
-<section id="the-hopkins-statistic" class="level3" data-number="11.3.3">
-<h3 data-number="11.3.3" class="anchored" data-anchor-id="the-hopkins-statistic"><span class="header-section-number">11.3.3</span> The Hopkins Statistic</h3>
+<section id="the-hopkins-statistic" class="level3" data-number="10.3.3">
+<h3 data-number="10.3.3" class="anchored" data-anchor-id="the-hopkins-statistic"><span class="header-section-number">10.3.3</span> The Hopkins Statistic</h3>
 <p>The <em>Hopkins statistic</em> <span class="citation" data-cites="hopkins1954">(<a href="pca.html#ref-hopkins1954" role="doc-biblioref">Hopkins and Skellam 1954</a>)</span> tests the spatial randomness of the data. It compares how close the real observations are to each other with how close random points are to the real observations.</p>
 <p>Let <span class="math inline">\(D\)</span> be a data set with <span class="math inline">\(n\)</span> observations and <span class="math inline">\(d\)</span> variables. The Hopkins statistic is calculated as follows:</p>
 <ol type="1">
@@ -3135,8 +3112,8 @@ Tip
 </div>
 </div>
 </section>
-<section id="visual-assessment-of-cluster-tendency-vat" class="level3" data-number="11.3.4">
-<h3 data-number="11.3.4" class="anchored" data-anchor-id="visual-assessment-of-cluster-tendency-vat"><span class="header-section-number">11.3.4</span> Visual Assessment of Cluster Tendency (VAT)</h3>
+<section id="visual-assessment-of-cluster-tendency-vat" class="level3" data-number="10.3.4">
+<h3 data-number="10.3.4" class="anchored" data-anchor-id="visual-assessment-of-cluster-tendency-vat"><span class="header-section-number">10.3.4</span> Visual Assessment of Cluster Tendency (VAT)</h3>
 <p>The VAT algorithm <span class="citation" data-cites="Bezdek2002">(<a href="pca.html#ref-Bezdek2002" role="doc-biblioref">Bezdek and Hathaway 2002</a>)</span> works as follows:</p>
 <ol type="1">
 <li>Compute the dissimilarity matrix (DM) between the observations, using the Euclidean distance.</li>
@@ -3150,7 +3127,7 @@ Tip
 <div id="qwebr-insertion-location-15"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>In these plots, red shows high similarity (small dissimilarity) and blue shows low similarity (large dissimilarity).</p>
-<p>A clustering tendency shows up as <em>square red blocks along the diagonal</em>: groups of observations that are close to each other and far from the rest. The penguins image has a clear block structure. One large block, bounded by blue on every side, contains the Gentoo penguins: they are close to each other and far from everybody else. The remaining birds form red blocks that are also fairly red <em>between</em> each other, because Adelie and Chinstrap penguins have similar body measurements. The random data show no such pattern. The image confirms the Hopkins result and also hints at how many clusters are present, a question taken up in <a href="#sec-cluster-validation" class="quarto-xref"><span>Section 11.5</span></a>.</p>
+<p>A clustering tendency shows up as <em>square red blocks along the diagonal</em>: groups of observations that are close to each other and far from the rest. The penguins image has a clear block structure. One large block, bounded by blue on every side, contains the Gentoo penguins: they are close to each other and far from everybody else. The remaining birds form red blocks that are also fairly red <em>between</em> each other, because Adelie and Chinstrap penguins have similar body measurements. The random data show no such pattern. The image confirms the Hopkins result and also hints at how many clusters are present, a question taken up in <a href="#sec-cluster-validation" class="quarto-xref"><span>Section 10.5</span></a>.</p>
 <div class="callout callout-style-simple callout-note no-icon">
 <div class="callout-body d-flex">
 <div class="callout-icon-container">
@@ -3163,8 +3140,8 @@ Tip
 </div>
 </section>
 </section>
-<section id="partition-based-clustering-k-means-and-k-medoids" class="level2" data-number="11.4">
-<h2 data-number="11.4" class="anchored" data-anchor-id="partition-based-clustering-k-means-and-k-medoids"><span class="header-section-number">11.4</span> Partition-Based Clustering: <span class="math inline">\(k\)</span>-Means and <span class="math inline">\(k\)</span>-Medoids</h2>
+<section id="partition-based-clustering-k-means-and-k-medoids" class="level2" data-number="10.4">
+<h2 data-number="10.4" class="anchored" data-anchor-id="partition-based-clustering-k-means-and-k-medoids"><span class="header-section-number">10.4</span> Partition-Based Clustering: <span class="math inline">\(k\)</span>-Means and <span class="math inline">\(k\)</span>-Medoids</h2>
 <p><em>Partitioning clustering</em> methods classify the observations of a dataset into multiple groups based on their similarity. The algorithms require the analyst to specify the number of clusters to be generated.</p>
 <p>The commonly used partitioning methods include:</p>
 <ul>
@@ -3172,12 +3149,12 @@ Tip
 <li><span class="math inline">\(K\)</span>-medoids clustering or PAM (Partitioning Around Medoids) <span class="citation" data-cites="kaufman1990">(<a href="pca.html#ref-kaufman1990" role="doc-biblioref">Kaufman and Rousseeuw 1990</a>)</span>, in which each cluster is represented by one of the objects in the cluster. PAM is less sensitive to outliers than <span class="math inline">\(K\)</span>-means.</li>
 <li>CLARA (Clustering Large Applications) algorithm, which is an extension to PAM adapted for large data sets.</li>
 </ul>
-<section id="k-means-clustering" class="level3" data-number="11.4.1">
-<h3 data-number="11.4.1" class="anchored" data-anchor-id="k-means-clustering"><span class="header-section-number">11.4.1</span> <span class="math inline">\(K\)</span>-Means Clustering</h3>
+<section id="k-means-clustering" class="level3" data-number="10.4.1">
+<h3 data-number="10.4.1" class="anchored" data-anchor-id="k-means-clustering"><span class="header-section-number">10.4.1</span> <span class="math inline">\(K\)</span>-Means Clustering</h3>
 <p>K-Means aims to partition <span class="math inline">\(n\)</span> observations into <span class="math inline">\(K\)</span> clusters such that each observation belongs to the cluster with the nearest <strong>centroid</strong> (mean of points).</p>
 <p>Each cluster is represented by its <em>centroid</em>, which may not be an actual data point.</p>
-<section id="k-means-basic-ideas" class="level4" data-number="11.4.1.1">
-<h4 data-number="11.4.1.1" class="anchored" data-anchor-id="k-means-basic-ideas"><span class="header-section-number">11.4.1.1</span> <span class="math inline">\(K\)</span>-means basic ideas</h4>
+<section id="k-means-basic-ideas" class="level4" data-number="10.4.1.1">
+<h4 data-number="10.4.1.1" class="anchored" data-anchor-id="k-means-basic-ideas"><span class="header-section-number">10.4.1.1</span> <span class="math inline">\(K\)</span>-means basic ideas</h4>
 <p>The basic idea behind <span class="math inline">\(K\)</span>-means clustering consists of defining clusters so that the total intra-cluster variation (known as <em>total within-cluster variation</em>) is minimized.</p>
 <p>The within-cluster variation of cluster <span class="math inline">\(C_k\)</span> is the sum of squared Euclidean distances between its points and its centroid: <span class="math display">\[
 W(C_k) = \sum_{\mathbf{x}_i \in C_k} \|\mathbf{x}_i - \boldsymbol{\mu}_k\|^2
@@ -3188,8 +3165,8 @@ W(C_k) = \sum_{\mathbf{x}_i \in C_k} \|\mathbf{x}_i - \boldsymbol{\mu}_k\|^2
 \]</span></p>
 <p>The <em>total within-cluster sum of squares</em> measures the compactness (i.e.&nbsp;<em>goodness</em>) of the clustering and we want it to be as small as possible.</p>
 </section>
-<section id="k-means-algorithm" class="level4" data-number="11.4.1.2">
-<h4 data-number="11.4.1.2" class="anchored" data-anchor-id="k-means-algorithm"><span class="header-section-number">11.4.1.2</span> <span class="math inline">\(K\)</span>-means Algorithm</h4>
+<section id="k-means-algorithm" class="level4" data-number="10.4.1.2">
+<h4 data-number="10.4.1.2" class="anchored" data-anchor-id="k-means-algorithm"><span class="header-section-number">10.4.1.2</span> <span class="math inline">\(K\)</span>-means Algorithm</h4>
 <p>Given a dataset <span class="math inline">\(\mathbf{X}= \{\mathbf{x}_1, \mathbf{x}_2, \ldots, \mathbf{x}_n\}\)</span>:</p>
 <ol type="1">
 <li>Choose the number of clusters <span class="math inline">\(K\)</span>.<br>
@@ -3213,7 +3190,7 @@ c_i = \arg\min_k \|\mathbf{x}_i - \boldsymbol{\mu}_k\|^2
 <img src="../figs/clustering/kmeans_lloyd.gif" class="img-fluid figure-img" style="width:85.0%" alt="Animation of the k-means algorithm on three groups of points: three randomly chosen centroids alternate between assigning points to the nearest centroid and moving to the mean of their points, until the three groups are found.">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-kmeans-lloyd-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;11.1: Lloyd’s <span class="math inline">\(K\)</span>-means algorithm with <span class="math inline">\(K = 3\)</span> on <span class="math inline">\(150\)</span> simulated points. Diamonds are the centroids; the shaded regions show which centroid is nearest to each location. In each update step, the grey crosses mark the previous centroids and the arrows show how far they moved.
+Figure&nbsp;10.1: Lloyd’s <span class="math inline">\(K\)</span>-means algorithm with <span class="math inline">\(K = 3\)</span> on <span class="math inline">\(150\)</span> simulated points. Diamonds are the centroids; the shaded regions show which centroid is nearest to each location. In each update step, the grey crosses mark the previous centroids and the arrows show how far they moved.
 </figcaption>
 </figure>
 </div>
@@ -3225,11 +3202,11 @@ Figure&nbsp;11.1: Lloyd’s <span class="math inline">\(K\)</span>-means algorit
 </ul>
 <p>The subtitle tracks the total within-cluster sum of squares: from <span class="math inline">\(933.8\)</span> after the first assignment down to <span class="math inline">\(130.8\)</span> at convergence. It <em>decreases at every step</em>, assign and update alike, because each step can only lower it. This is why the algorithm always converges — but only to a <em>local</em> minimum, which depends on the starting centroids. A different random start can end with one centroid covering two groups; this is why <code>kmeans()</code> should be run with several starts (<code>nstart</code>), as discussed below.</p>
 </section>
-<section id="properties-and-limitations-of-k-means" class="level4" data-number="11.4.1.3">
-<h4 data-number="11.4.1.3" class="anchored" data-anchor-id="properties-and-limitations-of-k-means"><span class="header-section-number">11.4.1.3</span> Properties and Limitations of <span class="math inline">\(K\)</span>-Means</h4>
+<section id="properties-and-limitations-of-k-means" class="level4" data-number="10.4.1.3">
+<h4 data-number="10.4.1.3" class="anchored" data-anchor-id="properties-and-limitations-of-k-means"><span class="header-section-number">10.4.1.3</span> Properties and Limitations of <span class="math inline">\(K\)</span>-Means</h4>
 <p>Although <span class="math inline">\(K\)</span>-means is one of the most popular clustering algorithms, its effectiveness depends on the structure and scale of the data. Understanding its limitations helps decide when to use it — and when to choose a more robust alternative like <span class="math inline">\(K\)</span>-Medoids.</p>
-<section id="data-type-and-cluster-shape" class="level5" data-number="11.4.1.3.1">
-<h5 data-number="11.4.1.3.1" class="anchored" data-anchor-id="data-type-and-cluster-shape"><span class="header-section-number">11.4.1.3.1</span> Data Type and Cluster Shape</h5>
+<section id="data-type-and-cluster-shape" class="level5" data-number="10.4.1.3.1">
+<h5 data-number="10.4.1.3.1" class="anchored" data-anchor-id="data-type-and-cluster-shape"><span class="header-section-number">10.4.1.3.1</span> Data Type and Cluster Shape</h5>
 <p><span class="math inline">\(K\)</span>-Means works best when:</p>
 <ul>
 <li><p>All variables are numeric and measured on a comparable scale.</p></li>
@@ -3238,19 +3215,19 @@ Figure&nbsp;11.1: Lloyd’s <span class="math inline">\(K\)</span>-means algorit
 </ul>
 <p>When clusters are elongated, overlapping, or non-spherical, <span class="math inline">\(K\)</span>-Means may assign points incorrectly because it relies on <em>Euclidean distance</em>.</p>
 </section>
-<section id="sensitivity-to-scale" class="level5" data-number="11.4.1.3.2">
-<h5 data-number="11.4.1.3.2" class="anchored" data-anchor-id="sensitivity-to-scale"><span class="header-section-number">11.4.1.3.2</span> Sensitivity to Scale</h5>
+<section id="sensitivity-to-scale" class="level5" data-number="10.4.1.3.2">
+<h5 data-number="10.4.1.3.2" class="anchored" data-anchor-id="sensitivity-to-scale"><span class="header-section-number">10.4.1.3.2</span> Sensitivity to Scale</h5>
 <p>In clustering, the distance between data points determines how groups are formed.</p>
 <p>If variables are measured on very different scales (for example, income in euros and age in years), the variable with the largest numerical range will dominate the distance calculation. As a result, the algorithm may ignore other variables, even if they carry meaningful structure. To correct this imbalance, we use <strong>scaling transformations</strong>, which adjust the magnitude or spread of each variable before computing distances.</p>
 </section>
-<section id="normalization-minmax-scaling" class="level5" data-number="11.4.1.3.3">
-<h5 data-number="11.4.1.3.3" class="anchored" data-anchor-id="normalization-minmax-scaling"><span class="header-section-number">11.4.1.3.3</span> Normalization (Min–Max Scaling)</h5>
+<section id="normalization-minmax-scaling" class="level5" data-number="10.4.1.3.3">
+<h5 data-number="10.4.1.3.3" class="anchored" data-anchor-id="normalization-minmax-scaling"><span class="header-section-number">10.4.1.3.3</span> Normalization (Min–Max Scaling)</h5>
 <p>Normalization rescales all variables to a fixed range, usually between <span class="math inline">\(0\)</span> and <span class="math inline">\(1\)</span>: <span class="math display">\[
 x' = \frac{x - \min(x)}{\max(x) - \min(x)}
 \]</span> This transformation preserves the shape of the distribution but ensures all features contribute equally in magnitude to the distance measure. It is particularly effective when all features have bounded ranges or similar distributions.</p>
 </section>
-<section id="standardization-z-score-scaling" class="level5" data-number="11.4.1.3.4">
-<h5 data-number="11.4.1.3.4" class="anchored" data-anchor-id="standardization-z-score-scaling"><span class="header-section-number">11.4.1.3.4</span> Standardization (Z-score Scaling)</h5>
+<section id="standardization-z-score-scaling" class="level5" data-number="10.4.1.3.4">
+<h5 data-number="10.4.1.3.4" class="anchored" data-anchor-id="standardization-z-score-scaling"><span class="header-section-number">10.4.1.3.4</span> Standardization (Z-score Scaling)</h5>
 <p>Standardization rescales variables so they have mean 0 and standard deviation 1: <span class="math display">\[
 x' = \frac{x - \bar{x}}{s_x}
 \]</span> where <span class="math inline">\(\bar{x}\)</span> is the mean and <span class="math inline">\(s_x\)</span> is the standard deviation.</p>
@@ -3287,8 +3264,8 @@ Important
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
 </section>
-<section id="implementation-of-k-means-in-r" class="level4" data-number="11.4.1.4">
-<h4 data-number="11.4.1.4" class="anchored" data-anchor-id="implementation-of-k-means-in-r"><span class="header-section-number">11.4.1.4</span> Implementation of <span class="math inline">\(K\)</span>-means in R</h4>
+<section id="implementation-of-k-means-in-r" class="level4" data-number="10.4.1.4">
+<h4 data-number="10.4.1.4" class="anchored" data-anchor-id="implementation-of-k-means-in-r"><span class="header-section-number">10.4.1.4</span> Implementation of <span class="math inline">\(K\)</span>-means in R</h4>
 <p>The standard R function for <span class="math inline">\(K\)</span>-means clustering is <code>stats::kmeans()</code>, whose simplified format is as follows:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kmeans</span>(x, centers, <span class="at">iter.max =</span> <span class="dv">10</span>, <span class="at">nstart =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -3367,7 +3344,7 @@ Note
 <ul>
 <li><em>cluster</em>: a vector of integers (from <span class="math inline">\(1\)</span> to <span class="math inline">\(k\)</span>) indicating the cluster to which each point is allocated.</li>
 <li><em>centers</em>: a matrix of cluster centers (cluster means)</li>
-<li><em>totss</em>: the total sum of squares (TSS). It measures the total variance in the data (see <a href="#sec-quality-measures" class="quarto-xref"><span>Section 11.5.1</span></a> for the definitions of TSS, WSS and BSS).</li>
+<li><em>totss</em>: the total sum of squares (TSS). It measures the total variance in the data (see <a href="#sec-quality-measures" class="quarto-xref"><span>Section 10.5.1</span></a> for the definitions of TSS, WSS and BSS).</li>
 <li><em>withinss</em>: vector of within-cluster sum of squares, one component per cluster</li>
 <li><em>tot.withinss</em>: total within-cluster sum of squares, i.e., <span class="math inline">\(\text{sum}(withinss)\)</span></li>
 <li><em>betweenss</em>: the between-cluster sum of squares, i.e., <em>totss - tot.withinss</em></li>
@@ -3426,7 +3403,7 @@ Important
 <ul>
 <li>It assumes prior knowledge of the data and requires the analyst to choose the appropriate number of clusters (<span class="math inline">\(k\)</span>) in advance.</li>
 </ul>
-<p><em>Solution</em>: Compute <span class="math inline">\(K\)</span>-means for a range of <span class="math inline">\(K\)</span> values, for example by varying <span class="math inline">\(k\)</span> between <span class="math inline">\(2\)</span> and <span class="math inline">\(10\)</span>. Then choose the best <span class="math inline">\(k\)</span> by comparing the clustering results obtained for different <span class="math inline">\(k\)</span> values (<a href="#sec-choosing-k" class="quarto-xref"><span>Section 11.5.2</span></a>).</p>
+<p><em>Solution</em>: Compute <span class="math inline">\(K\)</span>-means for a range of <span class="math inline">\(K\)</span> values, for example by varying <span class="math inline">\(k\)</span> between <span class="math inline">\(2\)</span> and <span class="math inline">\(10\)</span>. Then choose the best <span class="math inline">\(k\)</span> by comparing the clustering results obtained for different <span class="math inline">\(k\)</span> values (<a href="#sec-choosing-k" class="quarto-xref"><span>Section 10.5.2</span></a>).</p>
 <ul>
 <li>The final result is sensitive to the initial random selection of cluster centers. <em>Why is this a problem?</em> Because, for every different run of the algorithm on the same data set, you may choose different set of initial centers. This may lead to different clustering results on different runs of the algorithm.</li>
 </ul>
@@ -3438,9 +3415,9 @@ Important
 </div>
 </div>
 </section>
-<section id="sec-kmeans-penguins" class="level4" data-number="11.4.1.5">
-<h4 data-number="11.4.1.5" class="anchored" data-anchor-id="sec-kmeans-penguins"><span class="header-section-number">11.4.1.5</span> Analysis of the Penguins Dataset</h4>
-<p>We now apply <span class="math inline">\(K\)</span>-means to the Palmer penguins (<a href="#sec-penguins-data" class="quarto-xref"><span>Section 11.3.1</span></a>): <span class="math inline">\(333\)</span> penguins of three species (<em>Adelie</em>, <em>Chinstrap</em>, <em>Gentoo</em>), each described by four numeric features: <code>bill_length_mm</code>, <code>bill_depth_mm</code>, <code>flipper_length_mm</code> and <code>body_mass_g</code>. We cluster the four measurements only, and keep <code>species</code> aside: it plays no part in the clustering, and is used only to <em>validate</em> the result in <a href="#sec-cluster-validation" class="quarto-xref"><span>Section 11.5</span></a>.</p>
+<section id="sec-kmeans-penguins" class="level4" data-number="10.4.1.5">
+<h4 data-number="10.4.1.5" class="anchored" data-anchor-id="sec-kmeans-penguins"><span class="header-section-number">10.4.1.5</span> Analysis of the Penguins Dataset</h4>
+<p>We now apply <span class="math inline">\(K\)</span>-means to the Palmer penguins (<a href="#sec-penguins-data" class="quarto-xref"><span>Section 10.3.1</span></a>): <span class="math inline">\(333\)</span> penguins of three species (<em>Adelie</em>, <em>Chinstrap</em>, <em>Gentoo</em>), each described by four numeric features: <code>bill_length_mm</code>, <code>bill_depth_mm</code>, <code>flipper_length_mm</code> and <code>body_mass_g</code>. We cluster the four measurements only, and keep <code>species</code> aside: it plays no part in the clustering, and is used only to <em>validate</em> the result in <a href="#sec-cluster-validation" class="quarto-xref"><span>Section 10.5</span></a>.</p>
 <div id="qwebr-insertion-location-20"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p><strong>Why we must scale first</strong></p>
@@ -3449,7 +3426,7 @@ Important
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>On the raw data, the clusters are essentially three body-mass classes — about <span class="math inline">\(3.5\)</span>, <span class="math inline">\(4.4\)</span> and <span class="math inline">\(5.4\)</span> kg. The Gentoo penguins, the heaviest, are split between the two heavier classes, and Adelie and Chinstrap penguins are mixed in the other two. The algorithm has found weight classes, not groups of similar penguins, because the other three variables barely count in the distance. From now on we work with the standardized measurements.</p>
 <p><strong>Fitting <span class="math inline">\(K\)</span>-means</strong></p>
-<p><span class="math inline">\(K\)</span>-means needs the number of clusters in advance. We use <span class="math inline">\(K = 3\)</span>, the number of species. In a real application the number of groups is unknown: <a href="#sec-choosing-k" class="quarto-xref"><span>Section 11.5.2</span></a> shows how to estimate it from the data, and <a href="#sec-penguins-k" class="quarto-xref"><span>Section 11.5.6.1</span></a> applies those methods to the penguins.</p>
+<p><span class="math inline">\(K\)</span>-means needs the number of clusters in advance. We use <span class="math inline">\(K = 3\)</span>, the number of species. In a real application the number of groups is unknown: <a href="#sec-choosing-k" class="quarto-xref"><span>Section 10.5.2</span></a> shows how to estimate it from the data, and <a href="#sec-penguins-k" class="quarto-xref"><span>Section 10.5.6.1</span></a> applies those methods to the penguins.</p>
 <div id="qwebr-insertion-location-22"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>The clusters have <span class="math inline">\(85\)</span>, <span class="math inline">\(129\)</span> and <span class="math inline">\(119\)</span> penguins. The cluster means are on the standardized scale: a value of <span class="math inline">\(1.16\)</span> for <code>flipper_length_mm</code> means <span class="math inline">\(1.16\)</span> standard deviations above the average flipper length. To describe the clusters in the original units, average the raw data by cluster:</p>
@@ -3461,7 +3438,7 @@ Important
 <li><strong>cluster 2</strong> (<span class="math inline">\(129\)</span> penguins): small birds with short bills (<span class="math inline">\(38.3\)</span> mm);</li>
 <li><strong>cluster 1</strong> (<span class="math inline">\(85\)</span> penguins): small birds with long (<span class="math inline">\(47.7\)</span> mm) and deep (<span class="math inline">\(18.7\)</span> mm) bills.</li>
 </ul>
-<p>Anyone who knows penguins will recognize the Gentoo, the Adelie and the Chinstrap. Whether the clusters really <em>are</em> the species is a question of external validation (<a href="#sec-external-validation" class="quarto-xref"><span>Section 11.5.6.3</span></a>).</p>
+<p>Anyone who knows penguins will recognize the Gentoo, the Adelie and the Chinstrap. Whether the clusters really <em>are</em> the species is a question of external validation (<a href="#sec-external-validation" class="quarto-xref"><span>Section 10.5.6.3</span></a>).</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -3531,7 +3508,7 @@ Tip
 <p>Another way to visualize <span class="math inline">\(K\)</span>-means clusters is the function <code>fviz_cluster()</code>, which plots the first two principal components (since <code>peng_scaled</code> has 4 variables):</p>
 <div id="qwebr-insertion-location-28"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>This completes the <span class="math inline">\(K\)</span>-means fit. Two questions remain: is <span class="math inline">\(K = 3\)</span> a good choice, and how good is the resulting partition? Both are answered in <a href="#sec-cluster-validation" class="quarto-xref"><span>Section 11.5</span></a>, where <code>km_peng</code> is validated side by side with the <span class="math inline">\(K\)</span>-medoids solution of the next section.</p>
+<p>This completes the <span class="math inline">\(K\)</span>-means fit. Two questions remain: is <span class="math inline">\(K = 3\)</span> a good choice, and how good is the resulting partition? Both are answered in <a href="#sec-cluster-validation" class="quarto-xref"><span>Section 10.5</span></a>, where <code>km_peng</code> is validated side by side with the <span class="math inline">\(K\)</span>-medoids solution of the next section.</p>
 <div class="callout callout-style-simple callout-note no-icon">
 <div class="callout-body d-flex">
 <div class="callout-icon-container">
@@ -3554,7 +3531,7 @@ Tip
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>us_data <span class="ot">&lt;-</span> <span class="fu">scale</span>(USArrests)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>Then use the methods of <a href="#sec-choosing-k" class="quarto-xref"><span>Section 11.5.2</span></a> to choose <span class="math inline">\(k\)</span>:</p>
+<p>Then use the methods of <a href="#sec-choosing-k" class="quarto-xref"><span>Section 10.5.2</span></a> to choose <span class="math inline">\(k\)</span>:</p>
 <p><strong>Elbow Method</strong></p>
 <ul>
 <li><p>Compute the total within-cluster sum of squares (WSS) for <span class="math inline">\(k=1\)</span> to <span class="math inline">\(10\)</span>.</p></li>
@@ -3564,7 +3541,7 @@ Tip
 <p><strong>Silhouette Method</strong></p>
 <ul>
 <li><p>Compute the average silhouette width for <span class="math inline">\(k=2\)</span> to <span class="math inline">\(10\)</span>.</p></li>
-<li><p>Plot the results using the same approach as in the penguins example of <a href="#sec-penguins-k" class="quarto-xref"><span>Section 11.5.6.1</span></a>.</p></li>
+<li><p>Plot the results using the same approach as in the penguins example of <a href="#sec-penguins-k" class="quarto-xref"><span>Section 10.5.6.1</span></a>.</p></li>
 <li><p>Identify the <span class="math inline">\(k\)</span> that maximizes the silhouette width.</p></li>
 </ul>
 </div>
@@ -3629,16 +3606,16 @@ Tip
 </div>
 </section>
 </section>
-<section id="k-medoids-clustering" class="level3" data-number="11.4.2">
-<h3 data-number="11.4.2" class="anchored" data-anchor-id="k-medoids-clustering"><span class="header-section-number">11.4.2</span> <span class="math inline">\(K\)</span>-Medoids Clustering</h3>
+<section id="k-medoids-clustering" class="level3" data-number="10.4.2">
+<h3 data-number="10.4.2" class="anchored" data-anchor-id="k-medoids-clustering"><span class="header-section-number">10.4.2</span> <span class="math inline">\(K\)</span>-Medoids Clustering</h3>
 <p>The <span class="math inline">\(k\)</span>-medoids algorithm is a partitioning clustering method closely related to <span class="math inline">\(k\)</span>-means, but instead of using the <em>mean (centroid)</em> of points to represent a cluster, it uses an <em>actual observation (medoid)</em> — the most centrally located data point within that cluster.</p>
 <p>Formally, a medoid is the point whose average dissimilarity to all other points in the cluster is minimal. i.e, <span class="math display">\[
 m_k = \arg\min_{\mathbf{x}_i \in C_k} \sum_{\mathbf{x}_j \in C_k} d(\mathbf{x}_i,\mathbf{x}_j)
 \]</span> where <span class="math inline">\(C_k\)</span> is the set of points assigned to cluster <span class="math inline">\(k\)</span>, and <span class="math inline">\(d(\mathbf{x}_i,\mathbf{x}_j)\)</span> is a chosen distance or dissimilarity measure (e.g., Euclidean, Manhattan, etc.)</p>
-<p><span class="math inline">\(K\)</span>-medoids is a robust alternative to <span class="math inline">\(K\)</span>-means clustering. Like <span class="math inline">\(K\)</span>-means, it requires the user to specify the number of clusters to be generated. A useful approach to determine the optimal number of clusters is the <em>silhouette</em> method (<a href="#sec-choosing-k" class="quarto-xref"><span>Section 11.5.2</span></a>).</p>
+<p><span class="math inline">\(K\)</span>-medoids is a robust alternative to <span class="math inline">\(K\)</span>-means clustering. Like <span class="math inline">\(K\)</span>-means, it requires the user to specify the number of clusters to be generated. A useful approach to determine the optimal number of clusters is the <em>silhouette</em> method (<a href="#sec-choosing-k" class="quarto-xref"><span>Section 10.5.2</span></a>).</p>
 <p>The most common <span class="math inline">\(K\)</span>-medoids clustering method is the PAM (Partitioning Around Medoids) algorithm <span class="citation" data-cites="kaufman1990">(<a href="pca.html#ref-kaufman1990" role="doc-biblioref">Kaufman and Rousseeuw 1990</a>)</span>.</p>
-<section id="pam-algorithm" class="level4" data-number="11.4.2.1">
-<h4 data-number="11.4.2.1" class="anchored" data-anchor-id="pam-algorithm"><span class="header-section-number">11.4.2.1</span> PAM Algorithm</h4>
+<section id="pam-algorithm" class="level4" data-number="10.4.2.1">
+<h4 data-number="10.4.2.1" class="anchored" data-anchor-id="pam-algorithm"><span class="header-section-number">10.4.2.1</span> PAM Algorithm</h4>
 <p>The PAM algorithm is based on the search for <span class="math inline">\(K\)</span> representative objects or medoids among the observations of the data set. After finding a set of <span class="math inline">\(K\)</span> medoids, clusters are constructed by assigning each observation to the nearest medoid. Next, each selected medoid <span class="math inline">\(m\)</span> and each non-medoid data point are swapped and the objective function is computed. The objective function corresponds to the sum of the dissimilarities of all objects to their nearest medoid. The <em>SWAP</em> step attempts to improve the quality of the clustering by exchanging selected objects (medoids) and non-selected objects. If the objective function can be reduced by interchanging a selected object with an unselected object, then the swap is carried out. This is continued until the objective function can no longer be decreased. The goal is to find <span class="math inline">\(k\)</span> representative objects which minimize the sum of the dissimilarities of the observations to their closest representative object.</p>
 <p>In summary, the PAM algorithm is:</p>
 <ol type="1">
@@ -3684,8 +3661,8 @@ Note
 </div>
 </div>
 </section>
-<section id="example" class="level4" data-number="11.4.2.2">
-<h4 data-number="11.4.2.2" class="anchored" data-anchor-id="example"><span class="header-section-number">11.4.2.2</span> Example</h4>
+<section id="example" class="level4" data-number="10.4.2.2">
+<h4 data-number="10.4.2.2" class="anchored" data-anchor-id="example"><span class="header-section-number">10.4.2.2</span> Example</h4>
 <p>Consider the following ten points:</p>
 <table class="caption-top table">
 <thead>
@@ -4179,8 +4156,8 @@ $updated_assignments
 <p>Since the total cost improved from <span class="math inline">\(21\)</span> to <span class="math inline">\(19\)</span>, we continue with the new medoids <span class="math inline">\((4,6)\)</span> and <span class="math inline">\((8,4)\)</span>.</p>
 <p><strong>Exercise</strong> Repeat Step 2 with the new medoids. Do the clusters or medoids change? Check your answer with <code>pam(points[, c("X", "Y")], k = 2, metric = "manhattan")</code>: which medoids and total cost does the full PAM algorithm find?</p>
 </section>
-<section id="implementation-pam-in-r" class="level4" data-number="11.4.2.3">
-<h4 data-number="11.4.2.3" class="anchored" data-anchor-id="implementation-pam-in-r"><span class="header-section-number">11.4.2.3</span> Implementation PAM in R</h4>
+<section id="implementation-pam-in-r" class="level4" data-number="10.4.2.3">
+<h4 data-number="10.4.2.3" class="anchored" data-anchor-id="implementation-pam-in-r"><span class="header-section-number">10.4.2.3</span> Implementation PAM in R</h4>
 <p>The functions <code>cluster::pam()</code> and <code>fpc::pamk()</code> can be used to compute PAM.</p>
 <p>The function <code>pamk()</code> does not require the user to decide the number of clusters <span class="math inline">\(K\)</span>: it chooses it by the average silhouette width.</p>
 <p>The simplified format of <code>pam()</code> is</p>
@@ -4229,9 +4206,9 @@ $updated_assignments
 <span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="sec-pam-penguins" class="level4" data-number="11.4.2.4">
-<h4 data-number="11.4.2.4" class="anchored" data-anchor-id="sec-pam-penguins"><span class="header-section-number">11.4.2.4</span> Analysis of the Penguins Dataset</h4>
-<p>We now run PAM on the same standardized penguin measurements (<code>peng_scaled</code>, from <a href="#sec-kmeans-penguins" class="quarto-xref"><span>Section 11.4.1.5</span></a>), again with <span class="math inline">\(k = 3\)</span>, so that the two methods can be compared directly in <a href="#sec-cluster-validation" class="quarto-xref"><span>Section 11.5</span></a>.</p>
+<section id="sec-pam-penguins" class="level4" data-number="10.4.2.4">
+<h4 data-number="10.4.2.4" class="anchored" data-anchor-id="sec-pam-penguins"><span class="header-section-number">10.4.2.4</span> Analysis of the Penguins Dataset</h4>
+<p>We now run PAM on the same standardized penguin measurements (<code>peng_scaled</code>, from <a href="#sec-kmeans-penguins" class="quarto-xref"><span>Section 10.4.1.5</span></a>), again with <span class="math inline">\(k = 3\)</span>, so that the two methods can be compared directly in <a href="#sec-cluster-validation" class="quarto-xref"><span>Section 10.5</span></a>.</p>
 <p>Unlike <span class="math inline">\(K\)</span>-means, PAM needs no random seed: its BUILD step chooses the initial medoids deterministically, so it gives the same result every time.</p>
 <div id="qwebr-insertion-location-29"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
@@ -4259,10 +4236,10 @@ $updated_assignments
 <p>Cross-tabulating the two partitions shows where they agree. This is not yet a validation, because neither partition is the “truth”:</p>
 <div id="qwebr-insertion-location-33"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>The two methods agree on <span class="math inline">\(316\)</span> of the <span class="math inline">\(333\)</span> penguins: the same <span class="math inline">\(119\)</span> in the Gentoo-like cluster, and the same <span class="math inline">\(129\)</span> in the core of the Adelie-like cluster. They disagree on <span class="math inline">\(17\)</span> penguins, which <span class="math inline">\(K\)</span>-means puts in its Chinstrap-like cluster and PAM in its Adelie-like cluster. As a result, the <span class="math inline">\(K\)</span>-means Chinstrap-like cluster (<span class="math inline">\(85\)</span> penguins) is larger than PAM’s (<span class="math inline">\(68\)</span>). Which of the two partitions is better is the subject of <a href="#sec-cluster-validation" class="quarto-xref"><span>Section 11.5</span></a>.</p>
+<p>The two methods agree on <span class="math inline">\(316\)</span> of the <span class="math inline">\(333\)</span> penguins: the same <span class="math inline">\(119\)</span> in the Gentoo-like cluster, and the same <span class="math inline">\(129\)</span> in the core of the Adelie-like cluster. They disagree on <span class="math inline">\(17\)</span> penguins, which <span class="math inline">\(K\)</span>-means puts in its Chinstrap-like cluster and PAM in its Adelie-like cluster. As a result, the <span class="math inline">\(K\)</span>-means Chinstrap-like cluster (<span class="math inline">\(85\)</span> penguins) is larger than PAM’s (<span class="math inline">\(68\)</span>). Which of the two partitions is better is the subject of <a href="#sec-cluster-validation" class="quarto-xref"><span>Section 10.5</span></a>.</p>
 </section>
-<section id="exercise" class="level4" data-number="11.4.2.5">
-<h4 data-number="11.4.2.5" class="anchored" data-anchor-id="exercise"><span class="header-section-number">11.4.2.5</span> Exercise</h4>
+<section id="exercise" class="level4" data-number="10.4.2.5">
+<h4 data-number="10.4.2.5" class="anchored" data-anchor-id="exercise"><span class="header-section-number">10.4.2.5</span> Exercise</h4>
 <p>The <code>heart</code> dataset from the package <code>kmed</code> (Cleveland heart disease data, <span class="math inline">\(297\)</span> patients) has a mix of numerical, binary and categorical features: <code>age</code>, <code>sex</code>, <code>cp</code> (chest pain type), <code>trestbps</code> (resting blood pressure), <code>chol</code>, <code>thalach</code> (maximum heart rate), <code>thal</code>, …, and <code>class</code> (disease outcome, from <span class="math inline">\(0\)</span> to <span class="math inline">\(4\)</span>).</p>
 <ol type="1">
 <li>Remove <code>class</code>, and compute the Gower distance between patients with <code>daisy()</code>. The binary variables <code>sex</code>, <code>fbs</code> and <code>exang</code> are stored as logicals, and <code>daisy()</code> treats logical variables as <em>asymmetric</em> binary by default, so for two women (both <code>FALSE</code>) <code>sex</code> would be dropped from the comparison instead of counting as a match. Declare <code>sex</code> symmetric with <code>type = list(symm = "sex")</code>, and decide whether <code>fbs</code> (high fasting blood sugar) and <code>exang</code> (exercise-induced angina) should stay asymmetric.</li>
@@ -4284,11 +4261,11 @@ $updated_assignments
 </section>
 </section>
 </section>
-<section id="sec-cluster-validation" class="level2" data-number="11.5">
-<h2 data-number="11.5" class="anchored" data-anchor-id="sec-cluster-validation"><span class="header-section-number">11.5</span> Cluster Validation</h2>
+<section id="sec-cluster-validation" class="level2" data-number="10.5">
+<h2 data-number="10.5" class="anchored" data-anchor-id="sec-cluster-validation"><span class="header-section-number">10.5</span> Cluster Validation</h2>
 <p>Cluster validation consists of measuring the goodness of clustering results. This is important to avoid finding patterns in random data, and to compare two clustering algorithms. A complete cluster analysis has three stages:</p>
 <ol type="1">
-<li>assess the <em>clustering tendency</em>, i.e.&nbsp;whether clustering is suitable for the data at all (<a href="#sec-pre-clustering-tests" class="quarto-xref"><span>Section 11.3</span></a>);</li>
+<li>assess the <em>clustering tendency</em>, i.e.&nbsp;whether clustering is suitable for the data at all (<a href="#sec-pre-clustering-tests" class="quarto-xref"><span>Section 10.3</span></a>);</li>
 <li>decide how many clusters there are;</li>
 <li>run the clustering method and evaluate the goodness of its result.</li>
 </ol>
@@ -4299,10 +4276,10 @@ $updated_assignments
 <li><strong>External cluster validation</strong>, which consists of comparing the results of a cluster analysis to an externally known result, such as externally provided class labels. It measures the extent to which cluster labels match externally supplied class labels. Since we know the “true” cluster number in advance, this approach is mainly used for selecting the right clustering algorithm for a specific data set.</li>
 <li><strong>Relative cluster validation</strong>, which evaluates the clustering structure by varying different parameter values for the same algorithm (e.g., varying the number of clusters <span class="math inline">\(k\)</span>). It is generally used for determining the optimal number of clusters.</li>
 </ol>
-<p>In this section, <a href="#sec-quality-measures" class="quarto-xref"><span>Section 11.5.1</span></a> defines the internal and external measures, <a href="#sec-choosing-k" class="quarto-xref"><span>Section 11.5.2</span></a> is relative validation, and <a href="#sec-choosing-algorithms" class="quarto-xref"><span>Section 11.5.4</span></a> compares algorithms with internal and stability measures. In the penguins analysis, <a href="#sec-penguins-k" class="quarto-xref"><span>Section 11.5.6.1</span></a>, <a href="#sec-internal-validation" class="quarto-xref"><span>Section 11.5.6.2</span></a> and <a href="#sec-external-validation" class="quarto-xref"><span>Section 11.5.6.3</span></a> apply relative, internal and external validation in turn.</p>
-<p>The first part of the section defines the measures and the methods, with their strengths and limitations (<a href="#sec-quality-measures" class="quarto-xref"><span>Section 11.5.1</span></a> to <a href="#sec-validation-glance" class="quarto-xref"><span>Section 11.5.5</span></a>). <a href="#sec-penguins-validation" class="quarto-xref"><span>Section 11.5.6</span></a> then applies all of them to the penguins; the strengths-and-limitations boxes already quote some of its results as examples.</p>
-<section id="sec-quality-measures" class="level3" data-number="11.5.1">
-<h3 data-number="11.5.1" class="anchored" data-anchor-id="sec-quality-measures"><span class="header-section-number">11.5.1</span> Measures of Cluster Quality</h3>
+<p>In this section, <a href="#sec-quality-measures" class="quarto-xref"><span>Section 10.5.1</span></a> defines the internal and external measures, <a href="#sec-choosing-k" class="quarto-xref"><span>Section 10.5.2</span></a> is relative validation, and <a href="#sec-choosing-algorithms" class="quarto-xref"><span>Section 10.5.4</span></a> compares algorithms with internal and stability measures. In the penguins analysis, <a href="#sec-penguins-k" class="quarto-xref"><span>Section 10.5.6.1</span></a>, <a href="#sec-internal-validation" class="quarto-xref"><span>Section 10.5.6.2</span></a> and <a href="#sec-external-validation" class="quarto-xref"><span>Section 10.5.6.3</span></a> apply relative, internal and external validation in turn.</p>
+<p>The first part of the section defines the measures and the methods, with their strengths and limitations (<a href="#sec-quality-measures" class="quarto-xref"><span>Section 10.5.1</span></a> to <a href="#sec-validation-glance" class="quarto-xref"><span>Section 10.5.5</span></a>). <a href="#sec-penguins-validation" class="quarto-xref"><span>Section 10.5.6</span></a> then applies all of them to the penguins; the strengths-and-limitations boxes already quote some of its results as examples.</p>
+<section id="sec-quality-measures" class="level3" data-number="10.5.1">
+<h3 data-number="10.5.1" class="anchored" data-anchor-id="sec-quality-measures"><span class="header-section-number">10.5.1</span> Measures of Cluster Quality</h3>
 <p>Recall that the goal of partitioning algorithms is to split the dataset into clusters of observations, such that:</p>
 <ul>
 <li>the observations in the same cluster are as similar as possible;</li>
@@ -4321,8 +4298,8 @@ $updated_assignments
 <p>Most indices used for internal validation combine compactness and separation, in the general form <span class="math display">\[
 \text{Index} = \frac{\alpha \times \text{Separation}}{\beta \times \text{Compactness}}
 \]</span> where <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> are weights.</p>
-<section id="sums-of-squares-wss-bss-and-tss" class="level4" data-number="11.5.1.1">
-<h4 data-number="11.5.1.1" class="anchored" data-anchor-id="sums-of-squares-wss-bss-and-tss"><span class="header-section-number">11.5.1.1</span> Sums of Squares: WSS, BSS and TSS</h4>
+<section id="sums-of-squares-wss-bss-and-tss" class="level4" data-number="10.5.1.1">
+<h4 data-number="10.5.1.1" class="anchored" data-anchor-id="sums-of-squares-wss-bss-and-tss"><span class="header-section-number">10.5.1.1</span> Sums of Squares: WSS, BSS and TSS</h4>
 <p>The <em>Within-Cluster Sum of Squares</em> measures how tightly the data points in a cluster are grouped around their centroid. It is the quantity that <span class="math inline">\(K\)</span>-means minimizes: <span class="math display">\[
 \text{WSS} = \sum_{k=1}^{K} \sum_{\mathbf{x}_i \in C_k} \|\mathbf{x}_i - \boldsymbol{\mu}_k\|^2
 \]</span> where <span class="math inline">\(C_k\)</span> is the set of points in cluster <span class="math inline">\(k\)</span>, <span class="math inline">\(\boldsymbol{\mu}_k\)</span> is the centroid (mean) of cluster <span class="math inline">\(k\)</span>, and <span class="math inline">\(\|\cdot\|^2\)</span> is the squared Euclidean distance between a point and its centroid. A smaller WSS means <em>more compact clusters</em>.</p>
@@ -4359,8 +4336,8 @@ $updated_assignments
 </div>
 </div>
 </section>
-<section id="silhouette-coefficient" class="level4" data-number="11.5.1.2">
-<h4 data-number="11.5.1.2" class="anchored" data-anchor-id="silhouette-coefficient"><span class="header-section-number">11.5.1.2</span> Silhouette Coefficient</h4>
+<section id="silhouette-coefficient" class="level4" data-number="10.5.1.2">
+<h4 data-number="10.5.1.2" class="anchored" data-anchor-id="silhouette-coefficient"><span class="header-section-number">10.5.1.2</span> Silhouette Coefficient</h4>
 <p>The <em>silhouette</em> measures how well each observation fits its own cluster compared with the nearest other cluster <span class="citation" data-cites="rousseeuw1987 kaufman1990">(<a href="pca.html#ref-rousseeuw1987" role="doc-biblioref">Rousseeuw 1987</a>; <a href="pca.html#ref-kaufman1990" role="doc-biblioref">Kaufman and Rousseeuw 1990</a>)</span>. It combines <em>cohesion</em> and <em>separation</em>, and works with any dissimilarity. For each observation <span class="math inline">\(\mathbf{x}_i\)</span>:</p>
 <ol type="1">
 <li>Calculate the average dissimilarity <span class="math inline">\(a_i\)</span> between <span class="math inline">\(\mathbf{x}_i\)</span> and all other points of the cluster to which <span class="math inline">\(\mathbf{x}_i\)</span> belongs.</li>
@@ -4428,8 +4405,8 @@ S_i = \frac{b_i - a_i}{\max(a_i, b_i)}
 </div>
 </div>
 </section>
-<section id="dunn-index" class="level4" data-number="11.5.1.3">
-<h4 data-number="11.5.1.3" class="anchored" data-anchor-id="dunn-index"><span class="header-section-number">11.5.1.3</span> Dunn Index</h4>
+<section id="dunn-index" class="level4" data-number="10.5.1.3">
+<h4 data-number="10.5.1.3" class="anchored" data-anchor-id="dunn-index"><span class="header-section-number">10.5.1.3</span> Dunn Index</h4>
 <p>The <em>Dunn index</em> <span class="citation" data-cites="dunn1974">(<a href="pca.html#ref-dunn1974" role="doc-biblioref">Dunn 1974</a>)</span> compares the closest pair of points in different clusters with the widest cluster:</p>
 <ol type="1">
 <li>For each pair of clusters, compute the distances between the observations of one and the observations of the other, and take the minimum. The smallest of these values over all pairs is the inter-cluster separation (<em>min.separation</em>).</li>
@@ -4475,8 +4452,8 @@ Important
 </div>
 </div>
 </section>
-<section id="connectivity" class="level4" data-number="11.5.1.4">
-<h4 data-number="11.5.1.4" class="anchored" data-anchor-id="connectivity"><span class="header-section-number">11.5.1.4</span> Connectivity</h4>
+<section id="connectivity" class="level4" data-number="10.5.1.4">
+<h4 data-number="10.5.1.4" class="anchored" data-anchor-id="connectivity"><span class="header-section-number">10.5.1.4</span> Connectivity</h4>
 <p><em>Connectivity</em> <span class="citation" data-cites="brock2008clvalid">(<a href="pca.html#ref-brock2008clvalid" role="doc-biblioref">Brock et al. 2008</a>)</span> measures whether nearby points are clustered together. For each observation, look at its <span class="math inline">\(L\)</span> nearest neighbors (by default <span class="math inline">\(L = 10\)</span>). Each neighbor that is in a <em>different</em> cluster adds a penalty, which is larger for closer neighbors (<span class="math inline">\(1\)</span> for the nearest, <span class="math inline">\(1/2\)</span> for the second, …, <span class="math inline">\(1/L\)</span> for the <span class="math inline">\(L\)</span>-th). Connectivity is the sum of all penalties. It lies between <span class="math inline">\(0\)</span> and <span class="math inline">\(\infty\)</span> and should be minimized; a value of <span class="math inline">\(0\)</span> means that no observation has any of its <span class="math inline">\(L\)</span> nearest neighbors in another cluster.</p>
 <div class="callout callout-style-simple callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -4502,8 +4479,8 @@ Important
 </div>
 </div>
 </section>
-<section id="external-measures-the-corrected-rand-index-and-vi" class="level4" data-number="11.5.1.5">
-<h4 data-number="11.5.1.5" class="anchored" data-anchor-id="external-measures-the-corrected-rand-index-and-vi"><span class="header-section-number">11.5.1.5</span> External Measures: the Corrected Rand Index and VI</h4>
+<section id="external-measures-the-corrected-rand-index-and-vi" class="level4" data-number="10.5.1.5">
+<h4 data-number="10.5.1.5" class="anchored" data-anchor-id="external-measures-the-corrected-rand-index-and-vi"><span class="header-section-number">10.5.1.5</span> External Measures: the Corrected Rand Index and VI</h4>
 <p>External measures compare the identified clusters (e.g.&nbsp;by <span class="math inline">\(K\)</span>-means, PAM, etc.) with an external reference partition, such as known class labels.</p>
 <ul>
 <li>The <em>corrected (adjusted) Rand index</em> <span class="citation" data-cites="hubert1985">(<a href="pca.html#ref-hubert1985" role="doc-biblioref">Hubert and Arabie 1985</a>)</span> counts the pairs of observations on which the two partitions agree (both put the pair together, or both separate it), corrected for the agreement expected by chance. It equals <span class="math inline">\(1\)</span> for perfect agreement, and is close to <span class="math inline">\(0\)</span> (possibly slightly negative) when the agreement is no better than chance.</li>
@@ -4642,14 +4619,14 @@ Note
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-body-container">
-<p><strong>Packages and commands.</strong> No code in this subsection. The measures are computed for the penguins in <a href="#sec-penguins-validation" class="quarto-xref"><span>Section 11.5.6</span></a>, with <code>kmeans()</code> itself (<code>$totss</code>, <code>$tot.withinss</code>, <code>$betweenss</code>), <strong>cluster</strong>’s <code>silhouette()</code>, <strong>fpc</strong>’s <code>cluster.stats()</code> (Dunn index, corrected Rand index, VI) and <strong>clValid</strong>’s <code>connectivity()</code> and <code>clValid()</code>.</p>
+<p><strong>Packages and commands.</strong> No code in this subsection. The measures are computed for the penguins in <a href="#sec-penguins-validation" class="quarto-xref"><span>Section 10.5.6</span></a>, with <code>kmeans()</code> itself (<code>$totss</code>, <code>$tot.withinss</code>, <code>$betweenss</code>), <strong>cluster</strong>’s <code>silhouette()</code>, <strong>fpc</strong>’s <code>cluster.stats()</code> (Dunn index, corrected Rand index, VI) and <strong>clValid</strong>’s <code>connectivity()</code> and <code>clValid()</code>.</p>
 </div>
 </div>
 </div>
 </section>
 </section>
-<section id="sec-choosing-k" class="level3" data-number="11.5.2">
-<h3 data-number="11.5.2" class="anchored" data-anchor-id="sec-choosing-k"><span class="header-section-number">11.5.2</span> Determining the Optimal Number of Clusters</h3>
+<section id="sec-choosing-k" class="level3" data-number="10.5.2">
+<h3 data-number="10.5.2" class="anchored" data-anchor-id="sec-choosing-k"><span class="header-section-number">10.5.2</span> Determining the Optimal Number of Clusters</h3>
 <p><em>Determining the optimal number of clusters in a dataset</em> is a fundamental issue in partitioning clustering, such as <span class="math inline">\(k\)</span>-means clustering, which requires the user to specify the number of clusters <span class="math inline">\(k\)</span> to be generated.</p>
 <p>Unfortunately, there is no definitive answer to this question. The optimal number of clusters is somewhat subjective and depends on the method used for measuring similarities and the parameters used for partitioning.</p>
 <p>The methods include direct methods and statistical testing methods:</p>
@@ -4658,8 +4635,8 @@ Note
 <li><em>Statistical testing methods</em>: consist of computing evidence against a null hypothesis of no clustering. An example is the <em>gap statistic</em>.</li>
 </ul>
 <p>In addition to <em>elbow</em>, <em>silhouette</em>, and <em>gap statistic</em> methods, many other indices have been published for identifying the optimal number of clusters. The <code>NbClust</code> package computes up to <span class="math inline">\(30\)</span> of them at once and proposes the best number of clusters by <em>majority rule</em>.</p>
-<section id="elbow-method" class="level4" data-number="11.5.2.1">
-<h4 data-number="11.5.2.1" class="anchored" data-anchor-id="elbow-method"><span class="header-section-number">11.5.2.1</span> Elbow method</h4>
+<section id="elbow-method" class="level4" data-number="10.5.2.1">
+<h4 data-number="10.5.2.1" class="anchored" data-anchor-id="elbow-method"><span class="header-section-number">10.5.2.1</span> Elbow method</h4>
 <p>Recall that the basic idea behind partitioning methods, such as <span class="math inline">\(K\)</span>-means clustering, is to define clusters such that the total intra-cluster variation [or total within-cluster sum of squares (WSS)] is minimized. The total WSS measures the compactness of the clustering and we want it to be as small as possible.</p>
 <p>The Elbow method looks at the total WSS as a function of the number of clusters: one should choose a number of clusters so that adding another cluster does not improve the total WSS much.</p>
 <p>The optimal number of clusters can be defined as follows:</p>
@@ -4707,8 +4684,8 @@ Tip
 </div>
 </div>
 </section>
-<section id="average-silhouette-method" class="level4" data-number="11.5.2.2">
-<h4 data-number="11.5.2.2" class="anchored" data-anchor-id="average-silhouette-method"><span class="header-section-number">11.5.2.2</span> Average silhouette method</h4>
+<section id="average-silhouette-method" class="level4" data-number="10.5.2.2">
+<h4 data-number="10.5.2.2" class="anchored" data-anchor-id="average-silhouette-method"><span class="header-section-number">10.5.2.2</span> Average silhouette method</h4>
 <p>The average silhouette approach measures the quality of a clustering. That is, it determines how well each observation lies within its cluster. A high average silhouette width indicates a good clustering.</p>
 <p>The average silhouette method computes the average silhouette of observations for different values of <span class="math inline">\(k\)</span>. The optimal number of clusters <span class="math inline">\(k\)</span> is the one that maximizes the average silhouette over a range of possible values for <span class="math inline">\(k\)</span> <span class="citation" data-cites="kaufman1990">(<a href="pca.html#ref-kaufman1990" role="doc-biblioref">Kaufman and Rousseeuw 1990</a>)</span>.</p>
 <p>The average silhouette method is similar to the <em>elbow</em> method and can be computed as follows:</p>
@@ -4742,8 +4719,8 @@ Tip
 </div>
 </div>
 </section>
-<section id="gap-statistic-method" class="level4" data-number="11.5.2.3">
-<h4 data-number="11.5.2.3" class="anchored" data-anchor-id="gap-statistic-method"><span class="header-section-number">11.5.2.3</span> Gap statistic method</h4>
+<section id="gap-statistic-method" class="level4" data-number="10.5.2.3">
+<h4 data-number="10.5.2.3" class="anchored" data-anchor-id="gap-statistic-method"><span class="header-section-number">10.5.2.3</span> Gap statistic method</h4>
 <p>The <em>gap statistic</em> <span class="citation" data-cites="tibshirani2001gap">(<a href="pca.html#ref-tibshirani2001gap" role="doc-biblioref">Tibshirani et al. 2001</a>)</span> can be applied to any clustering method.</p>
 <p>The elbow and average silhouette methods only measure a global characteristic of each partition, and leave the decision to a heuristic: a visual bend, or a maximum. The gap statistic formalizes this decision as a statistical procedure, by comparing the data with reference data that have no clusters.</p>
 <p>The <em>gap statistic</em> compares the total within-cluster variation for different values of <span class="math inline">\(k\)</span> with its expected value under a null reference distribution of the data (no clusters). A large gap means that the clustering structure is far away from a random uniform distribution of points.</p>
@@ -4757,7 +4734,7 @@ Tip
 <li>Choose the number of clusters as the smallest value of <span class="math inline">\(k\)</span> such that the gap statistic is within one standard error of the gap at <span class="math inline">\(k+1\)</span>: <span class="math inline">\(\text{Gap}(k) \ge \text{Gap}(k+1) - s_{k+1}\)</span>.</li>
 </ol>
 <p>Step 4 is the rule recommended by <span class="citation" data-cites="tibshirani2001gap">Tibshirani et al. (<a href="pca.html#ref-tibshirani2001gap" role="doc-biblioref">2001</a>)</span> (<code>method = "Tibs2001SEmax"</code> in <code>cluster::maxSE()</code>). It usually gives a smaller <span class="math inline">\(k\)</span> than simply taking the <span class="math inline">\(k\)</span> with the largest gap.</p>
-<p>It is <em>not</em>, however, the default of <code>factoextra::fviz_nbclust()</code>, nor of <code>print()</code> on a <code>clusGap()</code> result. Both use <code>method = "firstSEmax"</code>: find the first local maximum of the gap curve, then choose the smallest <span class="math inline">\(k\)</span> whose gap is within one standard error of that maximum. The two rules often agree, but not always: for PAM on the penguins (<a href="#sec-penguins-k" class="quarto-xref"><span>Section 11.5.6.1</span></a>), <code>"firstSEmax"</code> gives <span class="math inline">\(k = 5\)</span> and Tibshirani’s rule gives <span class="math inline">\(k = 3\)</span>. To apply Tibshirani’s rule, compute the gap with <code>cluster::clusGap()</code> and pass <code>method = "Tibs2001SEmax"</code> to <code>maxSE()</code>.</p>
+<p>It is <em>not</em>, however, the default of <code>factoextra::fviz_nbclust()</code>, nor of <code>print()</code> on a <code>clusGap()</code> result. Both use <code>method = "firstSEmax"</code>: find the first local maximum of the gap curve, then choose the smallest <span class="math inline">\(k\)</span> whose gap is within one standard error of that maximum. The two rules often agree, but not always: for PAM on the penguins (<a href="#sec-penguins-k" class="quarto-xref"><span>Section 10.5.6.1</span></a>), <code>"firstSEmax"</code> gives <span class="math inline">\(k = 5\)</span> and Tibshirani’s rule gives <span class="math inline">\(k = 3\)</span>. To apply Tibshirani’s rule, compute the gap with <code>cluster::clusGap()</code> and pass <code>method = "Tibs2001SEmax"</code> to <code>maxSE()</code>.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -4798,8 +4775,8 @@ Note
 </div>
 </div>
 </section>
-<section id="computing-the-number-of-clusters-in-r" class="level4" data-number="11.5.2.4">
-<h4 data-number="11.5.2.4" class="anchored" data-anchor-id="computing-the-number-of-clusters-in-r"><span class="header-section-number">11.5.2.4</span> Computing the Number of Clusters in R</h4>
+<section id="computing-the-number-of-clusters-in-r" class="level4" data-number="10.5.2.4">
+<h4 data-number="10.5.2.4" class="anchored" data-anchor-id="computing-the-number-of-clusters-in-r"><span class="header-section-number">10.5.2.4</span> Computing the Number of Clusters in R</h4>
 <p>There are two functions for determining the optimal number of clusters:</p>
 <ol type="1">
 <li><code>factoextra::fviz_nbclust()</code>: it computes the three methods above for any partitioning clustering method, including <code>kmeans</code> and <code>pam</code>.</li>
@@ -4877,9 +4854,9 @@ Tip
 </div>
 </section>
 </section>
-<section id="sec-validation-in-r" class="level3" data-number="11.5.3">
-<h3 data-number="11.5.3" class="anchored" data-anchor-id="sec-validation-in-r"><span class="header-section-number">11.5.3</span> Computing Validation Statistics in R</h3>
-<p>The internal and external measures of <a href="#sec-quality-measures" class="quarto-xref"><span>Section 11.5.1</span></a> are available in a few functions:</p>
+<section id="sec-validation-in-r" class="level3" data-number="10.5.3">
+<h3 data-number="10.5.3" class="anchored" data-anchor-id="sec-validation-in-r"><span class="header-section-number">10.5.3</span> Computing Validation Statistics in R</h3>
+<p>The internal and external measures of <a href="#sec-quality-measures" class="quarto-xref"><span>Section 10.5.1</span></a> are available in a few functions:</p>
 <ul>
 <li>the sums of squares are part of the <code>kmeans()</code> output (<code>$totss</code>, <code>$tot.withinss</code>, <code>$betweenss</code>); for any other partition they can be computed from the cluster means;</li>
 <li><code>cluster::silhouette(clusters, dist)</code> returns the silhouette width of every observation, with its cluster and neighbor cluster; for a <code>pam</code> object, <code>silhouette(pam_object)</code> (or <code>$silinfo</code>) gives the same. <code>factoextra::fviz_silhouette()</code> plots either one;</li>
@@ -4933,11 +4910,11 @@ Tip
 </div>
 </div>
 </section>
-<section id="sec-choosing-algorithms" class="level3" data-number="11.5.4">
-<h3 data-number="11.5.4" class="anchored" data-anchor-id="sec-choosing-algorithms"><span class="header-section-number">11.5.4</span> Choosing the Best Clustering Algorithms</h3>
+<section id="sec-choosing-algorithms" class="level3" data-number="10.5.4">
+<h3 data-number="10.5.4" class="anchored" data-anchor-id="sec-choosing-algorithms"><span class="header-section-number">10.5.4</span> Choosing the Best Clustering Algorithms</h3>
 <p>Choosing the best clustering method for given data can be a hard task for the analyst. The R package <code>clValid</code> <span class="citation" data-cites="brock2008clvalid">(<a href="pca.html#ref-brock2008clvalid" role="doc-biblioref">Brock et al. 2008</a>)</span> can be used to compare simultaneously multiple clustering algorithms in a single function call for identifying the best clustering approach and the optimal number of clusters.</p>
-<section id="measures-for-comparing-clustering-algorithms" class="level4" data-number="11.5.4.1">
-<h4 data-number="11.5.4.1" class="anchored" data-anchor-id="measures-for-comparing-clustering-algorithms"><span class="header-section-number">11.5.4.1</span> Measures for comparing clustering algorithms</h4>
+<section id="measures-for-comparing-clustering-algorithms" class="level4" data-number="10.5.4.1">
+<h4 data-number="10.5.4.1" class="anchored" data-anchor-id="measures-for-comparing-clustering-algorithms"><span class="header-section-number">10.5.4.1</span> Measures for comparing clustering algorithms</h4>
 <p>The <code>clValid</code> package compares clustering algorithms using two cluster validation measures:</p>
 <ol type="1">
 <li><em>Internal measures</em>, which use intrinsic information in the data to assess the quality of the clustering. Internal measures include the connectivity, the silhouette coefficient and the Dunn index.</li>
@@ -5008,8 +4985,8 @@ Note
 </div>
 </div>
 </section>
-<section id="compare-clustering-algorithms-in-r" class="level4" data-number="11.5.4.2">
-<h4 data-number="11.5.4.2" class="anchored" data-anchor-id="compare-clustering-algorithms-in-r"><span class="header-section-number">11.5.4.2</span> Compare clustering algorithms in R</h4>
+<section id="compare-clustering-algorithms-in-r" class="level4" data-number="10.5.4.2">
+<h4 data-number="10.5.4.2" class="anchored" data-anchor-id="compare-clustering-algorithms-in-r"><span class="header-section-number">10.5.4.2</span> Compare clustering algorithms in R</h4>
 <p>The simplified format of the function <code>clValid::clValid()</code> is:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">clValid</span>(obj, nClust, <span class="at">clMethods =</span> <span class="st">'kmeans'</span>, <span class="at">validation =</span> <span class="st">'stability'</span>, <span class="at">maxitems =</span> <span class="dv">600</span>, <span class="at">metric =</span> <span class="st">"euclidean"</span>, <span class="at">method =</span> <span class="st">"average"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -5036,8 +5013,8 @@ Note
 </div>
 </section>
 </section>
-<section id="sec-validation-glance" class="level3" data-number="11.5.5">
-<h3 data-number="11.5.5" class="anchored" data-anchor-id="sec-validation-glance"><span class="header-section-number">11.5.5</span> Validation Methods at a Glance</h3>
+<section id="sec-validation-glance" class="level3" data-number="10.5.5">
+<h3 data-number="10.5.5" class="anchored" data-anchor-id="sec-validation-glance"><span class="header-section-number">10.5.5</span> Validation Methods at a Glance</h3>
 <p>No single method settles the question. The table summarizes what each validation method of this section answers, with its main strength and its main limitation; in practice, combine several of them and look at the data.</p>
 <table class="caption-top table">
 <colgroup>
@@ -5124,14 +5101,14 @@ Note
 </tbody>
 </table>
 </section>
-<section id="sec-penguins-validation" class="level3" data-number="11.5.6">
-<h3 data-number="11.5.6" class="anchored" data-anchor-id="sec-penguins-validation"><span class="header-section-number">11.5.6</span> Validation of the Penguins Clusterings</h3>
-<p>We now apply all the methods of this section to the two penguin clusterings of <a href="#sec-kmeans-penguins" class="quarto-xref"><span>Section 11.4.1.5</span></a> and <a href="#sec-pam-penguins" class="quarto-xref"><span>Section 11.4.2.4</span></a>: the <span class="math inline">\(K\)</span>-means solution <code>km_peng</code> and the PAM solution <code>pam_result</code>, both with <span class="math inline">\(k = 3\)</span> on the standardized measurements. The chunk below recreates both objects, so that this section can be run on its own.</p>
+<section id="sec-penguins-validation" class="level3" data-number="10.5.6">
+<h3 data-number="10.5.6" class="anchored" data-anchor-id="sec-penguins-validation"><span class="header-section-number">10.5.6</span> Validation of the Penguins Clusterings</h3>
+<p>We now apply all the methods of this section to the two penguin clusterings of <a href="#sec-kmeans-penguins" class="quarto-xref"><span>Section 10.4.1.5</span></a> and <a href="#sec-pam-penguins" class="quarto-xref"><span>Section 10.4.2.4</span></a>: the <span class="math inline">\(K\)</span>-means solution <code>km_peng</code> and the PAM solution <code>pam_result</code>, both with <span class="math inline">\(k = 3\)</span> on the standardized measurements. The chunk below recreates both objects, so that this section can be run on its own.</p>
 <div id="qwebr-insertion-location-35"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<section id="sec-penguins-k" class="level4" data-number="11.5.6.1">
-<h4 data-number="11.5.6.1" class="anchored" data-anchor-id="sec-penguins-k"><span class="header-section-number">11.5.6.1</span> Choosing the Number of Clusters</h4>
-<p>We first ask how many clusters the data support. The R code below applies the three methods of <a href="#sec-choosing-k" class="quarto-xref"><span>Section 11.5.2</span></a> to the penguins, for <span class="math inline">\(K\)</span>-means (left) and for PAM (right):</p>
+<section id="sec-penguins-k" class="level4" data-number="10.5.6.1">
+<h4 data-number="10.5.6.1" class="anchored" data-anchor-id="sec-penguins-k"><span class="header-section-number">10.5.6.1</span> Choosing the Number of Clusters</h4>
+<p>We first ask how many clusters the data support. The R code below applies the three methods of <a href="#sec-choosing-k" class="quarto-xref"><span>Section 10.5.2</span></a> to the penguins, for <span class="math inline">\(K\)</span>-means (left) and for PAM (right):</p>
 <div id="qwebr-insertion-location-36"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <div id="qwebr-insertion-location-37"></div>
@@ -5191,18 +5168,18 @@ Note
 <p>With the default <code>index = "all"</code>, NbClust computes <span class="math inline">\(26\)</span> indices. Two of them (Hubert and D index) are graphical and do not vote, so <span class="math inline">\(24\)</span> indices vote. The best number of clusters is <span class="math inline">\(2\)</span> (<span class="math inline">\(9\)</span> votes), but the vote is split: <span class="math inline">\(6\)</span> indices propose <span class="math inline">\(k = 3\)</span> and another <span class="math inline">\(6\)</span> propose <span class="math inline">\(k = 6\)</span> — the species and the species–sex levels seen above — and the remaining <span class="math inline">\(3\)</span> votes go to <span class="math inline">\(4\)</span>, <span class="math inline">\(5\)</span> and <span class="math inline">\(10\)</span>.</p>
 <p>Since our purpose is to recover groups of penguins that differ in their measurements as the species do, we keep <span class="math inline">\(k = 3\)</span> for the rest of the section.</p>
 </section>
-<section id="sec-internal-validation" class="level4" data-number="11.5.6.2">
-<h4 data-number="11.5.6.2" class="anchored" data-anchor-id="sec-internal-validation"><span class="header-section-number">11.5.6.2</span> Internal Validation</h4>
-<p>We now evaluate the two <span class="math inline">\(k = 3\)</span> solutions with the internal measures of <a href="#sec-quality-measures" class="quarto-xref"><span>Section 11.5.1</span></a>. None of them uses the species.</p>
-<section id="sums-of-squares" class="level5" data-number="11.5.6.2.1">
-<h5 data-number="11.5.6.2.1" class="anchored" data-anchor-id="sums-of-squares"><span class="header-section-number">11.5.6.2.1</span> Sums of Squares</h5>
+<section id="sec-internal-validation" class="level4" data-number="10.5.6.2">
+<h4 data-number="10.5.6.2" class="anchored" data-anchor-id="sec-internal-validation"><span class="header-section-number">10.5.6.2</span> Internal Validation</h4>
+<p>We now evaluate the two <span class="math inline">\(k = 3\)</span> solutions with the internal measures of <a href="#sec-quality-measures" class="quarto-xref"><span>Section 10.5.1</span></a>. None of them uses the species.</p>
+<section id="sums-of-squares" class="level5" data-number="10.5.6.2.1">
+<h5 data-number="10.5.6.2.1" class="anchored" data-anchor-id="sums-of-squares"><span class="header-section-number">10.5.6.2.1</span> Sums of Squares</h5>
 <p><code>kmeans()</code> returns the sums of squares directly. For PAM, we compute WSS from its partition, using the cluster <em>means</em> (not the medoids) so that the two numbers are comparable:</p>
 <div id="qwebr-insertion-location-42"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>On standardized data, TSS <span class="math inline">\(= (n - 1)\,p = 332 \times 4 = 1328\)</span>. The <span class="math inline">\(K\)</span>-means partition has a slightly lower WSS (<span class="math inline">\(369.7\)</span> against <span class="math inline">\(371.5\)</span>) and therefore a slightly higher BSS/TSS (<span class="math inline">\(0.722\)</span> against <span class="math inline">\(0.720\)</span>). This is expected: WSS is exactly what <span class="math inline">\(K\)</span>-means minimizes, while PAM minimizes the sum of (unsquared) distances to the medoids. Both partitions explain <span class="math inline">\(72\%\)</span> of the total variation.</p>
 </section>
-<section id="silhouette" class="level5" data-number="11.5.6.2.2">
-<h5 data-number="11.5.6.2.2" class="anchored" data-anchor-id="silhouette"><span class="header-section-number">11.5.6.2.2</span> Silhouette</h5>
+<section id="silhouette" class="level5" data-number="10.5.6.2.2">
+<h5 data-number="10.5.6.2.2" class="anchored" data-anchor-id="silhouette"><span class="header-section-number">10.5.6.2.2</span> Silhouette</h5>
 <p>For <span class="math inline">\(K\)</span>-means, <code>cluster::silhouette()</code> computes the widths from the cluster vector and the distance matrix; a <code>pam</code> object already contains them in <code>$silinfo</code>. <code>factoextra::fviz_silhouette()</code> draws either one:</p>
 <div id="qwebr-insertion-location-43"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
@@ -5213,9 +5190,9 @@ Note
 <p><span class="math inline">\(K\)</span>-means has <span class="math inline">\(4\)</span> such penguins (rows <span class="math inline">\(74\)</span>, <span class="math inline">\(86\)</span>, <span class="math inline">\(146\)</span> and <span class="math inline">\(272\)</span> of <code>peng</code>), all in its Chinstrap-like cluster 1 and closer to cluster 2; PAM has only <span class="math inline">\(1\)</span> (row <span class="math inline">\(104\)</span>). All five widths are close to <span class="math inline">\(0\)</span> (the most negative is <span class="math inline">\(-0.06\)</span>): these penguins lie on the Adelie–Chinstrap boundary rather than deep inside the wrong cluster.</p>
 <p>The <code>species</code> column shows that a negative silhouette flags a <em>boundary</em> point, not necessarily a mistake. Three of the four <span class="math inline">\(K\)</span>-means penguins are Adelie penguins in the Chinstrap-like cluster, but the fourth is a Chinstrap in the Chinstrap-like cluster. The PAM penguin is an Adelie in the Adelie-like cluster: correctly placed with respect to its species, but closer on average to the other cluster.</p>
 </section>
-<section id="dunn-index-connectivity-and-other-statistics" class="level5" data-number="11.5.6.2.3">
-<h5 data-number="11.5.6.2.3" class="anchored" data-anchor-id="dunn-index-connectivity-and-other-statistics"><span class="header-section-number">11.5.6.2.3</span> Dunn Index, Connectivity and Other Statistics</h5>
-<p>We compute the statistics of <a href="#sec-validation-in-r" class="quarto-xref"><span>Section 11.5.3</span></a> for both partitions, add the connectivity from <strong>clValid</strong>, and collect the main ones in a table:</p>
+<section id="dunn-index-connectivity-and-other-statistics" class="level5" data-number="10.5.6.2.3">
+<h5 data-number="10.5.6.2.3" class="anchored" data-anchor-id="dunn-index-connectivity-and-other-statistics"><span class="header-section-number">10.5.6.2.3</span> Dunn Index, Connectivity and Other Statistics</h5>
+<p>We compute the statistics of <a href="#sec-validation-in-r" class="quarto-xref"><span>Section 10.5.3</span></a> for both partitions, add the connectivity from <strong>clValid</strong>, and collect the main ones in a table:</p>
 <div id="qwebr-insertion-location-45"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <ul>
@@ -5226,8 +5203,8 @@ Note
 <p>On these internal measures, PAM gives the better partition. The only exception is WSS, the quantity <span class="math inline">\(K\)</span>-means is designed to minimize.</p>
 </section>
 </section>
-<section id="sec-external-validation" class="level4" data-number="11.5.6.3">
-<h4 data-number="11.5.6.3" class="anchored" data-anchor-id="sec-external-validation"><span class="header-section-number">11.5.6.3</span> External Validation Against the Species</h4>
+<section id="sec-external-validation" class="level4" data-number="10.5.6.3">
+<h4 data-number="10.5.6.3" class="anchored" data-anchor-id="sec-external-validation"><span class="header-section-number">10.5.6.3</span> External Validation Against the Species</h4>
 <p>We know that the penguins belong to exactly <span class="math inline">\(3\)</span> species. <em>Do the <span class="math inline">\(K\)</span>-means and PAM clusterings match this true structure?</em> Let us start by cross-tabulating each partition against the species:</p>
 <div id="qwebr-insertion-location-46"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
@@ -5242,9 +5219,9 @@ Note
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>The corrected Rand index is <span class="math inline">\(0.80\)</span> for <span class="math inline">\(K\)</span>-means and <span class="math inline">\(0.92\)</span> for PAM, and VI is <span class="math inline">\(0.45\)</span> against <span class="math inline">\(0.24\)</span>. Both methods agree strongly with the species, and PAM clearly more so, as the internal measures suggested.</p>
 </section>
-<section id="comparing-algorithms-with-clvalid" class="level4" data-number="11.5.6.4">
-<h4 data-number="11.5.6.4" class="anchored" data-anchor-id="comparing-algorithms-with-clvalid"><span class="header-section-number">11.5.6.4</span> Comparing Algorithms with clValid</h4>
-<p>Finally, we let <code>clValid()</code> (<a href="#sec-choosing-algorithms" class="quarto-xref"><span>Section 11.5.4</span></a>) compare <span class="math inline">\(K\)</span>-means and PAM for <span class="math inline">\(k = 2, \ldots, 6\)</span>. We start with the internal measures, which include the connectivity, silhouette width and Dunn index. It is possible to compute simultaneously these internal measures for multiple clustering algorithms in combination with a range of cluster numbers.</p>
+<section id="comparing-algorithms-with-clvalid" class="level4" data-number="10.5.6.4">
+<h4 data-number="10.5.6.4" class="anchored" data-anchor-id="comparing-algorithms-with-clvalid"><span class="header-section-number">10.5.6.4</span> Comparing Algorithms with clValid</h4>
+<p>Finally, we let <code>clValid()</code> (<a href="#sec-choosing-algorithms" class="quarto-xref"><span>Section 10.5.4</span></a>) compare <span class="math inline">\(K\)</span>-means and PAM for <span class="math inline">\(k = 2, \ldots, 6\)</span>. We start with the internal measures, which include the connectivity, silhouette width and Dunn index. It is possible to compute simultaneously these internal measures for multiple clustering algorithms in combination with a range of cluster numbers.</p>
 <p>The <code>clValid()</code> function can be used for the penguins data as follows:</p>
 <div id="qwebr-insertion-location-48"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
@@ -5254,7 +5231,7 @@ Note
 <li>Two of the species (<em>Adelie</em> and <em>Chinstrap</em>) have overlapping measurements, so algorithms often merge them.</li>
 <li><em>Gentoo</em> forms one very distinct cluster.</li>
 </ul>
-<p>Internal measures reward compact, well-separated groups; they cannot know that the Adelie–Chinstrap distinction matters. The external validation of <a href="#sec-external-validation" class="quarto-xref"><span>Section 11.5.6.3</span></a>, where PAM with <span class="math inline">\(k = 3\)</span> matched the species best, answers a different question.</p>
+<p>Internal measures reward compact, well-separated groups; they cannot know that the Adelie–Chinstrap distinction matters. The external validation of <a href="#sec-external-validation" class="quarto-xref"><span>Section 10.5.6.3</span></a>, where PAM with <span class="math inline">\(k = 3\)</span> matched the species best, answers a different question.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -5279,8 +5256,8 @@ Note
 </ul>
 <p>The stability measures confirm that the two-cluster solution (Gentoo against the rest) is the most robust to the deletion of a variable. The optima at <span class="math inline">\(k = 6\)</span> reflect the size of the clusters rather than a meaningful improvement in stability — although, as we saw, <span class="math inline">\(6\)</span> clusters also have a biological reading (species and sex).</p>
 </section>
-<section id="summary-k-means-vs-pam-on-the-penguins" class="level4" data-number="11.5.6.5">
-<h4 data-number="11.5.6.5" class="anchored" data-anchor-id="summary-k-means-vs-pam-on-the-penguins"><span class="header-section-number">11.5.6.5</span> Summary: <span class="math inline">\(K\)</span>-means vs PAM on the Penguins</h4>
+<section id="summary-k-means-vs-pam-on-the-penguins" class="level4" data-number="10.5.6.5">
+<h4 data-number="10.5.6.5" class="anchored" data-anchor-id="summary-k-means-vs-pam-on-the-penguins"><span class="header-section-number">10.5.6.5</span> Summary: <span class="math inline">\(K\)</span>-means vs PAM on the Penguins</h4>
 <p>The table collects the diagnostics of this section for the two <span class="math inline">\(k = 3\)</span> solutions, <code>km_peng</code> and <code>pam_result</code>:</p>
 <table class="caption-top table">
 <colgroup>
@@ -5365,7 +5342,7 @@ Note
 </tr>
 </tbody>
 </table>
-<p><span class="math inline">\(K\)</span>-means wins only on its own objective, the WSS (and BSS/TSS, which is the same criterion, since TSS is fixed), and by less than <span class="math inline">\(1\%\)</span>. On every other internal measure, and on the agreement with the species, PAM gives the better partition of the penguins. Both methods agree on the number of clusters (<a href="#sec-penguins-k" class="quarto-xref"><span>Section 11.5.6.1</span></a>): the data support <span class="math inline">\(k = 2\)</span> most strongly, <span class="math inline">\(k = 3\)</span> when the goal is to separate the species, and around <span class="math inline">\(k = 5\)</span>–<span class="math inline">\(6\)</span> when the differences between males and females are of interest.</p>
+<p><span class="math inline">\(K\)</span>-means wins only on its own objective, the WSS (and BSS/TSS, which is the same criterion, since TSS is fixed), and by less than <span class="math inline">\(1\%\)</span>. On every other internal measure, and on the agreement with the species, PAM gives the better partition of the penguins. Both methods agree on the number of clusters (<a href="#sec-penguins-k" class="quarto-xref"><span>Section 10.5.6.1</span></a>): the data support <span class="math inline">\(k = 2\)</span> most strongly, <span class="math inline">\(k = 3\)</span> when the goal is to separate the species, and around <span class="math inline">\(k = 5\)</span>–<span class="math inline">\(6\)</span> when the differences between males and females are of interest.</p>
 <div class="callout callout-style-simple callout-note no-icon">
 <div class="callout-body d-flex">
 <div class="callout-icon-container">
@@ -5379,8 +5356,8 @@ Note
 </section>
 </section>
 </section>
-<section id="references" class="level2" data-number="11.6">
-<h2 data-number="11.6" class="anchored" data-anchor-id="references"><span class="header-section-number">11.6</span> References</h2>
+<section id="references" class="level2" data-number="10.6">
+<h2 data-number="10.6" class="anchored" data-anchor-id="references"><span class="header-section-number">10.6</span> References</h2>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
@@ -5848,12 +5825,12 @@ Wright, Kevin. 2022. <span>“Will the Real <span>Hopkins</span> Statistic Pleas
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="../chapters/pca.html" class="pagination-link" aria-label="Principal Component Analysis">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Principal Component Analysis</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Principal Component Analysis</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../chapters/clustering_projects.html" class="pagination-link" aria-label="Projects">
-        <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Projects</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../chapters/Decision_trees.html" class="pagination-link" aria-label="Decision Trees">
+        <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Decision Trees</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
