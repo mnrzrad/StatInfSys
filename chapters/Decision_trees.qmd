@@ -382,6 +382,65 @@ rpart.plot(bos_tree, type = 2, digits = 3)
 
 The tree has seven leaves and uses four of the twelve predictors. The first split is on `rm`, the average number of rooms: the $31$ tracts with $\text{rm} \geq 6.96$ have a mean value of $\$39\,200$, and are split again at $7.55$ rooms into tracts worth $\$33\,400$ and $\$45\,400$. Among the other $222$ tracts, the next question is about `lstat`: where more than $14.4\%$ of the population is of lower status, values are lower, and lowest of all ($\$10\,300$) where the crime rate also exceeds $11.5$. Where `lstat` is below $14.4\%$, the number of rooms appears again.
 
+**The `rpart` object.** `rpart()` returns an object of class `"rpart"`: a list whose components hold everything that is known about the tree. Printing it gives the table above, but the components can also be used directly.
+
+```{r}
+#| label: rpart-object
+class(bos_tree)
+names(bos_tree)
+```
+
+| Component | Contents |
+|:-----------------------|:---------------------------------------------------------------|
+| `frame` | one row per node, in the order of the printed tree: the split variable `var` (`"<leaf>"` for a leaf), the number of observations `n` and their total weight `wt`, the deviance `dev`, the prediction `yval`, the `complexity` parameter at which the node's split would be pruned, and the numbers of competing (`ncompete`) and surrogate (`nsurrogate`) splits kept. A classification tree adds `yval2`, with the class counts and proportions of each node |
+| `splits` | one row per split kept: for each internal node, the split used, the best competing splits on other variables and the surrogate splits |
+| `csplit` | for splits on a factor, which levels go left and which go right (only present when the tree splits a factor) |
+| `where` | for each training observation, the row of `frame` of the leaf it falls into |
+| `cptable` | the complexity table, with the cross-validated error of every subtree (@sec-pruning) |
+| `variable.importance` | the importance score of each variable (@sec-importance) |
+| `method`, `parms`, `control` | the kind of tree (`"anova"`, `"class"`, ...), the parameters of the splitting rule, and the options of `rpart.control()` that were used |
+| `call`, `terms`, `y` | the call, the model formula, and the response of the training observations |
+
+The table `frame` is the printed tree in the form of a data frame:
+
+```{r}
+#| label: rpart-frame
+bos_tree$frame[, c("var", "n", "dev", "yval", "complexity", "ncompete", "nsurrogate")]
+```
+
+Its row names are the node numbers of the printed tree. The root is node $1$, and the two children of node $k$ are nodes $2k$ and $2k + 1$: node $9$ is split into nodes $18$ and $19$, and node $k$ lies at depth $\lfloor \log_2 k \rfloor$. The deviance of the root, $19\,447.9$, is its RSS, $\sum_i (y_i - \bar{y})^2$; the deviance of every other node is the RSS of its tracts around their mean `yval`.
+
+The vector `where` gives, for each training tract, the leaf it falls into — as a *row number* of `frame`, not as a node number:
+
+```{r}
+#| label: rpart-where
+head(bos_tree$where)                                       # rows of frame
+table(node = rownames(bos_tree$frame)[bos_tree$where])     # tracts in each leaf
+
+# the fitted value of a training tract is the yval of its leaf
+all.equal(unname(predict(bos_tree)), bos_tree$frame$yval[bos_tree$where])
+```
+
+The first training tract, number $505$ of the Boston data, falls in row $10$ of `frame`, which is node $11$. Every tract in a leaf is predicted by the mean of the leaf, so the fitted values of the training tracts are simply `frame$yval[where]`.
+
+The matrix `splits` records the splits that `rpart()` considered at each node. Its first ten rows describe the root, for which `frame` reports $4$ competing and $5$ surrogate splits:
+
+```{r}
+#| label: rpart-splits
+round(bos_tree$splits[1:10, ], 3)
+```
+
+The first row is the split that was used: `rm` at the cut point `index` $= 6.96$. The next four are the best splits on four other variables, the *competing* splits, and the last five are the *surrogate* splits, used for observations whose value of `rm` is missing (@sec-surrogates). For the split used and its competitors, `count` is the number of observations and `improve` the share of the node's deviance that the split removes: $(19\,447.9 - 6\,794.3 - 1\,929.0) / 19\,447.9 = 0.551$ for `rm`, against $0.471$ for the best split on `lstat`. For a surrogate, `improve` holds instead its agreement with the split used, and `adj` the adjusted agreement. The sign of `ncat` gives the direction of the split: $-1$ when the observations below the cut point go to the left child, $+1$ when those above it do. For a factor, `ncat` is its number of levels, and the levels sent to each side are stored in `csplit`.
+
+Finally, `rpart.rules()` of **rpart.plot** writes the path from the root to each leaf as a rule, one line per leaf, sorted by prediction:
+
+```{r}
+#| label: rpart-rules
+rpart.rules(bos_tree, digits = 3)
+```
+
+Each line reads as an *if–then* rule: if the average number of rooms is below $6.96$, more than $14.4\%$ of the population is of lower status and the crime rate exceeds $11.5$, then the predicted median value is $\$10\,300$.
+
 To judge the tree we predict the test set and compare with two benchmarks: a linear regression on the same predictors, and the *null model* that predicts every tract by the mean of the training set.
 
 ```{r}
@@ -441,7 +500,7 @@ c(leaves   = sum(fit$frame$var == "<leaf>"),
 ```
 
 :::{.callout-note appearance="minimal"}
-**Packages and commands.** **rpart**'s `rpart(formula, data, method = "anova", control = rpart.control())` grows the tree; printing it lists every node with its `n`, deviance and `yval`, and `fit$frame` holds the same table (`var == "<leaf>"` marks the leaves). `predict(fit, newdata)` predicts new observations. **rpart.plot**'s `rpart.plot(fit, type = , extra = , digits = )` draws the tree. The split search by hand uses only base R (`sort`, `unique`, `sapply`, `which.min`), and `lm` gives the linear benchmark. The figures use **ggplot2**.
+**Packages and commands.** **rpart**'s `rpart(formula, data, method = "anova", control = rpart.control())` grows the tree and returns an object of class `"rpart"`; printing it lists every node with its `n`, deviance and `yval`, and `fit$frame` holds the same table (`var == "<leaf>"` marks the leaves). `fit$where` gives the leaf of each training observation, `fit$splits` the splits used, their competitors and their surrogates, and `fit$cptable` the complexity table. `predict(fit, newdata)` predicts new observations and `residuals(fit)` gives the training residuals. **rpart.plot**'s `rpart.plot(fit, type = , extra = , digits = )` draws the tree, and `rpart.rules(fit)` writes it as a set of rules. The split search by hand uses only base R (`sort`, `unique`, `sapply`, `which.min`), and `lm` gives the linear benchmark. The figures use **ggplot2**.
 :::
 
 ## Classification Trees
