@@ -2045,57 +2045,6 @@ c(oob_mse  = tail(fit$mse, 1),
 plot(fit, main = "OOB error against the number of trees")
 ```
 
-### Tuning a Random Forest with ranger
-
-For tuning, speed matters. The **ranger** package [@wright2017ranger] is a fast C++ implementation of random forests, and @boehmke2019hands use it to tune the forest with the OOB error. The hyperparameters, with their recommended starting points, are:
-
-- **number of trees** (`num.trees`): start with $10p$ trees, and add more if the error has not settled;
-- **mtry**: try about five values between $2$ and $p$, centred on the default; `ranger`'s default is $\lfloor \sqrt{p} \rfloor$ for regression as well as classification;
-- **node size** (`min.node.size`): the minimum size of a leaf, by default $5$ for regression and $1$ for classification; larger values give shallower trees and shorter run times, try a few values between $1$ and $10$;
-- **sampling scheme** (`sample.fraction`, `replace`): bootstrap samples are $100\%$ of the data drawn with replacement; smaller fractions, with or without replacement, give more diverse trees, try values between $25\%$ and $100\%$;
-- **split rule** (`splitrule`): the default variance (regression) or Gini (classification) criterion, or `"extratrees"` for *extremely randomised trees*, which pick random cut points and are much faster.
-
-`mtry` and the number of trees usually matter most. We search a full grid of $140$ combinations, with $500$ trees each, and rank them by OOB root mean squared error (RMSE):
-
-```{r}
-#| label: ranger-grid
-library(ranger)
-
-grid <- expand.grid(mtry            = c(2, 4, 6, 8, 12),
-                    min.node.size   = c(1, 3, 5, 10),
-                    sample.fraction = c(0.5, 0.632, 0.8, 1),
-                    replace         = c(TRUE, FALSE))
-# drawing 100% of the rows without replacement leaves nothing out-of-bag
-grid <- grid[!(grid$sample.fraction == 1 & !grid$replace), ]
-
-grid$oob_rmse <- sapply(seq_len(nrow(grid)), function(i) {
-  fit <- ranger(medv ~ ., data = bos_train, num.trees = 500,
-                mtry            = grid$mtry[i],
-                min.node.size   = grid$min.node.size[i],
-                sample.fraction = grid$sample.fraction[i],
-                replace         = grid$replace[i],
-                seed = 1)
-  sqrt(fit$prediction.error)
-})
-
-head(grid[order(grid$oob_rmse), ], 6)
-```
-
-```{r}
-#| label: ranger-final
-rf_default <- ranger(medv ~ ., data = bos_train, num.trees = 500, seed = 1)
-rf_tuned   <- ranger(medv ~ ., data = bos_train, num.trees = 500, mtry = 4,
-                     min.node.size = 3, sample.fraction = 0.8, replace = FALSE,
-                     seed = 1)
-
-rbind(default = c(oob_rmse = sqrt(rf_default$prediction.error),
-                  test_mse = mse(predict(rf_default, bos_test)$predictions, bos_test$medv)),
-      tuned   = c(sqrt(rf_tuned$prediction.error),
-                  mse(predict(rf_tuned, bos_test)$predictions, bos_test$medv)))
-```
-
-The best combination uses `mtry = 4`, leaves of at least $3$ tracts, and samples of $80\%$ of the training set drawn *without* replacement. Its OOB RMSE ($3.13$) is about $6\%$ lower than that of `ranger`'s defaults ($3.34$), and its test MSE falls from $18.38$ to $17.56$. The gain is real but modest — a random forest with its default settings is already a good model, which is one of the reasons for its popularity. @boehmke2019hands reach the same kind of conclusion for the Ames housing data, where small leaves and samples of less than $100\%$ drawn without replacement also performed best.
-
 ### Interpreting a Forest {#sec-interpret-forest}
 
 A forest of $500$ trees cannot be drawn, so we need summaries. Two measures of **variable importance** are standard:
@@ -2169,8 +2118,124 @@ c(bagging = mean(car_bag_pred == car_test$High),
 
 The printed output includes the OOB error rate ($21\%$) and the OOB confusion matrix, which shows that most errors are stores with high sales classified as "No". On the test set, bagging classifies $82\%$ of the stores correctly and the random forest $82.5\%$, against $69.5\%$ for the pruned tree. On these data, with only ten predictors, decorrelating the trees does not help; both ensembles still fall short of the logistic regression ($88.5\%$).
 
+### Tuning a Random Forest with ranger
+
+For tuning, speed matters. The **ranger** package [@wright2017ranger] is a fast C++ implementation of random forests, and @boehmke2019hands use it to tune the forest with the OOB error. The hyperparameters, with their recommended starting points, are:
+
+- **number of trees** (`num.trees`): start with $10p$ trees, and add more if the error has not settled;
+- **mtry**: try about five values between $2$ and $p$, centred on the default; `ranger`'s default is $\lfloor \sqrt{p} \rfloor$ for regression as well as classification;
+- **node size** (`min.node.size`): the smallest node that may still be split, by default $5$ for regression, $1$ for classification and $10$ for probability forests (see below); larger values give shallower trees and shorter run times, try a few values between $1$ and $10$. Unlike `nodesize` in **randomForest**, it does not limit the size of the leaves (`min.bucket` does);
+- **sampling scheme** (`sample.fraction`, `replace`): bootstrap samples are $100\%$ of the data drawn with replacement; smaller fractions, with or without replacement, give more diverse trees, try values between $25\%$ and $100\%$;
+- **split rule** (`splitrule`): the default variance (regression) or Gini (classification) criterion, or `"extratrees"` for *extremely randomised trees*, which pick random cut points and are much faster.
+
+`mtry` and the number of trees usually matter most. We search a full grid of $140$ combinations, with $500$ trees each, and rank them by OOB root mean squared error (RMSE):
+
+```{r}
+#| label: ranger-grid
+library(ranger)
+
+grid <- expand.grid(mtry            = c(2, 4, 6, 8, 12),
+                    min.node.size   = c(1, 3, 5, 10),
+                    sample.fraction = c(0.5, 0.632, 0.8, 1),
+                    replace         = c(TRUE, FALSE))
+# drawing 100% of the rows without replacement leaves nothing out-of-bag
+grid <- grid[!(grid$sample.fraction == 1 & !grid$replace), ]
+
+grid$oob_rmse <- sapply(seq_len(nrow(grid)), function(i) {
+  fit <- ranger(medv ~ ., data = bos_train, num.trees = 500,
+                mtry            = grid$mtry[i],
+                min.node.size   = grid$min.node.size[i],
+                sample.fraction = grid$sample.fraction[i],
+                replace         = grid$replace[i],
+                seed = 1)
+  sqrt(fit$prediction.error)
+})
+
+head(grid[order(grid$oob_rmse), ], 6)
+```
+
+```{r}
+#| label: ranger-final
+rf_default <- ranger(medv ~ ., data = bos_train, num.trees = 500, seed = 1)
+rf_tuned   <- ranger(medv ~ ., data = bos_train, num.trees = 500, mtry = 4,
+                     min.node.size = 3, sample.fraction = 0.8, replace = FALSE,
+                     seed = 1)
+
+rbind(default = c(oob_rmse = sqrt(rf_default$prediction.error),
+                  test_mse = mse(predict(rf_default, bos_test)$predictions, bos_test$medv)),
+      tuned   = c(sqrt(rf_tuned$prediction.error),
+                  mse(predict(rf_tuned, bos_test)$predictions, bos_test$medv)))
+```
+
+The best combination uses `mtry = 4`, `min.node.size = 3`, and samples of $80\%$ of the training set drawn *without* replacement. Its OOB RMSE ($3.13$) is about $6\%$ lower than that of `ranger`'s defaults ($3.34$), and its test MSE falls from $18.38$ to $17.56$. The gain is real but modest — a random forest with its default settings is already a good model, which is one of the reasons for its popularity. @boehmke2019hands reach the same kind of conclusion for the Ames housing data, where small node sizes and samples of less than $100\%$ drawn without replacement also performed best.
+
+**Classification.** With a factor response, `ranger()` grows classification trees, and `prediction.error` is the OOB misclassification rate. With `probability = TRUE` it grows a *probability forest* instead [@malley2012probability]: each tree predicts the class proportions of the leaf an observation falls into, the forest averages these proportions rather than counting votes, and `prediction.error` becomes the OOB Brier score of @sec-metrics. For the Carseats stores:
+
+```{r}
+#| label: ranger-carseats
+car_class_forest <- ranger(High ~ ., data = car_train, num.trees = 500, seed = 1)
+car_prob_forest  <- ranger(High ~ ., data = car_train, num.trees = 500,
+                           probability = TRUE, seed = 1)
+
+c(oob_error = car_class_forest$prediction.error, oob_brier = car_prob_forest$prediction.error)
+car_class_forest$confusion.matrix
+
+# a probability forest predicts one column of probabilities per class
+head(predict(car_prob_forest, car_test)$predictions, 3)
+```
+
+The OOB error rate of $19\%$ is close to the $21\%$ of `randomForest()`, and the OOB confusion matrix shows the same pattern: $26$ of the $38$ errors are high-sales stores classified as "No".
+
+To tune the forest, we search the same grid as for Boston, with five values of `mtry` around the default $\lfloor \sqrt{10} \rfloor = 3$, and record both OOB measures for each of the $140$ combinations:
+
+```{r}
+#| label: ranger-carseats-grid
+car_grid <- expand.grid(mtry            = c(2, 3, 5, 7, 10),
+                        min.node.size   = c(1, 3, 5, 10),
+                        sample.fraction = c(0.5, 0.632, 0.8, 1),
+                        replace         = c(TRUE, FALSE))
+car_grid <- car_grid[!(car_grid$sample.fraction == 1 & !car_grid$replace), ]
+
+car_grid[, c("oob_error", "oob_brier")] <- t(sapply(seq_len(nrow(car_grid)), function(i) {
+  sapply(c(FALSE, TRUE), function(probability) {
+    fit <- ranger(High ~ ., data = car_train, num.trees = 500,
+                  mtry            = car_grid$mtry[i],
+                  min.node.size   = car_grid$min.node.size[i],
+                  sample.fraction = car_grid$sample.fraction[i],
+                  replace         = car_grid$replace[i],
+                  probability = probability, seed = 1)
+    fit$prediction.error
+  })
+}))
+
+# number of combinations with each OOB error rate
+table(car_grid$oob_error)
+head(car_grid[order(car_grid$oob_brier), ], 6)
+```
+
+On $200$ stores, the OOB error rate is a poor guide for tuning. It moves in steps of $0.5\%$, one store, so the $140$ combinations share only $12$ different values, and $8$ of them tie for the lowest, $19\%$ — which the default forest already reached. The Brier score uses the probabilities themselves, not only the side of $0.5$ they fall on, and separates the combinations much better. The best one uses `mtry = 5`, `min.node.size = 1`, which grows every tree until its leaves are pure, and samples of $63.2\%$ of the training set drawn without replacement; its OOB Brier score ($0.151$) is about $6\%$ lower than that of the default probability forest ($0.161$). All six best combinations use `mtry = 5` and samples drawn without replacement. With other seeds the best `mtry` is $7$, again with samples of $50$–$63\%$ drawn without replacement: as for Boston, the precise optimum is noisy, the general shape is not.
+
+```{r}
+#| label: ranger-carseats-final
+car_tuned_forest <- ranger(High ~ ., data = car_train, num.trees = 500, probability = TRUE,
+                           mtry = 5, min.node.size = 1, sample.fraction = 0.632,
+                           replace = FALSE, seed = 1)
+car_default_prob <- predict(car_prob_forest,  car_test)$predictions[, "Yes"]
+car_tuned_prob   <- predict(car_tuned_forest, car_test)$predictions[, "Yes"]
+
+prob_scores <- function(p) c(accuracy = mean(ifelse(p > 0.5, "Yes", "No") == car_test$High),
+                             brier    = brier(p, y01),
+                             logloss  = logloss(p, y01),
+                             auc      = auc(p, car_test$High))
+round(rbind(default  = c(oob_brier = car_prob_forest$prediction.error, prob_scores(car_default_prob)),
+            tuned    = c(car_tuned_forest$prediction.error, prob_scores(car_tuned_prob)),
+            logistic = c(NA, prob_scores(logit_prob))), 3)
+```
+
+On the test set, tuning lowers the Brier score from $0.148$ to $0.144$ and the log-loss from $0.467$ to $0.453$, and raises the accuracy from $80.5\%$ to $81.5\%$, but the AUC falls slightly, from $0.895$ to $0.882$: on $200$ test stores, differences of this size are noise. The forest itself matters far more than its tuning. The probabilities of the single Carseats tree had a Brier score of $0.248$, worse than the null model's $0.241$; averaging $500$ trees brings it down to $0.144$, as anticipated in @sec-metrics. The logistic regression remains well ahead, with a Brier score of $0.079$ and an AUC of $0.96$: on data as close to linear as Carseats, no tuning of a forest closes that gap.
+
 :::{.callout-note appearance="minimal"}
-**Packages and commands.** **randomForest**'s `randomForest(formula, data, ntree = , mtry = , importance = TRUE)` fits bagging (`mtry` equal to the number of predictors) and random forests; printing the fit shows the OOB error, `fit$mse` (regression) and `fit$err.rate` (classification) hold it after every tree, and `plot(fit)` draws it. `randomForest::importance(fit)` returns `%IncMSE` and `IncNodePurity`; **ranger** also has a function called `importance()`, hence the explicit `randomForest::`. **ranger**'s `ranger(formula, data, num.trees = , mtry = , min.node.size = , sample.fraction = , replace = , seed = )` is the fast alternative: `fit$prediction.error` is the OOB MSE, and `predict(fit, newdata)$predictions` the predictions. `expand.grid` builds the tuning grid. **vip**'s `vip()` plots the importance, and the partial dependence is computed directly with `predict` and `sapply` (the **pdp** package provides a general `partial()` function).
+**Packages and commands.** **randomForest**'s `randomForest(formula, data, ntree = , mtry = , importance = TRUE)` fits bagging (`mtry` equal to the number of predictors) and random forests; printing the fit shows the OOB error, `fit$mse` (regression) and `fit$err.rate` (classification) hold it after every tree, and `plot(fit)` draws it. `randomForest::importance(fit)` returns `%IncMSE` and `IncNodePurity`; **ranger** also has a function called `importance()`, hence the explicit `randomForest::`. **ranger**'s `ranger(formula, data, num.trees = , mtry = , min.node.size = , sample.fraction = , replace = , probability = , seed = )` is the fast alternative: `fit$prediction.error` is the OOB MSE (regression), misclassification rate (classification) or Brier score (`probability = TRUE`), `fit$confusion.matrix` the OOB confusion matrix of a classification forest, and `predict(fit, newdata)$predictions` the predictions — for a probability forest, a matrix with one column per class. `expand.grid` builds the tuning grid. **vip**'s `vip()` plots the importance, and the partial dependence is computed directly with `predict` and `sapply` (the **pdp** package provides a general `partial()` function).
 :::
 
 ## Boosting {#sec-boosting}
@@ -2722,6 +2787,7 @@ acc <- c(
   "tree, pruned"        = accuracy(car_pruned),
   "bagging"             = mean(car_bag_pred == car_test$High),
   "random forest"       = mean(car_rf_pred == car_test$High),
+  "random forest (ranger, tuned)" = mean(ifelse(car_tuned_prob > 0.5, "Yes", "No") == car_test$High),
   "boosting (gbm)"      = mean(ifelse(car_boost_prob > 0.5, "Yes", "No") == car_test$High),
   "XGBoost"             = mean(ifelse(xgb_car_prob > 0.5, "Yes", "No") == car_test$High),
   "LightGBM"            = mean(ifelse(lgb_car_prob > 0.5, "Yes", "No") == car_test$High),
