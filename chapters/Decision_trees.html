@@ -1926,9 +1926,9 @@ window.Quarto = {
   <li><a href="#sec-oob" id="toc-sec-oob" class="nav-link" data-scroll-target="#sec-oob"><span class="header-section-number">11.9.2</span> Out-of-Bag Error</a></li>
   <li><a href="#random-forests" id="toc-random-forests" class="nav-link" data-scroll-target="#random-forests"><span class="header-section-number">11.9.3</span> Random Forests</a></li>
   <li><a href="#bagging-and-random-forests-in-r" id="toc-bagging-and-random-forests-in-r" class="nav-link" data-scroll-target="#bagging-and-random-forests-in-r"><span class="header-section-number">11.9.4</span> Bagging and Random Forests in R</a></li>
-  <li><a href="#tuning-a-random-forest-with-ranger" id="toc-tuning-a-random-forest-with-ranger" class="nav-link" data-scroll-target="#tuning-a-random-forest-with-ranger"><span class="header-section-number">11.9.5</span> Tuning a Random Forest with ranger</a></li>
-  <li><a href="#sec-interpret-forest" id="toc-sec-interpret-forest" class="nav-link" data-scroll-target="#sec-interpret-forest"><span class="header-section-number">11.9.6</span> Interpreting a Forest</a></li>
-  <li><a href="#random-forests-for-classification" id="toc-random-forests-for-classification" class="nav-link" data-scroll-target="#random-forests-for-classification"><span class="header-section-number">11.9.7</span> Random Forests for Classification</a></li>
+  <li><a href="#sec-interpret-forest" id="toc-sec-interpret-forest" class="nav-link" data-scroll-target="#sec-interpret-forest"><span class="header-section-number">11.9.5</span> Interpreting a Forest</a></li>
+  <li><a href="#random-forests-for-classification" id="toc-random-forests-for-classification" class="nav-link" data-scroll-target="#random-forests-for-classification"><span class="header-section-number">11.9.6</span> Random Forests for Classification</a></li>
+  <li><a href="#tuning-a-random-forest-with-ranger" id="toc-tuning-a-random-forest-with-ranger" class="nav-link" data-scroll-target="#tuning-a-random-forest-with-ranger"><span class="header-section-number">11.9.7</span> Tuning a Random Forest with ranger</a></li>
   </ul></li>
   <li><a href="#sec-boosting" id="toc-sec-boosting" class="nav-link" data-scroll-target="#sec-boosting"><span class="header-section-number">11.10</span> Boosting</a>
   <ul>
@@ -4415,7 +4415,7 @@ For Hitters and Carseats, the conclusion holds on every one of the $100$ splits:
 
 The same approach applies to every choice made in an analysis: the validation set or the folds (@sec-splitting), the threshold (@sec-metrics), the impurity measure, the folds of the backward elimination above, the seed of the cross-validation inside `rpart()` (Exercise 2). A conclusion that survives such changes can be stated with confidence; one that does not should be reported together with its uncertainty.
 
-```xsfdfwix
+```bfnekegu
 #| label: sensitivity-webr
 #| autorun: false
 #| message: false
@@ -4435,7 +4435,7 @@ summary(res)
 mean(res[, "tree"] < res[, "linear"])
 ```
 
-```xsfdfwix
+```bfnekegu
 #| label: selection-webr
 #| autorun: false
 #| message: false
@@ -5060,68 +5060,8 @@ No. of variables tried at each split: 4
 <div id="qwebr-insertion-location-10"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
-<section id="tuning-a-random-forest-with-ranger" class="level3" data-number="11.9.5">
-<h3 data-number="11.9.5" class="anchored" data-anchor-id="tuning-a-random-forest-with-ranger"><span class="header-section-number">11.9.5</span> Tuning a Random Forest with ranger</h3>
-<p>For tuning, speed matters. The <strong>ranger</strong> package <span class="citation" data-cites="wright2017ranger">(<a href="pca.html#ref-wright2017ranger" role="doc-biblioref">Wright and Ziegler 2017</a>)</span> is a fast C++ implementation of random forests, and <span class="citation" data-cites="boehmke2019hands">Boehmke and Greenwell (<a href="pca.html#ref-boehmke2019hands" role="doc-biblioref">2019</a>)</span> use it to tune the forest with the OOB error. The hyperparameters, with their recommended starting points, are:</p>
-<ul>
-<li><strong>number of trees</strong> (<code>num.trees</code>): start with <span class="math inline">\(10p\)</span> trees, and add more if the error has not settled;</li>
-<li><strong>mtry</strong>: try about five values between <span class="math inline">\(2\)</span> and <span class="math inline">\(p\)</span>, centred on the default; <code>ranger</code>’s default is <span class="math inline">\(\lfloor \sqrt{p} \rfloor\)</span> for regression as well as classification;</li>
-<li><strong>node size</strong> (<code>min.node.size</code>): the minimum size of a leaf, by default <span class="math inline">\(5\)</span> for regression and <span class="math inline">\(1\)</span> for classification; larger values give shallower trees and shorter run times, try a few values between <span class="math inline">\(1\)</span> and <span class="math inline">\(10\)</span>;</li>
-<li><strong>sampling scheme</strong> (<code>sample.fraction</code>, <code>replace</code>): bootstrap samples are <span class="math inline">\(100\%\)</span> of the data drawn with replacement; smaller fractions, with or without replacement, give more diverse trees, try values between <span class="math inline">\(25\%\)</span> and <span class="math inline">\(100\%\)</span>;</li>
-<li><strong>split rule</strong> (<code>splitrule</code>): the default variance (regression) or Gini (classification) criterion, or <code>"extratrees"</code> for <em>extremely randomised trees</em>, which pick random cut points and are much faster.</li>
-</ul>
-<p><code>mtry</code> and the number of trees usually matter most. We search a full grid of <span class="math inline">\(140\)</span> combinations, with <span class="math inline">\(500\)</span> trees each, and rank them by OOB root mean squared error (RMSE):</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb155"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb155-1"><a href="#cb155-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ranger)</span>
-<span id="cb155-2"><a href="#cb155-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb155-3"><a href="#cb155-3" aria-hidden="true" tabindex="-1"></a>grid <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">mtry            =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">8</span>, <span class="dv">12</span>),</span>
-<span id="cb155-4"><a href="#cb155-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">min.node.size   =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">10</span>),</span>
-<span id="cb155-5"><a href="#cb155-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">sample.fraction =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.632</span>, <span class="fl">0.8</span>, <span class="dv">1</span>),</span>
-<span id="cb155-6"><a href="#cb155-6" aria-hidden="true" tabindex="-1"></a>                    <span class="at">replace         =</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>))</span>
-<span id="cb155-7"><a href="#cb155-7" aria-hidden="true" tabindex="-1"></a><span class="co"># drawing 100% of the rows without replacement leaves nothing out-of-bag</span></span>
-<span id="cb155-8"><a href="#cb155-8" aria-hidden="true" tabindex="-1"></a>grid <span class="ot">&lt;-</span> grid[<span class="sc">!</span>(grid<span class="sc">$</span>sample.fraction <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> <span class="sc">!</span>grid<span class="sc">$</span>replace), ]</span>
-<span id="cb155-9"><a href="#cb155-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb155-10"><a href="#cb155-10" aria-hidden="true" tabindex="-1"></a>grid<span class="sc">$</span>oob_rmse <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="fu">seq_len</span>(<span class="fu">nrow</span>(grid)), <span class="cf">function</span>(i) {</span>
-<span id="cb155-11"><a href="#cb155-11" aria-hidden="true" tabindex="-1"></a>  fit <span class="ot">&lt;-</span> <span class="fu">ranger</span>(medv <span class="sc">~</span> ., <span class="at">data =</span> bos_train, <span class="at">num.trees =</span> <span class="dv">500</span>,</span>
-<span id="cb155-12"><a href="#cb155-12" aria-hidden="true" tabindex="-1"></a>                <span class="at">mtry            =</span> grid<span class="sc">$</span>mtry[i],</span>
-<span id="cb155-13"><a href="#cb155-13" aria-hidden="true" tabindex="-1"></a>                <span class="at">min.node.size   =</span> grid<span class="sc">$</span>min.node.size[i],</span>
-<span id="cb155-14"><a href="#cb155-14" aria-hidden="true" tabindex="-1"></a>                <span class="at">sample.fraction =</span> grid<span class="sc">$</span>sample.fraction[i],</span>
-<span id="cb155-15"><a href="#cb155-15" aria-hidden="true" tabindex="-1"></a>                <span class="at">replace         =</span> grid<span class="sc">$</span>replace[i],</span>
-<span id="cb155-16"><a href="#cb155-16" aria-hidden="true" tabindex="-1"></a>                <span class="at">seed =</span> <span class="dv">1</span>)</span>
-<span id="cb155-17"><a href="#cb155-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sqrt</span>(fit<span class="sc">$</span>prediction.error)</span>
-<span id="cb155-18"><a href="#cb155-18" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb155-19"><a href="#cb155-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb155-20"><a href="#cb155-20" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(grid[<span class="fu">order</span>(grid<span class="sc">$</span>oob_rmse), ], <span class="dv">6</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>    mtry min.node.size sample.fraction replace oob_rmse
-108    6             3           0.632   FALSE 3.128436
-103    6             1           0.632   FALSE 3.132213
-47     4             3           0.800    TRUE 3.141835
-42     4             1           0.800    TRUE 3.143135
-113    6             5           0.632   FALSE 3.149268
-52     4             5           0.800    TRUE 3.154104</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb157"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb157-1"><a href="#cb157-1" aria-hidden="true" tabindex="-1"></a>rf_default <span class="ot">&lt;-</span> <span class="fu">ranger</span>(medv <span class="sc">~</span> ., <span class="at">data =</span> bos_train, <span class="at">num.trees =</span> <span class="dv">500</span>, <span class="at">seed =</span> <span class="dv">1</span>)</span>
-<span id="cb157-2"><a href="#cb157-2" aria-hidden="true" tabindex="-1"></a>rf_tuned   <span class="ot">&lt;-</span> <span class="fu">ranger</span>(medv <span class="sc">~</span> ., <span class="at">data =</span> bos_train, <span class="at">num.trees =</span> <span class="dv">500</span>, <span class="at">mtry =</span> <span class="dv">4</span>,</span>
-<span id="cb157-3"><a href="#cb157-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">min.node.size =</span> <span class="dv">3</span>, <span class="at">sample.fraction =</span> <span class="fl">0.8</span>, <span class="at">replace =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb157-4"><a href="#cb157-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">seed =</span> <span class="dv">1</span>)</span>
-<span id="cb157-5"><a href="#cb157-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb157-6"><a href="#cb157-6" aria-hidden="true" tabindex="-1"></a><span class="fu">rbind</span>(<span class="at">default =</span> <span class="fu">c</span>(<span class="at">oob_rmse =</span> <span class="fu">sqrt</span>(rf_default<span class="sc">$</span>prediction.error),</span>
-<span id="cb157-7"><a href="#cb157-7" aria-hidden="true" tabindex="-1"></a>                  <span class="at">test_mse =</span> <span class="fu">mse</span>(<span class="fu">predict</span>(rf_default, bos_test)<span class="sc">$</span>predictions, bos_test<span class="sc">$</span>medv)),</span>
-<span id="cb157-8"><a href="#cb157-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">tuned   =</span> <span class="fu">c</span>(<span class="fu">sqrt</span>(rf_tuned<span class="sc">$</span>prediction.error),</span>
-<span id="cb157-9"><a href="#cb157-9" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">mse</span>(<span class="fu">predict</span>(rf_tuned, bos_test)<span class="sc">$</span>predictions, bos_test<span class="sc">$</span>medv)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>        oob_rmse test_mse
-default 3.259393 18.21250
-tuned   3.191399 18.24286</code></pre>
-</div>
-</div>
-<p>The best combination uses <code>mtry = 4</code>, leaves of at least <span class="math inline">\(3\)</span> tracts, and samples of <span class="math inline">\(80\%\)</span> of the training set drawn <em>without</em> replacement. Its OOB RMSE (<span class="math inline">\(3.13\)</span>) is about <span class="math inline">\(6\%\)</span> lower than that of <code>ranger</code>’s defaults (<span class="math inline">\(3.34\)</span>), and its test MSE falls from <span class="math inline">\(18.38\)</span> to <span class="math inline">\(17.56\)</span>. The gain is real but modest — a random forest with its default settings is already a good model, which is one of the reasons for its popularity. <span class="citation" data-cites="boehmke2019hands">Boehmke and Greenwell (<a href="pca.html#ref-boehmke2019hands" role="doc-biblioref">2019</a>)</span> reach the same kind of conclusion for the Ames housing data, where small leaves and samples of less than <span class="math inline">\(100\%\)</span> drawn without replacement also performed best.</p>
-</section>
-<section id="sec-interpret-forest" class="level3" data-number="11.9.6">
-<h3 data-number="11.9.6" class="anchored" data-anchor-id="sec-interpret-forest"><span class="header-section-number">11.9.6</span> Interpreting a Forest</h3>
+<section id="sec-interpret-forest" class="level3" data-number="11.9.5">
+<h3 data-number="11.9.5" class="anchored" data-anchor-id="sec-interpret-forest"><span class="header-section-number">11.9.5</span> Interpreting a Forest</h3>
 <p>A forest of <span class="math inline">\(500\)</span> trees cannot be drawn, so we need summaries. Two measures of <strong>variable importance</strong> are standard:</p>
 <ul>
 <li><em>impurity importance</em>: the total decrease in RSS (or Gini index) from the splits on each variable, summed over all trees and averaged;</li>
@@ -5129,7 +5069,7 @@ tuned   3.191399 18.24286</code></pre>
 </ul>
 <p><code>importance()</code> returns both for a <code>randomForest</code> fit with <code>importance = TRUE</code>: <code>%IncMSE</code> is the permutation importance (divided by its standard error) and <code>IncNodePurity</code> the impurity importance.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb159"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb159-1"><a href="#cb159-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(randomForest<span class="sc">::</span><span class="fu">importance</span>(rf), <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb155"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb155-1"><a href="#cb155-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(randomForest<span class="sc">::</span><span class="fu">importance</span>(rf), <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>        %IncMSE IncNodePurity
 crim      16.11       1281.00
@@ -5145,7 +5085,7 @@ tax       10.70        528.75
 ptratio    8.69       1120.73
 lstat     26.36       5673.22</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb161"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb161-1"><a href="#cb161-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vip</span>(rf, <span class="at">num_features =</span> <span class="dv">12</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb157"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb157-1"><a href="#cb157-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vip</span>(rf, <span class="at">num_features =</span> <span class="dv">12</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -5160,22 +5100,22 @@ lstat     26.36       5673.22</code></pre>
 \bar{f}_s(x_s) = \frac{1}{n} \sum_{i=1}^{n} \hat{f}(x_s, x_{i,-s}) ,
 \]</span> where <span class="math inline">\(x_{i,-s}\)</span> denotes the other predictors of observation <span class="math inline">\(i\)</span>. It takes a few lines to compute:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb162"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb162-1"><a href="#cb162-1" aria-hidden="true" tabindex="-1"></a>partial_dependence <span class="ot">&lt;-</span> <span class="cf">function</span>(model, data, var, <span class="at">n_grid =</span> <span class="dv">30</span>) {</span>
-<span id="cb162-2"><a href="#cb162-2" aria-hidden="true" tabindex="-1"></a>  grid <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fu">min</span>(data[[var]]), <span class="fu">max</span>(data[[var]]), <span class="at">length.out =</span> n_grid)</span>
-<span id="cb162-3"><a href="#cb162-3" aria-hidden="true" tabindex="-1"></a>  pd <span class="ot">&lt;-</span> <span class="fu">sapply</span>(grid, <span class="cf">function</span>(v) {</span>
-<span id="cb162-4"><a href="#cb162-4" aria-hidden="true" tabindex="-1"></a>    data[[var]] <span class="ot">&lt;-</span> v                 <span class="co"># every tract gets the same value of var</span></span>
-<span id="cb162-5"><a href="#cb162-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mean</span>(<span class="fu">predict</span>(model, data))</span>
-<span id="cb162-6"><a href="#cb162-6" aria-hidden="true" tabindex="-1"></a>  })</span>
-<span id="cb162-7"><a href="#cb162-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">variable =</span> var, <span class="at">value =</span> grid, <span class="at">prediction =</span> pd)</span>
-<span id="cb162-8"><a href="#cb162-8" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb162-9"><a href="#cb162-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb162-10"><a href="#cb162-10" aria-hidden="true" tabindex="-1"></a>pd <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">partial_dependence</span>(rf, bos_train, <span class="st">"lstat"</span>),</span>
-<span id="cb162-11"><a href="#cb162-11" aria-hidden="true" tabindex="-1"></a>            <span class="fu">partial_dependence</span>(rf, bos_train, <span class="st">"rm"</span>))</span>
-<span id="cb162-12"><a href="#cb162-12" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(pd, <span class="fu">aes</span>(value, prediction)) <span class="sc">+</span></span>
-<span id="cb162-13"><a href="#cb162-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb162-14"><a href="#cb162-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> variable, <span class="at">scales =</span> <span class="st">"free_x"</span>) <span class="sc">+</span></span>
-<span id="cb162-15"><a href="#cb162-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">"average predicted medv ($1000s)"</span>) <span class="sc">+</span></span>
-<span id="cb162-16"><a href="#cb162-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb158"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb158-1"><a href="#cb158-1" aria-hidden="true" tabindex="-1"></a>partial_dependence <span class="ot">&lt;-</span> <span class="cf">function</span>(model, data, var, <span class="at">n_grid =</span> <span class="dv">30</span>) {</span>
+<span id="cb158-2"><a href="#cb158-2" aria-hidden="true" tabindex="-1"></a>  grid <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fu">min</span>(data[[var]]), <span class="fu">max</span>(data[[var]]), <span class="at">length.out =</span> n_grid)</span>
+<span id="cb158-3"><a href="#cb158-3" aria-hidden="true" tabindex="-1"></a>  pd <span class="ot">&lt;-</span> <span class="fu">sapply</span>(grid, <span class="cf">function</span>(v) {</span>
+<span id="cb158-4"><a href="#cb158-4" aria-hidden="true" tabindex="-1"></a>    data[[var]] <span class="ot">&lt;-</span> v                 <span class="co"># every tract gets the same value of var</span></span>
+<span id="cb158-5"><a href="#cb158-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mean</span>(<span class="fu">predict</span>(model, data))</span>
+<span id="cb158-6"><a href="#cb158-6" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb158-7"><a href="#cb158-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">variable =</span> var, <span class="at">value =</span> grid, <span class="at">prediction =</span> pd)</span>
+<span id="cb158-8"><a href="#cb158-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb158-9"><a href="#cb158-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb158-10"><a href="#cb158-10" aria-hidden="true" tabindex="-1"></a>pd <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">partial_dependence</span>(rf, bos_train, <span class="st">"lstat"</span>),</span>
+<span id="cb158-11"><a href="#cb158-11" aria-hidden="true" tabindex="-1"></a>            <span class="fu">partial_dependence</span>(rf, bos_train, <span class="st">"rm"</span>))</span>
+<span id="cb158-12"><a href="#cb158-12" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(pd, <span class="fu">aes</span>(value, prediction)) <span class="sc">+</span></span>
+<span id="cb158-13"><a href="#cb158-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb158-14"><a href="#cb158-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> variable, <span class="at">scales =</span> <span class="st">"free_x"</span>) <span class="sc">+</span></span>
+<span id="cb158-15"><a href="#cb158-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">"average predicted medv ($1000s)"</span>) <span class="sc">+</span></span>
+<span id="cb158-16"><a href="#cb158-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -5187,13 +5127,13 @@ lstat     26.36       5673.22</code></pre>
 </div>
 <p>Neither relationship is linear. The predicted value falls steeply as <code>lstat</code> rises from <span class="math inline">\(2\%\)</span> to about <span class="math inline">\(10\%\)</span>, from about <span class="math inline">\(\$30\,000\)</span> to <span class="math inline">\(\$22\,000\)</span>, then more slowly, and it is flat above <span class="math inline">\(25\%\)</span>. It hardly depends on <code>rm</code> below six rooms, rises by about <span class="math inline">\(\$9\,000\)</span> between <span class="math inline">\(6.5\)</span> and <span class="math inline">\(7.2\)</span> rooms, and levels off above <span class="math inline">\(8\)</span>. The steepest parts of the curves lie close to the cut points of the single tree of <a href="#sec-pruning" class="quarto-xref"><span>Section 11.7</span></a> (<code>rm</code> at <span class="math inline">\(6.54\)</span> and <span class="math inline">\(6.96\)</span>, <code>lstat</code> at <span class="math inline">\(14.4\)</span>); the forest averages many such step functions into smoother curves.</p>
 </section>
-<section id="random-forests-for-classification" class="level3" data-number="11.9.7">
-<h3 data-number="11.9.7" class="anchored" data-anchor-id="random-forests-for-classification"><span class="header-section-number">11.9.7</span> Random Forests for Classification</h3>
+<section id="random-forests-for-classification" class="level3" data-number="11.9.6">
+<h3 data-number="11.9.6" class="anchored" data-anchor-id="random-forests-for-classification"><span class="header-section-number">11.9.6</span> Random Forests for Classification</h3>
 <p>The same functions work for a classification problem; with a factor response, <code>randomForest()</code> grows classification trees and samples <span class="math inline">\(\lfloor \sqrt{10} \rfloor = 3\)</span> predictors at each split:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb163"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb163-1"><a href="#cb163-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb163-2"><a href="#cb163-2" aria-hidden="true" tabindex="-1"></a>car_rf <span class="ot">&lt;-</span> <span class="fu">randomForest</span>(High <span class="sc">~</span> ., <span class="at">data =</span> car_train)</span>
-<span id="cb163-3"><a href="#cb163-3" aria-hidden="true" tabindex="-1"></a>car_rf</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb159"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb159-1"><a href="#cb159-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb159-2"><a href="#cb159-2" aria-hidden="true" tabindex="-1"></a>car_rf <span class="ot">&lt;-</span> <span class="fu">randomForest</span>(High <span class="sc">~</span> ., <span class="at">data =</span> car_train)</span>
+<span id="cb159-3"><a href="#cb159-3" aria-hidden="true" tabindex="-1"></a>car_rf</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -5208,27 +5148,176 @@ Confusion matrix:
 No  104  13   0.1111111
 Yes  29  54   0.3493976</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb165"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb165-1"><a href="#cb165-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb165-2"><a href="#cb165-2" aria-hidden="true" tabindex="-1"></a>car_bag <span class="ot">&lt;-</span> <span class="fu">randomForest</span>(High <span class="sc">~</span> ., <span class="at">data =</span> car_train, <span class="at">mtry =</span> <span class="dv">10</span>)</span>
-<span id="cb165-3"><a href="#cb165-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb165-4"><a href="#cb165-4" aria-hidden="true" tabindex="-1"></a><span class="co"># predict() breaks tied votes at random, so we predict once and keep the result</span></span>
-<span id="cb165-5"><a href="#cb165-5" aria-hidden="true" tabindex="-1"></a>car_rf_pred  <span class="ot">&lt;-</span> <span class="fu">predict</span>(car_rf,  car_test)</span>
-<span id="cb165-6"><a href="#cb165-6" aria-hidden="true" tabindex="-1"></a>car_bag_pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(car_bag, car_test)</span>
-<span id="cb165-7"><a href="#cb165-7" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">bagging =</span> <span class="fu">mean</span>(car_bag_pred <span class="sc">==</span> car_test<span class="sc">$</span>High),</span>
-<span id="cb165-8"><a href="#cb165-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">random_forest =</span> <span class="fu">mean</span>(car_rf_pred <span class="sc">==</span> car_test<span class="sc">$</span>High))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb161"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb161-1"><a href="#cb161-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb161-2"><a href="#cb161-2" aria-hidden="true" tabindex="-1"></a>car_bag <span class="ot">&lt;-</span> <span class="fu">randomForest</span>(High <span class="sc">~</span> ., <span class="at">data =</span> car_train, <span class="at">mtry =</span> <span class="dv">10</span>)</span>
+<span id="cb161-3"><a href="#cb161-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb161-4"><a href="#cb161-4" aria-hidden="true" tabindex="-1"></a><span class="co"># predict() breaks tied votes at random, so we predict once and keep the result</span></span>
+<span id="cb161-5"><a href="#cb161-5" aria-hidden="true" tabindex="-1"></a>car_rf_pred  <span class="ot">&lt;-</span> <span class="fu">predict</span>(car_rf,  car_test)</span>
+<span id="cb161-6"><a href="#cb161-6" aria-hidden="true" tabindex="-1"></a>car_bag_pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(car_bag, car_test)</span>
+<span id="cb161-7"><a href="#cb161-7" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">bagging =</span> <span class="fu">mean</span>(car_bag_pred <span class="sc">==</span> car_test<span class="sc">$</span>High),</span>
+<span id="cb161-8"><a href="#cb161-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">random_forest =</span> <span class="fu">mean</span>(car_rf_pred <span class="sc">==</span> car_test<span class="sc">$</span>High))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      bagging random_forest 
         0.820         0.825 </code></pre>
 </div>
 </div>
 <p>The printed output includes the OOB error rate (<span class="math inline">\(21\%\)</span>) and the OOB confusion matrix, which shows that most errors are stores with high sales classified as “No”. On the test set, bagging classifies <span class="math inline">\(82\%\)</span> of the stores correctly and the random forest <span class="math inline">\(82.5\%\)</span>, against <span class="math inline">\(69.5\%\)</span> for the pruned tree. On these data, with only ten predictors, decorrelating the trees does not help; both ensembles still fall short of the logistic regression (<span class="math inline">\(88.5\%\)</span>).</p>
+</section>
+<section id="tuning-a-random-forest-with-ranger" class="level3" data-number="11.9.7">
+<h3 data-number="11.9.7" class="anchored" data-anchor-id="tuning-a-random-forest-with-ranger"><span class="header-section-number">11.9.7</span> Tuning a Random Forest with ranger</h3>
+<p>For tuning, speed matters. The <strong>ranger</strong> package <span class="citation" data-cites="wright2017ranger">(<a href="pca.html#ref-wright2017ranger" role="doc-biblioref">Wright and Ziegler 2017</a>)</span> is a fast C++ implementation of random forests, and <span class="citation" data-cites="boehmke2019hands">Boehmke and Greenwell (<a href="pca.html#ref-boehmke2019hands" role="doc-biblioref">2019</a>)</span> use it to tune the forest with the OOB error. The hyperparameters, with their recommended starting points, are:</p>
+<ul>
+<li><strong>number of trees</strong> (<code>num.trees</code>): start with <span class="math inline">\(10p\)</span> trees, and add more if the error has not settled;</li>
+<li><strong>mtry</strong>: try about five values between <span class="math inline">\(2\)</span> and <span class="math inline">\(p\)</span>, centred on the default; <code>ranger</code>’s default is <span class="math inline">\(\lfloor \sqrt{p} \rfloor\)</span> for regression as well as classification;</li>
+<li><strong>node size</strong> (<code>min.node.size</code>): the smallest node that may still be split, by default <span class="math inline">\(5\)</span> for regression, <span class="math inline">\(1\)</span> for classification and <span class="math inline">\(10\)</span> for probability forests (see below); larger values give shallower trees and shorter run times, try a few values between <span class="math inline">\(1\)</span> and <span class="math inline">\(10\)</span>. Unlike <code>nodesize</code> in <strong>randomForest</strong>, it does not limit the size of the leaves (<code>min.bucket</code> does);</li>
+<li><strong>sampling scheme</strong> (<code>sample.fraction</code>, <code>replace</code>): bootstrap samples are <span class="math inline">\(100\%\)</span> of the data drawn with replacement; smaller fractions, with or without replacement, give more diverse trees, try values between <span class="math inline">\(25\%\)</span> and <span class="math inline">\(100\%\)</span>;</li>
+<li><strong>split rule</strong> (<code>splitrule</code>): the default variance (regression) or Gini (classification) criterion, or <code>"extratrees"</code> for <em>extremely randomised trees</em>, which pick random cut points and are much faster.</li>
+</ul>
+<p><code>mtry</code> and the number of trees usually matter most. We search a full grid of <span class="math inline">\(140\)</span> combinations, with <span class="math inline">\(500\)</span> trees each, and rank them by OOB root mean squared error (RMSE):</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb163"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb163-1"><a href="#cb163-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ranger)</span>
+<span id="cb163-2"><a href="#cb163-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb163-3"><a href="#cb163-3" aria-hidden="true" tabindex="-1"></a>grid <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">mtry            =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">8</span>, <span class="dv">12</span>),</span>
+<span id="cb163-4"><a href="#cb163-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">min.node.size   =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">10</span>),</span>
+<span id="cb163-5"><a href="#cb163-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">sample.fraction =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.632</span>, <span class="fl">0.8</span>, <span class="dv">1</span>),</span>
+<span id="cb163-6"><a href="#cb163-6" aria-hidden="true" tabindex="-1"></a>                    <span class="at">replace         =</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>))</span>
+<span id="cb163-7"><a href="#cb163-7" aria-hidden="true" tabindex="-1"></a><span class="co"># drawing 100% of the rows without replacement leaves nothing out-of-bag</span></span>
+<span id="cb163-8"><a href="#cb163-8" aria-hidden="true" tabindex="-1"></a>grid <span class="ot">&lt;-</span> grid[<span class="sc">!</span>(grid<span class="sc">$</span>sample.fraction <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> <span class="sc">!</span>grid<span class="sc">$</span>replace), ]</span>
+<span id="cb163-9"><a href="#cb163-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb163-10"><a href="#cb163-10" aria-hidden="true" tabindex="-1"></a>grid<span class="sc">$</span>oob_rmse <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="fu">seq_len</span>(<span class="fu">nrow</span>(grid)), <span class="cf">function</span>(i) {</span>
+<span id="cb163-11"><a href="#cb163-11" aria-hidden="true" tabindex="-1"></a>  fit <span class="ot">&lt;-</span> <span class="fu">ranger</span>(medv <span class="sc">~</span> ., <span class="at">data =</span> bos_train, <span class="at">num.trees =</span> <span class="dv">500</span>,</span>
+<span id="cb163-12"><a href="#cb163-12" aria-hidden="true" tabindex="-1"></a>                <span class="at">mtry            =</span> grid<span class="sc">$</span>mtry[i],</span>
+<span id="cb163-13"><a href="#cb163-13" aria-hidden="true" tabindex="-1"></a>                <span class="at">min.node.size   =</span> grid<span class="sc">$</span>min.node.size[i],</span>
+<span id="cb163-14"><a href="#cb163-14" aria-hidden="true" tabindex="-1"></a>                <span class="at">sample.fraction =</span> grid<span class="sc">$</span>sample.fraction[i],</span>
+<span id="cb163-15"><a href="#cb163-15" aria-hidden="true" tabindex="-1"></a>                <span class="at">replace         =</span> grid<span class="sc">$</span>replace[i],</span>
+<span id="cb163-16"><a href="#cb163-16" aria-hidden="true" tabindex="-1"></a>                <span class="at">seed =</span> <span class="dv">1</span>)</span>
+<span id="cb163-17"><a href="#cb163-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sqrt</span>(fit<span class="sc">$</span>prediction.error)</span>
+<span id="cb163-18"><a href="#cb163-18" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb163-19"><a href="#cb163-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb163-20"><a href="#cb163-20" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(grid[<span class="fu">order</span>(grid<span class="sc">$</span>oob_rmse), ], <span class="dv">6</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    mtry min.node.size sample.fraction replace oob_rmse
+108    6             3           0.632   FALSE 3.128436
+103    6             1           0.632   FALSE 3.132213
+47     4             3           0.800    TRUE 3.141835
+42     4             1           0.800    TRUE 3.143135
+113    6             5           0.632   FALSE 3.149268
+52     4             5           0.800    TRUE 3.154104</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb165"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb165-1"><a href="#cb165-1" aria-hidden="true" tabindex="-1"></a>rf_default <span class="ot">&lt;-</span> <span class="fu">ranger</span>(medv <span class="sc">~</span> ., <span class="at">data =</span> bos_train, <span class="at">num.trees =</span> <span class="dv">500</span>, <span class="at">seed =</span> <span class="dv">1</span>)</span>
+<span id="cb165-2"><a href="#cb165-2" aria-hidden="true" tabindex="-1"></a>rf_tuned   <span class="ot">&lt;-</span> <span class="fu">ranger</span>(medv <span class="sc">~</span> ., <span class="at">data =</span> bos_train, <span class="at">num.trees =</span> <span class="dv">500</span>, <span class="at">mtry =</span> <span class="dv">4</span>,</span>
+<span id="cb165-3"><a href="#cb165-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">min.node.size =</span> <span class="dv">3</span>, <span class="at">sample.fraction =</span> <span class="fl">0.8</span>, <span class="at">replace =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb165-4"><a href="#cb165-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">seed =</span> <span class="dv">1</span>)</span>
+<span id="cb165-5"><a href="#cb165-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb165-6"><a href="#cb165-6" aria-hidden="true" tabindex="-1"></a><span class="fu">rbind</span>(<span class="at">default =</span> <span class="fu">c</span>(<span class="at">oob_rmse =</span> <span class="fu">sqrt</span>(rf_default<span class="sc">$</span>prediction.error),</span>
+<span id="cb165-7"><a href="#cb165-7" aria-hidden="true" tabindex="-1"></a>                  <span class="at">test_mse =</span> <span class="fu">mse</span>(<span class="fu">predict</span>(rf_default, bos_test)<span class="sc">$</span>predictions, bos_test<span class="sc">$</span>medv)),</span>
+<span id="cb165-8"><a href="#cb165-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">tuned   =</span> <span class="fu">c</span>(<span class="fu">sqrt</span>(rf_tuned<span class="sc">$</span>prediction.error),</span>
+<span id="cb165-9"><a href="#cb165-9" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">mse</span>(<span class="fu">predict</span>(rf_tuned, bos_test)<span class="sc">$</span>predictions, bos_test<span class="sc">$</span>medv)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        oob_rmse test_mse
+default 3.259393 18.21250
+tuned   3.191399 18.24286</code></pre>
+</div>
+</div>
+<p>The best combination uses <code>mtry = 4</code>, <code>min.node.size = 3</code>, and samples of <span class="math inline">\(80\%\)</span> of the training set drawn <em>without</em> replacement. Its OOB RMSE (<span class="math inline">\(3.13\)</span>) is about <span class="math inline">\(6\%\)</span> lower than that of <code>ranger</code>’s defaults (<span class="math inline">\(3.34\)</span>), and its test MSE falls from <span class="math inline">\(18.38\)</span> to <span class="math inline">\(17.56\)</span>. The gain is real but modest — a random forest with its default settings is already a good model, which is one of the reasons for its popularity. <span class="citation" data-cites="boehmke2019hands">Boehmke and Greenwell (<a href="pca.html#ref-boehmke2019hands" role="doc-biblioref">2019</a>)</span> reach the same kind of conclusion for the Ames housing data, where small node sizes and samples of less than <span class="math inline">\(100\%\)</span> drawn without replacement also performed best.</p>
+<p><strong>Classification.</strong> With a factor response, <code>ranger()</code> grows classification trees, and <code>prediction.error</code> is the OOB misclassification rate. With <code>probability = TRUE</code> it grows a <em>probability forest</em> instead <span class="citation" data-cites="malley2012probability">(<a href="pca.html#ref-malley2012probability" role="doc-biblioref">Malley et al. 2012</a>)</span>: each tree predicts the class proportions of the leaf an observation falls into, the forest averages these proportions rather than counting votes, and <code>prediction.error</code> becomes the OOB Brier score of <a href="#sec-metrics" class="quarto-xref"><span>Section 11.6</span></a>. For the Carseats stores:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb167"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb167-1"><a href="#cb167-1" aria-hidden="true" tabindex="-1"></a>car_class_forest <span class="ot">&lt;-</span> <span class="fu">ranger</span>(High <span class="sc">~</span> ., <span class="at">data =</span> car_train, <span class="at">num.trees =</span> <span class="dv">500</span>, <span class="at">seed =</span> <span class="dv">1</span>)</span>
+<span id="cb167-2"><a href="#cb167-2" aria-hidden="true" tabindex="-1"></a>car_prob_forest  <span class="ot">&lt;-</span> <span class="fu">ranger</span>(High <span class="sc">~</span> ., <span class="at">data =</span> car_train, <span class="at">num.trees =</span> <span class="dv">500</span>,</span>
+<span id="cb167-3"><a href="#cb167-3" aria-hidden="true" tabindex="-1"></a>                           <span class="at">probability =</span> <span class="cn">TRUE</span>, <span class="at">seed =</span> <span class="dv">1</span>)</span>
+<span id="cb167-4"><a href="#cb167-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb167-5"><a href="#cb167-5" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">oob_error =</span> car_class_forest<span class="sc">$</span>prediction.error, <span class="at">oob_brier =</span> car_prob_forest<span class="sc">$</span>prediction.error)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>oob_error oob_brier 
+0.2200000 0.1624932 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb169"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb169-1"><a href="#cb169-1" aria-hidden="true" tabindex="-1"></a>car_class_forest<span class="sc">$</span>confusion.matrix</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     predicted
+true   No Yes
+  No  103  14
+  Yes  30  53</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb171"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb171-1"><a href="#cb171-1" aria-hidden="true" tabindex="-1"></a><span class="co"># a probability forest predicts one column of probabilities per class</span></span>
+<span id="cb171-2"><a href="#cb171-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">predict</span>(car_prob_forest, car_test)<span class="sc">$</span>predictions, <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            No       Yes
+[1,] 0.2722889 0.7277111
+[2,] 0.3045579 0.6954421
+[3,] 0.6268865 0.3731135</code></pre>
+</div>
+</div>
+<p>The OOB error rate of <span class="math inline">\(19\%\)</span> is close to the <span class="math inline">\(21\%\)</span> of <code>randomForest()</code>, and the OOB confusion matrix shows the same pattern: <span class="math inline">\(26\)</span> of the <span class="math inline">\(38\)</span> errors are high-sales stores classified as “No”.</p>
+<p>To tune the forest, we search the same grid as for Boston, with five values of <code>mtry</code> around the default <span class="math inline">\(\lfloor \sqrt{10} \rfloor = 3\)</span>, and record both OOB measures for each of the <span class="math inline">\(140\)</span> combinations:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb173"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb173-1"><a href="#cb173-1" aria-hidden="true" tabindex="-1"></a>car_grid <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">mtry            =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">10</span>),</span>
+<span id="cb173-2"><a href="#cb173-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">min.node.size   =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">10</span>),</span>
+<span id="cb173-3"><a href="#cb173-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">sample.fraction =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.632</span>, <span class="fl">0.8</span>, <span class="dv">1</span>),</span>
+<span id="cb173-4"><a href="#cb173-4" aria-hidden="true" tabindex="-1"></a>                        <span class="at">replace         =</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>))</span>
+<span id="cb173-5"><a href="#cb173-5" aria-hidden="true" tabindex="-1"></a>car_grid <span class="ot">&lt;-</span> car_grid[<span class="sc">!</span>(car_grid<span class="sc">$</span>sample.fraction <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> <span class="sc">!</span>car_grid<span class="sc">$</span>replace), ]</span>
+<span id="cb173-6"><a href="#cb173-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb173-7"><a href="#cb173-7" aria-hidden="true" tabindex="-1"></a>car_grid[, <span class="fu">c</span>(<span class="st">"oob_error"</span>, <span class="st">"oob_brier"</span>)] <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">sapply</span>(<span class="fu">seq_len</span>(<span class="fu">nrow</span>(car_grid)), <span class="cf">function</span>(i) {</span>
+<span id="cb173-8"><a href="#cb173-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sapply</span>(<span class="fu">c</span>(<span class="cn">FALSE</span>, <span class="cn">TRUE</span>), <span class="cf">function</span>(probability) {</span>
+<span id="cb173-9"><a href="#cb173-9" aria-hidden="true" tabindex="-1"></a>    fit <span class="ot">&lt;-</span> <span class="fu">ranger</span>(High <span class="sc">~</span> ., <span class="at">data =</span> car_train, <span class="at">num.trees =</span> <span class="dv">500</span>,</span>
+<span id="cb173-10"><a href="#cb173-10" aria-hidden="true" tabindex="-1"></a>                  <span class="at">mtry            =</span> car_grid<span class="sc">$</span>mtry[i],</span>
+<span id="cb173-11"><a href="#cb173-11" aria-hidden="true" tabindex="-1"></a>                  <span class="at">min.node.size   =</span> car_grid<span class="sc">$</span>min.node.size[i],</span>
+<span id="cb173-12"><a href="#cb173-12" aria-hidden="true" tabindex="-1"></a>                  <span class="at">sample.fraction =</span> car_grid<span class="sc">$</span>sample.fraction[i],</span>
+<span id="cb173-13"><a href="#cb173-13" aria-hidden="true" tabindex="-1"></a>                  <span class="at">replace         =</span> car_grid<span class="sc">$</span>replace[i],</span>
+<span id="cb173-14"><a href="#cb173-14" aria-hidden="true" tabindex="-1"></a>                  <span class="at">probability =</span> probability, <span class="at">seed =</span> <span class="dv">1</span>)</span>
+<span id="cb173-15"><a href="#cb173-15" aria-hidden="true" tabindex="-1"></a>    fit<span class="sc">$</span>prediction.error</span>
+<span id="cb173-16"><a href="#cb173-16" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb173-17"><a href="#cb173-17" aria-hidden="true" tabindex="-1"></a>}))</span>
+<span id="cb173-18"><a href="#cb173-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb173-19"><a href="#cb173-19" aria-hidden="true" tabindex="-1"></a><span class="co"># number of combinations with each OOB error rate</span></span>
+<span id="cb173-20"><a href="#cb173-20" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(car_grid<span class="sc">$</span>oob_error)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+0.185  0.19 0.195   0.2 0.205  0.21 0.215  0.22 0.225  0.23 0.235  0.24  0.27 
+    2     5    10    18    16    22    17    14    17    12     2     4     1 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb175"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb175-1"><a href="#cb175-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(car_grid[<span class="fu">order</span>(car_grid<span class="sc">$</span>oob_brier), ], <span class="dv">6</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    mtry min.node.size sample.fraction replace oob_error oob_brier
+108    5             3           0.632   FALSE     0.190 0.1512940
+123    5             1           0.800   FALSE     0.200 0.1520108
+103    5             1           0.632   FALSE     0.205 0.1521572
+102    3             1           0.632   FALSE     0.185 0.1522035
+83     5             1           0.500   FALSE     0.195 0.1523058
+113    5             5           0.632   FALSE     0.190 0.1528167</code></pre>
+</div>
+</div>
+<p>On <span class="math inline">\(200\)</span> stores, the OOB error rate is a poor guide for tuning. It moves in steps of <span class="math inline">\(0.5\%\)</span>, one store, so the <span class="math inline">\(140\)</span> combinations share only <span class="math inline">\(12\)</span> different values, and <span class="math inline">\(8\)</span> of them tie for the lowest, <span class="math inline">\(19\%\)</span> — which the default forest already reached. The Brier score uses the probabilities themselves, not only the side of <span class="math inline">\(0.5\)</span> they fall on, and separates the combinations much better. The best one uses <code>mtry = 5</code>, <code>min.node.size = 1</code>, which grows every tree until its leaves are pure, and samples of <span class="math inline">\(63.2\%\)</span> of the training set drawn without replacement; its OOB Brier score (<span class="math inline">\(0.151\)</span>) is about <span class="math inline">\(6\%\)</span> lower than that of the default probability forest (<span class="math inline">\(0.161\)</span>). All six best combinations use <code>mtry = 5</code> and samples drawn without replacement. With other seeds the best <code>mtry</code> is <span class="math inline">\(7\)</span>, again with samples of <span class="math inline">\(50\)</span>–<span class="math inline">\(63\%\)</span> drawn without replacement: as for Boston, the precise optimum is noisy, the general shape is not.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb177"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb177-1"><a href="#cb177-1" aria-hidden="true" tabindex="-1"></a>car_tuned_forest <span class="ot">&lt;-</span> <span class="fu">ranger</span>(High <span class="sc">~</span> ., <span class="at">data =</span> car_train, <span class="at">num.trees =</span> <span class="dv">500</span>, <span class="at">probability =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb177-2"><a href="#cb177-2" aria-hidden="true" tabindex="-1"></a>                           <span class="at">mtry =</span> <span class="dv">5</span>, <span class="at">min.node.size =</span> <span class="dv">1</span>, <span class="at">sample.fraction =</span> <span class="fl">0.632</span>,</span>
+<span id="cb177-3"><a href="#cb177-3" aria-hidden="true" tabindex="-1"></a>                           <span class="at">replace =</span> <span class="cn">FALSE</span>, <span class="at">seed =</span> <span class="dv">1</span>)</span>
+<span id="cb177-4"><a href="#cb177-4" aria-hidden="true" tabindex="-1"></a>car_default_prob <span class="ot">&lt;-</span> <span class="fu">predict</span>(car_prob_forest,  car_test)<span class="sc">$</span>predictions[, <span class="st">"Yes"</span>]</span>
+<span id="cb177-5"><a href="#cb177-5" aria-hidden="true" tabindex="-1"></a>car_tuned_prob   <span class="ot">&lt;-</span> <span class="fu">predict</span>(car_tuned_forest, car_test)<span class="sc">$</span>predictions[, <span class="st">"Yes"</span>]</span>
+<span id="cb177-6"><a href="#cb177-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb177-7"><a href="#cb177-7" aria-hidden="true" tabindex="-1"></a>prob_scores <span class="ot">&lt;-</span> <span class="cf">function</span>(p) <span class="fu">c</span>(<span class="at">accuracy =</span> <span class="fu">mean</span>(<span class="fu">ifelse</span>(p <span class="sc">&gt;</span> <span class="fl">0.5</span>, <span class="st">"Yes"</span>, <span class="st">"No"</span>) <span class="sc">==</span> car_test<span class="sc">$</span>High),</span>
+<span id="cb177-8"><a href="#cb177-8" aria-hidden="true" tabindex="-1"></a>                             <span class="at">brier    =</span> <span class="fu">brier</span>(p, y01),</span>
+<span id="cb177-9"><a href="#cb177-9" aria-hidden="true" tabindex="-1"></a>                             <span class="at">logloss  =</span> <span class="fu">logloss</span>(p, y01),</span>
+<span id="cb177-10"><a href="#cb177-10" aria-hidden="true" tabindex="-1"></a>                             <span class="at">auc      =</span> <span class="fu">auc</span>(p, car_test<span class="sc">$</span>High))</span>
+<span id="cb177-11"><a href="#cb177-11" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">rbind</span>(<span class="at">default  =</span> <span class="fu">c</span>(<span class="at">oob_brier =</span> car_prob_forest<span class="sc">$</span>prediction.error, <span class="fu">prob_scores</span>(car_default_prob)),</span>
+<span id="cb177-12"><a href="#cb177-12" aria-hidden="true" tabindex="-1"></a>            <span class="at">tuned    =</span> <span class="fu">c</span>(car_tuned_forest<span class="sc">$</span>prediction.error, <span class="fu">prob_scores</span>(car_tuned_prob)),</span>
+<span id="cb177-13"><a href="#cb177-13" aria-hidden="true" tabindex="-1"></a>            <span class="at">logistic =</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="fu">prob_scores</span>(logit_prob))), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         oob_brier accuracy brier logloss   auc
+default      0.162    0.800 0.147   0.466 0.898
+tuned        0.152    0.805 0.144   0.451 0.880
+logistic        NA    0.885 0.079   0.253 0.962</code></pre>
+</div>
+</div>
+<p>On the test set, tuning lowers the Brier score from <span class="math inline">\(0.148\)</span> to <span class="math inline">\(0.144\)</span> and the log-loss from <span class="math inline">\(0.467\)</span> to <span class="math inline">\(0.453\)</span>, and raises the accuracy from <span class="math inline">\(80.5\%\)</span> to <span class="math inline">\(81.5\%\)</span>, but the AUC falls slightly, from <span class="math inline">\(0.895\)</span> to <span class="math inline">\(0.882\)</span>: on <span class="math inline">\(200\)</span> test stores, differences of this size are noise. The forest itself matters far more than its tuning. The probabilities of the single Carseats tree had a Brier score of <span class="math inline">\(0.248\)</span>, worse than the null model’s <span class="math inline">\(0.241\)</span>; averaging <span class="math inline">\(500\)</span> trees brings it down to <span class="math inline">\(0.144\)</span>, as anticipated in <a href="#sec-metrics" class="quarto-xref"><span>Section 11.6</span></a>. The logistic regression remains well ahead, with a Brier score of <span class="math inline">\(0.079\)</span> and an AUC of <span class="math inline">\(0.96\)</span>: on data as close to linear as Carseats, no tuning of a forest closes that gap.</p>
 <div class="callout callout-style-simple callout-note no-icon">
 <div class="callout-body d-flex">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-body-container">
-<p><strong>Packages and commands.</strong> <strong>randomForest</strong>’s <code>randomForest(formula, data, ntree = , mtry = , importance = TRUE)</code> fits bagging (<code>mtry</code> equal to the number of predictors) and random forests; printing the fit shows the OOB error, <code>fit$mse</code> (regression) and <code>fit$err.rate</code> (classification) hold it after every tree, and <code>plot(fit)</code> draws it. <code>randomForest::importance(fit)</code> returns <code>%IncMSE</code> and <code>IncNodePurity</code>; <strong>ranger</strong> also has a function called <code>importance()</code>, hence the explicit <code>randomForest::</code>. <strong>ranger</strong>’s <code>ranger(formula, data, num.trees = , mtry = , min.node.size = , sample.fraction = , replace = , seed = )</code> is the fast alternative: <code>fit$prediction.error</code> is the OOB MSE, and <code>predict(fit, newdata)$predictions</code> the predictions. <code>expand.grid</code> builds the tuning grid. <strong>vip</strong>’s <code>vip()</code> plots the importance, and the partial dependence is computed directly with <code>predict</code> and <code>sapply</code> (the <strong>pdp</strong> package provides a general <code>partial()</code> function).</p>
+<p><strong>Packages and commands.</strong> <strong>randomForest</strong>’s <code>randomForest(formula, data, ntree = , mtry = , importance = TRUE)</code> fits bagging (<code>mtry</code> equal to the number of predictors) and random forests; printing the fit shows the OOB error, <code>fit$mse</code> (regression) and <code>fit$err.rate</code> (classification) hold it after every tree, and <code>plot(fit)</code> draws it. <code>randomForest::importance(fit)</code> returns <code>%IncMSE</code> and <code>IncNodePurity</code>; <strong>ranger</strong> also has a function called <code>importance()</code>, hence the explicit <code>randomForest::</code>. <strong>ranger</strong>’s <code>ranger(formula, data, num.trees = , mtry = , min.node.size = , sample.fraction = , replace = , probability = , seed = )</code> is the fast alternative: <code>fit$prediction.error</code> is the OOB MSE (regression), misclassification rate (classification) or Brier score (<code>probability = TRUE</code>), <code>fit$confusion.matrix</code> the OOB confusion matrix of a classification forest, and <code>predict(fit, newdata)$predictions</code> the predictions — for a probability forest, a matrix with one column per class. <code>expand.grid</code> builds the tuning grid. <strong>vip</strong>’s <code>vip()</code> plots the importance, and the partial dependence is computed directly with <code>predict</code> and <code>sapply</code> (the <strong>pdp</strong> package provides a general <code>partial()</code> function).</p>
 </div>
 </div>
 </div>
@@ -5259,26 +5348,26 @@ Yes  29  54   0.3493976</code></pre>
 </ul>
 <p>The algorithm is short enough to write directly, with small <code>rpart()</code> trees as the <span class="math inline">\(\hat{f}^b\)</span>:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb167"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb167-1"><a href="#cb167-1" aria-hidden="true" tabindex="-1"></a>boost_by_hand <span class="ot">&lt;-</span> <span class="cf">function</span>(train, test, <span class="at">B =</span> <span class="dv">1000</span>, <span class="at">lambda =</span> <span class="fl">0.1</span>, <span class="at">depth =</span> <span class="dv">1</span>) {</span>
-<span id="cb167-2"><a href="#cb167-2" aria-hidden="true" tabindex="-1"></a>  X_train <span class="ot">&lt;-</span> train[, <span class="fu">names</span>(train) <span class="sc">!=</span> <span class="st">"medv"</span>]</span>
-<span id="cb167-3"><a href="#cb167-3" aria-hidden="true" tabindex="-1"></a>  r       <span class="ot">&lt;-</span> train<span class="sc">$</span>medv                       <span class="co"># step 1: residuals = response</span></span>
-<span id="cb167-4"><a href="#cb167-4" aria-hidden="true" tabindex="-1"></a>  f_test  <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span>, <span class="fu">nrow</span>(test))               <span class="co">#         and f = 0</span></span>
-<span id="cb167-5"><a href="#cb167-5" aria-hidden="true" tabindex="-1"></a>  test_mse <span class="ot">&lt;-</span> <span class="fu">numeric</span>(B)</span>
-<span id="cb167-6"><a href="#cb167-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (b <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>B) {</span>
-<span id="cb167-7"><a href="#cb167-7" aria-hidden="true" tabindex="-1"></a>    tree_b <span class="ot">&lt;-</span> <span class="fu">rpart</span>(r <span class="sc">~</span> ., <span class="at">data =</span> <span class="fu">cbind</span>(X_train, <span class="at">r =</span> r),</span>
-<span id="cb167-8"><a href="#cb167-8" aria-hidden="true" tabindex="-1"></a>                    <span class="at">control =</span> <span class="fu">rpart.control</span>(<span class="at">maxdepth =</span> depth, <span class="at">cp =</span> <span class="dv">0</span>, <span class="at">xval =</span> <span class="dv">0</span>))</span>
-<span id="cb167-9"><a href="#cb167-9" aria-hidden="true" tabindex="-1"></a>    r      <span class="ot">&lt;-</span> r <span class="sc">-</span> lambda <span class="sc">*</span> <span class="fu">predict</span>(tree_b, X_train)        <span class="co"># step 2c</span></span>
-<span id="cb167-10"><a href="#cb167-10" aria-hidden="true" tabindex="-1"></a>    f_test <span class="ot">&lt;-</span> f_test <span class="sc">+</span> lambda <span class="sc">*</span> <span class="fu">predict</span>(tree_b, test)      <span class="co"># step 2b</span></span>
-<span id="cb167-11"><a href="#cb167-11" aria-hidden="true" tabindex="-1"></a>    test_mse[b] <span class="ot">&lt;-</span> <span class="fu">mse</span>(f_test, test<span class="sc">$</span>medv)</span>
-<span id="cb167-12"><a href="#cb167-12" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb167-13"><a href="#cb167-13" aria-hidden="true" tabindex="-1"></a>  test_mse</span>
-<span id="cb167-14"><a href="#cb167-14" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb167-15"><a href="#cb167-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb167-16"><a href="#cb167-16" aria-hidden="true" tabindex="-1"></a>hand <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">trees =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>, <span class="dv">2</span>),</span>
-<span id="cb167-17"><a href="#cb167-17" aria-hidden="true" tabindex="-1"></a>                   <span class="at">mse   =</span> <span class="fu">c</span>(<span class="fu">boost_by_hand</span>(bos_train, bos_test, <span class="at">depth =</span> <span class="dv">1</span>),</span>
-<span id="cb167-18"><a href="#cb167-18" aria-hidden="true" tabindex="-1"></a>                             <span class="fu">boost_by_hand</span>(bos_train, bos_test, <span class="at">depth =</span> <span class="dv">2</span>)),</span>
-<span id="cb167-19"><a href="#cb167-19" aria-hidden="true" tabindex="-1"></a>                   <span class="at">model =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"stumps"</span>, <span class="st">"depth 2"</span>), <span class="at">each =</span> <span class="dv">1000</span>))</span>
-<span id="cb167-20"><a href="#cb167-20" aria-hidden="true" tabindex="-1"></a><span class="fu">tapply</span>(hand<span class="sc">$</span>mse, hand<span class="sc">$</span>model, <span class="cf">function</span>(e) <span class="fu">round</span>(e[<span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">100</span>, <span class="dv">500</span>, <span class="dv">1000</span>)], <span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb179"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb179-1"><a href="#cb179-1" aria-hidden="true" tabindex="-1"></a>boost_by_hand <span class="ot">&lt;-</span> <span class="cf">function</span>(train, test, <span class="at">B =</span> <span class="dv">1000</span>, <span class="at">lambda =</span> <span class="fl">0.1</span>, <span class="at">depth =</span> <span class="dv">1</span>) {</span>
+<span id="cb179-2"><a href="#cb179-2" aria-hidden="true" tabindex="-1"></a>  X_train <span class="ot">&lt;-</span> train[, <span class="fu">names</span>(train) <span class="sc">!=</span> <span class="st">"medv"</span>]</span>
+<span id="cb179-3"><a href="#cb179-3" aria-hidden="true" tabindex="-1"></a>  r       <span class="ot">&lt;-</span> train<span class="sc">$</span>medv                       <span class="co"># step 1: residuals = response</span></span>
+<span id="cb179-4"><a href="#cb179-4" aria-hidden="true" tabindex="-1"></a>  f_test  <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span>, <span class="fu">nrow</span>(test))               <span class="co">#         and f = 0</span></span>
+<span id="cb179-5"><a href="#cb179-5" aria-hidden="true" tabindex="-1"></a>  test_mse <span class="ot">&lt;-</span> <span class="fu">numeric</span>(B)</span>
+<span id="cb179-6"><a href="#cb179-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (b <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>B) {</span>
+<span id="cb179-7"><a href="#cb179-7" aria-hidden="true" tabindex="-1"></a>    tree_b <span class="ot">&lt;-</span> <span class="fu">rpart</span>(r <span class="sc">~</span> ., <span class="at">data =</span> <span class="fu">cbind</span>(X_train, <span class="at">r =</span> r),</span>
+<span id="cb179-8"><a href="#cb179-8" aria-hidden="true" tabindex="-1"></a>                    <span class="at">control =</span> <span class="fu">rpart.control</span>(<span class="at">maxdepth =</span> depth, <span class="at">cp =</span> <span class="dv">0</span>, <span class="at">xval =</span> <span class="dv">0</span>))</span>
+<span id="cb179-9"><a href="#cb179-9" aria-hidden="true" tabindex="-1"></a>    r      <span class="ot">&lt;-</span> r <span class="sc">-</span> lambda <span class="sc">*</span> <span class="fu">predict</span>(tree_b, X_train)        <span class="co"># step 2c</span></span>
+<span id="cb179-10"><a href="#cb179-10" aria-hidden="true" tabindex="-1"></a>    f_test <span class="ot">&lt;-</span> f_test <span class="sc">+</span> lambda <span class="sc">*</span> <span class="fu">predict</span>(tree_b, test)      <span class="co"># step 2b</span></span>
+<span id="cb179-11"><a href="#cb179-11" aria-hidden="true" tabindex="-1"></a>    test_mse[b] <span class="ot">&lt;-</span> <span class="fu">mse</span>(f_test, test<span class="sc">$</span>medv)</span>
+<span id="cb179-12"><a href="#cb179-12" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb179-13"><a href="#cb179-13" aria-hidden="true" tabindex="-1"></a>  test_mse</span>
+<span id="cb179-14"><a href="#cb179-14" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb179-15"><a href="#cb179-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb179-16"><a href="#cb179-16" aria-hidden="true" tabindex="-1"></a>hand <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">trees =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>, <span class="dv">2</span>),</span>
+<span id="cb179-17"><a href="#cb179-17" aria-hidden="true" tabindex="-1"></a>                   <span class="at">mse   =</span> <span class="fu">c</span>(<span class="fu">boost_by_hand</span>(bos_train, bos_test, <span class="at">depth =</span> <span class="dv">1</span>),</span>
+<span id="cb179-18"><a href="#cb179-18" aria-hidden="true" tabindex="-1"></a>                             <span class="fu">boost_by_hand</span>(bos_train, bos_test, <span class="at">depth =</span> <span class="dv">2</span>)),</span>
+<span id="cb179-19"><a href="#cb179-19" aria-hidden="true" tabindex="-1"></a>                   <span class="at">model =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"stumps"</span>, <span class="st">"depth 2"</span>), <span class="at">each =</span> <span class="dv">1000</span>))</span>
+<span id="cb179-20"><a href="#cb179-20" aria-hidden="true" tabindex="-1"></a><span class="fu">tapply</span>(hand<span class="sc">$</span>mse, hand<span class="sc">$</span>model, <span class="cf">function</span>(e) <span class="fu">round</span>(e[<span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">100</span>, <span class="dv">500</span>, <span class="dv">1000</span>)], <span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$`depth 2`
 [1] 113.48  18.23  14.89  14.56
@@ -5286,11 +5375,11 @@ Yes  29  54   0.3493976</code></pre>
 $stumps
 [1] 122.73  22.22  19.15  18.28</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb169"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb169-1"><a href="#cb169-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(hand, <span class="fu">aes</span>(trees, mse, <span class="at">colour =</span> model)) <span class="sc">+</span></span>
-<span id="cb169-2"><a href="#cb169-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb169-3"><a href="#cb169-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">60</span>)) <span class="sc">+</span></span>
-<span id="cb169-4"><a href="#cb169-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"number of trees"</span>, <span class="at">y =</span> <span class="st">"test MSE"</span>, <span class="at">colour =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
-<span id="cb169-5"><a href="#cb169-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb181"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb181-1"><a href="#cb181-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(hand, <span class="fu">aes</span>(trees, mse, <span class="at">colour =</span> model)) <span class="sc">+</span></span>
+<span id="cb181-2"><a href="#cb181-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb181-3"><a href="#cb181-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">60</span>)) <span class="sc">+</span></span>
+<span id="cb181-4"><a href="#cb181-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"number of trees"</span>, <span class="at">y =</span> <span class="st">"test MSE"</span>, <span class="at">colour =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb181-5"><a href="#cb181-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -5320,8 +5409,8 @@ r_i = - \left. \frac{\partial L(y_i, f)}{\partial f} \right|_{f = \hat{f}(x_i)} 
 <h3 data-number="11.10.3" class="anchored" data-anchor-id="boosting-with-gbm"><span class="header-section-number">11.10.3</span> Boosting with gbm</h3>
 <p>The <strong>gbm</strong> package implements stochastic gradient boosting. Its simplified format is</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb170"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb170-1"><a href="#cb170-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gbm</span>(formula, distribution, data, <span class="at">n.trees =</span> <span class="dv">100</span>, <span class="at">interaction.depth =</span> <span class="dv">1</span>,</span>
-<span id="cb170-2"><a href="#cb170-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">shrinkage =</span> <span class="fl">0.1</span>, <span class="at">n.minobsinnode =</span> <span class="dv">10</span>, <span class="at">bag.fraction =</span> <span class="fl">0.5</span>, <span class="at">cv.folds =</span> <span class="dv">0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb182"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb182-1"><a href="#cb182-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gbm</span>(formula, distribution, data, <span class="at">n.trees =</span> <span class="dv">100</span>, <span class="at">interaction.depth =</span> <span class="dv">1</span>,</span>
+<span id="cb182-2"><a href="#cb182-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">shrinkage =</span> <span class="fl">0.1</span>, <span class="at">n.minobsinnode =</span> <span class="dv">10</span>, <span class="at">bag.fraction =</span> <span class="fl">0.5</span>, <span class="at">cv.folds =</span> <span class="dv">0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>where:</p>
 <ul>
@@ -5349,16 +5438,16 @@ Note
 </div>
 <p>We fit <span class="math inline">\(5000\)</span> trees with <span class="math inline">\(4\)</span> splits each and a learning rate of <span class="math inline">\(0.01\)</span>, and let 5-fold cross-validation choose how many to keep:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb171"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb171-1"><a href="#cb171-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gbm)</span>
-<span id="cb171-2"><a href="#cb171-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb171-3"><a href="#cb171-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb171-4"><a href="#cb171-4" aria-hidden="true" tabindex="-1"></a>boost <span class="ot">&lt;-</span> <span class="fu">gbm</span>(medv <span class="sc">~</span> ., <span class="at">data =</span> bos_train, <span class="at">distribution =</span> <span class="st">"gaussian"</span>,</span>
-<span id="cb171-5"><a href="#cb171-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">n.trees =</span> <span class="dv">5000</span>, <span class="at">interaction.depth =</span> <span class="dv">4</span>, <span class="at">shrinkage =</span> <span class="fl">0.01</span>,</span>
-<span id="cb171-6"><a href="#cb171-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">cv.folds =</span> <span class="dv">5</span>, <span class="at">n.cores =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb183"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb183-1"><a href="#cb183-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gbm)</span>
+<span id="cb183-2"><a href="#cb183-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb183-3"><a href="#cb183-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb183-4"><a href="#cb183-4" aria-hidden="true" tabindex="-1"></a>boost <span class="ot">&lt;-</span> <span class="fu">gbm</span>(medv <span class="sc">~</span> ., <span class="at">data =</span> bos_train, <span class="at">distribution =</span> <span class="st">"gaussian"</span>,</span>
+<span id="cb183-5"><a href="#cb183-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">n.trees =</span> <span class="dv">5000</span>, <span class="at">interaction.depth =</span> <span class="dv">4</span>, <span class="at">shrinkage =</span> <span class="fl">0.01</span>,</span>
+<span id="cb183-6"><a href="#cb183-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">cv.folds =</span> <span class="dv">5</span>, <span class="at">n.cores =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>While it runs, <code>gbm()</code> prints <code>CV: 1</code>, …, <code>CV: 5</code> as it fits each fold. <code>gbm.perf()</code> then finds the number of trees with the smallest cross-validation error, and plots both errors:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb172"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb172-1"><a href="#cb172-1" aria-hidden="true" tabindex="-1"></a>best_trees <span class="ot">&lt;-</span> <span class="fu">gbm.perf</span>(boost, <span class="at">method =</span> <span class="st">"cv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb184"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb184-1"><a href="#cb184-1" aria-hidden="true" tabindex="-1"></a>best_trees <span class="ot">&lt;-</span> <span class="fu">gbm.perf</span>(boost, <span class="at">method =</span> <span class="st">"cv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -5367,9 +5456,9 @@ Note
 </figure>
 </div>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb173"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb173-1"><a href="#cb173-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">best_trees =</span> best_trees,</span>
-<span id="cb173-2"><a href="#cb173-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">cv_mse     =</span> <span class="fu">min</span>(boost<span class="sc">$</span>cv.error),</span>
-<span id="cb173-3"><a href="#cb173-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">test_mse   =</span> <span class="fu">mse</span>(<span class="fu">predict</span>(boost, bos_test, <span class="at">n.trees =</span> best_trees), bos_test<span class="sc">$</span>medv))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb185"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb185-1"><a href="#cb185-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">best_trees =</span> best_trees,</span>
+<span id="cb185-2"><a href="#cb185-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">cv_mse     =</span> <span class="fu">min</span>(boost<span class="sc">$</span>cv.error),</span>
+<span id="cb185-3"><a href="#cb185-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">test_mse   =</span> <span class="fu">mse</span>(<span class="fu">predict</span>(boost, bos_test, <span class="at">n.trees =</span> best_trees), bos_test<span class="sc">$</span>medv))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>best_trees     cv_mse   test_mse 
 2365.00000    9.65567   17.76669 </code></pre>
@@ -5378,7 +5467,7 @@ Note
 <p>Cross-validation keeps <span class="math inline">\(2112\)</span> trees, and the boosted model reaches a test MSE of <span class="math inline">\(17.92\)</span>, below the random forest (<span class="math inline">\(18.99\)</span>). The training error keeps decreasing long after the cross-validation error has stopped improving — the trees added after that point fit noise.</p>
 <p><code>summary()</code> gives the <em>relative influence</em> of each variable, the impurity importance of boosting, scaled to sum to <span class="math inline">\(100\)</span>:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb175"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb175-1"><a href="#cb175-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">summary</span>(boost, <span class="at">n.trees =</span> best_trees), <span class="dv">6</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb187"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb187-1"><a href="#cb187-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">summary</span>(boost, <span class="at">n.trees =</span> best_trees), <span class="dv">6</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>        var   rel.inf
 rm       rm 46.342269
@@ -5392,20 +5481,20 @@ age     age  2.666196</code></pre>
 <p>The same two variables lead as in the forest, <code>rm</code> (<span class="math inline">\(47\)</span>) and <code>lstat</code> (<span class="math inline">\(33\)</span>), followed at a distance by <code>crim</code>, <code>dis</code> and <code>nox</code>.</p>
 <p>The learning rate and the number of trees go together. The next figure fits the model with four learning rates and plots the <em>test</em> MSE as trees are added (the test set is used here only to illustrate; in practice the number of trees is chosen by cross-validation, as above):</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb177"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb177-1"><a href="#cb177-1" aria-hidden="true" tabindex="-1"></a>n_trees <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">10</span>, <span class="dv">5000</span>, <span class="at">by =</span> <span class="dv">10</span>)</span>
-<span id="cb177-2"><a href="#cb177-2" aria-hidden="true" tabindex="-1"></a>shrink <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(<span class="fu">c</span>(<span class="fl">0.001</span>, <span class="fl">0.01</span>, <span class="fl">0.1</span>, <span class="fl">0.5</span>), <span class="cf">function</span>(lambda) {</span>
-<span id="cb177-3"><a href="#cb177-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb177-4"><a href="#cb177-4" aria-hidden="true" tabindex="-1"></a>  fit <span class="ot">&lt;-</span> <span class="fu">gbm</span>(medv <span class="sc">~</span> ., <span class="at">data =</span> bos_train, <span class="at">distribution =</span> <span class="st">"gaussian"</span>,</span>
-<span id="cb177-5"><a href="#cb177-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">n.trees =</span> <span class="dv">5000</span>, <span class="at">interaction.depth =</span> <span class="dv">4</span>, <span class="at">shrinkage =</span> lambda)</span>
-<span id="cb177-6"><a href="#cb177-6" aria-hidden="true" tabindex="-1"></a>  pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(fit, bos_test, <span class="at">n.trees =</span> n_trees)   <span class="co"># one column per value of n_trees</span></span>
-<span id="cb177-7"><a href="#cb177-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">trees =</span> n_trees, <span class="at">lambda =</span> <span class="fu">factor</span>(lambda),</span>
-<span id="cb177-8"><a href="#cb177-8" aria-hidden="true" tabindex="-1"></a>             <span class="at">mse =</span> <span class="fu">colMeans</span>((pred <span class="sc">-</span> bos_test<span class="sc">$</span>medv)<span class="sc">^</span><span class="dv">2</span>))</span>
-<span id="cb177-9"><a href="#cb177-9" aria-hidden="true" tabindex="-1"></a>}))</span>
-<span id="cb177-10"><a href="#cb177-10" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(shrink, <span class="fu">aes</span>(trees, mse, <span class="at">colour =</span> lambda)) <span class="sc">+</span></span>
-<span id="cb177-11"><a href="#cb177-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
-<span id="cb177-12"><a href="#cb177-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">15</span>, <span class="dv">40</span>)) <span class="sc">+</span></span>
-<span id="cb177-13"><a href="#cb177-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"number of trees"</span>, <span class="at">y =</span> <span class="st">"test MSE"</span>, <span class="at">colour =</span> <span class="st">"learning rate"</span>) <span class="sc">+</span></span>
-<span id="cb177-14"><a href="#cb177-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb189"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb189-1"><a href="#cb189-1" aria-hidden="true" tabindex="-1"></a>n_trees <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">10</span>, <span class="dv">5000</span>, <span class="at">by =</span> <span class="dv">10</span>)</span>
+<span id="cb189-2"><a href="#cb189-2" aria-hidden="true" tabindex="-1"></a>shrink <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(<span class="fu">c</span>(<span class="fl">0.001</span>, <span class="fl">0.01</span>, <span class="fl">0.1</span>, <span class="fl">0.5</span>), <span class="cf">function</span>(lambda) {</span>
+<span id="cb189-3"><a href="#cb189-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb189-4"><a href="#cb189-4" aria-hidden="true" tabindex="-1"></a>  fit <span class="ot">&lt;-</span> <span class="fu">gbm</span>(medv <span class="sc">~</span> ., <span class="at">data =</span> bos_train, <span class="at">distribution =</span> <span class="st">"gaussian"</span>,</span>
+<span id="cb189-5"><a href="#cb189-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">n.trees =</span> <span class="dv">5000</span>, <span class="at">interaction.depth =</span> <span class="dv">4</span>, <span class="at">shrinkage =</span> lambda)</span>
+<span id="cb189-6"><a href="#cb189-6" aria-hidden="true" tabindex="-1"></a>  pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(fit, bos_test, <span class="at">n.trees =</span> n_trees)   <span class="co"># one column per value of n_trees</span></span>
+<span id="cb189-7"><a href="#cb189-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">trees =</span> n_trees, <span class="at">lambda =</span> <span class="fu">factor</span>(lambda),</span>
+<span id="cb189-8"><a href="#cb189-8" aria-hidden="true" tabindex="-1"></a>             <span class="at">mse =</span> <span class="fu">colMeans</span>((pred <span class="sc">-</span> bos_test<span class="sc">$</span>medv)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb189-9"><a href="#cb189-9" aria-hidden="true" tabindex="-1"></a>}))</span>
+<span id="cb189-10"><a href="#cb189-10" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(shrink, <span class="fu">aes</span>(trees, mse, <span class="at">colour =</span> lambda)) <span class="sc">+</span></span>
+<span id="cb189-11"><a href="#cb189-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb189-12"><a href="#cb189-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">15</span>, <span class="dv">40</span>)) <span class="sc">+</span></span>
+<span id="cb189-13"><a href="#cb189-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"number of trees"</span>, <span class="at">y =</span> <span class="st">"test MSE"</span>, <span class="at">colour =</span> <span class="st">"learning rate"</span>) <span class="sc">+</span></span>
+<span id="cb189-14"><a href="#cb189-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -5423,20 +5512,20 @@ age     age  2.666196</code></pre>
 <h3 data-number="11.10.4" class="anchored" data-anchor-id="boosting-for-classification"><span class="header-section-number">11.10.4</span> Boosting for Classification</h3>
 <p>With <code>distribution = "bernoulli"</code>, <code>gbm()</code> boosts the log-odds of a binary response, which must be coded <span class="math inline">\(0/1\)</span>:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb178"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb178-1"><a href="#cb178-1" aria-hidden="true" tabindex="-1"></a>car_train01 <span class="ot">&lt;-</span> car_train</span>
-<span id="cb178-2"><a href="#cb178-2" aria-hidden="true" tabindex="-1"></a>car_train01<span class="sc">$</span>High <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(car_train<span class="sc">$</span>High <span class="sc">==</span> <span class="st">"Yes"</span>)</span>
-<span id="cb178-3"><a href="#cb178-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb178-4"><a href="#cb178-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb178-5"><a href="#cb178-5" aria-hidden="true" tabindex="-1"></a>car_boost <span class="ot">&lt;-</span> <span class="fu">gbm</span>(High <span class="sc">~</span> ., <span class="at">data =</span> car_train01, <span class="at">distribution =</span> <span class="st">"bernoulli"</span>,</span>
-<span id="cb178-6"><a href="#cb178-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">n.trees =</span> <span class="dv">5000</span>, <span class="at">interaction.depth =</span> <span class="dv">2</span>, <span class="at">shrinkage =</span> <span class="fl">0.01</span>,</span>
-<span id="cb178-7"><a href="#cb178-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">cv.folds =</span> <span class="dv">5</span>, <span class="at">n.cores =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb190"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb190-1"><a href="#cb190-1" aria-hidden="true" tabindex="-1"></a>car_train01 <span class="ot">&lt;-</span> car_train</span>
+<span id="cb190-2"><a href="#cb190-2" aria-hidden="true" tabindex="-1"></a>car_train01<span class="sc">$</span>High <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(car_train<span class="sc">$</span>High <span class="sc">==</span> <span class="st">"Yes"</span>)</span>
+<span id="cb190-3"><a href="#cb190-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb190-4"><a href="#cb190-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb190-5"><a href="#cb190-5" aria-hidden="true" tabindex="-1"></a>car_boost <span class="ot">&lt;-</span> <span class="fu">gbm</span>(High <span class="sc">~</span> ., <span class="at">data =</span> car_train01, <span class="at">distribution =</span> <span class="st">"bernoulli"</span>,</span>
+<span id="cb190-6"><a href="#cb190-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">n.trees =</span> <span class="dv">5000</span>, <span class="at">interaction.depth =</span> <span class="dv">2</span>, <span class="at">shrinkage =</span> <span class="fl">0.01</span>,</span>
+<span id="cb190-7"><a href="#cb190-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">cv.folds =</span> <span class="dv">5</span>, <span class="at">n.cores =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb179"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb179-1"><a href="#cb179-1" aria-hidden="true" tabindex="-1"></a>car_best <span class="ot">&lt;-</span> <span class="fu">gbm.perf</span>(car_boost, <span class="at">method =</span> <span class="st">"cv"</span>, <span class="at">plot.it =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb179-2"><a href="#cb179-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb179-3"><a href="#cb179-3" aria-hidden="true" tabindex="-1"></a>car_boost_prob <span class="ot">&lt;-</span> <span class="fu">predict</span>(car_boost, car_test, <span class="at">n.trees =</span> car_best, <span class="at">type =</span> <span class="st">"response"</span>)</span>
-<span id="cb179-4"><a href="#cb179-4" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">best_trees =</span> car_best,</span>
-<span id="cb179-5"><a href="#cb179-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">accuracy   =</span> <span class="fu">mean</span>(<span class="fu">ifelse</span>(car_boost_prob <span class="sc">&gt;</span> <span class="fl">0.5</span>, <span class="st">"Yes"</span>, <span class="st">"No"</span>) <span class="sc">==</span> car_test<span class="sc">$</span>High))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb191"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb191-1"><a href="#cb191-1" aria-hidden="true" tabindex="-1"></a>car_best <span class="ot">&lt;-</span> <span class="fu">gbm.perf</span>(car_boost, <span class="at">method =</span> <span class="st">"cv"</span>, <span class="at">plot.it =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb191-2"><a href="#cb191-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb191-3"><a href="#cb191-3" aria-hidden="true" tabindex="-1"></a>car_boost_prob <span class="ot">&lt;-</span> <span class="fu">predict</span>(car_boost, car_test, <span class="at">n.trees =</span> car_best, <span class="at">type =</span> <span class="st">"response"</span>)</span>
+<span id="cb191-4"><a href="#cb191-4" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">best_trees =</span> car_best,</span>
+<span id="cb191-5"><a href="#cb191-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">accuracy   =</span> <span class="fu">mean</span>(<span class="fu">ifelse</span>(car_boost_prob <span class="sc">&gt;</span> <span class="fl">0.5</span>, <span class="st">"Yes"</span>, <span class="st">"No"</span>) <span class="sc">==</span> car_test<span class="sc">$</span>High))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>best_trees   accuracy 
    1312.00       0.85 </code></pre>
@@ -5564,24 +5653,24 @@ Note
 </div>
 <p><code>xgb.train()</code> needs a numeric matrix of predictors, wrapped together with the response in an <code>xgb.DMatrix</code>. All Boston predictors are numeric:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb181"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb181-1"><a href="#cb181-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(xgboost)</span>
-<span id="cb181-2"><a href="#cb181-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb181-3"><a href="#cb181-3" aria-hidden="true" tabindex="-1"></a>X_train <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(bos_train[, <span class="fu">names</span>(bos_train) <span class="sc">!=</span> <span class="st">"medv"</span>])</span>
-<span id="cb181-4"><a href="#cb181-4" aria-hidden="true" tabindex="-1"></a>X_test  <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(bos_test[,  <span class="fu">names</span>(bos_test)  <span class="sc">!=</span> <span class="st">"medv"</span>])</span>
-<span id="cb181-5"><a href="#cb181-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb181-6"><a href="#cb181-6" aria-hidden="true" tabindex="-1"></a>dtrain <span class="ot">&lt;-</span> <span class="fu">xgb.DMatrix</span>(X_train, <span class="at">label =</span> bos_train<span class="sc">$</span>medv)</span>
-<span id="cb181-7"><a href="#cb181-7" aria-hidden="true" tabindex="-1"></a>dtest  <span class="ot">&lt;-</span> <span class="fu">xgb.DMatrix</span>(X_test,  <span class="at">label =</span> bos_test<span class="sc">$</span>medv)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb193"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb193-1"><a href="#cb193-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(xgboost)</span>
+<span id="cb193-2"><a href="#cb193-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb193-3"><a href="#cb193-3" aria-hidden="true" tabindex="-1"></a>X_train <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(bos_train[, <span class="fu">names</span>(bos_train) <span class="sc">!=</span> <span class="st">"medv"</span>])</span>
+<span id="cb193-4"><a href="#cb193-4" aria-hidden="true" tabindex="-1"></a>X_test  <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(bos_test[,  <span class="fu">names</span>(bos_test)  <span class="sc">!=</span> <span class="st">"medv"</span>])</span>
+<span id="cb193-5"><a href="#cb193-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb193-6"><a href="#cb193-6" aria-hidden="true" tabindex="-1"></a>dtrain <span class="ot">&lt;-</span> <span class="fu">xgb.DMatrix</span>(X_train, <span class="at">label =</span> bos_train<span class="sc">$</span>medv)</span>
+<span id="cb193-7"><a href="#cb193-7" aria-hidden="true" tabindex="-1"></a>dtest  <span class="ot">&lt;-</span> <span class="fu">xgb.DMatrix</span>(X_test,  <span class="at">label =</span> bos_test<span class="sc">$</span>medv)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>We set a learning rate of <span class="math inline">\(0.05\)</span>, trees of depth <span class="math inline">\(3\)</span>, and sample <span class="math inline">\(80\%\)</span> of the rows and of the columns for each tree. <code>xgb.cv()</code> runs a 5-fold cross-validation with <em>early stopping</em>: it adds trees until the cross-validation error has not improved for <span class="math inline">\(50\)</span> rounds, and records the best number of rounds.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb182"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb182-1"><a href="#cb182-1" aria-hidden="true" tabindex="-1"></a>params <span class="ot">&lt;-</span> <span class="fu">xgb.params</span>(<span class="at">objective =</span> <span class="st">"reg:squarederror"</span>, <span class="at">learning_rate =</span> <span class="fl">0.05</span>,</span>
-<span id="cb182-2"><a href="#cb182-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">max_depth =</span> <span class="dv">3</span>, <span class="at">subsample =</span> <span class="fl">0.8</span>, <span class="at">colsample_bytree =</span> <span class="fl">0.8</span>)</span>
-<span id="cb182-3"><a href="#cb182-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb182-4"><a href="#cb182-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb182-5"><a href="#cb182-5" aria-hidden="true" tabindex="-1"></a>xgb_cv <span class="ot">&lt;-</span> <span class="fu">xgb.cv</span>(<span class="at">params =</span> params, <span class="at">data =</span> dtrain, <span class="at">nrounds =</span> <span class="dv">2000</span>, <span class="at">nfold =</span> <span class="dv">5</span>,</span>
-<span id="cb182-6"><a href="#cb182-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">early_stopping_rounds =</span> <span class="dv">50</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb182-7"><a href="#cb182-7" aria-hidden="true" tabindex="-1"></a>best_rounds <span class="ot">&lt;-</span> xgb_cv<span class="sc">$</span>early_stop<span class="sc">$</span>best_iteration</span>
-<span id="cb182-8"><a href="#cb182-8" aria-hidden="true" tabindex="-1"></a>xgb_cv<span class="sc">$</span>evaluation_log[best_rounds, ]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb194"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb194-1"><a href="#cb194-1" aria-hidden="true" tabindex="-1"></a>params <span class="ot">&lt;-</span> <span class="fu">xgb.params</span>(<span class="at">objective =</span> <span class="st">"reg:squarederror"</span>, <span class="at">learning_rate =</span> <span class="fl">0.05</span>,</span>
+<span id="cb194-2"><a href="#cb194-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">max_depth =</span> <span class="dv">3</span>, <span class="at">subsample =</span> <span class="fl">0.8</span>, <span class="at">colsample_bytree =</span> <span class="fl">0.8</span>)</span>
+<span id="cb194-3"><a href="#cb194-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb194-4"><a href="#cb194-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb194-5"><a href="#cb194-5" aria-hidden="true" tabindex="-1"></a>xgb_cv <span class="ot">&lt;-</span> <span class="fu">xgb.cv</span>(<span class="at">params =</span> params, <span class="at">data =</span> dtrain, <span class="at">nrounds =</span> <span class="dv">2000</span>, <span class="at">nfold =</span> <span class="dv">5</span>,</span>
+<span id="cb194-6"><a href="#cb194-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">early_stopping_rounds =</span> <span class="dv">50</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb194-7"><a href="#cb194-7" aria-hidden="true" tabindex="-1"></a>best_rounds <span class="ot">&lt;-</span> xgb_cv<span class="sc">$</span>early_stop<span class="sc">$</span>best_iteration</span>
+<span id="cb194-8"><a href="#cb194-8" aria-hidden="true" tabindex="-1"></a>xgb_cv<span class="sc">$</span>evaluation_log[best_rounds, ]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    iter train_rmse_mean train_rmse_std test_rmse_mean test_rmse_std
    &lt;int&gt;           &lt;num&gt;          &lt;num&gt;          &lt;num&gt;         &lt;num&gt;
@@ -5590,14 +5679,14 @@ Note
 </div>
 <p>The cross-validation RMSE is lowest after <span class="math inline">\(247\)</span> rounds, at <span class="math inline">\(3.15\)</span>. The evaluation log shows the familiar picture: the training error keeps falling, while the cross-validation error levels off.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb184"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb184-1"><a href="#cb184-1" aria-hidden="true" tabindex="-1"></a>cv_log <span class="ot">&lt;-</span> xgb_cv<span class="sc">$</span>evaluation_log</span>
-<span id="cb184-2"><a href="#cb184-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(cv_log, <span class="fu">aes</span>(iter)) <span class="sc">+</span></span>
-<span id="cb184-3"><a href="#cb184-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> train_rmse_mean, <span class="at">colour =</span> <span class="st">"training"</span>)) <span class="sc">+</span></span>
-<span id="cb184-4"><a href="#cb184-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> test_rmse_mean,  <span class="at">colour =</span> <span class="st">"cross-validation"</span>)) <span class="sc">+</span></span>
-<span id="cb184-5"><a href="#cb184-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> best_rounds, <span class="at">linetype =</span> <span class="st">"dotted"</span>) <span class="sc">+</span></span>
-<span id="cb184-6"><a href="#cb184-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">8</span>)) <span class="sc">+</span></span>
-<span id="cb184-7"><a href="#cb184-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"number of rounds"</span>, <span class="at">y =</span> <span class="st">"RMSE"</span>, <span class="at">colour =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
-<span id="cb184-8"><a href="#cb184-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb196"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb196-1"><a href="#cb196-1" aria-hidden="true" tabindex="-1"></a>cv_log <span class="ot">&lt;-</span> xgb_cv<span class="sc">$</span>evaluation_log</span>
+<span id="cb196-2"><a href="#cb196-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(cv_log, <span class="fu">aes</span>(iter)) <span class="sc">+</span></span>
+<span id="cb196-3"><a href="#cb196-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> train_rmse_mean, <span class="at">colour =</span> <span class="st">"training"</span>)) <span class="sc">+</span></span>
+<span id="cb196-4"><a href="#cb196-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> test_rmse_mean,  <span class="at">colour =</span> <span class="st">"cross-validation"</span>)) <span class="sc">+</span></span>
+<span id="cb196-5"><a href="#cb196-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> best_rounds, <span class="at">linetype =</span> <span class="st">"dotted"</span>) <span class="sc">+</span></span>
+<span id="cb196-6"><a href="#cb196-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">8</span>)) <span class="sc">+</span></span>
+<span id="cb196-7"><a href="#cb196-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"number of rounds"</span>, <span class="at">y =</span> <span class="st">"RMSE"</span>, <span class="at">colour =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb196-8"><a href="#cb196-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -5609,13 +5698,13 @@ Note
 </div>
 <p>The final model is fitted on the whole training set with that number of rounds:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb185"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb185-1"><a href="#cb185-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb185-2"><a href="#cb185-2" aria-hidden="true" tabindex="-1"></a>xgb_fit <span class="ot">&lt;-</span> <span class="fu">xgb.train</span>(<span class="at">params =</span> params, <span class="at">data =</span> dtrain, <span class="at">nrounds =</span> best_rounds)</span>
-<span id="cb185-3"><a href="#cb185-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mse</span>(<span class="fu">predict</span>(xgb_fit, dtest), bos_test<span class="sc">$</span>medv)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb197"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb197-1"><a href="#cb197-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb197-2"><a href="#cb197-2" aria-hidden="true" tabindex="-1"></a>xgb_fit <span class="ot">&lt;-</span> <span class="fu">xgb.train</span>(<span class="at">params =</span> params, <span class="at">data =</span> dtrain, <span class="at">nrounds =</span> best_rounds)</span>
+<span id="cb197-3"><a href="#cb197-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mse</span>(<span class="fu">predict</span>(xgb_fit, dtest), bos_test<span class="sc">$</span>medv)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 17.62692</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb187"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb187-1"><a href="#cb187-1" aria-hidden="true" tabindex="-1"></a><span class="fu">xgb.importance</span>(<span class="at">model =</span> xgb_fit)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb199"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb199-1"><a href="#cb199-1" aria-hidden="true" tabindex="-1"></a><span class="fu">xgb.importance</span>(<span class="at">model =</span> xgb_fit)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    Feature         Gain       Cover   Frequency
      &lt;char&gt;        &lt;num&gt;       &lt;num&gt;       &lt;num&gt;
@@ -5636,19 +5725,19 @@ Note
 <p>The test MSE is <span class="math inline">\(18.43\)</span>, in the same range as the forest and <strong>gbm</strong>. <code>xgb.importance()</code> reports three measures for each variable: <code>Gain</code>, the share of the total improvement of the objective due to its splits (the impurity importance); <code>Cover</code>, the share of the observations (strictly, of the <span class="math inline">\(h_i\)</span>) affected by its splits; and <code>Frequency</code>, the share of all splits made on it. By gain, <code>rm</code> and <code>lstat</code> again account for more than <span class="math inline">\(80\%\)</span> of the total.</p>
 <p><strong>Tuning.</strong> We search a small grid over the depth of the trees, <code>min_child_weight</code> and <code>subsample</code>, using early stopping in every cross-validation:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb189"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb189-1"><a href="#cb189-1" aria-hidden="true" tabindex="-1"></a>grid <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">max_depth =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">6</span>), <span class="at">min_child_weight =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>),</span>
-<span id="cb189-2"><a href="#cb189-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">subsample =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.8</span>, <span class="dv">1</span>))</span>
-<span id="cb189-3"><a href="#cb189-3" aria-hidden="true" tabindex="-1"></a>grid[, <span class="fu">c</span>(<span class="st">"rounds"</span>, <span class="st">"cv_rmse"</span>)] <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">sapply</span>(<span class="fu">seq_len</span>(<span class="fu">nrow</span>(grid)), <span class="cf">function</span>(i) {</span>
-<span id="cb189-4"><a href="#cb189-4" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">&lt;-</span> <span class="fu">xgb.params</span>(<span class="at">objective =</span> <span class="st">"reg:squarederror"</span>, <span class="at">learning_rate =</span> <span class="fl">0.05</span>,</span>
-<span id="cb189-5"><a href="#cb189-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">max_depth =</span> grid<span class="sc">$</span>max_depth[i], <span class="at">min_child_weight =</span> grid<span class="sc">$</span>min_child_weight[i],</span>
-<span id="cb189-6"><a href="#cb189-6" aria-hidden="true" tabindex="-1"></a>                  <span class="at">subsample =</span> grid<span class="sc">$</span>subsample[i], <span class="at">colsample_bytree =</span> <span class="fl">0.8</span>)</span>
-<span id="cb189-7"><a href="#cb189-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb189-8"><a href="#cb189-8" aria-hidden="true" tabindex="-1"></a>  cv <span class="ot">&lt;-</span> <span class="fu">xgb.cv</span>(<span class="at">params =</span> p, <span class="at">data =</span> dtrain, <span class="at">nrounds =</span> <span class="dv">2000</span>, <span class="at">nfold =</span> <span class="dv">5</span>,</span>
-<span id="cb189-9"><a href="#cb189-9" aria-hidden="true" tabindex="-1"></a>               <span class="at">early_stopping_rounds =</span> <span class="dv">50</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb189-10"><a href="#cb189-10" aria-hidden="true" tabindex="-1"></a>  b <span class="ot">&lt;-</span> cv<span class="sc">$</span>early_stop<span class="sc">$</span>best_iteration</span>
-<span id="cb189-11"><a href="#cb189-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(b, cv<span class="sc">$</span>evaluation_log<span class="sc">$</span>test_rmse_mean[b])</span>
-<span id="cb189-12"><a href="#cb189-12" aria-hidden="true" tabindex="-1"></a>}))</span>
-<span id="cb189-13"><a href="#cb189-13" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(grid[<span class="fu">order</span>(grid<span class="sc">$</span>cv_rmse), ], <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb201"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb201-1"><a href="#cb201-1" aria-hidden="true" tabindex="-1"></a>grid <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">max_depth =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">6</span>), <span class="at">min_child_weight =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>),</span>
+<span id="cb201-2"><a href="#cb201-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">subsample =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.8</span>, <span class="dv">1</span>))</span>
+<span id="cb201-3"><a href="#cb201-3" aria-hidden="true" tabindex="-1"></a>grid[, <span class="fu">c</span>(<span class="st">"rounds"</span>, <span class="st">"cv_rmse"</span>)] <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">sapply</span>(<span class="fu">seq_len</span>(<span class="fu">nrow</span>(grid)), <span class="cf">function</span>(i) {</span>
+<span id="cb201-4"><a href="#cb201-4" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">&lt;-</span> <span class="fu">xgb.params</span>(<span class="at">objective =</span> <span class="st">"reg:squarederror"</span>, <span class="at">learning_rate =</span> <span class="fl">0.05</span>,</span>
+<span id="cb201-5"><a href="#cb201-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">max_depth =</span> grid<span class="sc">$</span>max_depth[i], <span class="at">min_child_weight =</span> grid<span class="sc">$</span>min_child_weight[i],</span>
+<span id="cb201-6"><a href="#cb201-6" aria-hidden="true" tabindex="-1"></a>                  <span class="at">subsample =</span> grid<span class="sc">$</span>subsample[i], <span class="at">colsample_bytree =</span> <span class="fl">0.8</span>)</span>
+<span id="cb201-7"><a href="#cb201-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb201-8"><a href="#cb201-8" aria-hidden="true" tabindex="-1"></a>  cv <span class="ot">&lt;-</span> <span class="fu">xgb.cv</span>(<span class="at">params =</span> p, <span class="at">data =</span> dtrain, <span class="at">nrounds =</span> <span class="dv">2000</span>, <span class="at">nfold =</span> <span class="dv">5</span>,</span>
+<span id="cb201-9"><a href="#cb201-9" aria-hidden="true" tabindex="-1"></a>               <span class="at">early_stopping_rounds =</span> <span class="dv">50</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb201-10"><a href="#cb201-10" aria-hidden="true" tabindex="-1"></a>  b <span class="ot">&lt;-</span> cv<span class="sc">$</span>early_stop<span class="sc">$</span>best_iteration</span>
+<span id="cb201-11"><a href="#cb201-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(b, cv<span class="sc">$</span>evaluation_log<span class="sc">$</span>test_rmse_mean[b])</span>
+<span id="cb201-12"><a href="#cb201-12" aria-hidden="true" tabindex="-1"></a>}))</span>
+<span id="cb201-13"><a href="#cb201-13" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(grid[<span class="fu">order</span>(grid<span class="sc">$</span>cv_rmse), ], <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   max_depth min_child_weight subsample rounds  cv_rmse
 7          4                5       0.5    221 3.043094
@@ -5659,13 +5748,13 @@ Note
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb191"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb191-1"><a href="#cb191-1" aria-hidden="true" tabindex="-1"></a>best <span class="ot">&lt;-</span> grid[<span class="fu">which.min</span>(grid<span class="sc">$</span>cv_rmse), ]</span>
-<span id="cb191-2"><a href="#cb191-2" aria-hidden="true" tabindex="-1"></a>params_tuned <span class="ot">&lt;-</span> <span class="fu">xgb.params</span>(<span class="at">objective =</span> <span class="st">"reg:squarederror"</span>, <span class="at">learning_rate =</span> <span class="fl">0.05</span>,</span>
-<span id="cb191-3"><a href="#cb191-3" aria-hidden="true" tabindex="-1"></a>                           <span class="at">max_depth =</span> best<span class="sc">$</span>max_depth, <span class="at">min_child_weight =</span> best<span class="sc">$</span>min_child_weight,</span>
-<span id="cb191-4"><a href="#cb191-4" aria-hidden="true" tabindex="-1"></a>                           <span class="at">subsample =</span> best<span class="sc">$</span>subsample, <span class="at">colsample_bytree =</span> <span class="fl">0.8</span>)</span>
-<span id="cb191-5"><a href="#cb191-5" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb191-6"><a href="#cb191-6" aria-hidden="true" tabindex="-1"></a>xgb_tuned <span class="ot">&lt;-</span> <span class="fu">xgb.train</span>(<span class="at">params =</span> params_tuned, <span class="at">data =</span> dtrain, <span class="at">nrounds =</span> best<span class="sc">$</span>rounds)</span>
-<span id="cb191-7"><a href="#cb191-7" aria-hidden="true" tabindex="-1"></a><span class="fu">mse</span>(<span class="fu">predict</span>(xgb_tuned, dtest), bos_test<span class="sc">$</span>medv)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb203"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb203-1"><a href="#cb203-1" aria-hidden="true" tabindex="-1"></a>best <span class="ot">&lt;-</span> grid[<span class="fu">which.min</span>(grid<span class="sc">$</span>cv_rmse), ]</span>
+<span id="cb203-2"><a href="#cb203-2" aria-hidden="true" tabindex="-1"></a>params_tuned <span class="ot">&lt;-</span> <span class="fu">xgb.params</span>(<span class="at">objective =</span> <span class="st">"reg:squarederror"</span>, <span class="at">learning_rate =</span> <span class="fl">0.05</span>,</span>
+<span id="cb203-3"><a href="#cb203-3" aria-hidden="true" tabindex="-1"></a>                           <span class="at">max_depth =</span> best<span class="sc">$</span>max_depth, <span class="at">min_child_weight =</span> best<span class="sc">$</span>min_child_weight,</span>
+<span id="cb203-4"><a href="#cb203-4" aria-hidden="true" tabindex="-1"></a>                           <span class="at">subsample =</span> best<span class="sc">$</span>subsample, <span class="at">colsample_bytree =</span> <span class="fl">0.8</span>)</span>
+<span id="cb203-5"><a href="#cb203-5" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb203-6"><a href="#cb203-6" aria-hidden="true" tabindex="-1"></a>xgb_tuned <span class="ot">&lt;-</span> <span class="fu">xgb.train</span>(<span class="at">params =</span> params_tuned, <span class="at">data =</span> dtrain, <span class="at">nrounds =</span> best<span class="sc">$</span>rounds)</span>
+<span id="cb203-7"><a href="#cb203-7" aria-hidden="true" tabindex="-1"></a><span class="fu">mse</span>(<span class="fu">predict</span>(xgb_tuned, dtest), bos_test<span class="sc">$</span>medv)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 17.3445</code></pre>
 </div>
@@ -5673,28 +5762,28 @@ Note
 <p>The best combination has trees of depth <span class="math inline">\(4\)</span>, at least <span class="math inline">\(5\)</span> observations per leaf, and <em>aggressive</em> row subsampling: each tree sees only half of the training set. Its cross-validation RMSE is <span class="math inline">\(2.97\)</span>, and its test MSE <span class="math inline">\(17.14\)</span>.</p>
 <p><strong>Classification.</strong> The predictors must be numeric, so factors are first turned into dummy variables with <code>model.matrix()</code>. The formula <code>High ~ . - 1</code> (no intercept) creates one column for each level of the first factor (<code>ShelveLoc</code>) and one for the second level of <code>Urban</code> and <code>US</code>. The objective <code>"binary:logistic"</code> boosts the log-odds, and <code>predict()</code> returns probabilities:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb193"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb193-1"><a href="#cb193-1" aria-hidden="true" tabindex="-1"></a>Xc_train <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(High <span class="sc">~</span> . <span class="sc">-</span> <span class="dv">1</span>, <span class="at">data =</span> car_train)</span>
-<span id="cb193-2"><a href="#cb193-2" aria-hidden="true" tabindex="-1"></a>Xc_test  <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(High <span class="sc">~</span> . <span class="sc">-</span> <span class="dv">1</span>, <span class="at">data =</span> car_test)</span>
-<span id="cb193-3"><a href="#cb193-3" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(Xc_train)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb205"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb205-1"><a href="#cb205-1" aria-hidden="true" tabindex="-1"></a>Xc_train <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(High <span class="sc">~</span> . <span class="sc">-</span> <span class="dv">1</span>, <span class="at">data =</span> car_train)</span>
+<span id="cb205-2"><a href="#cb205-2" aria-hidden="true" tabindex="-1"></a>Xc_test  <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(High <span class="sc">~</span> . <span class="sc">-</span> <span class="dv">1</span>, <span class="at">data =</span> car_test)</span>
+<span id="cb205-3"><a href="#cb205-3" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(Xc_train)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "CompPrice"       "Income"          "Advertising"     "Population"     
  [5] "Price"           "ShelveLocBad"    "ShelveLocGood"   "ShelveLocMedium"
  [9] "Age"             "Education"       "UrbanYes"        "USYes"          </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb195"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb195-1"><a href="#cb195-1" aria-hidden="true" tabindex="-1"></a>dctrain <span class="ot">&lt;-</span> <span class="fu">xgb.DMatrix</span>(Xc_train, <span class="at">label =</span> <span class="fu">as.integer</span>(car_train<span class="sc">$</span>High <span class="sc">==</span> <span class="st">"Yes"</span>))</span>
-<span id="cb195-2"><a href="#cb195-2" aria-hidden="true" tabindex="-1"></a>params_c <span class="ot">&lt;-</span> <span class="fu">xgb.params</span>(<span class="at">objective =</span> <span class="st">"binary:logistic"</span>, <span class="at">eval_metric =</span> <span class="st">"logloss"</span>,</span>
-<span id="cb195-3"><a href="#cb195-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">learning_rate =</span> <span class="fl">0.05</span>, <span class="at">max_depth =</span> <span class="dv">2</span>,</span>
-<span id="cb195-4"><a href="#cb195-4" aria-hidden="true" tabindex="-1"></a>                       <span class="at">subsample =</span> <span class="fl">0.8</span>, <span class="at">colsample_bytree =</span> <span class="fl">0.8</span>)</span>
-<span id="cb195-5"><a href="#cb195-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb195-6"><a href="#cb195-6" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb195-7"><a href="#cb195-7" aria-hidden="true" tabindex="-1"></a>cv_c <span class="ot">&lt;-</span> <span class="fu">xgb.cv</span>(<span class="at">params =</span> params_c, <span class="at">data =</span> dctrain, <span class="at">nrounds =</span> <span class="dv">3000</span>, <span class="at">nfold =</span> <span class="dv">5</span>,</span>
-<span id="cb195-8"><a href="#cb195-8" aria-hidden="true" tabindex="-1"></a>               <span class="at">early_stopping_rounds =</span> <span class="dv">50</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb195-9"><a href="#cb195-9" aria-hidden="true" tabindex="-1"></a>rounds_c <span class="ot">&lt;-</span> cv_c<span class="sc">$</span>early_stop<span class="sc">$</span>best_iteration</span>
-<span id="cb195-10"><a href="#cb195-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb195-11"><a href="#cb195-11" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb195-12"><a href="#cb195-12" aria-hidden="true" tabindex="-1"></a>xgb_car <span class="ot">&lt;-</span> <span class="fu">xgb.train</span>(<span class="at">params =</span> params_c, <span class="at">data =</span> dctrain, <span class="at">nrounds =</span> rounds_c)</span>
-<span id="cb195-13"><a href="#cb195-13" aria-hidden="true" tabindex="-1"></a>xgb_car_prob <span class="ot">&lt;-</span> <span class="fu">predict</span>(xgb_car, <span class="fu">xgb.DMatrix</span>(Xc_test))</span>
-<span id="cb195-14"><a href="#cb195-14" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">rounds =</span> rounds_c, <span class="at">accuracy =</span> <span class="fu">mean</span>(<span class="fu">ifelse</span>(xgb_car_prob <span class="sc">&gt;</span> <span class="fl">0.5</span>, <span class="st">"Yes"</span>, <span class="st">"No"</span>) <span class="sc">==</span> car_test<span class="sc">$</span>High))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb207"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb207-1"><a href="#cb207-1" aria-hidden="true" tabindex="-1"></a>dctrain <span class="ot">&lt;-</span> <span class="fu">xgb.DMatrix</span>(Xc_train, <span class="at">label =</span> <span class="fu">as.integer</span>(car_train<span class="sc">$</span>High <span class="sc">==</span> <span class="st">"Yes"</span>))</span>
+<span id="cb207-2"><a href="#cb207-2" aria-hidden="true" tabindex="-1"></a>params_c <span class="ot">&lt;-</span> <span class="fu">xgb.params</span>(<span class="at">objective =</span> <span class="st">"binary:logistic"</span>, <span class="at">eval_metric =</span> <span class="st">"logloss"</span>,</span>
+<span id="cb207-3"><a href="#cb207-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">learning_rate =</span> <span class="fl">0.05</span>, <span class="at">max_depth =</span> <span class="dv">2</span>,</span>
+<span id="cb207-4"><a href="#cb207-4" aria-hidden="true" tabindex="-1"></a>                       <span class="at">subsample =</span> <span class="fl">0.8</span>, <span class="at">colsample_bytree =</span> <span class="fl">0.8</span>)</span>
+<span id="cb207-5"><a href="#cb207-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb207-6"><a href="#cb207-6" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb207-7"><a href="#cb207-7" aria-hidden="true" tabindex="-1"></a>cv_c <span class="ot">&lt;-</span> <span class="fu">xgb.cv</span>(<span class="at">params =</span> params_c, <span class="at">data =</span> dctrain, <span class="at">nrounds =</span> <span class="dv">3000</span>, <span class="at">nfold =</span> <span class="dv">5</span>,</span>
+<span id="cb207-8"><a href="#cb207-8" aria-hidden="true" tabindex="-1"></a>               <span class="at">early_stopping_rounds =</span> <span class="dv">50</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb207-9"><a href="#cb207-9" aria-hidden="true" tabindex="-1"></a>rounds_c <span class="ot">&lt;-</span> cv_c<span class="sc">$</span>early_stop<span class="sc">$</span>best_iteration</span>
+<span id="cb207-10"><a href="#cb207-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb207-11"><a href="#cb207-11" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb207-12"><a href="#cb207-12" aria-hidden="true" tabindex="-1"></a>xgb_car <span class="ot">&lt;-</span> <span class="fu">xgb.train</span>(<span class="at">params =</span> params_c, <span class="at">data =</span> dctrain, <span class="at">nrounds =</span> rounds_c)</span>
+<span id="cb207-13"><a href="#cb207-13" aria-hidden="true" tabindex="-1"></a>xgb_car_prob <span class="ot">&lt;-</span> <span class="fu">predict</span>(xgb_car, <span class="fu">xgb.DMatrix</span>(Xc_test))</span>
+<span id="cb207-14"><a href="#cb207-14" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">rounds =</span> rounds_c, <span class="at">accuracy =</span> <span class="fu">mean</span>(<span class="fu">ifelse</span>(xgb_car_prob <span class="sc">&gt;</span> <span class="fl">0.5</span>, <span class="st">"Yes"</span>, <span class="st">"No"</span>) <span class="sc">==</span> car_test<span class="sc">$</span>High))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  rounds accuracy 
  213.000    0.845 </code></pre>
@@ -5703,12 +5792,12 @@ Note
 <p>With <span class="math inline">\(214\)</span> rounds of depth-two trees, XGBoost classifies <span class="math inline">\(84.5\%\)</span> of the test stores correctly, about the same as <strong>gbm</strong>.</p>
 <p>Since version 3, the package also has a higher-level function, <code>xgboost(x, y, ...)</code>, which accepts a data frame with factor columns — split natively as categories, without dummy variables — and chooses the objective from the type of <code>y</code>: a factor with two levels gives <code>"binary:logistic"</code>. Its parameters are ordinary arguments:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb197"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb197-1"><a href="#cb197-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb197-2"><a href="#cb197-2" aria-hidden="true" tabindex="-1"></a>xgb_car2 <span class="ot">&lt;-</span> <span class="fu">xgboost</span>(<span class="at">x =</span> car_train[, <span class="fu">names</span>(car_train) <span class="sc">!=</span> <span class="st">"High"</span>], <span class="at">y =</span> car_train<span class="sc">$</span>High,</span>
-<span id="cb197-3"><a href="#cb197-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">nrounds =</span> <span class="dv">214</span>, <span class="at">max_depth =</span> <span class="dv">2</span>, <span class="at">learning_rate =</span> <span class="fl">0.05</span>,</span>
-<span id="cb197-4"><a href="#cb197-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">subsample =</span> <span class="fl">0.8</span>, <span class="at">colsample_bytree =</span> <span class="fl">0.8</span>)</span>
-<span id="cb197-5"><a href="#cb197-5" aria-hidden="true" tabindex="-1"></a>xgb_car2_pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(xgb_car2, car_test[, <span class="fu">names</span>(car_test) <span class="sc">!=</span> <span class="st">"High"</span>], <span class="at">type =</span> <span class="st">"class"</span>)</span>
-<span id="cb197-6"><a href="#cb197-6" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(xgb_car2_pred <span class="sc">==</span> car_test<span class="sc">$</span>High)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb209"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb209-1"><a href="#cb209-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb209-2"><a href="#cb209-2" aria-hidden="true" tabindex="-1"></a>xgb_car2 <span class="ot">&lt;-</span> <span class="fu">xgboost</span>(<span class="at">x =</span> car_train[, <span class="fu">names</span>(car_train) <span class="sc">!=</span> <span class="st">"High"</span>], <span class="at">y =</span> car_train<span class="sc">$</span>High,</span>
+<span id="cb209-3"><a href="#cb209-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">nrounds =</span> <span class="dv">214</span>, <span class="at">max_depth =</span> <span class="dv">2</span>, <span class="at">learning_rate =</span> <span class="fl">0.05</span>,</span>
+<span id="cb209-4"><a href="#cb209-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">subsample =</span> <span class="fl">0.8</span>, <span class="at">colsample_bytree =</span> <span class="fl">0.8</span>)</span>
+<span id="cb209-5"><a href="#cb209-5" aria-hidden="true" tabindex="-1"></a>xgb_car2_pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(xgb_car2, car_test[, <span class="fu">names</span>(car_test) <span class="sc">!=</span> <span class="st">"High"</span>], <span class="at">type =</span> <span class="st">"class"</span>)</span>
+<span id="cb209-6"><a href="#cb209-6" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(xgb_car2_pred <span class="sc">==</span> car_test<span class="sc">$</span>High)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.855</code></pre>
 </div>
@@ -5790,28 +5879,28 @@ Note
 <h3 data-number="11.11.4" class="anchored" data-anchor-id="lightgbm-in-r"><span class="header-section-number">11.11.4</span> LightGBM in R</h3>
 <p>The R interface mirrors XGBoost’s: <code>lgb.Dataset()</code> wraps a numeric matrix and the response, <code>lgb.cv()</code> cross-validates with early stopping, and <code>lgb.train()</code> fits the final model. With only <span class="math inline">\(253\)</span> training tracts, we limit the trees to <span class="math inline">\(8\)</span> leaves and <span class="math inline">\(10\)</span> observations per leaf. <code>seed</code> fixes the random row and column sampling, and <code>set.seed()</code> the folds of <code>lgb.cv()</code>, which are drawn in R:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb199"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb199-1"><a href="#cb199-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lightgbm)</span>
-<span id="cb199-2"><a href="#cb199-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb199-3"><a href="#cb199-3" aria-hidden="true" tabindex="-1"></a>ltrain <span class="ot">&lt;-</span> <span class="fu">lgb.Dataset</span>(X_train, <span class="at">label =</span> bos_train<span class="sc">$</span>medv)</span>
-<span id="cb199-4"><a href="#cb199-4" aria-hidden="true" tabindex="-1"></a>lparams <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">objective =</span> <span class="st">"regression"</span>, <span class="at">learning_rate =</span> <span class="fl">0.05</span>,</span>
-<span id="cb199-5"><a href="#cb199-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">num_leaves =</span> <span class="dv">8</span>, <span class="at">min_data_in_leaf =</span> <span class="dv">10</span>,</span>
-<span id="cb199-6"><a href="#cb199-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">feature_fraction =</span> <span class="fl">0.8</span>, <span class="at">bagging_fraction =</span> <span class="fl">0.8</span>, <span class="at">bagging_freq =</span> <span class="dv">1</span>,</span>
-<span id="cb199-7"><a href="#cb199-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">seed =</span> <span class="dv">1</span>, <span class="at">verbose =</span> <span class="sc">-</span><span class="dv">1</span>)</span>
-<span id="cb199-8"><a href="#cb199-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb199-9"><a href="#cb199-9" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb199-10"><a href="#cb199-10" aria-hidden="true" tabindex="-1"></a>lgb_cv <span class="ot">&lt;-</span> <span class="fu">lgb.cv</span>(<span class="at">params =</span> lparams, <span class="at">data =</span> ltrain, <span class="at">nrounds =</span> <span class="dv">2000</span>, <span class="at">nfold =</span> <span class="dv">5</span>,</span>
-<span id="cb199-11"><a href="#cb199-11" aria-hidden="true" tabindex="-1"></a>                 <span class="at">early_stopping_rounds =</span> <span class="dv">50</span>, <span class="at">verbose =</span> <span class="sc">-</span><span class="dv">1</span>)</span>
-<span id="cb199-12"><a href="#cb199-12" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">best_iter =</span> lgb_cv<span class="sc">$</span>best_iter, <span class="at">cv_mse =</span> lgb_cv<span class="sc">$</span>best_score)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb211"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb211-1"><a href="#cb211-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lightgbm)</span>
+<span id="cb211-2"><a href="#cb211-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb211-3"><a href="#cb211-3" aria-hidden="true" tabindex="-1"></a>ltrain <span class="ot">&lt;-</span> <span class="fu">lgb.Dataset</span>(X_train, <span class="at">label =</span> bos_train<span class="sc">$</span>medv)</span>
+<span id="cb211-4"><a href="#cb211-4" aria-hidden="true" tabindex="-1"></a>lparams <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">objective =</span> <span class="st">"regression"</span>, <span class="at">learning_rate =</span> <span class="fl">0.05</span>,</span>
+<span id="cb211-5"><a href="#cb211-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">num_leaves =</span> <span class="dv">8</span>, <span class="at">min_data_in_leaf =</span> <span class="dv">10</span>,</span>
+<span id="cb211-6"><a href="#cb211-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">feature_fraction =</span> <span class="fl">0.8</span>, <span class="at">bagging_fraction =</span> <span class="fl">0.8</span>, <span class="at">bagging_freq =</span> <span class="dv">1</span>,</span>
+<span id="cb211-7"><a href="#cb211-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">seed =</span> <span class="dv">1</span>, <span class="at">verbose =</span> <span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb211-8"><a href="#cb211-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb211-9"><a href="#cb211-9" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb211-10"><a href="#cb211-10" aria-hidden="true" tabindex="-1"></a>lgb_cv <span class="ot">&lt;-</span> <span class="fu">lgb.cv</span>(<span class="at">params =</span> lparams, <span class="at">data =</span> ltrain, <span class="at">nrounds =</span> <span class="dv">2000</span>, <span class="at">nfold =</span> <span class="dv">5</span>,</span>
+<span id="cb211-11"><a href="#cb211-11" aria-hidden="true" tabindex="-1"></a>                 <span class="at">early_stopping_rounds =</span> <span class="dv">50</span>, <span class="at">verbose =</span> <span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb211-12"><a href="#cb211-12" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">best_iter =</span> lgb_cv<span class="sc">$</span>best_iter, <span class="at">cv_mse =</span> lgb_cv<span class="sc">$</span>best_score)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>best_iter    cv_mse 
 323.00000  10.24492 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb201"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb201-1"><a href="#cb201-1" aria-hidden="true" tabindex="-1"></a>lgb_fit <span class="ot">&lt;-</span> <span class="fu">lgb.train</span>(<span class="at">params =</span> lparams, <span class="at">data =</span> ltrain, <span class="at">nrounds =</span> lgb_cv<span class="sc">$</span>best_iter, <span class="at">verbose =</span> <span class="sc">-</span><span class="dv">1</span>)</span>
-<span id="cb201-2"><a href="#cb201-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mse</span>(<span class="fu">predict</span>(lgb_fit, X_test), bos_test<span class="sc">$</span>medv)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb213"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb213-1"><a href="#cb213-1" aria-hidden="true" tabindex="-1"></a>lgb_fit <span class="ot">&lt;-</span> <span class="fu">lgb.train</span>(<span class="at">params =</span> lparams, <span class="at">data =</span> ltrain, <span class="at">nrounds =</span> lgb_cv<span class="sc">$</span>best_iter, <span class="at">verbose =</span> <span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb213-2"><a href="#cb213-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mse</span>(<span class="fu">predict</span>(lgb_fit, X_test), bos_test<span class="sc">$</span>medv)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 18.75154</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb203"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb203-1"><a href="#cb203-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lgb.importance</span>(lgb_fit)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb215"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb215-1"><a href="#cb215-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lgb.importance</span>(lgb_fit)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    Feature         Gain       Cover   Frequency
      &lt;char&gt;        &lt;num&gt;       &lt;num&gt;       &lt;num&gt;
@@ -5832,36 +5921,36 @@ Note
 <p>Note that LightGBM reports the <code>l2</code> loss, which is the MSE, where XGBoost reported the RMSE. Early stopping keeps <span class="math inline">\(323\)</span> rounds, with a cross-validation MSE of <span class="math inline">\(10.24\)</span> (an RMSE of <span class="math inline">\(3.20\)</span>, against <span class="math inline">\(3.15\)</span> for XGBoost). The test MSE is <span class="math inline">\(18.75\)</span>, and the importance by gain is almost the same as XGBoost’s: <code>rm</code> and <code>lstat</code> account for <span class="math inline">\(81\%\)</span> of the total.</p>
 <p><strong>Native categorical predictors.</strong> For Carseats, <code>lgb.convert_with_rules()</code> turns each factor into integer codes and returns the coding <em>rules</em>, which are then applied unchanged to the test set. The argument <code>categorical_feature</code> tells LightGBM to split these columns as categories rather than as numbers:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb205"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb205-1"><a href="#cb205-1" aria-hidden="true" tabindex="-1"></a>predictors <span class="ot">&lt;-</span> <span class="fu">names</span>(car_train) <span class="sc">!=</span> <span class="st">"High"</span></span>
-<span id="cb205-2"><a href="#cb205-2" aria-hidden="true" tabindex="-1"></a>conv_train <span class="ot">&lt;-</span> <span class="fu">lgb.convert_with_rules</span>(car_train[, predictors])</span>
-<span id="cb205-3"><a href="#cb205-3" aria-hidden="true" tabindex="-1"></a>conv_test  <span class="ot">&lt;-</span> <span class="fu">lgb.convert_with_rules</span>(car_test[, predictors], <span class="at">rules =</span> conv_train<span class="sc">$</span>rules)</span>
-<span id="cb205-4"><a href="#cb205-4" aria-hidden="true" tabindex="-1"></a>conv_train<span class="sc">$</span>rules<span class="sc">$</span>ShelveLoc</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb217"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb217-1"><a href="#cb217-1" aria-hidden="true" tabindex="-1"></a>predictors <span class="ot">&lt;-</span> <span class="fu">names</span>(car_train) <span class="sc">!=</span> <span class="st">"High"</span></span>
+<span id="cb217-2"><a href="#cb217-2" aria-hidden="true" tabindex="-1"></a>conv_train <span class="ot">&lt;-</span> <span class="fu">lgb.convert_with_rules</span>(car_train[, predictors])</span>
+<span id="cb217-3"><a href="#cb217-3" aria-hidden="true" tabindex="-1"></a>conv_test  <span class="ot">&lt;-</span> <span class="fu">lgb.convert_with_rules</span>(car_test[, predictors], <span class="at">rules =</span> conv_train<span class="sc">$</span>rules)</span>
+<span id="cb217-4"><a href="#cb217-4" aria-hidden="true" tabindex="-1"></a>conv_train<span class="sc">$</span>rules<span class="sc">$</span>ShelveLoc</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Bad   Good Medium 
      1      2      3 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb207"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb207-1"><a href="#cb207-1" aria-hidden="true" tabindex="-1"></a>lctrain <span class="ot">&lt;-</span> <span class="fu">lgb.Dataset</span>(<span class="fu">as.matrix</span>(conv_train<span class="sc">$</span>data),</span>
-<span id="cb207-2"><a href="#cb207-2" aria-hidden="true" tabindex="-1"></a>                       <span class="at">label =</span> <span class="fu">as.integer</span>(car_train<span class="sc">$</span>High <span class="sc">==</span> <span class="st">"Yes"</span>),</span>
-<span id="cb207-3"><a href="#cb207-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">categorical_feature =</span> <span class="fu">c</span>(<span class="st">"ShelveLoc"</span>, <span class="st">"Urban"</span>, <span class="st">"US"</span>))</span>
-<span id="cb207-4"><a href="#cb207-4" aria-hidden="true" tabindex="-1"></a>lparams_c <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">objective =</span> <span class="st">"binary"</span>, <span class="at">metric =</span> <span class="st">"binary_logloss"</span>, <span class="at">learning_rate =</span> <span class="fl">0.05</span>,</span>
-<span id="cb207-5"><a href="#cb207-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">num_leaves =</span> <span class="dv">4</span>, <span class="at">min_data_in_leaf =</span> <span class="dv">10</span>,</span>
-<span id="cb207-6"><a href="#cb207-6" aria-hidden="true" tabindex="-1"></a>                  <span class="at">feature_fraction =</span> <span class="fl">0.8</span>, <span class="at">bagging_fraction =</span> <span class="fl">0.8</span>, <span class="at">bagging_freq =</span> <span class="dv">1</span>,</span>
-<span id="cb207-7"><a href="#cb207-7" aria-hidden="true" tabindex="-1"></a>                  <span class="at">seed =</span> <span class="dv">1</span>, <span class="at">verbose =</span> <span class="sc">-</span><span class="dv">1</span>)</span>
-<span id="cb207-8"><a href="#cb207-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb207-9"><a href="#cb207-9" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb207-10"><a href="#cb207-10" aria-hidden="true" tabindex="-1"></a>lgb_cv_c <span class="ot">&lt;-</span> <span class="fu">lgb.cv</span>(<span class="at">params =</span> lparams_c, <span class="at">data =</span> lctrain, <span class="at">nrounds =</span> <span class="dv">3000</span>, <span class="at">nfold =</span> <span class="dv">5</span>,</span>
-<span id="cb207-11"><a href="#cb207-11" aria-hidden="true" tabindex="-1"></a>                   <span class="at">early_stopping_rounds =</span> <span class="dv">50</span>, <span class="at">verbose =</span> <span class="sc">-</span><span class="dv">1</span>)</span>
-<span id="cb207-12"><a href="#cb207-12" aria-hidden="true" tabindex="-1"></a>lgb_car <span class="ot">&lt;-</span> <span class="fu">lgb.train</span>(<span class="at">params =</span> lparams_c, <span class="at">data =</span> lctrain,</span>
-<span id="cb207-13"><a href="#cb207-13" aria-hidden="true" tabindex="-1"></a>                     <span class="at">nrounds =</span> lgb_cv_c<span class="sc">$</span>best_iter, <span class="at">verbose =</span> <span class="sc">-</span><span class="dv">1</span>)</span>
-<span id="cb207-14"><a href="#cb207-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb207-15"><a href="#cb207-15" aria-hidden="true" tabindex="-1"></a>lgb_car_prob <span class="ot">&lt;-</span> <span class="fu">predict</span>(lgb_car, <span class="fu">as.matrix</span>(conv_test<span class="sc">$</span>data))</span>
-<span id="cb207-16"><a href="#cb207-16" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">rounds =</span> lgb_cv_c<span class="sc">$</span>best_iter,</span>
-<span id="cb207-17"><a href="#cb207-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">accuracy =</span> <span class="fu">mean</span>(<span class="fu">ifelse</span>(lgb_car_prob <span class="sc">&gt;</span> <span class="fl">0.5</span>, <span class="st">"Yes"</span>, <span class="st">"No"</span>) <span class="sc">==</span> car_test<span class="sc">$</span>High))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb219"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb219-1"><a href="#cb219-1" aria-hidden="true" tabindex="-1"></a>lctrain <span class="ot">&lt;-</span> <span class="fu">lgb.Dataset</span>(<span class="fu">as.matrix</span>(conv_train<span class="sc">$</span>data),</span>
+<span id="cb219-2"><a href="#cb219-2" aria-hidden="true" tabindex="-1"></a>                       <span class="at">label =</span> <span class="fu">as.integer</span>(car_train<span class="sc">$</span>High <span class="sc">==</span> <span class="st">"Yes"</span>),</span>
+<span id="cb219-3"><a href="#cb219-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">categorical_feature =</span> <span class="fu">c</span>(<span class="st">"ShelveLoc"</span>, <span class="st">"Urban"</span>, <span class="st">"US"</span>))</span>
+<span id="cb219-4"><a href="#cb219-4" aria-hidden="true" tabindex="-1"></a>lparams_c <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">objective =</span> <span class="st">"binary"</span>, <span class="at">metric =</span> <span class="st">"binary_logloss"</span>, <span class="at">learning_rate =</span> <span class="fl">0.05</span>,</span>
+<span id="cb219-5"><a href="#cb219-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">num_leaves =</span> <span class="dv">4</span>, <span class="at">min_data_in_leaf =</span> <span class="dv">10</span>,</span>
+<span id="cb219-6"><a href="#cb219-6" aria-hidden="true" tabindex="-1"></a>                  <span class="at">feature_fraction =</span> <span class="fl">0.8</span>, <span class="at">bagging_fraction =</span> <span class="fl">0.8</span>, <span class="at">bagging_freq =</span> <span class="dv">1</span>,</span>
+<span id="cb219-7"><a href="#cb219-7" aria-hidden="true" tabindex="-1"></a>                  <span class="at">seed =</span> <span class="dv">1</span>, <span class="at">verbose =</span> <span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb219-8"><a href="#cb219-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb219-9"><a href="#cb219-9" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb219-10"><a href="#cb219-10" aria-hidden="true" tabindex="-1"></a>lgb_cv_c <span class="ot">&lt;-</span> <span class="fu">lgb.cv</span>(<span class="at">params =</span> lparams_c, <span class="at">data =</span> lctrain, <span class="at">nrounds =</span> <span class="dv">3000</span>, <span class="at">nfold =</span> <span class="dv">5</span>,</span>
+<span id="cb219-11"><a href="#cb219-11" aria-hidden="true" tabindex="-1"></a>                   <span class="at">early_stopping_rounds =</span> <span class="dv">50</span>, <span class="at">verbose =</span> <span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb219-12"><a href="#cb219-12" aria-hidden="true" tabindex="-1"></a>lgb_car <span class="ot">&lt;-</span> <span class="fu">lgb.train</span>(<span class="at">params =</span> lparams_c, <span class="at">data =</span> lctrain,</span>
+<span id="cb219-13"><a href="#cb219-13" aria-hidden="true" tabindex="-1"></a>                     <span class="at">nrounds =</span> lgb_cv_c<span class="sc">$</span>best_iter, <span class="at">verbose =</span> <span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb219-14"><a href="#cb219-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb219-15"><a href="#cb219-15" aria-hidden="true" tabindex="-1"></a>lgb_car_prob <span class="ot">&lt;-</span> <span class="fu">predict</span>(lgb_car, <span class="fu">as.matrix</span>(conv_test<span class="sc">$</span>data))</span>
+<span id="cb219-16"><a href="#cb219-16" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">rounds =</span> lgb_cv_c<span class="sc">$</span>best_iter,</span>
+<span id="cb219-17"><a href="#cb219-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">accuracy =</span> <span class="fu">mean</span>(<span class="fu">ifelse</span>(lgb_car_prob <span class="sc">&gt;</span> <span class="fl">0.5</span>, <span class="st">"Yes"</span>, <span class="st">"No"</span>) <span class="sc">==</span> car_test<span class="sc">$</span>High))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  rounds accuracy 
  144.000    0.845 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb209"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb209-1"><a href="#cb209-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lgb.importance</span>(lgb_car)[, <span class="fu">c</span>(<span class="st">"Feature"</span>, <span class="st">"Gain"</span>)]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb221"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb221-1"><a href="#cb221-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lgb.importance</span>(lgb_car)[, <span class="fu">c</span>(<span class="st">"Feature"</span>, <span class="st">"Gain"</span>)]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       Feature        Gain
         &lt;char&gt;       &lt;num&gt;
@@ -5907,23 +5996,23 @@ Tip
 <h3 data-number="11.11.6" class="anchored" data-anchor-id="sec-compare"><span class="header-section-number">11.11.6</span> Comparing the Models</h3>
 <p>The table collects the test errors of every model fitted to the Boston data in this chapter. The standard error of each test MSE is computed from the <span class="math inline">\(253\)</span> squared errors.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb211"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb211-1"><a href="#cb211-1" aria-hidden="true" tabindex="-1"></a>preds <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb211-2"><a href="#cb211-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"null model"</span>              <span class="ot">=</span> <span class="fu">rep</span>(<span class="fu">mean</span>(bos_train<span class="sc">$</span>medv), <span class="fu">nrow</span>(bos_test)),</span>
-<span id="cb211-3"><a href="#cb211-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"linear regression"</span>       <span class="ot">=</span> <span class="fu">predict</span>(<span class="fu">lm</span>(medv <span class="sc">~</span> ., <span class="at">data =</span> bos_train), bos_test),</span>
-<span id="cb211-4"><a href="#cb211-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"tree, unpruned"</span>          <span class="ot">=</span> <span class="fu">predict</span>(bos_big, bos_test),</span>
-<span id="cb211-5"><a href="#cb211-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"tree, pruned"</span>            <span class="ot">=</span> <span class="fu">predict</span>(bos_pruned, bos_test),</span>
-<span id="cb211-6"><a href="#cb211-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"bagging"</span>                 <span class="ot">=</span> <span class="fu">predict</span>(bag, bos_test),</span>
-<span id="cb211-7"><a href="#cb211-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"random forest"</span>           <span class="ot">=</span> <span class="fu">predict</span>(rf, bos_test),</span>
-<span id="cb211-8"><a href="#cb211-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"random forest (ranger, tuned)"</span> <span class="ot">=</span> <span class="fu">predict</span>(rf_tuned, bos_test)<span class="sc">$</span>predictions,</span>
-<span id="cb211-9"><a href="#cb211-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">"boosting (gbm)"</span>          <span class="ot">=</span> <span class="fu">predict</span>(boost, bos_test, <span class="at">n.trees =</span> best_trees),</span>
-<span id="cb211-10"><a href="#cb211-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">"XGBoost"</span>                 <span class="ot">=</span> <span class="fu">predict</span>(xgb_fit, dtest),</span>
-<span id="cb211-11"><a href="#cb211-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">"XGBoost, tuned"</span>          <span class="ot">=</span> <span class="fu">predict</span>(xgb_tuned, dtest),</span>
-<span id="cb211-12"><a href="#cb211-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">"LightGBM"</span>                <span class="ot">=</span> <span class="fu">predict</span>(lgb_fit, X_test)</span>
-<span id="cb211-13"><a href="#cb211-13" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb211-14"><a href="#cb211-14" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">t</span>(<span class="fu">sapply</span>(preds, <span class="cf">function</span>(p) {</span>
-<span id="cb211-15"><a href="#cb211-15" aria-hidden="true" tabindex="-1"></a>  se <span class="ot">&lt;-</span> (p <span class="sc">-</span> bos_test<span class="sc">$</span>medv)<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb211-16"><a href="#cb211-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">test_mse =</span> <span class="fu">mean</span>(se), <span class="at">std_error =</span> <span class="fu">sd</span>(se) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">length</span>(se)), <span class="at">test_rmse =</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>(se)))</span>
-<span id="cb211-17"><a href="#cb211-17" aria-hidden="true" tabindex="-1"></a>})), <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb223"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb223-1"><a href="#cb223-1" aria-hidden="true" tabindex="-1"></a>preds <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb223-2"><a href="#cb223-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"null model"</span>              <span class="ot">=</span> <span class="fu">rep</span>(<span class="fu">mean</span>(bos_train<span class="sc">$</span>medv), <span class="fu">nrow</span>(bos_test)),</span>
+<span id="cb223-3"><a href="#cb223-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"linear regression"</span>       <span class="ot">=</span> <span class="fu">predict</span>(<span class="fu">lm</span>(medv <span class="sc">~</span> ., <span class="at">data =</span> bos_train), bos_test),</span>
+<span id="cb223-4"><a href="#cb223-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"tree, unpruned"</span>          <span class="ot">=</span> <span class="fu">predict</span>(bos_big, bos_test),</span>
+<span id="cb223-5"><a href="#cb223-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"tree, pruned"</span>            <span class="ot">=</span> <span class="fu">predict</span>(bos_pruned, bos_test),</span>
+<span id="cb223-6"><a href="#cb223-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"bagging"</span>                 <span class="ot">=</span> <span class="fu">predict</span>(bag, bos_test),</span>
+<span id="cb223-7"><a href="#cb223-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"random forest"</span>           <span class="ot">=</span> <span class="fu">predict</span>(rf, bos_test),</span>
+<span id="cb223-8"><a href="#cb223-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"random forest (ranger, tuned)"</span> <span class="ot">=</span> <span class="fu">predict</span>(rf_tuned, bos_test)<span class="sc">$</span>predictions,</span>
+<span id="cb223-9"><a href="#cb223-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">"boosting (gbm)"</span>          <span class="ot">=</span> <span class="fu">predict</span>(boost, bos_test, <span class="at">n.trees =</span> best_trees),</span>
+<span id="cb223-10"><a href="#cb223-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">"XGBoost"</span>                 <span class="ot">=</span> <span class="fu">predict</span>(xgb_fit, dtest),</span>
+<span id="cb223-11"><a href="#cb223-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">"XGBoost, tuned"</span>          <span class="ot">=</span> <span class="fu">predict</span>(xgb_tuned, dtest),</span>
+<span id="cb223-12"><a href="#cb223-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">"LightGBM"</span>                <span class="ot">=</span> <span class="fu">predict</span>(lgb_fit, X_test)</span>
+<span id="cb223-13"><a href="#cb223-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb223-14"><a href="#cb223-14" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">t</span>(<span class="fu">sapply</span>(preds, <span class="cf">function</span>(p) {</span>
+<span id="cb223-15"><a href="#cb223-15" aria-hidden="true" tabindex="-1"></a>  se <span class="ot">&lt;-</span> (p <span class="sc">-</span> bos_test<span class="sc">$</span>medv)<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb223-16"><a href="#cb223-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">test_mse =</span> <span class="fu">mean</span>(se), <span class="at">std_error =</span> <span class="fu">sd</span>(se) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">length</span>(se)), <span class="at">test_rmse =</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>(se)))</span>
+<span id="cb223-17"><a href="#cb223-17" aria-hidden="true" tabindex="-1"></a>})), <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                              test_mse std_error test_rmse
 null model                       93.08     11.09      9.65
@@ -5942,21 +6031,26 @@ LightGBM                         18.75      4.12      4.33</code></pre>
 <p>The models fall into three groups. The single trees are the worst (<span class="math inline">\(35\)</span>–<span class="math inline">\(44\)</span>), worse than the linear regression (<span class="math inline">\(27.6\)</span>). Bagging (<span class="math inline">\(23.4\)</span>) is a large step forward. The random forests and the boosted models all lie between <span class="math inline">\(17.1\)</span> and <span class="math inline">\(19.0\)</span>, about a third below the linear regression, and with standard errors of about <span class="math inline">\(4\)</span> they cannot be ranked on this test set. Since all the models are evaluated on the same <span class="math inline">\(253\)</span> tracts, a fairer measure is the standard error of the <em>difference</em> between two models’ squared errors. For the random forest against <strong>gbm</strong> it is about <span class="math inline">\(2.2\)</span>, twice the difference of <span class="math inline">\(1.1\)</span> between them; the forest’s advantage over the linear regression (<span class="math inline">\(8.7\)</span>) is four times its standard error. (The untuned boosting by hand of the boosting section reached <span class="math inline">\(14.6\)</span> — also within the noise.)</p>
 <p>For Carseats:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb213"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb213-1"><a href="#cb213-1" aria-hidden="true" tabindex="-1"></a>acc <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb213-2"><a href="#cb213-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"tree, pruned"</span>        <span class="ot">=</span> <span class="fu">accuracy</span>(car_pruned),</span>
-<span id="cb213-3"><a href="#cb213-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"bagging"</span>             <span class="ot">=</span> <span class="fu">mean</span>(car_bag_pred <span class="sc">==</span> car_test<span class="sc">$</span>High),</span>
-<span id="cb213-4"><a href="#cb213-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"random forest"</span>       <span class="ot">=</span> <span class="fu">mean</span>(car_rf_pred <span class="sc">==</span> car_test<span class="sc">$</span>High),</span>
-<span id="cb213-5"><a href="#cb213-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"boosting (gbm)"</span>      <span class="ot">=</span> <span class="fu">mean</span>(<span class="fu">ifelse</span>(car_boost_prob <span class="sc">&gt;</span> <span class="fl">0.5</span>, <span class="st">"Yes"</span>, <span class="st">"No"</span>) <span class="sc">==</span> car_test<span class="sc">$</span>High),</span>
-<span id="cb213-6"><a href="#cb213-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"XGBoost"</span>             <span class="ot">=</span> <span class="fu">mean</span>(<span class="fu">ifelse</span>(xgb_car_prob <span class="sc">&gt;</span> <span class="fl">0.5</span>, <span class="st">"Yes"</span>, <span class="st">"No"</span>) <span class="sc">==</span> car_test<span class="sc">$</span>High),</span>
-<span id="cb213-7"><a href="#cb213-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"LightGBM"</span>            <span class="ot">=</span> <span class="fu">mean</span>(<span class="fu">ifelse</span>(lgb_car_prob <span class="sc">&gt;</span> <span class="fl">0.5</span>, <span class="st">"Yes"</span>, <span class="st">"No"</span>) <span class="sc">==</span> car_test<span class="sc">$</span>High),</span>
-<span id="cb213-8"><a href="#cb213-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"logistic regression"</span> <span class="ot">=</span> <span class="fu">mean</span>(car_logit_pred <span class="sc">==</span> car_test<span class="sc">$</span>High)</span>
-<span id="cb213-9"><a href="#cb213-9" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb213-10"><a href="#cb213-10" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(acc, <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb225"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb225-1"><a href="#cb225-1" aria-hidden="true" tabindex="-1"></a>acc <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb225-2"><a href="#cb225-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"tree, pruned"</span>        <span class="ot">=</span> <span class="fu">accuracy</span>(car_pruned),</span>
+<span id="cb225-3"><a href="#cb225-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"bagging"</span>             <span class="ot">=</span> <span class="fu">mean</span>(car_bag_pred <span class="sc">==</span> car_test<span class="sc">$</span>High),</span>
+<span id="cb225-4"><a href="#cb225-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"random forest"</span>       <span class="ot">=</span> <span class="fu">mean</span>(car_rf_pred <span class="sc">==</span> car_test<span class="sc">$</span>High),</span>
+<span id="cb225-5"><a href="#cb225-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"random forest (ranger, tuned)"</span> <span class="ot">=</span> <span class="fu">mean</span>(<span class="fu">ifelse</span>(car_tuned_prob <span class="sc">&gt;</span> <span class="fl">0.5</span>, <span class="st">"Yes"</span>, <span class="st">"No"</span>) <span class="sc">==</span> car_test<span class="sc">$</span>High),</span>
+<span id="cb225-6"><a href="#cb225-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"boosting (gbm)"</span>      <span class="ot">=</span> <span class="fu">mean</span>(<span class="fu">ifelse</span>(car_boost_prob <span class="sc">&gt;</span> <span class="fl">0.5</span>, <span class="st">"Yes"</span>, <span class="st">"No"</span>) <span class="sc">==</span> car_test<span class="sc">$</span>High),</span>
+<span id="cb225-7"><a href="#cb225-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"XGBoost"</span>             <span class="ot">=</span> <span class="fu">mean</span>(<span class="fu">ifelse</span>(xgb_car_prob <span class="sc">&gt;</span> <span class="fl">0.5</span>, <span class="st">"Yes"</span>, <span class="st">"No"</span>) <span class="sc">==</span> car_test<span class="sc">$</span>High),</span>
+<span id="cb225-8"><a href="#cb225-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"LightGBM"</span>            <span class="ot">=</span> <span class="fu">mean</span>(<span class="fu">ifelse</span>(lgb_car_prob <span class="sc">&gt;</span> <span class="fl">0.5</span>, <span class="st">"Yes"</span>, <span class="st">"No"</span>) <span class="sc">==</span> car_test<span class="sc">$</span>High),</span>
+<span id="cb225-9"><a href="#cb225-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">"logistic regression"</span> <span class="ot">=</span> <span class="fu">mean</span>(car_logit_pred <span class="sc">==</span> car_test<span class="sc">$</span>High)</span>
+<span id="cb225-10"><a href="#cb225-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb225-11"><a href="#cb225-11" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(acc, <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>       tree, pruned             bagging       random forest      boosting (gbm) 
-              0.695               0.820               0.825               0.850 
-            XGBoost            LightGBM logistic regression 
-              0.845               0.845               0.885 </code></pre>
+<pre><code>                 tree, pruned                       bagging 
+                        0.695                         0.820 
+                random forest random forest (ranger, tuned) 
+                        0.825                         0.805 
+               boosting (gbm)                       XGBoost 
+                        0.850                         0.845 
+                     LightGBM           logistic regression 
+                        0.845                         0.885 </code></pre>
 </div>
 </div>
 <p>Every ensemble improves on the pruned tree by <span class="math inline">\(12\)</span> to <span class="math inline">\(16\)</span> percentage points, the boosted models a little more than the forests, and none reaches the logistic regression. As explained in the section on trees and linear models, the Carseats sales are close to linear in the predictors, and on such data a linear method is hard to beat. Boosting with shallow trees comes closest because it builds a nearly additive model.</p>
@@ -6068,18 +6162,18 @@ LightGBM                         18.75      4.12      4.33</code></pre>
 <li>Compare the three models with a logistic regression.</li>
 </ol>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb215"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb215-1"><a href="#cb215-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ISLR2)</span>
-<span id="cb215-2"><a href="#cb215-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(xgboost)</span>
-<span id="cb215-3"><a href="#cb215-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lightgbm)</span>
-<span id="cb215-4"><a href="#cb215-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb215-5"><a href="#cb215-5" aria-hidden="true" tabindex="-1"></a>caravan <span class="ot">&lt;-</span> ISLR2<span class="sc">::</span>Caravan</span>
-<span id="cb215-6"><a href="#cb215-6" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(caravan<span class="sc">$</span>Purchase <span class="sc">==</span> <span class="st">"Yes"</span>)</span>
-<span id="cb215-7"><a href="#cb215-7" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(caravan[, <span class="fu">names</span>(caravan) <span class="sc">!=</span> <span class="st">"Purchase"</span>])</span>
-<span id="cb215-8"><a href="#cb215-8" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span></span>
-<span id="cb215-9"><a href="#cb215-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb215-10"><a href="#cb215-10" aria-hidden="true" tabindex="-1"></a>dtrain <span class="ot">&lt;-</span> <span class="fu">xgb.DMatrix</span>(X[train, ], <span class="at">label =</span> y[train])</span>
-<span id="cb215-11"><a href="#cb215-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb215-12"><a href="#cb215-12" aria-hidden="true" tabindex="-1"></a><span class="co"># your turn</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb227"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb227-1"><a href="#cb227-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ISLR2)</span>
+<span id="cb227-2"><a href="#cb227-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(xgboost)</span>
+<span id="cb227-3"><a href="#cb227-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lightgbm)</span>
+<span id="cb227-4"><a href="#cb227-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb227-5"><a href="#cb227-5" aria-hidden="true" tabindex="-1"></a>caravan <span class="ot">&lt;-</span> ISLR2<span class="sc">::</span>Caravan</span>
+<span id="cb227-6"><a href="#cb227-6" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(caravan<span class="sc">$</span>Purchase <span class="sc">==</span> <span class="st">"Yes"</span>)</span>
+<span id="cb227-7"><a href="#cb227-7" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(caravan[, <span class="fu">names</span>(caravan) <span class="sc">!=</span> <span class="st">"Purchase"</span>])</span>
+<span id="cb227-8"><a href="#cb227-8" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span></span>
+<span id="cb227-9"><a href="#cb227-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb227-10"><a href="#cb227-10" aria-hidden="true" tabindex="-1"></a>dtrain <span class="ot">&lt;-</span> <span class="fu">xgb.DMatrix</span>(X[train, ], <span class="at">label =</span> y[train])</span>
+<span id="cb227-11"><a href="#cb227-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb227-12"><a href="#cb227-12" aria-hidden="true" tabindex="-1"></a><span class="co"># your turn</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
@@ -6143,6 +6237,9 @@ Ke, Guolin, Qi Meng, Thomas Finley, et al. 2017. <span>“<span>LightGBM</span>:
 </div>
 <div id="ref-liaw2002randomforest" class="csl-entry" role="listitem">
 Liaw, Andy, and Matthew Wiener. 2002. <span>“Classification and Regression by <span class="nocase">randomForest</span>.”</span> <em>R News</em> 2 (3): 18–22.
+</div>
+<div id="ref-malley2012probability" class="csl-entry" role="listitem">
+Malley, James D., Jochen Kruppa, Abhijit Dasgupta, Karen G. Malley, and Andreas Ziegler. 2012. <span>“Probability Machines: Consistent Probability Estimation Using Nonparametric Learning Machines.”</span> <em>Methods of Information in Medicine</em> 51 (1): 74–81. <a href="https://doi.org/10.3414/ME00-01-0052">https://doi.org/10.3414/ME00-01-0052</a>.
 </div>
 <div id="ref-strobl2007bias" class="csl-entry" role="listitem">
 Strobl, Carolin, Anne-Laure Boulesteix, Achim Zeileis, and Torsten Hothorn. 2007. <span>“Bias in Random Forest Variable Importance Measures: Illustrations, Sources and a Solution.”</span> <em>BMC Bioinformatics</em> 8: 25. <a href="https://doi.org/10.1186/1471-2105-8-25">https://doi.org/10.1186/1471-2105-8-25</a>.
